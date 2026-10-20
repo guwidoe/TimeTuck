@@ -86,6 +86,8 @@ pub mod list_ruin_selection_regression;
 pub mod live_list_swap_provider;
 #[path = "../live_progress_regression.rs"]
 pub mod live_progress_regression;
+#[path = "../load_balance_binary64_policy.rs"]
+pub mod load_balance_binary64_policy;
 #[path = "../lookup_view_regression.rs"]
 pub mod lookup_view_regression;
 #[path = "../membership_join_cases.rs"]

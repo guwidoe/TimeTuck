@@ -3123,6 +3123,11 @@ path = "tests/live_stream_weights.rs"
 test = false
 
 [[test]]
+name = "load_balance_binary64_policy"
+path = "tests/load_balance_binary64_policy.rs"
+test = false
+
+[[test]]
 name = "load_balance_cases"
 path = "tests/load_balance_cases.rs"
 test = false

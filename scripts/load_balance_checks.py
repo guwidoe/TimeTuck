@@ -4,6 +4,7 @@ import subprocess
 from decimal import Decimal, localcontext, ROUND_HALF_EVEN
 from differential_scores import ROOT
 from sequence_collector_checks import states
+from load_balance_binary64_reference import reference as binary64_reference
 SEED = 20261223
 
 
@@ -55,6 +56,7 @@ def reference(case,slots):
 
 
 WRAPPING_POLICY = 'wrapping64-moments-exact-root'
+BINARY64_POLICY = 'wrapping64-moments-binary64-root'
 EXACT_POLICY = 'exact'
 
 
@@ -90,6 +92,7 @@ def wrapping_reference(case, slots):
 def selected_reference(arithmetic_policy):
     if arithmetic_policy==EXACT_POLICY:return reference
     if arithmetic_policy==WRAPPING_POLICY:return wrapping_reference
+    if arithmetic_policy==BINARY64_POLICY:return binary64_reference
     raise ValueError('Unknown load balance arithmetic policy')
 
 
@@ -121,7 +124,7 @@ def validate(cases,lines,java=False,arithmetic_policy=EXACT_POLICY):
                 errors.append(dict(case=case['id'],state=state,error=f[2]));cursor+=1;ok=False;break
             expected=reference_fn(case,slots)
             if len(f)==4 and f[:2]==[case['id'],str(state)] and f[2]=='ERROR':
-                if java or arithmetic_policy!=WRAPPING_POLICY or expected!=dict(error=f[3]):
+                if java or arithmetic_policy not in (WRAPPING_POLICY,BINARY64_POLICY) or f[3]!='NegativeRadicand' or expected!=dict(error=f[3]):
                     raise ValueError('Unexpected load balance typed arithmetic error')
                 actual=dict(error=f[3])
                 policy_errors.append(dict(case=case['id'],state=state,error=f[3]))
@@ -138,13 +141,15 @@ def validate(cases,lines,java=False,arithmetic_policy=EXACT_POLICY):
 
 
 def comparison_report(cases,outputs):
-    """Derive both policy counts from complete actual observations, without probes."""
+    """Derive all three policy counts from actual full observations, never constants."""
     exact_java=validate(cases,outputs['java'],java=True)
     exact_native=validate(cases,outputs['rust_exact'])
-    java=validate(cases,outputs['java'],java=True,arithmetic_policy=WRAPPING_POLICY)
-    native=validate(cases,outputs['rust'],arithmetic_policy=WRAPPING_POLICY)
+    exact_root_java=validate(cases,outputs['java'],java=True,arithmetic_policy=WRAPPING_POLICY)
+    exact_root_native=validate(cases,outputs['rust_exact_root'],arithmetic_policy=WRAPPING_POLICY)
+    java=validate(cases,outputs['java'],java=True,arithmetic_policy=BINARY64_POLICY)
+    native=validate(cases,outputs['rust'],arithmetic_policy=BINARY64_POLICY)
     ordinary={c['id'] for c in cases if not c['boundary']}
-    for result in [java,exact_java]:
+    for result in [java,exact_java,exact_root_java]:
         if any(d['case'] in ordinary for d in result['errors']+result['differences']):
             raise ValueError('Bounded load balance comparison failed')
     def summary(java,native,policy):
@@ -157,19 +162,24 @@ def comparison_report(cases,outputs):
     exact_controls=summary(exact_java,exact_native,EXACT_POLICY)
     exact_controls.update(results=dict(java=exact_java,rust=exact_native),
                           outputs=dict(java=outputs['java'],rust_exact=outputs['rust_exact']))
-    report=summary(java,native,WRAPPING_POLICY)
-    report.update(seed=SEED,cases=cases,outputs=outputs,exact_controls=exact_controls,
-                  scope='Public add/replace/remove and inverse-update trial/undo on all original inputs. '
-                  'Selected arithmetic_policy=wrapping64-moments-exact-root uses signed wrapping i64 per-key loads, sum and squared moments, '
-                  'then widened exact rational square root with six-significant-digit half-even rounding. '
-                  'Independent Python references validate complete native selected and exact-default observations. '
-                  'Exact default controls and full outputs remain separately visible; exact defaults do not change. '
-                  'The same untouched Java input/output is compared independently under both policies. '
-                  'Large-offset floating cancellation remains unresolved. Typed negative-radicand errors define the native policy, not Java nonfinite behavior; '
-                  'native typed errors are accepted only at independently predicted negative-radicand states, with complete subsequent recovery observations. '
-                  'Trailing-zero representations normalize numerically; Java scale is not claimed. '
-                  'All differences/errors and observed Java prefixes remain retained and receive no agreement credit. '
-                  'Initial loads must be consistent per active key; zero-load keys participate. '
+    exact_root_controls=summary(exact_root_java,exact_root_native,WRAPPING_POLICY)
+    exact_root_controls.update(results=dict(java=exact_root_java,rust=exact_root_native),
+                               outputs=dict(java=outputs['java'],rust_exact_root=outputs['rust_exact_root']))
+    report=summary(java,native,BINARY64_POLICY)
+    report.update(seed=SEED,cases=cases,outputs=outputs,results=dict(java=java,rust=native),
+                  exact_controls=exact_controls,exact_root_controls=exact_root_controls,
+                  scope='Public add/replace/remove and inverse-update trial/undo on all original full inputs. '
+                  'Selected arithmetic_policy=wrapping64-moments-binary64-root uses wrapped signed i64 loads and moments; '
+                  'it separately converts Q, wrapped S*S and unsigned key count to binary64, divides, subtracts and takes a binary64 root, '
+                  'then rounds that exact binary root value to six significant decimal digits with half-even ties. '
+                  'An independent Fraction/integer midpoint model checks each binary64 operation without float/libm sqrt. '
+                  'Exact-default and wrapping-exact-root controls retain complete actual results, outputs and differences separately; defaults remain unchanged. '
+                  'Java runs once on the identical unchanged payload; the same actual Java output is compared independently under all three policies. '
+                  'Native typed NegativeRadicand errors are accepted only at independently predicted states, including all later recovery states. '
+                  'Java errors and differences receive no agreement credit. Native error behavior, cancellation behavior and root-conversion order '
+                  'define an explicit policy, not general Java formula, nonfinite or decimal-scale equivalence. '
+                  'Trailing-zero representations normalize numerically. Initial loads must be consistent per active key; zero-load keys participate. '
+                  'Full original inputs, states, outputs, settings and observed Java error prefixes remain retained. '
                   'Owned snapshots replace Java live maps. No timing or extra upstream-method credit.')
     return report
 
@@ -179,7 +189,8 @@ def run_checks(classpath):
                                    ';'.join(':'.join(map(str,o)) for o in c['operations'])+'\n' for c in cases)
     executable=str(ROOT/'target/release/examples/load_balance_oracle')
     commands={'java':['java','-cp',classpath,'LoadBalanceOracle'],
-              'rust_exact':[executable], 'rust':[executable,'--wrapping64-moments']}
+              'rust_exact':[executable], 'rust_exact_root':[executable,'--wrapping64-moments'],
+              'rust':[executable,'--wrapping64-moments-binary64-root']}
     outputs={}
     for runtime,command in commands.items():
         result=subprocess.run(command,input=payload,text=True,capture_output=True,check=True,timeout=120)

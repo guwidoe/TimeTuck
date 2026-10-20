@@ -19,12 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,562 passing Rust tests and 292 doctests**,
-source digest `ed86f9e9ec503d009d70f1b674912e88500d14cd92e703a75f9490aebfbcc32f`. The required final
-`bash scripts/check.sh` passed locally in 587.546s, executing 95 jobs and
-reusing 53 unchanged results. One successful final-source gate; no repeated
-unchanged tests or transplanted cache records. The live report remains the
-authority for later counts and freshness.
+The current native verification contains **8,566 Rust tests and
+292 doctests**, including original regressions as well as adapted upstream
+assertions. Native source `fbd259a1f3d6a96c72f9a92d2eb1ff54fb9ad92cfe812ede6b901a02dc554ad9`.
+The required final `bash scripts/check.sh` passed locally in 254.298s,
+executing 9 jobs and reusing 139 unchanged results. The live report remains
+the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -45,7 +45,7 @@ its literal edition assertion using existing native Cargo package diagnostics.
 This adds no runtime feature, JVM loading or Enterprise functionality.
 
 Known differential limits remain in connected-range duplicate/empty-interval
-semantics, default exact arithmetic versus Community overflow, large-number load balancing and other
+semantics, default exact arithmetic versus Community overflow and other
 recorded identity/ranking policies. Shared cyclic-supplier comparisons retain
 21 actual Java runtime errors separately from successful-result agreement.
 See the [stream contracts](constraint-stream-contract.md) and
@@ -67,10 +67,42 @@ range differences stay visible. Complete exact-default controls still execute:
 65/197 agreements with 132 differing cases. Exact i32/i64 metrics remain default.
 Seven original Rust regressions add no upstream-method credit.
 
-In 288 only mixed-performance was deliberately refreshed. Other 17 raw reports
-retain original bytes/dates/keys and remain visibly stale under changed shared
-source keys; one of 18 measurement families is current. Backend/report contracts
-are unchanged: reuse 286 desktop/mobile proof with current HTTP freshness.
+## Explicit binary64 load-balance root qualification (289)
+
+`WrappingLoadBalanceRootPolicy::Binary64` is an opt-in observation policy on
+`WrappingLoadBalanceCollector`. Captures and modular moments retain the existing
+transactional paths. Separate binary64 conversion, division, subtraction and
+square root precede six-significant-digit half-even rounding of the exact binary
+root value. Exact arithmetic and wrapping-exact-root defaults remain unchanged.
+Typed negative radicands retain captures and permit recovery; snapshots and clone
+policy are covered. Four original Rust regressions add no upstream-method credit.
+
+The complete original load-balance corpus now agrees in **101/101 cases across
+8,290 states** with actual Java and the independent integer/Fraction reference.
+The large-offset cancellation difference closes under this explicit policy.
+Both complete control arrays remain identical to their prior actual outputs:
+**97/101 exact-default**, **100/101 wrapping-exact-root**. Java failures receive
+no agreement credit. No general Java formula, conversion-order, decimal-scale,
+nonfinite, live-map or timing equivalence is claimed.
+
+One final `bash scripts/check.sh` passed: **8,566 Rust tests and
+292 doctests**, **9 RUN/139 REUSE**, 254.298s. Native
+`fbd259a1f3d6a96c72f9a92d2eb1ff54fb9ad92cfe812ede6b901a02dc554ad9`. The already-qualified unchanged
+reference-model tests were reused; no successful unchanged gate was repeated.
+Actual desktop/mobile browser checks cover selected and both prior policy
+presentations; current source/data/model HTTP checks pass.
+
+Only stream-differential was refreshed. All other 17 raw reports retain actual
+bytes/dates/keys; mixed 288 remains current under its unchanged relevant key,
+still **6/8** at Java time parity and equal quality. Larger warm/cold Stream
+remain performance gaps. Readiness **85.814%**, **2/18 current**, 16 stale;
+Java multiplier **1**. This is a tracked-target index, not engineering effort or
+an ETA. Inventory stays **4410/4855**, 10 pending, 435 excluded, no failures or
+unverified methods. Goal incomplete; other recorded behavior gaps remain.
+
+Evidence: work/round289-qualification/{integration,release-build-receipt,
+offline-replay,stream-differential-receipt,gate-receipt,collection,verdict,
+browser-proof}.json and work/parallel-round289-evidence.json.
 
 Private bounded planning sources now retain trial rows directly owned, sharing
 only when a snapshot, inspection or source replay requires it. Complete rows,
@@ -133,7 +165,7 @@ native change. Earlier 282 set gains and 281 sum gains retain their original
 artifact/source bindings. Evidence: work/round285-qualification/{collection,
 pair-results,verdict,gate-receipt}.json and large-control-followup/pair-results.json.
 
-Fresh original Java comparison retains all eight mixed workloads, complete
+The retained current 288 Java comparison retains all eight mixed workloads, complete
 inputs, warm/cold/backend settings, budgets, quality floors and full observations.
 **6/8** meet measured Java parity. Larger Stream warm is
 **22.273 ms vs Java 15.646 ms** (42.4% slower), cold
@@ -143,7 +175,7 @@ Scores remain [0,-338] warm and [0,-60] cold. Larger Dense is
 certificate, not an optimum. Different strategies and callback counts remain
 explicit; cross-run Java ratios do not isolate a native implementation gain.
 
-The dashboard's configurable progress index is **85.3%**: feature families 40%,
+The dashboard's configurable progress index is **85.8%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from

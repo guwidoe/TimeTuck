@@ -5,6 +5,32 @@ use std::{
 };
 use timetuck::*;
 type Node<C> = CollectNode<usize, (), (i32, i64, i64), C>;
+// Oracle-local construction only: arithmetic stays in the real public collector.
+#[derive(Clone)]
+struct Binary64Collector(WrappingLoadBalanceCollector<i32>);
+impl Default for Binary64Collector {
+    fn default() -> Self {
+        Self(
+            WrappingLoadBalanceCollector::default()
+                .with_root_policy(WrappingLoadBalanceRootPolicy::Binary64),
+        )
+    }
+}
+impl ReversibleCollector<(i32, i64, i64)> for Binary64Collector {
+    type Output = Result<WrappingLoadBalance<i32>, WrappingLoadBalanceError>;
+    fn insert(&mut self, value: &(i32, i64, i64)) {
+        self.0.insert(value);
+    }
+    fn remove(&mut self, value: &(i32, i64, i64)) -> bool {
+        self.0.remove(value)
+    }
+    fn replace(&mut self, old: &(i32, i64, i64), new: &(i32, i64, i64)) -> bool {
+        self.0.replace(old, new)
+    }
+    fn finish(&self) -> Self::Output {
+        self.0.finish()
+    }
+}
 trait Observation {
     fn emit(&self, id: &str, state: usize);
 }
@@ -115,6 +141,9 @@ fn main() {
     match std::env::args().skip(1).collect::<Vec<_>>().as_slice() {
         [] => run::<LoadBalanceCollector<i32>>(),
         [mode] if mode == "--wrapping64-moments" => run::<WrappingLoadBalanceCollector<i32>>(),
-        _ => panic!("expected no argument or --wrapping64-moments"),
+        [mode] if mode == "--wrapping64-moments-binary64-root" => run::<Binary64Collector>(),
+        _ => panic!(
+            "expected no argument, --wrapping64-moments or --wrapping64-moments-binary64-root"
+        ),
     }
 }

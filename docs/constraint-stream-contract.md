@@ -1583,22 +1583,37 @@ comparisons; native graph regressions additionally check rollback and rebuild.
 triples, multiplicities, consistent initial loads, atomic replacement and immutable
 snapshots retain the same membership contracts. The new snapshot exposes signed
 i64 per-key loads. Totals L, their sum S and squared moment Q use two's-complement
-wrapping i64 arithmetic. Unfairness is the six-significant-digit, half-even rounded
+wrapping i64 arithmetic. Default unfairness is the six-significant-digit, half-even rounded
 square root of `(n*Q - S.wrapping_mul(S))/n`, widening the numerator to BigInt
 before multiplying/subtracting. Empty input and a zero numerator return zero.
 
 Both `try_finish()` and the reversible collector's `finish()` return a Result.
-A negative widened numerator yields `WrappingLoadBalanceError::NegativeRadicand`;
+With the default root policy, a negative widened numerator yields
+`WrappingLoadBalanceError::NegativeRadicand`;
 captures remain intact and subsequent removals can recover. A graph consumer can
 score this result, reject it, or explicitly panic to trigger transaction rollback.
 This is a defined native arithmetic error, not a claim about Java NaN behavior.
 Occurrence counts remain checked usize. Keys require stable lawful ordering and
 identity-preserving clones; panicking destructors and allocation aborts are unsupported.
 
-The policy deliberately keeps exact rational rounding. It does not emulate binary
-floating cancellation, Java decimal scales, live-map aliases or history bugs.
-The comparison executes both native modes on the same complete original inputs,
-retaining default exact controls and every Java difference/error separately.
+`WrappingLoadBalanceRootPolicy::Exact` remains the default widened rational
+root policy. `with_root_policy(WrappingLoadBalanceRootPolicy::Binary64)` explicitly
+changes observation arithmetic without changing captures, wrapped moments or
+previously returned snapshots; clones retain the selection. The Binary64 policy
+converts Q, S.wrapping_mul(S), and unsigned key count separately to binary64,
+divides the latter two, subtracts from Q, and takes a binary64 square root.
+The exact numeric value of that finite binary root is then rounded to six
+significant decimal digits with half-even ties. Counts above 2^53 lose precision
+as part of the selected conversion policy. Empty input and either zero sign
+return canonical zero. Negative radicands return the existing typed error.
+Bounded i64 moments and supported usize widths imply finite public radicands.
+
+The complete comparison executes all three native modes on identical original
+inputs. Exact-default and wrapping-exact-root controls retain complete output,
+results and differences separately. All 101 cases/8,290 states agree with actual
+Java under the selected Binary64 policy and its independent integer/Fraction
+model. This establishes the measured cohort, not general Java formula,
+conversion-order, decimal-scale, nonfinite, live-map or history equivalence.
 No additional upstream-method or performance credit follows from this policy.
 
 ## Calendar-period sums

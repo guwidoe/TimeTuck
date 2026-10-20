@@ -443,6 +443,7 @@ pub use load_balance_collector::{LoadBalance, LoadBalanceCollector};
 mod wrapping_load_balance_collector;
 pub use wrapping_load_balance_collector::{
     WrappingLoadBalance, WrappingLoadBalanceCollector, WrappingLoadBalanceError,
+    WrappingLoadBalanceRootPolicy,
 };
 mod load_balance_json;
 pub use load_balance_json::{

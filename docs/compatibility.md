@@ -10772,3 +10772,40 @@ Actual warm profiles retain separate candidate and qualified 286 binary identiti
 baseline attribution observes owned-source delivery 12.18%, fixed-source restore
 7.40%, Join.apply 10.88% and changed-value discovery 10.27% inclusive. These overlap
 and cannot be added or treated as optimization gains. No lost profile samples.
+
+## Explicit binary64 load-balance root qualification (289)
+
+`WrappingLoadBalanceRootPolicy::Binary64` is an opt-in observation policy on
+`WrappingLoadBalanceCollector`. Captures and modular moments retain the existing
+transactional paths. Separate binary64 conversion, division, subtraction and
+square root precede six-significant-digit half-even rounding of the exact binary
+root value. Exact arithmetic and wrapping-exact-root defaults remain unchanged.
+Typed negative radicands retain captures and permit recovery; snapshots and clone
+policy are covered. Four original Rust regressions add no upstream-method credit.
+
+The complete original load-balance corpus now agrees in **101/101 cases across
+8,290 states** with actual Java and the independent integer/Fraction reference.
+The large-offset cancellation difference closes under this explicit policy.
+Both complete control arrays remain identical to their prior actual outputs:
+**97/101 exact-default**, **100/101 wrapping-exact-root**. Java failures receive
+no agreement credit. No general Java formula, conversion-order, decimal-scale,
+nonfinite, live-map or timing equivalence is claimed.
+
+One final `bash scripts/check.sh` passed: **8,566 Rust tests and
+292 doctests**, **9 RUN/139 REUSE**, 254.298s. Native
+`fbd259a1f3d6a96c72f9a92d2eb1ff54fb9ad92cfe812ede6b901a02dc554ad9`. The already-qualified unchanged
+reference-model tests were reused; no successful unchanged gate was repeated.
+Actual desktop/mobile browser checks cover selected and both prior policy
+presentations; current source/data/model HTTP checks pass.
+
+Only stream-differential was refreshed. All other 17 raw reports retain actual
+bytes/dates/keys; mixed 288 remains current under its unchanged relevant key,
+still **6/8** at Java time parity and equal quality. Larger warm/cold Stream
+remain performance gaps. Readiness **85.814%**, **2/18 current**, 16 stale;
+Java multiplier **1**. This is a tracked-target index, not engineering effort or
+an ETA. Inventory stays **4410/4855**, 10 pending, 435 excluded, no failures or
+unverified methods. Goal incomplete; other recorded behavior gaps remain.
+
+Evidence: work/round289-qualification/{integration,release-build-receipt,
+offline-replay,stream-differential-receipt,gate-receipt,collection,verdict,
+browser-proof}.json and work/parallel-round289-evidence.json.

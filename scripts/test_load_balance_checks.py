@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from types import SimpleNamespace
-from load_balance_checks import canonical,generate,reference,parse,validate,wrapping_i64,wrapping_reference,comparison_report,WRAPPING_POLICY,run_checks
+from load_balance_checks import canonical,generate,reference,parse,validate,wrapping_i64,wrapping_reference,comparison_report,WRAPPING_POLICY,BINARY64_POLICY,binary64_reference,run_checks
 from sequence_collector_checks import states
 
 class LoadBalanceChecksTest(unittest.TestCase):
@@ -88,27 +88,73 @@ class LoadBalanceChecksTest(unittest.TestCase):
         for bad in [lines[:-1],lines+lines[:1],lines[::-1],lines[:2]+[lines[1]]+lines[3:]]:
             with self.assertRaises(ValueError):validate([c],bad,arithmetic_policy=WRAPPING_POLICY)
         with self.assertRaises(ValueError):validate([c],lines,arithmetic_policy='unrecognized')
-    def test_report_counters_derive_actual_policy_and_preserve_exact_controls(self):
+    def test_report_counters_derive_all_three_actual_policies_and_full_controls(self):
         cancellation=dict(id='cancel',boundary=True,items=[[0,10**9,0],[1,10**9+1,0]],operations=[('c',0,0),('c',1,1)])
         overflow=dict(id='overflow',boundary=True,items=[[0,2**63-1,0],[1,0,0]],operations=[('c',0,0),('c',1,1)])
         cases=[cancellation,overflow]
         exact=sum((self.encoded(c,reference) for c in cases),[])
         wrapping=sum((self.encoded(c,wrapping_reference) for c in cases),[])
-        java=wrapping.copy();java[2]='cancel\t2\t0:1000000000;1:1000000001\t0\t0'
-        outputs=dict(java=java,rust=wrapping,rust_exact=exact)
+        binary=sum((self.encoded(c,binary64_reference) for c in cases),[])
+        java=binary.copy()
+        outputs=dict(java=java,rust=binary,rust_exact=exact,rust_exact_root=wrapping)
         result=comparison_report(cases,outputs)
-        self.assertEqual(result['arithmetic_policy'],WRAPPING_POLICY)
-        self.assertEqual((result['passed'],result['divergent_cases'],result['exact_controls']['passed']),(1,1,0))
+        self.assertEqual(result['arithmetic_policy'],BINARY64_POLICY)
+        self.assertEqual((result['passed'],result['exact_root_controls']['passed'],result['exact_controls']['passed']),(2,1,0))
         self.assertEqual(result['outputs']['rust_exact'],exact)
+        self.assertEqual(result['outputs']['rust_exact_root'],wrapping)
         self.assertEqual(result['exact_controls']['outputs']['java'],java)
+        self.assertEqual(result['exact_root_controls']['outputs']['java'],java)
         self.assertEqual(result['exact_controls']['results']['rust']['passed'],2)
-        # Changing an actual Java result changes the counter; no hardcoded credit.
+        self.assertEqual(result['exact_root_controls']['results']['rust']['passed'],2)
+        self.assertEqual(result['results']['rust']['observations'],6)
+        # A real Java-output change changes the three derived counters.
         java[2]=wrapping[2]
-        self.assertEqual(comparison_report(cases,outputs)['passed'],2)
-        java[:]=['cancel\tERROR\tjava.lang.ArithmeticException']+wrapping[3:]
         result=comparison_report(cases,outputs)
-        self.assertEqual((result['passed'],result['java_error_cases']),(1,1))
-        self.assertEqual(result['exact_controls']['java_error_cases'],1)
+        self.assertEqual((result['passed'],result['exact_root_controls']['passed'],result['exact_controls']['passed']),(1,2,1))
+        java[:]=['cancel\tERROR\tjava.lang.ArithmeticException']+binary[3:]
+        result=comparison_report(cases,outputs)
+        for cohort in [result,result['exact_controls'],result['exact_root_controls']]:
+            self.assertEqual(cohort['java_error_cases'],1)
+            self.assertEqual(cohort['java_observations'],3)
+        self.assertEqual((result['passed'],result['exact_root_controls']['passed'],result['exact_controls']['passed']),(1,1,0))
+    def test_binary_typed_errors_require_exact_prediction_shape_and_recovery(self):
+        case=dict(id='negative',boundary=True,items=[[0,3037000500,0],[1,0,0]],operations=[('c',0,0),('c',1,1),('c',0,-1)])
+        lines=self.encoded(case,binary64_reference)
+        result=validate([case],lines,arithmetic_policy=BINARY64_POLICY)
+        self.assertEqual((result['passed'],result['observations'],len(result['policy_errors'])),(1,4,1))
+        malformed=[lines[:-1],lines+lines[:1],lines[::-1],
+                   lines[:2]+['negative\t2\tERROR\tOther']+lines[3:],
+                   lines[:2]+['negative\t2\tERROR\t']+lines[3:],
+                   lines[:2]+['negative\t2\tERROR\tNegativeRadicand\textra']+lines[3:],
+                   lines[:2]+['wrong\t2\tERROR\tNegativeRadicand']+lines[3:],
+                   lines[:1]+['negative\t1\tERROR\tNegativeRadicand']+lines[2:],
+                   lines[:2]+['negative\t2\t-\t0\t0']+lines[3:]]
+        for bad in malformed:
+            with self.subTest(bad=bad),self.assertRaises(ValueError):validate([case],bad,arithmetic_policy=BINARY64_POLICY)
+        with self.assertRaises(ValueError):validate([case],lines)
+        with self.assertRaises(ValueError):validate([case],lines,java=True,arithmetic_policy=BINARY64_POLICY)
+        # Even a real Java failure at this same negative state is not agreement.
+        java=self.encoded(case,reference)[:2]+['negative\tERROR\tjava.lang.ArithmeticException']
+        result=validate([case],java,java=True,arithmetic_policy=BINARY64_POLICY)
+        self.assertEqual((result['passed'],result['error_cases'],result['observations']),(0,1,2))
+    def test_binary_success_output_retains_strict_parser_and_native_reference(self):
+        case=self.case();lines=self.lines()
+        self.assertEqual(validate([case],lines,arithmetic_policy=BINARY64_POLICY)['passed'],1)
+        for bad in [lines[:-1],lines+lines[:1],lines[::-1],lines[:2]+[lines[1]]+lines[3:],
+                    lines[:2]+['x\t2\t0:2;1:2\t707107\t6']+lines[3:],
+                    lines[:2]+['x\t2\t0:2;1:1\t707108\t6']+lines[3:]]:
+            with self.assertRaises(ValueError):validate([case],bad,arithmetic_policy=BINARY64_POLICY)
+        for raw in ['x\t2\t0:1;0:2\t0\t0','x\t2\t1:1;0:2\t0\t0','x\t2\t9:2\t0\t0','x\t2\t0:2:3\t0\t0','x\t2\t-\t-1\t0','x\t2\t-\t1\t999']:
+            with self.assertRaises(ValueError):validate([case],lines[:2]+[raw]+lines[3:],arithmetic_policy=BINARY64_POLICY)
+    def test_all_three_native_modes_must_validate_and_bounded_java_is_mandatory(self):
+        case=self.case();case['boundary']=False;lines=self.lines()
+        baseline=dict(java=lines.copy(),rust=lines.copy(),rust_exact=lines.copy(),rust_exact_root=lines.copy())
+        for key in ['rust','rust_exact','rust_exact_root']:
+            outputs={name:value.copy() for name,value in baseline.items()};outputs[key]=outputs[key][:-1]
+            with self.subTest(mode=key),self.assertRaises(ValueError):comparison_report([case],outputs)
+        baseline['java'][2]='x\t2\t0:2;1:1\t0\t0'
+        with self.assertRaises(ValueError):comparison_report([case],baseline)
+
     def test_all_original_inputs_and_states_survive_selected_reference(self):
         cases=generate();count=0
         for case in cases:
@@ -124,12 +170,13 @@ class LoadBalanceChecksTest(unittest.TestCase):
         with patch('load_balance_checks.generate',return_value=[case]), patch('load_balance_checks.subprocess.run',return_value=SimpleNamespace(stdout=output)) as execute:
             result=run_checks('/public/classes')
         self.assertEqual(result['passed'],1)
-        self.assertEqual(len(execute.call_args_list),3)
-        java,exact,wrapping=execute.call_args_list
+        self.assertEqual(len(execute.call_args_list),4)
+        java,exact,wrapping,binary=execute.call_args_list
         self.assertEqual(java.args[0],['java','-cp','/public/classes','LoadBalanceOracle'])
         self.assertEqual(len(exact.args[0]),1)
         self.assertEqual(wrapping.args[0],exact.args[0]+['--wrapping64-moments'])
+        self.assertEqual(binary.args[0],exact.args[0]+['--wrapping64-moments-binary64-root'])
         expected='x\t0,2,0;1,1,0\tc:0:0;c:1:1;t:2:1\n'
-        self.assertEqual([call.kwargs['input'] for call in execute.call_args_list],[expected]*3)
+        self.assertEqual([call.kwargs['input'] for call in execute.call_args_list],[expected]*4)
 
 if __name__=='__main__':unittest.main()

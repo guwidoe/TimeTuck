@@ -17,7 +17,55 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 288 lazy shared planning-source rows
+## Explicit binary64 load-balance root qualification (289)
+
+`WrappingLoadBalanceRootPolicy::Binary64` is an opt-in observation policy on
+`WrappingLoadBalanceCollector`. Captures and modular moments retain the existing
+transactional paths. Separate binary64 conversion, division, subtraction and
+square root precede six-significant-digit half-even rounding of the exact binary
+root value. Exact arithmetic and wrapping-exact-root defaults remain unchanged.
+Typed negative radicands retain captures and permit recovery; snapshots and clone
+policy are covered. Four original Rust regressions add no upstream-method credit.
+
+The complete original load-balance corpus now agrees in **101/101 cases across
+8,290 states** with actual Java and the independent integer/Fraction reference.
+The large-offset cancellation difference closes under this explicit policy.
+Both complete control arrays remain identical to their prior actual outputs:
+**97/101 exact-default**, **100/101 wrapping-exact-root**. Java failures receive
+no agreement credit. No general Java formula, conversion-order, decimal-scale,
+nonfinite, live-map or timing equivalence is claimed.
+
+One final `bash scripts/check.sh` passed: **8,566 Rust tests and
+292 doctests**, **9 RUN/139 REUSE**, 254.298s. Native
+`fbd259a1f3d6a96c72f9a92d2eb1ff54fb9ad92cfe812ede6b901a02dc554ad9`. The already-qualified unchanged
+reference-model tests were reused; no successful unchanged gate was repeated.
+Actual desktop/mobile browser checks cover selected and both prior policy
+presentations; current source/data/model HTTP checks pass.
+
+Only stream-differential was refreshed. All other 17 raw reports retain actual
+bytes/dates/keys; mixed 288 remains current under its unchanged relevant key,
+still **6/8** at Java time parity and equal quality. Larger warm/cold Stream
+remain performance gaps. Readiness **85.814%**, **2/18 current**, 16 stale;
+Java multiplier **1**. This is a tracked-target index, not engineering effort or
+an ETA. Inventory stays **4410/4855**, 10 pending, 435 excluded, no failures or
+unverified methods. Goal incomplete; other recorded behavior gaps remain.
+
+Evidence: work/round289-qualification/{integration,release-build-receipt,
+offline-replay,stream-differential-receipt,gate-receipt,collection,verdict,
+browser-proof}.json and work/parallel-round289-evidence.json.
+
+Next: assess work/round290-mixed-declaration/README.md and optional_declaration.rs.
+This is source-only, uncompiled and unmeasured. Public fixed links can retain full
+pair payloads and inspection but change match-ID namespace, batching, callback
+work/order and ownership. Any experiment must be an explicit graph policy, retain
+the ordinary default/controls and all original inputs, search budgets, pins,
+metadata and quality checks, and report actual changed work. Do not present it as
+an equal-work implementation gain or silently switch the canonical profile.
+The separate Java-history-bug policy question remains unanswered; no gaps are
+waived and no answer is inferred.
+runner-c stays parked. No current runner-a connection; 288/289 qualification was local.
+
+## Previous qualification — 288 lazy shared planning-source rows
 
 Private bounded planning sources keep temporary rows directly owned. Inspection,
 source-event replay and full snapshots can promote a row to Arc once; promotion invokes no user Clone/Ord. Replay retains its normal payload
@@ -80,20 +128,6 @@ Actual warm profiles retain separate candidate and qualified 286 binary identiti
 baseline attribution observes owned-source delivery 12.18%, fixed-source restore
 7.40%, Join.apply 10.88% and changed-value discovery 10.27% inclusive. These overlap
 and cannot be added or treated as optimization gains. No lost profile samples.
-
-Next compatibility work: inspect work/round289-load-root/README.md and
-candidate.patch. This is an unbuilt Rust proposal for an explicit Binary64 root
-policy on the existing wrapping collector; exact and wrapping-exact defaults
-remain unchanged. The independent integer/Fraction reference now passes four
-original tests and agrees with all 101 cases / 8,290 retained actual Java states:
-reference-qualification/receipt.json binds source/input hashes. Do not repeat
-those unchanged reference checks just for a new turn. This is model plausibility,
-not native execution, inferred Java production/conversion-order equivalence,
-current comparison or method credit. Native output/full controls/rounding/errors
-still need qualification. Existing canonical 286 load evidence remains 100/101
-selected and 97/101 exact-default, now stale under shared source changes. The
-separate Java-history-bug question remains unanswered; no waived gaps or inferred
-approval. runner-c stays parked, runner-a last connection timed out; no remote 288 run.
 
 ## Previous qualification — 286 explicit wrapping load balance
 
