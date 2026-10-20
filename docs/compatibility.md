@@ -10809,3 +10809,64 @@ unverified methods. Goal incomplete; other recorded behavior gaps remain.
 Evidence: work/round289-qualification/{integration,release-build-receipt,
 offline-replay,stream-differential-receipt,gate-receipt,collection,verdict,
 browser-proof}.json and work/parallel-round289-evidence.json.
+
+## Latest qualification — 291 bounded source arena
+
+Private bounded planning sources retain complete lazy-shared rows in reusable
+arena cells; active slots and every undo entry move optional integer handles.
+Every intermediate version, source ID, metadata row, scoring callback and snapshot
+Arc identity remains. Clone/callback failure contracts are retained; panicking user
+destructors and allocator aborts remain unsupported. Normal replacement, rollback and final
+node destruction retain their distinct original payload-release order. Extra
+indirection and high-water storage may increase memory; no memory saving is claimed.
+Three original ownership/Clone-panic regressions passed against original storage,
+then all 13 focused source tests passed against the retained arena. A later test-only
+Clippy loop repair preserves identical production inputs and all measurement keys;
+original build/performance receipts retain their actual pre-repair source. They add no
+upstream-method credit.
+
+Initial all-eight-workload comparisons were mixed: larger warm Stream +2.56%,
+cold -4.76%. One bounded CPU2 follow-up retains all four Stream controls across
+16 forks: larger warm **2.069% faster** (14/16 forks), cold **1.552% faster** with
+mixed forks, small warm **0.502% slower**, small cold **4.702% slower**, both mixed.
+All full assignments, scores, callbacks, evaluations, steps and phase metadata
+match the qualified original artifact. These are bounded artifact observations,
+not a general speed claim. Extra in-place release tuning was rejected: small warm
+Stream +13.21% in all four triad forks and larger cold +5.01% versus initial arena.
+All initial/follow-up/triad records and actual source/artifacts remain separate.
+
+After fixing the test-only Clippy failure, the final `bash scripts/check.sh`: **8,569 Rust +292 doctests**,
+**95 RUN/53 REUSE**, 374.629s. Source
+`1be98a828da84045af124b47f62490e4ff04478fce7e116740ad016341b60277`. A build-only precompile used eight local
+compiler jobs; verification records were neither fabricated nor transplanted.
+
+Fresh original Java mixed comparison: **6/8** at time parity, equal quality in
+all eight. Larger warm Stream 22.042 ms vs Java 17.253 ms;
+cold 23.970 ms vs 19.124 ms. Inputs, profiles, budgets and
+quality floors remain unchanged. Cross-run Java ratios do not isolate native gains.
+Only mixed-performance was refreshed; other 17 raw reports retain actual bytes,
+dates and keys. The 289 load comparison remains 101/101 selected, 100/101 wrapping
+exact-root, 97/101 default, now visibly stale. Backend/UI contracts are unchanged:
+reuse actual 289 desktop/mobile proof plus current source/data/model HTTP checks.
+Readiness **85.430%**, **1/18 current**, 17 stale, Java multiplier **1**. Inventory
+4410/4855, 10 pending, 435 excluded, no failures/unverified. Goal incomplete.
+
+A first final-comparison attempt was invalid: restoring source with preserved
+mtime made Cargo reuse the rejected tuning binary. The post-run artifact guard
+caught it; its raw report/cache were archived and invalidated, prior report restored.
+After advancing source mtime, actual rebuild reproduced selected binary84a3356b…;
+the valid comparison verified it before and after measurement. The invalid attempt
+earns no performance/currentness credit. On future source restoration, write bytes
+or advance mtime; verify actual compiler artifact before measuring. Do not copy
+old binaries/cache metadata into target or rekey old successes.
+
+Evidence: work/round291-qualification/{integration,baseline-focused-receipt,
+candidate-focused-receipt,candidate-build-receipt,restored-build-receipt,
+pair-results,prebuild-receipt,mixed-performance-receipt,gate-receipt,collection,
+verdict}.json; control-followup/, inplace-release/, invalid-cargo-reuse/;
+work/parallel-round291-evidence.json.
+
+Rejected 290: a lone inline(always) annotation on source replacement made larger
+warm Stream 4.40% slower (3/4 forks), cold 1.34% slower with mixed forks. Exact 289
+source/keys and all 18 report bytes were restored before 291; no final gate/Java
+refresh for that rejected source. Evidence: work/round290-qualification/verdict.json.

@@ -6,8 +6,9 @@
 //! row rather than cloning user payloads. Trial rows stay owned until inspection
 //! or a full checkpoint promotes them to shared storage. Full checkpoints copy
 //! at most 256 Arc slots; inspection lazily builds an ordered tree sharing keys
-//! and payloads. Slots and journals are larger, trading bounded storage against
-//! frequent trial allocations. Neither operation invokes user Clone or Ord.
+//! and payloads. Private arena cells retain wide rows; slots and journals move
+//! integer handles. Extra indirection and high-water storage are explicit costs.
+//! Neither operation invokes user Clone or Ord.
 use super::*;
 use std::{
     cell::{Cell, OnceCell},
@@ -39,25 +40,67 @@ impl<T> Row<T> {
             .get_or_init(|| Arc::new(self.owned.take().expect("unshared row")))
     }
 }
-type Slots<T> = Vec<Option<Row<T>>>;
-type Undo<T> = Vec<(usize, Option<Row<T>>)>;
+type Slots = Vec<Option<usize>>;
+type Undo = Vec<(usize, Option<usize>)>;
+// Each occupied cell belongs to exactly one active slot or undo record. Shared
+// snapshots own Arc handles, never arena indices. Reclaimed cells own no payload.
+struct Arena<T> {
+    cells: Vec<Option<Row<T>>>,
+    free: Vec<usize>,
+}
+impl<T> Arena<T> {
+    fn new() -> Self {
+        Self {
+            cells: Vec::new(),
+            free: Vec::new(),
+        }
+    }
+    fn insert(&mut self, row: Row<T>) -> usize {
+        if let Some(index) = self.free.pop() {
+            debug_assert!(self.cells[index].is_none());
+            self.cells[index] = Some(row);
+            index
+        } else {
+            let index = self.cells.len();
+            self.cells.push(Some(row));
+            index
+        }
+    }
+    fn get(&self, index: usize) -> &Row<T> {
+        self.cells[index].as_ref().expect("live source row handle")
+    }
+    fn discard(&mut self, handle: Option<usize>) {
+        if let Some(index) = handle {
+            drop(self.cells[index].take().expect("owned source row handle"));
+        }
+    }
+    fn release(&mut self, handle: Option<usize>) {
+        if let Some(index) = handle {
+            // Drop the user row before publishing this cell for reuse.
+            self.discard(Some(index));
+            self.free.push(index);
+        }
+    }
+}
 struct Token(usize);
 struct Saved<T>(Vec<Option<Arc<T>>>);
 pub(super) struct FixedSourceNode<T> {
     keys: Vec<Arc<usize>>,
-    values: Slots<T>,
+    values: Slots,
     rows: OnceCell<SnapshotMap<usize, T>>,
-    journals: Vec<Undo<T>>,
-    spare: Vec<Undo<T>>,
+    journals: Vec<Undo>,
+    spare: Vec<Undo>,
     checkpoint_box: CheckpointBox<Token>,
     // Reusable batch positions only; no event or user payload ownership.
     latest: Vec<(usize, usize)>,
+    arena: Arena<T>,
 }
 impl<T> FixedSourceNode<T> {
     pub(super) fn new(rows: Vec<(Arc<usize>, Arc<T>)>) -> Self {
+        let mut arena = Arena::new();
         let (keys, values) = rows
             .into_iter()
-            .map(|(k, v)| (k, Some(Row::from_shared(v))))
+            .map(|(k, v)| (k, Some(arena.insert(Row::from_shared(v)))))
             .unzip();
         Self {
             keys,
@@ -67,14 +110,25 @@ impl<T> FixedSourceNode<T> {
             spare: Vec::new(),
             checkpoint_box: CheckpointBox::new(),
             latest: Vec::new(),
+            arena,
         }
     }
     fn replace(&mut self, index: usize, value: Option<Row<T>>) {
         self.rows.take();
-        let old = std::mem::replace(&mut self.values[index], value);
+        // Keep the original slot bounds check before changing ownership storage.
+        let slot = &mut self.values[index];
+        let value = value.map(|row| self.arena.insert(row));
+        let old = std::mem::replace(slot, value);
         if let Some(journal) = self.journals.last_mut() {
             journal.push((index, old));
+        } else {
+            // Normal replacement installs the new slot before releasing old T.
+            self.arena.release(old);
         }
+    }
+    #[cfg(test)]
+    fn row(&self, index: usize) -> Option<&Row<T>> {
+        self.values[index].map(|handle| self.arena.get(handle))
     }
     pub(super) fn put_owned(&mut self, index: usize, value: T) -> Result<(), GraphError> {
         if index >= self.values.len() {
@@ -107,10 +161,30 @@ impl<T> FixedSourceNode<T> {
                 self.keys
                     .iter()
                     .zip(&self.values)
-                    .filter_map(|(k, v)| v.as_ref().map(|v| (k.clone(), v.shared().clone())))
+                    .filter_map(|(k, handle)| {
+                        (*handle).map(|h| (k.clone(), self.arena.get(h).shared().clone()))
+                    })
                     .collect(),
             )
         })
+    }
+}
+impl<T> Drop for FixedSourceNode<T> {
+    fn drop(&mut self) {
+        // Arena order changes with reuse. Reproduce original field/row drop order
+        // explicitly, including active registry order before cache and journals.
+        drop(std::mem::take(&mut self.keys));
+        for handle in std::mem::take(&mut self.values) {
+            self.arena.discard(handle);
+        }
+        drop(self.rows.take());
+        for frame in std::mem::take(&mut self.journals) {
+            for (_, handle) in frame {
+                self.arena.discard(handle);
+            }
+        }
+        debug_assert!(self.arena.cells.iter().all(Option::is_none));
+        // Remaining fields own only empty buffers, handles and primitive tokens.
     }
 }
 impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
@@ -164,10 +238,10 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
             self.keys
                 .iter()
                 .zip(&self.values)
-                .filter_map(|(key, value)| {
-                    value
-                        .as_ref()
-                        .map(|value| TupleChange::put(**key, value.shared().as_ref().clone()))
+                .filter_map(|(key, handle)| {
+                    (*handle).map(|h| {
+                        TupleChange::put(**key, self.arena.get(h).shared().as_ref().clone())
+                    })
                 }),
         )
     }
@@ -175,7 +249,7 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
         Box::new(Saved(
             self.values
                 .iter()
-                .map(|v| v.as_ref().map(|v| v.shared().clone()))
+                .map(|handle| (*handle).map(|h| self.arena.get(h).shared().clone()))
                 .collect(),
         ))
     }
@@ -200,7 +274,11 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
                 parent.append(&mut undo);
             }
         }
-        undo.clear();
+        // Nested commits moved all handles to the parent. Outermost commit
+        // releases old owners in the original forward-log destruction order.
+        for (_, handle) in undo.drain(..) {
+            self.arena.release(handle);
+        }
         self.spare.push(undo);
         self.checkpoint_box.recycle(empty);
     }
@@ -214,8 +292,12 @@ impl<T: Clone + 'static, S: AdditiveScore> Node<S> for FixedSourceNode<T> {
                 );
                 self.rows.take();
                 let mut undo = self.journals.pop().unwrap();
-                for (index, value) in undo.drain(..).rev() {
-                    self.values[index] = value;
+                for (index, handle) in undo.drain(..).rev() {
+                    // Original assignment drops the candidate before writing the
+                    // saved row. Do not use normal replace's opposite drop phase.
+                    let candidate = self.values[index].take();
+                    self.arena.release(candidate);
+                    self.values[index] = handle;
                 }
                 self.spare.push(undo);
                 self.checkpoint_box.recycle(empty);
@@ -319,7 +401,7 @@ mod tests {
         <Source as Node<SimpleScore>>::restore(&mut node, saved);
         node.put_owned(0, Owned(40, drops.clone())).unwrap();
         <Source as Node<SimpleScore>>::restore(&mut node, outer);
-        assert_eq!(node.values[0].as_ref().unwrap().shared().as_ref().0, 10);
+        assert_eq!(node.row(0).unwrap().shared().as_ref().0, 10);
         assert_eq!(*drops.borrow(), [40, 30, 20]);
         let next = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
         assert_eq!(address, marker_address(next.as_ref()));
@@ -330,7 +412,7 @@ mod tests {
         assert_eq!(address, marker_address(last.as_ref()));
         <Source as Node<SimpleScore>>::clear(&mut node);
         <Source as Node<SimpleScore>>::restore(&mut node, last);
-        assert_eq!(node.values[0].as_ref().unwrap().shared().as_ref().0, 50);
+        assert_eq!(node.row(0).unwrap().shared().as_ref().0, 50);
         assert_eq!(*drops.borrow(), [40, 30, 20, 10]);
         drop(node);
         assert_eq!(*drops.borrow(), [40, 30, 20, 10, 50]);
@@ -471,12 +553,12 @@ mod lazy_row_tests {
         let mut node = Source::new(vec![(Arc::new(0), Arc::new(CloneBomb(1)))]);
         let trial = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
         node.put_owned(0, CloneBomb(2)).unwrap();
-        assert!(node.values[0].as_ref().unwrap().shared.get().is_none());
+        assert!(node.row(0).unwrap().shared.get().is_none());
         let saved = <Source as Node<SimpleScore>>::checkpoint(&node);
         let view = node.rows().clone();
         let pointer = &view[&0] as *const CloneBomb;
         node.put_owned(0, CloneBomb(3)).unwrap();
-        assert!(node.values[0].as_ref().unwrap().shared.get().is_none());
+        assert!(node.row(0).unwrap().shared.get().is_none());
         <Source as Node<SimpleScore>>::restore(&mut node, saved);
         assert_eq!(&node.rows()[&0] as *const CloneBomb, pointer);
         <Source as Node<SimpleScore>>::restore(&mut node, trial);
@@ -507,9 +589,12 @@ mod lazy_row_tests {
         node.put_owned(0, value(3)).unwrap();
         node.put_owned(1, value(4)).unwrap();
         assert!(
-            node.values
-                .iter()
-                .all(|v| v.as_ref().unwrap().shared.get().is_none())
+            node.values.iter().all(|handle| node
+                .arena
+                .get((*handle).unwrap())
+                .shared
+                .get()
+                .is_none())
         );
         fail.set(2);
         assert!(
@@ -528,5 +613,174 @@ mod lazy_row_tests {
         <Source as Node<SimpleScore>>::restore(&mut node, trial);
         assert_eq!((node.rows()[&0].0, node.rows()[&1].0), (1, 2));
         assert_eq!(calls.get(), 4);
+    }
+}
+
+// ORIGINAL, source-only contract regressions. This exact module can be appended
+// unchanged to either restored289 fixed_source.rs or the proposed arena overlay.
+#[cfg(test)]
+#[allow(clippy::arc_with_non_send_sync)]
+mod arena_contract_tests {
+    use super::*;
+    use crate::SimpleScore;
+    use std::{
+        cell::{Cell, RefCell},
+        panic::{AssertUnwindSafe, catch_unwind},
+        rc::Rc,
+    };
+
+    struct Traced(usize, Rc<RefCell<Vec<usize>>>, Arc<()>);
+    impl Clone for Traced {
+        fn clone(&self) -> Self {
+            panic!("unexpected source payload Clone")
+        }
+    }
+    impl Drop for Traced {
+        fn drop(&mut self) {
+            let _ = &self.2;
+            self.1.borrow_mut().push(self.0);
+        }
+    }
+    type Source = FixedSourceNode<Traced>;
+    fn value(id: usize, trace: &Rc<RefCell<Vec<usize>>>) -> (Traced, std::sync::Weak<()>) {
+        let life = Arc::new(());
+        let weak = Arc::downgrade(&life);
+        (Traced(id, trace.clone(), life), weak)
+    }
+    #[test]
+    fn reused_storage_releases_unjournaled_rows_and_keeps_snapshot_identity() {
+        let trace = Rc::new(RefCell::new(Vec::new()));
+        let (initial, zero) = value(0, &trace);
+        let mut node = Source::new(vec![(Arc::new(0), Arc::new(initial))]);
+        let (first, one) = value(1, &trace);
+        node.put_owned(0, first).unwrap();
+        assert!(zero.upgrade().is_none());
+        let held = node.rows().clone();
+        let saved = <Source as Node<SimpleScore>>::checkpoint(&node);
+        let pointer = &held[&0] as *const Traced;
+        let (second, two) = value(2, &trace);
+        node.put_owned(0, second).unwrap();
+        let (third, three) = value(3, &trace);
+        node.put_owned(0, third).unwrap();
+        assert!(two.upgrade().is_none());
+        assert!(one.upgrade().is_some());
+        assert_eq!(*trace.borrow(), [0, 2]);
+        <Source as Node<SimpleScore>>::restore(&mut node, saved);
+        assert!(three.upgrade().is_none());
+        assert_eq!(&node.rows()[&0] as *const Traced, pointer);
+        drop(node);
+        assert!(one.upgrade().is_some());
+        drop(held);
+        assert!(one.upgrade().is_none());
+        assert_eq!(*trace.borrow(), [0, 2, 3, 1]);
+    }
+    #[test]
+    fn final_drop_keeps_registry_order_before_nested_journal_order_after_reuse() {
+        let trace = Rc::new(RefCell::new(Vec::new()));
+        let mut node = Source::new(
+            (0..3)
+                .map(|id| {
+                    let (row, _) = value((id + 1) * 10, &trace);
+                    (Arc::new(id), Arc::new(row))
+                })
+                .collect(),
+        );
+        // Reuse cells in a different order from the final registry slots.
+        for (slot, id) in [(0, 11), (1, 21), (2, 31)] {
+            node.put_owned(slot, value(id, &trace).0).unwrap();
+        }
+        let _ = node.rows(); // Promotion/cache must not change release ordering.
+        let outer = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        node.put_owned(0, value(12, &trace).0).unwrap();
+        node.put_owned(1, value(22, &trace).0).unwrap();
+        let inner = <Source as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        node.put_owned(0, value(13, &trace).0).unwrap();
+        trace.borrow_mut().clear();
+        drop(outer);
+        drop(inner); // Tokens own no payload; leave both frames live.
+        drop(node);
+        assert_eq!(*trace.borrow(), [13, 22, 31, 11, 21, 12]);
+    }
+    #[test]
+    fn source_event_clone_failure_keeps_snapshot_identity_across_rollback_and_install() {
+        struct Value {
+            id: usize,
+            calls: Rc<RefCell<Vec<usize>>>,
+            fail: Rc<Cell<usize>>,
+            clone_drops: Rc<RefCell<Vec<usize>>>,
+            cloned: bool,
+        }
+        impl Clone for Value {
+            fn clone(&self) -> Self {
+                self.calls.borrow_mut().push(self.id);
+                assert_ne!(
+                    self.calls.borrow().len(),
+                    self.fail.get(),
+                    "source Clone failure"
+                );
+                Self {
+                    id: self.id,
+                    calls: self.calls.clone(),
+                    fail: self.fail.clone(),
+                    clone_drops: self.clone_drops.clone(),
+                    cloned: true,
+                }
+            }
+        }
+        impl Drop for Value {
+            fn drop(&mut self) {
+                if self.cloned {
+                    self.clone_drops.borrow_mut().push(self.id);
+                }
+            }
+        }
+        type S = FixedSourceNode<Value>;
+        let calls = Rc::new(RefCell::new(Vec::new()));
+        let fail = Rc::new(Cell::new(0));
+        let drops = Rc::new(RefCell::new(Vec::new()));
+        let value = |id| Value {
+            id,
+            calls: calls.clone(),
+            fail: fail.clone(),
+            clone_drops: drops.clone(),
+            cloned: false,
+        };
+        let mut node = S::new(
+            (0..3)
+                .map(|id| (Arc::new(id), Arc::new(value(id))))
+                .collect(),
+        );
+        let trial = <S as Node<SimpleScore>>::begin_checkpoint(&mut node);
+        for id in 0..3 {
+            node.put_owned(id, value(id + 10)).unwrap();
+        }
+        fail.set(2);
+        assert!(
+            catch_unwind(AssertUnwindSafe(
+                || <S as Node<SimpleScore>>::source_events(&node)
+            ))
+            .is_err()
+        );
+        assert_eq!(*calls.borrow(), [10, 11]);
+        assert_eq!(*drops.borrow(), [10]);
+        fail.set(0);
+        let held = node.rows().clone();
+        let pointers = (0..3)
+            .map(|id| &held[&id] as *const Value)
+            .collect::<Vec<_>>();
+        let saved = <S as Node<SimpleScore>>::checkpoint(&node);
+        let events = <S as Node<SimpleScore>>::source_events(&node);
+        drop(events);
+        assert_eq!(*calls.borrow(), [10, 11, 10, 11, 12]);
+        assert_eq!(*drops.borrow(), [10, 10, 11, 12]);
+        <S as Node<SimpleScore>>::restore(&mut node, trial);
+        for id in 0..3 {
+            assert_eq!(node.rows()[&id].id, id);
+        }
+        <S as Node<SimpleScore>>::restore(&mut node, saved);
+        for (id, &pointer) in pointers.iter().enumerate() {
+            assert_eq!(&node.rows()[&id] as *const Value, pointer);
+        }
+        assert_eq!(*calls.borrow(), [10, 11, 10, 11, 12]);
     }
 }
