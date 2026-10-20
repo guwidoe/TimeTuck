@@ -63,6 +63,38 @@ is bounded by the original contracts and measured inputs. It is not universal
 Timefold/JVM equivalence, arbitrary-scale performance or an estimate of remaining
 engineering effort. See [completion evidence](completion.md).
 
+## Test origins and additional applications
+
+`test_origins` partitions checksum/source-validated recorded Rust test identities
+into exact upstream adaptations, additional native regressions and declared
+external application tests. These identity counts are distinct from original
+Java method coverage and expanded runtime invocations. Additional native checks
+can reuse attributed fixtures; the category does not assert independent authorship.
+Missing declared application tests stay unverified, and fixture hash validation
+is separate from observed test execution.
+
+`compat/additional-tests.json` records the exact public RealWorld snapshots,
+approved manifests, source commit and application spike origin. Its four native
+regressions test both original workloads' full score, trial/rollback and bounded
+seeded solving. They have zero upstream-method credit. `compat/provenance.json`
+and the original Community inventory remain unchanged.
+
+The independent `scripts/benchmark_real_world.py` runner saves
+`work/real_world-performance.json`. It is outside the original 18 comparison
+jobs/109 timed targets and strict index. The dashboard shows Rust streams,
+actual pinned Community streams and optional hand-written Java incremental
+throughput separately. Qualification means a complete default matrix and
+independent scoring validation, not speed or solution-quality parity. Sailing
+can remain infeasible; hard/soft observations and missing whole-group moves
+remain explicit. The separate application input hash includes the actual model,
+public fixtures and runner/converter/Java code; unrelated original measurements
+are reused without changing their keys or dates.
+
+Run `python3 scripts/benchmark_real_world.py --java-modes streams incremental`
+with both runtimes on one machine. See [application benchmark details](../benchmarks/real_world/README.md)
+and [native model contract](real_world-model.md). The native UI clearly labels
+its original acceptance scope, with additional application performance below.
+
 ## Strict comparison index
 
 The strict comparison panel is a configurable progress index, separate from raw

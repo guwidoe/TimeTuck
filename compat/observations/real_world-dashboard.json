@@ -1,0 +1,272 @@
+{
+  "passed": true,
+  "proof": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1100,
+      "status": "Targets remain",
+      "summary": "6 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "requirements": 7,
+      "boundaries": "Consistent connected rangesUser chose snapshot-consistent half-open native ranges including empty intervals; exact observed Java history differences are retained.total: 197 · passed: 66 · native reference passed: 197 · java error cases: 0 · divergent cases: 131Stable list value captureUser chose stable native first-touch capture and rollback; successful differing Java sets, getter errors and unsupported empty compositions remain unavailable/different.total: 514 · passed: 425 · native reference passed: 514 · java error cases: 40 · unsupported cases: 33 · divergent cases: 16 · order differences: 282Cyclic suppliers with unavailable Java outcomesActual Java null-finish supplier errors have no successful reference outcome; native exhaustive reachability, cycle/downstream and recovery tests independently prove the bounded native behavior.total: 128 · passed: 107 · native reference passed: 128 · java error cases: 21 · divergent cases: 0Original method boundaries: 8 excluded; 0 pending. Exclusions and pending assertions earn no passes. See individual methods for reasons.",
+      "blockers": "Capability or contract evidence still needs verification. Open the evidence details below.",
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": false,
+      "generatedAt": "2026-10-20T12:08:06.853486+00:00",
+      "strictIndex": 95.80936814868949,
+      "strictReady": false,
+      "strictDisplay": "95.8%",
+      "methodCounts": {
+        "total": 4855,
+        "passed": 4412,
+        "failed": 0,
+        "pending": 0,
+        "excluded": 443,
+        "unverified": 0,
+        "percent": 90.875
+      },
+      "source": "cfb04ce68ab0a5c37ee68b32dddbfdba3e159ec66b69ce9bb335fd795e5d8fc5",
+      "requirementStates": [
+        {
+          "id": "independent-community-solver",
+          "status": "met"
+        },
+        {
+          "id": "scores",
+          "status": "met"
+        },
+        {
+          "id": "models-moves-rollback",
+          "status": "met"
+        },
+        {
+          "id": "search",
+          "status": "met"
+        },
+        {
+          "id": "streams-derived-values",
+          "status": "met"
+        },
+        {
+          "id": "applications-services",
+          "status": "met"
+        },
+        {
+          "id": "dashboard",
+          "status": "unknown"
+        }
+      ],
+      "panelWidth": 1334,
+      "additional": {
+        "categories": [
+          {
+            "id": "upstream_adapted",
+            "label": "Upstream adapted tests",
+            "description": "Exact native identities mapped by implemented upstream provenance cases.",
+            "counts": {
+              "passed": 4412,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4412
+            }
+          },
+          {
+            "id": "external_application",
+            "label": "External application regressions",
+            "description": "Recorded tests in explicitly declared external application test files; zero upstream-method credit.",
+            "counts": {
+              "passed": 4,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4
+            }
+          },
+          {
+            "id": "native_regression",
+            "label": "Additional native regressions",
+            "description": "Other recorded Rust checks. They may reuse attributed fixtures; this does not claim independently authored source.",
+            "counts": {
+              "passed": 4185,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4185
+            }
+          }
+        ],
+        "originRows": 3,
+        "applicationTests": {
+          "passed": 4,
+          "failed": 0,
+          "unverified": 0,
+          "total": 4
+        },
+        "fixtures": "valid",
+        "testText": "4 / 4 recorded application checks pass · 0 expected checks unverified · fixtures valid",
+        "originText": "Origin: RealWorld public scenarios at b5ab1b2121e1 and its application model. Fixture validation: valid. Upstream method credit: 0. Exact source identities and hashes are retained in the report.",
+        "benchmarkStatus": "Current application result · 0 / 2 measured workloads meet Java streams throughput · full comparison protocol",
+        "benchmarkRows": 2,
+        "benchmarkText": "Golfer · 32 people, 10 sessionsFeasible solves: Rust 3 / 3 · Java 3 / 316,728129,396586,3690.13×Sailing · 115 people, 5 sessionsFeasible solves: Rust 1 / 3 · Java 0 / 35,22682,566583,9580.06×",
+        "valid": true,
+        "qualified": true,
+        "current": "current"
+      },
+      "applicationFallbacks": {
+        "missing": "Application performance has not been measured yet.",
+        "hidden": true,
+        "stale": "Previous application result · 0 / 2 measured workloads meet Java streams throughput · full comparison protocol",
+        "keyboard": true
+      },
+      "fallbacks": {
+        "missing": {
+          "status": "Evidence unavailable",
+          "summaryCount": 0
+        },
+        "stale": "Verification needed",
+        "ready": "Tracked native targets met",
+        "overflow": false
+      }
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 1000,
+      "status": "Targets remain",
+      "summary": "6 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "requirements": 7,
+      "boundaries": "Consistent connected rangesUser chose snapshot-consistent half-open native ranges including empty intervals; exact observed Java history differences are retained.total: 197 · passed: 66 · native reference passed: 197 · java error cases: 0 · divergent cases: 131Stable list value captureUser chose stable native first-touch capture and rollback; successful differing Java sets, getter errors and unsupported empty compositions remain unavailable/different.total: 514 · passed: 425 · native reference passed: 514 · java error cases: 40 · unsupported cases: 33 · divergent cases: 16 · order differences: 282Cyclic suppliers with unavailable Java outcomesActual Java null-finish supplier errors have no successful reference outcome; native exhaustive reachability, cycle/downstream and recovery tests independently prove the bounded native behavior.total: 128 · passed: 107 · native reference passed: 128 · java error cases: 21 · divergent cases: 0Original method boundaries: 8 excluded; 0 pending. Exclusions and pending assertions earn no passes. See individual methods for reasons.",
+      "blockers": "Capability or contract evidence still needs verification. Open the evidence details below.",
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": false,
+      "generatedAt": "2026-10-20T12:08:06.853486+00:00",
+      "strictIndex": 95.80936814868949,
+      "strictReady": false,
+      "strictDisplay": "95.8%",
+      "methodCounts": {
+        "total": 4855,
+        "passed": 4412,
+        "failed": 0,
+        "pending": 0,
+        "excluded": 443,
+        "unverified": 0,
+        "percent": 90.875
+      },
+      "source": "cfb04ce68ab0a5c37ee68b32dddbfdba3e159ec66b69ce9bb335fd795e5d8fc5",
+      "requirementStates": [
+        {
+          "id": "independent-community-solver",
+          "status": "met"
+        },
+        {
+          "id": "scores",
+          "status": "met"
+        },
+        {
+          "id": "models-moves-rollback",
+          "status": "met"
+        },
+        {
+          "id": "search",
+          "status": "met"
+        },
+        {
+          "id": "streams-derived-values",
+          "status": "met"
+        },
+        {
+          "id": "applications-services",
+          "status": "met"
+        },
+        {
+          "id": "dashboard",
+          "status": "unknown"
+        }
+      ],
+      "panelWidth": 346,
+      "additional": {
+        "categories": [
+          {
+            "id": "upstream_adapted",
+            "label": "Upstream adapted tests",
+            "description": "Exact native identities mapped by implemented upstream provenance cases.",
+            "counts": {
+              "passed": 4412,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4412
+            }
+          },
+          {
+            "id": "external_application",
+            "label": "External application regressions",
+            "description": "Recorded tests in explicitly declared external application test files; zero upstream-method credit.",
+            "counts": {
+              "passed": 4,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4
+            }
+          },
+          {
+            "id": "native_regression",
+            "label": "Additional native regressions",
+            "description": "Other recorded Rust checks. They may reuse attributed fixtures; this does not claim independently authored source.",
+            "counts": {
+              "passed": 4185,
+              "failed": 0,
+              "unverified": 0,
+              "total": 4185
+            }
+          }
+        ],
+        "originRows": 3,
+        "applicationTests": {
+          "passed": 4,
+          "failed": 0,
+          "unverified": 0,
+          "total": 4
+        },
+        "fixtures": "valid",
+        "testText": "4 / 4 recorded application checks pass · 0 expected checks unverified · fixtures valid",
+        "originText": "Origin: RealWorld public scenarios at b5ab1b2121e1 and its application model. Fixture validation: valid. Upstream method credit: 0. Exact source identities and hashes are retained in the report.",
+        "benchmarkStatus": "Current application result · 0 / 2 measured workloads meet Java streams throughput · full comparison protocol",
+        "benchmarkRows": 2,
+        "benchmarkText": "Golfer · 32 people, 10 sessionsFeasible solves: Rust 3 / 3 · Java 3 / 316,728129,396586,3690.13×Sailing · 115 people, 5 sessionsFeasible solves: Rust 1 / 3 · Java 0 / 35,22682,566583,9580.06×",
+        "valid": true,
+        "qualified": true,
+        "current": "current"
+      },
+      "applicationFallbacks": {
+        "missing": "Application performance has not been measured yet.",
+        "hidden": true,
+        "stale": "Previous application result · 0 / 2 measured workloads meet Java streams throughput · full comparison protocol",
+        "keyboard": true
+      },
+      "fallbacks": {
+        "missing": {
+          "status": "Evidence unavailable",
+          "summaryCount": 0
+        },
+        "stale": "Verification needed",
+        "ready": "Tracked native targets met",
+        "overflow": false
+      }
+    }
+  ],
+  "errors": [],
+  "input_sha256": {
+    "dashboard/app.js": "4e92989599e69a2f050ed445ee885e1011c60d90b5f5a77f3ec3abafe67884c1",
+    "dashboard/index.html": "b1221e52fdfdbf857d079c2feca27a8088e1f7f8425cfec035684b33df0478f7",
+    "dashboard/styles.css": "9ceaa162245c7c9e4d85f75dd28ecc339d2b82cc208895c80486faef949d3373",
+    "dashboard/assets/Barlow-SemiBold.ttf": "86577cb32f8abe3673db53ca0f4221e6856751a4f6730c867e00f720f8bb1fc5"
+  },
+  "report_sha256": "54fd9280e19cc4a0983283b04fc5c0255c600599a1bf72231006ad21dfce188f",
+  "policy": "Actual local Chromium desktop/mobile rendering of source-bound report and actual18-run RealWorld application evidence; verifies three origin categories, zero new upstream credit, four application passes, fixture/source identity, two visible throughput gaps and missing/stale application/keyboard states. Current live source/strict/native policy keys, exact original method counters, native requirements and all accepted raw policy counters checked. Missing model, stale live native key and completed-target display tested via browser-only substitutions; no solver/Java/method credit follows. Screenshot input bytes bound independently of generated report."
+}

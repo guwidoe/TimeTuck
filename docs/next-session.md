@@ -17,6 +17,34 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
+## Additional RealWorld application coverage — 2026-10-20
+
+The public golfer32x8x10 and sailing115-person cases are now retained under
+`tests/application/real_world/` with original approved manifests and raw hashes.
+`compat/additional-tests.json` records application origin separately from Timefold
+adaptations. The upstream provenance ledger and 4412 passed/0 pending/443 excluded
+method inventory remain unchanged. Four native application regressions check
+full independent score, trial/rollback, seeded bounded solving and fresh graph
+consistency. Additional tests earn zero upstream-method credit.
+
+The shared example `real_world_benchmark` and independent Python scorer/actual
+Community Java model support a separate benchmark job, `real_world-performance`.
+Do not add it to the original18 comparison job/109-workload progress universe.
+The dashboard now displays the three test-origin categories and additional
+application test/fixture results and throughput gaps separately. Runtime limits,
+actual scores and source/fixture provenance remain visible; a complete benchmark
+protocol does not establish throughput parity or feasible sailing solutions.
+
+Model/runner details are in `docs/real_world-model.md` and
+`benchmarks/real_world/README.md`. Use the job-specific application digest and
+retain original comparisons' actual timestamps/keys. No shared solver production
+code changed for this integration. Fresh runner-a baseline: all18 native/Java
+streams/Java incremental outputs independently validate; Rust/Java streams
+throughput0.129x golfer and0.063x sailing, both targets unmet. Sailing feasibility
+is1/3 Rust,0/3 both Java modes; quality is explicitly not equal-gated. Baseline
+receipt: `compat/observations/real_world-application-baseline.json`; raw evidence
+under `work/real_world-integration/` and `work/real_world-performance.json`.
+
 ## K-opt native test adaptations — 2026-10-20
 
 The final two source methods now have native adaptations in

@@ -19,13 +19,24 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,603 Rust tests and 292 doctests**.
+The current native verification contains **8,607 Rust tests and 292 doctests**.
 The latest test-only k-opt batch reuses unchanged successful gate jobs and runs
 the affected checks through `bash scripts/check.sh`. The prior 305 runtime
 qualification below remains historical. All 18 comparison
 reports are current, and all 109 original timed workloads meet the configured
 Java time/quality target. The live report remains the authority for later counts
 and freshness; historical gate outcomes remain in their original evidence.
+
+Additional application coverage is separate from the upstream inventory and
+original timing targets. The public RealWorld golfer and sailing models add
+four full-score/rollback/bounded-search regressions and their own same-machine
+Java/Rust benchmark. All18 newly measured outputs pass independent score and
+assignment checks. Rust streams reach **0.129x /0.063x Java streams throughput**
+on golfer/sailing on runner-a, so neither additional throughput target is met.
+Feasibility and raw quality remain separate observations; sailing is feasible
+in1/3 Rust runs and0/3 Java streams/incremental runs. These results prevent
+interpreting original109-target readiness as universal application speed parity.
+See [application baseline](../compat/observations/real_world-application-baseline.json).
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed

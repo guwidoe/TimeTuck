@@ -217,3 +217,14 @@ Capability proofs and accepted native contracts expand below; raw Java agreement
 errors, unsupported cases and pending methods retain their original accounting.
 Missing or stale evidence never displays readiness. The strict comparison panel
 keeps its existing geometry, formula and percentages.
+
+## Test origins and additional application workloads
+
+The test-origin table separates mapped upstream adaptations, additional native
+regressions and declared external application checks. Counts are recorded native
+identities, while the Community coverage region retains its source-method unit.
+RealWorld follows in the same open section with individual test results, fixture
+status and a separate throughput table. Existing mint/amber result labels convey
+met/open targets. Horizontal table overflow stays inside keyboard-focusable
+regions on narrow screens. The native overview explicitly refers to original
+targets; application speed gaps do not become hidden by that readiness result.

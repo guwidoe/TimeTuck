@@ -14,6 +14,8 @@ import subprocess
 import sys
 
 from verification_inputs import measurement_digest, report_digest, rust_digest
+from verification_origins import build_test_origins
+from application_report import application_input_digest, load_application_benchmark
 from rust_test_layout import shard_origins
 from completion_progress import build_completion, model_digest
 from native_readiness import build_native_readiness, model_digest as native_model_digest, named_test_evidence
@@ -27,7 +29,7 @@ METHOD = re.compile(r'\b(?:void|[A-Za-z_$][\w.$]*(?:\s*<[^;{}]+>)?(?:\[\])?)\s+(
 
 
 def verification_digest():
-    return report_digest(ROOT)
+    return hashlib.sha256((report_digest(ROOT) + application_input_digest(ROOT)).encode()).hexdigest()
 
 
 def completion_policy():
@@ -264,6 +266,8 @@ def build_report(execute=True, test_output=None):
                              'native_tests': named_test_evidence(results, native_source,
                                  full_gate=bool(runs) and all(r.get('full_native_gate') is True for r in runs))},
             'summary': counts(methods), 'families': groups, 'methods': methods, 'runs': runs,
+            'test_origins': build_test_origins(results, ledger, root=ROOT),
+            'application_benchmarks': {'real_world': load_application_benchmark(ROOT)},
             'differential': load_measurement('differential'),
             'performance': load_measurement('performance'),
             'solver_differential': load_measurement('solver-differential'),

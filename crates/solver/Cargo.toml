@@ -2168,6 +2168,11 @@ path = "tests/grouped_tuple_cases.rs"
 test = false
 
 [[test]]
+name = "real_world_application_regression"
+path = "tests/real_world_application_regression.rs"
+test = false
+
+[[test]]
 name = "hard_medium_soft_decimal_score"
 path = "tests/hard_medium_soft_decimal_score.rs"
 test = false

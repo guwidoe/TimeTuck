@@ -1,0 +1,36 @@
+{
+  "distribution": "public",
+  "id": "example.sailing-trip.v1",
+  "lineage": {
+    "parent_ids": [
+      "internal.sailing-trip-demo.v1"
+    ],
+    "role": "derived",
+    "transformation": "Adds repeat-minimization as the explicit objective; converts each multi-person partner request into first-person-anchored pairs; merges duplicate pair requests by summing their weights; removes redundant empty-scope encounter records; and replaces duplicate or impossible balance targets with achievable at-least crew requirements, including one VHF license per boat."
+  },
+  "origin": {
+    "kind": "internal",
+    "notes": "Public-distribution authorization applies to this anonymized derived Scenario Editor example; the internal parent remains restricted. Benchmark policy and solver settings remain consumer-owned.",
+    "sources": []
+  },
+  "privacy": {
+    "anonymization_status": "verified",
+    "classification": "anonymized",
+    "public_distribution_allowed": true
+  },
+  "problem_path": "problem.json",
+  "problem_sha256": "sha256:7e2d443561308ee122f90bfe5f58835e6ae1600d988cd8a7861366b95e870f0c",
+  "revision": 1,
+  "schema_version": "v1",
+  "status": "approved",
+  "summary": "An anonymized 115-person Sailing Trip workload with anchored partner requests and achievable crew-balance targets.",
+  "tags": [
+    "anonymized",
+    "attribute-balance",
+    "constraints",
+    "multi-session",
+    "real-world",
+    "sailing"
+  ],
+  "title": "Sailing Trip crew rotations"
+}

@@ -1,0 +1,3966 @@
+{
+  "schema_version": "v1",
+  "scenario": {
+    "people": [
+      {
+        "id": "person_aphix38e",
+        "attributes": {
+          "name": "Gray Scott",
+          "Role": "Organiser",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_k6896t8m",
+        "attributes": {
+          "name": "Cameron Patel",
+          "Role": "Organiser",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_epqigqvk",
+        "attributes": {
+          "name": "Taylor Nolan",
+          "Role": "Organiser",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_m2kaj648",
+        "attributes": {
+          "name": "Shawn Hale",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_5e3t3dui",
+        "attributes": {
+          "name": "Kendall Lane",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_sfvtj0gp",
+        "attributes": {
+          "name": "Sage Usman",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_lknh631c",
+        "attributes": {
+          "name": "Reese Quincy",
+          "Role": "Skipper",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_q41p2hyz",
+        "attributes": {
+          "name": "Lane Vaughn",
+          "Role": "Skipper",
+          "First Language": "Polish",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_uc10ubkg",
+        "attributes": {
+          "name": "Winter Yamada",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_0wd3l70n",
+        "attributes": {
+          "name": "Kiran Hughes",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_ywfp8avz",
+        "attributes": {
+          "name": "Casey Ortega",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_xf66mzvc",
+        "attributes": {
+          "name": "Taylor Keller",
+          "Role": "Co-Skipper",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_u9hb2rwd",
+        "attributes": {
+          "name": "Finley Lane",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_la1a2kx5",
+        "attributes": {
+          "name": "Lane Kim",
+          "Role": "Skipper",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_tyt98xbj",
+        "attributes": {
+          "name": "Indigo Sawyer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_uksidonh",
+        "attributes": {
+          "name": "Robin Young",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_t4mxdht1",
+        "attributes": {
+          "name": "Taylor Dawson",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_nhjr3mzo",
+        "attributes": {
+          "name": "Oakley Scott",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_jbekvapv",
+        "attributes": {
+          "name": "Jamie Ellis",
+          "Role": "Guest",
+          "First Language": "Italian",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_e6pjrzbl",
+        "attributes": {
+          "name": "Cameron Campbell",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_e7eyno7f",
+        "attributes": {
+          "name": "Jamie Vaughn",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_z0yv6rld",
+        "attributes": {
+          "name": "Casey Griffin",
+          "Role": "Videographer",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_9cu1c173",
+        "attributes": {
+          "name": "Val Carter",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_r100cwye",
+        "attributes": {
+          "name": "Jules Wong",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_5obulv0w",
+        "attributes": {
+          "name": "Sky Keller",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_4j31536m",
+        "attributes": {
+          "name": "Dana Meyer",
+          "Role": "Guest",
+          "First Language": "English",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_yrcfxd7s",
+        "attributes": {
+          "name": "Harper Patel",
+          "Role": "Co-Skipper",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_s7qtd8ul",
+        "attributes": {
+          "name": "Yael Patel",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_teyeox23",
+        "attributes": {
+          "name": "Jamie Zimmer",
+          "Role": "Guest",
+          "First Language": "Polish",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_gbo7i42y",
+        "attributes": {
+          "name": "Gale Clark",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_c4lbda57",
+        "attributes": {
+          "name": "Morgan Clark",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_swcjhs7t",
+        "attributes": {
+          "name": "Charlie Xu",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_l2hpx5h9",
+        "attributes": {
+          "name": "Winter Clark",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_i1h9bxf2",
+        "attributes": {
+          "name": "Kendall Thompson",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_kp6o5w7j",
+        "attributes": {
+          "name": "Noel Fischer",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_gnh7ybqo",
+        "attributes": {
+          "name": "Indigo Zimmer",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_lunze2nn",
+        "attributes": {
+          "name": "Cameron Lane",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_jbte68im",
+        "attributes": {
+          "name": "Robin Xu",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_dc9l2u61",
+        "attributes": {
+          "name": "Uma Diaz",
+          "Role": "Guest",
+          "First Language": "Italian",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_84p3tw8a",
+        "attributes": {
+          "name": "Reese Xu",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_1dobwddu",
+        "attributes": {
+          "name": "Wren Zimmer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_w4lb6tce",
+        "attributes": {
+          "name": "Dana Foster",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_ax3eq0lo",
+        "attributes": {
+          "name": "Jules Rossi",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_9eldps1v",
+        "attributes": {
+          "name": "Kai Carter",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "#N/A",
+          "Arrives on Time for Shopping": "#N/A"
+        }
+      },
+      {
+        "id": "person_7p9ibvex",
+        "attributes": {
+          "name": "Blake Underwood",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_1ofsufbs",
+        "attributes": {
+          "name": "Quinn Thompson",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_yc9nn8i7",
+        "attributes": {
+          "name": "Micah Zimmer",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_8twb13h9",
+        "attributes": {
+          "name": "Taylor Wong",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_65pdncbk",
+        "attributes": {
+          "name": "Finley Singh",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_kewfj185",
+        "attributes": {
+          "name": "Toby Yamada",
+          "Role": "Skipper",
+          "First Language": "German",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_agoq79kr",
+        "attributes": {
+          "name": "Reese Ellis",
+          "Role": "Organiser",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_sccdohpg",
+        "attributes": {
+          "name": "Harper Olsen",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_yddj78eq",
+        "attributes": {
+          "name": "Parker Quincy",
+          "Role": "Skipper",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "yes",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_wx7zya9b",
+        "attributes": {
+          "name": "Sky Quincy",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_tlm3396p",
+        "attributes": {
+          "name": "Blake Kim",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_wd8una2d",
+        "attributes": {
+          "name": "Gale Fischer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_m278frhl",
+        "attributes": {
+          "name": "Avery Nolan",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_tuveia3l",
+        "attributes": {
+          "name": "Shawn Reynolds",
+          "Role": "Guest",
+          "First Language": "Italian",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_p529cnp4",
+        "attributes": {
+          "name": "Toby Hughes",
+          "Role": "Guest",
+          "First Language": "Polish",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_ynvgsdyg",
+        "attributes": {
+          "name": "Hayden Wong",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_mt7gquug",
+        "attributes": {
+          "name": "Elliot Thompson",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_v2k7jfi9",
+        "attributes": {
+          "name": "Sage Iverson",
+          "Role": "Guest",
+          "First Language": "Italian",
+          "Gender": "female",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_ydpf3jop",
+        "attributes": {
+          "name": "Nico Evans",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_h0exui26",
+        "attributes": {
+          "name": "Zion Nolan",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_zzal9avu",
+        "attributes": {
+          "name": "Gale Lopez",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_jbnv64ht",
+        "attributes": {
+          "name": "Frankie Carter",
+          "Role": "Guest",
+          "First Language": "Polish",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_lz417o3u",
+        "attributes": {
+          "name": "Oakley Rossi",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_34rj8fkd",
+        "attributes": {
+          "name": "Robin Ortega",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_0p5rot5g",
+        "attributes": {
+          "name": "Lane Xu",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_erkcatba",
+        "attributes": {
+          "name": "Robin Tanaka",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_75yscmu0",
+        "attributes": {
+          "name": "Hayden Yamada",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_z289rib6",
+        "attributes": {
+          "name": "Indigo Wong",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_8wgceovl",
+        "attributes": {
+          "name": "Logan Ortega",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_jv3v5ght",
+        "attributes": {
+          "name": "Marin Brooks",
+          "Role": "Guest",
+          "First Language": "Italian",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_1kqqabqm",
+        "attributes": {
+          "name": "Emerson Iverson",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_xs5ve4s9",
+        "attributes": {
+          "name": "Noel Meyer",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_s63hrvv1",
+        "attributes": {
+          "name": "Marin Wong",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_rzuhlj2u",
+        "attributes": {
+          "name": "Kiran Scott",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_us78utlw",
+        "attributes": {
+          "name": "Toby Xu",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_zteqxzsj",
+        "attributes": {
+          "name": "Elliot Sawyer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_o3kjgpq6",
+        "attributes": {
+          "name": "Sage Adler",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_addwt7s0",
+        "attributes": {
+          "name": "Winter Ellis",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_yru8o0nm",
+        "attributes": {
+          "name": "Devin Hughes",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_9pva0co9",
+        "attributes": {
+          "name": "Quinn Young",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_nsjr29jj",
+        "attributes": {
+          "name": "Shawn Fischer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_h8lbgdml",
+        "attributes": {
+          "name": "Gray Reynolds",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_tlejqdt5",
+        "attributes": {
+          "name": "Rowan Zhang",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_1366e882",
+        "attributes": {
+          "name": "Oakley Novak",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_6cabvyr4",
+        "attributes": {
+          "name": "Dana Reynolds",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_160run93",
+        "attributes": {
+          "name": "Drew Young",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_6pu73zt8",
+        "attributes": {
+          "name": "Logan Fischer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_t223mvfm",
+        "attributes": {
+          "name": "Toby Ellis",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_q6huqsqw",
+        "attributes": {
+          "name": "Blake Hughes",
+          "Role": "Guest",
+          "First Language": "English",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_0dukjar2",
+        "attributes": {
+          "name": "Oakley Fischer",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_v2k2i7ck",
+        "attributes": {
+          "name": "Bailey Zimmer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_yejkg4cz",
+        "attributes": {
+          "name": "Winter Tanaka",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_5ynhd54c",
+        "attributes": {
+          "name": "Leslie Ito",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_l9sxgcrh",
+        "attributes": {
+          "name": "Uma Meyer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_469pdmus",
+        "attributes": {
+          "name": "Sage Jordan",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_qke10vac",
+        "attributes": {
+          "name": "Kiran Underwood",
+          "Role": "Guest",
+          "First Language": "Dutch",
+          "Gender": "female",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_9qlg95am",
+        "attributes": {
+          "name": "Gray Sawyer",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_aq0ulqiu",
+        "attributes": {
+          "name": "Gray Zhang",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "1",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_a4166f5d",
+        "attributes": {
+          "name": "Sky Tanaka",
+          "Role": "Guest",
+          "First Language": "English",
+          "Gender": "female",
+          "Sailing Experience": "5",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_yfr5dsr9",
+        "attributes": {
+          "name": "Kiran Ellis",
+          "Role": "Guest",
+          "First Language": "French",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_4up6h5zb",
+        "attributes": {
+          "name": "Val Young",
+          "Role": "Guest",
+          "First Language": "Spanish",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_fulisf1o",
+        "attributes": {
+          "name": "Indigo Garcia",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_l5dmhcj0",
+        "attributes": {
+          "name": "Oakley Young",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_1ixlzvga",
+        "attributes": {
+          "name": "Bailey Hughes",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_ka7egiod",
+        "attributes": {
+          "name": "Jordan Scott",
+          "Role": "Guest",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_l8nuxufw",
+        "attributes": {
+          "name": "Oakley Zhang",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "2",
+          "Arrives on Time for Shopping": "yes"
+        }
+      },
+      {
+        "id": "person_z758mcd2",
+        "attributes": {
+          "name": "Winter Nolan",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_ku2d6qo4",
+        "attributes": {
+          "name": "Leslie Brooks",
+          "Role": "Guest",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no"
+        }
+      },
+      {
+        "id": "person_ys0bm79e",
+        "attributes": {
+          "name": "Uma Tanaka",
+          "Role": "Skipper",
+          "First Language": "German",
+          "Gender": "female",
+          "Sailing Experience": "4",
+          "Arrives on Time for Shopping": "no",
+          "Has VHF License": "Yes"
+        }
+      },
+      {
+        "id": "person_5wqnmjf3",
+        "attributes": {
+          "name": "Alex Tanaka",
+          "Role": "Guest",
+          "First Language": "English",
+          "Gender": "female",
+          "Sailing Experience": "3",
+          "Arrives on Time for Shopping": "no"
+        },
+        "session_indices": [
+          0,
+          3,
+          4
+        ]
+      },
+      {
+        "id": "person_r95i7qcu",
+        "attributes": {
+          "name": "Val Zimmer",
+          "Role": "Skipper",
+          "First Language": "French",
+          "Gender": "male",
+          "Sailing Experience": "5",
+          "Has VHF License": "Yes"
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "Flambuoyant",
+        "capacity": 11
+      },
+      {
+        "id": "Funsinkable",
+        "capacity": 11
+      },
+      {
+        "id": "Foamidable",
+        "capacity": 11
+      },
+      {
+        "id": "Failboat",
+        "capacity": 11
+      },
+      {
+        "id": "Freakwentsea",
+        "capacity": 11
+      },
+      {
+        "id": "Funderstorm",
+        "capacity": 11
+      },
+      {
+        "id": "Flawsome",
+        "capacity": 11
+      },
+      {
+        "id": "Ferrytale",
+        "capacity": 11
+      },
+      {
+        "id": "Fishosofical",
+        "capacity": 11
+      },
+      {
+        "id": "Fantasea",
+        "capacity": 11
+      },
+      {
+        "id": "Fenderella",
+        "capacity": 11
+      }
+    ],
+    "session_count": 5
+  },
+  "objectives": [
+    {
+      "type": "maximize_unique_contacts",
+      "weight": 1
+    },
+    {
+      "type": "avoid_repeats",
+      "max_encounters_per_pair": 1,
+      "penalty_curve": "squared",
+      "weight": 1
+    }
+  ],
+  "constraints": [
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_aphix38e"
+      ],
+      "group_id": "Failboat"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_k6896t8m"
+      ],
+      "group_id": "Fishosofical"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_epqigqvk"
+      ],
+      "group_id": "Foamidable"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_yddj78eq"
+      ],
+      "group_id": "Ferrytale"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_agoq79kr"
+      ],
+      "group_id": "Funsinkable"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_r95i7qcu"
+      ],
+      "group_id": "Freakwentsea"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_lknh631c"
+      ],
+      "group_id": "Funderstorm"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_q41p2hyz"
+      ],
+      "group_id": "Flawsome"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_ys0bm79e"
+      ],
+      "group_id": "Fenderella"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_kewfj185"
+      ],
+      "group_id": "Fantasea"
+    },
+    {
+      "type": "fixed_placement",
+      "person_ids": [
+        "person_la1a2kx5"
+      ],
+      "group_id": "Flambuoyant"
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yddj78eq",
+        "person_c4lbda57"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yddj78eq",
+        "person_yru8o0nm"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_p529cnp4",
+        "person_teyeox23"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_r95i7qcu",
+        "person_xf66mzvc"
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aphix38e",
+        "person_jbte68im"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_q6huqsqw"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_yrcfxd7s"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_sccdohpg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_z289rib6",
+        "person_tlm3396p"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_z289rib6",
+        "person_jbnv64ht"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_uc10ubkg",
+        "person_gnh7ybqo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_uc10ubkg",
+        "person_sfvtj0gp"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_uc10ubkg",
+        "person_kp6o5w7j"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_t4mxdht1",
+        "person_wd8una2d"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_swcjhs7t",
+        "person_nhjr3mzo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_tyt98xbj",
+        "person_epqigqvk"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_xs5ve4s9",
+        "person_nhjr3mzo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_lunze2nn",
+        "person_4j31536m"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yfr5dsr9",
+        "person_wd8una2d"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yfr5dsr9",
+        "person_6pu73zt8"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_0wd3l70n",
+        "person_z289rib6"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_0wd3l70n",
+        "person_i1h9bxf2"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yru8o0nm",
+        "person_s63hrvv1"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_34rj8fkd",
+        "person_wx7zya9b"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_i1h9bxf2",
+        "person_m278frhl"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l2hpx5h9",
+        "person_e7eyno7f"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_5ynhd54c",
+        "person_jv3v5ght"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_5ynhd54c",
+        "person_la1a2kx5"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_5ynhd54c",
+        "person_addwt7s0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_0p5rot5g",
+        "person_lz417o3u"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_160run93",
+        "person_jv3v5ght"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_160run93",
+        "person_v2k7jfi9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_ynvgsdyg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_ywfp8avz"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_mt7gquug"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_75yscmu0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_e6pjrzbl"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_m2kaj648"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_jv3v5ght"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_c4lbda57"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_qke10vac",
+        "person_h8lbgdml"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_6pu73zt8",
+        "person_nsjr29jj"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_tlm3396p",
+        "person_ynvgsdyg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_tlm3396p",
+        "person_jbnv64ht"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h0exui26",
+        "person_wd8una2d"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h0exui26",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h0exui26",
+        "person_rzuhlj2u"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h0exui26",
+        "person_nsjr29jj"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h0exui26",
+        "person_9pva0co9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e6pjrzbl",
+        "person_us78utlw"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e6pjrzbl",
+        "person_lz417o3u"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e6pjrzbl",
+        "person_m2kaj648"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_xf66mzvc",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_xf66mzvc",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_xf66mzvc",
+        "person_c4lbda57"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1dobwddu",
+        "person_9cu1c173"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_7p9ibvex",
+        "person_yc9nn8i7"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_epqigqvk",
+        "person_l9sxgcrh"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_epqigqvk",
+        "person_469pdmus"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_epqigqvk",
+        "person_8twb13h9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_epqigqvk",
+        "person_1ixlzvga"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_wd8una2d"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_rzuhlj2u"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_9pva0co9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_k6896t8m",
+        "person_sfvtj0gp"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_k6896t8m",
+        "person_l9sxgcrh"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yc9nn8i7",
+        "person_la1a2kx5"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yc9nn8i7",
+        "person_uksidonh"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yc9nn8i7",
+        "person_u9hb2rwd"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_z758mcd2",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_o3kjgpq6",
+        "person_tlm3396p"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_o3kjgpq6",
+        "person_ydpf3jop"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_o3kjgpq6",
+        "person_sccdohpg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_addwt7s0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_mt7gquug"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_xs5ve4s9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_nhjr3mzo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_1366e882"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_w4lb6tce",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_u9hb2rwd",
+        "person_agoq79kr"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_u9hb2rwd",
+        "person_zzal9avu"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_addwt7s0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_wx7zya9b"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_mt7gquug"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_6cabvyr4"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_yc9nn8i7"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_7p9ibvex"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_tuveia3l"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_0dukjar2"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_h0exui26"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_wd8una2d"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_gnh7ybqo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_kp6o5w7j"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_uc10ubkg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_sfvtj0gp"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_tlejqdt5"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e7eyno7f",
+        "person_yejkg4cz"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e7eyno7f",
+        "person_ywfp8avz"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e7eyno7f",
+        "person_mt7gquug"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_e7eyno7f",
+        "person_wx7zya9b"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yrcfxd7s",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_yddj78eq",
+        "person_s63hrvv1"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ynvgsdyg",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ynvgsdyg",
+        "person_xs5ve4s9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_la1a2kx5",
+        "person_uksidonh"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_1kqqabqm"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_c4lbda57"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_l5dmhcj0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_kewfj185"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_us78utlw",
+        "person_0p5rot5g"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_6cabvyr4",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_6cabvyr4",
+        "person_8wgceovl"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_t223mvfm",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_t223mvfm",
+        "person_6cabvyr4"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_uksidonh",
+        "person_l2hpx5h9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ywfp8avz",
+        "person_8wgceovl"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_8wgceovl",
+        "person_jv3v5ght"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ydpf3jop",
+        "person_ynvgsdyg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ydpf3jop",
+        "person_xs5ve4s9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_ydpf3jop",
+        "person_tlm3396p"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_s63hrvv1"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_e6pjrzbl"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_w4lb6tce"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_yrcfxd7s"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_sfvtj0gp"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_k6896t8m"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_ydpf3jop"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_jbnv64ht"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_lunze2nn"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_aphix38e"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_epqigqvk"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_a4166f5d",
+        "person_tlm3396p"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_jbekvapv",
+        "person_m2kaj648"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_jbekvapv",
+        "person_9cu1c173"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_4up6h5zb",
+        "person_sfvtj0gp"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_4up6h5zb",
+        "person_yfr5dsr9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_4up6h5zb",
+        "person_kp6o5w7j"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1ofsufbs",
+        "person_aphix38e"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_9qlg95am",
+        "person_z758mcd2"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_9qlg95am",
+        "person_tlm3396p"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_9qlg95am",
+        "person_o3kjgpq6"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_9qlg95am",
+        "person_ydpf3jop"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_fulisf1o",
+        "person_yrcfxd7s"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_fulisf1o",
+        "person_w4lb6tce"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_yddj78eq"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_sccdohpg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_t223mvfm"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_agoq79kr"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_1kqqabqm"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_8twb13h9",
+        "person_1ixlzvga"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_8twb13h9",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_8twb13h9",
+        "person_w4lb6tce"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1ixlzvga",
+        "person_l9sxgcrh"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1ixlzvga",
+        "person_sccdohpg"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1ixlzvga",
+        "person_5e3t3dui"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_1ixlzvga",
+        "person_w4lb6tce"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_65pdncbk",
+        "person_z0yv6rld"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_v2k2i7ck",
+        "person_agoq79kr"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_v2k2i7ck",
+        "person_gbo7i42y"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_v2k2i7ck",
+        "person_ax3eq0lo"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l8nuxufw",
+        "person_8twb13h9"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l8nuxufw",
+        "person_1ixlzvga"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_l8nuxufw",
+        "person_l5dmhcj0"
+      ],
+      "session_indices": [
+        0
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "prefer_together",
+      "person_ids": [
+        "person_5wqnmjf3",
+        "person_k6896t8m"
+      ],
+      "session_indices": [
+        2,
+        3,
+        4
+      ],
+      "penalty_weight": 5
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_yfr5dsr9",
+        "person_6pu73zt8"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_5wqnmjf3",
+        "person_k6896t8m"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_l5dmhcj0",
+        "person_1kqqabqm"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_yddj78eq",
+        "person_c4lbda57"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_p529cnp4",
+        "person_teyeox23"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_r95i7qcu",
+        "person_xf66mzvc"
+      ],
+      "session_indices": [
+        0,
+        2,
+        4,
+        1,
+        3
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_q6huqsqw"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_wx7zya9b",
+        "person_34rj8fkd"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_lunze2nn",
+        "person_4j31536m"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_yru8o0nm",
+        "person_s63hrvv1"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_m278frhl",
+        "person_i1h9bxf2"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_l2hpx5h9",
+        "person_e7eyno7f"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_5ynhd54c",
+        "person_jv3v5ght"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_nhjr3mzo",
+        "person_xs5ve4s9"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_469pdmus",
+        "person_l9sxgcrh"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_160run93",
+        "person_v2k7jfi9"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_zteqxzsj"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_tlm3396p",
+        "person_jbnv64ht"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_9pva0co9",
+        "person_wd8una2d",
+        "person_rzuhlj2u"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_7p9ibvex",
+        "person_yc9nn8i7"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_9cu1c173",
+        "person_1dobwddu"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_u9hb2rwd",
+        "person_zzal9avu"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_1366e882",
+        "person_addwt7s0"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_lz417o3u",
+        "person_0p5rot5g"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_5e3t3dui",
+        "person_w4lb6tce"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_aq0ulqiu",
+        "person_0dukjar2"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_tuveia3l",
+        "person_tlejqdt5"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_yejkg4cz",
+        "person_mt7gquug"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_v2k2i7ck",
+        "person_agoq79kr"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_ynvgsdyg",
+        "person_ydpf3jop"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_t223mvfm",
+        "person_6cabvyr4"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_uksidonh",
+        "person_la1a2kx5"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_ywfp8avz",
+        "person_8wgceovl"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_9qlg95am",
+        "person_o3kjgpq6"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_8twb13h9",
+        "person_1ixlzvga"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_65pdncbk",
+        "person_z0yv6rld"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_gnh7ybqo",
+        "person_kp6o5w7j"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_epqigqvk",
+        "person_tyt98xbj"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_sfvtj0gp",
+        "person_uc10ubkg"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_ku2d6qo4",
+        "person_ys0bm79e"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_erkcatba",
+        "person_q41p2hyz"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_ax3eq0lo",
+        "person_84p3tw8a"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_tyt98xbj",
+        "person_uc10ubkg"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_0wd3l70n",
+        "person_qke10vac"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_tlm3396p",
+        "person_dc9l2u61"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_sfvtj0gp",
+        "person_xf66mzvc"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_nsjr29jj",
+        "person_s7qtd8ul"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_zzal9avu",
+        "person_r95i7qcu"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_65pdncbk",
+        "person_75yscmu0"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_l8nuxufw",
+        "person_tyt98xbj"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "prefer_apart",
+      "person_ids": [
+        "person_m2kaj648",
+        "person_wx7zya9b"
+      ],
+      "penalty_weight": 10
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_0wd3l70n",
+        "person_i1h9bxf2"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_swcjhs7t",
+        "person_nhjr3mzo"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_sccdohpg",
+        "person_s63hrvv1"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_h8lbgdml",
+        "person_xs5ve4s9"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_5e3t3dui",
+        "person_sccdohpg"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_jbekvapv",
+        "person_9cu1c173"
+      ],
+      "session_indices": [
+        0
+      ]
+    },
+    {
+      "type": "keep_together",
+      "person_ids": [
+        "person_lknh631c",
+        "person_yrcfxd7s"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Gender",
+      "target_counts": {
+        "female": 5,
+        "male": 4
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 3,
+      "group_ids": [
+        "Flambuoyant",
+        "Funsinkable",
+        "Foamidable",
+        "Failboat",
+        "Freakwentsea",
+        "Funderstorm",
+        "Flawsome",
+        "Ferrytale",
+        "Fishosofical",
+        "Fantasea",
+        "Fenderella"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Sailing Experience",
+      "target_counts": {
+        "5": 2
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 100,
+      "group_ids": [
+        "Ferrytale"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Sailing Experience",
+      "target_counts": {
+        "4": 3,
+        "5": 2
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 100,
+      "group_ids": [
+        "Flawsome",
+        "Flambuoyant"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Sailing Experience",
+      "target_counts": {
+        "4": 3,
+        "5": 1
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 100,
+      "group_ids": [
+        "Fenderella"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Arrives on Time for Shopping",
+      "target_counts": {
+        "yes": 3
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 10,
+      "session_indices": [
+        0
+      ],
+      "group_ids": [
+        "Flambuoyant",
+        "Funsinkable",
+        "Foamidable",
+        "Failboat",
+        "Freakwentsea",
+        "Funderstorm",
+        "Flawsome",
+        "Ferrytale",
+        "Fishosofical",
+        "Fantasea",
+        "Fenderella"
+      ]
+    },
+    {
+      "type": "attribute_balance",
+      "attribute_key": "Has VHF License",
+      "target_counts": {
+        "Yes": 1
+      },
+      "target_mode": "at_least",
+      "penalty_weight": 1000,
+      "group_ids": [
+        "Flambuoyant",
+        "Funsinkable",
+        "Foamidable",
+        "Failboat",
+        "Freakwentsea",
+        "Funderstorm",
+        "Flawsome",
+        "Ferrytale",
+        "Fishosofical",
+        "Fantasea",
+        "Fenderella"
+      ]
+    }
+  ]
+}

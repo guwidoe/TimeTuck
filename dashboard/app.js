@@ -111,6 +111,7 @@ function render() {
     );
     renderCompletion();
     renderNativeReadiness();
+    renderAdditionalTests();
     renderDetail();
     renderBenchmarks();
     renderBenchmarks("solver");
@@ -133,6 +134,72 @@ function render() {
         `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
     $("content").hidden = false;
     restoreFocus(focused);
+}
+function renderAdditionalTests() {
+    const origins = report.test_origins;
+    const rows = $("test-origin-rows"), tests = $("real_world-test-list");
+    const timingRows = $("real_world-benchmark-rows");
+    rows.replaceChildren(); tests.replaceChildren(); timingRows.replaceChildren();
+    $("real_world-table-wrap").hidden = true;
+    const labels = {upstream_adapted: "Upstream Timefold adaptations", native_regression: "Additional native regressions", external_application: "External application tests"};
+    for (const category of origins?.categories || []) {
+        const row = node("tr"), counts = category.counts || {};
+        row.append(node("th", "", labels[category.id] || category.label), node("td", "", `${n(counts.passed || 0)} / ${n(counts.total || 0)}`));
+        row.firstChild.scope = "row";
+        row.append(node("td", counts.failed ? "completion-open" : "", `${n(counts.failed || 0)} failed · ${n(counts.unverified || 0)} unverified`));
+        rows.append(row);
+    }
+    $("test-origin-note").textContent = origins
+        ? "Counts are recorded native test identities, not expanded JUnit invocations. Only mapped upstream adaptations contribute to Community method coverage. Additional native checks may reuse attributed fixtures."
+        : "Test-origin accounting is unavailable. Regenerate the verification report.";
+    const suite = origins?.external_suites?.find(item => item.id === "real_world");
+    $("real_world-tests").textContent = suite
+        ? `${n(suite.counts.passed)} / ${n(suite.counts.total)} recorded application checks pass · ${n(suite.missing_test_count)} expected checks unverified · fixtures ${suite.fixture_status}${fresh ? "" : " · last saved verification"}`
+        : "Application test verification is unavailable.";
+    for (const test of suite?.expected_tests || []) {
+        const item = node("li");
+        item.append(node("code", "", test.local_test), node("span", test.status === "passed" ? "completion-met" : "completion-open", names[test.status] || test.status));
+        item.title = test.local_path;
+        tests.append(item);
+    }
+    $("real_world-origin").textContent = suite
+        ? `Origin: RealWorld public scenarios${suite.source_repository?.commit ? ` at ${suite.source_repository.commit.slice(0, 12)}` : ""} and its application model. Fixture validation: ${suite.fixture_status}. Upstream method credit: 0. Exact source identities and hashes are retained in the report.`
+        : "No declared application origin was loaded.";
+    const benchmark = report.application_benchmarks?.real_world;
+    const status = $("real_world-benchmark-status"), note = $("real_world-benchmark-note");
+    status.className = "application-status";
+    if (!benchmark || benchmark.status === "not_measured") {
+        status.textContent = "Application performance has not been measured yet.";
+        note.textContent = "The original benchmark results do not establish parity for these RealWorld workloads.";
+        return;
+    }
+    if (benchmark.status === "invalid") {
+        status.textContent = "Application benchmark report is invalid.";
+        status.classList.add("completion-open");
+        note.textContent = benchmark.error || "Regenerate the application benchmark report.";
+        return;
+    }
+    const summaries = Array.isArray(benchmark.summaries) ? benchmark.summaries : [];
+    const measured = summaries.filter(item => Number.isFinite(item.rust_over_java_streams_evaluations_per_second));
+    const met = measured.filter(item => item.throughput_target_met === true).length;
+    const current = benchmark.status === "current" && fresh;
+    status.textContent = `${current ? "Current" : "Previous"} application result · ${met} / ${measured.length} measured workloads meet Java streams throughput${benchmark.qualified ? " · full comparison protocol" : " · diagnostic or incomplete protocol"}`;
+    if (!current || met < measured.length || !benchmark.valid) status.classList.add("completion-open");
+    const speed = runtime => Number.isFinite(runtime?.median_evaluations_per_second) ? n(Math.round(runtime.median_evaluations_per_second)) : "—";
+    for (const summary of summaries) {
+        const runtimes = summary.runtimes || {}, row = node("tr");
+        const name = {"social-golfer-32x8x10-v1": "Golfer · 32 people, 10 sessions", "sailing-trip-v1": "Sailing · 115 people, 5 sessions"}[summary.case] || summary.case;
+        const ratio = summary.rust_over_java_streams_evaluations_per_second;
+        row.append(node("th", "", name), node("td", "", speed(runtimes["rust-streams"])), node("td", "", speed(runtimes["java-streams"])), node("td", "", speed(runtimes["java-incremental"])), node("td", summary.throughput_target_met ? "completion-met" : "completion-open", Number.isFinite(ratio) ? `${ratio.toFixed(2)}×` : "—"));
+        row.firstChild.scope = "row";
+        const rust = runtimes["rust-streams"], java = runtimes["java-streams"];
+        if (rust && java) row.firstChild.append(node("small", "application-quality", `Feasible solves: Rust ${rust.feasible_runs} / ${rust.runs} · Java ${java.feasible_runs} / ${java.runs}`));
+        timingRows.append(row);
+    }
+    $("real_world-table-wrap").hidden = summaries.length === 0;
+    const config = benchmark.configuration || {};
+    const seeds = Array.isArray(config.seeds) ? config.seeds.join(", ") : "see report";
+    note.textContent = `${benchmark.valid ? "Independent score checks passed." : "Some score or runtime checks failed; inspect raw results."} Seeds ${seeds}; ${config.seconds ?? "see report"} seconds per run. Measured ${timestamp(benchmark.generated_at)}. Java incremental scoring is a separate hand-written comparator; throughput does not imply equal solution quality.`;
 }
 function renderNativeReadiness() {
     const model = report.native_readiness;
@@ -728,6 +795,7 @@ async function reload() {
         } else {
             renderCompletion();
             renderNativeReadiness();
+            renderAdditionalTests();
             renderBenchmarks();
             renderBenchmarks("solver");
             renderBenchmarks("mixed");

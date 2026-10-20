@@ -60,7 +60,7 @@
         },
         {
           "path": "crates/solver/Cargo.toml",
-          "sha256": "f37b4862337c4d66ba98a7b0fa607378715565d56ba134a51a2dc342e70ef680"
+          "sha256": "df8eff35ee2626f80073f3773422b35aa4a46888eadc04eacf6cc31c511c2b6c"
         },
         {
           "path": "compat/upstream.json",
@@ -661,8 +661,8 @@
       ],
       "limits": "Source-bound desktop/mobile rendering and original observations; source-method counts are not runtime invocation or native requirement counts.",
       "browser_evidence": {
-        "path": "compat/observations/scope-classification-dashboard.json",
-        "sha256": "e6ecad7d2f9e2f734e6134843d566383340a9ddb79ebd5169c6ef5dc931c3f05"
+        "path": "compat/observations/real_world-dashboard.json",
+        "sha256": "f55fdc88a9488c372483b9c2dec52e81d666813db1c9066b5eea86a6c0a47f0a"
       }
     }
   ],

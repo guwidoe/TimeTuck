@@ -1,0 +1,42 @@
+{
+  "distribution": "public",
+  "id": "public.social-golfer-32x8x10.v1",
+  "lineage": {
+    "parent_ids": [],
+    "role": "canonical"
+  },
+  "origin": {
+    "kind": "public_question",
+    "notes": "One canonical domain question shared by benchmark policy and core test expectations.",
+    "sources": [
+      {
+        "json_pointer": "/scenario_id",
+        "path": "backend/benchmarking/cases/stretch/social_golfer_32x8x10.json",
+        "problem_sha256": "sha256:37322f59d69f72dab0bb969a60dc1800b9e400781a014d7ad1dd30d63365d34a"
+      },
+      {
+        "json_pointer": "/scenario_id",
+        "path": "backend/core/tests/test_cases/social_golfer_problem.json",
+        "problem_sha256": "sha256:37322f59d69f72dab0bb969a60dc1800b9e400781a014d7ad1dd30d63365d34a"
+      }
+    ]
+  },
+  "privacy": {
+    "anonymization_status": "not_required",
+    "classification": "synthetic",
+    "public_distribution_allowed": true
+  },
+  "problem_path": "problem.json",
+  "problem_sha256": "sha256:37322f59d69f72dab0bb969a60dc1800b9e400781a014d7ad1dd30d63365d34a",
+  "revision": 1,
+  "schema_version": "v1",
+  "status": "approved",
+  "summary": "Thirty-two participants rotate through eight groups for ten sessions with unique contacts as the canonical objective.",
+  "tags": [
+    "combinatorial-design",
+    "repeat-minimization",
+    "social-golfer",
+    "stretch"
+  ],
+  "title": "Social Golfer 32×8×10"
+}

@@ -28,6 +28,13 @@ native contracts remain distinct from raw Java agreement and original method cou
 A separate strict comparison index retains its explicit feature, behavior, performance
 and freshness weights. Neither view estimates remaining engineering effort or time.
 
+
+Additional application regressions are tracked separately by origin. The RealWorld
+public scenarios have their own correctness checks and same-machine Java/Rust
+throughput comparisons. They add no upstream method credit and do not change the
+original 109 timing targets. Their performance gaps remain visible even when the
+original native readiness targets are met.
+
 ## Capabilities and Constraints
 
 Never equate source-file counts with tests or adapted methods with all JUnit

@@ -20,6 +20,8 @@ Enterprise code, artifacts, and features are not an authorized source.
 - Record each copied/adapted test or fixture in `compat/provenance.json` with its
   upstream commit, path, test identity, local path, license, and modifications.
   Preserve applicable notices; a translation is not automatically original work.
+- Record non-Timefold application tests and fixtures separately in
+  `compat/additional-tests.json`; they earn no upstream method credit.
 - Never claim compatibility from a passing scaffold, skipped tests, or an empty
   suite. Track implemented, pending, and intentionally excluded cases separately.
 - Prefer deterministic correctness cases. Stochastic solver tests need explicit

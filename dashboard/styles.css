@@ -61,7 +61,8 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+.application-table-wrap:focus-visible {
     outline: 2px solid var(--pass);
     outline-offset: 4px;
 }
@@ -1085,3 +1086,29 @@ h3,
     .native-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
 }
 @media (max-width: 420px) { .native-overview { padding: 18px 16px; } }
+
+.additional-tests { margin: 34px 0 42px; }
+.additional-tests > h3 { margin: 28px 0 8px; font-size: 19px; }
+.application-intro, .application-status { font-size: 14px; max-width: 75ch; margin: 10px 0; }
+.application-table-wrap { overflow-x: auto; margin: 14px 0; }
+.application-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; font-variant-numeric: tabular-nums; }
+.application-table caption { text-align: left; color: var(--muted); padding-bottom: 10px; }
+.application-table th, .application-table td { border-bottom: 1px solid var(--line); padding: 12px 16px 12px 0; vertical-align: top; }
+.application-table thead th { color: var(--muted); font-weight: 400; }
+.application-table tbody th { font-weight: 500; min-width: 160px; }
+.application-table td { white-space: nowrap; }
+.application-table th:last-child, .application-table td:last-child { padding-right: 0; }
+.application-details { margin-top: 16px; font-size: 13px; max-width: 100%; }
+.application-details summary { cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+.application-details ul { list-style: none; padding: 0; margin: 16px 0; }
+.application-details li { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; border-top: 1px solid var(--line); padding: 10px 0; }
+.application-details code { overflow-wrap: anywhere; }
+.application-details > p { max-width: 75ch; margin-top: 12px; color: var(--muted); }
+@media (max-width: 760px) {
+    .application-table { font-size: 12px; }
+    .application-table th, .application-table td { padding-right: 14px; }
+    .origin-table tbody th { min-width: 125px; }
+    .origin-table td:last-child { white-space: normal; min-width: 115px; }
+}
+
+.application-quality { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; font-weight: 400; }

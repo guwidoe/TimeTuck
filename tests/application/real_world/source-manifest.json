@@ -1,0 +1,30 @@
+{
+  "kind": "application-origin",
+  "upstream_method_credit": 0,
+  "source_session": "application-source-session",
+  "source_path": "private-source/application/native-application/src/main.rs",
+  "source_sha256": "a659d2e1392925edb2b2f07e0ba6ac27818c2b8019e0568d0de4539ff9694401",
+  "settings_source_sha256": "bec3f3ddaaed63d6a896c60a2b9fca0b1cbf676c9790fb5bd440b53f3ce6b93b",
+  "fixture_origin": "private-source/application/scenarios/cases/public",
+  "fixtures": {
+    "social-golfer-32x8x10-v1": {
+      "manifest.json": "c4e99d2673a1830ffaada53c7d9562f0ee69f2b1ae2a8276c9de2441d33885ab",
+      "problem.json": "79eca4c3b64232fcde48b3a19ff33316b29be6aa4f7482d91fa602b0572ff453"
+    },
+    "sailing-trip-v1": {
+      "manifest.json": "35f3774be3f586221b6515b09c2ffc2f8c0f307da3ea4e6042043d0ace21143a",
+      "problem.json": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff"
+    }
+  },
+  "modifications": [
+    "Split shared model from benchmark CLI and expose native test hooks.",
+    "Remove pprof and diagnostic environment branches NO_CONTACTS, BUILTIN, PROF.",
+    "Fix benchmark acceptance to original selected spike settings SA=5 and COOL=40000.",
+    "Add deterministic evaluation-ceiling tests, JSON summary, actual initial schedule and bundled original solver settings.",
+    "Keep capacity, contact self-join/group counts, pair constraints, balance scoring, initialization and move generation semantics."
+  ],
+  "excluded_sources": [
+    "Restricted internal sailing-trip parent fixture",
+    "Timefold production source"
+  ]
+}

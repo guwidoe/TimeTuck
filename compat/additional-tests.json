@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "suites": [
+    {
+      "id": "real_world",
+      "label": "RealWorld application regressions",
+      "origin": "external_application",
+      "upstream_method_credit": 0,
+      "native_test_paths": [
+        "crates/solver/tests/real_world_application_regression.rs"
+      ],
+      "expected_tests": [
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "social_golfer_full_score_and_rollback"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "sailing_full_score_and_rollback"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "social_golfer_bounded_search"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "sailing_bounded_search"
+        }
+      ],
+      "benchmark_job": "real_world-performance",
+      "source_repository": {
+        "path": "private-source/application",
+        "commit": "b5ab1b2121e1a4a0ca91eb7cc00e6e6b6acc3738",
+        "scope": "Only the two exact public-distribution scenario snapshots listed below."
+      },
+      "application_model_provenance": {
+        "kind": "copied_and_adapted_application_spike",
+        "source_session": "application-source-session",
+        "source_path": "private-source/application/native-application/src/main.rs",
+        "source_sha256": "a659d2e1392925edb2b2f07e0ba6ac27818c2b8019e0568d0de4539ff9694401",
+        "settings_source_sha256": "bec3f3ddaaed63d6a896c60a2b9fca0b1cbf676c9790fb5bd440b53f3ce6b93b",
+        "local_provenance": "tests/application/real_world/source-manifest.json",
+        "description": "Rust and Java application code originate in the Claude RealWorld application spike; they are not Timefold production implementation. Native regression adaptations earn zero upstream-method credit.",
+        "java_application_source": {
+          "source_path": "private-source/application/reference-application/ApplicationBenchmark.java",
+          "source_sha256": "09d120d2b044058824a11b03f022ba53366c9c4d52cd0e5c9e66f619c7f694ae",
+          "local_path": "benchmarks/real_world/ApplicationBenchmark.java",
+          "kind": "copied_and_adapted_application_code"
+        },
+        "application_conversion_source": {
+          "source_path": "private-source/application/reference-application/prep.py",
+          "source_sha256": "b80703ea76becbe6108ca264bd9aff23494e8f1fcd1805ce11904e04687e8093",
+          "local_path": "benchmarks/real_world/prep.py",
+          "kind": "copied_and_adapted_application_code"
+        },
+        "benchmark_local_provenance": "benchmarks/real_world/origin.json"
+      },
+      "fixtures": [
+        {
+          "id": "social-golfer-32x8x10-v1",
+          "distribution": "public",
+          "snapshots": [
+            {
+              "role": "problem",
+              "source_path": "scenarios/cases/public/social-golfer-32x8x10-v1/problem.json",
+              "local_path": "tests/application/real_world/social-golfer-32x8x10-v1/problem.json",
+              "sha256": "79eca4c3b64232fcde48b3a19ff33316b29be6aa4f7482d91fa602b0572ff453"
+            },
+            {
+              "role": "original_manifest",
+              "source_path": "scenarios/cases/public/social-golfer-32x8x10-v1/manifest.json",
+              "local_path": "tests/application/real_world/social-golfer-32x8x10-v1/manifest.json",
+              "sha256": "c4e99d2673a1830ffaada53c7d9562f0ee69f2b1ae2a8276c9de2441d33885ab"
+            }
+          ]
+        },
+        {
+          "id": "sailing-trip-v1",
+          "distribution": "public",
+          "snapshots": [
+            {
+              "role": "problem",
+              "source_path": "scenarios/cases/public/sailing-trip-v1/problem.json",
+              "local_path": "tests/application/real_world/sailing-trip-v1/problem.json",
+              "sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff"
+            },
+            {
+              "role": "original_manifest",
+              "source_path": "scenarios/cases/public/sailing-trip-v1/manifest.json",
+              "local_path": "tests/application/real_world/sailing-trip-v1/manifest.json",
+              "sha256": "35f3774be3f586221b6515b09c2ffc2f8c0f307da3ea4e6042043d0ace21143a"
+            }
+          ]
+        }
+      ],
+      "scope_note": "Additional external application evidence, separate from the original Community source-method inventory and original 18 comparison jobs. Exact public manifest copies retain original attribution and distribution metadata. No private parent problem is copied or read. Raw file SHA-256 values below differ from any canonicalized problem hashes recorded inside the original manifests."
+    }
+  ]
+}

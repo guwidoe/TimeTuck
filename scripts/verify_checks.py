@@ -32,7 +32,9 @@ def main():
     if code: return code
     for path in sorted((ROOT / 'scripts').glob('test_*.py')):
         code, _ = run_job(path.stem, ['python3', '-m', 'unittest', 'discover', '-s', 'scripts', '-p', path.name],
-                         lambda path=path: python_inputs(str(path.relative_to(ROOT))) | {'compat/upstream.json'},
+                         lambda path=path: python_inputs(str(path.relative_to(ROOT))) | {'compat/upstream.json'} |
+                         (files('tests/application/real_world/**/*') | files('benchmarks/real_world/**/*')
+                          if path.name == 'test_real_world_reference.py' else set()),
                          kind='python', force=args.force)
         if code: return code
     return 0
