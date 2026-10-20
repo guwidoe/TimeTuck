@@ -3,8 +3,10 @@
 //! prefixes and sixteen final-coordinate cells, including usize::MAX. User
 //! key/value owners are shared, never cloned by snapshots or journal restores.
 mod directory;
+mod pool;
 use crate::SnapshotMap;
 use directory::Directory;
+use pool::Pools;
 #[cfg(test)]
 use std::collections::BTreeMap;
 use std::{
@@ -74,6 +76,7 @@ struct Paged<K, V> {
     spare: Vec<Frame<K, V>>,
     empty: Vec<PageKey>,
     cache: OnceLock<SnapshotMap<K, V>>,
+    pools: Box<Pools<K, V>>,
 }
 impl<K, V> Clone for Paged<K, V> {
     fn clone(&self) -> Self {
@@ -85,6 +88,7 @@ impl<K, V> Clone for Paged<K, V> {
             spare: Vec::new(),
             empty: Vec::new(),
             cache: OnceLock::new(),
+            pools: Box::new(self.pools.empty_clone()),
         }
     }
 }
@@ -116,13 +120,14 @@ struct PreparedPage<'a, K, V> {
     frames: &'a mut Vec<Frame<K, V>>,
     empty: &'a mut Vec<PageKey>,
     cache: &'a mut OnceLock<SnapshotMap<K, V>>,
+    pools: &'a mut Pools<K, V>,
 }
 impl<K, V> PreparedPage<'_, K, V> {
     fn insert(self, key: K, value: V) {
         self.cache.take();
         if self.found {
             drop(key);
-            let value = Arc::new(value);
+            let value = self.pools.value(value);
             let page = self
                 .entry
                 .or_insert_with(|| unreachable!("prepared occupied page"));
@@ -136,12 +141,12 @@ impl<K, V> PreparedPage<'_, K, V> {
             let undo = Undo::Value(self.pos, old);
             match self.frames.last_mut() {
                 Some(frame) => frame.push(undo),
-                None => drop(undo),
+                None => self.pools.retire_undo(undo),
             }
         } else {
             let row = Entry {
-                key: Arc::new(key),
-                value: Arc::new(value),
+                key: self.pools.key(key),
+                value: self.pools.value(value),
             };
             let page = self.entry.or_insert_with(|| Arc::new(Page::empty()));
             let page = Arc::make_mut(page);
@@ -167,7 +172,7 @@ impl<K, V> PreparedPage<'_, K, V> {
         let undo = Undo::Entry(self.pos, old);
         match self.frames.last_mut() {
             Some(frame) => frame.push(undo),
-            None => drop(undo),
+            None => self.pools.retire_undo(undo),
         }
         if empty {
             if self.frames.is_empty() {
@@ -239,8 +244,12 @@ impl<K, V> Paged<K, V> {
             spare: Vec::new(),
             empty: Vec::new(),
             cache: OnceLock::new(),
+            pools: Box::new(Pools::new()),
         }
     }
+    // Keep directory routing and cell inspection in the caller's numeric read
+    // path, avoiding a separate large Position argument/call on every lookup.
+    #[inline(always)]
     fn entry(&self, pos: Position) -> Option<&Entry<K, V>> {
         self.pages.get(&pos.page)?.cells[pos.cell].as_ref()
     }
@@ -302,6 +311,7 @@ impl<K, V> Paged<K, V> {
                 frames: &mut self.frames,
                 empty: &mut self.empty,
                 cache: &mut self.cache,
+                pools: &mut self.pools,
             },
             observed,
         )
@@ -309,6 +319,8 @@ impl<K, V> Paged<K, V> {
     fn record(&mut self, undo: Undo<K, V>) {
         if let Some(frame) = self.frames.last_mut() {
             frame.push(undo);
+        } else {
+            self.pools.retire_undo(undo);
         }
     }
     fn cleanup(&mut self) {
@@ -326,10 +338,12 @@ impl<K, V> Paged<K, V> {
     fn apply_undo(&mut self, undo: Undo<K, V>) {
         match undo {
             Undo::Value(pos, value) => {
-                self.replace_value(pos, value);
+                let retired = self.replace_value(pos, value);
+                self.pools.retire_value(retired);
             }
             Undo::Entry(pos, value) => {
-                self.set(pos, value);
+                let retired = self.set(pos, value);
+                self.pools.retire_entry(retired);
             }
         }
     }
@@ -358,7 +372,9 @@ impl<K, V> Paged<K, V> {
                 parent.append(&mut frame);
             }
         }
-        frame.clear();
+        for undo in frame.drain(..) {
+            self.pools.retire_undo(undo);
+        }
         self.spare.push(frame);
         self.cleanup();
     }
@@ -681,6 +697,18 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
                 rows.prepare(pos, |_| ()).0.remove()
             }
         }
+    }
+}
+// Only this concrete library-owned collector can opt into a reset-on-retire
+// policy. Arbitrary Drop payloads remain entirely outside allocation reuse.
+impl<K> PrimitiveRows<K, crate::IntCollector> {
+    pub(crate) fn enable_int_collector_pool(&mut self) -> bool {
+        let Storage::Paged(rows) = &mut self.storage else {
+            return false;
+        };
+        rows.pools
+            .enable_value_reset(|collector| *collector = crate::IntCollector::default());
+        true
     }
 }
 impl<K: 'static, V> PrimitiveRows<K, V> {

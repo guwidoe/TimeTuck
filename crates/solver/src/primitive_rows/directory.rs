@@ -9,9 +9,15 @@ type Owner<K, V> = Arc<Page<K, V>>;
 type Row<K, V> = Vec<Option<Owner<K, V>>>;
 const ROWS: usize = 4096;
 const COLUMNS: usize = 64;
+// These power-of-two bounds let the complete routing condition use one
+// unsigned test. Keep every high bit: arbitrary usize coordinates must fall
+// back to the tree rather than aliasing a low direct-index slot.
+const _: () = assert!(ROWS.is_power_of_two() && COLUMNS.is_power_of_two());
+#[inline(always)]
 fn hot(key: PageKey) -> Option<(usize, usize)> {
     let [a, b, p, q] = key.0;
-    (a == 0 && b == 0 && p < ROWS && q < COLUMNS).then_some((p, q))
+    let outside = a | b | (p & !(ROWS - 1)) | (q & !(COLUMNS - 1));
+    (outside == 0).then_some((p, q))
 }
 pub(super) struct Directory<K, V> {
     dense: Vec<Row<K, V>>,
@@ -40,18 +46,21 @@ impl<K, V> Directory<K, V> {
             tree: BTreeMap::new(),
         }
     }
+    #[inline(always)]
     pub(super) fn get(&self, key: &PageKey) -> Option<&Owner<K, V>> {
         match hot(*key) {
             Some((p, q)) => self.dense.get(p)?.get(q)?.as_ref(),
             None => self.tree.get(key),
         }
     }
+    #[inline(always)]
     pub(super) fn get_mut(&mut self, key: &PageKey) -> Option<&mut Owner<K, V>> {
         match hot(*key) {
             Some((p, q)) => self.dense.get_mut(p)?.get_mut(q)?.as_mut(),
             None => self.tree.get_mut(key),
         }
     }
+    #[inline(always)]
     pub(super) fn entry(&mut self, key: PageKey) -> Entry<'_, K, V> {
         match hot(key) {
             Some((p, q)) => Entry::Dense {
@@ -141,6 +150,7 @@ pub(super) enum Entry<'a, K, V> {
     Tree(btree_map::Entry<'a, PageKey, Owner<K, V>>),
 }
 impl<'a, K, V> Entry<'a, K, V> {
+    #[inline(always)]
     pub(super) fn get(&self) -> Option<&Owner<K, V>> {
         match self {
             Self::Dense { rows, p, q, .. } => rows.get(*p)?.get(*q)?.as_ref(),
@@ -148,6 +158,7 @@ impl<'a, K, V> Entry<'a, K, V> {
             Self::Tree(btree_map::Entry::Vacant(_)) => None,
         }
     }
+    #[inline(always)]
     pub(super) fn get_mut(&mut self) -> Option<&mut Owner<K, V>> {
         match self {
             Self::Dense { rows, p, q, .. } => rows.get_mut(*p)?.get_mut(*q)?.as_mut(),

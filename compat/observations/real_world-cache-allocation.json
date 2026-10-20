@@ -1,0 +1,380 @@
+{
+  "kind": "real_world-cache-allocation-observation",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T16:12:51.733067+00:00",
+  "input_sha256": "13d8c4912c9aa2a6cd6c6b60a3b8bbde9ceab7f927fee17853b5fbb1d693d1bf",
+  "source_snapshot": "15a8e6b6ac17d27fd462886c874d8536db3c83613c176347c03c31b0aedacd85",
+  "native_source_digest": "8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8",
+  "machine": {
+    "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+    "architecture": "x86_64",
+    "hostname": "runner-a",
+    "tools": [
+      {
+        "command": [
+          "rustc",
+          "-Vv"
+        ],
+        "exit_code": 0,
+        "output": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3\n"
+      },
+      {
+        "command": [
+          "cargo",
+          "-V"
+        ],
+        "exit_code": 0,
+        "output": "cargo 1.92.0 (344c4567c 2025-10-21)\n"
+      },
+      {
+        "command": [
+          "java",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "openjdk version \"25.0.2\" 2026-01-20\nOpenJDK Runtime Environment (build 25.0.2+10-69)\nOpenJDK 64-Bit Server VM (build 25.0.2+10-69, mixed mode, sharing)\n"
+      },
+      {
+        "command": [
+          "javac",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "javac 25.0.2\n"
+      }
+    ]
+  },
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "artifacts": {
+    "rust": {
+      "path": "/home/developer/.cache/timetuck-build/checkouts/native-verification/target/release/examples/real_world_benchmark",
+      "sha256": "a4f24d49266c191a92729880a9cd7e17c578ad620cfb9c4be7f54ca1b12f6941"
+    },
+    "java_build_receipt": {
+      "path": "work/real_world-goal/arc-pool-results/final/work/real_world-java/build-receipt.json",
+      "sha256": "654de6d101b525cbebafeca60bdbd60adef1fde8ede96dc4a334d7e6c1066880"
+    }
+  },
+  "valid": true,
+  "qualified": true,
+  "valid_runs": 12,
+  "cases": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 120840.16845049578,
+          "scores": [
+            [
+              0,
+              13900
+            ],
+            [
+              0,
+              13900
+            ],
+            [
+              0,
+              16100
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.048805014
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 76824.00074216418,
+          "scores": [
+            [
+              0,
+              8400
+            ],
+            [
+              0,
+              6200
+            ],
+            [
+              0,
+              8400
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.000312797
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.6357488716480599,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 76246.76639388922,
+          "scores": [
+            [
+              -13,
+              80200
+            ],
+            [
+              -7,
+              164200
+            ],
+            [
+              -14,
+              84400
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.058183924
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 24136.3953170185,
+          "scores": [
+            [
+              0,
+              83000
+            ],
+            [
+              0,
+              74100
+            ],
+            [
+              -1,
+              185100
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.002086063
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.3165563139075352,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    }
+  ],
+  "comparison_to_prior_qualification": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "native_rate_ratio": 1.0020266980565715,
+      "note": "Separate qualifications; no causal or general speedup claim."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "native_rate_ratio": 0.9813173015561409,
+      "note": "Separate qualifications; no causal or general speedup claim."
+    }
+  ],
+  "diagnostic_rotating_controls": {
+    "sailing-trip-v1": {
+      "rates": {
+        "baseline": [
+          23648.106798210803,
+          23911.540948143618,
+          23999.33411092193,
+          23903.779002675412
+        ],
+        "joint": [
+          25267.110473184013,
+          24333.480695830855,
+          24954.527934816957,
+          24585.988410126487
+        ],
+        "trial": [
+          26172.059529269995,
+          26287.05647558717,
+          25987.152202997742,
+          25891.60871772641
+        ]
+      },
+      "medians": {
+        "baseline": 23907.659975409515,
+        "joint": 24770.258172471724,
+        "trial": 26079.60586613387
+      },
+      "trial_vs_main": 1.0908472804514675,
+      "trial_vs_joint": 1.0528596708417548
+    },
+    "social-golfer-32x8x10-v1": {
+      "rates": {
+        "baseline": [
+          66520.65935654579,
+          75971.60156096017,
+          76172.65642271226,
+          76553.68532088549
+        ],
+        "joint": [
+          68569.87655682802,
+          78143.53501966859,
+          77851.76653286554,
+          78877.41501630968
+        ],
+        "trial": [
+          77194.5959247268,
+          79842.39599650422,
+          79933.90708263662,
+          79311.44915348334
+        ]
+      },
+      "medians": {
+        "baseline": 76072.12899183622,
+        "joint": 77997.65077626707,
+        "trial": 79576.92257499378
+      },
+      "trial_vs_main": 1.0460719797067028,
+      "trial_vs_joint": 1.0202476841675243
+    }
+  },
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "CARGO_BUILD_JOBS=4 bash scripts/check.sh",
+    "native_source_digest": "8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8",
+    "rust_tests_passed": 8724,
+    "cargo_test_invocations_passed": 8730,
+    "doctests_passed": 292,
+    "python_tooling_jobs_passed": 54,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8",
+      "source_after": "8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T16:12:17.061219+00:00",
+      "log_sha256": "6f83246d5f88e534a0d2233729dfbb3c556bdae48cbdba90dad8acf54c4dfdd8"
+    },
+    "full_gate_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "15a8e6b6ac17d27fd462886c874d8536db3c83613c176347c03c31b0aedacd85",
+      "rust_digest": "8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8",
+      "production_digest": "13d8c4912c9aa2a6cd6c6b60a3b8bbde9ceab7f927fee17853b5fbb1d693d1bf",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 908.4886501920118,
+          "log_sha256": "326519298b7c0885295f5c0ffb538ef7bc93915adb03f6e49277db56ca28e44d"
+        },
+        {
+          "name": "qualified",
+          "command": [
+            "python3",
+            "scripts/benchmark_real_world.py",
+            "--report",
+            "work/real_world-arc-pool/qualified.json"
+          ],
+          "exit_code": 0,
+          "seconds": 215.47120649399585,
+          "log_sha256": "e4e3f9ec9ccc88da15a9bc839dc530772b3f3f672481e895d30e2d376294d322"
+        }
+      ],
+      "seconds": 1126.954295374002,
+      "policy": "Full standard gate on final unchanged source; genuine prior successful jobs reused in same checkout/environment. Default benchmark protocol and original build receipt unchanged."
+    },
+    "policy": "Same source for focused tests, full standard gate and default qualification. Only actual aggregate Rust log/metadata copied into local reporting; no per-job cache keys transplanted."
+  },
+  "changes": [
+    "Use prepared primitive group entries and reuse pure summaries.",
+    "Reuse bounded typed graph-Join output buffers without changing clone/drop/poison order.",
+    "Inline numeric-page routing with complete-key fallback.",
+    "Reuse retired unique/no-Weak Arc allocations for NoDrop cache values. Only exact IntCollector groups opt into blank reset at original retirement; snapshots clone policy with empty pools."
+  ],
+  "limits": [
+    "Both Java throughput targets remain unmet.",
+    "Within-session three-second controls improve4.6% golfer/9.1% sailing. Default ten-second native rates are roughly level with the prior separate qualification; do not claim a general native gain.",
+    "Fixtures, model, solver settings and benchmark runner are unchanged. Scores and feasibility are separate raw observations; no equal-quality or trace-equivalence claim.",
+    "The rejected event-wrapper pooling prototype regresses5\u20136% versus Arc-only and is not integrated.",
+    "Original18 comparisons retain actual evidence:2current and16stale; none rerun or relabeled.",
+    "No UI assets changed; backend HTTP report/freshness verified and existing rendering evidence reused."
+  ],
+  "evidence": {
+    "final_archive": {
+      "path": "work/real_world-goal/arc-pool-results/final/results.tar.gz",
+      "sha256": "ae13b083028d10808b81f2152702a611372d064c1fd1587641e42c612583423e"
+    },
+    "final_receipt": {
+      "path": "work/real_world-goal/arc-pool-results/final/work/real_world-arc-pool/final-receipt.json",
+      "sha256": "702f1cb45e74b0ae91c3e03f505f72ec4c16e8291a3763153003b5d6e63d58d7"
+    },
+    "qualified_report": {
+      "path": "work/real_world-goal/arc-pool-results/final/work/real_world-arc-pool/qualified.json",
+      "sha256": "178297b2094c0cc6bb0332b26f440b8664aa510d973661fc6db952e72752e814"
+    },
+    "source_manifest": {
+      "path": "work/real_world-goal/arc-pool-results/source-manifest.json",
+      "sha256": "9ff973b5293562d46af613974310800491f95aab79386adea481ae437bb43f86"
+    },
+    "source_archive": {
+      "path": "work/real_world-goal/arc-pool-results/source.tar.gz",
+      "sha256": "f376d2237b659d13be498879f5c2a4c6fd93d65283705e8f027c8b9c15d9cf7a"
+    },
+    "controls": {
+      "path": "work/real_world-goal/arc-pool-results/joint/work/real_world-arc-pool/native-controls.json",
+      "sha256": "f0a303284e934eb51c293a14d8b745acb0eae62126ec2293e33dedf1dd80f37c"
+    },
+    "control_analysis": {
+      "path": "work/real_world-goal/arc-pool-results/analysis.json",
+      "sha256": "bc8dc72d1d7132a287ce2f4da9b80e99baedd7aade0ee600f76acbe8eed1c32f"
+    },
+    "rejected_event_analysis": {
+      "path": "work/real_world-goal/event-pool-results/analysis.json",
+      "sha256": "a4d1d6a492e2f4f8cc88df15c2f250b764996ae63f1f15567db6777be020d9e5"
+    },
+    "http_verification": {
+      "path": "work/real_world-goal/arc-pool-results/http-verification.json",
+      "sha256": "59fee9ad521c746e9b40336d34ca2c4a32ea4862cb2ae0463e0b953a7cac7ee3"
+    }
+  }
+}

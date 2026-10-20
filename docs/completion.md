@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,708 recorded Rust tests and
-292 doctests**. The RealWorld cache-directory batch passes `bash scripts/check.sh`,
+The current native verification contains **8,724 recorded Rust tests and
+292 doctests**. The RealWorld cache-allocation batch passes `bash scripts/check.sh`,
 including formatting, all-target Clippy and tooling checks. Its source-bound gate
-and measurements are in [the cache-directory observation](../compat/observations/real_world-cache-directory.json).
+and measurements are in [the allocation-reuse observation](../compat/observations/real_world-cache-allocation.json).
 Original source-affected comparisons remain visibly stale until deliberately
 refreshed. The live report is the authority for current evidence and readiness.
 
@@ -32,9 +32,10 @@ four full-score/rollback/bounded-search regressions and their own same-machine
 Java/Rust benchmark. The frozen public scenarios, application model, solver
 settings and benchmark runner are unchanged. All **12** newly measured outputs
 pass independent score and assignment checks, with three seeds and ten seconds
-per runtime. Rust streams now reach **76,669 / 24,596 evaluations/s**, or
-**0.607x / 0.301x Java streams throughput**, on golfer/sailing on runner-a.
-That is **1.20x / 1.62x** the previous qualified native live-commit results;
+per runtime. Rust streams now reach **76,824 / 24,136 evaluations/s**, or
+**0.636x / 0.317x Java streams throughput**, on golfer/sailing on runner-a.
+Short rotating controls improve4.6%/9.1%; ten-second native rates remain roughly
+level with the previous separate qualification, so no general native gain is claimed;
 both additional targets remain unmet. Sailing feasibility is 2/3 Rust and 0/3
 Java streams; quality remains separate and is not equal-gated. The optional handwritten Java incremental
 comparator was not rerun. These bounded results establish neither universal

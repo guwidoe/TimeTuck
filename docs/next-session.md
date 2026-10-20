@@ -21,58 +21,62 @@ independent build/test work. Preserve live runs across observation timeouts.
 
 Reach Java streams throughput on both frozen public RealWorld workloads. Goal
 remains active, **0/2** targets met. Keep scenarios, application model, runner,
-seeds 7/11/23, ten-second limits and solver settings unchanged. Additional tests
-and timings retain zero upstream-method credit; the original 18 comparison jobs
-and 109-workload universe remain separate.
+seeds 7/11/23, ten-second limits and solver settings unchanged. Application tests
+and timings retain zero upstream-method credit; original comparisons stay separate.
 
-The guarded live-commit batch was committed in `be81f44`; the following cache
-page-directory/rejected-filter batch is integrated and verified. Its actual
-standard gate passed on runner-a: **8,708 recorded Rust tests +292 doctests**,
-formatting, all-target Clippy and tooling. One generated benchmark Python cache
-file changed the first tooling key. The same-source retry reused every successful
-Rust target, formatting, Clippy and doctest; only failed/previously unrun tooling
-ran. No Rust/settings changes occurred during that retry. All failed logs remain.
+The allocation-reuse batch is integrated and fully verified on the unchanged
+runner-a snapshot `15a8e6b6ac17d27fd462886c874d8536db3c83613c176347c03c31b0aedacd85`.
+Native digest: `8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8`.
+Production digest: `13d8c4912c9aa2a6cd6c6b60a3b8bbde9ceab7f927fee17853b5fbb1d693d1bf`.
+Actual `bash scripts/check.sh` passed once: **8,724 recorded Rust identities**
+(8,730 Cargo invocations), **292 doctests**, all-target Clippy, formatting and all
+54 tooling jobs. Full gate908.49s; qualification215.47s. No rerun or cache-key
+transplant. Actual source-bound aggregate Rust logs/metadata and report are promoted.
 
-Fresh qualified runner-a comparison: **76,669 Rust /126,365 Java evaluations/s**
-on Golfer and **24,596 /81,706** on Sailing: **0.607x /0.301x** Java streams.
-Native medians improve 1.20x/1.62x over the qualified live-commit build. All 12
-outputs validate independently under unchanged cases/model/settings and seeds
-7/11/23 × ten seconds. Sailing remains feasible 2/3 Rust vs 0/3 Java; quality is
-separate and is not equal-gated. Both Java throughput targets remain unmet.
+Fresh default qualification: golfer **76,824 Rust /120,840 Java evaluations/s**
+(**0.636x**); sailing **24,136 /76,247** (**0.317x**). All12 outputs independently
+validate; sailing feasibility2/3 Rust and0/3 Java. Short rotating native controls
+show4.6%/9.1% gains, but the new ten-second native medians are roughly level with
+the older separate qualification (+0.2% golfer/-1.9% sailing). Keep these scopes
+separate; no general native gain, equal-quality or Java trace-equivalence claim.
+Actual release SHA: `a4f24d49266c191a92729880a9cd7e17c578ad620cfb9c4be7f54ca1b12f6941`.
+Observation: `compat/observations/real_world-cache-allocation.json`.
+Raw proofs/controls/default outputs: `work/real_world-goal/arc-pool-results/`.
+Live dashboard report/freshness match; unchanged browser rendering evidence reused.
+Original comparisons remain2current/16stale, with actual keys/dates. Inventory
+stays4412passed/0pending/443excluded; no extra upstream credit.
 
-Production input: `4cec5d9146d36a18992b8c0dcd066c5976933dd8ecff16957d6d05c553897e0b`.
-Native source: `a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8`.
-Observation: `compat/observations/real_world-cache-directory.json`.
-Raw receipts/controls/qualified outputs/gate logs:
-`work/real_world-goal/directory-results/`. Preserved actual release SHA:
-`ca38919a57f4a64b1f640836dd1076ff8132a5c8e8ee58e7e5594baf8b25a0e5`.
-Measured immutable source snapshot predates cfg(test)-only lint/helper changes;
-its selected production input digest matches the final verified source exactly.
-The unchanged actual remote Rust logs/metadata feed the local report. No remote
-verification cache keys/records were transplanted into the local job cache.
+Private caches reuse bounded retired unique/no-Weak Arc owners. Exact IntCollector
+groups reset at original retirement so only blank outer allocations are retained;
+arbitrary Drop values keep normal destruction and snapshots start with empty pools.
+Prepared group entries, numeric-page routing and bounded Join output buffers are
+included. Event-wrapper pooling was measured5–6% slower and rejected; source and
+raw evidence stay under `event-pool-results/`, with no broad gate spent on it.
+The validated Arc diagnostic profile is `arc-pool-results/sailing.perf.data`
+(991 samples, zero lost), not matched Java timing.
 
-Hot numeric cache pages use sparse direct lookup; arbitrary/full `usize` keys keep
-ordered tree fallback. Only initially empty exact-primitive/NoDrop filters omit
-rejected cache payloads. Predicates/output Clone order and bounds/poison remain.
-Discarded unbounded rejection evidence conservatively prevents narrower later
-binding across rollback/full restore/clear. Custom ownership/standalone paths stay.
-The preceding live-commit capability and dispatch optimizations remain intact.
+## Next primitive-cache prototype
 
-Next: use the qualified directory artifact/profile to close the remaining actual
-throughput gap. Local diagnostic profile has 995 DWARF samples/0 lost and a validated
-final score: `profile-compact.txt`, `profile-callers.txt` and `sailing.perf.data`
-inside the raw directory above. It is not a matched Java timing. Allocation,
-Paged::entry and group/filter/join/terminal updates remain prominent. A read-only
-existing-agent review identified typed graph-Join output-buffer reuse as a bounded
-unmeasured 3–5% opportunity; details in `next-profile-note.json`. Prefer substantial
-remaining gains; no following optimization is implemented or build running.
+`work/real_world-goal/copy-slot-prototype/` is independent of main and the frozen
+Arc source. Existing filter/group agents implemented exact-TypeId Copy value
+pages, value journals, and graph-only Filter/GroupInputs bindings plus14 controls.
+Standalone/custom/borrowed/Weak/published map paths keep Arc; terminals/source maps
+are unchanged. Both agents are frozen. Root graph hooks are wired. First focused
+Clippy issues and one missing helper alias are archived under `copy-slot-results/`.
+Current local pilot session **70039** is running library/application behavior checks;
+formatting already completed. All537 library tests passed; application check is
+still live at the last observation. Poll before editing/restarting. Main is unaffected.
 
-Original 18 comparisons retain actual stale keys/dates; upstream inventory stays
-4412 passed/0 pending/443 excluded, with zero new upstream credit. No frontend
-assets changed; inspect current HTTP data/freshness and reuse rendering proof.
-runner-c completed the prior live-commit focused tests, then disconnected. Main live
-commit fullgate ran locally; this directory fullgate ran on runner-a. All existing
-agents are finished; no new agents were created.
+Before performance measurement, root must add exact `(U3,U3)` / bool-wrapped Pair3
+certification: real contact joins use `(session,person,group)` tuples, whereas the
+initial whitelist includes only Pair4. Add a matching actual-shape control and run
+focused changed controls/application tests on the final source. Full standard
+Clippy/format gate is deferred until a candidate is selected by measurements;
+all failures remain visible. Raw copy pages currently have16cells; large sparse
+payloads may increase allocated bytes. Measure before claiming gains. Consider
+smaller copy-only pages or bounded empty-page reuse only if evidence justifies it.
+No new agents created. runner-c remains parked after its last actual SSH timeout;
+runner-a and local were used concurrently. Preserve live runs across timeouts.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

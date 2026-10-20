@@ -30,6 +30,7 @@
 mod filter_bound;
 mod filter_pairs;
 mod group_batch;
+mod group_entry;
 #[cfg(test)]
 mod group_immediate_tests;
 mod group_inputs;
@@ -313,13 +314,26 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         key: &dyn Fn(&T) -> K,
         comparison: JoinComparison,
     ) -> JoinChanges<I, J, T, U> {
+        self.apply_buffered(other, change, key, comparison, Vec::new())
+    }
+    fn apply_buffered<J: Ord + Clone, U: Clone>(
+        &mut self,
+        other: &JoinSide<J, U, K>,
+        change: TupleChange<I, T>,
+        key: &dyn Fn(&T) -> K,
+        comparison: JoinComparison,
+        output_buffer: JoinChanges<I, J, T, U>,
+    ) -> JoinChanges<I, J, T, U> {
         healthy(self.poisoned || other.poisoned);
         let new = change.value.map(|row| (key(&row), row));
         let same_key = self
             .row(&change.id)
             .zip(new.as_ref())
             .is_some_and(|((old, _), (new, _))| old == new);
-        let mut output = Vec::new();
+        // Own the buffer locally before cloning outputs. Unwinding drops every
+        // partially prepared row at the same point as the standalone path.
+        let mut output = output_buffer;
+        debug_assert!(output.is_empty());
         if !same_key && let Some((old_key, _)) = self.row(&change.id) {
             let (count, ids) = other.matching_ids_sized(old_key, comparison);
             output.reserve(count);
@@ -489,6 +503,31 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             .collect()
     }
 
+    // Graph-only scratch storage. Right outputs deliberately retain their raw
+    // orientation until all clones and cache mutations have completed.
+    pub(crate) fn apply_left_buffered(
+        &mut self,
+        change: TupleChange<I, L>,
+        output: JoinChanges<I, J, L, R>,
+    ) -> JoinChanges<I, J, L, R> {
+        self.left
+            .apply_buffered(&self.right, change, &self.left_key, self.comparison, output)
+    }
+
+    pub(crate) fn apply_right_buffered(
+        &mut self,
+        change: TupleChange<J, R>,
+        output: JoinChanges<J, I, R, L>,
+    ) -> JoinChanges<J, I, R, L> {
+        self.right.apply_buffered(
+            &self.left,
+            change,
+            &self.right_key,
+            self.comparison.reversed(),
+            output,
+        )
+    }
+
     /// Inspection walks the current join, ordered by left ID, right key, then
     /// right ID. For equality joins this is left ID then right ID.
     /// Updates themselves visit only old/new matching key buckets.
@@ -570,7 +609,11 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
     where
         K: 'static,
     {
-        self.groups.bind_primitive()
+        let bound = self.groups.bind_primitive();
+        if bound {
+            self.groups.enable_int_collector_pool();
+        }
+        bound
     }
 
     // Expanded occurrences have their own ID coordinates. Exact primitive ID
@@ -619,39 +662,50 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         let new_key = change.value.as_ref().map(|(key, _)| key.clone());
         self.poisoned = true;
         let same_group = old_key.is_some() && old_key == new_key.as_ref();
-        if same_group {
-            let (key, old) = old.as_ref().expect("existing input");
-            let new = change.value.as_ref().expect("replacement input").1;
-            let mut collector = self.groups.get(key).expect("input group").clone();
-            // A sole capture empties its group before reinsertion. Retain that
-            // public key-representative behavior; other replacements keep the
-            // existing group and need only one value update in each map.
-            if collector.summary().count == 1 {
-                assert!(collector.remove(*old), "input occurrence");
-                self.groups.remove(key);
-                collector.insert(new);
-                self.groups
-                    .insert(new_key.as_ref().unwrap().clone(), collector);
-            } else if *old != new {
-                assert!(collector.replace_captured(*old, new), "input occurrence");
-                self.groups.insert(key.clone(), collector);
-            }
+        let summaries = if self.groups.is_primitive() {
+            Some(group_entry::apply(
+                &mut self.groups,
+                old.as_ref(),
+                change.value.as_ref(),
+                new_key.as_ref(),
+                same_group,
+            ))
         } else {
-            if let Some((key, value)) = old.as_ref() {
+            if same_group {
+                let (key, old) = old.as_ref().expect("existing input");
+                let new = change.value.as_ref().expect("replacement input").1;
                 let mut collector = self.groups.get(key).expect("input group").clone();
-                assert!(collector.remove(*value), "input occurrence");
-                if collector.summary().count == 0 {
+                // A sole capture empties its group before reinsertion. Retain that
+                // public key-representative behavior; other replacements keep the
+                // existing group and need only one value update in each map.
+                if collector.summary().count == 1 {
+                    assert!(collector.remove(*old), "input occurrence");
                     self.groups.remove(key);
-                } else {
+                    collector.insert(new);
+                    self.groups
+                        .insert(new_key.as_ref().unwrap().clone(), collector);
+                } else if *old != new {
+                    assert!(collector.replace_captured(*old, new), "input occurrence");
+                    self.groups.insert(key.clone(), collector);
+                }
+            } else {
+                if let Some((key, value)) = old.as_ref() {
+                    let mut collector = self.groups.get(key).expect("input group").clone();
+                    assert!(collector.remove(*value), "input occurrence");
+                    if collector.summary().count == 0 {
+                        self.groups.remove(key);
+                    } else {
+                        self.groups.insert(key.clone(), collector);
+                    }
+                }
+                if let Some((key, value)) = change.value.as_ref() {
+                    let mut collector = self.groups.get(key).cloned().unwrap_or_default();
+                    collector.insert(*value);
                     self.groups.insert(key.clone(), collector);
                 }
             }
-            if let Some((key, value)) = change.value.as_ref() {
-                let mut collector = self.groups.get(key).cloned().unwrap_or_default();
-                collector.insert(*value);
-                self.groups.insert(key.clone(), collector);
-            }
-        }
+            None
+        };
         // Preparation locates the captured input only once. An existing ID is
         // a value replacement, preserving journaled paths and exclusive roots.
         if let Some(value) = change.value {
@@ -661,12 +715,18 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         }
         let old_output = old_key.map(|key| TupleChange {
             id: key.clone(),
-            value: self.groups.get(key).map(IntCollector::summary),
+            value: match summaries {
+                Some((old, _)) => old,
+                None => self.groups.get(key).map(IntCollector::summary),
+            },
         });
         let new_output = if let Some(key) = new_key
             && !same_group
         {
-            let value = Some(self.groups.get(&key).expect("new group").summary());
+            let value = Some(match summaries {
+                Some((_, new)) => new.expect("new group"),
+                None => self.groups.get(&key).expect("new group").summary(),
+            });
             Some(TupleChange { id: key, value })
         } else {
             None

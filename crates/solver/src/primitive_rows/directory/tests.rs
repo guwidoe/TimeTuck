@@ -223,3 +223,29 @@ fn hybrid_directory_releases_interleaved_page_payloads_in_legacy_sorted_order() 
     assert!(directory.is_empty());
     assert!(directory.dense.is_empty());
 }
+
+#[test]
+fn numeric_hot_routing_preserves_all_prefix_and_boundary_high_bits() {
+    let high = usize::MAX / 2 + 1;
+    let prefixes = [0usize, 1, high, usize::MAX];
+    let rows = [0usize, 1, ROWS - 1, ROWS, ROWS + 1, high, usize::MAX];
+    let columns = [
+        0usize,
+        1,
+        COLUMNS - 1,
+        COLUMNS,
+        COLUMNS + 1,
+        high,
+        usize::MAX,
+    ];
+    for a in prefixes {
+        for b in prefixes {
+            for p in rows {
+                for q in columns {
+                    let expected = (a == 0 && b == 0 && p < ROWS && q < COLUMNS).then_some((p, q));
+                    assert_eq!(hot(PageKey([a, b, p, q])), expected, "{a}/{b}/{p}/{q}");
+                }
+            }
+        }
+    }
+}

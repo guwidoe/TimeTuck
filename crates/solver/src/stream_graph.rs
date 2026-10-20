@@ -701,7 +701,31 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore>
     }
 }
 
-struct Join<'a, I, J, L, R, K>(JoinNode<'a, I, J, L, R, K>);
+type JoinBuffer<I, J, L, R> = Vec<TupleChange<(I, J), (L, R)>>;
+// Each side retains at most this many bytes, independent of the ID universe.
+const JOIN_BUFFER_BYTES: usize = 64 * 1024;
+fn retain_join_buffer<T>(buffer: Vec<T>) -> Vec<T> {
+    debug_assert!(buffer.is_empty());
+    if buffer.capacity() <= JOIN_BUFFER_BYTES / std::mem::size_of::<T>().max(1) {
+        buffer
+    } else {
+        Vec::new()
+    }
+}
+
+struct Join<'a, I, J, L, R, K>(
+    JoinNode<'a, I, J, L, R, K>,
+    JoinBuffer<I, J, L, R>,
+    JoinBuffer<J, I, R, L>,
+    bool,
+);
+impl<'a, I: 'static, J: 'static, L, R, K> Join<'a, I, J, L, R, K> {
+    fn new(node: JoinNode<'a, I, J, L, R, K>) -> Self {
+        let reuse =
+            live_commit_key::<I>() && live_commit_key::<J>() && !std::mem::needs_drop::<(L, R)>();
+        Self(node, Vec::new(), Vec::new(), reuse)
+    }
+}
 impl<
     I: Ord + Clone + 'static,
     J: Ord + Clone + 'static,
@@ -743,11 +767,33 @@ impl<
         event: &Event,
         _arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        Ok(erase(if right {
-            self.0.apply_right(typed::<J, R>(event).clone())
+        if !self.3 {
+            return Ok(erase(if right {
+                self.0.apply_right(typed::<J, R>(event).clone())
+            } else {
+                self.0.apply_left(typed::<I, L>(event).clone())
+            }));
+        }
+        if right {
+            let change = typed::<J, R>(event).clone();
+            let buffer = std::mem::take(&mut self.2);
+            let mut changes = self.0.apply_right_buffered(change, buffer);
+            // Swapping only moves primitive IDs and NoDrop payloads. Preparation
+            // still clones the right row before the left row, as before.
+            let output = erase(changes.drain(..).map(|change| TupleChange {
+                id: (change.id.1, change.id.0),
+                value: change.value.map(|(right, left)| (left, right)),
+            }));
+            self.2 = retain_join_buffer(changes);
+            Ok(output)
         } else {
-            self.0.apply_left(typed::<I, L>(event).clone())
-        }))
+            let change = typed::<I, L>(event).clone();
+            let buffer = std::mem::take(&mut self.1);
+            let mut changes = self.0.apply_left_buffered(change, buffer);
+            let output = erase(changes.drain(..));
+            self.1 = retain_join_buffer(changes);
+            Ok(output)
+        }
     }
 }
 
@@ -1777,7 +1823,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<R>()
             && live_commit_callback(&left_key)
             && live_commit_callback(&right_key);
-        let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
+        let out = self.push(Join::new(JoinNode::<I, J, L, R, K>::new(
+            left_key, right_key,
+        )));
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
@@ -1829,7 +1877,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<R>()
             && live_commit_callback(&left_key)
             && live_commit_callback(&right_key);
-        let out = self.push(Join(JoinNode::<I, J, L, R, K>::comparing(
+        let out = self.push(Join::new(JoinNode::<I, J, L, R, K>::comparing(
             comparison, left_key, right_key,
         )));
         self.live_commit_nodes[out.node] = live_commit;
@@ -3093,3 +3141,6 @@ mod score_routing_tests;
 
 #[cfg(test)]
 mod live_commit_eligibility_tests;
+
+#[cfg(test)]
+mod join_buffer_tests;
