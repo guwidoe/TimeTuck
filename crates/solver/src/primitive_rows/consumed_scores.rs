@@ -104,12 +104,14 @@ impl<I, S> Rows<I, S> {
             row[q].as_deref_mut()
         }
     }
+    #[inline(always)]
     fn get_at(&self, pos: Position) -> Option<&Entry<I, S>> {
         match hot(pos.page) {
             Some((p, q)) => self.dense.get(p)?.get(q)?.as_deref()?.cells[pos.cell].as_ref(),
             None => self.sparse.get(&pos),
         }
     }
+    #[inline(always)]
     fn set(&mut self, pos: Position, value: Option<Entry<I, S>>) -> Option<Entry<I, S>> {
         let present = value.is_some();
         let old = match hot(pos.page) {
@@ -140,6 +142,7 @@ impl<I, S> Rows<I, S> {
         }
         old
     }
+    #[inline(always)]
     fn replace(&mut self, pos: Position, value: Option<Entry<I, S>>) {
         let old = self.set(pos, value);
         if let Some(frame) = self.frames.last_mut() {
@@ -189,12 +192,19 @@ impl<I, S> Rows<I, S> {
             (&row.0, &row.1)
         })
     }
+    #[inline(always)]
     pub(crate) fn prepare_change<R>(
         &mut self,
         id: &I,
         inspect: impl FnOnce(Option<&S>) -> R,
-    ) -> (Prepared<'_, I, S>, R) {
-        let pos = (self.map)(id);
+    ) -> (Prepared<'_, I, S>, R)
+    where
+        I: 'static,
+    {
+        // The constructor already certified this exact builtin ID type. Keep
+        // its mapper visible to this monomorphization instead of returning a
+        // five-word Position through the stored function pointer's ABI.
+        let pos = mapper::<I>().expect("certified consumed row ID")(id);
         let old = inspect(self.get_at(pos).map(|row| &row.1));
         (Prepared { rows: self, pos }, old)
     }

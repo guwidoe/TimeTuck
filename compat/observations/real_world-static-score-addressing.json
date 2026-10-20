@@ -1,0 +1,328 @@
+{
+  "kind": "real_world-static-score-addressing-observation",
+  "generated_at": "2026-10-20T23:36:26.358426+00:00",
+  "upstream_method_credit": 0,
+  "input_sha256": "344327b1af70fd5276ec4dc4696768ce9a721468be17ab9757bf4b3ae6fa602e",
+  "native_source_digest": "96c6064993ce363e2d3bafcff9901232c4443789b2dd5b47cc132fc104309607",
+  "source_snapshot": "cd60b0e8cf20674374578cdff5a7e27a8f7e1d054a1c4458f87030624ec2bd55",
+  "host": "runner-a",
+  "artifact_sha256": "0f6645a0202c4145497a0604fab04465605a6290626dfcd512b83641eb69a39b",
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8852,
+    "cargo_test_invocations_passed": 8858,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 0,
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "cd60b0e8cf20674374578cdff5a7e27a8f7e1d054a1c4458f87030624ec2bd55",
+      "rust_digest": "96c6064993ce363e2d3bafcff9901232c4443789b2dd5b47cc132fc104309607",
+      "production_digest": "344327b1af70fd5276ec4dc4696768ce9a721468be17ab9757bf4b3ae6fa602e",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 20.51264358201297,
+          "log_sha256": "85aa3ecc0c4fa29825ce542acb60837ccd721e1263e43319b9577335caefbd45"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 95.18434992499533,
+          "log_sha256": "dfbef948cc2ddcb5165570e011e9b01a8f2736159dfd105e43afe6c443f6bda1"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 277.3606559589971,
+          "log_sha256": "d54706aeccb0aca1f86f83027a30249ed4febafeafb0e67a581329c359e03e00"
+        }
+      ],
+      "seconds": 396.56682274499326,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. No Java qualifier rerun: prior Java evidence remains stale. Actual separately recorded native controls bind the unchanged source and measured artifact; no Java parity credit. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "82fa7e03760d4f911ab07b3087791cb514b0f22d",
+      "source_snapshot": "cd60b0e8cf20674374578cdff5a7e27a8f7e1d054a1c4458f87030624ec2bd55",
+      "rust_digest": "96c6064993ce363e2d3bafcff9901232c4443789b2dd5b47cc132fc104309607",
+      "production_digest": "344327b1af70fd5276ec4dc4696768ce9a721468be17ab9757bf4b3ae6fa602e",
+      "changed_files": [
+        "crates/solver/src/primitive_rows/consumed_scores.rs"
+      ],
+      "native_recorded_tests": 8852,
+      "artifact_sha256": "0f6645a0202c4145497a0604fab04465605a6290626dfcd512b83641eb69a39b",
+      "final_receipt_sha256": "09ee243ace9ec50d1aeb727839a45d63623b0557c8f81b8db23fba9ccc067676",
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json"
+      ],
+      "previous_java_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+      "policy": "Exact frozen Rust after actual full native gate. No per-job metadata transplant. Native controls are diagnostic only. Prior Java report retained unchanged and stale; no Java parity claim."
+    }
+  },
+  "changes": [
+    "Resolve the already certified builtin consuming-score ID mapper through its concrete type at the prepare-change call site; inline its private row lookup/update helpers. Constructor gates, cold mapper/copy functions, dense/sparse representation, every-write undo, score arithmetic and all full/current/nested captures remain unchanged."
+  ],
+  "tradeoffs": [
+    "Four always-inline private helpers can increase machine code size. No universal speed or memory improvement is claimed.",
+    "Inline checkpoint tokens, prepared group inverse fallback, typed FlatMap scratch reuse and typed small collector states were not integrated after mixed/regressive native controls. No broad gate was run for those rejected variants.",
+    "Model, fixtures, callbacks, runner, settings, compiler target, PGO, panic and batch policies are unchanged."
+  ],
+  "diagnostic_controls": [
+    {
+      "selection": "selected one-file static mapping and inlining",
+      "qualified": false,
+      "native_source_digest": "96c6064993ce363e2d3bafcff9901232c4443789b2dd5b47cc132fc104309607",
+      "production_digest": "344327b1af70fd5276ec4dc4696768ce9a721468be17ab9757bf4b3ae6fa602e",
+      "source_snapshot": "11139482299666e3ff4d3a5612a5a0ba050beeb03e716e4b67357881ee1a650b",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "0f6645a0202c4145497a0604fab04465605a6290626dfcd512b83641eb69a39b",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44629.45564714052,
+            "trial": 45728.20713301921
+          },
+          "gain_pct": 2.4619423874803426
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123573.67250214738,
+            "trial": 123553.24245618653
+          },
+          "gain_pct": -0.016532684953984855
+        }
+      },
+      "proof_directory": "work/real_world-goal/consumed-score-inline-82fa-next-results",
+      "controls_sha256": "6a9592745ea50b16fed6c2c66c6b9a7a597130b92e25555b709d7ad57cc0993c"
+    },
+    {
+      "selection": "unselected mixed",
+      "qualified": false,
+      "native_source_digest": "a554e8eee1d4c8f8c1c8c084dd32aedb2a4c4ea26d2acffeb58a7d8aa188713a",
+      "production_digest": "f7f08bd00964f671be44e0690867ce21a2fae76fb2e0fa177c88f6af70f99694",
+      "source_snapshot": "e34e5e700d3f2472abad67720718da12d18bdf3157ec08cf4b038f1db2054026",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "c79a052e089a86fc1ec16ce0b76a5366a0235f659dfe556c07fe895703ec3179",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44199.2298013798,
+            "trial": 44887.53801531653
+          },
+          "gain_pct": 1.5572855387521845
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123056.20279609655,
+            "trial": 122165.08575497638
+          },
+          "gain_pct": -0.7241545089740398
+        }
+      },
+      "proof_directory": "work/real_world-goal/inline-journal-82fa-next-results",
+      "controls_sha256": "3c9e47de10879a82c366d5e8bd1bdc2388cfeb74930dd2e5c3fad3be0e6d1cfa"
+    },
+    {
+      "selection": "unselected larger combination; no stronger signal than simpler mapper",
+      "qualified": false,
+      "native_source_digest": "79d13f663fa8823b6cbc663c4c0d0a7c1b7e3c8a917de62b351da88d7dc152e2",
+      "production_digest": "b4760647b376bc9bfea531943a2dd0e7fabca3e6d6596e33d77a45c0546ee63d",
+      "source_snapshot": "eeb796869155283ddb817e9a0318a29bd92b9fd1a07278bbb197ef13df1f46ad",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "7feb32f7d534750ce9d681292954e7d94c122731f0c65a83a003fafe74f46834",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44735.68018241972,
+            "trial": 45732.018986733296
+          },
+          "gain_pct": 2.227168113351108
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 124300.520071891,
+            "trial": 123939.10983465746
+          },
+          "gain_pct": -0.29075520924974896
+        }
+      },
+      "proof_directory": "work/real_world-goal/inline-journal-score-82fa-next-results",
+      "controls_sha256": "0a13263c2a0ad268ee433289f9853bb8b1ca6a206e8ca3665fef684962b96fbb"
+    },
+    {
+      "selection": "unselected slower both",
+      "qualified": false,
+      "native_source_digest": "7f555b6489a370c032905eefccb6439db8e1c845a5e0fa8a3d4329b3f7a43de7",
+      "production_digest": "a3535609c3d5975fa3f9837d664988ca895bfc5657ff756aa24b17fbbe2785e9",
+      "source_snapshot": "a5c0ecaaa6c35b43b7cfc0bbd2e9ad80f212a9fc882196716008ba0894203cc9",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "d54051ee35bc87f2ebb3b6c42f97b850fd704629689291ef2ffe658e01df1dc8",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44731.440598984394,
+            "trial": 44603.99921117835
+          },
+          "gain_pct": -0.28490338361456535
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 122704.92419404286,
+            "trial": 121904.11597371884
+          },
+          "gain_pct": -0.6526292449825721
+        }
+      },
+      "proof_directory": "work/real_world-goal/group-prepared-inverse-82fa-next-results",
+      "controls_sha256": "82e53284b19d6ec53d5b18e3f6099a9aa86fbac7501167d2d148e1be61ccbdde"
+    },
+    {
+      "selection": "unselected mixed small signal",
+      "qualified": false,
+      "native_source_digest": "276e88166339e13e0f4522185f773577871e2def450b4bff02865049eb9803b3",
+      "production_digest": "be8ec62075efc17ad9fef9ace3ca879e261fbc37ae9072f514db2c9d2aa95e3b",
+      "source_snapshot": "95505ccb567fb33b14e648028f7f8b7ea94a17e7bcbeb022bfee731a43ab5c14",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "3bdf5cf56c5bd492e4966af7f41729b70c92a8c535b6f87484f5dfbbd2d72d84",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44603.08013653139,
+            "trial": 44949.24602149462
+          },
+          "gain_pct": 0.7761030940096614
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123474.84132061555,
+            "trial": 122974.86636431079
+          },
+          "gain_pct": -0.4049205092772956
+        }
+      },
+      "proof_directory": "work/real_world-goal/flatmap-typed-buffer-82fa-next-results",
+      "controls_sha256": "1335d4cf4c38cc72ff75af7d5dfa54776f504f7fcd20fe8b6ce6a072b1db1efb"
+    },
+    {
+      "selection": "unselected slower both",
+      "qualified": false,
+      "native_source_digest": "e9fca06d5ab3cb262c9348553c5c0300229bc8b41ecd3aea03e223e6f2367e60",
+      "production_digest": "c804e2a83fb30f76b407a8e2ad069b1684dbe4cc00ea669cbb1e008cf115fa59",
+      "source_snapshot": "a073bf76b6e98c293e72143c80c7bc191d50c11f415596761fb941a8120ca1d0",
+      "baseline_binding": {
+        "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+        "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+        "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+        "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+        "qualified_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+        "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41"
+      },
+      "artifact_sha256": "babcbf6ea5e6885375a42dc4c016dfb3ba46632f2eb77b944f4427c38d8a40b4",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44831.16438824833,
+            "trial": 44631.04418503265
+          },
+          "gain_pct": -0.4463863607971241
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123602.2045207037,
+            "trial": 121937.81314608267
+          },
+          "gain_pct": -1.3465709459431485
+        }
+      },
+      "proof_directory": "work/real_world-goal/typed-counts-82fa-next-results",
+      "controls_sha256": "98f67935d186082b997363934b114d530a98e668d996e8b58753295ebc0b63e2"
+    }
+  ],
+  "pilot_policy": "Four rotating three-second seed7 native controls per case on runner-a CPU2,3 against actual qualified ac9d. All sixteen assignments independently validate per candidate; no Java parity credit. Selected one-file pilot and full gate use identical Rust bytes. Separate sessions do not isolate additive component speedups.",
+  "java_qualification": {
+    "status": "deferred; previous source measurement retained unchanged and stale",
+    "previous_report_sha256": "6de89e95c77cc878cdff8432486fea60b5cdf10a846c70e221bf8ed25a75e128",
+    "historical_golfer_ratio": 0.979444251576488,
+    "historical_sailing_ratio": 0.5531514721319862,
+    "current_parity_targets_proven": 0,
+    "policy": "Use diagnostic native controls between increments and run the unchanged default paired3seeds10s Java qualifier when materially closer to parity. Do not relabel old Java results current or multiply short native gains into a qualified ratio."
+  },
+  "profile_evidence": {
+    "directory": "work/real_world-goal/current-82fa-profile",
+    "scope": "Actual previous qualified ac9d, local Sailing10s seed7, independently valid score/assignment, zero lost samples; no Java timing credit."
+  },
+  "proof_directory": "work/real_world-goal/native-allocation-82fa-next-final-results/",
+  "original_inventory": "4412 adapted passes/0pending/443excluded, four external RealWorld tests and native count unchanged. No new upstream or native test credit."
+}

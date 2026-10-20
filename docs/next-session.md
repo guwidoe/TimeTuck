@@ -20,79 +20,63 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Current target count: **0/2**. Preserve original model, fixtures, runner,
-settings, seeds 7/11/23, ten-second limits and CPU2,3 pairing. Scores/feasibility
+Neither current target is proved. Preserve the model, fixtures, runner,
+settings, seeds7/11/23, ten-second limits and CPU2,3 pairing. Scores/feasibility
 remain separate; no equal-score gate or compiler/CPU/PGO/panic/batch changes.
 Use local and runner-a; runner-c remains parked. Use only existing authorized agents.
 
-The sparse-score batch is integrated from actual snapshot
-`de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2`. Native `64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988`;
-production `66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99`. Actual `bash scripts/check.sh` passes:
-**8,852 recorded identities /8,858 Cargo executions**,
-**292 doctests** and **54 tooling jobs**.
-Actual timings: preflight 43.70s, prebuild 327.14s, fullgate 276.94s, qualified 220.33s; total 872.37s.
-Actual measured binary `ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190`.
-Observation: `compat/observations/real_world-sparse-score-storage.json`.
-Proofs: `work/real_world-goal/sparse-score-rows-next-final-results/`.
-All four worker commands actually pass on unchanged source; the original SSH
-returns real logs, assignments and the checksum-verified binary. Only genuine
-aggregate Rust logs/metadata and qualified application report are promoted;
-no per-job evidence keys are transplanted. No UI code changed.
+The private score-addressing batch integrates one Rust file: concrete certified
+ID mapping and inlined row access/update helpers. Every-write undo, full/current/
+nested captures, gates and arithmetic remain. Native `96c6064993ce363e2d3bafcff9901232c4443789b2dd5b47cc132fc104309607`;
+production `344327b1af70fd5276ec4dc4696768ce9a721468be17ab9757bf4b3ae6fa602e`; final snapshot `cd60b0e8cf20674374578cdff5a7e27a8f7e1d054a1c4458f87030624ec2bd55`.
+Actual full native gate: **8,852 recorded identities /8,858 Cargo executions**,
+**292 doctests /54 tooling jobs**. All three commands actually pass on unchanged
+source: Clippy preflight, genuine all-target no-run prebuild, normal jobs4
+`bash scripts/check.sh`. Actual measured ELF `0f6645a0202c4145497a0604fab04465605a6290626dfcd512b83641eb69a39b`.
+Proofs: `work/real_world-goal/native-allocation-82fa-next-final-results/`.
+Observation: `compat/observations/real_world-static-score-addressing.json`.
+Only genuine aggregate Rust logs/metadata are promoted; no per-job cache transplant.
 
-Current same-machine qualifier: Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing **45,121 /81,571 (0.553x)**.
-All 12 outputs validate independently with checksum/config/Cartesian coverage.
-Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
-Selected rotating native controls measured +1.575% Golfer/+1.170% Sailing
-against qualified1426 artifact9898; these diagnostics earn no Java target credit.
+Selected rotating native3s controls against qualified82fa/ac9d:
+**−0.017% Golfer /+2.462% Sailing**, all16 assignments independently valid.
+These controls earn no Java parity credit. The prior full Java report remains
+unchanged and visibly stale: historical ratios **0.979444 Golfer /0.553151 Sailing**,
+all12 valid, Sailing2/3 native feasible versus0/3 Java. No unchanged-source rerun
+to fish for a passing Golfer ratio. Defer the full default Java qualifier until
+materially closer to parity; final success still needs current original-protocol
+measurements meeting both targets.
 
-Only three Rust files changed: private sparse score rows and Position hashing,
-plus two new sparse controls. Full summaries,
-callbacks, overflow/inverse phases, full-range coordinates, zero/absence, every
-preimage and sorted observations remain. Peak HashMap capacity can be retained.
-Upstream 4412 passed/0pending/443excluded and four external tests are unchanged.
-No rejected accessor, arithmetic or carrier-pool source is included.
+This round rejected inline checkpoint tokens (−.724%G/+1.557%S), mapper+tokens
+(−.291%G/+2.227%S), prepared group inverse fallback (−.653%G/−.285%S), typed
+FlatMap buffer reuse (−.405%G/+.776%S) and typed collector states
+(−1.347%G/−.446%S). All actual16-output controls and relevant focused tests passed;
+no broad gate or integration for rejected variants. Typed counts confirmed40B/
+56B sizes but did not improve throughput. Do not retry these variants without
+distinct new evidence; separate-session gains do not isolate components.
 
-Do not repeat this round's terminal measurements without new relevant inputs:
+Fresh local profile: actual previous ac9d, original Sailing10s seed7,
+independently valid0/82800, zero lost samples, under
+`work/real_world-goal/current-82fa-profile/`. No Java timing credit.
+The subsequent concrete FlatMap callback audit found exact overlap with the old
+callbacks prototype and only3.66% inclusive FlatMap CPU; it stopped before code.
 
-| Prototype | Golfer /Sailing median gain | Selection |
-| --- | --- | --- |
-| consuming-score-sparse-rows-next-results | +1.575% /+1.170% | selected sparse storage |
-| sparse-count-accessor-1426-next-results | -0.279% /+0.706% | unselected mixed combined accessor |
-| flatmap-journal-carrier-1426-next-results | -0.160% /-1.238% | unselected sailing regression |
-| group-join-carrier-1426-next-results | -0.979% /-0.064% | unselected flat/regression |
-| consuming-equal-arithmetic-1426-next-results | +0.658% /-1.185% | unselected sailing regression |
+A separate read-only audit found a distinct possible score-probe ABI experiment.
+The actual old `probed-dispatch-next-results/real_world_benchmark` returns a120B
+Outputs/old-score/new-score aggregate, with explicit copyback at0x15d8a8–0x15d91c
+and caller unpack at0x1545d2–0x15464e; current ac9d uses the original72B result.
+A caller-owned score slot could retain the original `Result<Outputs>` return ABI;
+no equivalent was found in preserved prototypes. No source/build/test yet, and
+no speedup is established. Confirm actual compiler forwarding before claiming
+copyback removal. Preserve counter→old probe→guarded apply→guard drop→successful
+new probe, error/panic behavior, enqueue/equality/change collection and final-only
+wide adjustment; custom scores keep original phases. This differs from the
+rejected returned-tuple design, which must not be rerun unchanged.
 
-All five comparisons have 16 independently valid outputs and exact source,
-artifact and qualified9898 baseline bindings. Sparse controls passed in the standalone focused run and final standard gate.
-The final gate uses the same frozen sparse Rust bytes as the pilot. All 72 group
-tests passed for the excluded accessor combination.
-No standalone count-accessor speed claim is made. FlatMap carrier tests passed2,
-Group/Join carrier tests5 and existing equal arithmetic tests5; no broad gate
-was spent on excluded candidates.
-
-Read-only evidence on actual9898 found residual extrema tree walks before both
-count-only checks in `try_edit` and `group_entry`; no whole-summary copy remains.
-The small count accessor was tested in a mixed combined pilot and excluded.
-Evidence: `work/real_world-goal/group-count-accessor-1426-next-evidence/`.
-Actual9898 Sailing profile is in `work/real_world-goal/current-1426-profile/`,
-with valid output/zero lost samples. It is historical after this source change;
-it is neither a new-source profile nor a matched Java timing. FirstAccepted live
-commit already exists. Count-accessor combination, carrier pooling and equal arithmetic were rejected, and
-prior event/owned collector/layout experiments remain recorded in previous
-observations. Do not repeat them without a distinct measured lead.
-
-The same original profile's allocator audit is saved in
-`work/real_world-goal/allocator-callers-9898-audit/`. Second join output vectors
-account for 2.47% of samples and overlap the rejected join-propagation prototype.
-Join-index owner checks account for 1.36%, collector inverse owner checks 0.91%;
-these are not proved clone allocations. No untried large allocation win was found.
-The propagation/membership audit also overlaps rejected score-delta and queue/event
-variants; no further source or measurements were made.
-
-v10 diagnostic helpers bind5530/8502/9898. They cannot be reused as a new baseline
-by relabeling. Current ignored state is in
-`work/real_world-goal/active-performance-state.json`. All jobs for this batch are
-terminal and collected; no agent implementation or build remains live.
+Ignored current state: `work/real_world-goal/active-performance-state.json`.
+All implementation agents finished. Preserve any subsequently recorded live
+handles; a polling timeout is not terminal evidence. Native baselines may use
+actual full-gate receipts and measured artifacts without a fresh Java qualifier;
+never relabel an old Java report or a short native control as current parity.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

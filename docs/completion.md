@@ -20,21 +20,36 @@ about every problem size, search trace or finite-budget optimum.
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
 The current native verification contains **8,852 recorded Rust tests and
-292 doctests** (8,858 Cargo test executions). The sparse-score
-batch passes `bash scripts/check.sh`, formatting, all-target Clippy and
-54 tooling jobs. Exact source, logs and qualification appear in
-[the sparse-score observation](../compat/observations/real_world-sparse-score-storage.json).
+292 doctests** (8,858 Cargo test executions). The private score-addressing batch
+passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
+[Actual source-bound evidence](../compat/observations/real_world-static-score-addressing.json)
+records the unchanged test inventory and selected one-file optimization.
 The live report remains the authority for evidence freshness and readiness.
 
 The four additional RealWorld application regressions remain separate from the
 original upstream inventory. Frozen public cases, model, settings and runner are
-unchanged. All **12** Java/Rust outputs independently validate with seeds 7/11/23
-and ten seconds per runtime on runner-a. Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing **45,121 /81,571 (0.553x)**.
-**0/2** additional throughput targets are met. Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
-Rotating native controls for the selected sparse storage measured
-**+1.575% Golfer /+1.170% Sailing** versus qualified1426 artifact9898.
-These short controls earn no Java parity credit; the default qualifier above
-measures actual final bytes. Separate qualification sessions do not isolate speedup.
+unchanged. The selected change resolves the certified private ID mapper through
+its concrete type and inlines row lookup/update helpers. Constructor gates,
+every-write undo, captures and score arithmetic retain their behavior.
+Four rotating native three-second controls measured **−0.017% Golfer /+2.462%
+Sailing** against the previous qualified binary. All sixteen outputs independently
+validate. These are diagnostic controls and earn **no Java parity credit**.
+
+The most recent full Java qualification is historical after this source change:
+Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing
+**45,121 /81,571 (0.553x)**, with all twelve assignments independently valid.
+Sailing feasibility was 2/3 Rust and 0/3 Java; scores and feasibility remain
+separate without an equal-score gate. **Neither current throughput target is
+proved.** The original Java report is retained unchanged and visibly stale.
+The unchanged paired seeds7/11/23 ×ten-second protocol will be rerun when native
+measurements are materially closer to parity; short gains are never multiplied
+into a qualified Java ratio. Earlier sparse-storage controls measured
++1.575% Golfer /+1.170% Sailing and retain their historical source binding.
+
+Inline checkpoint tokens, retained group inverse locators, typed FlatMap buffer
+reuse and typed small collector states were not integrated after mixed/regressive
+measurements. Rejected variants received focused tests and native controls,
+without a repeated broad regression gate.
 
 Private consuming score storage retains hot pages and stores other full numeric
 positions directly in a standard HashMap, removing mostly empty page allocations.

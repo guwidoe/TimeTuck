@@ -2880,3 +2880,15 @@ validation, checked adjustment and delivered payload cloning precede publication
 through the ordinary prepared insert/remove. This does not omit equal public row
 writes or alter canonical keys, value owners, snapshots or rollback. Generic score,
 identity and destruction-sensitive paths retain their existing sequence.
+
+## Private consuming score addressing
+
+The ownership-consuming graph's already certified builtin ID mapper is resolved
+at the concrete prepare-change call site; private row lookup/update helpers are
+inlined. Dense/sparse storage, constructor gates, every-write journals, full/current/
+nested captures and score arithmetic retain their contracts. Public/custom
+ownership paths and callback phases are unchanged. The selected optimization adds
+no upstream-method or native-test credit. Its actual full gate and diagnostic
+native controls are recorded in the
+[score-addressing observation](../compat/observations/real_world-static-score-addressing.json).
+The previous Java qualification remains stale until deliberately rerun.
