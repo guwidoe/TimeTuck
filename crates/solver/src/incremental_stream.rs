@@ -556,7 +556,8 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
 /// emits a retraction; a replacement within the same key emits one final summary.
 pub struct GroupNode<I, K> {
     inputs: group_inputs::GroupInputs<I, (K, i64)>,
-    groups: crate::primitive_rows::PrimitiveRows<K, IntCollector>,
+    groups: crate::primitive_rows::group_collectors::GroupCollectors<K>,
+    equal_input_reuse: bool,
     poisoned: bool,
 }
 
@@ -590,7 +591,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         let (inputs, groups) = *checkpoint
             .downcast::<(
                 group_inputs::GroupInputs<I, (K, i64)>,
-                crate::primitive_rows::PrimitiveRows<K, IntCollector>,
+                crate::primitive_rows::group_collectors::GroupCollectors<K>,
             )>()
             .expect("group checkpoint type");
         self.inputs.install_snapshot(inputs);
@@ -601,7 +602,8 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
     pub fn new() -> Self {
         Self {
             inputs: group_inputs::GroupInputs::new(),
-            groups: crate::primitive_rows::PrimitiveRows::new(),
+            groups: crate::primitive_rows::group_collectors::GroupCollectors::new(),
+            equal_input_reuse: false,
             poisoned: false,
         }
     }
@@ -629,6 +631,16 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
             return false;
         }
         self.inputs.bind_primitive()
+    }
+
+    // Called only by the ordinary graph builder. The primitive group backend
+    // certifies K's exact builtin identity; only later Dense/Paged input bindings
+    // can omit a final store. Unbound and standalone inputs retain every store.
+    // Input owners have no public view, unlike the separate groups/matches maps.
+    // Later private snapshots may therefore share an omitted historical version;
+    // exact builtin K/i64 has no hooks that could observe this sharing.
+    pub(crate) fn enable_equal_input_reuse(&mut self) {
+        self.equal_input_reuse = self.groups.is_primitive();
     }
 
     pub(crate) fn bind_pair_inputs(&mut self, left: usize, right: usize) -> bool
@@ -712,7 +724,13 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         // Preparation locates the captured input only once. An existing ID is
         // a value replacement, preserving journaled paths and exclusive roots.
         if let Some(value) = change.value {
-            input.insert(change.id, value);
+            if self.equal_input_reuse {
+                input.insert_unless_exclusive_equal(change.id, value, |a, b| {
+                    a.0 == b.0 && a.1 == b.1
+                });
+            } else {
+                input.insert(change.id, value);
+            }
         } else {
             input.remove();
         }
@@ -815,3 +833,6 @@ mod join_bound;
 mod join_fixed_index;
 mod join_fixed_rows;
 mod join_journal;
+
+#[cfg(test)]
+mod group_inverse_tests;

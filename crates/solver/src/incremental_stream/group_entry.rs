@@ -6,11 +6,11 @@
 //! clones and poison boundaries stay in GroupNode's common path. Generic group
 //! keys keep its original lookup and publication sequence.
 use super::*;
-use crate::primitive_rows::PrimitiveRows;
+use crate::primitive_rows::group_collectors::{GroupCollectors, ScalarEdit};
 
 #[inline]
 pub(super) fn apply<K: Ord + Clone>(
-    groups: &mut PrimitiveRows<K, IntCollector>,
+    groups: &mut GroupCollectors<K>,
     old: Option<&(K, i64)>,
     new: Option<&(K, i64)>,
     new_key: Option<&K>,
@@ -20,6 +20,11 @@ pub(super) fn apply<K: Ord + Clone>(
     if same_group {
         let (key, old) = old.expect("existing input");
         let new = new.expect("replacement input").1;
+        if *old != new
+            && let Some(summary) = groups.try_edit(key, ScalarEdit::Replace(*old, new))
+        {
+            return (Some(summary), None);
+        }
         let (prepared, mut collector) =
             groups.prepare_change(key, |row| row.expect("input group").clone());
         if collector.summary().count == 1 {
@@ -43,6 +48,9 @@ pub(super) fn apply<K: Ord + Clone>(
         return (Some(collector.summary()), None);
     }
     let old_summary = old.and_then(|(key, value)| {
+        if let Some(summary) = groups.try_edit(key, ScalarEdit::Remove(*value)) {
+            return Some(summary);
+        }
         let (prepared, mut collector) =
             groups.prepare_change(key, |row| row.expect("input group").clone());
         assert!(collector.remove(*value), "input occurrence");
@@ -56,6 +64,9 @@ pub(super) fn apply<K: Ord + Clone>(
         }
     });
     let new_summary = new.map(|(key, value)| {
+        if let Some(summary) = groups.try_edit(key, ScalarEdit::Insert(*value)) {
+            return summary;
+        }
         let (prepared, mut collector) =
             groups.prepare_change(key, |row| row.cloned().unwrap_or_default());
         collector.insert(*value);

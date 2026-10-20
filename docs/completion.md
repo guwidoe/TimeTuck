@@ -19,28 +19,41 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,764 recorded Rust tests and
-292 doctests** (8,770 Cargo test executions). The page/join-storage batch passes
-`bash scripts/check.sh`, including formatting, all-target Clippy and 54 tooling
-jobs. Exact source, logs and measurements are recorded in
-[the storage observation](../compat/observations/real_world-page-join-storage.json).
-Original source-affected comparisons retain their actual freshness. The live
-report is the authority for current evidence and readiness.
+The current native verification contains **8,787 recorded Rust tests and
+292 doctests** (8,793 Cargo test executions). The collector/input-storage
+batch passes `bash scripts/check.sh`, including formatting, all-target Clippy and
+54 tooling jobs. Exact source, logs and measurements are recorded in
+[the collector/input observation](../compat/observations/real_world-collector-input-storage.json).
+Source-affected comparisons retain their actual freshness. The live report is the
+authority for current evidence and readiness.
 
 Additional application coverage remains separate from the upstream inventory
 and original timing targets. Four RealWorld full-score/rollback/bounded-search
-regressions retain their own provenance and zero upstream-method credit. The
-frozen public scenarios, application model, settings and benchmark runner are
-unchanged. All **12** newly measured Java/Rust outputs pass independent score and
-assignment checks, with seeds 7/11/23 and ten seconds per runtime on runner-a.
-Rust streams reach **95,670 /35,020 evaluations/s**, or **0.723x /0.427x Java
-streams throughput**, on golfer/sailing. The prior separate qualification measured
-92,419 /33,056 native evaluations/s. Rotating three-second native controls on the
-combined pilot improved 2.9%/6.7%; that pilot precedes final private dead-code/lint
-cleanup and is distinct from the default final-source Java qualification. Both
-additional throughput targets remain unmet. Sailing feasibility is 2/3 Rust and
-0/3 Java; raw quality remains separate, without an equal-score gate. These bounded
-results establish neither universal parity nor identical search traces.
+regressions retain their own provenance and zero upstream-method credit. Frozen
+public scenarios, application model, settings and benchmark runner are unchanged.
+All **12** newly measured Java/Rust outputs pass independent score and assignment
+checks, with seeds 7/11/23 and ten seconds per runtime on runner-a. Rust streams
+reach **98,425 /36,632 evaluations/s**, or
+**0.758x /0.447x Java throughput**, on golfer/sailing. The prior separate
+qualification measured 95,670 /35,020 native evaluations/s; separate sessions are
+not an interleaved speedup comparison. The base pilot improved 3.1%/4.4% against
+the prior immutable artifact; the additional input shortcut was flat on golfer
+and +0.9% on sailing against that measured base. Those pilots precede a final
+len/is_empty cleanup and are distinct from the default final-source Java run.
+**0/2** additional throughput targets are met. Sailing feasibility remains
+2/3 Rust and 0/3 Java; quality is separate, without an equal-score gate. These
+bounded results establish neither universal parity nor identical search traces.
+
+Eligible graph integer collectors retain each logical edit as an inverse;
+independent dirty-collector observations copy values and preserve canonical keys.
+Grouped-input pages use private Box containers with shared row owners. An exclusive,
+identical captured primitive input can omit its final private store while mappings,
+group processing, singleton key rebirth, emissions and scoring keep their phases.
+Later private input captures may share an omitted historical allocation; these
+owners have no public accessor, and public group/match owners are unchanged.
+General release builds use fat LTO. Model, fixtures, solver settings, target CPU
+and the original runner remain unchanged. The batch adds **23** native controls
+and no upstream-method credit.
 
 Eligible ordinary joins now use primitive row pages and touched captures; custom
 and standalone joins retain tree storage. Private page writes avoid page reference

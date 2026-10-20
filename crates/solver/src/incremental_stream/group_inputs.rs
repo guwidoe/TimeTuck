@@ -261,6 +261,35 @@ impl<I, V> PreparedChange<'_, I, V> {
             }
         }
     }
+    // Equality is supplied only after GroupNode has certified an exact builtin
+    // mapped key. Get_mut proves uniqueness atomically, including absence of
+    // Weak owners; neither the value nor its owner is mutated on the omit path.
+    pub(super) fn insert_unless_exclusive_equal(self, id: I, value: V, equal: fn(&V, &V) -> bool) {
+        match self {
+            Self::Tree(prepared) => prepared.insert(id, value),
+            Self::Paged { rows, index } => {
+                let index = index.expect("bound group pair outside universe");
+                drop(id);
+                if !rows.exclusive_equal(index, &value, equal) {
+                    rows.insert(index, value);
+                }
+            }
+            Self::Dense { rows, index } => {
+                assert!(
+                    index < rows.values.len(),
+                    "bound group input outside universe"
+                );
+                drop(id);
+                let unchanged = rows.values[index]
+                    .as_mut()
+                    .and_then(Arc::get_mut)
+                    .is_some_and(|old| equal(old, &value));
+                if !unchanged {
+                    rows.insert(index, value);
+                }
+            }
+        }
+    }
     pub(super) fn remove(self) {
         match self {
             Self::Tree(prepared) => prepared.remove(),
@@ -636,3 +665,6 @@ mod unbounded_input_tests {
         assert!(rows.get(&(usize::MAX, usize::MAX)).is_none());
     }
 }
+
+#[cfg(test)]
+mod equal_tests;

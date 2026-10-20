@@ -25,75 +25,66 @@ seeds7/11/23, ten-second limits and solver settings unchanged. Same-machine pair
 runtime order and independent score/assignment validation remain required.
 Additional application evidence earns zero upstream-method credit.
 
-The page/join-storage batch is integrated from actual frozen runner-a snapshot
-`37f08c68f2a98d1e772d8ae16ada294cecc0a5dedb2bf8b159d3ebd3d8a8af2b`.
-Native digest `61bbe7b1e8f2cb64c12e02ffbfcaa35d9e4513926632a94c8080bac92a0c3dd2`;
-production `2edd839489f33c796961355765f4f7d6ea3c7fa6f4b3a0525c0e34896ac4aaf4`.
-Actual `bash scripts/check.sh` passes: **8764 recorded identities**, **8770 Cargo
-invocations**, **292 doctests**, formatting/all-target Clippy and **54 tooling jobs**.
-Actual preflight24.31s, all-target no-run command-jobs8 prebuild307.87s,
-normal-jobs4 standard gate272.24s, unchanged default qualifier212.61s. Total821.10s
-includes all commands; genuine compiler/verification reuse, no job-key transplant.
-Do not repeat unchanged verification. Observation:
-`compat/observations/real_world-page-join-storage.json`; actual proofs under
-`work/real_world-goal/page-join-storage-next-final-results/`.
+The collector/input-storage batch is integrated from actual frozen runner-a
+snapshot `1e588a25f261ac39f30325b776cb46f54dd356cefea28e649f3b7f0e311644f6`.
+Native digest `97bf330f83bd5fd8ddacac967afa925cceaa9dba5faafaa96cd907f6c25165ae`;
+production `92f7441f8f75c907a3fcb4c3c2b869f3a857aa76ff744a8ead32c2fff080ef16`.
+Actual `bash scripts/check.sh` passes: **8787 recorded identities**,
+**8793 Cargo executions**, **292 doctests**, formatting/all-target Clippy
+and **54 tooling jobs**. Actual preflight40.84s, all-target no-run command-jobs8
+prebuild293.10s, normal-jobs4 gate274.50s, unchanged default qualifier216.37s;
+total828.81s includes all commands. Genuine compiler/verification reuse, no
+job-key transplant. Do not repeat unchanged verification. Observation:
+`compat/observations/real_world-collector-input-storage.json`; actual proofs under
+`work/real_world-goal/collector-input-storage-next-final-results/`.
 
-Fresh same-machine default qualifier: golfer **95,670 Rust /132,384 Java evaluations/s**
-(**0.723x**), sailing **35,020 /82,102** (**0.427x**). All12 raw assignment checksums
-match their recorded files and independently validate. Sailing feasible2/3 Rust,
-0/3 Java; quality remains separate. Prior separate qualifier92,419/33,056 native
-rates; those separate sessions are not an interleaved speedup comparison. Exact
-final artifact `308d93109452ecfc8a7161df5c46c879a6e9f706e336c7071538df019d2ee193`.
+Fresh same-machine default qualifier: golfer **98,425 Rust /129,853 Java evaluations/s**
+(**0.758x**), sailing **36,632 /81,891** (**0.447x**). All12 raw assignment
+checksums match their files and independently validate. Sailing feasible2/3 Rust,
+0/3 Java; quality remains separate. Prior separate qualifier95,670/35,020 native;
+separate sessions are not an interleaved speedup comparison. Exact qualified
+artifact `d08abda30cfb88553851fd0cde839e5fb2c9efab068f84e5834e88506bb1f4ce`.
 
-Changes: eligible ordinary join row pages/touched captures; private Box page
-containers avoid per-write reference counts. Full snapshots copy private page
-containers and share exact canonical key/value Arcs. Full/current/nested captures,
-canonical/Weak owners, custom Clone/Drop/panic and all join comparisons have ten
-new native controls; standalone/custom paths remain original tree state. Remove
-obsolete private map batch guard and retain its panic control on the replacement.
-Original inventory4412passed/0pending/443excluded, external application4 unchanged.
+Changes: per-edit inverse journals for eligible primitive graph collectors;
+existing shared/Weak/singleton replacements stay original. Dirty collector
+observations copy values, sharing canonical keys. GroupInputs private page Boxes
+remove page refcount writes; full snapshots copy pages/share row owners. Ordinary
+graph grouping omits an identical final primitive Dense/Paged input write only
+when the row owner is exclusive. Mapping/group/rebirth/emission/scoring phases
+and generic/standalone/custom paths remain unchanged. Later private input captures
+can share an omitted historical allocation; these owners have no public accessor,
+unlike separate public group keys and terminal matches. Fat LTO is the only
+release-profile change. Source/config/model/runner remain frozen. Added23 native
+controls; original inventory4412passed/0pending/443excluded and external4 unchanged.
+Backend freshness proof: `work/real_world-goal/collector-input-storage-next-final-results/http-verification.json`.
 
-The actual combined pilot has16 valid rotating3s seed7 controls, +2.927%golfer/
-+6.696%sailing versus814d; pilot productionada93957 precedes final private-guard
-removal/len-is_empty cleanup. Do not present it as exact final-source or Java
-qualification. Isolated pageBox+5.216/+3.003; primitiveJoinRows+.885/+3.539.
-Cursor/probed/leveled/small-count trials were flat or mixed and remain unselected;
-actual raw results and failed original Clippy/CFG-test receipts are preserved.
-No broad gate was run for rejected candidates.
+## Measured selection and next work
 
-## Next measured performance candidates
+Base combination pilot (original inverse + input Box pages + fat LTO):16valid,
++3.120%golfer/+4.405%sailing versus immutable prior artifact308d9310... . The input
+addition directly against that measured base:16valid,+.0158%golfer/+.8648%sailing.
+Do not multiply separate sessions or call their pre-lint bytes exact final-source
+qualification. Frozen sources/results are preserved under `work/real_world-goal/`.
+Indexed shared queues, compact journal frames, lazy pair construction, group event
+pooling, singleton rebirth and terminal equal-write shortcuts were flat/negative
+and unselected. Do not rebuild/retest them. The terminal shortcut also has a
+read-only late-observation ownership blocker: viewing/capturing AFTER a skipped
+write then rolling back can alias candidate/base value owners. Preexisting-owner
+checks alone do not fix that public behavior. Its failed ownership design is not
+in the integrated batch. The private GroupInputs scope is different and explicit.
 
-Only existing authorized agents reused; no new agents created. runner-c remains parked.
-Local and runner-a work in parallel. Preserve frozen sources and live runs across
-observation timeouts. Actual handles/results and pending sources are maintained in
-`work/real_world-goal/active-performance-state.json`.
-
-Both new candidates start from exact final61bbe7b1/2edd8394, not814d:
-`group-input-page-box-next-prototype` changes three GroupInputsPaged files; actual
-8focused tests pass60.30s, genuine local release123.85s artifact699e8bf8... .
-Private page Weak assertion explicitly becomes distinctBox/sharedcanonicalArc
-assertions; every payload Weak/pool/Clone/Drop check remains.
-`fixed-index-words-next-prototype` changes five files; actual10focused tests pass
-66.68s, genuine local release123.85s artifact93c52fd4... . Eligible fixed index
-buckets mutate/journal words and counts in place; canonical ID owners/iteration
-and custom/standalone legacy path remain. Nine new controls, independent review
-found no actionable issue. Full private snapshots copy words. This is distinct
-from rejected unbounded vector buckets and row-page lookup cache designs.
-Actual joint controls finish with all24 outputs valid against genuine current
-final artifact: group-input pages +1.767%golfer/+1.060%sailing, a modest candidate
-only for a measured larger batch; fixed words +1.482%golfer/+.410%sailing, effectively
-flat on sailing and unselected. Raw proofs:
-`next-input-page-fixed-word-controls-results/summary.json`. No broad gate/integration.
-
-An existing join agent is preparing `terminal-inline-values-next-prototype`, a
-separate eligible exact-Copy/builtin-score candidate. It replaces the previously
-flat owned-terminal arena/free handles/Rc<Key> machinery with direct private
-Boxpaged slots, inline values, optional promoted canonical value owner and moved
-value undo while leaving canonical key owners in place. Source not yet frozen or
-built; do not claim a pass or performance gain. New combined-pilot local profile
-is in `page-join-storage-next-results/profile-hotspots.txt`; pre-cleanup source,
-local diagnostic percentages only, independently valid output. No final-source
-or Java timing claim. Broader callback batching/model changes remain ruled out.
+Finish this integration/commit before new experiments. Then prioritize a larger
+private graph grouping reduction: audit whether identical captured primitive
+(key,scalar) inputs can keep private group state unchanged while still emitting
+every fresh summary event and invoking every downstream callback. Public standalone
+GroupNode.groups(), generic/custom types, public terminal snapshot versions,
+errors and callback phases must remain original. Current API audit locates group
+internals behind private Graph nodes; no implementation or performance claim yet.
+Other possible audits are equal private flat-map lengths and membership-only
+builtin filters. Do not infer callback purity from NoDrop or change the frozen
+application to opt into batching. Reuse up to three existing authorized agents;
+local and runner-a only, runner-c remains parked. Active handles/proofs and the next
+source-bound action are in `work/real_world-goal/active-performance-state.json`.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

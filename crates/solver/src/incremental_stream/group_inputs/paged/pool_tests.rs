@@ -71,15 +71,26 @@ fn group_input_pool_paged_preserves_page_snapshot_weak_lifetimes_and_custom_hook
     let slot = paged.index(&id).unwrap();
     let page = paged.pages[slot / PAGE_SIZE].as_ref().unwrap();
     let old_weak = Arc::downgrade(page[slot % PAGE_SIZE].as_ref().unwrap());
-    let page_weak = Arc::downgrade(page);
+    let page_address = page.as_ref() as *const Page<usize>;
     let snapshot = rows.clone();
+    let GroupInputs::Paged(saved) = &snapshot else {
+        unreachable!()
+    };
+    let saved_page = saved.pages[slot / PAGE_SIZE].as_ref().unwrap();
+    // Only the private page representation changes: snapshots copy page boxes
+    // and share exactly the same canonical value owners.
+    assert_ne!(page_address, saved_page.as_ref() as *const Page<usize>);
+    assert!(Arc::ptr_eq(
+        page[slot % PAGE_SIZE].as_ref().unwrap(),
+        saved_page[slot % PAGE_SIZE].as_ref().unwrap(),
+    ));
     rows.insert(id, 2);
     assert!(old_weak.upgrade().is_some());
-    assert!(page_weak.upgrade().is_some());
+
     assert_eq!(snapshot.get(&id), Some(&1));
     drop(snapshot);
     assert!(old_weak.upgrade().is_none());
-    assert!(page_weak.upgrade().is_none());
+
     let GroupInputs::Paged(paged) = &rows else {
         unreachable!()
     };

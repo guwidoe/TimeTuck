@@ -2765,3 +2765,27 @@ change contribution counts, intermediate publications or scoring arithmetic.
 
 These implementation choices earn no upstream-method credit. Application timing
 and quality evidence remains separate from the original compatibility inventory.
+
+
+## Private integer grouping storage
+
+Ordinary graph integer grouping can journal each eligible primitive-key collector
+edit with an inverse operation. Shared or Weak collector observers and singleton
+representative replacement keep the original path. Observations of inverse-dirty
+collectors copy the internal value and share the actual canonical key; full/current
+snapshots and enclosing rollback remain independent. Generic PrimitiveRows and
+public standalone grouping retain their existing storage behavior.
+
+Grouped-input page containers can be privately owned Boxes. Full snapshots copy
+these containers and share the actual row Arcs. For a certified primitive captured
+key and i64 value in ordinary graph Dense/Paged inputs, an identical final store
+can be omitted when the current row owner is exclusive. Every mapping, group
+operation, singleton key rebirth, emitted summary and scoring callback still runs
+in its original phase, including bounds and error handling. Generic, standalone,
+borrowed and unbound tree inputs retain every original store.
+
+A later private input snapshot may share an omitted historical input allocation.
+GroupInputs has no public owner accessor; these exact builtin values have no user
+Clone, Drop or equality hooks. Separate public group keys, terminal match tuples
+and their retained snapshot owners are unchanged. This private input choice does
+not authorize skipping public terminal value versions or downstream callbacks.

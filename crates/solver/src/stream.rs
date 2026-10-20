@@ -352,3 +352,6 @@ impl fmt::Display for StreamScoreError {
 }
 
 impl std::error::Error for StreamScoreError {}
+
+#[cfg(test)]
+mod group_inverse_count_tests;

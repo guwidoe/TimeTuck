@@ -2165,6 +2165,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let mut node = GroupNode::<I, K>::new();
         node.bind_primitive_group_keys();
         node.bind_primitive_inputs();
+        node.enable_equal_input_reuse();
         let out = self.push(Group {
             node,
             mapping: Box::new(mapping),

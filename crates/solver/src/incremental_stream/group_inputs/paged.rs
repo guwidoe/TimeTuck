@@ -11,7 +11,9 @@ pub(in crate::incremental_stream) struct Capture<V> {
     rows: Undo<V>,
 }
 pub(in crate::incremental_stream) struct Paged<I, V> {
-    pages: Vec<Option<Arc<Page<V>>>>,
+    // Private page containers are copied by full snapshots. Captured values
+    // retain their canonical Arc owners, while journaled writes need no page CAS.
+    pages: Vec<Option<Box<Page<V>>>>,
     left: usize,
     right: usize,
     index: fn(&I, usize, usize) -> Option<usize>,
@@ -43,13 +45,28 @@ impl<I, V> Paged<I, V> {
             .get(index % PAGE_SIZE)?
             .as_deref()
     }
+    pub(super) fn exclusive_equal(
+        &mut self,
+        index: usize,
+        value: &V,
+        equal: fn(&V, &V) -> bool,
+    ) -> bool {
+        // Box page containers are structurally unique; snapshots copy their
+        // containers and share each row Arc. Row get_mut also excludes Weak.
+        self.pages
+            .get_mut(index / PAGE_SIZE)
+            .and_then(Option::as_mut)
+            .and_then(|page| page[index % PAGE_SIZE].as_mut())
+            .and_then(Arc::get_mut)
+            .is_some_and(|old| equal(old, value))
+    }
     fn set(&mut self, index: usize, value: Option<Arc<V>>) -> Option<Arc<V>> {
         let page = &mut self.pages[index / PAGE_SIZE];
         if page.is_none() && value.is_none() {
             return None;
         }
-        let page = page.get_or_insert_with(|| Arc::new(std::array::from_fn(|_| None)));
-        std::mem::replace(&mut Arc::make_mut(page)[index % PAGE_SIZE], value)
+        let page = page.get_or_insert_with(|| Box::new(std::array::from_fn(|_| None)));
+        std::mem::replace(&mut page[index % PAGE_SIZE], value)
     }
     pub(super) fn replace(&mut self, index: usize, value: Option<Arc<V>>) -> bool {
         let old = self.set(index, value);
@@ -165,17 +182,25 @@ impl<I, V> Paged<I, V> {
             "group pair universe"
         );
         for (page_index, old) in saved.pages.into_iter().enumerate() {
-            let same = match (&self.pages[page_index], &old) {
-                (None, None) => true,
-                (Some(current), Some(old)) => Arc::ptr_eq(current, old),
-                _ => false,
-            };
-            if same {
+            if self.pages[page_index].is_none() && old.is_none() {
                 continue;
             }
             for slot in 0..PAGE_SIZE {
-                let value = old.as_ref().and_then(|page| page[slot].clone());
-                self.replace(page_index * PAGE_SIZE + slot, value);
+                let current = self.pages[page_index]
+                    .as_ref()
+                    .and_then(|page| page[slot].as_ref());
+                let previous = old.as_ref().and_then(|page| page[slot].as_ref());
+                // Snapshot pages have independent containers. Compare actual
+                // captured owners before journaling a changed cell; this also
+                // avoids manufacturing writes to the final page's padding.
+                if match (current, previous) {
+                    (None, None) => true,
+                    (Some(current), Some(previous)) => Arc::ptr_eq(current, previous),
+                    _ => false,
+                } {
+                    continue;
+                }
+                self.replace(page_index * PAGE_SIZE + slot, previous.cloned());
             }
         }
     }
@@ -315,8 +340,8 @@ mod capture_tests {
         rows.insert((1, 571), NoClone(3));
         let saved = rows.clone();
         rows.insert((572, 572), NoClone(4));
-        // Full installation logs padding of the final page; delta capture must
-        // retain only valid Cartesian cells from that otherwise harmless undo.
+        // Full installation compares canonical cell owners, including the
+        // final partial page, without manufacturing padding journal entries.
         rows.install_snapshot(saved);
         let capture = rows.capture_current(outer);
         let super::super::Capture::Paged(capture) = capture else {
@@ -358,3 +383,9 @@ mod capture_tests {
 
 #[cfg(test)]
 mod pool_tests;
+
+#[cfg(test)]
+mod page_box_tests;
+
+#[cfg(test)]
+mod equal_tests;
