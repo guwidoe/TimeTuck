@@ -11084,3 +11084,53 @@ Evidence: work/round296-qualification/{integration,candidate-build-receipt,
 final-build-receipt,pair-results,prebuild-receipt,gate-receipt,
 mixed-performance-receipt,collection,browser-proof}.json; tree-coalescing-trial/,
 sorted-buffer-trial/ and work/parallel-round296-evidence.json.
+
+## Qualification — 299 coalesced checked-sum replacements
+
+SumCollector defers one logical primitive replacement. Checked chains compose;
+inverses cancel. Each public operation still checks its own signed difference,
+total and current membership before any change. Other successful mutations
+materialize the pending frequency edit. Logical equality ignores representation;
+clones retain the complete pending state and shared roots. Duplicate/zero captures,
+checked overflow, Send/Sync, no-pending removal and graph rollback remain intact.
+Five original regressions supplement all seven existing checked-sum regressions;
+no upstream-method credit is added.
+
+Against the actual qualified 296 artifact, original sum update/restore workloads
+improve **87.65% / 91.26%** at 64/512 captures,
+every four-fork comparison faster. All 96 original full validation cases and all 6
+original timing inputs/settings/outputs remain. Separate public-API controls retain
+full frequency reconstruction and drains: inverse and connected-chain paths
+improve every fork, while alternating independent captures have **1.24% /
+6.23% higher medians**, mixed forks. Unchanged set/map controls retain
+2–5.5% higher pooled medians with mixed forks. Deferred work can move onto unrelated
+edits or equality; the collector grows by one bounded field. No general speed,
+whole-solver, memory or Java execution-work equivalence claim follows.
+
+One final `bash scripts/check.sh`: **8,592 Rust +292 doctests**,
+**95 RUN/53 REUSE**, 337.394s; build-only precompile
+uses eight workers and the standard gate retains its normal four-worker environment.
+Native `5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827`. One actual Java aggregate refresh retains all 96 checks and
+all 6 original workloads; **6/6 meet measured time parity**, with full checked
+trial/restore/commit observations and checksums. Other 17 raw reports retain bytes,
+dates and actual keys. Mixed296 becomes stale under the shared input change;
+its earlier 8/8 result is historical, not refreshed here. Dashboard UI/data contract
+is unchanged: reuse actual 296 desktop/mobile proof and check current HTTP report,
+source/model hashes and freshness. No repeated browser suite or unchanged Rust gate.
+
+Dashboard index **86.124%**, **1/18 current**, 17 stale, Java multiplier **1**.
+This is a tracked-target index, not remaining effort or an ETA. Inventory remains
+4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. Remaining behavior
+gaps are not waived; goal active/incomplete. The 297 profile on qualified 296 found
+Arc::make_mut at 67.32% self (2,038 samples, zero lost), motivating deferred edits. The 298 cardinality prototype was rejected; its changes are
+absent. Evidence: work/round297-aggregate-gap/, work/round298-qualification/;
+work/round299-qualification/{integration,candidate-build-receipt,pair-results,
+control-pair-results,gate-receipt,aggregate-performance-receipt,collection}.json.
+
+Current aggregate release artifact `d641790ff61042938ef558c56f7d29a69ab501523c6e6abc0185f161d09b6659` is actually built
+from the native source above. The mixed296 artifact remains historical. Next:
+use this qualified baseline, close another relevant behavior/performance gap,
+and reuse unchanged successful checks. No new agent was created; one existing
+agent prepared the overlays. All qualification ran locally. runner-a SSH now works; its Rust 1.92 toolchain
+is in `/home/developer/.cache/timetuck-build/rust-1.92.0/bin` (prepend to PATH).
+No remote build/auth job is live. runner-c remains parked. The dashboard is localhost8765.

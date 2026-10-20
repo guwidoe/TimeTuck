@@ -20,6 +20,10 @@ impl Error for SumOverflow {}
 /// Missing captures return false; overflow leaves state unchanged. Trait methods
 /// panic on overflow for graph transaction rollback. Captures retain duplicate and
 /// zero occurrences. Clone shares persistent roots; finish does not scan inputs.
+/// Storage may defer one logical primitive replacement. Checked replacements
+/// of its new value compose with it; a checked inverse cancels the pending edit.
+/// Other successful mutations first materialize it.
+/// Logical equality compares frequencies regardless of deferred representation.
 ///
 /// ```
 /// use timetuck::{SumCollector,ReversibleCollector,SumOverflow};
@@ -30,18 +34,41 @@ impl Error for SumOverflow {}
 /// assert_eq!(c.try_replace(i64::MAX,0),Ok(true));
 /// # Ok::<(),SumOverflow>(())
 /// ```
-#[derive(Clone, Debug, Default, PartialEq, Eq)]
+#[derive(Clone, Debug, Default)]
 pub struct SumCollector {
+    // The physical base plus at most one checked logical occurrence replacement.
     values: IntCollectorCounts,
+    pending: Option<(i64, i64)>,
     count: usize,
     sum: i64,
 }
 impl SumCollector {
+    fn contains(&self, value: i64) -> bool {
+        match self.pending {
+            Some((_, new)) if value == new => true,
+            Some((old, _)) if value == old => self.values.frequency(old).is_some_and(|n| n > 1),
+            _ => self.values.contains(value),
+        }
+    }
+    fn materialize(&mut self) {
+        if let Some((old, new)) = self.pending.take() {
+            // Preflighted when deferred. Primitive comparison/cloning/drop cannot
+            // call user code; this changes storage only, never current sum/count.
+            assert!(self.values.replace(old, new), "pending captured occurrence");
+        }
+    }
+    fn logical_values(&self) -> IntCollectorCounts {
+        let mut values = self.values.clone();
+        if let Some((old, new)) = self.pending {
+            assert!(values.replace(old, new), "pending captured occurrence");
+        }
+        values
+    }
     pub fn try_insert(&mut self, value: i64) -> Result<(), SumOverflow> {
         let sum = self.sum.checked_add(value).ok_or(SumOverflow)?;
         let count = self.count.checked_add(1).expect("collector count overflow");
-        // All recoverable failures precede mutation. Counts have primitive keys
-        // and values, so no user comparison, clone or destructor can panic here.
+        // Complete recoverable/count preflight before changing pending or roots.
+        self.materialize();
         self.values.increment(value);
         self.count = count;
         self.sum = sum;
@@ -49,13 +76,21 @@ impl SumCollector {
     }
     pub fn try_remove(&mut self, value: i64) -> Result<bool, SumOverflow> {
         let Some(sum) = self.sum.checked_sub(value) else {
-            return if self.values.contains(value) {
+            return if self.contains(value) {
                 Err(SumOverflow)
             } else {
                 Ok(false)
             };
         };
-        if !self.values.remove(value) {
+        if self.pending.is_some() {
+            if !self.contains(value) {
+                return Ok(false);
+            }
+            self.materialize();
+            assert!(self.values.remove(value), "preflighted captured occurrence");
+        } else if !self.values.remove(value) {
+            // Preserve the ordinary direct lookup/removal path without a
+            // preliminary membership traversal when no edit is pending.
             return Ok(false);
         }
         self.count -= 1;
@@ -64,25 +99,54 @@ impl SumCollector {
     }
     pub fn try_replace(&mut self, old: i64, new: i64) -> Result<bool, SumOverflow> {
         if old == new {
-            return Ok(self.values.contains(old));
+            return Ok(self.contains(old));
         }
+        // Even a pending inverse MUST check delta and current total first.
+        // E.g. 0->MIN is representable, but MIN->0 has an overflowing delta.
         let Some(sum) = new
             .checked_sub(old)
             .and_then(|delta| self.sum.checked_add(delta))
         else {
-            return if self.values.contains(old) {
+            return if self.contains(old) {
                 Err(SumOverflow)
             } else {
                 Ok(false)
             };
         };
-        if !self.values.replace(old, new) {
+        if !self.contains(old) {
             return Ok(false);
+        }
+        if let Some((base_old, pending_new)) = self.pending
+            && old == pending_new
+        {
+            // Primitive equal captures are indistinguishable. The frequency
+            // deltas compose even if pending_new already existed in the base.
+            // Recheck only this operation's delta above, never the composed
+            // base_old->new delta, which need not itself fit signed i64.
+            self.pending = (base_old != new).then_some((base_old, new));
+        } else {
+            self.materialize();
+            self.pending = Some((old, new));
         }
         self.sum = sum;
         Ok(true)
     }
 }
+impl PartialEq for SumCollector {
+    fn eq(&self, other: &Self) -> bool {
+        if self.count != other.count || self.sum != other.sum {
+            return false;
+        }
+        // Identical deferred transforms are injective on captured frequencies:
+        // equal physical bases imply equal logical multisets and vice versa.
+        // Avoid transient COW materialization for common clone/equal histories.
+        if self.pending == other.pending {
+            return self.values == other.values;
+        }
+        self.logical_values() == other.logical_values()
+    }
+}
+impl Eq for SumCollector {}
 
 impl ReversibleCollector<i64> for SumCollector {
     type Output = i64;

@@ -275,3 +275,198 @@ fn tree_overflow_missing_and_equal_replacements_preserve_captures() {
     assert_eq!(collector.finish(), 0);
     assert_eq!(initial.finish(), i64::MAX);
 }
+
+// Original bounded deferred-edit/cancellation contracts. No upstream method credit.
+#[test]
+fn deferred_inverse_still_rejects_overflowing_delta_and_trait_panic_is_atomic() {
+    let mut c = SumCollector::default();
+    c.try_insert(0).unwrap();
+    c.try_insert(0).unwrap();
+    assert_eq!(c.try_replace(0, i64::MIN), Ok(true));
+    assert_eq!(c.finish(), i64::MIN);
+    let saved = c.clone();
+    assert_eq!(c.try_replace(i64::MIN, 0), Err(SumOverflow));
+    assert_eq!(c, saved);
+    assert!(
+        catch_unwind(AssertUnwindSafe(|| ReversibleCollector::replace(
+            &mut c,
+            &i64::MIN,
+            &0
+        )))
+        .is_err()
+    );
+    assert_eq!(c, saved);
+    assert_eq!(c.try_remove(i64::MIN), Ok(true));
+    assert_eq!(c.finish(), 0);
+    assert_eq!(c.try_remove(0), Ok(true));
+    assert_eq!(c.try_remove(0), Ok(false));
+    assert_eq!(saved.finish(), i64::MIN);
+}
+#[test]
+fn deferred_logical_equality_clones_branches_and_flushes_ignore_representation() {
+    fn collect(values: &[i64]) -> SumCollector {
+        let mut c = SumCollector::default();
+        for &v in values {
+            c.try_insert(v).unwrap();
+        }
+        c
+    }
+    fn send_sync<T: Send + Sync>() {}
+    send_sync::<SumCollector>();
+    let base = collect(&[-2, -1, 0, 0, 3]);
+    let mut c = base.clone();
+    assert_eq!(c.try_replace(-2, 4), Ok(true));
+    let saved = c.clone();
+    let logical = collect(&[-1, 0, 0, 3, 4]);
+    assert_eq!(c, logical);
+    assert_eq!(logical, c);
+    let mut materialized = c.clone();
+    materialized.try_insert(0).unwrap();
+    assert_eq!(materialized.try_remove(0), Ok(true));
+    assert_eq!(c, materialized);
+    let mut inverse = c.clone();
+    assert_eq!(inverse.try_replace(4, -2), Ok(true));
+    assert_eq!(inverse, base);
+    assert_eq!(c.try_replace(-2, 8), Ok(false));
+    assert_eq!(c.try_replace(4, 4), Ok(true));
+    assert_eq!(c, saved);
+    for v in [-1, 0, 0, 3, 4] {
+        assert_eq!(materialized.try_remove(v), Ok(true));
+    }
+    assert_eq!(materialized, SumCollector::default());
+    assert_eq!(saved, logical);
+    assert_eq!(base.finish(), 0);
+}
+#[test]
+fn pending_duplicate_membership_and_composed_chains_preserve_every_occurrence() {
+    let mut c = SumCollector::default();
+    for v in [1, 1, 0, 0, -2] {
+        c.try_insert(v).unwrap();
+    }
+    let initial = c.clone();
+    assert_eq!(c.try_replace(1, 0), Ok(true)); // Destination already present.
+    let once = c.clone();
+    assert_eq!(c.try_replace(1, 1), Ok(true)); // One base source remains.
+    assert_eq!(c.try_replace(0, 3), Ok(true)); // Compose 1->0->3; other zero captures remain.
+    assert_eq!(c.finish(), 2);
+    assert_eq!(c.try_replace(3, 1), Ok(true));
+    assert_eq!(c, initial);
+    let mut drained = once.clone();
+    for v in [1, 0, 0, 0, -2] {
+        assert_eq!(drained.try_remove(v), Ok(true));
+    }
+    assert_eq!(drained, SumCollector::default());
+    assert_eq!(once.finish(), -1);
+    // A composed physical edit need not have a representable net i64 delta.
+    // Each public step is independently valid; flushing must not revalidate net delta.
+    let mut wide = SumCollector::default();
+    wide.try_insert(i64::MIN).unwrap();
+    assert_eq!(wide.try_replace(i64::MIN, -1), Ok(true));
+    assert_eq!(wide.try_replace(-1, i64::MAX - 1), Ok(true));
+    let saved = wide.clone();
+    let mut reconstructed = SumCollector::default();
+    reconstructed.try_insert(i64::MAX - 1).unwrap();
+    assert_eq!(wide, reconstructed);
+    assert_eq!(wide.try_replace(i64::MAX - 1, i64::MIN), Err(SumOverflow));
+    assert_eq!(wide, saved);
+    wide.try_insert(0).unwrap();
+    assert_eq!(wide.try_remove(i64::MAX - 1), Ok(true));
+    assert_eq!(wide.finish(), 0);
+    assert_eq!(wide.try_remove(0), Ok(true));
+}
+#[test]
+fn pending_errors_missing_and_equal_operations_precede_materialization() {
+    let mut c = SumCollector::default();
+    for v in [-1, i64::MAX, 0] {
+        c.try_insert(v).unwrap();
+    }
+    assert_eq!(c.try_replace(0, 1), Ok(true));
+    let saved = c.clone();
+    assert_eq!(c.try_insert(1), Err(SumOverflow));
+    assert_eq!(c, saved);
+    assert_eq!(c.try_remove(-1), Err(SumOverflow));
+    assert_eq!(c, saved);
+    assert_eq!(c.try_replace(1, 2), Err(SumOverflow));
+    assert_eq!(c, saved);
+    assert_eq!(c.try_replace(99, i64::MIN), Ok(false));
+    assert_eq!(c.try_remove(i64::MIN), Ok(false));
+    assert_eq!(c.try_replace(1, 1), Ok(true));
+    assert_eq!(c.try_replace(0, 0), Ok(false));
+    assert_eq!(c, saved);
+    c.try_insert(0).unwrap();
+    for v in [i64::MAX, -1, 1, 0] {
+        assert_eq!(c.try_remove(v), Ok(true));
+    }
+    assert_eq!(c, SumCollector::default());
+    assert_eq!(saved.finish(), i64::MAX);
+}
+#[test]
+fn independently_reconstructed_mixed_histories_match_all_logical_frequencies() {
+    fn reconstruct(model: &BTreeMap<i64, usize>) -> SumCollector {
+        let mut c = SumCollector::default();
+        for (&v, &n) in model {
+            for _ in 0..n {
+                c.try_insert(v).unwrap();
+            }
+        }
+        c
+    }
+    let mut c = SumCollector::default();
+    let mut model = BTreeMap::<i64, usize>::new();
+    let mut snapshots = Vec::new();
+    let mut seed = 299u64;
+    for step in 0..1800 {
+        seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1);
+        let old = ((seed >> 32) % 25) as i64 - 12;
+        let new = ((seed >> 16) % 25) as i64 - 12;
+        match seed % 4 {
+            0 => {
+                c.try_insert(old).unwrap();
+                *model.entry(old).or_default() += 1;
+            }
+            1 => {
+                let present = model.contains_key(&old);
+                assert_eq!(c.try_remove(old), Ok(present));
+                if present {
+                    let n = model.get_mut(&old).unwrap();
+                    *n -= 1;
+                    if *n == 0 {
+                        model.remove(&old);
+                    }
+                }
+            }
+            _ => {
+                let present = model.contains_key(&old);
+                assert_eq!(c.try_replace(old, new), Ok(present));
+                if present {
+                    let n = model.get_mut(&old).unwrap();
+                    *n -= 1;
+                    if *n == 0 {
+                        model.remove(&old);
+                    }
+                    *model.entry(new).or_default() += 1;
+                }
+            }
+        }
+        assert_eq!(
+            c.finish(),
+            model.iter().map(|(&v, &n)| v * n as i64).sum::<i64>()
+        );
+        let independent = reconstruct(&model);
+        assert_eq!(c, independent);
+        assert_eq!(independent, c);
+        if step % 137 == 0 {
+            snapshots.push((c.clone(), model.clone()));
+        }
+    }
+    for (snapshot, expected) in snapshots {
+        assert_eq!(snapshot, reconstruct(&expected));
+    }
+    for (v, n) in model {
+        for _ in 0..n {
+            assert_eq!(c.try_remove(v), Ok(true));
+        }
+        assert_eq!(c.try_remove(v), Ok(false));
+    }
+    assert_eq!(c, SumCollector::default());
+}

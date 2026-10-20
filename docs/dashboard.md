@@ -762,3 +762,21 @@ time. All original graph controls and the single Java group per case/fork remain
 The dashboard shows the selected registry and its Eq-only control median; slower
 controls or regressions stay visible. Stable equality-consistent ordinal keys are
 an explicit model-construction obligation, not an inferred property of all values.
+
+## Checked-sum deferred replacement evidence
+
+The aggregate panel retains the original six inputs, 96 full validation cases,
+200 iterations, 3 warmups, 5 samples and 3 Java/native forks. Qualification 299 changes
+native storage work by composing one pending checked replacement or cancelling
+its inverse. Every public arithmetic/membership check and full trial/restore/commit
+observation remains required. All six fresh workloads meet measured Java parity.
+The completion target remains Java multiplier 1; no UI or model weighting changed.
+
+The native comparison and separate public-API controls are recorded in
+compat/observations/sum-replacement-coalescing.json. Alternating edits of independent
+captures are slower in the bounded controls; deferred work can move onto unrelated
+edits/equality and storage grows. No universal collector or solver speed claim.
+Other 17 raw reports are unchanged, with relevant stale inputs visibly retained.
+Backend-only same-contract report refresh reuses the 296 desktop/mobile rendering evidence
+plus actual current HTTP/source/model/freshness checks. The older browser's report
+hash remains historical; it is not rebound to the new data.

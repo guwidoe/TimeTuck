@@ -45,6 +45,15 @@ impl Default for IntCollectorCounts {
     }
 }
 impl IntCollectorCounts {
+    pub(crate) fn frequency(&self, value: i64) -> Option<usize> {
+        match self {
+            Self::Inline { entries, len } => entries[..*len]
+                .binary_search_by_key(&value, |entry| entry.0)
+                .ok()
+                .map(|index| entries[index].1),
+            Self::Tree(tree) => tree.get(value),
+        }
+    }
     pub(crate) fn contains(&self, value: i64) -> bool {
         match self {
             Self::Inline { entries, len } => entries[..*len]

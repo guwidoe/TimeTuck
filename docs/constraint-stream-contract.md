@@ -1718,13 +1718,25 @@ uses the sum collector's checked panic. Keep all insertion prefixes
 representable when requiring independent reconstruction to succeed.
 
 The implementation keeps private primitive frequencies, checked count and total;
-finish reads only the total, without constructing extrema summaries. Arithmetic
-preflight precedes primitive mutations. Missing captures still return false even
-when arithmetic would overflow; equal replacement tests membership without edits.
-External clones share persistent roots, and later mutations preserve old snapshots.
-This removes redundant internal snapshots without changing the public operations
-or bounds. Private derived Debug field shape changes; no stable text format is
-promised.
+finish reads only the total, without constructing extrema summaries. One bounded
+pending replacement describes the logical frequencies over a persistent base.
+After each operation's arithmetic and membership preflight, replacing that pending
+new value composes the two frequency deltas; returning to the original value
+cancels them. Other successful mutations materialize the pending primitive edit.
+Missing, equal and overflowing operations leave the representation unchanged.
+In particular, `0 -> MIN` succeeds but `MIN -> 0` still fails its difference
+check before cancellation. Valid individually checked chains may have an
+unrepresentable net difference; materialization does not recheck that difference.
+
+Membership includes the pending delta and every duplicate/zero capture. Equality
+compares logical frequencies across pending/materialized histories, cloning and
+materializing temporary roots only when the pending transforms differ. External
+clones share persistent roots and copy the bounded pending field; later mutations
+preserve old snapshots. The collector grows by that field; unrelated edits can
+pay deferred tree work and equality can allocate temporary paths. No general
+latency or memory improvement is claimed. The no-pending removal path keeps its
+ordinary direct lookup/removal. Public bounds and checked arithmetic are unchanged.
+Private derived Debug field shape changes; no stable text format is promised.
 
 Primitive integer frequencies use a private persistent AVL tree whose i64 key
 and usize count live directly inside each shared node. No separately shared key

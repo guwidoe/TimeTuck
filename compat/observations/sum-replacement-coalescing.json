@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "classification": "Original bounded checked-sum storage optimization; no upstream-method credit",
+  "native_source": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+  "artifact_sha256": "d641790ff61042938ef558c56f7d29a69ab501523c6e6abc0185f161d09b6659",
+  "target": "Java time parity with equal-or-better solution quality/checked results",
+  "contract": "One pending primitive occurrence replacement, public checked delta/total and logical membership preflight before every edit; chain composition and inverse cancellation; materialization does not revalidate net delta; logical equality/persistent clones/duplicate zeros/SendSync/graph rollback retained",
+  "native_trial": {
+    "path": "work/round299-qualification/pair-results.json",
+    "sha256": "6571efa94c7e395f9ba93988f3943b384335bf45976ace5ae3a01e45b36613f6",
+    "workloads": 6,
+    "forks": 4,
+    "cpu": 2,
+    "summaries": [
+      {
+        "name": "Checked sum \u00b7 64 captures",
+        "baseline_ns": 232.41,
+        "candidate_ns": 28.697499999999998,
+        "candidate_over_baseline": 0.1234779054257562,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.11179889514692387
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.12848953140578265
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.12623099614250058
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.11502410887296652
+          }
+        ]
+      },
+      {
+        "name": "Checked sum \u00b7 512 captures",
+        "baseline_ns": 379.6125,
+        "candidate_ns": 33.195,
+        "candidate_over_baseline": 0.08744443346833942,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.09048606544939558
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.0876870328284487
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.08672012517113241
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.08781239301609037
+          }
+        ]
+      },
+      {
+        "name": "Sorted set \u00b7 64 captures",
+        "baseline_ns": 647.34,
+        "candidate_ns": 662.88,
+        "candidate_over_baseline": 1.0240059319677448,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9923612446632563
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9450871179662955
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.0253019267002101
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.9272803935347856
+          }
+        ]
+      },
+      {
+        "name": "Sorted set \u00b7 512 captures",
+        "baseline_ns": 2697.0775000000003,
+        "candidate_ns": 2844.6499999999996,
+        "candidate_over_baseline": 1.054715706167138,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9829561981226391
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.119135287340707
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9763007827719334
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.2183052579637896
+          }
+        ]
+      },
+      {
+        "name": "Merged map \u00b7 64 captures",
+        "baseline_ns": 2636.4,
+        "candidate_ns": 2688.7475000000004,
+        "candidate_over_baseline": 1.019855674404491,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9470070599371126
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.0262921842575858
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.0182452943555829
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.189067483895178
+          }
+        ]
+      },
+      {
+        "name": "Merged map \u00b7 512 captures",
+        "baseline_ns": 5492.9575,
+        "candidate_ns": 5737.195,
+        "candidate_over_baseline": 1.0444637519951683,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 1.0059954264930373
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9439905825767566
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.1615206686090296
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.024328105346921
+          }
+        ]
+      }
+    ],
+    "full96controls_passed": true
+  },
+  "sustained_controls": {
+    "path": "work/round299-qualification/control-pair-results.json",
+    "sha256": "910e174d274fa32c5673af32bb22028b622499c28a1c7fa57fedad51619fdac4",
+    "summaries": [
+      {
+        "count": 64,
+        "mode": "inverse",
+        "baseline_ns_per_edit": 137.7011,
+        "candidate_ns_per_edit": 6.2359,
+        "candidate_over_baseline": 0.04528576750657765,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.04411699834324422
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.04672649504562195
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.04105442211386734
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.05322141477606103
+          }
+        ]
+      },
+      {
+        "count": 64,
+        "mode": "cycle",
+        "baseline_ns_per_edit": 156.70556666666664,
+        "candidate_ns_per_edit": 5.7801,
+        "candidate_over_baseline": 0.03688509682808546,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.03765505315797934
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.03803827647959954
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.034377170156253356
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.03645833758369818
+          }
+        ]
+      },
+      {
+        "count": 64,
+        "mode": "alternating",
+        "baseline_ns_per_edit": 180.588875,
+        "candidate_ns_per_edit": 182.83407499999998,
+        "candidate_over_baseline": 1.012432659542289,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9771612281849532
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.0028037711675868
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.0059017762534523
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.0865775470535306
+          }
+        ]
+      },
+      {
+        "count": 512,
+        "mode": "inverse",
+        "baseline_ns_per_edit": 195.63335,
+        "candidate_ns_per_edit": 5.87805,
+        "candidate_over_baseline": 0.030046257450480708,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.02616688454597901
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.035392486232735026
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.029391154532269908
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.033322747918302774
+          }
+        ]
+      },
+      {
+        "count": 512,
+        "mode": "cycle",
+        "baseline_ns_per_edit": 214.0437,
+        "candidate_ns_per_edit": 4.9562333333333335,
+        "candidate_over_baseline": 0.02315524041741632,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.025723289315726292
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.025780737647024172
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.023895431198677958
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.02323751439491267
+          }
+        ]
+      },
+      {
+        "count": 512,
+        "mode": "alternating",
+        "baseline_ns_per_edit": 240.323675,
+        "candidate_ns_per_edit": 255.30472500000002,
+        "candidate_over_baseline": 1.0623369711702353,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.8905647034077314
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.0590220964406225
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.267350387414749
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.0467636601449846
+          }
+        ]
+      }
+    ],
+    "policy": "Actual public-API control binaries linked against genuine baseline/candidate Cargo libraries. Full initial64/512 captures; each timed replacement checks success, exact sum and checksum, then equality with independent reconstructed frequencies and exhaustive drain/missing tests outside timing. Original inverse, sustained noninverse chain and alternating independent-capture flush path. No Java, graph, memory or general-speed claim; original6aggregate workloads and96cases retained separately."
+  },
+  "diagnostic_profile": {
+    "path": "work/round297-aggregate-gap/profile-receipt.json",
+    "sha256": "1345e2619232a90f383964186cbdc04e59ac40ffd992b5713bed3c9327507a7f",
+    "source": "5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c",
+    "samples": 2038,
+    "lost": 0,
+    "arc_make_mut_self_percent": 67.32,
+    "scope": "Whole-program diagnostic on qualified296; not a profile of final299 or matched/general speed evidence"
+  },
+  "rejected_trial": "work/round298-qualification/verdict.json",
+  "qualification": {
+    "rust_tests": 8592,
+    "doctests": 292,
+    "executed_jobs": 95,
+    "reused_jobs": 53,
+    "gate_seconds": 337.3942924590083,
+    "java_parity": 6,
+    "workloads": [
+      {
+        "name": "Checked sum \u00b7 64 captures",
+        "rust_us": 0.048165,
+        "java_us": 0.42983000000000005,
+        "java_parity": true
+      },
+      {
+        "name": "Checked sum \u00b7 512 captures",
+        "rust_us": 0.054775,
+        "java_us": 0.430305,
+        "java_parity": true
+      },
+      {
+        "name": "Sorted set \u00b7 64 captures",
+        "rust_us": 1.174855,
+        "java_us": 1.6438800000000002,
+        "java_parity": true
+      },
+      {
+        "name": "Sorted set \u00b7 512 captures",
+        "rust_us": 4.167285,
+        "java_us": 6.35402,
+        "java_parity": true
+      },
+      {
+        "name": "Merged map \u00b7 64 captures",
+        "rust_us": 4.19996,
+        "java_us": 12.198685000000001,
+        "java_parity": true
+      },
+      {
+        "name": "Merged map \u00b7 512 captures",
+        "rust_us": 8.131045,
+        "java_us": 17.091530000000002,
+        "java_parity": true
+      }
+    ],
+    "refreshed_reports": [
+      "aggregate-performance"
+    ],
+    "other17raw_reports_unchanged": true,
+    "index": 86.12369930666941,
+    "current_reports": 1,
+    "goal_complete": false
+  },
+  "limits": "Alternating independent captures slower in bounded controls; set/map pooled medians higher with mixed forks. Storage grows; deferred work can move onto unrelated edits/equality and equality can COW transient paths. No general speed/memory/whole-solver/Java-work/equivalence claim. Existing compatibility gaps and pending methods remain. No upstream production read, exclusions changed or old evidence rekeyed."
+}
