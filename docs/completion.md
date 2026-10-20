@@ -19,39 +19,38 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,843 recorded Rust tests and
-292 doctests** (8,849 Cargo test executions). The consuming-search
+The current native verification contains **8,850 recorded Rust tests and
+292 doctests** (8,856 Cargo test executions). The contribution-write
 batch passes `bash scripts/check.sh`, formatting, all-target Clippy and
-54 tooling jobs. Exact source, actual logs and qualification are recorded in
-[the consuming-search observation](../compat/observations/real_world-consuming-search.json).
-Source-affected comparisons retain their actual freshness; the live report is the
-authority for current evidence and readiness.
+54 tooling jobs. Exact source, logs and qualification appear in
+[the contribution-write observation](../compat/observations/real_world-contribution-writes.json).
+The live report remains the authority for evidence freshness and readiness.
 
-Additional application coverage remains separate from the upstream inventory
-and original timing targets. The four RealWorld application regressions retain
-their own origin and zero upstream-method credit. Frozen public scenarios,
-application model, settings and benchmark runner are unchanged. All **12** new
-Java/Rust outputs independently validate with seeds 7/11/23 and ten seconds per
-runtime on runner-a. Golfer **123,153 Rust /119,896 Java evaluations/s (1.027x)**; sailing **42,480 /81,138 (0.524x)**.
-**1/2** additional Java throughput targets are met. Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate, without an equal-score gate.
-The selected combination's rotating native controls improved medians 21.2%/10.0%
-against the prior qualified 4a20 artifact. Final source additionally repairs two
-equivalent lint expressions and one test inequality; the default qualifier above
-measures its actual bytes. Separate qualification sessions are not interleaved
-speedup comparisons. These bounded observations establish no universal parity.
+The four additional RealWorld application regressions remain separate from the
+original upstream inventory. Frozen public cases, model, settings and runner are
+unchanged. All **12** Java/Rust outputs independently validate with seeds 7/11/23
+and ten seconds per runtime on runner-a. Golfer **121,202 Rust /121,894 Java evaluations/s (0.994x)**; Sailing **44,938 /81,499 (0.551x)**.
+**0/2** additional throughput targets are met. Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
+Rotating native controls for the exact selected combination improved Sailing by
+**5.839%** and Golfer by **0.378%** versus the previous qualified eb0 artifact.
+These short controls earn no Java parity credit; the default qualifier above
+measures actual final bytes. Separate qualification sessions do not isolate speedup.
 
-Ownership-consuming basic search can keep private contribution history and
-planning rows by value after an empty, known-node, exact builtin type preflight.
-Certified bounded join payloads can also copy while canonical input IDs/indexes
-remain shared. Public directors, retained/monitored paths, unsupported types and
-populated/activity/batched graphs retain ordinary storage. Every callback,
-payload Clone phase, checked adjustment, metric, diagnostic and rollback remains.
-Fixed primitive equality joins now traverse bucket words directly after the
-original lookup/reservation, preserving canonical match order and staged output
-clones. The batch adds **29** original native controls and no upstream credit.
-Full snapshots/captures copy more numeric state; no memory/code-size improvement
-is claimed. Small/mixed event experiments were not integrated. Fat LTO, target
-CPU, panic policy, model, fixtures, settings and batch policy are unchanged.
+Private consuming terminals now omit an identical contribution store only after
+all callbacks, structural checks, old/new score clones, checked adjustment and
+final ID/payload Clone phases. A present zero remains distinct from an absent row.
+Exact primitive group I/K graphs construct erased outputs after the same staged
+output identities and poison clearing, avoiding array/flatten staging. Payload-key
+clones, Event creation, callbacks, metadata and FIFO order remain. Public retained
+terminal owners, standalone/custom group paths and rollback retain their contracts.
+These **seven** new native controls earn no upstream-method credit.
+
+Earlier consuming source/terminal retention, bounded copied join payloads and fixed
+equality visitors remain as recorded in
+[the previous observation](../compat/observations/real_world-consuming-search.json).
+The larger owned group/pair payload, packed member event and unbounded visitor
+experiments were not integrated after their small/mixed results. Fat LTO, target
+CPU, PGO, panic policy, batch policy and benchmark settings are unchanged.
 
 The preceding forward-state batch retains bounded primitive graph GroupInputs,
 concrete ordinary map/group/filter/terminal callbacks, existing-equal private

@@ -444,6 +444,20 @@ canonical input IDs and the existing retract/put, payload Clone/Drop/panic and
 poisoned-install phases. Custom key comparisons and ordered joins retain their
 previous traversal. This does not imply callback purity or event coalescing.
 
+Within the strict private consuming scope, an equal ID-to-score contribution
+may omit only its final store and undo entry. Every callback, structural check,
+old/new score clone, checked adjustment, final ID/payload Clone and discard phase
+still runs. Present zero and absence remain distinct. Public retained terminals
+continue to publish fresh owners even for equal rows; full/current/nested state,
+match counts, metrics and diagnostics remain supported.
+
+Exact primitive graph group input/key identities can construct erased outputs
+through a final continuation after both output identities and input publication
+are staged and poison clears. Payload-key clones and Event creation keep their
+old-then-new order. Remaining local rows are exact builtin values; custom keys or
+identities use original array erasure. No callback, event, summary field or scoring
+work is suppressed, and the Outputs/Event layouts remain unchanged.
+
 ## Basic-variable move binding
 
 `StreamScoreDirector` binds one initially empty source of `(variable_index,

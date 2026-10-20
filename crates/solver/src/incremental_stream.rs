@@ -713,6 +713,18 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         &mut self,
         change: TupleChange<I, (K, i64)>,
     ) -> [Option<TupleChange<K, IntSummary>>; 2] {
+        self.apply_inline_with(change, |old, new| [old, new])
+    }
+
+    // Prepare both output identities before this final continuation. Public
+    // callers retain the array return; private primitive graph callers can erase
+    // directly without staging an array/flatten iterator. The continuation runs
+    // after input publication and poison clearing, before remaining locals drop.
+    pub(crate) fn apply_inline_with<R>(
+        &mut self,
+        change: TupleChange<I, (K, i64)>,
+        finish: impl FnOnce(Option<TupleChange<K, IntSummary>>, Option<TupleChange<K, IntSummary>>) -> R,
+    ) -> R {
         healthy(self.poisoned);
         let (input, old) = self.inputs.prepare_change(&change.id, |old| {
             old.map(|(key, value)| (key.clone(), *value))
@@ -797,7 +809,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
             None
         };
         self.poisoned = false;
-        [old_output, new_output]
+        finish(old_output, new_output)
     }
 }
 

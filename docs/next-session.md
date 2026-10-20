@@ -17,72 +17,78 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. Use local and runner-a; runner-c remains parked
 after its actual SSH timeout. Preserve live runs across observation timeouts.
 
-## Active RealWorld throughput goal — 2026-10-20
+## Active RealWorld throughput goal — 2026-10-21
 
-Reach Java streams throughput on both frozen public RealWorld workloads.
-Current actual target count: **1/2**. Preserve original model, fixtures,
-runner, settings, seeds 7/11/23, ten-second runtime limits and CPU2,3 pairing.
-Scores/feasibility remain separate; no equal-score gate and no benchmark-only
-compiler/CPU/PGO/panic/batch changes. runner-c remains parked; local+runner-a are available.
+Reach Java streams evaluations/s on both frozen public RealWorld workloads.
+Current target count: **0/2**. Preserve original model, fixtures, runner,
+settings, seeds 7/11/23, ten-second limits and CPU2,3 pairing. Scores/feasibility
+remain separate; no equal-score gate or compiler/CPU/PGO/panic/batch changes.
+Use local and runner-a; runner-c remains parked. Use only existing authorized agents.
 
-The consuming-search batch is integrated from actual frozen snapshot
-`042111406e638fe0d0ba0f8d97235258c24f1f82d09947726a4a141ae761d935`. Native `cfee45d617bdf2446aba0de1bd19aa6d3700a6720bba79fc2df6e50f4223b69c`;
-production `9bc4d9f8037e99ee516c8af41e0daf574f3f282ad2b4c310b89f6fff71491541`. Actual `bash scripts/check.sh` passes:
-**8,843 recorded identities**, **8,849 Cargo executions**,
-**292 doctests**, formatting/all-target Clippy and **54 tooling jobs**.
-Actual timings: preflight 36.39s, prebuild 504.12s, fullgate 279.52s, qualified 220.64s; total 1046.14s.
-The worker actually runs preflight, command-jobs8 all-target no-run prebuild,
-normal-jobs4 gate and unchanged default qualifier on one immutable source.
-Genuine compiler/verification reuse only; no per-job key transplant.
-Observation: `compat/observations/real_world-consuming-search.json`. Proofs:
-`work/real_world-goal/private-consuming-next-final-results/`. Results and the
-SHA-checked measured binary return over the original authenticated SSH connection.
+The contribution-write batch is integrated from actual snapshot
+`a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6`. Native `5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b`;
+production `85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52`. Actual `bash scripts/check.sh` passes:
+**8,850 recorded identities /8,856 Cargo executions**,
+**292 doctests** and **54 tooling jobs**.
+Actual timings: preflight 27.10s, prebuild 191.29s, fullgate 278.68s, qualified 126.55s; total 627.68s.
+Actual measured binary `9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb`.
+Observation: `compat/observations/real_world-contribution-writes.json`.
+Proofs: `work/real_world-goal/terminal-group-staging-next-final-results/`.
+All four worker commands actually pass on unchanged source; the original SSH
+returns real logs, all assignment outputs and the checksum-verified binary.
+Only genuine aggregate Rust logs/metadata and qualified application report are
+promoted; no per-job evidence keys are transplanted. No UI code changed.
 
-Fresh same-machine qualifier: Golfer **123,153 Rust /119,896 Java evaluations/s (1.027x)**; sailing **42,480 /81,138 (0.524x)**.
-All 12 raw assignment files pass checksum and independent validation.
-Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate, without an equal-score gate.
-Actual qualified artifact `7e8140666ae55a96ee0b4855f99220a71607dac0a79b505b2ff676e4e29d71e9`.
-The preceding 4a20 source measured 101,915/38,549 native and 0.813/0.477x Java;
-separate qualifications are not an interleaved speedup comparison.
-Selected coherent short native controls measured +21.204% golfer/+10.031% sailing
-versus actual qualified 4a20 artifactd30f. Final source also repairs equivalent
-Option Clone/is_empty lint expressions and a test inequality; original 29a113/
-cf220c diagnostics are retained under their actual hashes. The final default
-qualifier measures real cfee/9bc bytes. Original first failed preflight is retained
-in `private-consuming-first-final-results`; no expensive gate ran there.
+Current same-machine qualifier: Golfer **121,202 Rust /121,894 Java evaluations/s (0.994x)**; Sailing **44,938 /81,499 (0.551x)**.
+All 12 outputs validate independently with checksum/config/Cartesian coverage.
+Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
+Selected rotating native controls measured +0.378% Golfer/+5.839% Sailing against
+qualified eb0 artifact7e; these are short diagnostics, without Java target credit.
 
-Implementation: consuming BASIC entrypoints enable only empty/known/exact-type
-whole graphs. Private terminals retain numeric IDs/scores and still perform all
-callbacks, checks and final payload Clone/discard phases. Planning rows, full
-snapshots and touched captures copy by value, including 573 sources. Bounded joins
-copy exact primitive payloads while retaining canonical ID Arcs and FixedIndex.
-Unbound Sailing member joins and all unsupported/public retained paths keep their
-existing owners. Direct fixed primitive equality traversal preserves original
-lookup/reserve/canonical-ID/outputClone/panic/poison phases while avoiding the
-composite iterator. Public director/monitored/manager APIs keep ordinary retention.
-Added 29 native controls; original 4412 passed/0 pending/443 excluded and external 4 unchanged.
-Tradeoffs include wider copied caches, full-snapshot copying/sorting and per-type
-code generation. No UI code changed; backend report/HTTP freshness alone is checked.
+Only five Rust files changed: private equal contribution writes plus exact
+primitive graph group output construction. Callbacks/checks/arithmetic/Clone,
+zero presence, summary fields, owner fallbacks, staged IDs and poison/FIFO phases
+remain. Seven native controls were added; upstream 4412 passed/0 pending/443
+excluded and the four external tests remain unchanged. Earlier consuming storage
+and fixed equality traversal from eb0 remain, without unbounded copied payloads.
 
-Both event variants were unselected: compact summary+typed-view controls were
-flat golfer/+1.643% sailing; two raw T4/T5 FlatMap variants keeping the 80-byte Event measured
--.559%golfer/+.899%sailing. Preserve their proofs without rebasing/retesting the
-same idea. Prior cloned-preimage owned16/4 collector cells already regressed
-sailing roughly 0.5–1.9%; current inverse collectors and retirement pools already
-avoid most nonempty edit allocations. Do not repeat those storage experiments.
+Do not repeat the other isolated experiments from this round:
 
-Next: inspect the actual remaining Java throughput ratios above, then profile the
-current qualified artifact if needed (already returned; no release rebuild). Old
-f277/c954 profiles are historical, after source changes. One concrete read-only
-lead remains: unbounded equality joins (Sailing member pair IDs) still return the
-large composite iterator even when FixedIndex=None. A direct exact bucket.keys
-visitor could preserve get/reserve/lexicographic IDs/outputClone and remove the
-same ABI overhead. It is not implemented or measured; audit against prior trials.
-Before new native controls prepare v9 from v8 with THIS actual qualified artifact,
-native/production hashes and final receipt. v8 binds 4a20/d30f and must not silently
-be treated as the new baseline. Integrate/commit before further prototypes.
-Current live handles and exact source-bound state are in ignored
-`work/real_world-goal/active-performance-state.json`. No new agents pending.
+| Prototype | Golfer /Sailing median gain | Selection |
+| --- | --- | --- |
+| Compact 80-byte member event | -1.451% /+0.512% | Excluded |
+| Unbounded direct equality visitor | -1.208% /+0.523% | Excluded |
+| Owned group scalar inverses and moved preimages | +0.425% /+1.227% | Excluded: small gain versus 732 lines |
+| Unbounded copied pair-ID join payloads | -3.007% /+0.296% | Excluded |
+| Private equal contributions | -0.793% /+4.321% | Included in measured combination |
+| Group output staging | +1.063% /+1.377% | Included in measured combination |
+
+All seven pilot comparisons have 16 independently valid outputs and exact
+source/artifact/baseline bindings in the observation. Individual controls passed
+5 equal-write, 5 member-event, 4 group-inverse, 5 pair-payload and 2 group-output
+tests. No standalone unbounded-visitor test execution is claimed; it was excluded.
+The initial member-event filter typo executed zero tests after compilation;
+the corrected five tests ran on the genuine unchanged compiled artifact (0.147s).
+Neither result was relabeled. No broad gate was run for excluded prototypes.
+
+Next: profile the actual current qualified binary if needed, without rebuilding.
+The 7e baseline profile and its disassembly are historical after this source
+change. FirstAccepted live commit already exists; do not reimplement it.
+A distinct next storage lead: 278 of Sailing's 279 member-pair terminal rows
+occupy separate fallback pages with one live row out of 16 slots; 189 balance
+keys also use fallback. A private direct sparse HashMap<Position,(I,S)> could keep
+the existing dense pages, each-write undo and sorted enumeration while removing
+that wasted page space. Use the standard hasher and preserve full-range IDs;
+prior membership/page hash trials were flat and are not evidence of a gain here.
+No implementation or gain is claimed. Group/Join/primitive FlatMap journal
+carriers are another bounded lead: they still allocate up to three pairs per
+Golfer trial and seven per Sailing trial. Round267 pooled Source/FixedLinks/
+Terminal; MembershipFilter is already pooled. Reuse only empty token wrappers,
+outside cloned snapshots, after every captured owner has moved/dropped.
+Prepare v10 diagnostic helpers from v9 with THIS actual source/artifact and final
+receipt; v9 is explicitly bound to eb0/cfee/9bc/7e and cannot become a new baseline
+by relabeling. Current ignored state/handles are in
+`work/real_world-goal/active-performance-state.json`.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

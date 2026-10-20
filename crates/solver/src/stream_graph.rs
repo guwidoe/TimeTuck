@@ -1110,6 +1110,11 @@ impl<
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         };
+        // Only exact builtin identities/keys may erase before the common
+        // body's remaining locals drop. No user owner/Clone/Drop phase moves.
+        if live_commit_key::<I>() && live_commit_key::<K>() {
+            return Ok(self.node.apply_inline_with(mapped, group_outputs));
+        }
         Ok(erase(
             self.node
                 .apply_inline(mapped)
@@ -1122,6 +1127,37 @@ impl<
         ))
     }
 }
+
+// Both changes and their identity clones are already staged. Preserve the
+// original old-then-new payload-key clone and Event::new order explicitly.
+fn group_outputs<K: Clone + 'static>(
+    old: Option<TupleChange<K, IntSummary>>,
+    new: Option<TupleChange<K, IntSummary>>,
+) -> Outputs {
+    fn erase_one<K: Clone + 'static>(change: TupleChange<K, IntSummary>) -> Event {
+        let key = change.id.clone();
+        Event::new(change.map(|summary| (key, summary)))
+    }
+    match old {
+        Some(old) => {
+            let first = erase_one(old);
+            match new {
+                Some(new) => {
+                    let second = erase_one(new);
+                    Outputs::Many(vec![first, second])
+                }
+                None => Outputs::one(first),
+            }
+        }
+        None => match new {
+            Some(new) => Outputs::one(erase_one(new)),
+            None => Outputs::new(),
+        },
+    }
+}
+
+#[cfg(test)]
+mod group_output_staging_tests;
 
 type CollectMapping<'a, I, T, K, V> = dyn Fn(&I, &T) -> (K, V) + 'a;
 struct Collect<'a, I, T, K, V, C> {

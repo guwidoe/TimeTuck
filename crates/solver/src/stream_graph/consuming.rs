@@ -148,11 +148,15 @@ impl<
         contribution: Option<S>,
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let (prepared, old) = self
-            .consumed
-            .as_mut()
-            .unwrap()
-            .prepare_change(&change.id, |score| score.cloned().unwrap_or(S::ZERO));
+        let (prepared, (old, unchanged)) =
+            self.consumed
+                .as_mut()
+                .unwrap()
+                .prepare_change(&change.id, |score| {
+                    let old = score.cloned();
+                    let unchanged = old.as_ref() == contribution.as_ref();
+                    (old.unwrap_or(S::ZERO), unchanged)
+                });
         let new = contribution.clone().unwrap_or(S::ZERO);
         let total = arithmetic
             .totals
@@ -166,9 +170,19 @@ impl<
             // copied payload is discarded only at its original storage phase.
             let id = change.id.clone();
             let payload = value.clone();
-            prepared.insert(id, contribution.expect("scored match"));
+            let contribution = contribution.expect("scored match");
+            // This graph is consumed and exact builtin row/ID/score types were
+            // certified before activation. No public owner or payload history
+            // exists here. Keep every evaluation/check/Clone above, but omit an
+            // identical private contribution write and its undo allocation.
+            // Option equality distinguishes a present zero from an absent row.
+            if unchanged {
+                drop((id, contribution));
+            } else {
+                prepared.insert(id, contribution);
+            }
             drop(payload);
-        } else {
+        } else if !unchanged {
             prepared.remove();
         }
         self.total = total;
@@ -178,3 +192,6 @@ impl<
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod equal_tests;
