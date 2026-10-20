@@ -140,8 +140,13 @@ impl<'a, V, S: AdditiveScore> ConstraintNetwork<'a, V, S> {
     /// Reuse changes callback invocation, score Clone, score-operation and
     /// equality traces, including when invocation-count-dependent panics occur.
     /// Effective weight comparisons move to phase creation. Cached contributions are
-    /// rebased through ordinary checked arithmetic on every logical candidate;
-    /// budgets/order/ties are unchanged. Work counts actual fresh callbacks.
+    /// rebased through ordinary arithmetic. Checked scores explicitly advertising
+    /// `AdditiveScore::POOLED_SAME_CONTEXT_MEMO` may reuse a successful ordinary
+    /// result when the exact normalized base score and all scoped inputs remain
+    /// unchanged. Every candidate still applies/validates its real assignment and
+    /// computes structural state afresh. Budgets/order/ties are unchanged; work
+    /// counts actual fresh callbacks. Eligible rows may retain two additional
+    /// score values; the contribution cap is not a byte limit.
     ///
     /// The cap bounds stored contribution slots (including disabled slots), not
     /// bytes in arbitrary owned score payloads. Admission is whole-row; a row
@@ -861,17 +866,31 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             );
         }
         let mut pass = cache.pass();
-        let result = self.select_best_impl(
-            moves
-                .into_iter()
-                .map(|(movement, occurrence)| (movement, Some(occurrence))),
-            Some(pass.cache()),
-            max_evaluations,
-            forager,
-            accepts,
-            quit_early,
-            assert_scores,
-        );
+        let result = if S::POOLED_SAME_CONTEXT_MEMO
+            && self.network.arithmetic == crate::ScoringArithmetic::Checked
+        {
+            self.select_best_memo(
+                moves,
+                pass.cache(),
+                max_evaluations,
+                forager,
+                accepts,
+                quit_early,
+                assert_scores,
+            )
+        } else {
+            self.select_best_impl(
+                moves
+                    .into_iter()
+                    .map(|(movement, occurrence)| (movement, Some(occurrence))),
+                Some(pass.cache()),
+                max_evaluations,
+                forager,
+                accepts,
+                quit_early,
+                assert_scores,
+            )
+        };
         if result.is_ok() {
             pass.finish();
         }
@@ -979,6 +998,103 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
                 for variable in selected.movement.touched_variables() {
                     cache.invalidate(&network.dependents[variable]);
                 }
+            }
+            result.selected = Some(selected.movement);
+            result.selected_accepted = selected.accepted;
+        }
+        Ok(result)
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn select_best_memo(
+        &mut self,
+        moves: impl IntoIterator<Item = (Move<V>, usize)>,
+        cache: &mut crate::pooled_contributions::PooledContributionCache<S>,
+        max_evaluations: u64,
+        forager: impl Into<crate::ForagerConfig<S>>,
+        mut accepts: impl FnMut(&Move<V>, S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
+        assert_scores: bool,
+    ) -> Result<Selection<V>, ScoringError> {
+        let mut result = Selection {
+            selected_accepted: false,
+            selected: None,
+            evaluations: 0,
+            replay_evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut forager = crate::MoveForager::new(forager.into());
+        let network = self.network;
+        let weights = self.weights.clone();
+        let problem = self.problem;
+        for (movement, occurrence) in moves {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let (candidate, fresh_evaluations) =
+                self.apply_pooled_memo(&movement, occurrence, cache)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += fresh_evaluations as u128;
+            if assert_scores {
+                let mut cached = candidate.contributions.to_vec();
+                for (index, score) in candidate.updates.materialize() {
+                    cached[index] = score;
+                }
+                let report = consistency_report(
+                    problem,
+                    network,
+                    candidate.assignment(),
+                    &candidate.score(),
+                    &cached,
+                    &weights,
+                )?;
+                if !report.is_consistent() {
+                    return Err(ScoringError::ScoreCorruption(Box::new(report.diagnostic())));
+                }
+            }
+            let accepted = accepts(&movement, candidate.score());
+            forager.try_add_with(
+                candidate.score(),
+                accepted,
+                || -> Result<_, ScoringError> {
+                    Ok(SelectedCandidate {
+                        accepted,
+                        movement: movement.clone(),
+                        assignment: candidate.transaction.snapshot(),
+                        score: candidate.score(),
+                        updates: candidate.updates.materialize(),
+                    })
+                },
+            )?;
+            let stop =
+                forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score()));
+            drop(candidate);
+            if assert_scores {
+                self.assert_consistent()?;
+            }
+            if stop {
+                break;
+            }
+        }
+        // Every trial has already rolled back. Discarding the saved winner
+        // leaves assignment, contribution caches and graph state at the last step.
+        if !quit_early.can_commit(result.evaluation_limit) {
+            return Ok(result);
+        }
+        if let Some(selected) = forager.pick() {
+            if let Some(changes) = self.retained_changes.as_deref_mut() {
+                let changes = changes.get_mut();
+                changes.record_batch(selected.updates.iter().map(|(index, _)| *index));
+                selected.assignment.record_retained(&mut changes.assignment);
+            }
+            selected.assignment.install(&mut self.assignment);
+            for (i, contribution) in selected.updates {
+                self.contributions[i] = contribution;
+            }
+            self.score = selected.score;
+            for variable in selected.movement.touched_variables() {
+                cache.invalidate(&network.dependents[variable]);
             }
             result.selected = Some(selected.movement);
             result.selected_accepted = selected.accepted;
@@ -1192,6 +1308,156 @@ impl<'p, 'c, V: Eq + Clone, S: AdditiveScore> ScoreDirector<'p, 'c, V, S> {
             fresh_evaluations,
         ))
     }
+
+    fn apply_pooled_memo<'director, 'cache>(
+        &'director mut self,
+        movement: &Move<V>,
+        occurrence: usize,
+        cache: &'cache mut crate::pooled_contributions::PooledContributionCache<S>,
+    ) -> Result<(PooledTrial<'director, 'cache, V, S>, usize), ScoringError> {
+        // Malformed/out-of-range keys use ordinary scoring. The private caller
+        // must still supply the exact occurrence for Eq-equal domain payloads.
+        let variable = match movement {
+            Move::Change {
+                variable,
+                value: Some(value),
+            } if self.problem.variables().get(*variable).is_some_and(|v| {
+                v.domain()
+                    .get(occurrence)
+                    .is_some_and(|domain_value| domain_value == value)
+            }) =>
+            {
+                *variable
+            }
+            _ => {
+                let candidate = self.apply(movement)?;
+                let fresh_evaluations = candidate.constraint_evaluations();
+                return Ok((PooledTrial::from(candidate), fresh_evaluations));
+            }
+        };
+        if !cache.is_indexed(variable, occurrence) {
+            let candidate = self.apply(movement)?;
+            let fresh_evaluations = candidate.constraint_evaluations();
+            return Ok((PooledTrial::from(candidate), fresh_evaluations));
+        }
+        let transaction = self
+            .problem
+            .apply_validated(&mut self.assignment, movement)?;
+        let dependents = &self.network.dependents[variable];
+        // The immutable phase plan filtered every effective weight before
+        // any trial callback. Borrow it separately from the mutable row slots.
+        let mut row = cache.candidate(variable, occurrence, dependents.len());
+        let base = self.score.clone().with_structural(0);
+        if let Some(score) = row.memo_score(&base) {
+            let candidate_score = match basic_structural_delta(
+                self.problem,
+                &transaction,
+                transaction.prior_values(),
+                self.problem.variables().len(),
+            ) {
+                Some(delta) => score.with_structural(self.score.structural() + delta),
+                None => with_structure(score, self.problem, &transaction),
+            };
+            return Ok((
+                PooledTrial {
+                    transaction,
+                    updates: PooledUpdates::Cached(row),
+                    candidate_score,
+                    contributions: &self.contributions,
+                },
+                0,
+            ));
+        }
+        let affected = row.active;
+        let mut updates = Vec::with_capacity(affected.len());
+        let mut fresh_evaluations = 0;
+        for &(slot, i) in affected {
+            let score = if let Some(score) = row.get(slot, i) {
+                score
+            } else {
+                let score = self.network.contribution_weighted(
+                    i,
+                    &transaction,
+                    self.weights
+                        .get(i, self.network.constraints[i].weight.as_ref()),
+                )?;
+                fresh_evaluations += 1;
+                row.put(slot, i, &score);
+                score
+            };
+            updates.push((i, score));
+        }
+        // A changed base must run the complete original checked adjustment;
+        // unchanged local contributions alone do not rule out total overflow.
+        let score = self
+            .network
+            .arithmetic
+            .adjust(
+                &self.score,
+                updates
+                    .iter()
+                    .map(|(i, new)| (&self.contributions[*i], new)),
+            )
+            .map_err(|_| ScoringError::ScoreOverflow { constraint: None })?;
+        row.remember_score(base, score.clone());
+        let candidate_score = match basic_structural_delta(
+            self.problem,
+            &transaction,
+            transaction.prior_values(),
+            self.problem.variables().len(),
+        ) {
+            Some(delta) => score.with_structural(self.score.structural() + delta),
+            None => with_structure(score, self.problem, &transaction),
+        };
+        Ok((
+            PooledTrial {
+                transaction,
+                updates: PooledUpdates::Owned(updates),
+                candidate_score,
+                contributions: &self.contributions,
+            },
+            fresh_evaluations,
+        ))
+    }
+}
+
+// Private selection-only trial. Assignment rollback drops first, matching
+// ScoredMove. Saved candidates always own every sparse update before it drops.
+struct PooledTrial<'director, 'cache, V, S> {
+    transaction: AppliedMove<'director, V>,
+    updates: PooledUpdates<'cache, S>,
+    candidate_score: S,
+    contributions: &'director [S],
+}
+enum PooledUpdates<'cache, S> {
+    Owned(Vec<(usize, S)>),
+    Cached(crate::pooled_contributions::CandidateContributions<'cache, S>),
+}
+impl<S: Clone> PooledUpdates<'_, S> {
+    fn materialize(&self) -> Vec<(usize, S)> {
+        match self {
+            Self::Owned(updates) => updates.clone(),
+            Self::Cached(row) => row.materialize(),
+        }
+    }
+}
+impl<V, S: Clone> PooledTrial<'_, '_, V, S> {
+    fn assignment(&self) -> &Assignment<V> {
+        &self.transaction
+    }
+    fn score(&self) -> S {
+        self.candidate_score.clone()
+    }
+}
+impl<'director, V, S> From<ScoredMove<'director, V, S>> for PooledTrial<'director, '_, V, S> {
+    fn from(candidate: ScoredMove<'director, V, S>) -> Self {
+        Self {
+            transaction: candidate.transaction,
+            updates: PooledUpdates::Owned(candidate.updates),
+            candidate_score: candidate.candidate_score,
+            contributions: candidate.contributions,
+        }
+    }
 }
 
 /// A scored candidate. Dropping rejects it; committing atomically keeps its
@@ -1334,6 +1600,151 @@ mod pooled_selection_tests {
         fn can_commit(&self, _: bool) -> bool {
             false
         }
+    }
+
+    fn change(variable: usize, value: i64) -> Move<i64> {
+        Move::Change {
+            variable,
+            value: Some(value),
+        }
+    }
+
+    #[test]
+    fn same_ordinary_context_reuses_score_with_fresh_structure_and_owned_winner() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0i64, 1]); 3]).unwrap();
+        let mut n = ConstraintNetwork::new(3).with_pooled_contribution_cache(32);
+        for id in 0..3 {
+            n.add_constraint(id.to_string(), vec![id], |_| SimpleScore::ZERO)
+                .unwrap();
+        }
+        let mut d = ScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+        let mut cache = d.pooled_contribution_cache().unwrap();
+        {
+            let (trial, fresh) = d.apply_pooled_memo(&change(0, 0), 0, &mut cache).unwrap();
+            assert_eq!(fresh, 1);
+            assert_eq!(trial.score(), SimpleScore::ZERO.with_structural(-2));
+        }
+        d.select_best_pooled(
+            [(change(1, 1), 1)],
+            &mut cache,
+            1,
+            ForagerConfig::default(),
+            |_, _| true,
+            |_| false,
+            false,
+        )
+        .unwrap();
+        {
+            let (trial, fresh) = d.apply_pooled_memo(&change(0, 0), 0, &mut cache).unwrap();
+            assert_eq!(fresh, 0);
+            assert!(matches!(trial.updates, PooledUpdates::Cached(_)));
+            assert_eq!(trial.score(), SimpleScore::ZERO.with_structural(-1));
+        }
+        // Diagnostics and saving must materialize every update before another
+        // trial borrows the row, even when all ordinary scores are zero.
+        let picked = d
+            .select_best_pooled(
+                [(change(0, 0), 0), (change(0, 1), 1), (change(2, 1), 1)],
+                &mut cache,
+                3,
+                ForagerConfig::default(),
+                |_, _| true,
+                |_| false,
+                true,
+            )
+            .unwrap();
+        assert_eq!(picked.selected, Some(change(0, 0)));
+        assert_eq!(d.assignment().values(), &[Some(0), Some(1), None]);
+        d.assert_consistent().unwrap();
+    }
+
+    #[test]
+    fn equal_base_with_changed_scoped_inputs_recalculates_before_rememoizing() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0i64, 1]).with_initial(0); 2]).unwrap();
+        let mut n = ConstraintNetwork::new(2).with_pooled_contribution_cache(32);
+        n.add_constraint("coupled", vec![0, 1], |v| {
+            let y = v[1].copied().unwrap_or(0);
+            SimpleScore::new(if v[0] == Some(&1) { 1 + 10 * y } else { 5 * y })
+        })
+        .unwrap();
+        n.add_constraint("cancellation", vec![1], |v| {
+            SimpleScore::new(-5 * v[0].copied().unwrap_or(0))
+        })
+        .unwrap();
+        let mut d = ScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+        let mut cache = d.pooled_contribution_cache().unwrap();
+        {
+            let (trial, _) = d.apply_pooled_memo(&change(0, 1), 1, &mut cache).unwrap();
+            assert_eq!(trial.score(), SimpleScore::new(1));
+        }
+        d.select_best_pooled(
+            [(change(1, 1), 1)],
+            &mut cache,
+            1,
+            ForagerConfig::default(),
+            |_, _| true,
+            |_| false,
+            false,
+        )
+        .unwrap();
+        assert_eq!(d.score(), SimpleScore::ZERO);
+        {
+            let (trial, fresh) = d.apply_pooled_memo(&change(0, 1), 1, &mut cache).unwrap();
+            assert_eq!(fresh, 1);
+            assert!(matches!(trial.updates, PooledUpdates::Owned(_)));
+            assert_eq!(trial.score(), SimpleScore::new(6));
+        }
+        {
+            let (trial, fresh) = d.apply_pooled_memo(&change(0, 1), 1, &mut cache).unwrap();
+            assert_eq!(fresh, 0);
+            assert!(matches!(trial.updates, PooledUpdates::Cached(_)));
+            assert_eq!(trial.score(), SimpleScore::new(6));
+        }
+        d.assert_consistent().unwrap();
+    }
+
+    #[test]
+    fn changed_unrelated_base_cannot_reuse_previously_successful_boundary_score() {
+        let p = FiniteProblem::new(vec![Variable::new(vec![0i64, 1]).with_initial(0); 2]).unwrap();
+        let mut n = ConstraintNetwork::new(2).with_pooled_contribution_cache(32);
+        n.add_constraint("constant", vec![], |_| SimpleScore::new(i64::MAX - 1))
+            .unwrap();
+        for id in 0..2 {
+            n.add_constraint(id.to_string(), vec![id], |v| {
+                SimpleScore::new(v[0].copied().unwrap_or(0))
+            })
+            .unwrap();
+        }
+        let mut d = ScoreDirector::new(&p, &n, p.initial_assignment()).unwrap();
+        let mut cache = d.pooled_contribution_cache().unwrap();
+        {
+            let (trial, _) = d.apply_pooled_memo(&change(0, 1), 1, &mut cache).unwrap();
+            assert_eq!(trial.score(), SimpleScore::new(i64::MAX));
+        }
+        d.select_best_pooled(
+            [(change(1, 1), 1)],
+            &mut cache,
+            1,
+            ForagerConfig::default(),
+            |_, _| true,
+            |_| false,
+            false,
+        )
+        .unwrap();
+        assert!(matches!(
+            d.select_best_pooled(
+                [(change(0, 1), 1)],
+                &mut cache,
+                1,
+                ForagerConfig::default(),
+                |_, _| true,
+                NoCommit,
+                false
+            ),
+            Err(ScoringError::ScoreOverflow { constraint: None })
+        ));
+        assert_eq!(d.assignment().values(), &[Some(0), Some(1)]);
+        d.assert_consistent().unwrap();
     }
 
     #[test]

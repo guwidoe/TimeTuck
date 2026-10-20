@@ -11165,3 +11165,27 @@ Unchanged frontend/backend contract reuses 296 browser evidence plus actual curr
 HTTP/source/model checks. Shared remote Cargo targets contain rejected 302 artifacts;
 rebuild before any current-source claim. No memory/general-speed/whole-project,
 Java-work, waived behavior, cache rekey or binary-transplant claim.
+
+## Same-context pooled scores — 303
+
+Required-basic Dense/Pooled construction with explicit contribution caching now
+reuses successful ordinary scores only for exact normalized base totals and
+unchanged active scoped inputs. A default-false score capability restricts this
+to pure checked score values; built-in fixed integers opt in. Every candidate
+still validates/applies its assignment and computes structural state afresh.
+Diagnostics and selected/tied finalists own complete sparse updates. Default,
+custom, decimal and wrapping routes retain their contracts. The original slot
+cap remains; each planned row gains an optional pointer and each remembered row
+retains two score values plus allocation overhead. Generation scans remain
+linear in active dependencies.
+
+Eight original regressions supplement existing cache/budget/overflow/rollback
+contracts. One final gate passes 8,600 Rust tests and 292 doctests. Actual four-fork
+whole 96 cached gain is 21.55%; all 64 cases in three native representations preserve complete
+outputs and physical callbacks. Initial uncached half 96 median 8.74% higher; additional
+eight-fork follow-up 1.99% higher with mixed forks. No general speed/memory claim.
+Actual runner-a Java repair comparison meets parity 4/4 with equal timed quality:
+whole 96 26.238/27.762ms Rust/Java. Different sampling retains 64 valid/36 equal scores
+and 47 native/35 Java optima. Only repair report refreshed; other 17 raw reports unchanged.
+No new upstream-method credit, exclusion waiver or full-completion claim.
+See compat/observations/pooled-score-memo.json for source/artifact-bound evidence.

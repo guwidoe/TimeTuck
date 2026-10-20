@@ -19,11 +19,13 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,592 Rust tests and 292 doctests**,
+The current native verification contains **8,600 Rust tests and 292 doctests**,
 including original regressions and adapted upstream assertions. Source
-`5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827`. The final check passed in 337.394s,
-executing 95 jobs and reusing 53 unchanged results. The live report remains
-the authority for later counts and freshness.
+`91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941`. The successful selective retry took
+98.618s (2 jobs executed, 146 reused). The initial 392.839s gate hit five existing
+10 ms archive-fixture deadlines; the unchanged failed shard then passed. The
+build-only precompile took 742.150s. All initial outcomes remain in the evidence.
+The live report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -66,24 +68,34 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Current measurements — 300 remote refresh
+## Current implementation and measurements — 303
 
-Current qualified 299 source/tests are unchanged. Actual same-CPU runner-a
-comparisons now show 8/8 stream workloads at Java parity, with 128/128 valid/equal
-cases. Repair meets parity in 3/4 timed rows with equal `[0,0]` scores; whole 96
-remains 34.887ms Rust/26.743ms Java. The 64 repair validation cases remain valid,
-with 36 equal scores and 47 native/35 Java optima under their different sampling.
-All original native full/uncached/cached controls and settings remain available.
+Explicitly cached pooled construction now reuses successful ordinary scores only
+for the exact same base and unchanged scoped inputs. Every candidate still
+applies and validates its assignment and computes structural state afresh.
+Fixed integer scores opt in; custom, decimal, wrapping and uncached routes retain
+their existing contracts. Eight original regressions add no upstream-method credit.
 
-Two micro-optimization variants were rejected; no new Rust capability or upstream
-credit is claimed. runner-c performed real release/focused builds; original interrupted
-connection results were collected without restarting. The dashboard measured index
-is 86.886%, 3/18 reports current, 15 stale, Java target 1. Other 16 raw reports remain
-unchanged. Existing behavior gaps and pending methods remain unresolved; goal
-incomplete. See compat/observations/remote-performance-gap-refresh.json and
-work/round300-stream-gap/ for actual source/artifact bindings and complete results.
+The largest cached repair workload improves **21.55%** in a four-fork native
+comparison. All four original workloads and three native representations retain
+complete outputs, logical work and actual callback counts. An uncached half-size
+control was 8.74% slower initially and 1.99% slower in an eight-fork follow-up,
+with mixed forks. The cache adds bounded score storage; no general speed or
+memory-saving claim follows.
 
-## Latest implementation — 299 coalesced checked-sum replacements
+A fresh comparison on runner-a meets **Java time parity in all 4 repair workloads**,
+with equal timed solution quality. Whole 96 measures **26.238 ms Rust /27.762 ms
+Java**, retaining 149,001 evaluations, eight repairs and 131,511 actual callbacks.
+All 64 validation cases remain valid, with 36 equal scores and 47 native/35 Java
+optima under the original different sampling policies. Only this report was
+refreshed; the other 17 raw reports retain their original dates, keys and results.
+Current freshness is shown by the dashboard. See
+[the evidence](../compat/observations/pooled-score-memo.json).
+
+The inventory and known behavior differences remain unchanged. Performance parity
+on these workloads does not prove full project completion.
+
+## Previous implementation — 299 coalesced checked-sum replacements
 
 SumCollector defers one logical primitive replacement. Checked chains compose;
 inverses cancel. Each public operation still checks its own signed difference,

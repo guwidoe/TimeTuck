@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "classification": "Original native bounded same-context score memo; no upstream-method credit",
+  "native_source": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+  "baseline_source": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+  "capability": "AdditiveScore::POOLED_SAME_CONTEXT_MEMO defaults false; fixed integer values opt in; only Checked arithmetic and explicit existing scoped cache",
+  "implementation": {
+    "hit": "Exact normalized base plus complete unchanged active generation certificate; real validated assignment and fresh structural state every trial",
+    "miss": "Original complete checked rebasing; any contribution refresh drops memo before score Clone; no failed-result memo",
+    "updates": "Borrow complete row on hit; own every active sparse update for diagnostics or selectable winner/tie, preserving original order",
+    "fallback": "Existing custom/decimal/wrapping/uncached/optional routes; budgets, callbacks and output semantics retained",
+    "memory": "One optional pointer per planned row plus two score values/allocation overhead per remembered row. Original slot cap retained; not a byte bound. Metadata generation scan still O(active dependencies)."
+  },
+  "qualification": {
+    "rust_tests": 8600,
+    "doctests": 292,
+    "original_new_regressions": 8,
+    "precompile": {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--locked",
+        "--no-run",
+        "-j",
+        "8",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "seconds": 742.1501907089987,
+      "rust_digest": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+      "source_unchanged": true,
+      "environment_cargo_build_jobs": "4",
+      "policy": "Actual build-only8worker precompile then one final retained-state standard check with normal4worker job environment. No fabricated/transplanted/rekeyed verification. Reuse only successful jobs whose actual relevant inputs remain identical."
+    },
+    "initial_gate": {
+      "command": [
+        "bash",
+        "scripts/check.sh"
+      ],
+      "exit_code": 101,
+      "seconds": 392.8393991040066,
+      "rust_digest": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+      "source_unchanged": true,
+      "environment_cargo_build_jobs": "4",
+      "policy": "Actual build-only8worker precompile then one final retained-state standard check with normal4worker job environment. No fabricated/transplanted/rekeyed verification. Reuse only successful jobs whose actual relevant inputs remain identical."
+    },
+    "retry_reason": "Five archive fixture solves exhausted their existing10ms wall-clock limit before initialization under load. Same source/test bytes retried only failed suite02; every archive assertion then passed, all other successful Rust jobs reused. Initial failure logs retained.",
+    "gate": {
+      "command": [
+        "bash",
+        "scripts/check.sh"
+      ],
+      "exit_code": 0,
+      "seconds": 98.61770629200328,
+      "rust_digest": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+      "source_unchanged": true,
+      "environment_cargo_build_jobs": "4",
+      "policy": "Actual build-only8worker precompile then one final retained-state standard check with normal4worker job environment. No fabricated/transplanted/rekeyed verification. Reuse only successful jobs whose actual relevant inputs remain identical."
+    },
+    "executed_jobs": 2,
+    "reused_jobs": 146,
+    "artifact": {
+      "host": "runner-a",
+      "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--example",
+        "repair_benchmark",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "seconds": 47.990900653006975,
+      "rust_digest": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+      "source_digest": "1907025058c609b7804eb5b66b8e97cefcdd6d579d3e6bebc5f32011fb66bb6a",
+      "executable": "/home/developer/.cache/timetuck-build/target-1.92.0/release/examples/repair_benchmark",
+      "binary_sha256": "3ccd28f7f19f897f793b4d0498b2fbb4b0f2f502b04f9294f72d89ab71bede2a",
+      "fresh": false,
+      "measurement_key": "47c1ea3e91f7225a4939877e7aa395e29c67f309701585a489c0dc6bfdd38a06"
+    },
+    "local_native_validation": {
+      "total": 64,
+      "passed": 64,
+      "native_modes": 3,
+      "full_outputs_and_actual_callback_counts_equal": true
+    },
+    "complete_original_controls": "All4workloads x3native scoring modes,4balancedCPU2forks,originalsteps8/warmup3/samples5; complete results/callbacks equal",
+    "private_comparisons": [
+      {
+        "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust",
+        "baseline_ms": 1.287062,
+        "candidate_ms": 1.197486,
+        "candidate_over_baseline": 0.9304027311815593,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 1.0002603679185882
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9645662051679212
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9694234752661635
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.9017092209083409
+          }
+        ]
+      },
+      {
+        "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_full",
+        "baseline_ms": 2.520859,
+        "candidate_ms": 2.4205985,
+        "candidate_over_baseline": 0.9602276446243125,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9485382539446144
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8194701068595961
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9408901692716695
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.8189116702544377
+          }
+        ]
+      },
+      {
+        "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_uncached",
+        "baseline_ms": 1.4081765,
+        "candidate_ms": 1.3826165,
+        "candidate_over_baseline": 0.9818488662465252,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 1.018785943867412
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8440246260418011
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.0933081290034703
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.9531810535392244
+          }
+        ]
+      },
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust",
+        "baseline_ms": 12.343357,
+        "candidate_ms": 10.931579,
+        "candidate_over_baseline": 0.8856244699071736,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.8972664450722616
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.800028366282759
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.8702222155228392
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.888266052076474
+          }
+        ]
+      },
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_full",
+        "baseline_ms": 93.419092,
+        "candidate_ms": 89.357509,
+        "candidate_over_baseline": 0.9565229878277987,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9532677628701194
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9767351004479126
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9286367669366004
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.935744961307398
+          }
+        ]
+      },
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_uncached",
+        "baseline_ms": 21.8930765,
+        "candidate_ms": 23.8067725,
+        "candidate_over_baseline": 1.0874110132488688,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 1.5955767566191208
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9529509230537601
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.3461871447107352
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.0630733378293815
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust",
+        "baseline_ms": 3.6842065,
+        "candidate_ms": 3.348589,
+        "candidate_over_baseline": 0.9089037218733532,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.921697027469701
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8233485249205212
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9329499809451464
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.866522096022371
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_full",
+        "baseline_ms": 8.781357,
+        "candidate_ms": 8.314674,
+        "candidate_over_baseline": 0.946855252553791,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9235135261028499
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8520668477379602
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.8708973667213443
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.913841116676579
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_uncached",
+        "baseline_ms": 6.140576,
+        "candidate_ms": 5.9541155,
+        "candidate_over_baseline": 0.9696346889933453,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9642550377307536
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8658623989993114
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9782883525208621
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.1058496888965008
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust",
+        "baseline_ms": 50.3732505,
+        "candidate_ms": 39.518711,
+        "candidate_over_baseline": 0.7845177868757943,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.706675699532413
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.8379436746779788
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.8499196888553145
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.8218180201629613
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_full",
+        "baseline_ms": 289.217695,
+        "candidate_ms": 287.3526775,
+        "candidate_over_baseline": 0.9935515097027517,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 1.0688669220420908
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.0010452649238215
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9285580828211605
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.019585106159358
+          }
+        ]
+      },
+      {
+        "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_uncached",
+        "baseline_ms": 91.1849865,
+        "candidate_ms": 88.6789055,
+        "candidate_over_baseline": 0.9725165172887316,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9100358517130168
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 1.160361547793739
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 0.9345679741575874
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 0.9552431473323112
+          }
+        ]
+      }
+    ],
+    "targeted_uncached_followup": [
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "runtime": "rust_uncached",
+        "baseline_ms": 22.568332,
+        "candidate_ms": 23.0169005,
+        "candidate_over_baseline": 1.019876014762633,
+        "forks": [
+          {
+            "fork": 0,
+            "candidate_over_baseline": 0.9360801332325777
+          },
+          {
+            "fork": 1,
+            "candidate_over_baseline": 0.9788761969483193
+          },
+          {
+            "fork": 2,
+            "candidate_over_baseline": 1.2747814995137896
+          },
+          {
+            "fork": 3,
+            "candidate_over_baseline": 1.1098596215849021
+          },
+          {
+            "fork": 4,
+            "candidate_over_baseline": 1.164281626515
+          },
+          {
+            "fork": 5,
+            "candidate_over_baseline": 1.1049167294334254
+          },
+          {
+            "fork": 6,
+            "candidate_over_baseline": 1.069344785060554
+          },
+          {
+            "fork": 7,
+            "candidate_over_baseline": 0.9491661717817879
+          }
+        ]
+      }
+    ],
+    "java_measurement": {
+      "host": "runner-a",
+      "command": [
+        "python3",
+        "scripts/benchmark_repair.py",
+        "--steps",
+        "8",
+        "--warmup",
+        "3",
+        "--samples",
+        "5",
+        "--forks",
+        "3",
+        "--ruin-sampling",
+        "coverage-cycle",
+        "--construction-placement",
+        "cheapest",
+        "--native-scoring",
+        "incremental-cached"
+      ],
+      "exit_code": 0,
+      "seconds": 46.93064520500775,
+      "rust_digest": "91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941",
+      "measurement_key": "47c1ea3e91f7225a4939877e7aa395e29c67f309701585a489c0dc6bfdd38a06",
+      "binary_before": "3ccd28f7f19f897f793b4d0498b2fbb4b0f2f502b04f9294f72d89ab71bede2a",
+      "binary_after": "3ccd28f7f19f897f793b4d0498b2fbb4b0f2f502b04f9294f72d89ab71bede2a",
+      "report_sha256": "38be8d0814789d8605ed754788560a01b980c234834188044f92f6004b84b35c"
+    },
+    "java_rows": [
+      {
+        "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 0.902893,
+        "java_ms": 5.457962,
+        "equal_scores": true,
+        "parity": true
+      },
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 7.793413,
+        "java_ms": 18.460112,
+        "equal_scores": true,
+        "parity": true
+      },
+      {
+        "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 2.659198,
+        "java_ms": 6.691278,
+        "equal_scores": true,
+        "parity": true
+      },
+      {
+        "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 26.237715,
+        "java_ms": 27.761625,
+        "equal_scores": true,
+        "parity": true
+      }
+    ],
+    "java_validation": {
+      "total": 64,
+      "passed": 64,
+      "equal_scores": 36,
+      "optimal": {
+        "java": 35,
+        "rust": 47
+      },
+      "by_algorithm": {
+        "half": {
+          "total": 32,
+          "passed": 32,
+          "equal_scores": 19,
+          "optimal": {
+            "java": 19,
+            "rust": 22
+          }
+        },
+        "all": {
+          "total": 32,
+          "passed": 32,
+          "equal_scores": 17,
+          "optimal": {
+            "java": 16,
+            "rust": 25
+          }
+        }
+      }
+    },
+    "whole96_work": {
+      "logical_evaluations": 149001,
+      "repairs": 8,
+      "actual_constraint_calls": 131511
+    },
+    "runner-c": {
+      "observed_at": "2026-10-20T09:14:46.287191+00:00",
+      "peer": "runner-c-p14s-wsl",
+      "online": false,
+      "last_seen": "2026-10-20T09:10:00.1Z",
+      "ssh_dispatch_exit": 255,
+      "ssh_message": "Timeout, server runner-c-p14s-wsl not responding.",
+      "source_digest": "1907025058c609b7804eb5b66b8e97cefcdd6d579d3e6bebc5f32011fb66bb6a",
+      "remote_job_outcome": "unresolved: no terminal worker receipt collected",
+      "restarted": false,
+      "local_required_broad_gate": "separate required retained-state broad gate, already running; not a restarted runner-c worker"
+    }
+  },
+  "limits": [
+    "Native whole96 cached median improves21.55% in all4forks; no universal speed or memory claim.",
+    "Initial uncached half96 median8.74% higher; additional8fork check1.99% higher with mixed forks. Both full observations remain.",
+    "Different Java sampling/trace/logical work remains declared; all64valid but only36equal validation scores. Timed4quality criteria are equal.",
+    "Only repair Java report refreshed; all other17 raw report bytes/dates/keys retained and now stale where relevant.",
+    "Eight original regressions add no upstream-method credit or exclusion waiver; completion remains unproved."
+  ],
+  "evidence": "work/round303-qualification/; work/parallel-round303-evidence.json"
+}

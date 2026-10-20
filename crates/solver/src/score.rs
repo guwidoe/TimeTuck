@@ -72,6 +72,22 @@ pub trait Score: Clone + Ord + fmt::Debug {
 /// arithmetic clears structural state, which the network sets separately.
 pub trait AdditiveScore: Score + ops::Add<Output = Self> + ops::Sub<Output = Self> {
     const ZERO: Self;
+    /// Permit successful ordinary-score reuse in an explicitly cached pooled
+    /// construction phase with the exact same normalized base and contribution
+    /// context. Assignment application and structural scoring still run.
+    ///
+    /// Opting in promises that normalized score equality identifies equivalent
+    /// adjustment inputs, and checked adjustment, normalization, equality and
+    /// score cloning have stable, pure value semantics. Omitting repeated score
+    /// operations, clones and drops must not alter callbacks, observable effects
+    /// or invocation-dependent failures. Scores and clones must remain logically
+    /// immutable. Failed adjustments are never reused; a changed ordinary base
+    /// must still run the checked hook, even when local contributions are cached.
+    ///
+    /// The default preserves custom hooks and decimal/floating policies. Built-in
+    /// fixed integer scores opt in; this capability does not enable caching by
+    /// itself or authorize changing arithmetic/rounding policies.
+    const POOLED_SAME_CONTEXT_MEMO: bool = false;
     fn with_structural(self, structural: i64) -> Self;
     /// Checked scoring hook. The default follows this score's additive arithmetic;
     /// bounded custom scores must override it to report unrepresentable impacts.
@@ -162,6 +178,7 @@ macro_rules! fixed_score {
 
         impl AdditiveScore for $name {
             const ZERO: Self = Self::ZERO;
+            const POOLED_SAME_CONTEXT_MEMO: bool = true;
             fn with_structural(self, structural: i64) -> Self { self.with_structural(structural) }
             fn checked_scale(&self, factor: i64) -> Option<Self> { (*self).checked_mul(factor) }
             fn checked_sum<'a>(scores: impl IntoIterator<Item=&'a Self>) -> Option<Self> where Self:'a {

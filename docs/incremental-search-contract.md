@@ -2536,3 +2536,30 @@ adaptation: actual owned clone fields with the deliberate v1 undo bug, inverse
 notifications in both directions, native score-evaluation ceiling10, exact tracked
 field evidence and successful final inverse memberships. Manual native calculator
 callbacks replace Java annotations/listeners; no Java search-trace claim.
+
+## Same-context pooled score reuse
+
+Explicitly cached required-basic Dense/Pooled construction may reuse a successful
+ordinary score when its exact normalized base and every active scoped input are
+unchanged. This is enabled only for Checked arithmetic and scores declaring
+`AdditiveScore::POOLED_SAME_CONTEXT_MEMO`; the default is false and built-in fixed
+integers opt in. Custom hooks, decimals and wrapping retain the existing route.
+The capability requires immutable pure value semantics for score equality,
+normalization, checked adjustment and score Clone/Drop operations.
+
+Every trial still applies and validates its real assignment, calculates structural
+state afresh, preserves budgets/order/acceptance/ties and counts actual callbacks.
+The complete dependency generations are scanned on each memo lookup. Any row
+refresh discards its old memo before cloning a contribution; equal totals or equal
+new contributions cannot revive results from changed inputs. Changed base totals
+rerun the complete checked arithmetic, including overflow checks. Errors and panic
+unwinding clear the phase cache. No failed result is memoized.
+
+Memo hits borrow their complete row. Diagnostics and selected/tied finalists own
+all active sparse updates in the original order before subsequent trials run.
+Normal public `ScoredMove` and uncached selection retain their existing route.
+Each planned row gains one optional pointer; a remembered result allocates two
+score values plus allocation overhead. Row count remains bounded by the original
+contribution-slot cap; arbitrary score payload bytes are not bounded by it. A hit
+still scans dependency metadata; this is neither constant-time scoring nor a
+memory-saving claim. Original regressions earn no upstream-method credit.
