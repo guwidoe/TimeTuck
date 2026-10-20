@@ -100,26 +100,98 @@ pub(crate) struct PreparedChange<'a, K, V> {
 }
 enum PreparedKind<'a, K, V> {
     Tree(crate::snapshot_map::PreparedChange<'a, K, V>),
-    Paged {
-        rows: &'a mut Paged<K, V>,
-        pos: Position,
-        found: bool,
-    },
+    Paged(PreparedPage<'a, K, V>),
+}
+// Keep the located directory entry through fallible output construction. All
+// other mutable fields are borrowed separately; no page or row owner changes
+// until commit, and commit never repeats the directory lookup.
+struct PreparedPage<'a, K, V> {
+    entry: btree_map::Entry<'a, PageKey, Arc<Page<K, V>>>,
+    pos: Position,
+    found: bool,
+    len: &'a mut usize,
+    frames: &'a mut Vec<Frame<K, V>>,
+    empty: &'a mut Vec<PageKey>,
+    cache: &'a mut OnceLock<SnapshotMap<K, V>>,
+}
+impl<K, V> PreparedPage<'_, K, V> {
+    fn insert(self, key: K, value: V) {
+        self.cache.take();
+        if self.found {
+            drop(key);
+            let value = Arc::new(value);
+            let page = self
+                .entry
+                .or_insert_with(|| unreachable!("prepared occupied page"));
+            let old = std::mem::replace(
+                &mut Arc::make_mut(page).cells[self.pos.cell]
+                    .as_mut()
+                    .expect("prepared occupied cell")
+                    .value,
+                value,
+            );
+            let undo = Undo::Value(self.pos, old);
+            match self.frames.last_mut() {
+                Some(frame) => frame.push(undo),
+                None => drop(undo),
+            }
+        } else {
+            let row = Entry {
+                key: Arc::new(key),
+                value: Arc::new(value),
+            };
+            let page = self.entry.or_insert_with(|| Arc::new(Page::empty()));
+            let page = Arc::make_mut(page);
+            page.cells[self.pos.cell] = Some(row);
+            page.occupied |= 1 << self.pos.cell;
+            *self.len += 1;
+            if let Some(frame) = self.frames.last_mut() {
+                frame.push(Undo::Entry(self.pos, None));
+            }
+        }
+    }
+    fn remove(self) -> bool {
+        if !self.found {
+            return false;
+        }
+        self.cache.take();
+        let btree_map::Entry::Occupied(mut entry) = self.entry else {
+            unreachable!("prepared occupied page");
+        };
+        let page = Arc::make_mut(entry.get_mut());
+        let old = page.cells[self.pos.cell].take();
+        page.occupied &= !(1 << self.pos.cell);
+        *self.len -= 1;
+        let empty = page.occupied == 0;
+        let undo = Undo::Entry(self.pos, old);
+        match self.frames.last_mut() {
+            Some(frame) => frame.push(undo),
+            None => drop(undo),
+        }
+        if empty {
+            if self.frames.is_empty() {
+                // Outside a journal the entry can be removed directly. There
+                // are no previously deferred empty pages after an outer finish.
+                entry.remove();
+            } else {
+                self.empty.push(self.pos.page);
+            }
+        }
+        true
+    }
 }
 impl<K, V> PreparedChange<'_, K, V> {
     pub(crate) fn insert(self, key: K, value: V) {
         match self.inner {
             PreparedKind::Tree(prepared) => prepared.insert(key, value),
-            PreparedKind::Paged { rows, pos, found } => {
-                rows.insert_prepared(pos, found, key, value)
-            }
+            PreparedKind::Paged(prepared) => prepared.insert(key, value),
         }
     }
     pub(crate) fn remove(self) {
         match self.inner {
             PreparedKind::Tree(prepared) => prepared.remove(),
-            PreparedKind::Paged { rows, pos, found } => {
-                rows.remove_prepared(pos, found);
+            PreparedKind::Paged(prepared) => {
+                prepared.remove();
             }
         }
     }
@@ -186,13 +258,13 @@ impl<K, V> Paged<K, V> {
         )
     }
     fn set(&mut self, pos: Position, value: Option<Entry<K, V>>) -> Option<Entry<K, V>> {
-        if value.is_none() && !self.pages.contains_key(&pos.page) {
-            return None;
-        }
-        let page = self
-            .pages
-            .entry(pos.page)
-            .or_insert_with(|| Arc::new(Page::empty()));
+        let page = if value.is_none() {
+            self.pages.get_mut(&pos.page)?
+        } else {
+            self.pages
+                .entry(pos.page)
+                .or_insert_with(|| Arc::new(Page::empty()))
+        };
         let page = Arc::make_mut(page);
         let next = value.is_some();
         let old = std::mem::replace(&mut page.cells[pos.cell], value);
@@ -211,32 +283,30 @@ impl<K, V> Paged<K, V> {
         }
         old
     }
-    fn insert_prepared(&mut self, pos: Position, found: bool, key: K, value: V) {
-        self.cache.take();
-        if found {
-            drop(key);
-            let old = self.replace_value(pos, Arc::new(value));
-            self.record(Undo::Value(pos, old));
-        } else {
-            self.set(
+    fn prepare<R>(
+        &mut self,
+        pos: Position,
+        inspect: impl FnOnce(Option<&V>) -> R,
+    ) -> (PreparedPage<'_, K, V>, R) {
+        let entry = self.pages.entry(pos.page);
+        let row = match &entry {
+            btree_map::Entry::Occupied(page) => page.get().cells[pos.cell].as_ref(),
+            btree_map::Entry::Vacant(_) => None,
+        };
+        let found = row.is_some();
+        let observed = inspect(row.map(|row| row.value.as_ref()));
+        (
+            PreparedPage {
+                entry,
                 pos,
-                Some(Entry {
-                    key: Arc::new(key),
-                    value: Arc::new(value),
-                }),
-            );
-            self.record(Undo::Entry(pos, None));
-        }
-    }
-    fn remove_prepared(&mut self, pos: Position, found: bool) -> bool {
-        if !found {
-            return false;
-        }
-        self.cache.take();
-        let old = self.set(pos, None);
-        self.record(Undo::Entry(pos, old));
-        self.cleanup();
-        true
+                found,
+                len: &mut self.len,
+                frames: &mut self.frames,
+                empty: &mut self.empty,
+                cache: &mut self.cache,
+            },
+            observed,
+        )
     }
     fn record(&mut self, undo: Undo<K, V>) {
         if let Some(frame) = self.frames.last_mut() {
@@ -458,22 +528,25 @@ impl<K, V> PrimitiveRows<K, V> {
             token < rows.frames.len(),
             "active primitive capture journal token"
         );
-        let mut touched: Vec<_> = rows.frames[token..]
+        // Deduplicate before acquiring owners, directly in the final buffer.
+        // Sorting/discarding placeholders cannot clone or drop user payloads.
+        let mut entries: Vec<_> = rows.frames[token..]
             .iter()
             .flat_map(|frame| {
-                frame.iter().map(|undo| match undo {
-                    Undo::Value(pos, _) | Undo::Entry(pos, _) => *pos,
+                frame.iter().map(|undo| {
+                    let pos = match undo {
+                        Undo::Value(pos, _) | Undo::Entry(pos, _) => *pos,
+                    };
+                    (pos, None)
                 })
             })
             .collect();
-        touched.sort_unstable();
-        touched.dedup();
-        RowsCapture::Delta(DeltaRows {
-            entries: touched
-                .into_iter()
-                .map(|pos| (pos, rows.entry(pos).cloned()))
-                .collect(),
-        })
+        entries.sort_unstable_by_key(|(pos, _)| *pos);
+        entries.dedup_by_key(|(pos, _)| *pos);
+        for (pos, entry) in &mut entries {
+            *entry = rows.entry(*pos).cloned();
+        }
+        RowsCapture::Delta(DeltaRows { entries })
     }
     /// Install a candidate over its restored journal entry state. Primitive
     /// captures restore full captured representatives, including remove/reinsert
@@ -588,12 +661,10 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
             }
             Storage::Paged(rows) => {
                 let pos = (rows.map)(key);
-                let entry = rows.entry(pos);
-                let found = entry.is_some();
-                let observed = inspect(entry.map(|entry| entry.value.as_ref()));
+                let (prepared, observed) = rows.prepare(pos, inspect);
                 (
                     PreparedChange {
-                        inner: PreparedKind::Paged { rows, pos, found },
+                        inner: PreparedKind::Paged(prepared),
                     },
                     observed,
                 )
@@ -605,8 +676,7 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
             Storage::Tree(rows) => rows.insert(key, value),
             Storage::Paged(rows) => {
                 let pos = (rows.map)(&key);
-                let found = rows.entry(pos).is_some();
-                rows.insert_prepared(pos, found, key, value);
+                rows.prepare(pos, |_| ()).0.insert(key, value);
             }
         }
     }
@@ -615,8 +685,7 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
             Storage::Tree(rows) => rows.remove(key),
             Storage::Paged(rows) => {
                 let pos = (rows.map)(key);
-                let found = rows.entry(pos).is_some();
-                rows.remove_prepared(pos, found)
+                rows.prepare(pos, |_| ()).0.remove()
             }
         }
     }
@@ -1254,5 +1323,142 @@ mod prepared_tests {
         rows.prepare_change(&name.as_str(), |_| ()).0.remove();
         assert!(rows.is_empty());
         assert!(!rows.is_primitive());
+    }
+}
+
+#[cfg(test)]
+mod entry_cursor_tests {
+    use super::*;
+    use std::{
+        cell::RefCell,
+        panic::{AssertUnwindSafe, catch_unwind},
+        rc::Rc,
+    };
+
+    #[test]
+    fn held_directory_entries_do_not_publish_or_acquire_owners_before_commit() {
+        struct Value(i64);
+        let mut rows = PrimitiveRows::new();
+        assert!(rows.bind_primitive());
+        rows.insert(15usize, Value(1));
+        rows.insert(14usize, Value(2));
+        let held = rows.clone();
+        let owner = rows.get_key_value(&15).unwrap().1 as *const Value;
+        for key in [15usize, 13, usize::MAX] {
+            let Storage::Paged(paged) = &rows.storage else {
+                unreachable!()
+            };
+            let pages: Vec<_> = paged
+                .pages
+                .iter()
+                .map(|(key, page)| (*key, Arc::strong_count(page)))
+                .collect();
+            assert!(
+                catch_unwind(AssertUnwindSafe(|| {
+                    let (_prepared, _) = rows.prepare_change(&key, |_| ());
+                    // Model a payload Clone failure after a successful inspection.
+                    panic!("output construction failed");
+                }))
+                .is_err()
+            );
+            assert_eq!(rows.len(), 2);
+            assert_eq!(rows.get(&15).unwrap() as *const Value, owner);
+            let Storage::Paged(paged) = &rows.storage else {
+                unreachable!()
+            };
+            assert_eq!(
+                paged
+                    .pages
+                    .iter()
+                    .map(|(key, page)| (*key, Arc::strong_count(page)))
+                    .collect::<Vec<_>>(),
+                pages
+            );
+        }
+        assert_eq!(held.get(&15).unwrap().0, 1);
+        rows.prepare_change(&15, |_| ()).0.insert(15, Value(3));
+        assert_eq!(rows.get(&15).unwrap().0, 3);
+        assert_eq!(held.get(&15).unwrap().0, 1);
+        rows.prepare_change(&13, |_| ()).0.insert(13, Value(4));
+        rows.prepare_change(&usize::MAX, |_| ())
+            .0
+            .insert(usize::MAX, Value(5));
+        assert_eq!(
+            rows.iter()
+                .map(|(key, value)| (*key, value.0))
+                .collect::<Vec<_>>(),
+            [(13, 4), (14, 2), (15, 3), (usize::MAX, 5)]
+        );
+    }
+
+    #[test]
+    fn occupied_cell_mutations_keep_payload_drop_order_and_direct_empty_cleanup() {
+        struct Value(&'static str, Rc<RefCell<Vec<&'static str>>>);
+        impl Drop for Value {
+            fn drop(&mut self) {
+                self.1.borrow_mut().push(self.0);
+            }
+        }
+        let trace = Rc::new(RefCell::new(Vec::new()));
+        let mut rows = PrimitiveRows::new();
+        assert!(rows.bind_primitive());
+        rows.insert(usize::MAX, Value("old", trace.clone()));
+        let key_owner = rows.get_key_value(&usize::MAX).unwrap().0 as *const usize;
+        rows.prepare_change(&usize::MAX, |_| ())
+            .0
+            .insert(usize::MAX, Value("new", trace.clone()));
+        assert_eq!(&*trace.borrow(), &["old"]);
+        assert_eq!(
+            rows.get_key_value(&usize::MAX).unwrap().0 as *const usize,
+            key_owner
+        );
+        rows.prepare_change(&usize::MAX, |_| ()).0.remove();
+        assert_eq!(&*trace.borrow(), &["old", "new"]);
+        let Storage::Paged(paged) = &rows.storage else {
+            unreachable!()
+        };
+        assert!(paged.pages.is_empty());
+        assert!(paged.empty.is_empty());
+        rows.prepare_change(&usize::MAX, |_| ()).0.remove();
+        assert_eq!(&*trace.borrow(), &["old", "new"]);
+    }
+
+    #[test]
+    fn held_entry_updates_restore_nested_representatives_and_captured_absences() {
+        let mut rows = PrimitiveRows::new();
+        assert!(rows.bind_primitive());
+        rows.insert(usize::MAX, 1i64);
+        rows.insert(15usize, 2);
+        let original_key = rows.get_key_value(&usize::MAX).unwrap().0 as *const usize;
+        let outer = rows.begin_journal();
+        rows.prepare_change(&usize::MAX, |_| ()).0.remove();
+        rows.prepare_change(&usize::MAX, |_| ())
+            .0
+            .insert(usize::MAX, 10);
+        let new_key = rows.get_key_value(&usize::MAX).unwrap().0 as *const usize;
+        assert_ne!(new_key, original_key);
+        let inner = rows.begin_journal();
+        rows.prepare_change(&15, |_| ()).0.remove();
+        rows.prepare_change(&16, |_| ()).0.insert(16, 20);
+        rows.commit_journal(inner);
+        let capture = rows.capture_current(outer);
+        rows.rollback_journal(outer);
+        assert_eq!(
+            rows.get_key_value(&usize::MAX).unwrap().0 as *const usize,
+            original_key
+        );
+        assert_eq!(rows.get(&15), Some(&2));
+        let outer = rows.begin_journal();
+        rows.install_capture(capture);
+        assert_eq!(
+            rows.get_key_value(&usize::MAX).unwrap().0 as *const usize,
+            new_key
+        );
+        assert!(!rows.contains_key(&15));
+        assert_eq!(rows.get(&16), Some(&20));
+        rows.rollback_journal(outer);
+        assert_eq!(rows.get(&usize::MAX), Some(&1));
+        assert_eq!(rows.get(&15), Some(&2));
+        assert!(!rows.contains_key(&16));
     }
 }

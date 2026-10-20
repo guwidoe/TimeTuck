@@ -19,13 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,629 Rust tests and 292 doctests**.
-The RealWorld stream-storage batch passes `bash scripts/check.sh`, including
-formatting, Clippy and tooling checks. The source-bound gate and measurement
-receipt is [RealWorld stream storage](../compat/observations/real_world-stream-storage.json).
-Original comparison results and 305 qualification below remain historical;
-source-affected jobs are visibly stale until deliberately refreshed. The live
-report is the authority for current evidence and readiness.
+The current native verification contains **8,697 recorded Rust tests and
+292 doctests**. The RealWorld live-commit batch passes `bash scripts/check.sh`,
+including formatting, all-target Clippy and tooling checks. Its source-bound gate
+and measurements are in [the live-commit observation](../compat/observations/real_world-live-commit.json).
+Original source-affected comparisons remain visibly stale until deliberately
+refreshed. The live report is the authority for current evidence and readiness.
 
 Additional application coverage is separate from the upstream inventory and
 original timing targets. The public RealWorld golfer and sailing models retain
@@ -33,9 +32,9 @@ four full-score/rollback/bounded-search regressions and their own same-machine
 Java/Rust benchmark. The frozen public scenarios, application model, solver
 settings and benchmark runner are unchanged. All **12** newly measured outputs
 pass independent score and assignment checks, with three seeds and ten seconds
-per runtime. Rust streams now reach **58,060 / 13,176 evaluations/s**, or
-**0.452x / 0.163x Java streams throughput**, on golfer/sailing on runner-a.
-That is **1.73x / 1.93x** the previous qualified native stream-storage results;
+per runtime. Rust streams now reach **63,900 / 15,143 evaluations/s**, or
+**0.491x / 0.206x Java streams throughput**, on golfer/sailing on runner-a.
+That is **1.10x / 1.15x** the previous qualified native candidate-storage results;
 both additional targets remain unmet. Sailing feasibility is 2/3 Rust and 0/3
 Java streams; quality remains separate and is not equal-gated. The optional handwritten Java incremental
 comparator was not rerun. These bounded results establish neither universal
@@ -50,6 +49,14 @@ The actual source-bound receipts and qualified application measurements are in
 Primitive numeric caches and saved candidates retain touched entries rather than
 entire working caches; generic/custom ownership paths preserve their contracts.
 The original source-affected comparison jobs remain visibly stale until refreshed.
+
+Eligible basic first-accepted moves now commit the live scored candidate without
+capturing, undoing and reinstalling it. Exact primitive values/keys, built-in
+integer scores and known nodes with no Drop payloads/captured environments opt
+in. Guards remain armed through iterator destruction and commit-policy checks;
+rejected fallback, custom ownership, diagnostic and other graph paths retain
+their existing behavior. Flat-map caches journal primitive lengths, and built-in
+scores skip zero-score probes on ordinary graph nodes. No upstream credit is added.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed

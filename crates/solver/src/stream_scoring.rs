@@ -623,6 +623,20 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         quit_early: impl crate::construction::SelectionPolicy<S>,
         assert_scores: bool,
     ) -> Result<Selection<V>, Self::Error> {
+        let forager_config: crate::ForagerConfig<S> = forager.into();
+        if !assert_scores
+            && forager_config.selection == crate::MoveSelection::FirstAccepted
+            && std::any::TypeId::of::<V>() == std::any::TypeId::of::<usize>()
+            && self.graph.supports_live_commit()
+        {
+            return self.select_first_accepted_live(
+                moves,
+                max_evaluations,
+                forager_config,
+                accepts,
+                quit_early,
+            );
+        }
         let problem = self.problem;
         let mut result = Selection {
             selected_accepted: false,
@@ -632,7 +646,7 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
             constraint_evaluations: 0,
             evaluation_limit: false,
         };
-        let mut forager = crate::MoveForager::new(forager.into());
+        let mut forager = crate::MoveForager::new(forager_config);
         for movement in moves {
             if result.evaluations == max_evaluations {
                 result.evaluation_limit = true;
@@ -683,6 +697,94 @@ impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> SearchDirector<V, S>
         Ok(result)
     }
 }
+impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static> StreamScoreDirector<'_, '_, V, S> {
+    // Only the caller's exact usize values, known built-in scores and explicitly
+    // eligible graph nodes may skip snapshot/rollback/install ownership work.
+    // Callback effects and candidate evaluation still run once in scan order.
+    fn select_first_accepted_live(
+        &mut self,
+        moves: impl IntoIterator<Item = Move<V>>,
+        max_evaluations: u64,
+        forager_config: crate::ForagerConfig<S>,
+        mut accepts: impl FnMut(&Move<V>, S) -> bool,
+        quit_early: impl crate::construction::SelectionPolicy<S>,
+    ) -> Result<Selection<V>, StreamScoringError> {
+        let mut result = Selection {
+            selected_accepted: false,
+            selected: None,
+            evaluations: 0,
+            replay_evaluations: 0,
+            constraint_evaluations: 0,
+            evaluation_limit: false,
+        };
+        let mut forager = crate::MoveForager::new(forager_config);
+        let mut moves = moves.into_iter();
+        // A for-loop obtains the next movement before checking the budget.
+        // Keep that order, including disposal of an unevaluated limit probe.
+        while let Some(movement) = moves.next() {
+            if result.evaluations == max_evaluations {
+                result.evaluation_limit = true;
+                break;
+            }
+            let candidate = self.apply(&movement)?;
+            result.evaluations += 1;
+            result.constraint_evaluations += candidate.constraint_evaluations();
+            let accepted = accepts(&movement, candidate.score());
+            if accepted {
+                // A FirstAccepted winner replaces every prior rejected finalist.
+                // Discard those saved states while both live rollback guards are
+                // armed; eligibility excludes user-owned destructor effects.
+                let selected = movement.clone();
+                drop(forager);
+                drop(movement);
+                // Iterator Drop may cancel the scan or unwind. Neither it nor
+                // the commit policy may run after disarming the live candidate.
+                drop(moves);
+                if !quit_early.can_commit(false) {
+                    return Ok(result);
+                }
+                candidate.commit();
+                result.selected = Some(selected);
+                result.selected_accepted = true;
+                return Ok(result);
+            }
+            // Rejected fallback retains the ordinary forager's exact captures,
+            // ranking, accounting and eventual installation over the same base.
+            forager.try_add_with(
+                candidate.score(),
+                accepted,
+                || -> Result<_, StreamScoringError> {
+                    Ok(SavedStreamCandidate {
+                        accepted,
+                        structural: candidate.structural,
+                        movement: movement.clone(),
+                        assignment: candidate.assignment.snapshot(),
+                        graph: candidate.graph.capture()?,
+                    })
+                },
+            )?;
+            let stop =
+                forager.is_quit_early() || (accepted && quit_early.should_pick(candidate.score()));
+            drop(candidate);
+            if stop {
+                break;
+            }
+        }
+        drop(moves);
+        if !quit_early.can_commit(result.evaluation_limit) {
+            return Ok(result);
+        }
+        if let Some(saved) = forager.pick() {
+            self.graph.install(saved.graph);
+            saved.assignment.install(&mut self.assignment);
+            self.structural = saved.structural;
+            result.selected = Some(saved.movement);
+            result.selected_accepted = saved.accepted;
+        }
+        Ok(result)
+    }
+}
+
 struct SavedStreamCandidate<V, S> {
     accepted: bool,
     structural: i64,
@@ -906,3 +1008,6 @@ mod selection_tests {
 mod winner_tests;
 
 mod context;
+
+#[cfg(test)]
+mod live_commit_tests;

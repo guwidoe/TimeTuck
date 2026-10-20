@@ -1,0 +1,317 @@
+{
+  "kind": "external_application_live_commit_measurement",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T14:31:00.746465+00:00",
+  "input_sha256": "26525a0d4d77752e7437587192cd4251e2c4af0ef1b564e20640e414a4d06812",
+  "source_snapshot": "b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04",
+  "machine": {
+    "hostname": "runner-a",
+    "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+    "architecture": "x86_64"
+  },
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "artifacts": {
+    "rust": {
+      "path": "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/target/release/examples/real_world_benchmark",
+      "sha256": "3288da4d441d6b7b03fb374f36429b889dd244303445cd0fde8c6e05c62480a1"
+    },
+    "java_classes": {
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Bal.class": "7a56754e5c28cfc6de28ff68ce40d40f4a6ad49db1803d61b8745bb28b6eee8a",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Incremental.class": "649bec65c29984c3a08b91245d35ad0d15bbd2a4659f9dccb45f79844e4a9f30",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Plan.class": "d14e3a77d0177ac78b1213c18e2433f2e7db9f6bf1867f5406d194d9af7eb1d6",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Req.class": "61b30785d81a866fc9a7871b15965333fbfc1fb99903cc181a15fc50bd46da52",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$SameSessionSwap.class": "881e6e656b95ccd34c33a7f69c36637d17ebb905c7ebf943f2a701efee3c434d",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Seat.class": "daa6d47c21f5453bca5631c208b904121cacfb044aeaef7255bd4bfc248d5cad",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Slot.class": "f22f935b8956cc22129e55f8cfbffe28bcf8bd530bb783a228cbbd4645e74619",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$SpareSeatChange.class": "09030e7ca473e472b12d28d7217e3efd9a0a01bb69a0d6055cc7e230828d0c27",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark$Streams.class": "a55b5a0205723026c0be6ffb1cda44a4a595f8f535e3d9d807d9ffdba4bd99ee",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/real_world-java/classes/ApplicationBenchmark.class": "66c77c50912b007ccde118497feb21d2ea52bfaf1c27137686e45f1abb8c8c9e"
+    },
+    "java_dependencies": {
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/HdrHistogram-2.2.2.jar": "22d1d4316c4ec13a68b559e98c8256d69071593731da96136640f864fa14fad8",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/angus-activation-2.0.3.jar": "a6bd35c538cf90fff941ad6258c40c08fca0b5c9c3f536c657114f27ce0527a7",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/gizmo2-2.1.1.jar": "777af2f3b98bbc238938e95c0679c5a1473ec86513e1b88c36901a30c58c9b8e",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/istack-commons-runtime-4.1.2.jar": "7fd6792361f4dd00f8c56af4a20cecc0066deea4a8f3dec38348af23fc2296ee",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jakarta.activation-api-2.1.4.jar": "c9db52100ce6c8aac95cc39075f95720d2e561b11f8051b81c121ad4effd7004",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jakarta.xml.bind-api-4.0.5.jar": "5e489b6c874c4119e003ff1403db523ee3a8959ec499f3de29e77245efccf216",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jaxb-core-4.0.9.jar": "6b014df25d22c8446cc2df0a378c5b2137747f197a731d99eb24c756b26f7e8d",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jaxb-runtime-4.0.9.jar": "93e09b7316b6af68d6e2083e4c297daf28e8957f45d725077af812c0b12c39ab",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jboss-logging-3.6.0.Final.jar": "924529a679ad76a4665115c47f053e47c6fd272f59a632ba70db481c925ef7a2",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jdk-classfile-backport-26.jar": "2eb2741b04c632ca361fb7dc947e993785639e76233129e84b2c85d618ae12ca",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/jspecify-1.0.1.jar": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/micrometer-commons-1.17.1.jar": "f2cee6ef046e72eec8128474c7f58c6217173b45ae373c30de0289f2a56ab0fd",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/micrometer-core-1.17.1.jar": "9ca47dfa831409b40253c8dc98c17b9d3e050ebbde4d1543c5521dca2b95ad56",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/micrometer-observation-1.17.1.jar": "eb34f0cd84a879393ae5c21160fc06385ccdc74f36a4d1e31b199f59acfdaf71",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/slf4j-api-2.0.18.jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/smallrye-common-constraint-2.16.0.jar": "9ce104ceb2284024fcf8d427ad2abcbb533e6afedf517a2b8727269f6a5920a6",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/smallrye-common-resource-2.16.0.jar": "00fefb18cf87306ad8427d444c8f098de5c64c82183579b0b7d7c14f28308413",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/timefold-solver-core-2.7.0.jar": "80aa953d86f19dc86ce2b4f6da16338cd01a3617d9c5f96ed53ef3dfa5dc7141",
+      "/home/developer/.cache/timetuck-build/sources/b5ca8b19fe6206844f5049f37dcf4f99efd7e5e5d2245476a739e121ada07b04/work/oracle/solver/dependencies/txw2-4.0.9.jar": "d6343e5945d87266ca4e8974a0a2a876e1bd147a00fb65ed3f2e1a3a00f3a82a"
+    }
+  },
+  "report_sha256": "7d78bd074b9ad2452847889afeb434b24985fe9818c4d493bce5de3d60d9c9eb",
+  "valid": true,
+  "qualified": true,
+  "valid_runs": 12,
+  "cases": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 130268.18112123276,
+          "scores": [
+            [
+              0,
+              20500
+            ],
+            [
+              0,
+              17200
+            ],
+            [
+              0,
+              17200
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.040279896
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 63900.19823178943,
+          "scores": [
+            [
+              0,
+              2900
+            ],
+            [
+              0,
+              4000
+            ],
+            [
+              0,
+              700
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.00033002
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.49052806051173276,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 73596.86194986725,
+          "scores": [
+            [
+              -14,
+              82000
+            ],
+            [
+              -5,
+              66600
+            ],
+            [
+              -14,
+              93000
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.058594384
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 15143.133042781266,
+          "scores": [
+            [
+              0,
+              71800
+            ],
+            [
+              0,
+              63400
+            ],
+            [
+              -1,
+              172400
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.002619641
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.205757863060744,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    }
+  ],
+  "comparison_to_prior": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "prior_rust_evaluations_per_second": 58059.9717205205,
+      "current_rust_evaluations_per_second": 63900.19823178943,
+      "native_throughput_ratio": 1.1005895514276454
+    },
+    {
+      "case": "sailing-trip-v1",
+      "prior_rust_evaluations_per_second": 13175.58005026042,
+      "current_rust_evaluations_per_second": 15143.133042781266,
+      "native_throughput_ratio": 1.1493333109445878
+    }
+  ],
+  "correctness": {
+    "runner-c_unit_passes": 496,
+    "runner-c_application_passes": 4,
+    "runner-c_production_clippy_passed": true,
+    "integrated_gate": "passed",
+    "command": "PATH=/home/developer/.cargo/bin:$PATH CARGO_BUILD_JOBS=4 bash scripts/check.sh",
+    "current_native_source_digest": "6f79a3356b68b499186eab36085d0762df573178b91ea1f291cfecd6cfc7258f",
+    "integrated_gate_exit_code": 0,
+    "native_source_digest": "6f79a3356b68b499186eab36085d0762df573178b91ea1f291cfecd6cfc7258f",
+    "rust_tests_passed": 8697,
+    "cargo_test_invocations_passed": 8703,
+    "doctests_passed": 292,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "6f79a3356b68b499186eab36085d0762df573178b91ea1f291cfecd6cfc7258f",
+      "source_after": "6f79a3356b68b499186eab36085d0762df573178b91ea1f291cfecd6cfc7258f",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T15:13:04.731659+00:00",
+      "log_sha256": "4f9b7afdb6ae2c3a5388487be704730ca3305e52df3d1c0d526cfd6aa0d06a4a"
+    },
+    "checks": {
+      "fmt": {
+        "key": "f80b6509a6c26fade5ece1e91d8fb2ecdedf900fad958d13f5fba3c08b23294c",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T14:33:40.707261+00:00",
+        "outputs": {
+          "/home/developer/repos/lab/TimeTuck/work/verification/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "clippy": {
+        "key": "b9ae712d2b401563d5cc8b0e53a7537ba9d7bf6c0884adad1eb6b38df6de077d",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T14:35:21.759610+00:00",
+        "outputs": {
+          "/home/developer/repos/lab/TimeTuck/work/verification/clippy.log": "3eefb8e1b146bc2df24c42e1927eab9c71fbedbbf3c97aac05d76d3fbf991a9c"
+        }
+      },
+      "doctests": {
+        "key": "605f3c92cc35f1b22d6d2f3295be23cbf419c9e90d6b9b15003293bb4797e9a4",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T15:14:57.160540+00:00",
+        "outputs": {
+          "/home/developer/repos/lab/TimeTuck/work/verification/doctests.log": "5b6b5464fc6bdc20d463dbee5837f27c9cf0e43c7eb347ab252a6c2640789535"
+        }
+      },
+      "gate_log_sha256": "6b7bb2f70d43b73c20a10f3ab65a6f56beb6409451296fcb48fe53dfdf146c05"
+    }
+  },
+  "limits": [
+    "Both frozen cases, original model/runner/settings and ten-second three-seed protocol remain unchanged; both Java throughput targets remain unmet.",
+    "Native quality/feasibility and Java quality/feasibility remain separate raw observations, not equal-gated.",
+    "Source snapshot predates cfg(test)-only typealias lint fix; selected production input digest exactly matches integrated source.",
+    "runner-c focused tests completed; later SSH outage prevented a remote fullgate. Actual required main gate runs locally.",
+    "Initial short worker exited1 because optional perf executable was absent after all8valid native controls finished. No short measurements repeated. Subsequent independent original-protocol qualification succeeded.",
+    "Saved-candidate bypass is conservative: exactusize values, known builtin scores, approved primitive nodekeys and NoDrop payload/callback captures; unknown nodes/custom ownership/diagnostic paths retain existing behavior.",
+    "No upstream method credit, original comparison count or stale measurement rekeying.",
+    "Prior and current medians are separate qualified same-host runs; paired short controls are diagnostic and their larger gain does not replace ten-second qualification."
+  ],
+  "evidence": {
+    "qualified_report": {
+      "path": "work/real_world-goal/live-commit-results/runner-a/work/real_world-live-commit/qualified.json",
+      "sha256": "7d78bd074b9ad2452847889afeb434b24985fe9818c4d493bce5de3d60d9c9eb"
+    },
+    "qualified_archive": {
+      "path": "work/real_world-goal/live-commit-results/qualified-results.tar.gz",
+      "sha256": "2e2835bdacc100a6acd3be5793dd3c158d1ccfbcf15919e164ead708d2744ab5"
+    },
+    "qualification_receipt": {
+      "path": "work/real_world-goal/live-commit-results/runner-a/work/real_world-live-commit/qualified-receipt.json",
+      "sha256": "950a0c6bc49be0623775aaf86b7fa943894c0ca41a65d38063300cbbc5ec4470"
+    },
+    "runner-c_receipt": {
+      "path": "work/real_world-goal/live-commit-results/runner-c/work/real_world-live-commit/runner-c-receipt.json",
+      "sha256": "bfe0d132fa650cf2563b2d27f0955e97e5b8a0fe0cb625daa2bcd3bbae65220b"
+    },
+    "runner-c_archive": {
+      "path": "work/real_world-goal/live-commit-results/runner-c-results.tar.gz",
+      "sha256": "36260cc75ca1d31ea138bb92623772a7774a3151a650611c3830a86be7987a64"
+    },
+    "source_manifest": {
+      "path": "work/real_world-goal/live-commit-prototype/work/real_world-live-commit/source-manifest.json",
+      "sha256": "eaf7c3c2510d119ad5a0cfa118bb5b1ab3ec265930406b7885ac22a30bd948ab"
+    },
+    "source_archive": {
+      "path": "work/real_world-goal/live-commit-prototype/work/real_world-live-commit/source.tar.gz",
+      "sha256": "353157b7368a1f937abd1f42302b970615bd832d951b1395ace888bcb1616d52"
+    },
+    "release_binary": {
+      "path": "work/real_world-goal/live-commit-results/real_world_benchmark",
+      "sha256": "3288da4d441d6b7b03fb374f36429b889dd244303445cd0fde8c6e05c62480a1"
+    },
+    "gate_log": {
+      "path": "work/real_world-goal/live-commit-results/gate.log",
+      "sha256": "6b7bb2f70d43b73c20a10f3ab65a6f56beb6409451296fcb48fe53dfdf146c05"
+    },
+    "native_test_metadata": {
+      "path": "work/real_world-goal/live-commit-results/rust-tests.log.json",
+      "sha256": "76c8285329123aa0f405e5fd6ef8944dc6cd17d3449e15366569837ddc83681f"
+    },
+    "dashboard_data_check": {
+      "path": "work/real_world-goal/live-commit-results/dashboard-data-check.json",
+      "sha256": "6ff90033fb5de21a516f538e40ade8140f8ce573daf275b5a2e03eb2bda35ed2"
+    }
+  }
+}

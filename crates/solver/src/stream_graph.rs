@@ -678,6 +678,15 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore>
     fn checkpoint(&self) -> Box<dyn Any> {
         self.0.checkpoint()
     }
+    fn begin_checkpoint(&mut self) -> Box<dyn Any> {
+        self.0.begin_checkpoint()
+    }
+    fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
+        self.0.commit_checkpoint(saved);
+    }
+    fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        self.0.capture_checkpoint(original)
+    }
     fn restore(&mut self, c: Box<dyn Any>) {
         self.0.restore(c);
     }
@@ -1299,12 +1308,30 @@ struct Edge {
     right: bool,
 }
 
+// Live candidate commits are limited to exact primitive identities: arbitrary
+// Clone/Ord implementations may expose ownership changes even without Drop.
+fn live_commit_key<K: 'static>() -> bool {
+    let key = std::any::TypeId::of::<K>();
+    key == std::any::TypeId::of::<usize>()
+        || key == std::any::TypeId::of::<(usize, usize)>()
+        || key == std::any::TypeId::of::<(usize, usize, usize)>()
+        || key == std::any::TypeId::of::<((usize, usize), usize)>()
+        || key == std::any::TypeId::of::<(usize, (usize, usize))>()
+        || key == std::any::TypeId::of::<((usize, usize), (usize, usize))>()
+        || key == std::any::TypeId::of::<(usize, usize, usize, usize)>()
+}
+
+fn live_commit_callback<F>(_: &F) -> bool {
+    !std::mem::needs_drop::<F>()
+}
+
 /// Build a typed DAG. Nodes only connect to previously created ports, preventing
 /// cycles. Payloads/IDs are owned `'static` types; callbacks may borrow immutable
 /// problem data for `'a`. All ordinary scores use the same score type `S`.
 pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     owner: Rc<()>,
     nodes: Vec<Box<dyn Node<S> + 'a>>,
+    live_commit_nodes: Vec<bool>,
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
     datasets: BTreeMap<usize, usize>,
@@ -1324,6 +1351,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         Self {
             owner: Rc::new(()),
             nodes: Vec::new(),
+            live_commit_nodes: Vec::new(),
             edges: Vec::new(),
             constraints: BTreeMap::new(),
             datasets: BTreeMap::new(),
@@ -1350,6 +1378,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     fn push<I, T>(&mut self, node: impl Node<S> + 'a) -> StreamPort<I, T> {
         let id = self.nodes.len();
         self.nodes.push(Box::new(node));
+        // New node kinds must opt in explicitly after checking their concrete types.
+        self.live_commit_nodes.push(false);
         self.edges.push(Vec::new());
         self.activity_rules.push(ActivityRule::All);
         StreamPort {
@@ -1363,7 +1393,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     }
 
     pub fn source<I: Ord + Clone + 'static, T: Clone + 'static>(&mut self) -> StreamSource<I, T> {
-        StreamSource(self.push(SourceNode::<I, T>(SnapshotMap::new())))
+        let out = self.push(SourceNode::<I, T>(SnapshotMap::new()));
+        self.live_commit_nodes[out.node] = live_commit_key::<I>() && !std::mem::needs_drop::<T>();
+        StreamSource(out)
     }
     pub fn filter<I: Ord + Clone + 'static, T: Clone + 'static>(
         &mut self,
@@ -1371,9 +1403,13 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         predicate: impl Fn(&T) -> bool + 'a,
     ) -> Result<StreamPort<I, T>, GraphError> {
         self.validate(input)?;
+        let live_commit = live_commit_key::<I>()
+            && !std::mem::needs_drop::<T>()
+            && live_commit_callback(&predicate);
         let mut node = FilterNode::<I, T>::new(predicate);
         node.bind_primitive_inputs();
         let out = self.push(Filter(node));
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1426,10 +1462,15 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         mapping: impl Fn(&T) -> U + 'a,
     ) -> Result<StreamPort<I, U>, GraphError> {
         self.validate(input)?;
+        let live_commit = live_commit_key::<I>()
+            && !std::mem::needs_drop::<T>()
+            && !std::mem::needs_drop::<U>()
+            && live_commit_callback(&mapping);
         let out = self.push(Map::<I, T, U> {
             mapping: Box::new(mapping),
             marker: PhantomData,
         });
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1600,7 +1641,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         mapping: impl Fn(&T) -> R + 'a,
     ) -> Result<StreamPort<(I, usize), U>, GraphError> {
         self.validate(input)?;
-        let out = self.push(FlatMap(FlatMapNode::<I, T, U>::new(mapping)));
+        let live_commit = live_commit_key::<I>()
+            && !std::mem::needs_drop::<T>()
+            && !std::mem::needs_drop::<U>()
+            && live_commit_callback(&mapping);
+        let mut node = FlatMapNode::<I, T, U>::new(mapping);
+        node.bind_primitive_inputs();
+        let out = self.push(FlatMap(node));
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1722,7 +1770,15 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
         self.validate(left)?;
         self.validate(right)?;
+        let live_commit = live_commit_key::<I>()
+            && live_commit_key::<J>()
+            && live_commit_key::<K>()
+            && !std::mem::needs_drop::<L>()
+            && !std::mem::needs_drop::<R>()
+            && live_commit_callback(&left_key)
+            && live_commit_callback(&right_key);
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::new(left_key, right_key)));
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1766,9 +1822,17 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     ) -> Result<JoinedStreamPort<I, J, L, R>, GraphError> {
         self.validate(left)?;
         self.validate(right)?;
+        let live_commit = live_commit_key::<I>()
+            && live_commit_key::<J>()
+            && live_commit_key::<K>()
+            && !std::mem::needs_drop::<L>()
+            && !std::mem::needs_drop::<R>()
+            && live_commit_callback(&left_key)
+            && live_commit_callback(&right_key);
         let out = self.push(Join(JoinNode::<I, J, L, R, K>::comparing(
             comparison, left_key, right_key,
         )));
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -2014,6 +2078,10 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         mapping: impl Fn(&T) -> (K, i64) + 'a,
     ) -> Result<StreamPort<K, (K, IntSummary)>, GraphError> {
         self.validate(input)?;
+        let live_commit = live_commit_key::<I>()
+            && live_commit_key::<K>()
+            && !std::mem::needs_drop::<T>()
+            && live_commit_callback(&mapping);
         let mut node = GroupNode::<I, K>::new();
         node.bind_primitive_group_keys();
         node.bind_primitive_inputs();
@@ -2021,6 +2089,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             node,
             mapping: Box::new(mapping),
         });
+        self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -2172,6 +2241,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         if self.constraints.contains_key(&name) {
             return Err(GraphError::DuplicateConstraint(name));
         }
+        let live_commit = live_commit_key::<I>()
+            && !std::mem::needs_drop::<T>()
+            && live_commit_callback(&evaluate);
         let out = self.push(Terminal::<I, T, S> {
             evaluate: TerminalEvaluation::Direct(Box::new(evaluate)),
             total: S::ZERO,
@@ -2179,6 +2251,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             matches: terminal_rows::<I, T, S>(),
             checkpoint_box: CheckpointBox::new(),
         });
+        self.live_commit_nodes[out.node] = live_commit;
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);
         Ok(StreamConstraint(out))
@@ -2346,7 +2419,20 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             .iter()
             .map(|node| node.score_evaluation_counter())
             .collect();
+        // Only these built-in scores have unobservable zero Clone/Eq/Drop and
+        // arithmetic hooks. Custom scores retain every original per-node probe.
+        let score_type = std::any::TypeId::of::<S>();
+        let score_probe_nodes = (score_type == std::any::TypeId::of::<crate::SimpleScore>()
+            || score_type == std::any::TypeId::of::<crate::HardSoftScore>()
+            || score_type == std::any::TypeId::of::<crate::HardMediumSoftScore>())
+        .then(|| self.nodes.iter().map(|node| node.is_constraint()).collect());
+        let supports_live_commit = score_probe_nodes.is_some()
+            && !self.activity_pruning
+            && self.initial_activity.is_none()
+            && self.live_commit_nodes.iter().all(|&eligible| eligible);
         let mut graph = StreamGraph {
+            supports_live_commit,
+            score_probe_nodes,
             score_evaluation_counters,
             initial_activity: self.initial_activity,
             pruned_edges,
@@ -2399,6 +2485,9 @@ struct TransactionWorkspace {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    supports_live_commit: bool,
+    // None preserves the original probe/ownership path for all custom scores.
+    score_probe_nodes: Option<Vec<bool>>,
     score_evaluation_counters: Vec<Option<Rc<std::cell::Cell<u128>>>>,
     pruned_edges: Vec<weights::PrunedEdge>,
     transaction_workspaces: Vec<TransactionWorkspace>,
@@ -2417,6 +2506,13 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     score: S,
 }
 impl<'a, S: AdditiveScore> StreamGraph<'a, S> {
+    pub(crate) fn supports_live_commit(&self) -> bool {
+        self.supports_live_commit
+    }
+    #[cfg(test)]
+    pub(crate) fn disable_live_commit_for_tests(&mut self) {
+        self.supports_live_commit = false;
+    }
     pub fn score(&self) -> S {
         self.score.clone()
     }
@@ -2796,15 +2892,28 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         // Vec or sending the same event through the queue's root round trip.
         {
             self.checkpoint(source);
-            self.score_evaluations += u128::from(self.graph.nodes[source].evaluates_score(&event));
-            let old = self.graph.nodes[source].score();
-            self.graph.nodes[source].apply_source(&event)?;
-            let new = self.graph.nodes[source].score();
-            if old != new {
-                workspace.changes.push((old, new));
-            }
-            for &edge in &self.graph.edges[source] {
-                workspace.pending.push_back((edge, event.clone()));
+            if self
+                .graph
+                .score_probe_nodes
+                .as_ref()
+                .is_some_and(|nodes| !nodes[source])
+            {
+                self.graph.nodes[source].apply_source(&event)?;
+                for &edge in &self.graph.edges[source] {
+                    workspace.pending.push_back((edge, event.clone()));
+                }
+            } else {
+                self.score_evaluations +=
+                    u128::from(self.graph.nodes[source].evaluates_score(&event));
+                let old = self.graph.nodes[source].score();
+                self.graph.nodes[source].apply_source(&event)?;
+                let new = self.graph.nodes[source].score();
+                if old != new {
+                    workspace.changes.push((old, new));
+                }
+                for &edge in &self.graph.edges[source] {
+                    workspace.pending.push_back((edge, event.clone()));
+                }
             }
         }
         // Match the old root iteration: release its event before downstream
@@ -2877,6 +2986,26 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 continue;
             }
             self.checkpoint(id);
+            if self
+                .graph
+                .score_probe_nodes
+                .as_ref()
+                .is_some_and(|nodes| !nodes[id])
+            {
+                let outputs = {
+                    let _count = ScoreEvaluationDelta::new(
+                        self.graph.score_evaluation_counters[id].as_ref(),
+                        &mut self.score_evaluations,
+                    );
+                    self.graph.nodes[id].apply(edge.right, &event, arithmetic)
+                }?;
+                outputs.for_each(|output| {
+                    for &next in &self.graph.edges[id] {
+                        pending.push_back((next, output.clone()));
+                    }
+                });
+                continue;
+            }
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(&event));
             let old = self.graph.nodes[id].score();
             let outputs = {
@@ -2958,3 +3087,9 @@ mod unary_batch_tests;
 
 #[cfg(test)]
 mod terminal_primitive_tests;
+
+#[cfg(test)]
+mod score_routing_tests;
+
+#[cfg(test)]
+mod live_commit_eligibility_tests;

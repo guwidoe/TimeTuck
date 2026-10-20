@@ -25,49 +25,44 @@ seeds 7/11/23, ten-second limits and solver settings unchanged. Additional tests
 and timings retain zero upstream-method credit; the original 18 comparison jobs
 and 109-workload universe remain separate.
 
-The candidate-storage batch is integrated and verified. It adds primitive
-numeric caches, unbounded expanded occurrence IDs and saved candidate captures
-containing touched rows/index buckets. Custom Drop payloads and generic/borrowed
-IDs retain their existing ownership paths. One completed standard gate records
-**8,670 passing native tests and 292 doctests**, with formatting, all-target Clippy
-and tooling checks. Seven archive-report fixture setup solves exceeded 10 ms during
-the initial run; the affected 522-test target passed a selective retry with no
-source or setting changes. All successful targets were reused. Raw failed logs
-remain in `work/real_world-goal/candidate-storage/failed-first-gate/`.
+The guarded first-accepted live-commit batch is integrated and verified.
+The actual standard gate passes **8,697 recorded Rust tests +292 doctests**,
+formatting, all-target Clippy and tooling. No source/settings changes were made
+during the successful gate. runner-c separately passed 496 library+4 application tests.
+The release snapshot predates only a cfg(test) type-alias lint fix; selected
+production input digest exactly matches integrated production.
 
-Fresh qualified runner-a comparison: **58,060 Rust /128,525 Java evaluations/s**
-on Golfer and **13,176 /81,068** on Sailing. Native throughput is 1.73x/1.93x the
-previous qualified stream-storage results. All 12 outputs independently validate.
-Sailing is feasible in 2/3 native runs and 0/3 Java streams runs; quality remains a
-separate observation. Source input digest is
-`18a26556e562d356f24048ad6ff560144c5f068c14f23cdeb41c846245791da1`.
-Native test source is
-`d035384aa24b7c9b361829e46720be06b5984a3f5a7c868b680e32bd19797e8a`.
-The immutable release snapshot predates cfg(test) inference/lint fixes; its actual
-selected production input digest matches integrated sources exactly. Do not claim
-raw test-source equality. Observation:
-`compat/observations/real_world-candidate-storage.json`; raw collection, build
-and gate receipts: `work/real_world-goal/candidate-storage/`.
+Fresh qualified runner-a comparison: **63,900 Rust /130,268 Java evaluations/s**
+on Golfer and **15,143 /73,597** on Sailing: **0.491x /0.206x** Java streams.
+Native medians improve 1.10x/1.15x over candidate-storage. All 12 outputs validate
+independently under unchanged cases/settings and seeds 7/11/23 × ten seconds.
+Sailing remains feasible 2/3 Rust vs 0/3 Java streams; quality stays separate.
+Production digest: `26525a0d4d77752e7437587192cd4251e2c4af0ef1b564e20640e414a4d06812`.
+Observation: `compat/observations/real_world-live-commit.json`; raw evidence:
+`work/real_world-goal/live-commit-results/`. Actual preserved release SHA:
+`3288da4d441d6b7b03fb374f36429b889dd244303445cd0fde8c6e05c62480a1`.
 
-The qualified application report is promoted to `work/real_world-performance.json`.
-Regenerate compatibility data and inspect HTTP data/freshness after report updates.
-No frontend assets changed; reuse rendering proof. Original source-affected
-comparisons stay stale and receive no rekeying. Upstream 4412 passed/0 pending/
-443 excluded is unchanged. No extra upstream-method credit is added.
+Live commit is conservative: exact `usize` planning values, built-in integer scores,
+whitelisted node/key shapes, NoDrop payloads/callback captures, no activity
+observers/pruning or diagnostic assertions. Accepted candidates keep rollback
+armed through iterator disposal and commit policy. Saved rejected fallback and
+unknown/custom paths remain unchanged. Dispatch microvariant is included; the
+concrete-callback variant was rejected and remains isolated.
 
-Further optimization remains isolated. The dispatch prototype passes 482 library
-and four application tests, with rotating two-second native controls suggesting
-1.07x/1.14x gains; those are diagnostics, not qualified target measurements.
-The callback prototype retains concrete callback types inside private graph nodes
-for no-Drop captured environments, with original boxed wrappers retained otherwise.
-All three agents are finished/frozen. The actual runner-a worker is running;
-collect the existing handle from `work/real_world-goal/callbacks-continuation.json`.
-Keep main unchanged while measuring. Neither prototype is integrated or credited
-as target progress. runner-a works; the latest runner-c probe timed out.
+Next isolated prototype: `work/real_world-goal/directory-prototype/`, adding a
+sparse hot-page directory and omitting NoDrop primitive rejected filter payloads.
+Discarded unbounded rejections conservatively disable narrower later binding.
+Its actual runner-a tests/timings are tracked in
+`work/real_world-goal/directory-continuation.json`; inspect the existing worker
+before changing sources or launching anything. Initial 506 library passes and
+production Clippy were retained after one cfg(test) integer-annotation correction;
+the failed test and application target rerun selectively. No main integration
+or throughput claim until actual receipts and controls have been assessed.
 
-The separate first-accepted live-commit experiment in
-`work/real_world-goal/prototype/` remains unintegrated. Preserve conservative
-Drop/cancellation/forager semantics before considering that implementation.
+Original 18 comparisons retain actual stale keys/dates, upstream inventory stays
+4412 passed/0 pending/443 excluded. No frontend assets changed; inspect current
+HTTP data/freshness and reuse rendering proof. runner-c completed its focused work,
+then disconnected; no runner-c fullgate was launched. Main fullgate ran locally.
 
 ## Additional RealWorld application coverage — 2026-10-20
 
