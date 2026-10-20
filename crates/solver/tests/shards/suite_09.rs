@@ -146,6 +146,8 @@ pub mod verification_consistency_cases;
 pub mod worker_facade_cases;
 #[path = "../working_basic_stream_regression.rs"]
 pub mod working_basic_stream_regression;
+#[path = "../wrapping_load_balance_regression.rs"]
+pub mod wrapping_load_balance_regression;
 #[path = "../xml_composition_regression.rs"]
 pub mod xml_composition_regression;
 #[path = "../xml_value_regression.rs"]

@@ -1576,6 +1576,31 @@ claim. An empty standalone collector produces an empty map and zero; an empty
 stream group produces no aggregate row. Inverse updates are exercised in public
 comparisons; native graph regressions additionally check rollback and rebuild.
 
+### Explicit wrapping load-balance moments
+
+`WrappingLoadBalanceCollector<K>` is an additional arithmetic policy; the ordinary
+`LoadBalanceCollector` retains its exact BigInt totals and moments. Captured
+triples, multiplicities, consistent initial loads, atomic replacement and immutable
+snapshots retain the same membership contracts. The new snapshot exposes signed
+i64 per-key loads. Totals L, their sum S and squared moment Q use two's-complement
+wrapping i64 arithmetic. Unfairness is the six-significant-digit, half-even rounded
+square root of `(n*Q - S.wrapping_mul(S))/n`, widening the numerator to BigInt
+before multiplying/subtracting. Empty input and a zero numerator return zero.
+
+Both `try_finish()` and the reversible collector's `finish()` return a Result.
+A negative widened numerator yields `WrappingLoadBalanceError::NegativeRadicand`;
+captures remain intact and subsequent removals can recover. A graph consumer can
+score this result, reject it, or explicitly panic to trigger transaction rollback.
+This is a defined native arithmetic error, not a claim about Java NaN behavior.
+Occurrence counts remain checked usize. Keys require stable lawful ordering and
+identity-preserving clones; panicking destructors and allocation aborts are unsupported.
+
+The policy deliberately keeps exact rational rounding. It does not emulate binary
+floating cancellation, Java decimal scales, live-map aliases or history bugs.
+The comparison executes both native modes on the same complete original inputs,
+retaining default exact controls and every Java difference/error separately.
+No additional upstream-method or performance credit follows from this policy.
+
 ## Calendar-period sums
 
 `CalendarPeriod` holds independent signed i32 year, month and day fields. Constructors,

@@ -6437,6 +6437,11 @@ path = "tests/working_object_lookup.rs"
 test = false
 
 [[test]]
+name = "wrapping_load_balance_regression"
+path = "tests/wrapping_load_balance_regression.rs"
+test = false
+
+[[test]]
 name = "xml_budget_regression"
 path = "tests/xml_budget_regression.rs"
 test = false

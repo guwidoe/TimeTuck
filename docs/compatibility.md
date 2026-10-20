@@ -10665,3 +10665,46 @@ Frontend contract unchanged: reuse 280 browser proof with current HTTP freshness
 Evidence: work/round285-qualification/{integration,candidate-build-receipt,
 pair-results,aggregate-performance-receipt,gate-receipt,collection,verdict}.json;
 large-control-followup/pair-results.json; work/parallel-round285-evidence.json.
+
+## Explicit wrapping load-balance qualification (286)
+
+`WrappingLoadBalanceCollector<K>` adds signed i64 wrapping loads and moments,
+followed by a widened exact rational root with six-significant-digit half-even
+rounding. Negative radicands return typed Results and preserve captures for
+recovery. Atomic updates, duplicate captures, initial-load consistency, snapshots,
+inverse updates and graph rollback are covered. Exact `LoadBalanceCollector`
+defaults remain unchanged. Eight original regressions and one doctest add no
+upstream-method credit.
+
+The original complete Community stream comparison now records **100/101** selected
+load-balance agreements across **8,290 states**, versus **97/101** retained exact
+default controls. Independent Python checks all 101 native cases under each
+policy. Three signed-load/moment overflow cases now agree; large-offset binary
+floating cancellation remains unresolved. Original cases, Java inputs and full
+observations are retained. Typed negative-radicand results do not claim Java
+nonfinite equivalence or waive any remaining difference.
+
+Final `bash scripts/check.sh`: **8,559 Rust +292 doctests**, **11 RUN/137 REUSE**
+in **283.426s**. Native
+`0cb833ae938b3f4e422af318a62cddde93945a5ebd5fd8ec136c32b4949302e5`.
+One final-source gate; no successful unchanged gate repeat or cache transplant.
+
+Fresh original mixed comparisons retain all eight workloads, profiles, budgets,
+quality checks and complete observations. Six of eight meet measured Java time
+parity; larger Stream warm is **23.842 ms vs Java 18.328 ms** (30.1% slower), cold
+**22.905 ms vs Java 20.505 ms** (11.7% slower). Both retain equal quality:
+[0,-338] warm, [0,-60] cold. Larger Dense is 5.694/5.390 ms warm/cold. The larger
+reference [0,-72] is a feasible certificate, not an optimum. Different strategies
+and callback counts remain explicit; this refresh is no native speedup claim.
+
+Only stream-differential and mixed-performance were deliberately refreshed.
+The other 16 raw reports retain actual bytes/dates/keys; aggregate285 remains
+current under its unchanged relevant key. Readiness **86.511%**, **3/18 current**,
+15 stale; Java multiplier **1** at equal-or-better quality. Inventory stays
+4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. Actual
+1440px desktop/390px mobile browser checks pass, including legacy presentation;
+current source/data/model HTTP checks pass. Goal active/incomplete.
+
+Evidence: work/round286-qualification/{integration,release-build-receipt,
+stream-differential-receipt,mixed-performance-receipt,gate-receipt,collection,
+verdict,browser-proof}.json; work/parallel-round286-evidence.json.

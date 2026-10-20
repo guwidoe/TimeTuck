@@ -1,5 +1,7 @@
 import unittest
-from load_balance_checks import canonical,generate,reference,parse,validate
+from unittest.mock import patch
+from types import SimpleNamespace
+from load_balance_checks import canonical,generate,reference,parse,validate,wrapping_i64,wrapping_reference,comparison_report,WRAPPING_POLICY,run_checks
 from sequence_collector_checks import states
 
 class LoadBalanceChecksTest(unittest.TestCase):
@@ -44,5 +46,90 @@ class LoadBalanceChecksTest(unittest.TestCase):
         for c in cases:
             self.assertEqual(list(states(c))[-1],{})
             for s in states(c):reference(c,s)
+
+    def encoded(self,case,reference_fn):
+        lines=[]
+        for state,slots in enumerate(states(case)):
+            out=reference_fn(case,slots)
+            if 'error' in out:lines.append(f'{case["id"]}\t{state}\tERROR\t{out["error"]}')
+            else:
+                loads=';'.join(f'{k}:{v}' for k,v in out['loads']) or '-'
+                coefficient,scale=out['unfairness']
+                lines.append(f'{case["id"]}\t{state}\t{loads}\t{coefficient}\t{scale}')
+        return lines
+    def test_wrapping_reference_modular_boundaries_and_exact_offset(self):
+        self.assertEqual(wrapping_i64(2**63),-2**63)
+        self.assertEqual(wrapping_i64(-2**63-1),2**63-1)
+        for loads,expected in [([2**63-1,0],[707107,6]),([2**63-1,2**63-2],[707107,6]),([-2,2**63-2],[0,0]),([2**63-3,0],[212132,5]),([10**9,10**9+1],[707107,6])]:
+            c=dict(items=[[k,v,0] for k,v in enumerate(loads)])
+            self.assertEqual(wrapping_reference(c,{0:0,1:1})['unfairness'],expected)
+        c=dict(items=[[0,2**63-1,2**63-1],[1,-2**63,-2**63]])
+        self.assertEqual(wrapping_reference(c,{0:0,1:1}),dict(loads=[[0,-2],[1,0]],unfairness=[141421,5]))
+        c=dict(items=[[0,3,7],[0,3,7]])
+        self.assertEqual(wrapping_reference(c,{0:0,1:1})['loads'],[[0,13]])
+        c['items'][1][2]=8
+        with self.assertRaises(ValueError):wrapping_reference(c,{0:0,1:1})
+    def test_wrapping_typed_error_requires_predicted_state_and_recovery(self):
+        c=dict(id='negative',boundary=True,items=[[0,3037000500,0],[1,0,0]],operations=[('c',0,0),('c',1,1),('c',0,-1)])
+        lines=self.encoded(c,wrapping_reference)
+        self.assertEqual(lines[2],'negative\t2\tERROR\tNegativeRadicand')
+        result=validate([c],lines,arithmetic_policy=WRAPPING_POLICY)
+        self.assertEqual((result['passed'],result['observations'],len(result['policy_errors'])),(1,4,1))
+        for bad in [lines[:-1],lines[:2]+['negative\t2\tERROR\tOther']+lines[3:],lines[:1]+['negative\t1\tERROR\tNegativeRadicand']+lines[2:],lines[:2]+['negative\t2\t-\t0\t0']+lines[3:]]:
+            with self.assertRaises(ValueError):validate([c],bad,arithmetic_policy=WRAPPING_POLICY)
+        with self.assertRaises(ValueError):validate([c],lines)
+        with self.assertRaises(ValueError):validate([c],lines,java=True,arithmetic_policy=WRAPPING_POLICY)
+        java=self.encoded(c,reference)
+        result=validate([c],java,java=True,arithmetic_policy=WRAPPING_POLICY)
+        self.assertEqual((result['passed'],result['divergent_cases']),(0,1))
+    def test_wrapping_validation_remains_strict_and_rejects_unknown_policy(self):
+        c=self.case();lines=self.lines()
+        self.assertEqual(validate([c],lines,arithmetic_policy=WRAPPING_POLICY)['passed'],1)
+        for bad in [lines[:-1],lines+lines[:1],lines[::-1],lines[:2]+[lines[1]]+lines[3:]]:
+            with self.assertRaises(ValueError):validate([c],bad,arithmetic_policy=WRAPPING_POLICY)
+        with self.assertRaises(ValueError):validate([c],lines,arithmetic_policy='unrecognized')
+    def test_report_counters_derive_actual_policy_and_preserve_exact_controls(self):
+        cancellation=dict(id='cancel',boundary=True,items=[[0,10**9,0],[1,10**9+1,0]],operations=[('c',0,0),('c',1,1)])
+        overflow=dict(id='overflow',boundary=True,items=[[0,2**63-1,0],[1,0,0]],operations=[('c',0,0),('c',1,1)])
+        cases=[cancellation,overflow]
+        exact=sum((self.encoded(c,reference) for c in cases),[])
+        wrapping=sum((self.encoded(c,wrapping_reference) for c in cases),[])
+        java=wrapping.copy();java[2]='cancel\t2\t0:1000000000;1:1000000001\t0\t0'
+        outputs=dict(java=java,rust=wrapping,rust_exact=exact)
+        result=comparison_report(cases,outputs)
+        self.assertEqual(result['arithmetic_policy'],WRAPPING_POLICY)
+        self.assertEqual((result['passed'],result['divergent_cases'],result['exact_controls']['passed']),(1,1,0))
+        self.assertEqual(result['outputs']['rust_exact'],exact)
+        self.assertEqual(result['exact_controls']['outputs']['java'],java)
+        self.assertEqual(result['exact_controls']['results']['rust']['passed'],2)
+        # Changing an actual Java result changes the counter; no hardcoded credit.
+        java[2]=wrapping[2]
+        self.assertEqual(comparison_report(cases,outputs)['passed'],2)
+        java[:]=['cancel\tERROR\tjava.lang.ArithmeticException']+wrapping[3:]
+        result=comparison_report(cases,outputs)
+        self.assertEqual((result['passed'],result['java_error_cases']),(1,1))
+        self.assertEqual(result['exact_controls']['java_error_cases'],1)
+    def test_all_original_inputs_and_states_survive_selected_reference(self):
+        cases=generate();count=0
+        for case in cases:
+            for slots in states(case):
+                result=wrapping_reference(case,slots)
+                self.assertNotIn('error',result)
+                count+=1
+        self.assertEqual((len(cases),count),(101,8290))
+
+    def test_runtime_commands_keep_one_unchanged_java_and_native_payload(self):
+        case=self.case();case['boundary']=False
+        output='\n'.join(self.lines())+'\n'
+        with patch('load_balance_checks.generate',return_value=[case]), patch('load_balance_checks.subprocess.run',return_value=SimpleNamespace(stdout=output)) as execute:
+            result=run_checks('/public/classes')
+        self.assertEqual(result['passed'],1)
+        self.assertEqual(len(execute.call_args_list),3)
+        java,exact,wrapping=execute.call_args_list
+        self.assertEqual(java.args[0],['java','-cp','/public/classes','LoadBalanceOracle'])
+        self.assertEqual(len(exact.args[0]),1)
+        self.assertEqual(wrapping.args[0],exact.args[0]+['--wrapping64-moments'])
+        expected='x\t0,2,0;1,1,0\tc:0:0;c:1:1;t:2:1\n'
+        self.assertEqual([call.kwargs['input'] for call in execute.call_args_list],[expected]*3)
 
 if __name__=='__main__':unittest.main()

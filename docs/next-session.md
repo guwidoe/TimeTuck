@@ -17,7 +17,65 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 285 primitive replacement
+## Latest qualification — 286 explicit wrapping load balance
+
+`WrappingLoadBalanceCollector<K>` adds signed i64 wrapping loads and moments,
+followed by a widened exact rational root with six-significant-digit half-even
+rounding. Negative radicands return typed Results and preserve captures for
+recovery. Atomic updates, duplicate captures, initial-load consistency, snapshots,
+inverse updates and graph rollback are covered. Exact `LoadBalanceCollector`
+defaults remain unchanged. Eight original regressions and one doctest add no
+upstream-method credit.
+
+The original complete Community stream comparison now records **100/101** selected
+load-balance agreements across **8,290 states**, versus **97/101** retained exact
+default controls. Independent Python checks all 101 native cases under each
+policy. Three signed-load/moment overflow cases now agree; large-offset binary
+floating cancellation remains unresolved. Original cases, Java inputs and full
+observations are retained. Typed negative-radicand results do not claim Java
+nonfinite equivalence or waive any remaining difference.
+
+Final `bash scripts/check.sh`: **8,559 Rust +292 doctests**, **11 RUN/137 REUSE**
+in **283.426s**. Native
+`0cb833ae938b3f4e422af318a62cddde93945a5ebd5fd8ec136c32b4949302e5`.
+One final-source gate; no successful unchanged gate repeat or cache transplant.
+
+Fresh original mixed comparisons retain all eight workloads, profiles, budgets,
+quality checks and complete observations. Six of eight meet measured Java time
+parity; larger Stream warm is **23.842 ms vs Java 18.328 ms** (30.1% slower), cold
+**22.905 ms vs Java 20.505 ms** (11.7% slower). Both retain equal quality:
+[0,-338] warm, [0,-60] cold. Larger Dense is 5.694/5.390 ms warm/cold. The larger
+reference [0,-72] is a feasible certificate, not an optimum. Different strategies
+and callback counts remain explicit; this refresh is no native speedup claim.
+
+Only stream-differential and mixed-performance were deliberately refreshed.
+The other 16 raw reports retain actual bytes/dates/keys; aggregate285 remains
+current under its unchanged relevant key. Readiness **86.511%**, **3/18 current**,
+15 stale; Java multiplier **1** at equal-or-better quality. Inventory stays
+4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. Actual
+1440px desktop/390px mobile browser checks pass, including legacy presentation;
+current source/data/model HTTP checks pass. Goal active/incomplete.
+
+Evidence: work/round286-qualification/{integration,release-build-receipt,
+stream-differential-receipt,mixed-performance-receipt,gate-receipt,collection,
+verdict,browser-proof}.json; work/parallel-round286-evidence.json.
+
+Next: inspect work/round287-mixed-gap/README.md and candidate.patch before any
+integration. This is an unexecuted source-only ordinary Join.apply allocation
+proposal. Its graph-only Empty/One/Many typed buffer preserves public Vec APIs,
+projection/clone/install ordering and many-match behavior. Historical mixed261
+Join.apply cost is 11.96% inclusive; the allocation-only opportunity is smaller
+and current cost is unknown. It cannot by itself be claimed to close the mixed
+gap. Profiles270/273 are other stream workloads, not mixed evidence. No real
+source changes or verification have been performed for287. Preserve full metadata,
+quality and work when assessing it; do not repeat286's successful unchanged gate.
+
+runner-c remains parked. runner-a handle22032 ended255/port22 timeout; its old check
+URL expired and is not reusable. No remote286 result is included. The separate
+Java-history-bug compatibility question remains unanswered; no waived gaps or
+inferred decision. Continue ordinary reversible implementation within the goal.
+
+## Previous qualification — 285 primitive replacement
 
 Primitive frequency replacement checks the old class once and uses one
 insertion/merge traversal after decrement or singleton detach. The small helper
@@ -62,25 +120,10 @@ a full gate or Java refresh. Do not revive them or rekey their evidence. The
 final 285 full gate proves the actual retained source. Do not rerun unchanged
 successful checks. No final-source focused record was fabricated from 284.
 
-Next independent work: inspect work/round286-load-balance/ source proposal and
-hashes before integrating. It adds explicit WrappingLoadBalanceCollector/output
-with i64 loads and moments, reuses exact half-even rounded_root via visibility
-only, and returns typed NegativeRadicand errors. Eight original regressions,
-export patch and base/artifact SHA manifests; no real-file changes or execution.
-Three of four recorded large-integer cases are an unqualified arithmetic
-hypothesis; binary cancellation remains separate and unimplemented. No awarded
-agreement, upstream-method credit or assumed Java-history-bug decision.
-Deliberately reassess the slower whole mixed solves next; use original workload,
-quality and settings, without refreshing every other measurement or repeating
-this successful unchanged full gate.
+Earlier 282 sorted-set feature and evidence remain below; its production API and
+semantic contract are unchanged.
 
-The Java-bug compatibility question remains unanswered; no waived gaps or inferred
-approval. Continue closing relevant compatibility/performance gaps. runner-c parked;
-last observed runner-a connection 9785 ended 255/port22 timeout, auth link expired.
-No remote 285 run is included. Earlier 282 sorted-set feature and evidence remain
-below; its production API and semantic contract are unchanged.
-
-## Latest qualification — 282 persistent sorted-set snapshots
+## Previous qualification — 282 persistent sorted-set snapshots
 
 New explicit production SortedSetCollector<V> / SnapshotSet<V> stores membership
 and hidden frequencies in one persistent AVL. Existing SetCollector/defaults

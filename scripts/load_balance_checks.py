@@ -1,4 +1,4 @@
-"""Original exact load-map and unfairness comparisons through public collectors."""
+"""Original exact controls and explicit wrapping-moment public comparisons."""
 import random
 import subprocess
 from decimal import Decimal, localcontext, ROUND_HALF_EVEN
@@ -54,6 +54,45 @@ def reference(case,slots):
     return dict(loads=[[k,v] for k,v in sorted(loads.items())],unfairness=u)
 
 
+WRAPPING_POLICY = 'wrapping64-moments-exact-root'
+EXACT_POLICY = 'exact'
+
+
+def wrapping_i64(value):
+    return (value + 2**63) % 2**64 - 2**63
+
+
+def wrapping_reference(case, slots):
+    loads={};initials={}
+    for i in slots.values():
+        key,load,initial=case['items'][i]
+        if key in initials and initials[key]!=initial:raise ValueError('Conflicting initial loads')
+        initials[key]=initial
+        loads[key]=wrapping_i64(loads.get(key,initial)+load)
+    values=list(loads.values());n=len(values)
+    total=wrapping_i64(sum(values))
+    squares=wrapping_i64(sum(wrapping_i64(value*value) for value in values))
+    squared_total=wrapping_i64(total*total)
+    # Only moments wrap. Widen the numerator before multiplying/subtracting.
+    numerator=n*squares-squared_total
+    if numerator<0:return dict(error='NegativeRadicand')
+    unfairness=[0,0]
+    if numerator:
+        with localcontext() as ctx:
+            ctx.prec=120
+            root=(Decimal(numerator)/n).sqrt()
+            ctx.prec=6;ctx.rounding=ROUND_HALF_EVEN
+            rounded=+root;t=rounded.as_tuple()
+            unfairness=canonical(int(''.join(map(str,t.digits))),-t.exponent)
+    return dict(loads=[[k,v] for k,v in sorted(loads.items())],unfairness=unfairness)
+
+
+def selected_reference(arithmetic_policy):
+    if arithmetic_policy==EXACT_POLICY:return reference
+    if arithmetic_policy==WRAPPING_POLICY:return wrapping_reference
+    raise ValueError('Unknown load balance arithmetic policy')
+
+
 def parse(case,state,line):
     f=line.split('\t')
     if len(f)!=5 or f[:2]!=[case['id'],str(state)]:raise ValueError('Load balance response identity/shape')
@@ -69,8 +108,9 @@ def parse(case,state,line):
     return dict(loads=loads,unfairness=canonical(coefficient,scale))
 
 
-def validate(cases,lines,java=False):
-    cursor=0;observations=0;passed=0;errors=[];differences=[]
+def validate(cases,lines,java=False,arithmetic_policy=EXACT_POLICY):
+    reference_fn=selected_reference(arithmetic_policy)
+    cursor=0;observations=0;passed=0;errors=[];differences=[];policy_errors=[]
     for case in cases:
         ok=True
         for state,slots in enumerate(states(case)):
@@ -79,31 +119,69 @@ def validate(cases,lines,java=False):
             if len(f)==3 and f[:2]==[case['id'],'ERROR']:
                 if not java or not f[2]:raise ValueError('Unexpected native/error response')
                 errors.append(dict(case=case['id'],state=state,error=f[2]));cursor+=1;ok=False;break
-            actual=parse(case,state,lines[cursor]);expected=reference(case,slots);cursor+=1;observations+=1
+            expected=reference_fn(case,slots)
+            if len(f)==4 and f[:2]==[case['id'],str(state)] and f[2]=='ERROR':
+                if java or arithmetic_policy!=WRAPPING_POLICY or expected!=dict(error=f[3]):
+                    raise ValueError('Unexpected load balance typed arithmetic error')
+                actual=dict(error=f[3])
+                policy_errors.append(dict(case=case['id'],state=state,error=f[3]))
+            else:
+                actual=parse(case,state,lines[cursor])
+            cursor+=1;observations+=1
             if actual!=expected:
                 if not java:raise ValueError(f'Native load balance differs: {case["id"]} state {state}: {actual} != {expected}')
                 differences.append(dict(case=case['id'],state=state,actual=actual,expected=expected));ok=False
         passed+=ok
     if cursor!=len(lines):raise ValueError('Extra/reordered load balance responses')
     return dict(total=len(cases),passed=passed,observations=observations,errors=errors,differences=differences,
-                divergent_cases=len({d['case'] for d in differences}),error_cases=len(errors))
+                divergent_cases=len({d['case'] for d in differences}),error_cases=len(errors),policy_errors=policy_errors)
+
+
+def comparison_report(cases,outputs):
+    """Derive both policy counts from complete actual observations, without probes."""
+    exact_java=validate(cases,outputs['java'],java=True)
+    exact_native=validate(cases,outputs['rust_exact'])
+    java=validate(cases,outputs['java'],java=True,arithmetic_policy=WRAPPING_POLICY)
+    native=validate(cases,outputs['rust'],arithmetic_policy=WRAPPING_POLICY)
+    ordinary={c['id'] for c in cases if not c['boundary']}
+    for result in [java,exact_java]:
+        if any(d['case'] in ordinary for d in result['errors']+result['differences']):
+            raise ValueError('Bounded load balance comparison failed')
+    def summary(java,native,policy):
+        return dict(arithmetic_policy=policy,total=len(cases),passed=java['passed'],
+                    observations=native['observations'],native_reference_passed=native['passed'],
+                    java_observations=java['observations'],ordinary_total=len(ordinary),
+                    ordinary_passed=len(ordinary),boundary_total=len(cases)-len(ordinary),
+                    divergent_cases=java['divergent_cases'],java_error_cases=java['error_cases'],
+                    differences=java['differences'],errors=java['errors'],native_policy_errors=native['policy_errors'])
+    exact_controls=summary(exact_java,exact_native,EXACT_POLICY)
+    exact_controls.update(results=dict(java=exact_java,rust=exact_native),
+                          outputs=dict(java=outputs['java'],rust_exact=outputs['rust_exact']))
+    report=summary(java,native,WRAPPING_POLICY)
+    report.update(seed=SEED,cases=cases,outputs=outputs,exact_controls=exact_controls,
+                  scope='Public add/replace/remove and inverse-update trial/undo on all original inputs. '
+                  'Selected arithmetic_policy=wrapping64-moments-exact-root uses signed wrapping i64 per-key loads, sum and squared moments, '
+                  'then widened exact rational square root with six-significant-digit half-even rounding. '
+                  'Independent Python references validate complete native selected and exact-default observations. '
+                  'Exact default controls and full outputs remain separately visible; exact defaults do not change. '
+                  'The same untouched Java input/output is compared independently under both policies. '
+                  'Large-offset floating cancellation remains unresolved. Typed negative-radicand errors define the native policy, not Java nonfinite behavior; '
+                  'native typed errors are accepted only at independently predicted negative-radicand states, with complete subsequent recovery observations. '
+                  'Trailing-zero representations normalize numerically; Java scale is not claimed. '
+                  'All differences/errors and observed Java prefixes remain retained and receive no agreement credit. '
+                  'Initial loads must be consistent per active key; zero-load keys participate. '
+                  'Owned snapshots replace Java live maps. No timing or extra upstream-method credit.')
+    return report
 
 
 def run_checks(classpath):
     cases=generate();payload=''.join(c['id']+'\t'+';'.join(','.join(map(str,r)) for r in c['items'])+'\t'+
                                    ';'.join(':'.join(map(str,o)) for o in c['operations'])+'\n' for c in cases)
-    outputs={};results={}
-    for runtime,command in {'java':['java','-cp',classpath,'LoadBalanceOracle'],
-                            'rust':[str(ROOT/'target/release/examples/load_balance_oracle')]}.items():
-        r=subprocess.run(command,input=payload,text=True,capture_output=True,check=True,timeout=120)
-        outputs[runtime]=r.stdout.splitlines();results[runtime]=validate(cases,outputs[runtime],java=runtime=='java')
-    java=results['java'];ordinary={c['id'] for c in cases if not c['boundary']}
-    if any(d['case'] in ordinary for d in java['errors']+java['differences']):raise ValueError('Bounded load balance comparison failed')
-    return dict(seed=SEED,total=len(cases),passed=java['passed'],observations=results['rust']['observations'],
-                native_reference_passed=results['rust']['passed'],java_observations=java['observations'],
-                ordinary_total=len(ordinary),ordinary_passed=len(ordinary),boundary_total=len(cases)-len(ordinary),
-                divergent_cases=java['divergent_cases'],java_error_cases=java['error_cases'],differences=java['differences'],errors=java['errors'],cases=cases,outputs=outputs,
-                scope='Public add/replace/remove and inverse-update trial/undo; every active key, exact total load and six-significant-digit unfairness checked against independent Python pairwise distances and high-precision Decimal square root. '
-                'Trailing-zero decimal representations normalize numerically; Java numerical scale is not claimed. Native totals/moments are exact, avoiding Java overflow and floating cancellation. '
-                'All differing/error cases and observed prefixes are retained. Initial load is constant per active key; inconsistent initial loads reject atomically in Rust and are outside paired inputs. '
-                'Only present keys participate, including zero loads. Owned snapshots replace Java live maps. No timing or extra upstream-method credit.')
+    executable=str(ROOT/'target/release/examples/load_balance_oracle')
+    commands={'java':['java','-cp',classpath,'LoadBalanceOracle'],
+              'rust_exact':[executable], 'rust':[executable,'--wrapping64-moments']}
+    outputs={}
+    for runtime,command in commands.items():
+        result=subprocess.run(command,input=payload,text=True,capture_output=True,check=True,timeout=120)
+        outputs[runtime]=result.stdout.splitlines()
+    return comparison_report(cases,outputs)

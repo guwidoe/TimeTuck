@@ -157,7 +157,7 @@ impl<K: Clone + Ord> ReversibleCollector<(K, i64, i64)> for LoadBalanceCollector
 // Round sqrt(numerator/denominator) directly, without approximating the rational.
 // The digit lengths locate its decimal exponent; a squared midpoint decides
 // rounding. Integer square root returns the floor, even after rational division.
-fn rounded_root(numerator: &BigInt, denominator: &BigInt) -> Decimal {
+pub(crate) fn rounded_root(numerator: &BigInt, denominator: &BigInt) -> Decimal {
     let ten = BigInt::from(10);
     let mut exponent =
         numerator.to_str_radix(10).len() as i64 - denominator.to_str_radix(10).len() as i64;

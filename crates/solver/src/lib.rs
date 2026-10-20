@@ -440,6 +440,10 @@ pub use range_collector::{
 
 mod load_balance_collector;
 pub use load_balance_collector::{LoadBalance, LoadBalanceCollector};
+mod wrapping_load_balance_collector;
+pub use wrapping_load_balance_collector::{
+    WrappingLoadBalance, WrappingLoadBalanceCollector, WrappingLoadBalanceError,
+};
 mod load_balance_json;
 pub use load_balance_json::{
     LoadBalanceJsonError, ReducedLoadBalance, load_balance_from_json, load_balance_to_json,

@@ -4,19 +4,46 @@ use std::{
     io::{self, BufRead},
 };
 use timetuck::*;
-type C = LoadBalanceCollector<i32>;
-type Node = CollectNode<usize, (), (i32, i64, i64), C>;
-fn emit(id: &str, state: usize, n: &Node) {
+type Node<C> = CollectNode<usize, (), (i32, i64, i64), C>;
+trait Observation {
+    fn emit(&self, id: &str, state: usize);
+}
+impl Observation for LoadBalance<i32> {
+    fn emit(&self, id: &str, state: usize) {
+        emit_values(id, state, self.loads(), self.unfairness());
+    }
+}
+impl Observation for Result<WrappingLoadBalance<i32>, WrappingLoadBalanceError> {
+    fn emit(&self, id: &str, state: usize) {
+        match self {
+            Ok(value) => emit_values(id, state, value.loads(), value.unfairness()),
+            Err(WrappingLoadBalanceError::NegativeRadicand) => {
+                println!("{id}\t{state}\tERROR\tNegativeRadicand");
+            }
+        }
+    }
+}
+fn emit<C>(id: &str, state: usize, n: &Node<C>)
+where
+    C: ReversibleCollector<(i32, i64, i64)> + Default,
+    C::Output: Observation,
+{
     let c = n
         .groups()
         .next()
         .map_or_else(|| C::default().finish(), |(_, c)| c);
-    let loads = c
-        .loads()
+    c.emit(id, state);
+}
+fn emit_values<V: std::fmt::Display>(
+    id: &str,
+    state: usize,
+    loads: &SnapshotMap<i32, V>,
+    u: &Decimal,
+) {
+    let loads = loads
         .iter()
         .map(|(k, v)| format!("{k}:{v}"))
         .collect::<Vec<_>>();
-    let u = c.unfairness();
     println!(
         "{id}\t{state}\t{}\t{}\t{}",
         if loads.is_empty() {
@@ -28,7 +55,11 @@ fn emit(id: &str, state: usize, n: &Node) {
         u.scale()
     );
 }
-fn main() {
+fn run<C>()
+where
+    C: ReversibleCollector<(i32, i64, i64)> + Default,
+    C::Output: Observation,
+{
     for line in io::stdin().lock().lines() {
         let line = line.unwrap();
         let f = line.split('\t').collect::<Vec<_>>();
@@ -43,7 +74,7 @@ fn main() {
             })
             .collect::<Vec<_>>();
         let capture = |i: usize| ((), items[i]);
-        let mut n = Node::new();
+        let mut n = Node::<C>::new();
         let mut slots = BTreeMap::new();
         let mut state = 0;
         emit(f[0], state, &n);
@@ -78,5 +109,12 @@ fn main() {
                 state += 1;
             }
         }
+    }
+}
+fn main() {
+    match std::env::args().skip(1).collect::<Vec<_>>().as_slice() {
+        [] => run::<LoadBalanceCollector<i32>>(),
+        [mode] if mode == "--wrapping64-moments" => run::<WrappingLoadBalanceCollector<i32>>(),
+        _ => panic!("expected no argument or --wrapping64-moments"),
     }
 }
