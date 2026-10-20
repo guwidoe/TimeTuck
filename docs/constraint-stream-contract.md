@@ -2550,10 +2550,11 @@ unlinked, filtered or disabled facts. Topology is immutable; duplicate relations
 IDs, foreign ports and duplicate constraint names are rejected before registration.
 
 Endpoint caches settle under the graph checkpoint before fused callbacks, which
-then read typed shared rows directly. Match rows and totals are staged until
-projection, scoring and arithmetic preparation succeeds. A failed transaction is
-unreadable and restores endpoint/match state when dropped. Nested journals, full
-snapshots, saved winners, activity reconstruction and weight replay retain the
+then read typed shared rows directly. Each prepared match row is installed under
+the existing journal as callbacks advance, avoiding a second batch vector; totals
+publish after all projection/scoring/arithmetic preparation succeeds. A failed
+transaction is unreadable and restores all endpoint/match state when dropped.
+Nested journals, full snapshots, saved winners, activity reconstruction and weight replay retain the
 normal graph contract. Ordinary updates use configured checked/wrapping arithmetic;
 replay validates completed constraint totals before publication. Structural,
 impact, terminal-total and graph-total failures remain errors. Inspection can

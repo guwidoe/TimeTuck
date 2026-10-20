@@ -284,7 +284,9 @@ fn each_callback_panic_counts_real_attempts_poison_rolls_back_and_short_retry_re
             );
             assert_eq!(tx.score_evaluations(), score_calls.get() - before);
             assert_eq!(tx.score(), Err(GraphError::FailedTransaction));
-            drop(tx);
+            assert!(matches!(tx.graph(), Err(GraphError::FailedTransaction)));
+            assert!(matches!(tx.capture(), Err(GraphError::FailedTransaction)));
+            assert!(matches!(tx.commit(), Err(GraphError::FailedTransaction)));
             failure.set(0);
             assert_eq!(g.score(), original);
             assert_eq!(g.constraint_matches(&c).unwrap(), &held);

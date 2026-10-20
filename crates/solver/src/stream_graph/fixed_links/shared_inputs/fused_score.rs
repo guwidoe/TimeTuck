@@ -244,7 +244,6 @@ impl<
                 .right
                 .set_shared(slot, row.value.is_some().then_some(row));
         }
-        let mut staged = Vec::with_capacity(inputs.affected.len());
         for &slot in &inputs.affected {
             let (i, j) = inputs.endpoints[slot];
             let left = inputs.left.get(i).and_then(|row| row.value.as_ref());
@@ -288,11 +287,10 @@ impl<
                 (true, false) => count -= 1,
                 _ => {}
             }
-            staged.push((slot, row));
-        }
-        // All score/total preparation succeeded. Publish retained matches;
-        // endpoint rows were already settled under the graph checkpoint.
-        for (slot, row) in staged {
+            // Dispatch checkpoints both endpoint and match journals before this
+            // call. Install directly instead of allocating a second batch buffer;
+            // a later callback/arithmetic failure poisons the transaction and
+            // dropping it restores every earlier match in this batch.
             self.rows.set(slot, row);
         }
         self.total = total;
@@ -324,8 +322,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     /// Full matches and zero-score membership remain inspectable through the
     /// returned ordinary StreamConstraint. Checked/structural arithmetic, graph
     /// transactions, saved candidates, activity and weight replay are supported.
-    /// Endpoint caches settle before callbacks under that graph checkpoint;
-    /// a failed transaction is unreadable and restores them when dropped.
+    /// Endpoint caches settle before callbacks and match rows settle during them,
+    /// under that graph checkpoint. A failed transaction is unreadable and
+    /// restores both when dropped.
     /// Actual scoring attempts (including failures/panics) count in the current
     /// transaction; nested diagnostics account independently. Topology changes
     /// require rebuilding the graph. Duplicate relationship IDs are rejected;

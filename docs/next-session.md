@@ -17,7 +17,45 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 275 encounter-order strategic ranking
+## Latest qualification — 276 journaled fused-score rows
+
+Fused fixed-link scoring installs each prepared match directly under the existing
+transaction journal, removing its temporary batch vector and second staging loop.
+Totals publish only after all callbacks/arithmetic succeed. A failed transaction
+remains unreadable and restores all endpoint/match state; the existing late-panic
+regression now also checks graph/capture/commit denial. Full matches, original
+callbacks, declarations, settings and quality requirements remain intact. No new
+upstream-method credit or inventory exclusions.
+
+The source-only snapshot cursor proposal was integrated for measurement and then
+reverted byte-for-byte after mixed timings, including a 12% slower large sorted-set
+median. Its actual source/artifacts/results remain under round276-qualification;
+none are relabeled as final evidence. Final row-only controls reproduce all 128
+solve outputs/callback counts and 2,899 independently validated full match/rollback
+states. The original eight-workload native comparison is mixed; a bounded
+16-fork follow-up does not reproduce its initial small-swap slowdown (median 1.27%
+lower, seven forks slower). There is no stable general throughput gain claim.
+
+One final local `bash scripts/check.sh` passed: **8,515 Rust +290 doctests**,
+147 jobs executed/0 reused, 1200.704s. Native digest
+`32c92607b9cd799536c6c87f204876a6b2615dd98a41b4349af890d2973a787d`. The runner-a authentication connection timed out; it
+was not used; no remote timing/test result is claimed. runner-c remains parked.
+
+Only the original stream Java timing pipeline was refreshed, preserving all 128
+controls/eight equal-quality workloads. Larger cases (Rust/Java): hill/change 39.096/60.484 ms; tabu/change 31.011/47.486 ms;
+hill/swap 514.482/535.691 ms; tabu/swap 481.888/461.830 ms.
+Java parity at equal-or-better quality remains multiplier 1. Solver-differential
+remains current through its unchanged input key; the other 16 measurements stay
+stale and all 17 non-refreshed raw reports retain bytes/dates/keys. Completion
+index 85.375%, 2/18 current. Inventory remains 4410/4855 (90.834%), 10 pending,
+435 excluded, zero failed/unverified. Objective incomplete.
+
+HTTP/report/freshness inspected; frontend and consumed contract unchanged, so reuse
+275 desktop/mobile browser evidence. Evidence: work/round276-row-only/
+{retention,gate-receipt,stream-performance-receipt,candidate-oracle-receipt,
+collection}.json; small-swap-followup/ retains its actual timing observations.
+
+## Previous qualification — 275 encounter-order strategic ranking
 
 Added opt-in `StrategicOscillationLastStepEncounterOrder` and
 `StrategicOscillationBestEncounterOrder` finalist policies. After accepted/structural
