@@ -158,8 +158,14 @@ impl<I> Membership<I> {
             })
             .chain(self.tree.iter().map(|(key, bits)| (*key, *bits)))
     }
-    pub(crate) fn prepare(&mut self, id: &I) -> (Prepared<'_>, bool) {
-        let pos = (self.map)(id);
+    pub(crate) fn prepare(&mut self, id: &I) -> (Prepared<'_>, bool)
+    where
+        I: 'static,
+    {
+        // Construction certifies this exact builtin ID. Expose its mapper to
+        // this monomorphization rather than returning Position through the
+        // stored function pointer; preparation and publication stay unchanged.
+        let pos = mapper::<I>().expect("certified membership ID")(id);
         let entry = match hot(pos.page) {
             Some((p, q)) => Entry::Dense {
                 rows: &mut self.rows,

@@ -2892,3 +2892,11 @@ no upstream-method or native-test credit. Its actual full gate and diagnostic
 native controls are recorded in the
 [score-addressing observation](../compat/observations/real_world-static-score-addressing.json).
 The previous Java qualification remains stale until deliberately rerun.
+
+Membership preparation uses the same concrete builtin ID mapping at its original
+phase. Construction already requires the private identity type to be static;
+public borrowed APIs gain no new bound. The stored mapper field and object layout
+remain, as do presence bits, prepared writes, journals, full/current/nested captures
+and callbacks. The only test adaptation adds the matching bound to an existing
+helper, retaining every assertion and test identity. See the
+[membership-addressing observation](../compat/observations/real_world-static-membership-addressing.json).

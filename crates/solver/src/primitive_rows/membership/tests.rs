@@ -5,7 +5,7 @@ fn contents<I>(bits: &Membership<I>) -> Vec<[usize; 4]> {
     out.sort_unstable();
     out
 }
-fn set<I>(bits: &mut Membership<I>, id: &I, accepted: bool) {
+fn set<I: 'static>(bits: &mut Membership<I>, id: &I, accepted: bool) {
     bits.prepare(id).0.set(accepted);
 }
 
