@@ -22,3 +22,8 @@ debug = 0
 
 [profile.test]
 debug = 0
+
+# Optimize release solver code across crate and codegen-unit boundaries.
+[profile.release]
+lto = "thin"
+codegen-units = 1
