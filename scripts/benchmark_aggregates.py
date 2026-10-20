@@ -132,7 +132,7 @@ def main():
                   'is checked outside timing. Sorted sets contain duplicate pairs (32 or 256 distinct values); maps start with 8 or 64 keys and eight '
                   'captures per key, and the replacement introduces a new key. Sum values and all arithmetic intermediates are bounded and representable. '
                   'Includes update/inverse update, finish, full observation allocation/copying, assertions and checksums. Native captured-value APIs and '
-                  'Java value handles retain their own update bookkeeping; immutable Rust snapshots differ from Java live result views. '
+                  'Java value handles retain their own update bookkeeping. Native sets explicitly select production SortedSetCollector with an immutable SnapshotSet; existing SetCollector and its SnapshotMap API remain unchanged. Immutable Rust snapshots differ from Java live result views. '
                   'Initialization, parsing, process startup and output encoding are excluded. This does not isolate collector mutation or measure '
                   'stream graph rollback, scoring, solver search, memory, generic merge functions or overflow performance. '
                   'Repeated pairs use the same initial state; warmup batches and raw samples across alternating runtime order in fresh processes are retained. '

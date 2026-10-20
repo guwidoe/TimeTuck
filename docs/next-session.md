@@ -17,6 +17,62 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — 282 persistent sorted-set snapshots
+
+New explicit production SortedSetCollector<V> / SnapshotSet<V> stores membership
+and hidden frequencies in one persistent AVL. Existing SetCollector/defaults
+remain unchanged. First-representative semantics, stable ordering, callback-panic
+rollback, O(1) output sharing and exact-size/fused inline-or-spilling traversal
+are documented in the stream contract. Prepared paths avoid callbacks during
+eligible replacement commits; other cases retain isolated staging. Seven public,
+six preflight/panic and two internal originals plus one doctest earn no upstream
+method credit. Canonical set adapter explicitly selects the new production API;
+all 96 controls and six original workloads/settings/full outputs are preserved.
+
+Final `bash scripts/check.sh` passed: **8,548 Rust +291 doctests**,
+8 RUN/140 REUSE in 208.517s. Native `0dbd294906a2a189b3c68b7dd427968b9042bf99dca5115de8266bce1dfe0d8e`.
+One final-source gate, no repeat of successful unchanged checks or cache
+transplant. Actual canonical release artifact bd6c5da74c90c9107bb6dc755b148b32eeba3df69c58c1efc3a3dea090f1a306
+was built once; actual qualified 281 artifact remains separately bound to 281.
+Four balanced forks measure **66.91%/49.29% lower set pair time** at 64/512,
+every fork faster. Small-map control follow-up retains a **1.88% higher median**,
+mixed forks; other controls also mixed. No general or whole-solve speedup claim.
+
+Fresh original Java comparison:
+
+| Collector / captures | Rust µs / pair | Java µs / pair |
+| --- | ---: | ---: |
+| Checked sum · 64 captures | 0.323 | 0.327 |
+| Checked sum · 512 captures | 0.468 | 0.410 |
+| Sorted set · 64 captures | 0.896 | 0.992 |
+| Sorted set · 512 captures | 3.491 | 5.676 |
+| Merged map · 64 captures | 3.415 | 10.021 |
+| Merged map · 512 captures | 6.613 | 11.879 |
+
+Five of six aggregate cases meet measured Java parity; only sum 512 misses.
+Other 17 raw reports retain bytes/dates/keys and remain stale. Readiness
+**85.397%**, 1/18 current, 17 stale; Java multiplier 1 unchanged. Inventory
+remains 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified.
+Frontend/report contract unchanged: reuse 280 browser proof with current HTTP
+source/data/model checks. Goal active and incomplete.
+
+Next source-only proposal: work/round283-count-replacement/. Existing Sol agent
+prepared primitive CountsTree fused replacement using an immutable old-key path,
+singleton physical-node insertion/merge and repeated-source decrement/increment.
+Three files, patch, README and base/artifact SHA256 manifests; eight retained plus
+three new original regressions. No real-file edits, builds, tests or measurements.
+Review and hash-check before integration; remaining sum 512 parity is a hypothesis,
+not established. Do not revive the rejected 278 generic-map update-only helper.
+The question about reproducing observed Java bugs remains unanswered; no waived
+gaps or inferred approval. runner-c remains parked. Prior runner-a auth session 9785
+terminated 255 with port22 timeout; its auth link expired. No live remote 282 run
+or results. Do not restart merely to observe or reuse expired links.
+
+Evidence work/round282-qualification/{integration,candidate-build-receipt,
+pair-results,aggregate-performance-receipt,gate-receipt,collection,verdict}.json;
+map-control-followup/pair-results.json; work/parallel-round282-evidence.json.
+Do not repeat the successful final gate or original Java comparisons unchanged.
+
 ## Latest qualification — 281 compact integer frequency nodes
 
 Checked SumCollector and wrapping IntCollector now use a private persistent AVL

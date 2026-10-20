@@ -1124,6 +1124,8 @@ pub use sequenced_set::{
 };
 mod ordered_set_collector;
 pub use ordered_set_collector::OrderedSetCollector;
+mod sorted_set_collector;
+pub use sorted_set_collector::{SnapshotSet, SnapshotSetIter, SortedSetCollector};
 
 mod entry_list;
 pub use entry_list::{EntryCursor, EntryList, EntryListError, ListEntry};

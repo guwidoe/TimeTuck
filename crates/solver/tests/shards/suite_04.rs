@@ -144,6 +144,8 @@ pub mod solver_lifecycle;
 pub mod solver_metrics_cases;
 #[path = "../solver_progress_regression.rs"]
 pub mod solver_progress_regression;
+#[path = "../sorted_set_preflight_regression.rs"]
+pub mod sorted_set_preflight_regression;
 #[path = "../source_path_cases.rs"]
 pub mod source_path_cases;
 #[path = "../sparse_list_scopes.rs"]

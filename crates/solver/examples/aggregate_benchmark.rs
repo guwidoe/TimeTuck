@@ -96,13 +96,13 @@ fn main() {
         assert_eq!(f.len(), 8);
         match f[1] {
             "sum" => run::<_, SumCollector>(&f, &args, |r| r.1, |v| vec![v]),
-            "set" => run::<_, SetCollector<i64>>(
+            "set" => run::<_, SortedSetCollector<i64>>(
                 &f,
                 &args,
                 |r| r.1,
                 |s| {
                     std::iter::once(s.len() as i64)
-                        .chain(s.keys().copied())
+                        .chain(s.iter().copied())
                         .collect()
                 },
             ),

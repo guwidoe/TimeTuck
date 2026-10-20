@@ -10603,3 +10603,27 @@ unchanged set controls retain mixed-fork +1.00%/+3.83% follow-up medians. Full
 Only aggregate-performance is refreshed; the other 17 raw reports retain actual
 bindings and dates. No whole-solve or general speedup claim. Evidence:
 work/round281-compact-counts/{collection,pair-results,verdict,gate-receipt}.json.
+
+
+### Explicit persistent sorted-set snapshots
+
+`SortedSetCollector<V: Ord + Clone>` and immutable `SnapshotSet<V>` provide a
+production sorted-membership API from one counted persistent AVL. Existing
+`SetCollector`, output types and defaults remain unchanged. First representatives
+survive until their last occurrence is removed; equal singleton replacement
+installs the new representative. Snapshots share roots, edits copy paths, and
+borrowed iteration is exact-size and fused with deep-tree spill storage.
+Prepared replacement callbacks and isolated fallback roots preserve ordinary
+comparison/clone panic rollback under the documented stable ordering contract.
+
+Fifteen original regressions and one public usage doctest earn no upstream-method
+credit. Final `bash scripts/check.sh`: **8,548 Rust +291 doctests**, 8 jobs
+run/140 reused in 208.517s. Native `0dbd294906a2a189b3c68b7dd427968b9042bf99dca5115de8266bce1dfe0d8e`.
+The unchanged full set workloads, explicitly selecting the new production API,
+measure 66.91%/49.29% lower pair time than qualified 281 at 64/512 captures, every
+balanced fork faster. A bounded small-map control follow-up retains a mixed-fork
+1.88% higher median. Fresh original Java comparisons meet parity in five of six
+aggregate workloads; only sum 512 misses. Other 17 raw reports retain actual
+bindings and dates. No whole-solver speedup or additional method coverage claim.
+Evidence: work/round282-qualification/{collection,pair-results,verdict,gate-receipt}.json
+and map-control-followup/pair-results.json.

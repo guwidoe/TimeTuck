@@ -2656,3 +2656,35 @@ and generic/sparse lookup costs O(log declared IDs); contiguous usize lookup is
 direct. The node conveys existing validated unary source identity but never
 invents a planning/group binding from its declaration. Ordinary Filter/FilterNode
 remain unchanged. No performance or whole-graph memory claim is established.
+
+
+## Native sorted-set snapshots
+
+`SortedSetCollector<V: Ord + Clone>` is an explicit additional collector returning
+`SnapshotSet<V>`. Existing `SetCollector` and its `SnapshotMap<V, ()>` output stay
+unchanged. One persistent counted AVL retains distinct representatives and their
+occurrence counts. The first representative survives until the final occurrence
+of its ordering class is removed. Replacing a singleton with an equal-class new
+value installs the new representative; replacing one of several occurrences
+keeps the original representative. Missing removals/replacements return false.
+
+`finish()` and clones share a root without traversing or cloning payloads. Later
+updates isolate saved collectors and outputs. The output exposes sorted borrowed
+`iter`, `first`, `last`, `contains`, `len` and `is_empty`; borrowed IntoIterator is
+ascending. Membership equality ignores private multiplicities and representative
+payload differences within the same ordering class. Iterators are exact-size and
+fused, use 32 inline traversal slots, and spill for unusually deep trees.
+
+Replacement preflights comparisons, required cloning and count arithmetic before
+committing prepared paths when topology remains stable for those paths. An
+existing different destination can be incremented before detaching a singleton
+old class without changing observable removal-then-insertion semantics. Other
+cases keep an isolated staging root. Comparison/clone panics preserve collector
+state; user side effects are not undone. Ordering must remain lawful and stable,
+and Clone must preserve the ordering class. Panicking destructors and allocation
+aborts are unsupported. No Hash or generic static bound is added.
+
+The aggregate benchmark selects this real production collector for sorted-set
+workloads and still observes every sorted member after update and restore. All
+original fixtures, work, assertions and committed observations remain required;
+this selection is explicit, not a change to the old collector's default API.

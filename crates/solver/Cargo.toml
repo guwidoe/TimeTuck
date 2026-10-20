@@ -5597,6 +5597,16 @@ path = "tests/sorted_construction_cases.rs"
 test = false
 
 [[test]]
+name = "sorted_set_preflight_regression"
+path = "tests/sorted_set_preflight_regression.rs"
+test = false
+
+[[test]]
+name = "sorted_set_regression"
+path = "tests/sorted_set_regression.rs"
+test = false
+
+[[test]]
 name = "sorted_solver_cases"
 path = "tests/sorted_solver_cases.rs"
 test = false

@@ -150,6 +150,8 @@ pub mod solver_failure_observer;
 pub mod solver_submission_regression;
 #[path = "../sorted_construction.rs"]
 pub mod sorted_construction;
+#[path = "../sorted_set_regression.rs"]
+pub mod sorted_set_regression;
 #[path = "../stream_traversal_regression.rs"]
 pub mod stream_traversal_regression;
 #[path = "../sublist_controls_regression.rs"]

@@ -19,14 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,533 passing Rust tests and 290 doctests**,
-source digest `feeaefbcff11143b4fab573613cdae9e768ca1af58221bce2e3c52dede75cfaf`. The required final
-`bash scripts/check.sh` passed locally in 888.768s, executing 95 jobs and
-reusing 53 genuinely unchanged results. One successful final-source gate;
-no repeated unchanged tests or transplanted cache records. The preceding 280
-qualification retains its stopped prebuild and corrected regression failure;
-those are separate from this batch. The live report remains the authority for
-later counts and freshness.
+The latest integrated checkpoint has **8,548 passing Rust tests and 291 doctests**,
+source digest `0dbd294906a2a189b3c68b7dd427968b9042bf99dca5115de8266bce1dfe0d8e`. The required final
+`bash scripts/check.sh` passed locally in 208.517s, executing 8 jobs and
+reusing 140 genuinely unchanged results. One successful final-source gate;
+no repeated unchanged tests or transplanted cache records. The live report
+remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -69,43 +67,45 @@ range differences stay visible. Complete exact-default controls still execute:
 65/197 agreements with 132 differing cases. Exact i32/i64 metrics remain default.
 Seven original Rust regressions add no upstream-method credit.
 
-Only aggregate-performance was refreshed in 281, with all original fixtures,
-settings and full observations. The other 17 raw reports keep original bytes,
-dates and keys; the 280 stream comparison now remains visibly stale under the
-changed shared collector implementation. One of 18 measurement families is current,
-17 remain stale. No old result is rekeyed. Frontend and consumed report contracts
-are unchanged; reuse the 280 browser proof with current data/freshness checks.
+Only aggregate-performance was refreshed in 282, with all original 96 controls,
+six workloads, settings and full observations. The other 17 raw reports keep
+original bytes, dates and keys and remain visibly stale. One of 18 measurement
+families is current. No old result is rekeyed. Frontend and consumed report
+contracts are unchanged; reuse the 280 browser proof with current data/freshness
+checks.
 
-Primitive integer frequencies now use one shared allocation per node, with the
-integer key/count stored directly in it. The private AVL preserves multiplicities,
-copy-on-write snapshots, logarithmic path copies and singleton node reuse. Inline
-promotion copies counts directly and demotion needs no traversal allocation.
-Public checked/wrapping arithmetic, captured membership and defaults are unchanged.
-Eight original tests replace five obsolete helper-internal tests; no upstream
-method credit is added.
+The new explicit production `SortedSetCollector<V>` produces immutable
+`SnapshotSet<V>` membership snapshots from one counted persistent AVL. Output
+and collector clones share the root; edits copy changed paths. Prepared replacement
+paths finish ordinary ordering/clone callbacks before writes; fallback edits
+stage an isolated root. Exact-size, fused traversal uses inline storage and can
+spill for deep trees. Existing `SetCollector`, output types and defaults remain
+unchanged. Fifteen original public/preflight/internal regressions and one doctest
+add no upstream-method credit. The canonical set comparison explicitly selects
+the new production API without reducing observations or work.
 
-Actual canonical four-fork comparisons measure **15.01% lower checked-sum pair time
-at 64 captures and 14.57% at 512**, improving in every fork. Every pair includes
-update, restore and both complete observations. All 96 original controls and timed
-outputs/checksums agree. The separate fixed-artifact 16-fork set follow-up retains
-a tradeoff: small/large set medians are 1.00%/3.83% higher, with mixed individual
-forks. No general collector, memory-total or whole-solve gain is claimed. The
-fresh Java comparison preserves all original inputs, limits and observations:
+Actual four-fork comparisons against qualified 281 measure **66.91% lower set pair
+time at 64 captures and 49.29% at 512**, improving in every fork. Every pair
+includes update, restore and both complete observations. All full outputs and
+checksums agree. A bounded fixed-artifact 16-fork small-map control follow-up
+retains a **1.88% higher median**, with mixed individual forks; other controls
+also have mixed timings. No general collector or whole-solve gain is claimed.
+The fresh Java comparison retains the original pin, inputs, limits and outputs:
 
 | Collector / captures | Rust µs / pair | Java µs / pair |
 | --- | ---: | ---: |
-| Checked sum · 64 captures | 0.328 | 0.393 |
-| Checked sum · 512 captures | 0.502 | 0.391 |
-| Sorted set · 64 captures | 2.770 | 1.563 |
-| Sorted set · 512 captures | 6.781 | 6.571 |
-| Merged map · 64 captures | 3.562 | 8.880 |
-| Merged map · 512 captures | 6.691 | 12.601 |
+| Checked sum · 64 captures | 0.323 | 0.327 |
+| Checked sum · 512 captures | 0.468 | 0.410 |
+| Sorted set · 64 captures | 0.896 | 0.992 |
+| Sorted set · 512 captures | 3.491 | 5.676 |
+| Merged map · 64 captures | 3.415 | 10.021 |
+| Merged map · 512 captures | 6.613 | 11.879 |
 
-The small sum and both merged-map cases meet measured Java parity. The larger
-sum and both sets still miss it. Cross-run Java ratios vary and must not be
-attributed solely to this change. Existing default exact and explicit wrapping
-collector policies remain unchanged. The earlier 279 native sum gain remains
-separate evidence for that older source, with its original binding.
+Five of six cases now meet measured Java parity: the small sum, both sets and
+both maps. The larger sum still misses it. Cross-run Java timings vary and must
+not be attributed solely to this change. Existing default exact and explicit
+wrapping policies remain unchanged. The compact primitive frequency nodes from
+281 and their measured sum gains retain their separate original evidence.
 
 Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -114,7 +114,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.7%**: feature families 40%,
+The dashboard's configurable progress index is **85.4%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
