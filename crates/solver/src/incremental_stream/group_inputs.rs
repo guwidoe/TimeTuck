@@ -4,9 +4,15 @@
 //! only binding boundaries require 'static.
 //! Snapshots share payload owners without user Clone/Ord. Dense journals move
 //! every replaced Arc into an ordered undo log, matching map/source journals.
+//! Ordinary graph groups may certify exact builtin captured keys, then replace
+//! a validated bounded cache with owned values. Private historical allocations
+//! are unobservable; group-summary and downstream public owners stay separate.
 //! Sparse inputs need no manufactured ID keys: this private map-like boundary
 //! exposes values only. Group K representatives remain in their shared payloads
 //! and in the unchanged groups map; the complete-key join helper stays separate.
+pub(super) mod owned;
+#[cfg(test)]
+mod owned_tests;
 mod paged;
 #[cfg(test)]
 mod pool_tests;
@@ -20,6 +26,7 @@ use std::{
 type Undo<V> = Vec<(usize, Option<Arc<V>>)>;
 pub(super) enum GroupInputs<I, V> {
     Tree(PrimitiveRows<I, V>),
+    Owned(Box<owned::Rows<I, V>>),
     Dense(Box<Dense<I, V>>),
     Paged(Box<Paged<I, V>>),
 }
@@ -27,6 +34,7 @@ pub(super) enum GroupInputs<I, V> {
 // Bound captures keep final owners for touched cells, not the full universe.
 pub(super) enum Capture<I, V> {
     Tree(RowsCapture<I, V>),
+    Owned(owned::Capture<V>),
     Dense { len: usize, rows: Undo<V> },
     Paged(paged::Capture<V>),
 }
@@ -52,6 +60,7 @@ impl<I, V> Clone for GroupInputs<I, V> {
     fn clone(&self) -> Self {
         match self {
             Self::Tree(rows) => Self::Tree(rows.clone()),
+            Self::Owned(rows) => Self::Owned(rows.clone()),
             Self::Dense(rows) => Self::Dense(rows.clone()),
             Self::Paged(rows) => Self::Paged(rows.clone()),
         }
@@ -124,6 +133,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn clear(&mut self) {
         match self {
             Self::Tree(rows) => rows.clear(),
+            Self::Owned(rows) => rows.clear(),
             Self::Paged(rows) => rows.clear(),
             Self::Dense(rows) => {
                 for index in 0..rows.values.len() {
@@ -135,6 +145,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn begin_journal(&mut self) -> usize {
         match self {
             Self::Tree(rows) => rows.begin_journal(),
+            Self::Owned(rows) => rows.begin(),
             Self::Dense(rows) => rows.begin(),
             Self::Paged(rows) => rows.begin(),
         }
@@ -142,6 +153,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn commit_journal(&mut self, token: usize) {
         match self {
             Self::Tree(rows) => rows.commit_journal(token),
+            Self::Owned(rows) => rows.commit(token),
             Self::Dense(rows) => rows.commit(token),
             Self::Paged(rows) => rows.commit(token),
         }
@@ -149,6 +161,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn rollback_journal(&mut self, token: usize) {
         match self {
             Self::Tree(rows) => rows.rollback_journal(token),
+            Self::Owned(rows) => rows.rollback(token),
             Self::Dense(rows) => rows.rollback(token),
             Self::Paged(rows) => rows.rollback(token),
         }
@@ -156,6 +169,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn capture_current(&self, token: usize) -> Capture<I, V> {
         match self {
             Self::Tree(rows) => Capture::Tree(rows.capture_current(token)),
+            Self::Owned(rows) => Capture::Owned(rows.capture_current(token)),
             Self::Dense(rows) => {
                 assert!(
                     token < rows.frames.len(),
@@ -180,6 +194,12 @@ impl<I, V> GroupInputs<I, V> {
     }
     pub(super) fn install_capture(&mut self, capture: Capture<I, V>) {
         match capture {
+            Capture::Owned(captured) => {
+                let Self::Owned(rows) = self else {
+                    panic!("group input capture binding");
+                };
+                rows.install_capture(captured);
+            }
             Capture::Tree(captured) => {
                 let Self::Tree(rows) = self else {
                     panic!("group input capture binding");
@@ -213,6 +233,7 @@ impl<I, V> GroupInputs<I, V> {
     pub(super) fn install_snapshot(&mut self, snapshot: Self) {
         match (self, snapshot) {
             (Self::Tree(rows), Self::Tree(old)) => rows.install_snapshot(old),
+            (Self::Owned(rows), Self::Owned(old)) => rows.install(*old),
             (Self::Paged(rows), Self::Paged(old)) => rows.install(*old),
             (Self::Dense(rows), Self::Dense(old)) => {
                 assert_eq!(rows.values.len(), old.values.len(), "group input universe");
@@ -233,6 +254,10 @@ impl<I, V> GroupInputs<I, V> {
 }
 pub(super) enum PreparedChange<'a, I, V> {
     Tree(crate::primitive_rows::PreparedChange<'a, I, V>),
+    Owned {
+        rows: &'a mut owned::Rows<I, V>,
+        index: Option<usize>,
+    },
     Paged {
         rows: &'a mut Paged<I, V>,
         index: Option<usize>,
@@ -246,6 +271,11 @@ impl<I, V> PreparedChange<'_, I, V> {
     pub(super) fn insert(self, id: I, value: V) {
         match self {
             Self::Tree(prepared) => prepared.insert(id, value),
+            Self::Owned { rows, index } => {
+                let index = rows.validate(index);
+                drop(id);
+                rows.replace(index, Some(value));
+            }
             Self::Paged { rows, index } => {
                 let index = index.expect("bound group pair outside universe");
                 drop(id);
@@ -267,6 +297,15 @@ impl<I, V> PreparedChange<'_, I, V> {
     pub(super) fn insert_unless_exclusive_equal(self, id: I, value: V, equal: fn(&V, &V) -> bool) {
         match self {
             Self::Tree(prepared) => prepared.insert(id, value),
+            Self::Owned { rows, index } => {
+                let index = rows.validate(index);
+                drop(id);
+                // Copied exact values have no shared owner to consult. Retain
+                // the existing final-store omission without touching groups.
+                if !rows.get(index).is_some_and(|old| equal(old, &value)) {
+                    rows.replace(index, Some(value));
+                }
+            }
             Self::Paged { rows, index } => {
                 let index = index.expect("bound group pair outside universe");
                 drop(id);
@@ -293,6 +332,10 @@ impl<I, V> PreparedChange<'_, I, V> {
     pub(super) fn remove(self) {
         match self {
             Self::Tree(prepared) => prepared.remove(),
+            Self::Owned { rows, index } => {
+                let index = rows.validate(index);
+                rows.replace(index, None);
+            }
             Self::Paged { rows, index } => {
                 rows.replace(index.expect("bound group pair outside universe"), None);
             }
@@ -313,6 +356,11 @@ impl<I: Ord, V> GroupInputs<I, V> {
         inspect: impl FnOnce(Option<&V>) -> R,
     ) -> (PreparedChange<'_, I, V>, R) {
         match self {
+            Self::Owned(rows) => {
+                let index = rows.index(id);
+                let inspected = inspect(index.and_then(|i| rows.get(i)));
+                (PreparedChange::Owned { rows, index }, inspected)
+            }
             Self::Tree(rows) => {
                 let (prepared, inspected) = rows.prepare_change(id, inspect);
                 (PreparedChange::Tree(prepared), inspected)
@@ -332,6 +380,7 @@ impl<I: Ord, V> GroupInputs<I, V> {
     pub(super) fn get(&self, id: &I) -> Option<&V> {
         match self {
             Self::Tree(rows) => rows.get(id),
+            Self::Owned(rows) => rows.index(id).and_then(|i| rows.get(i)),
             Self::Paged(rows) => rows.index(id).and_then(|i| rows.get(i)),
             Self::Dense(rows) => rows.values.get((rows.index)(id)).and_then(Option::as_deref),
         }
@@ -339,6 +388,11 @@ impl<I: Ord, V> GroupInputs<I, V> {
     pub(super) fn insert(&mut self, id: I, value: V) {
         match self {
             Self::Tree(rows) => rows.insert(id, value),
+            Self::Owned(rows) => {
+                let index = rows.validate(rows.index(&id));
+                drop(id);
+                rows.replace(index, Some(value));
+            }
             Self::Paged(rows) => {
                 let index = rows.index(&id).expect("bound group pair outside universe");
                 drop(id);
@@ -358,6 +412,10 @@ impl<I: Ord, V> GroupInputs<I, V> {
     pub(super) fn remove(&mut self, id: &I) -> bool {
         match self {
             Self::Tree(rows) => rows.remove(id),
+            Self::Owned(rows) => {
+                let index = rows.validate(rows.index(id));
+                rows.replace(index, None)
+            }
             Self::Paged(rows) => rows.replace(
                 rows.index(id).expect("bound group pair outside universe"),
                 None,
@@ -373,7 +431,41 @@ impl<I: Ord, V> GroupInputs<I, V> {
         }
     }
 }
+impl<I, V> GroupInputs<I, V> {
+    fn own_bound_values(&mut self, copy: owned::Copier<V>) {
+        let old = std::mem::replace(self, Self::new());
+        *self = match old {
+            Self::Dense(rows) => Self::Owned(Box::new(owned::Rows::from_dense(
+                rows.values,
+                rows.index,
+                copy,
+            ))),
+            Self::Paged(rows) => Self::Owned(Box::new(rows.into_owned(copy))),
+            other => other,
+        };
+    }
+}
 impl<I: 'static, V> GroupInputs<I, V> {
+    pub(super) fn bind_owned_fixed(&mut self, count: usize, copy: owned::Copier<V>) -> bool {
+        if !self.bind_fixed_extended(count) {
+            return false;
+        }
+        self.own_bound_values(copy);
+        true
+    }
+    pub(super) fn bind_owned_pair(
+        &mut self,
+        left: usize,
+        right: usize,
+        copy: owned::Copier<V>,
+    ) -> bool {
+        if !self.bind_pair(left, right) {
+            return false;
+        }
+        self.own_bound_values(copy);
+        true
+    }
+
     pub(super) fn bind_primitive(&mut self) -> bool {
         match self {
             Self::Tree(rows) => rows.bind_primitive(),

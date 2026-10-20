@@ -35,6 +35,10 @@ impl<I, V> Clone for Paged<I, V> {
     }
 }
 impl<I, V> Paged<I, V> {
+    pub(super) fn into_owned(self, copy: owned::Copier<V>) -> owned::Rows<I, V> {
+        assert!(self.frames.is_empty(), "initial owned group binding");
+        owned::Rows::from_pair(self.left, self.right, self.index, self.pages, copy)
+    }
     pub(super) fn index(&self, id: &I) -> Option<usize> {
         (self.index)(id, self.left, self.right)
     }

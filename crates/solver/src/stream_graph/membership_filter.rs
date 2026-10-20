@@ -37,27 +37,39 @@ enum Saved<I> {
     Full(Membership<I>),
     Delta(Capture),
 }
-pub(super) struct MembershipFilter<'a, I, T> {
+pub(super) struct MembershipFilter<'a, I, T, F = Box<dyn Fn(&T) -> bool + 'a>> {
     bits: Membership<I>,
     checkpoint_box: CheckpointBox<usize>,
-    predicate: Box<dyn Fn(&T) -> bool + 'a>,
+    predicate: F,
+    marker: PhantomData<&'a T>,
     bounds: Bounds<I>,
     rejected_universe_incomplete: bool,
     poisoned: bool,
 }
-impl<'a, I, T> MembershipFilter<'a, I, T> {
+#[cfg(test)]
+impl<'a, I, T: 'a> MembershipFilter<'a, I, T> {
     pub(super) fn new(bits: Membership<I>, predicate: impl Fn(&T) -> bool + 'a) -> Self {
+        Self::new_inline(bits, Box::new(predicate))
+    }
+}
+impl<'a, I, T, F: Fn(&T) -> bool + 'a> MembershipFilter<'a, I, T, F> {
+    // Keep the callback's concrete type through the Node vtable, allowing its
+    // body to inline in apply_row without a second erased Fn dispatch.
+    pub(super) fn new_inline(bits: Membership<I>, predicate: F) -> Self {
         Self {
             bits,
             checkpoint_box: CheckpointBox::new(),
-            predicate: Box::new(predicate),
+            predicate,
+            marker: PhantomData,
             bounds: Bounds::Open,
             rejected_universe_incomplete: false,
             poisoned: false,
         }
     }
 }
-impl<I: Ord + Clone + 'static, T: Clone + 'static> MembershipFilter<'_, I, T> {
+impl<I: Ord + Clone + 'static, T: Clone + 'static, F: Fn(&T) -> bool>
+    MembershipFilter<'_, I, T, F>
+{
     fn apply_row(&mut self, event: &Event) -> Option<TupleChange<I, T>> {
         // The ordinary graph adapter clones the delivered tuple before entering
         // FilterNode::apply (including before its poison assertion).
@@ -129,8 +141,8 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> MembershipFilter<'_, I, T> {
         true
     }
 }
-impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
-    for MembershipFilter<'_, I, T>
+impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore, F: Fn(&T) -> bool> Node<S>
+    for MembershipFilter<'_, I, T, F>
 {
     fn preserves_input_ids(&self) -> bool {
         true
@@ -219,3 +231,6 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
         ))
     }
 }
+
+#[cfg(test)]
+mod concrete_callback_tests;

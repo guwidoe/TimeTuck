@@ -19,11 +19,11 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,787 recorded Rust tests and
-292 doctests** (8,793 Cargo test executions). The collector/input-storage
-batch passes `bash scripts/check.sh`, including formatting, all-target Clippy and
-54 tooling jobs. Exact source, logs and measurements are recorded in
-[the collector/input observation](../compat/observations/real_world-collector-input-storage.json).
+The current native verification contains **8,814 recorded Rust tests and
+292 doctests** (8,820 Cargo test executions). The forward-state batch passes
+`bash scripts/check.sh`, including formatting, all-target Clippy and 54 tooling
+jobs. Exact source, logs and measurements are recorded in
+[the forward-state observation](../compat/observations/real_world-forward-state.json).
 Source-affected comparisons retain their actual freshness. The live report is the
 authority for current evidence and readiness.
 
@@ -33,16 +33,28 @@ regressions retain their own provenance and zero upstream-method credit. Frozen
 public scenarios, application model, settings and benchmark runner are unchanged.
 All **12** newly measured Java/Rust outputs pass independent score and assignment
 checks, with seeds 7/11/23 and ten seconds per runtime on runner-a. Rust streams
-reach **98,425 /36,632 evaluations/s**, or
-**0.758x /0.447x Java throughput**, on golfer/sailing. The prior separate
-qualification measured 95,670 /35,020 native evaluations/s; separate sessions are
-not an interleaved speedup comparison. The base pilot improved 3.1%/4.4% against
-the prior immutable artifact; the additional input shortcut was flat on golfer
-and +0.9% on sailing against that measured base. Those pilots precede a final
-len/is_empty cleanup and are distinct from the default final-source Java run.
+reach **101,915 /38,549 evaluations/s**, or **0.813x /0.477x Java throughput**,
+on golfer/sailing. The prior separate qualification measured 98,425 /36,632 native
+evaluations/s; separate sessions are not an interleaved speedup comparison.
+The selected production combination's rotating native controls improved medians
+2.9%/4.6% against the prior immutable artifact. Its final source additionally
+repairs test-only annotations; the default qualifier rebuilds its actual bytes.
 **0/2** additional throughput targets are met. Sailing feasibility remains
 2/3 Rust and 0/3 Java; quality is separate, without an equal-score gate. These
 bounded results establish neither universal parity nor identical search traces.
+
+Certified bounded graph grouping inputs now store their primitive captured values
+and undo by value. Ordinary map, group, membership and direct scoring callbacks
+retain concrete types through their private node implementations. Existing equal
+flat-map lengths may omit their final private store after every output is built;
+primitive terminals locate the old contribution once before the original owner
+publication. Public tuple versions, callback/Clone/Drop phases, weighted metadata,
+generic and standalone behavior remain intact. The batch adds **27** original
+native controls and no upstream-method credit. The separately measured duplicate
+collector-state shortcut was slower and is not integrated. Private snapshot copying
+and increased per-closure code generation are explicit tradeoffs.
+
+The preceding collector/input-storage batch retains these earlier changes:
 
 Eligible graph integer collectors retain each logical edit as an inverse;
 independent dirty-collector observations copy values and preserve canonical keys.

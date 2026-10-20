@@ -1,0 +1,460 @@
+{
+  "kind": "real_world-forward-state-observation",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T20:45:58.592068+00:00",
+  "input_sha256": "3baeeb5d94dd2ad34dfe586cd398737b11b94ea1f47ae81c327a4098e72805c2",
+  "native_source_digest": "f277c21c4e2dd9e0ddfcfdfeb534eb148dfc92227d5da13615dd1cae7379feda",
+  "source_snapshot": "4d49d8579d37e393248fe9072645ccd7e77d6667182c0a2b6ac3e7faba83848b",
+  "host": "runner-a",
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "inputs": {
+    "social-golfer-32x8x10-v1": {
+      "problem_sha256": "79eca4c3b64232fcde48b3a19ff33316b29be6aa4f7482d91fa602b0572ff453",
+      "model_sha256": "ae603205fd6767cf475b2e8549556f7c4e7967143610cef499f47e7f93d314f2",
+      "manifest_sha256": "c4e99d2673a1830ffaada53c7d9562f0ee69f2b1ae2a8276c9de2441d33885ab",
+      "initial_schedule_sha256": "9b44419c30eb1309b429b7452c6e940ea4991684c9e723ae792a37c2c6254219",
+      "initial_validation": {
+        "score": [
+          0,
+          -3883200
+        ],
+        "feasible": true,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 0,
+          "unique_contacts": 48,
+          "repeat_penalty_units": 3888,
+          "soft_pair_penalty": 0,
+          "balance_penalty": 0
+        }
+      }
+    },
+    "sailing-trip-v1": {
+      "problem_sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff",
+      "model_sha256": "84bacef1169320dbbce62613ca88170684f6800d71be3786650845aa1ac0e557",
+      "manifest_sha256": "35f3774be3f586221b6515b09c2ffc2f8c0f307da3ea4e6042043d0ace21143a",
+      "initial_schedule_sha256": "2c3cde920227f9149e051b250c622d818fe3797e60e02e701ac2cc78c6d02efd",
+      "initial_validation": {
+        "score": [
+          -49,
+          -2593500
+        ],
+        "feasible": false,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 49,
+          "unique_contacts": 545,
+          "repeat_penalty_units": 8600,
+          "soft_pair_penalty": 88000,
+          "balance_penalty": 1700000
+        }
+      }
+    }
+  },
+  "qualification": {
+    "valid": true,
+    "qualified": true,
+    "source_unchanged": true,
+    "artifacts_source_bound": true,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 125290.62688318035,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                21600
+              ],
+              [
+                0,
+                17200
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.044103186
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 101915.44628939388,
+            "scores": [
+              [
+                0,
+                8400
+              ],
+              [
+                0,
+                9500
+              ],
+              [
+                0,
+                11700
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000164177
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.8134323278980699,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 80898.04492796838,
+            "scores": [
+              [
+                -13,
+                -15100
+              ],
+              [
+                -5,
+                70700
+              ],
+              [
+                -9,
+                80800
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.0614298
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 38548.671917911655,
+            "scores": [
+              [
+                0,
+                89900
+              ],
+              [
+                0,
+                81200
+              ],
+              [
+                -1,
+                192000
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.001181718
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.47650931431328647,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ]
+  },
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8814,
+    "cargo_test_invocations_passed": 8820,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 27,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "f277c21c4e2dd9e0ddfcfdfeb534eb148dfc92227d5da13615dd1cae7379feda",
+      "source_after": "f277c21c4e2dd9e0ddfcfdfeb534eb148dfc92227d5da13615dd1cae7379feda",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T20:42:51.689307+00:00",
+      "log_sha256": "bf5c9fba1802955f84924d1d3e90dd6a7bce78be29539b4c4f4cc41303a48557"
+    },
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "4d49d8579d37e393248fe9072645ccd7e77d6667182c0a2b6ac3e7faba83848b",
+      "rust_digest": "f277c21c4e2dd9e0ddfcfdfeb534eb148dfc92227d5da13615dd1cae7379feda",
+      "production_digest": "3baeeb5d94dd2ad34dfe586cd398737b11b94ea1f47ae81c327a4098e72805c2",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 36.39015734400891,
+          "log_sha256": "67f6fa75213d4ae92cc99159d314a3bb9a29a5d9bcff0e48177a12dcffc23870"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 290.40363602699654,
+          "log_sha256": "7d154bf28433ee19c8f7568b7e5a64e83899e405785f286bc4ef09d1b4360836"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 274.92753898800584,
+          "log_sha256": "61bc7d65090608753d3f3a44a101819113dacf663f3b18e2c22a4deb3eded586"
+        },
+        {
+          "name": "qualified",
+          "command": [
+            "python3",
+            "scripts/benchmark_real_world.py",
+            "--report",
+            "work/real_world-forward-concrete-owned-f7-next-final/qualified.json"
+          ],
+          "exit_code": 0,
+          "seconds": 126.68416207499104,
+          "log_sha256": "26c614fc6359d0b25730b7e2baec2bde9db4f3bcbf85e0fbb7c9fc34b9367aac"
+        }
+      ],
+      "seconds": 732.4670332759997,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. Default RealWorld qualifier and independent output validation unchanged. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "f7afbe7990eb68ec8eb6d48917aab5b9564074df",
+      "source_snapshot": "4d49d8579d37e393248fe9072645ccd7e77d6667182c0a2b6ac3e7faba83848b",
+      "rust_digest": "f277c21c4e2dd9e0ddfcfdfeb534eb148dfc92227d5da13615dd1cae7379feda",
+      "production_digest": "3baeeb5d94dd2ad34dfe586cd398737b11b94ea1f47ae81c327a4098e72805c2",
+      "changed_files": [
+        "crates/solver/src/flat_map_stream.rs",
+        "crates/solver/src/flat_map_stream/equal_length_tests.rs",
+        "crates/solver/src/incremental_stream.rs",
+        "crates/solver/src/incremental_stream/group_batch.rs",
+        "crates/solver/src/incremental_stream/group_inputs.rs",
+        "crates/solver/src/incremental_stream/group_inputs/owned.rs",
+        "crates/solver/src/incremental_stream/group_inputs/owned_tests.rs",
+        "crates/solver/src/incremental_stream/group_inputs/paged.rs",
+        "crates/solver/src/stream_graph.rs",
+        "crates/solver/src/stream_graph/concrete_mapping_tests.rs",
+        "crates/solver/src/stream_graph/flat_map_equal_tests.rs",
+        "crates/solver/src/stream_graph/grouped_batch.rs",
+        "crates/solver/src/stream_graph/membership_filter.rs",
+        "crates/solver/src/stream_graph/membership_filter/concrete_callback_tests.rs",
+        "crates/solver/src/stream_graph/owned_group_input_tests.rs",
+        "crates/solver/src/stream_graph/terminal_callback.rs",
+        "crates/solver/src/stream_graph/terminal_callback/tests.rs",
+        "crates/solver/src/stream_graph/terminal_prepared_tests.rs"
+      ],
+      "full_gate": {
+        "name": "fullgate",
+        "command": [
+          "bash",
+          "scripts/check.sh"
+        ],
+        "exit_code": 0,
+        "seconds": 274.92753898800584,
+        "log_sha256": "61bc7d65090608753d3f3a44a101819113dacf663f3b18e2c22a4deb3eded586"
+      },
+      "qualified_artifact_sha256": "d30f3e5569431768e7a3ab1c57bc085e9f4bcb8049a94fc59a587537bc1e5a1f",
+      "native_recorded_tests": 8814,
+      "qualified_valid_assignments": 12,
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json",
+        "work/real_world-performance.json"
+      ],
+      "final_receipt_sha256": "c20c6b46844db3db8d89441f8bbad8998ade33e6e1300cf89b91ff23ccb3628d",
+      "policy": "Exact frozen Rust bytes integrated after actual unchanged-source standard gate and default original qualification passed. Only genuine aggregate Rust log/metadata and application report promoted; no per-job cache records transplanted."
+    }
+  },
+  "changes": [
+    "Certified bounded graph grouping inputs store primitive captured key/scalar values and undo by value. Original Dense/Pair validation precedes conversion; generic/custom/borrowed/unbound/standalone/explicit-batch paths retain their existing backend. Public group summary and match owners remain separately stored.",
+    "Ordinary direct scoring, membership filters, maps and integer grouping retain concrete callback types through their private Node implementations. Original execution bodies, callback/Clone/Drop phases, live-commit certification and weighted metadata remain shared or unchanged; weighted and explicit-batched aliases keep boxed callbacks.",
+    "Primitive flat-map graph caches omit an existing equal usize length only after all mapping, iterator and output identity work. Absent zero expansions, removals, standalone/custom paths and all downstream outputs are preserved.",
+    "Eligible primitive terminals locate the old contribution once and commit through the original prepared insert/remove after arithmetic and payload cloning. Equal public row writes are not omitted; canonical keys, new value owners and public captures retain their original phases."
+  ],
+  "tradeoffs": [
+    "Private bounded group snapshots now copy numeric values instead of sharing input-row Arcs. Sparse pair pages have larger cells; public snapshots and separate group/match owners retain their original behavior.",
+    "Concrete callbacks increase per-closure code generation; this observation does not establish a build-time or code-size improvement. The general fat-LTO release profile, compiler, target CPU, panic policy, original model/fixtures/settings and benchmark runner are unchanged.",
+    "The separately measured duplicate-state grouping shortcut was slower alone and is not integrated. Earlier combination and selected combination controls used separate sessions; do not compare their raw medians as an interleaved speedup.",
+    "Scores and feasibility are separate; no equal-score or identical search-trace gate. Full default qualification above determines the two actual Java throughput targets."
+  ],
+  "diagnostic_controls": [
+    {
+      "comparison": "Rejected duplicate grouping alone versus committed f7 artifact",
+      "qualified": false,
+      "native_source_digest": "e20e7fd4c8dcead600edaa209fe0548d0c835fbed6e241e20cbbd3179d8b3dae",
+      "production_digest": "bf0305186b631aa99d8a48a5d8ae04f56069fe4ec83440f85ba541161919c6d0",
+      "snapshot": "459436f1067bb646a2ef7c391ec2f957c31b542bc8f4662ffb4f5f89e3854a31",
+      "baseline_binding": {
+        "rust_digest": "97bf330f83bd5fd8ddacac967afa925cceaa9dba5faafaa96cd907f6c25165ae",
+        "production_digest": "92f7441f8f75c907a3fcb4c3c2b869f3a857aa76ff744a8ead32c2fff080ef16",
+        "artifact_sha256": "d08abda30cfb88553851fd0cde839e5fb2c9efab068f84e5834e88506bb1f4ce",
+        "source_snapshot": "1e588a25f261ac39f30325b776cb46f54dd356cefea28e649f3b7f0e311644f6",
+        "qualified_report_sha256": "9e84f33accbba5594881df473d24470cb9c33e984fde2e8107a1b38d89e96d0d",
+        "final_receipt_sha256": "1545b723326e7c575f6efa6973eb8eae0d28f8edbbca5f2a478a827c915f3e9a"
+      },
+      "artifact_sha256": "afe9986c02b41ff5f28b82e4af26c899e1c5beb3b2317347173c5c70dd2ff006",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 36518.52689641235,
+            "trial": 36294.392332268
+          },
+          "gain_pct": -0.6137557650672254
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 98916.64229106372,
+            "trial": 96398.43297536494
+          },
+          "gain_pct": -2.545789320556302
+        }
+      },
+      "proof_directory": "work/real_world-goal/graph-group-duplicate-next-retry-results",
+      "controls_sha256": "208ac8bc8407d4b36b3c1bdd949f8ebbeab6cf3c959dd82880fbeb3316c40fd4"
+    },
+    {
+      "comparison": "Earlier coherent combination with duplicate grouping versus committed f7 artifact",
+      "qualified": false,
+      "native_source_digest": "d263d60bc8ae546ae4b1d405eb480984b60eaf2499a34ed48cb9ed22b8cf4579",
+      "production_digest": "eb8c2539d05e96b923575ff25424f230090adab106c89203e180be70b49d94c6",
+      "snapshot": "c44cf33f63d29329ba44e5c8234943d225e141fdc66429685cab5eb50c27e077",
+      "baseline_binding": {
+        "rust_digest": "97bf330f83bd5fd8ddacac967afa925cceaa9dba5faafaa96cd907f6c25165ae",
+        "production_digest": "92f7441f8f75c907a3fcb4c3c2b869f3a857aa76ff744a8ead32c2fff080ef16",
+        "artifact_sha256": "d08abda30cfb88553851fd0cde839e5fb2c9efab068f84e5834e88506bb1f4ce",
+        "source_snapshot": "1e588a25f261ac39f30325b776cb46f54dd356cefea28e649f3b7f0e311644f6",
+        "qualified_report_sha256": "9e84f33accbba5594881df473d24470cb9c33e984fde2e8107a1b38d89e96d0d",
+        "final_receipt_sha256": "1545b723326e7c575f6efa6973eb8eae0d28f8edbbca5f2a478a827c915f3e9a"
+      },
+      "artifact_sha256": "38b450e37e45a32eeaecf10445e0f127818b37e1f034e9c9fd6659601de6183e",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 36536.36261744789,
+            "trial": 38502.37798243409
+          },
+          "gain_pct": 5.380982736489837
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 98853.74603558236,
+            "trial": 102091.97122658051
+          },
+          "gain_pct": 3.275773878950994
+        }
+      },
+      "proof_directory": "work/real_world-goal/forward-state-combined-f7-next-results",
+      "controls_sha256": "cfc43bef72a1234989a817973c264cc7a4eb264f3f7dc71e5c9acee97eb0f499"
+    },
+    {
+      "comparison": "Selected production combination without duplicate grouping versus committed f7 artifact",
+      "qualified": false,
+      "native_source_digest": "ca7f07088c5e141ac80c4f15dc8dc36b9c128d43d0ece284390db3721c260005",
+      "production_digest": "3baeeb5d94dd2ad34dfe586cd398737b11b94ea1f47ae81c327a4098e72805c2",
+      "snapshot": "95a51047b9eb1486a5070d3b50ac5feb1fdebdc5ae2c6e202ea680c614eec413",
+      "baseline_binding": {
+        "rust_digest": "97bf330f83bd5fd8ddacac967afa925cceaa9dba5faafaa96cd907f6c25165ae",
+        "production_digest": "92f7441f8f75c907a3fcb4c3c2b869f3a857aa76ff744a8ead32c2fff080ef16",
+        "artifact_sha256": "d08abda30cfb88553851fd0cde839e5fb2c9efab068f84e5834e88506bb1f4ce",
+        "source_snapshot": "1e588a25f261ac39f30325b776cb46f54dd356cefea28e649f3b7f0e311644f6",
+        "qualified_report_sha256": "9e84f33accbba5594881df473d24470cb9c33e984fde2e8107a1b38d89e96d0d",
+        "final_receipt_sha256": "1545b723326e7c575f6efa6973eb8eae0d28f8edbbca5f2a478a827c915f3e9a"
+      },
+      "artifact_sha256": "d30f3e5569431768e7a3ab1c57bc085e9f4bcb8049a94fc59a587537bc1e5a1f",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 36549.73559523339,
+            "trial": 38227.146442265934
+          },
+          "gain_pct": 4.589392562531436
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 98704.27431626641,
+            "trial": 101592.21851792195
+          },
+          "gain_pct": 2.9258552597246634
+        }
+      },
+      "proof_directory": "work/real_world-goal/forward-concrete-owned-f7-next-results",
+      "controls_sha256": "0b396bfa9df98efde311123af74208d3ed608ab414b17b49222ff004e30f9545"
+    }
+  ],
+  "pilot_policy": "Four rotating three-second seed7 native controls on runner-a CPU2,3; no Java/full-gate credit. Selected production bytes match the final source. Final source additionally repairs test-only generic score bounds, a test Group marker and a panic-closure return annotation; original failed sources and receipts are retained. The full default qualifier rebuilds the actual final source.",
+  "proof_directory": "work/real_world-goal/forward-concrete-owned-f7-next-final-results/",
+  "original_inventory": "No upstream test mappings or fixtures changed. The 27 new native regressions and four existing external RealWorld tests earn zero upstream source-method credit."
+}

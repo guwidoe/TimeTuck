@@ -558,6 +558,7 @@ pub struct GroupNode<I, K> {
     inputs: group_inputs::GroupInputs<I, (K, i64)>,
     groups: crate::primitive_rows::group_collectors::GroupCollectors<K>,
     equal_input_reuse: bool,
+    owned_input_copy: Option<group_inputs::owned::Copier<(K, i64)>>,
     poisoned: bool,
 }
 
@@ -604,6 +605,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
             inputs: group_inputs::GroupInputs::new(),
             groups: crate::primitive_rows::group_collectors::GroupCollectors::new(),
             equal_input_reuse: false,
+            owned_input_copy: None,
             poisoned: false,
         }
     }
@@ -643,11 +645,30 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         self.equal_input_reuse = self.groups.is_primitive();
     }
 
+    // Ordinary graph only. Exact builtin values may copy private input history;
+    // public group-summary key/value ownership continues in GroupCollectors.
+    pub(crate) fn enable_owned_inputs(&mut self)
+    where
+        I: 'static,
+        K: 'static,
+    {
+        use std::any::TypeId;
+        if TypeId::of::<I>() == TypeId::of::<usize>()
+            || TypeId::of::<I>() == TypeId::of::<(usize, usize)>()
+        {
+            self.owned_input_copy = group_inputs::owned::group_copier::<K>();
+        }
+    }
+
     pub(crate) fn bind_pair_inputs(&mut self, left: usize, right: usize) -> bool
     where
         I: 'static,
     {
-        self.inputs.bind_pair(left, right)
+        if let Some(copy) = self.owned_input_copy {
+            self.inputs.bind_owned_pair(left, right, copy)
+        } else {
+            self.inputs.bind_pair(left, right)
+        }
     }
 
     pub fn is_poisoned(&self) -> bool {

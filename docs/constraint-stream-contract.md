@@ -2789,3 +2789,35 @@ GroupInputs has no public owner accessor; these exact builtin values have no use
 Clone, Drop or equality hooks. Separate public group keys, terminal match tuples
 and their retained snapshot owners are unchanged. This private input choice does
 not authorize skipping public terminal value versions or downstream callbacks.
+
+
+## Graph input values and concrete callbacks
+
+Ordinary graph grouping may store bounded captured input occurrences by value
+when both the identity and mapped key are certified exact builtin types. The
+original Dense/Pair binders first validate all retained IDs and universe limits.
+Numeric undo, current captures and full snapshots copy values, with enclosing
+rollback preserved. Private historical input allocations have no identity promise.
+Separate public group keys, summaries, datasets and terminal match owners retain
+their original versions. Standalone, custom, borrowed, unbound and explicitly
+batched grouping keeps its previous storage. Sparse pages contain larger values;
+full snapshots trade shared owners for copies of numeric values.
+
+Private map, ordinary group, membership-filter and direct-terminal nodes may
+retain concrete callback types. This changes dispatch and per-closure code
+generation while preserving callback invocation, clone/destruction order,
+metadata and error phases. Weighted terminals and explicit batched group aliases
+retain their boxed callback path. Callback concreteness does not imply purity.
+
+A primitive flat-map graph cache may omit an existing identical usize length only
+after producing every original retraction/put and completing mapper, iterator and
+identity-clone work. An absent expansion and a present empty expansion remain
+distinct. These private length owners have no public accessor; public downstream
+row replacements remain fresh. Standalone and custom paths keep all writes.
+
+A terminal with exact primitive IDs and builtin integer scores may locate its
+current contribution once at the original old-score phase. Evaluation, structural
+validation, checked adjustment and delivered payload cloning precede publication
+through the ordinary prepared insert/remove. This does not omit equal public row
+writes or alter canonical keys, value owners, snapshots or rollback. Generic score,
+identity and destruction-sensitive paths retain their existing sequence.

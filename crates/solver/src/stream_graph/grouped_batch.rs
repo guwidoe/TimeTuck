@@ -84,6 +84,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let out = self.push(BatchedGroup(Group {
             node: GroupNode::<I, K>::new(),
             mapping: Box::new(mapping),
+            marker: PhantomData,
         }));
         self.connect(input.node, out.node, false);
         Ok(out)

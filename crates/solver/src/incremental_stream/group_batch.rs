@@ -155,6 +155,10 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
 // Generic standalone GroupNode methods retain their existing lifetime bounds.
 impl<I: Ord + Clone + 'static, K: Ord + Clone> GroupNode<I, K> {
     pub(crate) fn bind_fixed_inputs(&mut self, count: usize) -> bool {
-        self.inputs.bind_fixed_extended(count)
+        if let Some(copy) = self.owned_input_copy {
+            self.inputs.bind_owned_fixed(count, copy)
+        } else {
+            self.inputs.bind_fixed_extended(count)
+        }
     }
 }

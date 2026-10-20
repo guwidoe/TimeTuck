@@ -557,11 +557,16 @@ impl<
     }
 }
 
-struct Map<'a, I, T, U> {
-    mapping: Box<dyn Fn(&T) -> U + 'a>,
-    marker: PhantomData<fn() -> I>,
+#[cfg(test)]
+type Map<'a, I, T, U> = MapState<I, T, U, Box<dyn Fn(&T) -> U + 'a>>;
+type MapMarker<I, T, U> = PhantomData<fn() -> (I, T, U)>;
+struct MapState<I, T, U, F> {
+    mapping: F,
+    marker: MapMarker<I, T, U>,
 }
-impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S> for Map<'_, I, T, U> {
+impl<I: Clone + 'static, T: 'static, U: 'static, S: AdditiveScore, F: Fn(&T) -> U> Node<S>
+    for MapState<I, T, U, F>
+{
     fn preserves_input_ids(&self) -> bool {
         true
     }
@@ -1033,12 +1038,20 @@ impl<
     }
 }
 
-struct Group<'a, I, T, K> {
+// Explicit batched groups retain the boxed mapping through this alias.
+type Group<'a, I, T, K> = GroupState<I, T, K, Box<GroupMapping<'a, T, K>>>;
+struct GroupState<I, T, K, F> {
     node: GroupNode<I, K>,
-    mapping: Box<GroupMapping<'a, T, K>>,
+    mapping: F,
+    marker: PhantomData<fn() -> T>,
 }
-impl<I: Ord + Clone + 'static, T: 'static, K: Ord + Clone + 'static, S: AdditiveScore> Node<S>
-    for Group<'_, I, T, K>
+impl<
+    I: Ord + Clone + 'static,
+    T: 'static,
+    K: Ord + Clone + 'static,
+    S: AdditiveScore,
+    F: Fn(&T) -> (K, i64),
+> Node<S> for GroupState<I, T, K, F>
 {
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
         self.node.capture_checkpoint(original)
@@ -1180,6 +1193,16 @@ fn terminal_rows<I: 'static, T, S>() -> crate::primitive_rows::PrimitiveRows<I, 
     rows
 }
 
+#[inline]
+fn prepared_terminal<I: 'static, T, S: 'static>() -> bool {
+    let score = std::any::TypeId::of::<S>();
+    live_commit_key::<I>()
+        && !std::mem::needs_drop::<T>()
+        && (score == std::any::TypeId::of::<crate::SimpleScore>()
+            || score == std::any::TypeId::of::<crate::HardSoftScore>()
+            || score == std::any::TypeId::of::<crate::HardMediumSoftScore>())
+}
+
 struct TerminalJournal<S> {
     rows: usize,
     total: S,
@@ -1188,21 +1211,28 @@ struct TerminalCapture<I, T, S> {
     rows: crate::primitive_rows::RowsCapture<I, (T, S)>,
     total: S,
 }
-struct Terminal<'a, I, T, S> {
-    evaluate: TerminalEvaluation<'a, T, S>,
+mod terminal_callback;
+use terminal_callback::{DirectTerminal, TerminalEvaluator};
+
+// Keep the ordinary boxed evaluator spelling for weighted routes and existing
+// private controls while allowing direct graph callbacks to remain concrete.
+type Terminal<'a, I, T, S> = TerminalState<I, T, S, TerminalEvaluation<'a, T, S>>;
+struct TerminalState<I, T, S, E> {
+    evaluate: E,
     total: S,
     name: String,
     matches: crate::primitive_rows::PrimitiveRows<I, (T, S)>,
     checkpoint_box: CheckpointBox<TerminalJournal<S>>,
 }
-impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
-    for Terminal<'_, I, T, S>
+impl<
+    I: Ord + Clone + 'static,
+    T: Clone + 'static,
+    S: AdditiveScore + 'static,
+    E: TerminalEvaluator<T, S>,
+> Node<S> for TerminalState<I, T, S, E>
 {
     fn constraint_weight(&self) -> Option<&S> {
-        match &self.evaluate {
-            TerminalEvaluation::Weighted { weight, .. } => Some(weight),
-            _ => None,
-        }
+        self.evaluate.constraint_weight()
     }
     fn validate_total(&self, arithmetic: crate::ScoringArithmetic) -> Result<(), GraphError> {
         arithmetic
@@ -1213,10 +1243,7 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             })
     }
     fn replace_weight(&mut self, new: S) {
-        match &mut self.evaluate {
-            TerminalEvaluation::Weighted { weight, .. } => *weight = new,
-            _ => unreachable!("unweighted terminal"),
-        }
+        self.evaluate.replace_weight(new);
     }
 
     fn clear(&mut self) {
@@ -1327,6 +1354,32 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> N
             .is_some_and(|score| score.structural() != 0)
         {
             return Err(GraphError::StructuralContribution(self.name.clone()));
+        }
+        // Exact primitive identities and builtin scores have no observable
+        // ordering/score hooks. Locate once at the original old-score phase;
+        // preparation changes no owners and commits only after all fallible
+        // arithmetic and delivered payload clones have completed.
+        if prepared_terminal::<I, T, S>() && self.matches.is_primitive() {
+            let (prepared, old) = self.matches.prepare_change(&change.id, |row| {
+                row.map_or(S::ZERO, |(_, score)| score.clone())
+            });
+            let new = contribution.clone().unwrap_or(S::ZERO);
+            let total = arithmetic
+                .totals
+                .adjust(&self.total, [(&old, &new)])
+                .map_err(|_| GraphError::ScoreOverflow {
+                    constraint: Some(self.name.clone()),
+                })?;
+            if let Some(value) = &change.value {
+                prepared.insert(
+                    change.id.clone(),
+                    (value.clone(), contribution.expect("scored match")),
+                );
+            } else {
+                prepared.remove();
+            }
+            self.total = total;
+            return Ok(Outputs::new());
         }
         let old = self
             .matches
@@ -1479,7 +1532,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             None
         };
         let out = if let Some(bits) = membership {
-            self.push(membership_filter::MembershipFilter::<I, T>::new(
+            self.push(membership_filter::MembershipFilter::<I, T, _>::new_inline(
                 bits, predicate,
             ))
         } else {
@@ -1544,8 +1597,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<T>()
             && !std::mem::needs_drop::<U>()
             && live_commit_callback(&mapping);
-        let out = self.push(Map::<I, T, U> {
-            mapping: Box::new(mapping),
+        let out = self.push(MapState::<I, T, U, _> {
+            mapping,
             marker: PhantomData,
         });
         self.live_commit_nodes[out.node] = live_commit;
@@ -1724,7 +1777,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<U>()
             && live_commit_callback(&mapping);
         let mut node = FlatMapNode::<I, T, U>::new(mapping);
-        node.bind_primitive_inputs();
+        node.bind_graph_inputs();
         let out = self.push(FlatMap(node));
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
@@ -2166,9 +2219,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         node.bind_primitive_group_keys();
         node.bind_primitive_inputs();
         node.enable_equal_input_reuse();
-        let out = self.push(Group {
+        node.enable_owned_inputs();
+        let out = self.push(GroupState::<I, T, K, _> {
             node,
-            mapping: Box::new(mapping),
+            mapping,
+            marker: PhantomData,
         });
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
@@ -2325,8 +2380,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let live_commit = live_commit_key::<I>()
             && !std::mem::needs_drop::<T>()
             && live_commit_callback(&evaluate);
-        let out = self.push(Terminal::<I, T, S> {
-            evaluate: TerminalEvaluation::Direct(Box::new(evaluate)),
+        let out = self.push(TerminalState::<I, T, S, _> {
+            evaluate: DirectTerminal(evaluate),
             total: S::ZERO,
             name: name.clone(),
             matches: terminal_rows::<I, T, S>(),
@@ -3218,3 +3273,15 @@ mod join_buffer_tests;
 
 #[cfg(test)]
 mod ordinary_join_journal_tests;
+
+#[cfg(test)]
+mod owned_group_input_tests;
+
+#[cfg(test)]
+mod flat_map_equal_tests;
+
+#[cfg(test)]
+mod terminal_prepared_tests;
+
+#[cfg(test)]
+mod concrete_mapping_tests;

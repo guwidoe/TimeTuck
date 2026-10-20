@@ -34,23 +34,25 @@ struct Capture<I>(RowsCapture<I, usize>);
 pub struct FlatMapNode<'a, I, T, U> {
     lengths: PrimitiveRows<I, usize>,
     mapping: Box<Expansion<'a, T, U>>,
+    omit_equal_lengths: bool,
 }
 impl<'a, I: Ord + Clone, T, U> FlatMapNode<'a, I, T, U> {
     pub fn new<R: IntoIterator<Item = U>>(mapping: impl Fn(&T) -> R + 'a) -> Self {
         Self {
             lengths: PrimitiveRows::new(),
+            omit_equal_lengths: false,
             mapping: Box::new(move |value| mapping(value).into_iter().collect()),
         }
     }
     pub fn apply(&mut self, change: TupleChange<I, T>) -> Vec<TupleChange<(I, usize), U>> {
         let rows = change.value.as_ref().map(|value| (self.mapping)(value));
         if self.lengths.is_primitive() {
-            let (prepared, old_length) = self
-                .lengths
-                .prepare_change(&change.id, |old| old.copied().unwrap_or(0));
+            let omit_equal_lengths = self.omit_equal_lengths;
+            let (prepared, old_length) =
+                self.lengths.prepare_change(&change.id, |old| old.copied());
             let new_length = rows.as_ref().map_or(0, Vec::len);
             let mut output = Vec::new();
-            for position in new_length..old_length {
+            for position in new_length..old_length.unwrap_or(0) {
                 output.push(TupleChange::retract((change.id.clone(), position)));
             }
             if let Some(rows) = rows {
@@ -61,6 +63,13 @@ impl<'a, I: Ord + Clone, T, U> FlatMapNode<'a, I, T, U> {
             // Mapper/iterator work and every output identity clone complete
             // before publishing the prepared, primitive-ID cache change.
             if change.value.is_some() {
+                // Only the private graph cache may omit an existing equal usize
+                // write. No public length/value owner or historical version is
+                // exposed; downstream events above are still fully regenerated.
+                // None differs from Some(0): an empty expansion is present.
+                if omit_equal_lengths && old_length == Some(new_length) {
+                    return output;
+                }
                 prepared.insert(change.id, new_length);
             } else {
                 prepared.remove();
@@ -94,6 +103,13 @@ impl<'a, I: Ord + Clone, T, U> FlatMapNode<'a, I, T, U> {
         I: 'static,
     {
         self.lengths.bind_primitive()
+    }
+    pub(crate) fn bind_graph_inputs(&mut self) -> bool
+    where
+        I: 'static,
+    {
+        self.omit_equal_lengths = self.bind_primitive_inputs();
+        self.omit_equal_lengths
     }
     pub(crate) fn clear(&mut self) {
         self.lengths.clear();
@@ -153,3 +169,6 @@ impl<'a, I: Ord + Clone, T, U> FlatMapNode<'a, I, T, U> {
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod equal_length_tests;
