@@ -1582,10 +1582,22 @@ trace, internal API, additional source-method coverage or new timing claim follo
 
 A minimal boundary has reference (6,0,0), a candidate equal to it and candidate
 (2,8,-2). Community chooses whichever occurs last in these two permutations.
-Native consistently chooses the medium improvement, following the documented
-preference over a candidate improving no level. This intentional total ordering
-avoids encounter-order dependence except genuine tied finalists. All generated
-inputs, both outputs and differences remain available in the report/work artifacts.
+The original native strategic modes consistently choose the medium improvement;
+that total ordering remains available with unchanged defaults. The explicit
+`StrategicOscillationLastStepEncounterOrder` and
+`StrategicOscillationBestEncounterOrder` variants support the observed boundary:
+when neither candidate improves overall, an exact-reference candidate and an
+ordinary-level improver replace one another in encounter order. A candidate
+improving no level does not trigger a reset. All other ranking, fallback, ties,
+structural priority and save-failure atomicity retain their existing contracts.
+
+The diagnostic now explicitly selects these variants for comparison with Java,
+retaining the complete original total-order report and independent validation
+under `total_order_controls`. The same 4,824 fixtures, candidate orders/counts,
+Java public configuration, metrics and exact output checks remain. Original
+numeric, save-failure and all-six-backend controls add no adapted-method credit.
+Both policies' raw outputs remain available; the compatibility selection does not
+claim that default native traces changed or establish general podium parity.
 
 
 The full-scoring heuristic comparison additionally measures both strategic modes

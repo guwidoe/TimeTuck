@@ -21,14 +21,23 @@ pub enum TieBreaking {
 /// Strategic modes prefer overall improvement over the reference; otherwise,
 /// the earliest ordinary level strictly improving its reference wins, with
 /// lexicographic score breaking ties. Rejected fallback keeps highest-score order.
-/// This total ordering intentionally differs from Community 2.7.0's observed
-/// encounter-order behavior when a candidate equals the reference exactly.
+/// The original strategic modes use a total ordering that intentionally differs
+/// from Community 2.7.0's observed encounter-order behavior when a candidate equals
+/// the reference exactly. EncounterOrder variants opt into that boundary policy.
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub enum FinalistRanking {
     #[default]
     HighestScore,
     StrategicOscillationLastStep,
     StrategicOscillationBest,
+    /// Opt-in encounter ordering at the exact-reference boundary. If neither
+    /// candidate improves overall and one equals the reference while the other
+    /// improves an ordinary level, the incoming candidate replaces the saved
+    /// candidate. Other comparisons retain ordinary strategic ranking.
+    /// This is a sequential retention policy, not a total score ordering.
+    StrategicOscillationLastStepEncounterOrder,
+    /// The same encounter policy with the retained best as reference.
+    StrategicOscillationBestEncounterOrder,
 }
 
 /// References and limits for one neighborhood scan. A new forager starts a new
@@ -121,8 +130,12 @@ impl<C, S: Score> MoveForager<C, S> {
     fn compare_scores(&self, a: &S, b: &S, accepted: bool) -> Ordering {
         let reference = match self.config.ranking {
             FinalistRanking::HighestScore => return a.cmp(b),
-            FinalistRanking::StrategicOscillationLastStep => &self.config.current_score,
-            FinalistRanking::StrategicOscillationBest => &self.config.best_score,
+            FinalistRanking::StrategicOscillationLastStep
+            | FinalistRanking::StrategicOscillationLastStepEncounterOrder => {
+                &self.config.current_score
+            }
+            FinalistRanking::StrategicOscillationBest
+            | FinalistRanking::StrategicOscillationBestEncounterOrder => &self.config.best_score,
         };
         if !accepted {
             return a.cmp(b);
@@ -141,9 +154,23 @@ impl<C, S: Score> MoveForager<C, S> {
                         .position(|(level, baseline)| level.numeric_cmp(&baseline).is_gt())
                         .unwrap_or(usize::MAX)
                 };
-                first_improvement(b)
-                    .cmp(&first_improvement(a))
-                    .then_with(|| a.cmp(b))
+                let a_level = first_improvement(a);
+                let b_level = first_improvement(b);
+                let encounter_order = matches!(
+                    self.config.ranking,
+                    FinalistRanking::StrategicOscillationLastStepEncounterOrder
+                        | FinalistRanking::StrategicOscillationBestEncounterOrder
+                );
+                if encounter_order
+                    && ((a == reference && b_level != usize::MAX)
+                        || (b == reference && a_level != usize::MAX))
+                {
+                    // Deliberate incoming-candidate preference in both directions.
+                    // No-level deteriorations and actual score ties retain their
+                    // usual score/tie rules. Saving must still succeed first.
+                    return Ordering::Greater;
+                }
+                b_level.cmp(&a_level).then_with(|| a.cmp(b))
             })
         })
     }

@@ -15,6 +15,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             "highest" => FinalistRanking::HighestScore,
             "last" => FinalistRanking::StrategicOscillationLastStep,
             "best" => FinalistRanking::StrategicOscillationBest,
+            "last-encounter" => FinalistRanking::StrategicOscillationLastStepEncounterOrder,
+            "best-encounter" => FinalistRanking::StrategicOscillationBestEncounterOrder,
             _ => return Err("unknown ranking".into()),
         };
         let steps: u64 = f[2].parse()?;

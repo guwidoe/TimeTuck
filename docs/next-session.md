@@ -17,7 +17,73 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 273 fixed filtering and preference scoring
+## Latest qualification — 275 encounter-order strategic ranking
+
+Added opt-in `StrategicOscillationLastStepEncounterOrder` and
+`StrategicOscillationBestEncounterOrder` finalist policies. After accepted/structural
+priority and overall improvement, an exact-reference candidate and a candidate
+improving an ordinary level replace each other in encounter order. A candidate
+improving no level does not reset the finalist. Other ranking, rejected fallback,
+actual ties, early picks, accepted-count limits and failed-save atomicity retain
+existing rules. This is sequential retention, not a total score comparator.
+Defaults and original strategic total-order policies remain unchanged.
+
+A fresh complete solver differential run on the final production inputs and pinned
+Community public adapter closes all 325 comparison gaps for the explicit selection:
+**4,824/4,824 exact observations agree**, with independent Python whole-segment
+reference validation, original 402 score matrices / 3 rankings / 4 prefixes, candidate
+orders/counts, Java configuration and output checks unchanged. All 24 Java GC metric
+controls pass. Full original total-order controls remain separately reported:
+4,499/4,824 agree, 325 differ, all 4,824 match their independent native reference.
+The dashboard explains both cohorts and the explicit compatibility selection.
+No Java internal trace, PRNG, general podium or upstream-method credit is claimed.
+
+Five original Rust regressions cover boundary permutations/segments, the no-level
+counterexample, actual ties, failed/panicking save, fallback/structural priority,
+early selection/count limits, exact owned decimal/full-width integer comparisons,
+and actual saved steps in all six model/backend paths. The owned/Copy configuration
+matrix now covers five ranking policies (2,880 paired configurations). One added
+Python reference/protocol regression brings that focused module to six checks.
+
+Final `bash scripts/check.sh` passed on runner-a: **8,515 Rust +290 doctests**,
+17 jobs executed/130 genuinely reused,
+136.031s dispatch/collection. Native digest
+`92a2eaf7d08ebffeae00c0267e7b0a89404600bdc42c5f81c5ffc26922b76815`. Complete local solver differential execution took
+141.050s, including actual release builds. Original 128 exact optimization
+cases pass; termination 219, step-counting 600, score-trend 512, pooled 66 and value-
+queue 67 comparisons pass. Mixed 64 valid, exact 64 optimal, scoped/stream 63 optimal,
+Java 39 optimal; strategy/quality limits stay visible. Great Deluge remains 275/276
+with 276 native exact-reference passes; no arithmetic weakening or separate investigation.
+
+Shared forager inputs change 16 comparison keys. Only solver-differential was
+actually refreshed; the other 17 raw reports retain actual bytes/dates/keys and
+stay stale, including the 273 stream timings. There is no new performance claim.
+Java parity at equal-or-better quality remains the performance target (multiplier 1).
+Completion index 84.857%, 1/18 current. Method inventory
+remains 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. This is native
+behavior progress without source-method credit or exclusion changes. Goal incomplete.
+
+The initial gate found one new integration fixture using default FirstAccepted
+while asserting a complete neighborhood scan. The fixture now selects BestAccepted;
+production code, adapters, inputs and every measurement key are unchanged. The
+comparison retains its actual earlier source binding and is reused by its matching
+production input key. Successful unaffected test jobs are genuinely reused by the
+final gate; the failed target is rerun. Initial logs/receipt remain preserved (524.262s including dispatch/collection).
+The final gate uses the frozen complete source manifest. Dashboard explanation
+copy has independent JavaScript syntax and actual desktop/mobile browser checks.
+Report data/freshness checked. No comparison rerun, cache transplantation or old
+result rekeying. runner-c remains parked.
+
+Evidence: work/round275-qualification/{integration,gate-receipt,collection,
+solver-differential-receipt,browser-proof,ui-copy-binding,verdict}.json;
+work/parallel-round275-evidence.json. The completed source-only agent bundle under
+work/round275-oscillation/ remains historical/unbuilt, with actual parent integration,
+owned/full-width tests, formatting and execution separately bound. The 273
+stream profile is historical for the unchanged stream operators; use it to select
+next performance work, or close another justified behavior gap. Do not rerun
+explained overflow/cancellation probes or change native defaults for report credit.
+
+## Previous qualification — 273 fixed filtering and preference scoring
 
 Added explicit `filter_fixed(input, ids, predicate)` with immutable declared IDs,
 byte membership and changed-slot undo. Contiguous usize lookup is direct; arbitrary
@@ -99,7 +165,7 @@ work/round274-fixed-filter/ remains historical and unbuilt; actual integration a
 execution have their own bindings. Use the new profile and remaining behavior/
 performance gaps for next work. Do not repeat explained arithmetic probes.
 
-## Previous qualification — 272 bound sum state and ordinal scratch
+## Earlier qualification — 272 bound sum state and ordinal scratch
 
 Existing sum-only group declarations now upgrade summary storage only after a
 successful fixed binding of at most 256 usize input IDs and exactly usize group

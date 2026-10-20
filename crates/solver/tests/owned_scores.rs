@@ -778,6 +778,8 @@ fn owned_scores_support_every_forager_policy_in_all_six_backends() {
         FinalistRanking::HighestScore,
         FinalistRanking::StrategicOscillationLastStep,
         FinalistRanking::StrategicOscillationBest,
+        FinalistRanking::StrategicOscillationLastStepEncounterOrder,
+        FinalistRanking::StrategicOscillationBestEncounterOrder,
     ] {
         for mode in 0..6 {
             for selection in [

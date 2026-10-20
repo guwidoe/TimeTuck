@@ -1423,6 +1423,27 @@ failed/panicking capture and 1,728 paired owned/Copy configuration checks add no
 upstream coverage. See compatibility documentation for the public Java comparison
 and its recorded exact-reference encounter-order differences.
 
+`StrategicOscillationLastStepEncounterOrder` and
+`StrategicOscillationBestEncounterOrder` explicitly select sequential retention at
+the exact-reference boundary. After accepted/structural priority, when neither
+candidate improves overall and one equals the selected reference while the other
+improves an ordinary level, the incoming candidate replaces the saved candidate.
+Candidates that improve no level do not trigger this rule. All other comparisons,
+including overall improvement, ordinary level/full-score ranking, rejected
+fallback and actual ties, keep their existing rules. This policy is deliberately
+encounter dependent; it is not a total score comparator. References remain fixed
+for one scan. Exact numeric comparisons apply to owned decimal and full-width
+integer levels, with no float projection. Failed/panicking candidate saving leaves
+selection/count/ties unchanged. These variants flow through all six native search
+backends and retain budgets, early-pick/count limits and saved-state installation.
+Existing variants and defaults retain their previous total ordering.
+
+The public-metric comparison selects the encounter variants explicitly for its
+strategic modes. Its complete original total-order cohort and independent
+reference validation remain under `total_order_controls`; the policy choice does
+not rewrite their diagnostic results or imply identical default traces. Original
+fixtures, candidate orders/counts, Java configuration and output checks are retained.
+
 ### Lazy late-acceptance score history
 
 `ScoreHistory<S>` is a nonempty native circular history used by `LateAcceptance`.
@@ -1457,6 +1478,7 @@ checks additionally cover generated eager-reference histories, generation rollov
 100,000-slot clone counts, concurrent cache initialization, independent copies and
 injected clone/equality failures. These deterministic cost checks do not establish
 a wall-clock speedup or Java internal allocation equivalence.
+
 
 ## Diminished returns
 

@@ -23,12 +23,13 @@ def generate():
             for name, scores in matrices for mode in MODES for steps in range(1, 5)]
 
 
-def encode(c):
-    return '\t'.join([c['id'], c['mode'], str(c['steps']),
+def encode(c, encounter_order=False):
+    mode = c['mode'] + ('-encounter' if encounter_order and c['mode'] != 'highest' else '')
+    return '\t'.join([c['id'], mode, str(c['steps']),
                       ';'.join(','.join(map(str, s)) for s in c['scores'])])
 
 
-def reference(c):
+def reference(c, encounter_order=False):
     scores = list(map(tuple, c['scores']))
     current = best = 0
     trace = []
@@ -40,6 +41,23 @@ def reference(c):
             if improving:
                 eligible = improving
             else:
+                if encounter_order:
+                    # Independent whole-segment reference: exact-reference rows
+                    # and ordinary-level improvers alternate encounter segments.
+                    # Only the last segment survives. Rows improving no level and
+                    # unequal to the reference cannot start or end a segment.
+                    segment, previous_kind = [], None
+                    for i in eligible:
+                        kind = (0 if scores[i] == baseline else
+                                1 if any(a > b for a, b in zip(scores[i], baseline)) else None)
+                        if kind is None:
+                            continue
+                        if kind != previous_kind:
+                            segment = []
+                        segment.append(i)
+                        previous_kind = kind
+                    if segment:
+                        eligible = segment
                 for level in range(3):
                     improving = [i for i in eligible if scores[i][level] > baseline[level]]
                     if improving:
@@ -70,8 +88,8 @@ def decode(c, line):
     return r
 
 
-def validate_native(c, native):
-    expected = reference(c)
+def validate_native(c, native, encounter_order=False):
+    expected = reference(c, encounter_order)
     actual = decode(c, native)
     if any(actual[k] != expected[k] for k in actual):
         raise ValueError('native reference mismatch')
@@ -90,8 +108,11 @@ def run_checks(classpath):
     payload = '\n'.join(map(encode, cases))+'\n'
     outputs = {}
     for name, command in [('java', ['java', '-Xms256m', '-Xmx256m', '-cp', classpath, 'OscillationOracle']),
-                          ('rust', [str(ROOT/'target/release/examples/oscillation_oracle')])]:
-        run = subprocess.run(command, input=payload, text=True, capture_output=True, timeout=180)
+                          ('rust', [str(ROOT/'target/release/examples/oscillation_oracle')]),
+                          ('rust-encounter', [str(ROOT/'target/release/examples/oscillation_oracle')])]:
+        run_payload = ('\n'.join(encode(c, True) for c in cases)+'\n'
+                       if name == 'rust-encounter' else payload)
+        run = subprocess.run(command, input=run_payload, text=True, capture_output=True, timeout=180)
         (WORK/f'oscillation-{name}.stderr.log').write_text(run.stderr)
         if run.returncode:
             raise RuntimeError(f'{name} oscillation adapter failed; see work/oracle/oscillation-{name}.stderr.log')
@@ -129,8 +150,41 @@ def run_checks(classpath):
                   native_reference_passed=native_passed, diverged=len(divergent),
                   failures=failures, divergences=differences,
                   scope='Original bounded three-level score tables, 402 matrices x3 ranking modes x4 step prefixes. Public Java STEP_SCORE and move-count gauges observe the last step and complete accepted candidate set; returned best identity/score is checked separately. Native forager matches independent Python. Exact-reference encounter-order differences remain outside agreement counts. Large annealing temperatures make all bounded Java candidates accepted, verified at every prefix; no general annealing, PRNG, Java internal trace, timing or upstream-method credit.')
+    policy_failures, policy_differences = [], []
+    for i, c in enumerate(cases):
+        try:
+            native = validate_native(c, outputs['rust-encounter'][i], True)
+            java = decode(c, outputs['java'][i])
+            if native != java:
+                policy_differences.append(dict(case=c['id'], native=native, java=java))
+        except ValueError as error:
+            policy_failures.append(dict(case=c['id'], error=str(error)))
+    total_order_report = report
+    report = dict(
+        seed=SEED, metric_gc_checks=gc_checks,
+        total=len(cases), passed=len(cases)-len(policy_failures)-len(policy_differences),
+        native_reference_passed=len(cases)-len(policy_failures),
+        diverged=len(policy_differences),
+        failures=policy_failures + [dict(case=d['case'], error='encounter policy differs from Java')
+                                    for d in policy_differences],
+        divergences=policy_differences,
+        total_order_controls=total_order_report,
+        selected_native_modes=['HighestScore', 'StrategicOscillationLastStepEncounterOrder',
+                               'StrategicOscillationBestEncounterOrder'],
+        scope='Explicit encounter-order variants are selected for the strategic comparisons; '
+              'the native defaults and existing strategic modes are unchanged. Identical original '
+              '4824 fixtures, Java public API configuration, four prefixes, candidate counts '
+              'and exact output checks. Independent Python whole-segment ranking validates '
+              'native outputs. Complete original total-order comparison and its independent '
+              'reference validation remain separately under total_order_controls. No Java '
+              'internal trace, PRNG, timing, general podium parity or source-method credit.')
     (WORK/'oscillation-cases.json').write_text(json.dumps(dict(schema_version=1, seed=SEED, cases=cases, outputs=outputs, metric_gc_outputs=gc_run.stdout.splitlines()), indent=2)+'\n')
-    print(f'Oscillation: {report["passed"]}/{report["total"]} agree, {report["diverged"]} differ, {len(failures)} failures', flush=True)
+    if failures or policy_failures:
+        raise RuntimeError('native reference or protocol validation failed; see oscillation-cases.json')
+    print(f'Oscillation encounter policy: {report["passed"]}/{report["total"]} '
+          f'agree, {report["diverged"]} differ, {len(report["failures"])} failures', flush=True)
+    print(f'Oscillation original total order: {total_order_report["passed"]}/{len(cases)} '
+          f'agree, {total_order_report["diverged"]} differ', flush=True)
     return report
 
 

@@ -48,4 +48,22 @@ class OscillationChecksTest(unittest.TestCase):
         self.assertEqual(reference(c)['trace'],[1,0,1,0]);self.assertEqual(reference(c)['best_id'],0)
         self.assertEqual(compare(c,self.line(c),self.line(c)),None)
 
+    def test_explicit_encounter_policy_preserves_boundary_segments_and_protocol(self):
+        c=self.case()
+        self.assertEqual(reference(c, True)['trace'],[2])
+        self.assertEqual(reference(c)['trace'],[1])
+        self.assertEqual(encode(c,True).split('\t')[1],'last-encounter')
+        c['steps']=4
+        self.assertEqual(reference(c,True)['trace'],[2,1,0,2])
+        c['scores']=[(6,0,0),(6,0,0),(1,-1,-1)]
+        self.assertEqual(reference(c,True)['trace'],[1,0,1,0])
+        c['scores']=[(6,0,0),(2,8,-2),(6,0,0),(1,-1,-1)]
+        c['steps']=1
+        self.assertEqual(reference(c,True)['trace'],[2])
+        c['scores'].append((1,7,-3))
+        self.assertEqual(reference(c,True)['trace'],[4])
+        r=reference(c,True)
+        line='\t'.join(map(str,[c['id'],*r['step'],*r['best'],r['best_id'],r['selected'],r['accepted']]))
+        self.assertEqual(validate_native(c,line,True)['step'],r['step'])
+
 if __name__=='__main__':unittest.main()

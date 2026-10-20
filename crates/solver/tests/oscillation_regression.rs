@@ -372,3 +372,203 @@ fn all_six_backends_use_current_and_best_references_for_saved_steps() {
         }
     }
 }
+
+const ENCOUNTER_RANKINGS: [FinalistRanking; 2] = [
+    FinalistRanking::StrategicOscillationLastStepEncounterOrder,
+    FinalistRanking::StrategicOscillationBestEncounterOrder,
+];
+
+#[test]
+fn encounter_boundary_uses_exact_owned_decimal_and_full_width_integer_levels() {
+    let reference: HardMediumSoftDecimalScore =
+        "0hard/9007199254740992medium/0soft".parse().unwrap();
+    let improving: HardMediumSoftDecimalScore =
+        "-1hard/9007199254740992.00000000000000000001medium/-1soft"
+            .parse()
+            .unwrap();
+    for ranking in ENCOUNTER_RANKINGS {
+        for rows in [
+            [reference.clone(), improving.clone()],
+            [improving.clone(), reference.clone()],
+        ] {
+            let mut f = MoveForager::new(ForagerConfig {
+                ranking,
+                current_score: reference.clone(),
+                best_score: reference.clone(),
+                ..Default::default()
+            });
+            for (id, score) in rows.into_iter().enumerate() {
+                f.add(score, true, id);
+            }
+            assert_eq!(f.pick(), Some(1));
+        }
+        let reference = s(i64::MAX, i64::MIN, 0);
+        let improving = s(i64::MAX - 1, i64::MIN + 1, -1);
+        for rows in [[reference, improving], [improving, reference]] {
+            let mut f = MoveForager::new(ForagerConfig {
+                ranking,
+                current_score: reference,
+                best_score: reference,
+                ..Default::default()
+            });
+            for (id, score) in rows.into_iter().enumerate() {
+                f.add(score, true, id);
+            }
+            assert_eq!(f.pick(), Some(1));
+        }
+    }
+}
+
+#[test]
+fn encounter_policy_uses_latest_boundary_segment_but_preserves_no_level_order() {
+    for ranking in ENCOUNTER_RANKINGS {
+        let config = ForagerConfig {
+            ranking,
+            current_score: s(6, 0, 0),
+            best_score: s(6, 0, 0),
+            ..Default::default()
+        };
+        for rows in [
+            vec![s(6, 0, 0), s(2, 8, -2)],
+            vec![s(2, 8, -2), s(6, 0, 0)],
+            vec![s(6, 0, 0), s(2, 8, -2), s(6, 0, 0)],
+            vec![s(2, 8, -2), s(6, 0, 0), s(1, 7, -3)],
+        ] {
+            let mut f = MoveForager::new(config);
+            for (id, score) in rows.iter().copied().enumerate() {
+                f.add(score, true, id);
+            }
+            assert_eq!(f.pick(), Some(rows.len() - 1));
+        }
+        // The tempting blanket reset rule fails: this incoming deterioration
+        // improves no level and must not displace the exact reference.
+        for rows in [[s(6, 0, 0), s(1, -1, -1)], [s(1, -1, -1), s(6, 0, 0)]] {
+            let mut f = MoveForager::new(config);
+            for score in rows {
+                f.add(score, true, score);
+            }
+            assert_eq!(f.pick(), Some(s(6, 0, 0)));
+        }
+        for rows in [[s(6, 0, 0), s(7, -8, -8)], [s(7, -8, -8), s(6, 0, 0)]] {
+            let mut f = MoveForager::new(config);
+            for score in rows {
+                f.add(score, true, score);
+            }
+            assert_eq!(f.pick(), Some(s(7, -8, -8)));
+        }
+    }
+}
+
+#[test]
+fn encounter_failed_save_is_atomic_and_real_ties_keep_their_contract() {
+    for ranking in ENCOUNTER_RANKINGS {
+        let mut f = MoveForager::new(ForagerConfig {
+            ranking,
+            current_score: s(6, 0, 0),
+            best_score: s(6, 0, 0),
+            tie_breaking: TieBreaking::Random { seed: 0 },
+            ..Default::default()
+        });
+        f.add(s(2, 8, -2), true, Box::new('a'));
+        f.add(s(2, 8, -2), true, Box::new('b'));
+        assert_eq!(f.finalist_count(), 2);
+        let failure = f.try_add_with(s(6, 0, 0), true, || Err::<Box<char>, _>("save"));
+        assert_eq!(failure, Err("save"));
+        assert!(
+            catch_unwind(AssertUnwindSafe(|| {
+                let _: Result<(), ()> = f.try_add_with(s(6, 0, 0), true, || panic!("save"));
+            }))
+            .is_err()
+        );
+        assert_eq!(f.accepted_candidates(), 2);
+        assert_eq!(f.finalist_count(), 2);
+        assert!(!f.is_quit_early());
+        f.add(s(6, 0, 0), true, Box::new('c'));
+        assert_eq!(f.finalist_count(), 1);
+        f.add(s(6, 0, 0), true, Box::new('d'));
+        assert_eq!(f.finalist_count(), 2);
+        assert_eq!(
+            f.pick_with(|n| {
+                assert_eq!(n, 2);
+                1
+            })
+            .unwrap()
+            .map(|v| *v),
+            Some('d')
+        );
+    }
+}
+
+#[test]
+fn encounter_policy_respects_acceptance_structure_early_pick_and_count_limits() {
+    for ranking in ENCOUNTER_RANKINGS {
+        let config = ForagerConfig {
+            ranking,
+            current_score: s(6, 0, 0),
+            best_score: s(6, 0, 0),
+            rejected_moves: RejectedMovePolicy::BestScore,
+            ..Default::default()
+        };
+        let mut f = MoveForager::new(config);
+        f.add(s(6, 0, 0), false, 'r');
+        f.add(s(2, 8, -2), false, 's');
+        assert_eq!(f.pick(), Some('r'));
+        let mut f = MoveForager::new(config);
+        f.add(s(2, 8, -2), true, 'a');
+        f.add(s(7, 0, 0), false, 'b');
+        f.add(s(6, 0, 0).with_structural(-1), true, 'c');
+        assert_eq!(f.pick(), Some('a'));
+        let mut f = MoveForager::new(ForagerConfig {
+            selection: MoveSelection::FirstAccepted,
+            ..config
+        });
+        f.add(s(2, 8, -2), true, 'a');
+        assert!(f.is_quit_early());
+        assert_eq!(f.pick(), Some('a'));
+        let mut f = MoveForager::new(ForagerConfig {
+            accepted_candidate_limit: 2.try_into().ok(),
+            ..config
+        });
+        f.add(s(2, 8, -2), true, 'a');
+        assert!(!f.is_quit_early());
+        f.add(s(6, 0, 0), true, 'b');
+        assert!(f.is_quit_early());
+        assert_eq!(f.pick(), Some('b'));
+    }
+}
+
+#[test]
+fn encounter_modes_propagate_actual_saved_steps_through_all_six_backends() {
+    for ranking in ENCOUNTER_RANKINGS {
+        for (scores, trace) in [
+            ([s(6, 0, 0), s(6, 0, 0), s(2, 8, -2)], [2, 0, 2, 0]),
+            ([s(6, 0, 0), s(2, 8, -2), s(6, 0, 0)], [2, 1, 0, 2]),
+        ] {
+            let cfg = LocalSearchConfig {
+                ranking,
+                selection: MoveSelection::BestAccepted,
+                max_steps: 4,
+                neighborhood: Neighborhood::Change,
+                acceptance: Acceptance::SimulatedAnnealing {
+                    starting_temperature: s(i64::MAX, i64::MAX, i64::MAX),
+                    cooling_steps: 100,
+                    seed: 23,
+                },
+                ..Default::default()
+            };
+            let mut expected = vec![0];
+            let mut current = 0;
+            for selected in trace {
+                expected.extend((0..scores.len()).filter(|i| *i != current));
+                current = selected;
+            }
+            for backend in 0..6 {
+                assert_eq!(
+                    run_backend(backend, cfg.clone(), &scores),
+                    expected,
+                    "{ranking:?}, backend {backend}"
+                );
+            }
+        }
+    }
+}
