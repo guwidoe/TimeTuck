@@ -66,7 +66,24 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Latest qualification — 299 coalesced checked-sum replacements
+## Current measurements — 300 remote refresh
+
+Current qualified 299 source/tests are unchanged. Actual same-CPU runner-a
+comparisons now show 8/8 stream workloads at Java parity, with 128/128 valid/equal
+cases. Repair meets parity in 3/4 timed rows with equal `[0,0]` scores; whole 96
+remains 34.887ms Rust/26.743ms Java. The 64 repair validation cases remain valid,
+with 36 equal scores and 47 native/35 Java optima under their different sampling.
+All original native full/uncached/cached controls and settings remain available.
+
+Two micro-optimization variants were rejected; no new Rust capability or upstream
+credit is claimed. runner-c performed real release/focused builds; original interrupted
+connection results were collected without restarting. The dashboard measured index
+is 86.886%, 3/18 reports current, 15 stale, Java target 1. Other 16 raw reports remain
+unchanged. Existing behavior gaps and pending methods remain unresolved; goal
+incomplete. See compat/observations/remote-performance-gap-refresh.json and
+work/round300-stream-gap/ for actual source/artifact bindings and complete results.
+
+## Latest implementation — 299 coalesced checked-sum replacements
 
 SumCollector defers one logical primitive replacement. Checked chains compose;
 inverses cancel. Each public operation still checks its own signed difference,

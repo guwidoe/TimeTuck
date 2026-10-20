@@ -780,3 +780,18 @@ Other 17 raw reports are unchanged, with relevant stale inputs visibly retained.
 Backend-only same-contract report refresh reuses the 296 desktop/mobile rendering evidence
 plus actual current HTTP/source/model/freshness checks. The older browser's report
 hash remains historical; it is not rebound to the new data.
+
+## Remote refresh of the remaining measured gaps
+
+Qualification 300 deliberately refreshes current stream and repair evidence on
+runner-a, using both Rust and Java on the same CPU and all original settings,
+workloads, quality fields and native controls. Stream meets parity in 8/8 timed
+rows; repair in 3/4. Repair validation retains 64 valid cases but only 36 equal scores
+under the documented different sampling policies. All four timed repair scores
+are equal. The remaining whole 96 repair timing gap stays visible.
+
+Both rejected micro-optimization trials remain separate from current evidence.
+Restored native source and qualification 299 are identical, so its successful Rust
+verification is reused. Other 16 raw reports remain unchanged. The completion
+index changes with the fresh observations; weights, Java multiplier 1, source-method
+denominator, pending/excluded cases and UI rendering contract stay unchanged.

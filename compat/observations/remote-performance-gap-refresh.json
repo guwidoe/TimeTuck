@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "classification": "Actual current-source remote measurements and rejected native trials; no new capability/method credit",
+  "native_source": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+  "native_verification_reused": "work/round299-qualification/gate-receipt.json",
+  "execution": {
+    "runner-a": "Genuine stream+repair release builds and complete same-CPU Java/native comparisons",
+    "runner-c": "Genuine repair release build plus focused checks of both rejected candidates; brief disconnect recovered without restart",
+    "local": "Diagnostic CPU profile and both12-row four-fork native trials; no broad gate or UI repeat"
+  },
+  "artifacts": {
+    "stream": {
+      "host": "runner-a",
+      "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--example",
+        "stream_benchmark",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "seconds": 50.04030914900068,
+      "rust_digest": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+      "source_digest": "408820c4d4676c2402c0c2d4296c7d8b4500a54aca9a96e3e666a6a753951536",
+      "executable": "/home/developer/.cache/timetuck-build/target-1.92.0/release/examples/stream_benchmark",
+      "binary_sha256": "a34676f1b519cde9e4f1914279236db5715fafa33bf1487369190b7fbcdbf0ac",
+      "fresh": false
+    },
+    "repair": {
+      "host": "runner-a",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--example",
+        "repair_benchmark",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.6057871660013916,
+      "rust_digest": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+      "measurement_key": "9a32206476e480fa4fe52ecf5a63f9b69148a9486f181534e6f5ea0b1785e0f1",
+      "executable": "/home/developer/.cache/timetuck-build/target-1.92.0/release/examples/repair_benchmark",
+      "binary_sha256": "250be9681fd38497a9e6d2bb28de3de93296741069e010c2799e2ab315f43354",
+      "fresh": false
+    },
+    "runner-c_repair": {
+      "host": "runner-c",
+      "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--example",
+        "repair_benchmark",
+        "--message-format=json"
+      ],
+      "exit_code": 0,
+      "seconds": 37.12360676800017,
+      "rust_digest": "5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827",
+      "source_digest": "408820c4d4676c2402c0c2d4296c7d8b4500a54aca9a96e3e666a6a753951536",
+      "executable": "/home/developer/.cache/timetuck-build/target-1.92.0/release/examples/repair_benchmark",
+      "binary_sha256": "f2e56d2d38c1450ac876a658fa67dfc1b98f2535bef68b6e2e5fbe60851478cb",
+      "fresh": false
+    }
+  },
+  "stream": {
+    "path": "work/round300-stream-gap/stream-performance.json",
+    "sha256": "ceb293759ce8de2ac47c400c4742e7fc2cc85100215743b9c5a39cf025ce6821",
+    "validation": {
+      "total": 128,
+      "passed": 128,
+      "equal_scores": 128
+    },
+    "timed_rows": 8,
+    "java_parity": 8,
+    "rows": [
+      {
+        "name": "Hill climbing \u00b7 change \u00b7 32 variables",
+        "rust_ms": 6.827423,
+        "java_ms": 16.537504,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 14029,
+          "max": 14029
+        }
+      },
+      {
+        "name": "Hill climbing \u00b7 change \u00b7 96 variables",
+        "rust_ms": 20.897337,
+        "java_ms": 21.033591,
+        "score": [
+          -44,
+          -484
+        ],
+        "actual_calls": {
+          "min": 36435,
+          "max": 36435
+        }
+      },
+      {
+        "name": "Tabu \u00b7 change \u00b7 32 variables",
+        "rust_ms": 6.98574,
+        "java_ms": 12.950698,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 14421,
+          "max": 14421
+        }
+      },
+      {
+        "name": "Tabu \u00b7 change \u00b7 96 variables",
+        "rust_ms": 20.754783,
+        "java_ms": 21.376763,
+        "score": [
+          -44,
+          -484
+        ],
+        "actual_calls": {
+          "min": 36435,
+          "max": 36435
+        }
+      },
+      {
+        "name": "Hill climbing \u00b7 swap \u00b7 32 variables",
+        "rust_ms": 32.380414,
+        "java_ms": 45.643915,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 103528,
+          "max": 103528
+        }
+      },
+      {
+        "name": "Hill climbing \u00b7 swap \u00b7 96 variables",
+        "rust_ms": 285.997362,
+        "java_ms": 347.996237,
+        "score": [
+          -2,
+          -2
+        ],
+        "actual_calls": {
+          "min": 958163,
+          "max": 958163
+        }
+      },
+      {
+        "name": "Tabu \u00b7 swap \u00b7 32 variables",
+        "rust_ms": 33.915126,
+        "java_ms": 46.935313,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 103258,
+          "max": 103258
+        }
+      },
+      {
+        "name": "Tabu \u00b7 swap \u00b7 96 variables",
+        "rust_ms": 297.558957,
+        "java_ms": 350.780969,
+        "score": [
+          -2,
+          -2
+        ],
+        "actual_calls": {
+          "min": 958163,
+          "max": 958163
+        }
+      }
+    ]
+  },
+  "repair": {
+    "path": "work/round300-stream-gap/repair-performance.json",
+    "sha256": "70e55b342458c4ecc96545c04699c9fc82937ddca88a1404e3ead6e1e32c187a",
+    "validation": {
+      "total": 64,
+      "passed": 64,
+      "equal_scores": 36,
+      "optimal": {
+        "java": 35,
+        "rust": 47
+      },
+      "by_algorithm": {
+        "half": {
+          "total": 32,
+          "passed": 32,
+          "equal_scores": 19,
+          "optimal": {
+            "java": 19,
+            "rust": 22
+          }
+        },
+        "all": {
+          "total": 32,
+          "passed": 32,
+          "equal_scores": 17,
+          "optimal": {
+            "java": 16,
+            "rust": 25
+          }
+        }
+      }
+    },
+    "timed_rows": 4,
+    "java_parity": 3,
+    "rows": [
+      {
+        "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 0.975034,
+        "java_ms": 5.886865,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 7678,
+          "max": 7678
+        }
+      },
+      {
+        "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 10.396701,
+        "java_ms": 21.411132,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 61823,
+          "max": 61823
+        }
+      },
+      {
+        "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 3.050389,
+        "java_ms": 7.601195,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 16222,
+          "max": 16222
+        }
+      },
+      {
+        "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+        "rust_ms": 34.887427,
+        "java_ms": 26.742625,
+        "score": [
+          0,
+          0
+        ],
+        "actual_calls": {
+          "min": 131511,
+          "max": 131511
+        }
+      }
+    ]
+  },
+  "diagnostic_profile": {
+    "path": "work/round300-stream-gap/profile-receipt.json",
+    "sha256": "8f5b0f3ab0dc0a7263458c9bc9d0b8e5c74f79b91e9405b72716b9ca58c5ad1a",
+    "samples": 3057,
+    "lost": 0,
+    "selection_inclusive_percent": 97.12,
+    "selection_self_percent": 41.74,
+    "adjust_self_percent": 23.32,
+    "assignment_apply_inclusive_percent": 8.77,
+    "scope": "Genuine runner-a-built299artifact profiledlocally, originalwhole96repair with100samples, allfulloutputs/callbacks validated; not matched Java timing or general speed evidence"
+  },
+  "rejected_trials": [
+    {
+      "path": "work/round301-qualification/verdict.json",
+      "sha256": "7d3b19bc51451d3f93e97d821e6f3d2e50a8da8a07c773edc57d3fa52c36d3cb",
+      "full_controls_path": "work/round301-qualification/pair-results.json",
+      "full_controls_sha256": "a224fb09867b28defed4dddd4c0ff122b8d195057bde0655e0abcd30844febf6"
+    },
+    {
+      "path": "work/round302-qualification/verdict.json",
+      "sha256": "04bb9adb532ddae5a2fe04e64697200c31737e034ef0c8ccd4a093fdef75837d",
+      "full_controls_path": "work/round302-qualification/pair-results.json",
+      "full_controls_sha256": "c59e81d90d9f40db9a6e785bc3e46c23dc4d0d55afeac1a4f9724becb76093ee"
+    }
+  ],
+  "restoration": {
+    "path": "work/round302-qualification/restoration.json",
+    "sha256": "3ef4fcf7e6e249d99f906caa84d004609389f5d35dd2dca15adbaff4acc035f2",
+    "no_rust_changes_retained": true
+  },
+  "completion": {
+    "index": 86.8864151765363,
+    "current_reports": 3,
+    "stale_reports": 15,
+    "java_time_multiplier": 1,
+    "goal_complete": false
+  },
+  "limits": "No native speedup or causal cross-run/CPU comparison claim. All original settings/outputs/control fields and small-case repair quality differences retained. Other16rawreports unchanged. No upstream-method credit/exclusions/rekeyed caches/waived behavior; all current Rust source matches qualified299, localCargo targets never built rejected sources. Remote targets currently contain rejected302 and must genuinely rebuild before reuse. 296unchangedUI proof+currentHTTP/source/model checked; no remapped oldreport/screenshot hashes."
+}

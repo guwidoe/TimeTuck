@@ -14,10 +14,41 @@ original, skipped or empty tests earn no upstream-method credit. Crates remain
 unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
 compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
-builds/tests across available machines. The latest user instruction is to leave
-runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
+builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
+independent build/test work. Preserve live runs across observation timeouts.
 
-## Latest qualification — 299 coalesced checked-sum replacements
+## Current state — 300 remote gap measurements
+
+Qualified 299 Rust source remains `5c53146bd6f7704b324616f13f2bfe87772277ba4abe1941cca64f090f6cb827`:
+8,592 Rust tests +292 doctests, successful verification reused unchanged.
+The user re-enabled runner-c. Both remote SSH/toolchains work; prepend
+`/home/developer/.cache/timetuck-build/rust-1.92.0/bin` to their PATH. runner-c built repair
+in 37.124s and checked both experimental versions. Its brief disconnect recovered;
+original receipts were collected without restarting tests. All build/test/timing
+jobs are terminal. runner-a ran both complete Java/native comparisons on its CPU.
+
+Current stream: 128/128 valid/equal, 8/8 timed Java parity. Larger tabu swap:
+297.559/350.781ms Rust/Java. Current repair: 64 valid, 36 equal under the original
+sampling differences, 47 native/35 Java optima; all 4 timed scores `[0,0]` equal.
+Repair meets parity in 3/4 rows; whole 96 remains 34.887/26.743ms Rust/Java.
+Only these two reports refreshed; other 16 raw reports retain bytes/keys/dates.
+Dashboard 86.886% measured index, 3/18 current, 15 stale; Java target 1, goal incomplete.
+
+Trials 301/302 were rejected and all Rust bytes restored. Per-term zero branches
+sped cached whole 96 by 14.52% but slowed large full controls 24–30%; whole-zero-pair
+variant slowed cached whole 96 by 8.87%, 3/4 forks. No broad gate/Java refresh repeated.
+The profile retains 3,057 samples/zero lost: pooled selection 97.12% inclusive,
+adjustment 23.32% self, Assignment::apply 8.77% inclusive. Next: review the bounded
+row-score memo design in work/round303-pooled-score-memo/; no implementation/gain yet.
+Avoid further microtuning or rejected 218 buffer recycling. Full evidence:
+compat/observations/remote-performance-gap-refresh.json and work/round300-stream-gap/.
+The remote shared Cargo targets contain rejected 302 artifacts: rebuild genuinely
+before calling them current. Saved baseline repair 250be9681f… is outside target;
+local Cargo targets were never built with either rejected source. Never transplant
+artifacts or restore old Rust mtimes. Unchanged 296 UI proof plus live source/model
+checks cover this backend-only refresh. Existing compatibility gaps remain.
+
+## Latest implementation — 299 coalesced checked-sum replacements
 
 SumCollector defers one logical primitive replacement. Checked chains compose;
 inverses cancel. Each public operation still checks its own signed difference,

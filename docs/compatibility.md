@@ -11134,3 +11134,34 @@ and reuse unchanged successful checks. No new agent was created; one existing
 agent prepared the overlays. All qualification ran locally. runner-a SSH now works; its Rust 1.92 toolchain
 is in `/home/developer/.cache/timetuck-build/rust-1.92.0/bin` (prepend to PATH).
 No remote build/auth job is live. runner-c remains parked. The dashboard is localhost8765.
+
+## Measurements — 300 remote performance gaps
+
+Qualified 299 native source and its 8,592 Rust +292 doctest verification are unchanged.
+runner-a genuinely built and measured the original complete stream/repair jobs,
+with both Java and Rust on that CPU. Stream retains 128/128 valid/equal cases and
+8/8 timed Java-parity rows; larger tabu swap is 297.559/350.781ms Rust/Java.
+Repair retains 64/64 valid cases, 36 equal scores and 47 native/35 Java optima under
+its original differing sampling policies. All 4 timed scores equal `[0,0]`;
+3/4 meet parity, with whole 96 still 34.887/26.743ms Rust/Java. All full/uncached/cached
+controls, fixtures, settings, counts and raw samples remain. Other 16 reports retain
+actual bytes/keys/dates. runner-c also genuinely built repair and ran focused checks.
+
+The actual baseline CPU profile has 3,057 samples/zero lost and 100 fully validated
+whole 96 outputs: 149,001 evaluations, 8 repairs, 131,511 actual callbacks. Pooled
+selection is 97.12% inclusive, adjustment 23.32% self and Assignment::apply 8.77% inclusive.
+This local diagnostic of an runner-a-built artifact is not a matched Java timing.
+Per-term-zero/traversal trial 301 improved targeted cached time 14.52% but regressed
+large full controls 24–30%; narrow zero-pair trial 302 regressed targeted time 8.87%.
+Both were rejected; all Rust bytes restored with fresh mtimes. No broad gate or
+Java refresh was spent on rejected source, and no new upstream credit follows.
+runner-c's original successful results were collected after a brief lost connection;
+no tests were restarted. All build, test and timing jobs are terminal. The measured dashboard index
+is 86.886%, 3/18 current, 15 stale, Java target 1; goal incomplete.
+
+Source/artifact identities and full controls: compat/observations/remote-performance-gap-refresh.json;
+work/round300-stream-gap/, work/round301-qualification/ and work/round302-qualification/.
+Unchanged frontend/backend contract reuses 296 browser evidence plus actual current
+HTTP/source/model checks. Shared remote Cargo targets contain rejected 302 artifacts;
+rebuild before any current-source claim. No memory/general-speed/whole-project,
+Java-work, waived behavior, cache rekey or binary-transplant claim.
