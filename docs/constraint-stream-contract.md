@@ -1672,6 +1672,18 @@ This removes redundant internal snapshots without changing the public operations
 or bounds. Private derived Debug field shape changes; no stable text format is
 promised.
 
+For primitive integer frequency replacement, a unique old class and absent new
+class can reuse the removed tree node and its key/value allocations. Structural
+removal and insertion rebalance normally; shared nodes/keys copy on write, and
+journals preserve the pre-edit tree before topology changes. Duplicate classes,
+existing destinations and inline promotion/demotion keep the ordinary count
+operations. Checked replacement retains its original difference/addition preflight.
+Wrapping IntCollector replacement validates membership and count arithmetic before
+changing frequencies, then applies wrapping subtraction/addition without a staging
+clone. Missing captures, equal values, immutable snapshots and rollback retain
+ordinary behavior. No generic user callback is introduced between the primitive
+structural edits; public bounds and generic map operations are unchanged.
+
 Public black-box probes, not implementation inspection, establish these arithmetic
 rules. The bounded ordinary collector source methods now use SumCollector for sum
 updates. Existing wrapping summaries remain useful for explicitly modular arithmetic.

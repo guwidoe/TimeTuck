@@ -17,61 +17,73 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 277 prepared set occurrence replacement
+## Latest qualification — 279 primitive frequency-node reuse
 
-When replacing a value that has multiple occurrences, the set collector now
-prepares both count edits and any membership insertion before publishing either map. Exclusive guards retain
-validated paths; the first value replacement leaves the second path valid.
-Unique tree nodes stay unique, while held snapshots/collector clones still copy
-on write. Last-occurrence removal retains staged structural behavior. Existing
-representatives, exact Clone/Ord callback sequence, missing-old handling and all
-ordinary failure rollback stay intact. No unsafe code, new bounds or public API.
+Native frequency-one replacement with an absent destination reuses the removed
+AVL node/key/value allocations. Two-child deletion swaps successor key/value Arcs,
+keeping exact representatives and counts. Shared paths/keys copy on write; structural
+journals preserve prior states. Duplicate/existing destinations, missing/equal keys,
+inline promotion/demotion and checked difference/addition rules remain intact.
+Wrapping IntCollector replacement avoids default staging after membership/count
+preflight, retaining wrapping subtraction/addition. No unsafe code, new bounds or public API.
 
-Actual canonical Cargo artifacts, original six workloads, 200 iterations, three
-warmups/five samples, four balanced forks: sorted-set pair time is **27.87%
-lower at 64 captures and 18.06% lower at 512**, improving in every fork. Each pair
-includes update, restore and both full observations. Other workload medians are
-roughly flat, with mixed fork results. No overall solve or arbitrary-scale gain
-is claimed. All 96 original controls and every timed trial/restored/committed array
-and checksum match. The actual qualified 276 baseline executable is byte-identical
-to the earlier baseline-control executable, so its complete controls are reused
-by artifact/fixture identity without reexecution or changing original bindings.
+Actual canonical original six workloads, 200 iterations / three warmups / five
+samples / four balanced forks: checked sum64 **26.60% lower**, sum512 **24.63% lower**,
+all four forks each. Full update/restore/observation work unchanged; all 96 original
+controls and every timed array/checksum agree. Separate actual-library diagnostic
+allocator capture confirms 8→2 allocation requests per sum pair; instrumented times
+are excluded, no byte/peak-memory claim. Initial slower controls were retained and
+investigated once with fixed artifacts / original settings /16 balanced forks:
+small set 1.58%, large set 5.35%, large map 2.45% higher medians, mixed forks.
+**Retained tradeoff; no general speedup claim.** Other allocation counts unchanged.
 
-Two new original private regressions check unique node retention, discarded
-preparations, snapshots, same/different/new destination entries, nested journal
-commit/rollback and diagnostic views. The exact existing callback/panic matrix
-also passed in the isolated source screen. The isolated screen (20 tests,
-32 set controls, 26–28% preliminary gains) stays separate from actual canonical
-qualification. Source-only proposal: work/round277-set-prepare/manifest.json.
+One final `bash scripts/check.sh` passed locally: **8,523 Rust +290 doctests**,
+95 RUN /52 REUSE, 672.668s. Native `2759e59f842aaada04d309132c86752a169bf9f316e44350a2ef3dc9c6531891`.
+Count only 147 declared job events, ignoring nested Python cache fixture announcements.
+No duplicate gate or cache transplantation. Five new original map tests preserve
+AVL/order/size/heights, unique allocation owners, snapshots/key owners, two-child
+successors and nested journals. One original integration test compares 512 mixed
+checked/wrapping histories to an independent multiset and drains all occurrences.
+Private source screen: 27 tests /32 sum controls is separate, not canonical evidence.
 
-One final `bash scripts/check.sh` passed locally: **8,517 Rust +290 doctests**,
-95 jobs executed/52 genuinely reused, 854.261s. Native digest
-`4490378a75fd6ce7f75324e56eb75f9571001a9c13373a84854b8179f5df014b`. Nested unit-test cache
-announcements are excluded from job accounting. No duplicate gate or rekeyed cache.
+Frozen source-only proposal work/round279-count-reuse-prepare/manifest.json. Parent
+corrected 5 test constructors to supply ExactSizeIterator (bounded i64 ranges→Vec
+into_iter); original proposal/errors retained unchanged. Root generated Cargo test
+layout includes the original new integration source. Only aggregate Java comparison
+refreshed; original 96 controls and six workloads retained:
 
-Only aggregate-performance was refreshed with the original Java configuration and
-all six workloads, checking complete outputs:
-
-| Captures | Rust µs / pair | Java µs / pair |
+| Collector / captures | Rust µs / pair | Java µs / pair |
 | --- | ---: | ---: |
-| 64 | 2.510 | 1.521 |
-| 512 | 5.760 | 5.964 |
+| Checked sum · 64 captures | 0.407 | 0.391 |
+| Checked sum · 512 captures | 0.578 | 0.346 |
+| Sorted set · 64 captures | 2.136 | 1.094 |
+| Sorted set · 512 captures | 5.979 | 5.874 |
+| Merged map · 64 captures | 3.591 | 9.775 |
+| Merged map · 512 captures | 6.646 | 13.407 |
 
-The large set case meets measured Java parity; the small set and checked sums
-still miss it. Shared-core input keys change for 16 jobs; the other 17 raw reports
-retain original bytes/dates/keys and stay stale. The frontend and report format are unchanged; the 275 desktop/mobile browser
-proof is reused, with current HTTP data and freshness checks.
-Completion index 84.549%, 1/18 current. Inventory remains 4410/4855 (90.834%),
-10 pending, 435 excluded, zero failed/unverified. No upstream-method credit; goal incomplete.
+Sums/sets still miss measured Java parity; both map cases beat Java. Large set
+no longer establishes parity in this fresh run; do not relabel prior ratios as
+current. Other 17 raw reports keep original bytes/dates/keys and remain stale. Shared
+core changes 16 measurement keys. UI and consumed contract unchanged: reuse 275
+browser proof; current HTTP/data/freshness inspected.
 
-Evidence: work/round277-qualification/{retention,gate-receipt,job-accounting,
-aggregate-performance-receipt,collection}.json. runner-c remains parked. runner-a's 277
-authentication connection ended with code 255 and a port 22 timeout; no remote
-277 run is
-claimed. Its expired link/handle must not be reused. Next source-only sum-search
-proposal is frozen under work/round278-sum-prepare/, with a prepared extraction in
-work/round278-sum-qualification/. Both remain unbuilt; inspect their manifests
-before integration. No performance claim for that future proposal.
+Dashboard readiness **84.590%**, 1/18 current, target Java multiplier 1 at equal/better
+quality. Inventory 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. No
+upstream-method credit; objective incomplete. Performance remains important.
+
+Evidence work/round279-qualification/{retention,gate-receipt,job-accounting,
+collection,current-state}.json and work/round279-allocation-probe/.
+278 search-only source experiment was rejected after actual Cargo small 4.23%/large
+2.09% sum gains with mixed forks (one large 21.81% slower); baseline 4490 was restored
+exactly before 279. Its own actual source/artifacts/outputs remain under
+work/round278-qualification/rejection.json. **Do not revive it or rerun restored 277.**
+Previous 277 prepared set optimization remains, with its qualified 8517+290 gate in
+work/round277-qualification/. Its earlier timing/Java ratios are historical.
+
+runner-c parked: no probes/wake/auth requests. Latest runner-a 279 persistent client ended
+255/port 22 timeout; its authentication URL is expired (no live client). No remote 279
+run is claimed. Start a new connection only when useful, never reuse expired links.
+One source-only agent completed 279; no outstanding tracked integration work.
 
 ## Previous qualification — 276 journaled fused-score rows
 

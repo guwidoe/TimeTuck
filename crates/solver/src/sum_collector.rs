@@ -76,10 +76,9 @@ impl SumCollector {
                 Ok(false)
             };
         };
-        if !self.values.remove(old) {
+        if !self.values.replace(old, new) {
             return Ok(false);
         }
-        self.values.increment(new);
         self.sum = sum;
         Ok(true)
     }

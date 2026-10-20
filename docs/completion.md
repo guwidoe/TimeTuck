@@ -19,9 +19,9 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,517 passing Rust tests and 290 doctests**,
-source digest `4490378a75fd6ce7f75324e56eb75f9571001a9c13373a84854b8179f5df014b`. The required final
-`bash scripts/check.sh` passed locally in 854.261s, executing 95 jobs and
+The latest integrated checkpoint has **8,523 passing Rust tests and 290 doctests**,
+source digest `2759e59f842aaada04d309132c86752a169bf9f316e44350a2ef3dc9c6531891`. The required final
+`bash scripts/check.sh` passed locally in 672.668s, executing 95 jobs and
 reusing 52 genuinely unchanged results. Native/source/log checksums retain
 actual bindings; no duplicate gate, cache transplantation or rewritten evidence.
 The live report remains the authority for later counts and freshness.
@@ -57,27 +57,46 @@ The last solver differential demonstrates 4,824 exact observations for explicit
 encounter-order policies; original total-order controls retain 4499 agreements /
 325 differences, all matching independent Python. These results now remain stale
 under changed shared-core inputs. Existing defaults/policy choices stay visible.
-Only aggregate-performance was deliberately refreshed in 277, preserving 96 original
+Only aggregate-performance was deliberately refreshed in 279, preserving 96 original
 controls and all six workload outputs. The other 17 raw reports retain original
 bytes/dates/keys; 1/18 measurement families current, 17 stale. No rekeyed old results.
 
-Set replacements for values with multiple occurrences prepare validated paths
-instead of sharing roots for staging. All callbacks finish before both maps
-publish; structural removals retain staging. Actual canonical four-fork comparisons
-show 27.87% lower pair time at 64 captures and 18.06% at 512, all forks improving,
-with update, restore and full observations unchanged. These are collector-case
-gains, with no overall solve or arbitrary-scale claim. The fresh Java comparison:
+Primitive frequency replacement now reuses a removed unique-class node when the
+new value is absent. Shared paths and keys still copy on write; structural edits
+preserve journals and rebalance. Duplicate/existing destinations and inline
+thresholds retain ordinary count operations. Checked difference/addition and
+wrapping summary rules remain intact. Wrapping IntCollector replacement also
+avoids its default staging clone after membership/count preflight.
 
-| Captures | Rust µs / pair | Java µs / pair |
+Actual canonical four-fork comparisons show **26.60% lower checked-sum pair time
+at 64 captures and 24.63% at 512**, improving in every fork. Every pair still
+includes update, restore and both full observations. A separate diagnostic allocator
+capture of the actual libraries counts **8 to 2 allocation requests per sum pair**;
+these are not byte/peak-memory measurements, and instrumented elapsed times do not
+support speed claims. All 96 original controls and timed outputs/checksums agree.
+
+The initial control comparison measured slower set/map cases. A single fixed-
+artifact 16-fork follow-up retains the tradeoff: small set 1.58%, large set 5.35%,
+large map 2.45% higher medians, with mixed individual forks. These regressions are
+not dismissed and there is no general or whole-solve speedup claim. The fresh Java
+comparison retains all original fixtures, settings and full observations:
+
+| Collector / captures | Rust µs / pair | Java µs / pair |
 | --- | ---: | ---: |
-| 64 | 2.510 | 1.521 |
-| 512 | 5.760 | 5.964 |
+| Checked sum · 64 captures | 0.407 | 0.391 |
+| Checked sum · 512 captures | 0.578 | 0.346 |
+| Sorted set · 64 captures | 2.136 | 1.094 |
+| Sorted set · 512 captures | 5.979 | 5.874 |
+| Merged map · 64 captures | 3.591 | 9.775 |
+| Merged map · 512 captures | 6.646 | 13.407 |
 
-The large set case meets measured Java parity; the small set and checked sums
-still miss the target. Two original private snapshot/journal regressions add no
-credit for upstream test methods. Fused scoring's earlier removed batch vector
-remains; its mixed native timings establish no stable general throughput gain.
-The rejected snapshot iterator proposal remains historical, not current evidence.
+Sums and sets still miss Java parity; both merged-map cases beat Java. In particular,
+the large set case no longer establishes parity in this fresh run. Cross-run Java
+ratios vary and must not be attributed solely to this change. Six original snapshot,
+AVL, journal and multiset-history regressions earn no upstream-method credit.
+The earlier prepared set and fused scoring improvements remain in production.
+The rejected 278 search-only helper was restored byte-for-byte before this batch;
+its small/mixed native results and original source/artifact bindings remain separate.
 
 Last measured larger mixed workloads (261; now stale): warm Stream **28.520 ms vs Java
 22.606 ms**, all score [0,-338]. Cold Stream 27.043 ms vs Java
@@ -86,7 +105,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.5%**: feature families 40%,
+The dashboard's configurable progress index is **84.6%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -112,7 +131,7 @@ consistency. Whole-solve private controls preserve assignments, quality and actu
 callbacks. Larger mixed timings show no useful gain; canonical profiles remain
 unchanged. No general speed or whole-graph memory claim is established.
 
-The latest checked-sum implementation avoids internal snapshot copies and extrema
+The earlier checked-sum implementation avoids internal snapshot copies and extrema
 summaries while retaining capture frequencies and external persistent snapshots.
 Controlled native sum timings fall 73.6% locally and 71.1–73.3% on runner-a, across
 four balanced forks. A four-rank inline queue for single-source batches reduces
@@ -123,7 +142,7 @@ The last measured round273 stream comparison (now stale) retains equal scores on
 Large cases (Rust/Java): hill/change 27.418/33.607 ms; tabu/change 28.272/31.665 ms; hill/swap 371.908/363.011 ms; tabu/swap 375.247/375.265 ms.
 Java parity remains the target, multiplier 1.
 
-Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
+The earlier 265 sorted-set replacement used one staged snapshot, preserving multiplicities,
 representatives, exact comparison/clone sequence and failure rollback. All 96
 original aggregate controls and complete timed observations pass. On runner-a,
 64/512-capture updates improve 11.01%/5.58%, all four forks; unchanged map controls
@@ -151,7 +170,9 @@ original ownership/nesting regressions cover the change. Native controlled resul
 are recorded per workload and host; local controls include a slower private
 hill/change case, so no general or standalone checkpoint gain is claimed.
 
-Evidence: work/round275-qualification/collection.json, gate-receipt.json,
+Evidence: work/round279-qualification/{collection,retention,gate-receipt,job-accounting}.json;
+work/round279-allocation-probe/candidate-receipt.json;
+work/round275-qualification/collection.json, gate-receipt.json,
 solver-differential-receipt.json, browser-proof.json and verdict.json;
 work/round273-qualification/collection.json, gate-receipt.json,
 verdict.json, final-build-receipt.json, match-validation.json, pair-results.json,

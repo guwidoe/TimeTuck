@@ -1158,6 +1158,11 @@ path = "tests/count_limit_cases.rs"
 test = false
 
 [[test]]
+name = "count_replace_regression"
+path = "tests/count_replace_regression.rs"
+test = false
+
+[[test]]
 name = "custom_basic_clone_cases"
 path = "tests/custom_basic_clone_cases.rs"
 test = false

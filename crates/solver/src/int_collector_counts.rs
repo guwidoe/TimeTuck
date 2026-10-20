@@ -114,6 +114,24 @@ impl IntCollectorCounts {
         }
         true
     }
+    pub(crate) fn replace(&mut self, old: i64, new: i64) -> bool {
+        if old == new {
+            return self.contains(old);
+        }
+        // Keep the ordinary inline demotion when removing one class would
+        // cross its threshold. Larger trees retain their representation.
+        if let Self::Tree(tree) = self
+            && tree.len() > INLINE_VALUES / 2 + 1
+            && tree.retarget_singleton(old, new)
+        {
+            return true;
+        }
+        if !self.remove(old) {
+            return false;
+        }
+        self.increment(new);
+        true
+    }
     pub(crate) fn len(&self) -> usize {
         match self {
             Self::Inline { len, .. } => *len,

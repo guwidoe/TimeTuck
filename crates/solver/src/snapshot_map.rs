@@ -2,7 +2,7 @@
 //!
 //! Cloning shares an AVL tree root; internal updates copy only the search and
 //! rebalance paths when shared, reusing uniquely owned nodes. Keys and values
-//! on unchanged paths are shared, not cloned. All comparisons precede mutation.
+//! on unchanged paths are shared, not cloned. All user comparisons precede mutation.
 //! Snapshots retain Send/Sync when their keys and values do. Identity and contents
 //! must remain immutable. Stream graph scheduling remains single-threaded.
 //!
@@ -30,6 +30,7 @@ use std::{
     sync::Arc,
 };
 
+mod count_reuse;
 mod journal;
 
 type Link<K, V> = Option<Arc<Node<K, V>>>;

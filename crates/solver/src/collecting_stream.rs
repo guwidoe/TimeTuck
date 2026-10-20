@@ -34,6 +34,9 @@ impl ReversibleCollector<i64> for IntCollector {
     fn remove(&mut self, value: &i64) -> bool {
         self.remove(*value)
     }
+    fn replace(&mut self, old: &i64, new: &i64) -> bool {
+        self.replace_captured(*old, *new)
+    }
     fn finish(&self) -> IntSummary {
         self.summary()
     }

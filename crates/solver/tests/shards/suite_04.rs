@@ -32,6 +32,8 @@ pub mod compound_membership_regression;
 pub mod constraint_catalog_regression;
 #[path = "../construction_resume.rs"]
 pub mod construction_resume;
+#[path = "../count_replace_regression.rs"]
+pub mod count_replace_regression;
 #[path = "../custom_structure_routes.rs"]
 pub mod custom_structure_routes;
 #[path = "../default_neighborhood_cases.rs"]

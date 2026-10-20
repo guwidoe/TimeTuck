@@ -67,6 +67,23 @@ impl IntCollector {
         true
     }
 
+    pub(crate) fn replace_captured(&mut self, old: i64, new: i64) -> bool {
+        if !self.values.contains(old) {
+            return false;
+        }
+        // Preserve the remove-then-insert count preflight before changing any
+        // frequencies. Both arithmetic operations are primitive and cannot call
+        // user code; a present capture guarantees a nonzero total count.
+        let count = self.count - 1;
+        let count = count.checked_add(1).expect("collector count overflow");
+        if !self.values.replace(old, new) {
+            return false;
+        }
+        self.count = count;
+        self.sum = self.sum.wrapping_sub(old).wrapping_add(new);
+        true
+    }
+
     pub fn summary(&self) -> IntSummary {
         IntSummary {
             count: self.count,
