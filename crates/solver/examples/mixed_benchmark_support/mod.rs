@@ -8,6 +8,7 @@ pub enum StreamGraphPolicy {
     #[default]
     OrdinaryJoin,
     OwnerLinks,
+    FusedOwnerLinks,
 }
 impl StreamGraphPolicy {
     // This support module also serves oracle/test clients without JSON output.
@@ -16,16 +17,18 @@ impl StreamGraphPolicy {
         match self {
             Self::OrdinaryJoin => "ordinary-join",
             Self::OwnerLinks => "owner-links-shared-fixed-terminal-v1",
+            Self::FusedOwnerLinks => "owner-links-fused-shared-fixed-terminal-v2",
         }
     }
 }
 pub type OwnerPair = ((usize, Option<usize>), (usize, Vec<usize>));
 pub type OwnerLinkId = ((usize, usize), usize);
-/// Both branches retain complete inspectable payload/score matches.
+/// Every policy retains complete inspectable payload/score matches.
 #[allow(dead_code)]
 pub enum OwnerRouteConstraint {
     Ordinary(StreamConstraint<(usize, usize), OwnerPair>),
     OwnerLinks(StreamConstraint<OwnerLinkId, OwnerPair>),
+    FusedOwnerLinks(StreamConstraint<OwnerLinkId, OwnerPair>),
 }
 pub fn declare_owner_routes<'a>(
     graph: &mut StreamGraphBuilder<'a, HardSoftScore>,
@@ -42,6 +45,17 @@ pub fn declare_owner_routes<'a>(
                 .score("coupled depot routes", &joined, evaluate)
                 .map(OwnerRouteConstraint::Ordinary)
         }
+        StreamGraphPolicy::FusedOwnerLinks => graph
+            .score_fixed_links_batched_shared(
+                "coupled depot routes",
+                basic,
+                entities,
+                (0..owners).map(|owner| (owner, owner, owner)),
+                |_, _, _| true,
+                |_, left, right| (*left, right.clone()),
+                evaluate,
+            )
+            .map(OwnerRouteConstraint::FusedOwnerLinks),
         StreamGraphPolicy::OwnerLinks => {
             // Director source IDs and payload owner IDs agree for every real row.
             let joined = graph.join_fixed_links_batched_shared(

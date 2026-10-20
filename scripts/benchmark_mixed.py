@@ -117,15 +117,18 @@ GRAPH_POLICY_FIELDS = {
 
 def graph_metadata(runtime, policy='ordinary-join'):
     """Exact public example declaration metadata; unknown observation fields remain intact."""
-    name='owner-links-shared-fixed-terminal-v1' if policy=='owner-links' else 'ordinary-join'
+    names={'ordinary-join':'ordinary-join','owner-links':'owner-links-shared-fixed-terminal-v1',
+           'owner-links-fused':'owner-links-fused-shared-fixed-terminal-v2'}
+    if policy not in names:raise ValueError('Unknown Stream graph policy')
+    name=names[policy]
     expected={'requested_stream_graph_policy':name,
               'stream_graph_policy':'not-applicable-dense' if runtime=='dense' else name}
     if runtime!='dense':
-        linked=policy=='owner-links'
+        linked=policy!='ordinary-join';fused=policy=='owner-links-fused'
         expected.update(match_id_schema='((relationship_owner,left_owner),right_owner)' if linked else '(left_owner,right_owner)',
                         publication_boundary='final-per-affected-link-per-director-batch' if linked else 'ordinary-source-event-propagation',
-                        endpoint_ownership='shared-producer-events; full-pair projection' if linked else 'ordinary-join-owned-inputs',
-                        tracked_terminal='fixed-universe-full-payload-and-score' if linked else 'ordinary-full-payload-and-score',
+                        endpoint_ownership=('shared-producer-events; fused full-pair projection-scoring' if fused else 'shared-producer-events; full-pair projection') if linked else 'ordinary-join-owned-inputs',
+                        tracked_terminal=('fused-fixed-links-full-payload-and-score' if fused else 'fixed-universe-full-payload-and-score') if linked else 'ordinary-full-payload-and-score',
                         physical_score_callback_metric='score_calls includes actual route and any other score callbacks; policy counts may differ')
     return expected
 
@@ -134,10 +137,10 @@ def require_graph_metadata(row, runtime, policy):
     if any(row.get(k)!=v for k,v in expected.items()) or any(k in row for k in GRAPH_POLICY_FIELDS-expected.keys()):
         raise ValueError('Native graph declaration metadata')
 
-def require_same_graph_objective_observations(ordinary, selected):
+def require_same_graph_objective_observations(ordinary, selected, *, require_physical_calls=False):
     # Allow only declared graph settings, elapsed time and measured physical calls.
     # Unknown fields MUST compare, including nested metadata and future counters.
-    excluded=GRAPH_POLICY_FIELDS | {'elapsed_ns','score_calls'}
+    excluded=GRAPH_POLICY_FIELDS | {'elapsed_ns'} | (set() if require_physical_calls else {'score_calls'})
     semantic=lambda row:{k:v for k,v in row.items() if k not in excluded}
     if len(ordinary)!=len(selected) or any(semantic(a)!=semantic(b) for a,b in zip(ordinary,selected)):
         raise ValueError('Owner-link policy changed full native observations beyond declared graph metadata/physical callbacks')
@@ -201,9 +204,11 @@ def measure_case(case,args,classpath,index):
     if profile=='component-refinement':
         for backend in ['dense','stream']:commands[backend].append('component-refinement')
     graph_policy=getattr(args,'native_stream_graph_policy','ordinary-join')
-    if graph_policy not in ['ordinary-join','owner-links']:raise ValueError('Unknown Stream graph policy')
-    if graph_policy=='owner-links':
+    if graph_policy not in ['ordinary-join','owner-links','owner-links-fused']:raise ValueError('Unknown Stream graph policy')
+    if graph_policy!='ordinary-join':
         commands['stream_owner_links']=[*commands['stream'],'--stream-graph-policy','owner-links']
+    if graph_policy=='owner-links-fused':
+        commands['stream_owner_links_fused']=[*commands['stream'],'--stream-graph-policy','owner-links-fused']
     measured={runtime:[] for runtime in commands}
     for fork in range(args.forks):
         order=list(commands);offset=(index+fork)%len(order);order=order[offset:]+order[:offset]
@@ -212,14 +217,18 @@ def measure_case(case,args,classpath,index):
             if run.returncode: raise RuntimeError(f'{runtime}: {run.stderr}')
             lines=run.stdout.splitlines()
             if len(lines)!=args.samples: raise RuntimeError('Unexpected sample count')
-            backend='stream' if runtime=='stream_owner_links' else runtime
-            declared=('owner-links' if runtime=='stream_owner_links' else 'ordinary-join') if graph_policy=='owner-links' else None
+            backend='stream' if runtime.startswith('stream_') else runtime
+            declared=({'stream_owner_links':'owner-links','stream_owner_links_fused':'owner-links-fused'}.get(runtime,'ordinary-join')
+                      if graph_policy!='ordinary-join' else None)
             measured[runtime].extend(parse_result(case,line,backend,args.iterations,profile,declared) for line in lines)
-    if graph_policy=='owner-links':
+    if graph_policy!='ordinary-join':
         require_same_graph_objective_observations(measured['stream'],measured['stream_owner_links'])
+    if graph_policy=='owner-links-fused':
+        require_same_graph_objective_observations(measured['stream_owner_links'],measured['stream_owner_links_fused'],require_physical_calls=True)
     entries=[]
     for backend in ['dense','stream']:
-        selected='stream_owner_links' if backend=='stream' and graph_policy=='owner-links' else backend
+        selected=({'owner-links':'stream_owner_links','owner-links-fused':'stream_owner_links_fused'}.get(graph_policy,backend)
+                  if backend=='stream' else backend)
         observations={'java':measured['java'],'rust':measured[selected]}
         samples={runtime:[row['elapsed_ns']/args.iterations/1e6 for row in rows] for runtime,rows in observations.items()}
         entry={'name':case['id']+' · '+backend,'algorithm':('mixed cold construction + hill climbing' if case['start_mode']=='cold' else 'mixed warm-start hill climbing'),'start_mode':case['start_mode'],'native_backend':backend,'native_search_profile':profile,'native_stream_graph_policy':graph_policy if backend=='stream' else 'not-applicable-dense','unit':'ms / solve','samples':samples,'case':deepcopy(case),
@@ -227,11 +236,16 @@ def measure_case(case,args,classpath,index):
             'equal_scores':{tuple(row['per_solve_score']) for row in observations['java']}=={tuple(row['per_solve_score']) for row in observations['rust']},
             'quality_floor':case['quality_floor'],'reference_kind':case['reference_kind'],'reference_score':case['reference_score'],
             'observations':observations}
-        if backend=='stream' and graph_policy=='owner-links':
+        if backend=='stream' and graph_policy!='ordinary-join':
             controls=measured['stream']
             entry['ordinary_stream_controls']={'graph_policy':'ordinary-join','observations':deepcopy(controls),
                 'samples':[r['elapsed_ns']/args.iterations/1e6 for r in controls],
                 'full_observations_equal_except_declared_graph_metadata_time_and_physical_calls':True}
+        if backend=='stream' and graph_policy=='owner-links-fused':
+            controls=measured['stream_owner_links']
+            entry['owner_link_controls']={'graph_policy':'owner-links','observations':deepcopy(controls),
+                'samples':[r['elapsed_ns']/args.iterations/1e6 for r in controls],
+                'full_observations_equal_except_declared_graph_metadata_and_time':True}
         for runtime,values in samples.items():
             rows=observations[runtime]
             entry[runtime]={'median':statistics.median(values),'min':min(values),'max':max(values),'score':rows[0]['per_solve_score'],
@@ -249,7 +263,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for name,default in [('iterations',3),('warmup',3),('samples',5),('forks',3)]:parser.add_argument('--'+name,type=int,default=default)
     parser.add_argument('--native-search-profile',choices=['joint','component-refinement'],default='component-refinement',help='Native component search followed by joint refinement, or original joint search at every step')
-    parser.add_argument('--native-stream-graph-policy',choices=['ordinary-join','owner-links'],default='ordinary-join',help='Explicit application graph declaration; owner-links changes IDs, final batch publication, ownership and physical callbacks (not equal work), retaining complete ordinary Stream controls; Dense/Java unchanged')
+    parser.add_argument('--native-stream-graph-policy',choices=['ordinary-join','owner-links','owner-links-fused'],default='ordinary-join',help='Explicit application graph declaration; owner-links changes IDs, final batch publication, ownership and physical callbacks; owner-links-fused combines projection/scoring and retains complete ordinary and v1 Stream controls; neither implies equal Java work; Dense/Java unchanged')
     args=parser.parse_args()
     if min(args.iterations,args.samples,args.forks)<1 or args.warmup<0:parser.error('Positive counts; warmup may be zero')
     classpath,artifacts=prepare_solver_java()
@@ -259,9 +273,10 @@ def main():
     for index,case in enumerate(workloads()):results.extend(measure_case(case,args,classpath,index))
     if measurement_digest('mixed-performance')!=digest:raise RuntimeError('Benchmark inputs changed')
     cpu=next((line.split(':',1)[1].strip() for line in open('/proc/cpuinfo') if line.startswith('model name')),'unknown')
-    report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,'config':{**vars(args),'stream_graph_declaration':{'default':'ordinary-join','owner_links':'shared endpoints; fixed full-payload tracked terminal; ((relationship_owner,left_owner),right_owner) IDs; final publication per affected link per director batch','controls':'owner-links retains full ordinary Stream observations/samples; exact non-timing observations except declared graph metadata and actual physical score_calls must agree','registry_construction':'EqOnly unchanged'},'seed':SEED,'seed_scope':'Java seed; native Original order is deterministic without random draws','max_steps':24,'max_evaluations':40000,'start_modes':['warm','cold'],'native_joint_moves':True,'java_joint_moves':False,'native_cold_stream_unassigned_penalty':('route-cardinality' if args.native_search_profile=='component-refinement' else 'all-values-zero-for-assigned'),'native_cold_dense_unassigned_penalty':('route-cardinality' if args.native_search_profile=='component-refinement' else 'per-value-constraints'),'native_phase_policy':('component search until stalled, then joint refinement; shared per-case step/evaluation bounds' if args.native_search_profile=='component-refinement' else 'joint candidates at every local-search step')},
+    report={'schema_version':1,'generated_at':datetime.now(timezone.utc).isoformat(),'source_digest':digest,'reference':REF,'artifacts':artifacts,'config':{**vars(args),'stream_graph_declaration':{'default':'ordinary-join','owner_links':'shared endpoints; fixed full-payload tracked terminal; ((relationship_owner,left_owner),right_owner) IDs; final publication per affected link per director batch','owner_links_fused':'direct projection/scoring into full tracked matches; no inter-node link event; callback/clone/error order differs from v1',
+        'controls':'selected link policies retain full ordinary Stream observations/samples; fused also retains v1 controls, requiring identical actual physical calls and all full observations except declaration metadata/time','registry_construction':'EqOnly unchanged'},'seed':SEED,'seed_scope':'Java seed; native Original order is deterministic without random draws','max_steps':24,'max_evaluations':40000,'start_modes':['warm','cold'],'native_joint_moves':True,'java_joint_moves':False,'native_cold_stream_unassigned_penalty':('route-cardinality' if args.native_search_profile=='component-refinement' else 'all-values-zero-for-assigned'),'native_cold_dense_unassigned_penalty':('route-cardinality' if args.native_search_profile=='component-refinement' else 'per-value-constraints'),'native_phase_policy':('component search until stalled, then joint refinement; shared per-case step/evaluation bounds' if args.native_search_profile=='component-refinement' else 'joint candidates at every local-search step')},
         'workloads':results,'environment':{'cpu':cpu,'platform':platform.platform(),'rust':version(['rustc','--version']),'java':version(['java','-version'])},
-        'methodology':'Original coupled depot/basic and customer/list Manhattan tours with capacity penalties, complete feasible warm starts and cold starts derived by clearing unpinned depots/routes while preserving prefixes and whole-owner pins. Encoded complete inputs specify pins and warm references; cold initial_score independently includes missing-depot/customer penalties and retained-route distances. Small optimum independently exhaustively certified; larger reference is an independently scored feasible certificate, NOT an optimum. Warm quality floors retain the original feasible input; cold small must reach its independent optimum and cold larger must reach its feasible certificate or better. Every repeated solve validates its output after timing; Python checks every observed checksum/assignment/pin/score and quality floor. Warm small unpinned case must strictly improve. Cold construction plus local search share the native evaluation budget; evaluations include both phases; steps count completed local-search steps only, with construction_steps reported separately and the configured local-search step limit. Native Dense/Stream use the explicitly recorded native_search_profile: component-refinement runs component-only Original-order BestAccepted until stall, then joint refinement; joint retains the original all-joint-at-every-step control. Both search phases share the original per-case step/evaluation caps; cold construction shares the evaluation cap and its placements remain separate. Additional phase initialization consumes budget. Warm/cold graph policy is explicitly recorded: ordinary-join is default; owner-links selects shared fixed owner relationships and full tracked fixed terminals, changing match IDs, ownership, final batch publication and actual physical callbacks. The complete ordinary Stream control remains measured with identical problem/search settings; this is an application declaration comparison, not equal work or an ordinary Join implementation speedup. Dense network shape stays unchanged. In component-refinement cold scoring, both native backends incorporate missing customers as registered count minus the sum of route lengths into the existing per-owner route constraint, charging the constant once to owner zero even when its depot is unassigned. The original joint control retains its per-value penalties. Complete planning source rows and shadow metadata remain retained. The partial/final objective is identical, but cold constraint grouping, graph/network shape, explanations and physical callback counts differ. All source rows and list shadows remain complete under either explicit graph declaration. The strategy changes candidate work, tie paths and potentially quality; it is not an implementation-only or equal-work speedup. All configured warm/cold/backend workloads, including slower cold/small cases, remain in the report. Native profiles use finite score/candidate/step ceilings; Java uses deterministic ORIGINAL union of basic changes, list relocation and swaps with public step/score-call termination, no joint-move or trace equivalence. Native actual evaluations/steps/callbacks and Java measured physical EasyScoreCalculator calls are different work metrics; Java logical steps/evaluations are unknown, never inferred. Timings include per-solve scoring/solver setup and search, exclude process startup, parsing, Java factory preparation and postsolve diagnostics. Native cold-model creation, graph/network setup, construction and local search are timed together; warm timing is unchanged. Java cold input reset/copy, construction and local search are included in timing; Java warm input object copy remains outside timing. Cold protocol carries the required quality floor so both binaries validate every repeated solve, including earlier iterations, before accepting a sample. Runtime order rotates Java/Dense/Stream by fork, adding owner-links Stream as a fourth group only when explicitly selected; a single measured Java sample group per case is reused in both native rows, not counted as independent extra runs. Quality and work must accompany speed ratios; these bounded warm/cold workloads establish no general mixed-solver scalability, memory or equal-work claim.'}
+        'methodology':'Original coupled depot/basic and customer/list Manhattan tours with capacity penalties, complete feasible warm starts and cold starts derived by clearing unpinned depots/routes while preserving prefixes and whole-owner pins. Encoded complete inputs specify pins and warm references; cold initial_score independently includes missing-depot/customer penalties and retained-route distances. Small optimum independently exhaustively certified; larger reference is an independently scored feasible certificate, NOT an optimum. Warm quality floors retain the original feasible input; cold small must reach its independent optimum and cold larger must reach its feasible certificate or better. Every repeated solve validates its output after timing; Python checks every observed checksum/assignment/pin/score and quality floor. Warm small unpinned case must strictly improve. Cold construction plus local search share the native evaluation budget; evaluations include both phases; steps count completed local-search steps only, with construction_steps reported separately and the configured local-search step limit. Native Dense/Stream use the explicitly recorded native_search_profile: component-refinement runs component-only Original-order BestAccepted until stall, then joint refinement; joint retains the original all-joint-at-every-step control. Both search phases share the original per-case step/evaluation caps; cold construction shares the evaluation cap and its placements remain separate. Additional phase initialization consumes budget. Warm/cold graph policy is explicitly recorded: ordinary-join is default; owner-links selects shared fixed owner relationships and full tracked fixed terminals, changing match IDs, ownership, final batch publication and actual physical callbacks. The complete ordinary Stream control remains measured with identical problem/search settings; this is an application declaration comparison, not equal work or an ordinary Join implementation speedup. Dense network shape stays unchanged. In component-refinement cold scoring, both native backends incorporate missing customers as registered count minus the sum of route lengths into the existing per-owner route constraint, charging the constant once to owner zero even when its depot is unassigned. The original joint control retains its per-value penalties. Complete planning source rows and shadow metadata remain retained. The partial/final objective is identical, but cold constraint grouping, graph/network shape, explanations and physical callback counts differ. All source rows and list shadows remain complete under every explicit graph declaration. Optional fused v2 projects/scores each relationship directly into the full tracked match, without an intermediate link queue; projection/scoring, Clone/Drop and error schedules can differ from v1. Its complete v1 control must retain identical physical scoring counts and every full observation except declaration metadata and elapsed time; ordinary controls also remain. The strategy changes candidate work, tie paths and potentially quality; it is not an implementation-only or equal-work speedup. All configured warm/cold/backend workloads, including slower cold/small cases, remain in the report. Native profiles use finite score/candidate/step ceilings; Java uses deterministic ORIGINAL union of basic changes, list relocation and swaps with public step/score-call termination, no joint-move or trace equivalence. Native actual evaluations/steps/callbacks and Java measured physical EasyScoreCalculator calls are different work metrics; Java logical steps/evaluations are unknown, never inferred. Timings include per-solve scoring/solver setup and search, exclude process startup, parsing, Java factory preparation and postsolve diagnostics. Native cold-model creation, graph/network setup, construction and local search are timed together; warm timing is unchanged. Java cold input reset/copy, construction and local search are included in timing; Java warm input object copy remains outside timing. Cold protocol carries the required quality floor so both binaries validate every repeated solve, including earlier iterations, before accepting a sample. Runtime order rotates Java/Dense/Stream by fork, adding owner-links Stream as a fourth group and fused v2 as a fifth only when explicitly selected; a single measured Java sample group per case is reused in both native rows, not counted as independent extra runs. Quality and work must accompany speed ratios; these bounded warm/cold workloads establish no general mixed-solver scalability, memory or equal-work claim.'}
     (ROOT/'work/mixed-performance.json').write_text(json.dumps(report,indent=2)+'\n')
 
 if __name__=='__main__':raise SystemExit(run_measurement('mixed-performance',main))

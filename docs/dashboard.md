@@ -691,24 +691,32 @@ source rows and shadow metadata remain retained; constraint grouping, explanatio
 and physical callback counts differ from the original per-value penalties. The
 report records the selected profile and penalty formulation for both backends.
 
-The mixed benchmark also accepts `--native-stream-graph-policy owner-links`.
-The default remains `ordinary-join`. This optional application declaration uses
+The mixed benchmark also accepts `--native-stream-graph-policy owner-links` or
+`--native-stream-graph-policy owner-links-fused`. The default remains
+`ordinary-join`. This optional application declaration uses
 shared fixed owner relationships and a fixed tracked scoring terminal; complete
 planning rows, shadows, match payloads and scores remain inspectable. Actual match
 IDs, callback ownership and publication boundaries differ: a changed link publishes
 its final pair once per director batch. Physical scoring calls can decrease.
 This is an explicit graph declaration change, not an ordinary-join implementation
-speedup or a claim of equal work with Java.
+speedup or a claim of equal work with Java. Fused v2 directly projects and scores
+each link in one tracked node, retaining the same full payloads and IDs as v1.
+Projection/scoring interleave and ownership, cloning and error timing can differ.
+Both prior declarations remain selectable.
 
 When selected, all four original warm/cold inputs retain both native backends,
 original quality floors and budgets. Each fork rotates Java, Dense, ordinary
-Stream and owner-link Stream; one Java group is shared between the two native
+Stream and owner-link Stream, adding fused Stream as a fifth group only when
+selected; one Java group is shared between the two native
 comparison rows. Every ordinary Stream sample and full observation is retained
 in `ordinary_stream_controls`. Both policies independently validate assignments
 and scores, and every output field must match except elapsed time, declared graph
-metadata and actual physical scoring calls. Unknown fields remain compared.
+metadata and actual physical scoring calls. Fused runs additionally retain every
+v1 sample and full observation in `owner_link_controls`; v1/v2 physical scoring
+counts must match, along with all other output fields except declaration metadata
+and elapsed time. Unknown fields remain compared.
 The dashboard identifies the selected declaration, shows its ordinary-join
-control median and physical call count, and keeps Java parity as the completion
+control medians and physical call count, and keeps Java parity as the completion
 target. These bounded workloads establish neither general scalability nor memory
 savings.
 

@@ -380,16 +380,23 @@ function renderBenchmarks(kind = "score") {
                     ? "Cold start · missing depot choices and customer placements are constructed before local search; existing pins remain."
                     : "Warm start · local search begins from a complete feasible assignment."));
                 if (w.native_backend === "stream") {
-                    const linked = w.native_stream_graph_policy === "owner-links";
-                    b.append(node("p", "range", linked
-                        ? "Stream graph · owner links. Full match payloads retained; match IDs, batch publication and physical scoring calls differ from ordinary joins."
-                        : "Stream graph · ordinary joins."));
-                    const controls = w.ordinary_stream_controls;
-                    if (linked && controls?.samples?.length) {
+                    const fused = w.native_stream_graph_policy === "owner-links-fused";
+                    const linked = fused || w.native_stream_graph_policy === "owner-links";
+                    b.append(node("p", "range", fused
+                        ? "Stream graph · fused owner links. Full match payloads retained; direct projection and scoring change ownership and callback timing."
+                        : linked
+                          ? "Stream graph · owner links. Full match payloads retained; match IDs, batch publication and physical scoring calls differ from ordinary joins."
+                          : "Stream graph · ordinary joins."));
+                    for (const [key, label, detail] of [
+                        ["ordinary_stream_controls", "Ordinary-join control", "Same final assignment, score and logical search work; full observations retained in the report."],
+                        ["owner_link_controls", "Owner-link v1 control", "Same full search output and physical scoring calls; full observations retained in the report."],
+                    ]) {
+                        const controls = w[key];
+                        if (!linked || !controls?.samples?.length) continue;
                         const times = [...controls.samples].sort((a, b) => a - b);
                         const middle = Math.floor(times.length / 2);
                         const median = times.length % 2 ? times[middle] : (times[middle - 1] + times[middle]) / 2;
-                        b.append(node("p", "range", `Ordinary-join control · ${median.toFixed(3)} ms median. Same final assignment, score and logical search work; full observations retained in the report.`));
+                        b.append(node("p", "range", `${label} · ${median.toFixed(3)} ms median. ${detail}`));
                     }
                     b.append(node("p", "range", `Physical scoring calls · Rust ${n(w.rust.score_calls.min)}–${n(w.rust.score_calls.max)} per solve.`));
                 }

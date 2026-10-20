@@ -348,6 +348,7 @@ mod owner_links_qualification {
     enum Held {
         Ordinary(SnapshotMap<(usize, usize), (OwnerPair, HardSoftScore)>),
         Links(SnapshotMap<OwnerLinkId, (OwnerPair, HardSoftScore)>),
+        Fused(SnapshotMap<OwnerLinkId, (OwnerPair, HardSoftScore)>),
     }
     fn hold(g: &StreamGraph<'_, HardSoftScore>, h: &OwnerRouteConstraint) -> Held {
         match h {
@@ -356,6 +357,9 @@ mod owner_links_qualification {
             }
             OwnerRouteConstraint::OwnerLinks(h) => {
                 Held::Links(g.constraint_matches(h).unwrap().clone())
+            }
+            OwnerRouteConstraint::FusedOwnerLinks(h) => {
+                Held::Fused(g.constraint_matches(h).unwrap().clone())
             }
         }
     }
@@ -382,7 +386,7 @@ mod owner_links_qualification {
                     .map(|(o, v)| ((*o, *o), v.clone()))
                     .collect::<Vec<_>>()
             ),
-            Held::Links(rows) => assert_eq!(
+            Held::Links(rows) | Held::Fused(rows) => assert_eq!(
                 rows.iter()
                     .map(|(id, v)| (*id, v.clone()))
                     .collect::<Vec<_>>(),
@@ -502,6 +506,7 @@ mod owner_links_qualification {
         for policy in [
             StreamGraphPolicy::OrdinaryJoin,
             StreamGraphPolicy::OwnerLinks,
+            StreamGraphPolicy::FusedOwnerLinks,
         ] {
             let trace = RefCell::new(Vec::new());
             let mut b = StreamGraphBuilder::new();
@@ -580,6 +585,7 @@ mod owner_links_qualification {
         for policy in [
             StreamGraphPolicy::OrdinaryJoin,
             StreamGraphPolicy::OwnerLinks,
+            StreamGraphPolicy::FusedOwnerLinks,
         ] {
             let fail = Cell::new(false);
             let trace = RefCell::new(Vec::new());
@@ -617,7 +623,8 @@ mod owner_links_qualification {
                 .is_err()
             );
             fail.set(false);
-            // Ordinary errors at its intermediate pair; links errors at its final pair.
+            // Ordinary errors at its intermediate pair; both link policies error at the final pair.
+            // Fused v2 scores immediately after each projection; v1 projects the link batch first.
             assert_eq!(
                 trace.borrow()[0],
                 (
@@ -652,6 +659,7 @@ mod owner_links_qualification {
         for policy in [
             StreamGraphPolicy::OrdinaryJoin,
             StreamGraphPolicy::OwnerLinks,
+            StreamGraphPolicy::FusedOwnerLinks,
         ] {
             let mut b = StreamGraphBuilder::new();
             let s = MixedStreamSources::new(&mut b);
@@ -701,6 +709,7 @@ mod owner_links_qualification {
         for policy in [
             StreamGraphPolicy::OrdinaryJoin,
             StreamGraphPolicy::OwnerLinks,
+            StreamGraphPolicy::FusedOwnerLinks,
         ] {
             for stream in [false, true] {
                 let mut warm = Case::parse(SMALL).unwrap();

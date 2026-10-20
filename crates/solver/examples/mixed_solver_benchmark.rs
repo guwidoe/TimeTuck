@@ -8,10 +8,10 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn Error>> {
     let mut args: Vec<_> = std::env::args().collect();
-    const USAGE: &str = "mixed_solver_benchmark iterations warmup samples dense|stream [cold] [component-refinement] [--stream-graph-policy ordinary-join|owner-links]";
+    const USAGE: &str = "mixed_solver_benchmark iterations warmup samples dense|stream [cold] [component-refinement] [--stream-graph-policy ordinary-join|owner-links|owner-links-fused]";
     if args.iter().skip(1).any(|a| a == "--help" || a == "-h") {
         println!(
-            "{USAGE}\nDefault ordinary-join. Owner-links explicitly changes match IDs, batching, ownership and physical score callbacks; Dense is unaffected."
+            "{USAGE}\nDefault ordinary-join. Owner-links and owner-links-fused explicitly change match IDs, batching, ownership and physical score callbacks; fused v2 projects/scores each link directly; Dense is unaffected."
         );
         return Ok(());
     }
@@ -20,7 +20,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         graph_policy = match args.get(index + 1).map(String::as_str) {
             Some("ordinary-join") => StreamGraphPolicy::OrdinaryJoin,
             Some("owner-links") => StreamGraphPolicy::OwnerLinks,
-            _ => return Err("--stream-graph-policy requires ordinary-join or owner-links".into()),
+            Some("owner-links-fused") => StreamGraphPolicy::FusedOwnerLinks,
+            _ => return Err(
+                "--stream-graph-policy requires ordinary-join, owner-links or owner-links-fused"
+                    .into(),
+            ),
         };
         args.drain(index..index + 2);
     }
@@ -171,7 +175,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
             .into();
             if stream {
-                let owner_links = graph_policy == StreamGraphPolicy::OwnerLinks;
+                let owner_links = graph_policy != StreamGraphPolicy::OrdinaryJoin;
+                let fused = graph_policy == StreamGraphPolicy::FusedOwnerLinks;
                 row["match_id_schema"] = if owner_links {
                     "((relationship_owner,left_owner),right_owner)"
                 } else {
@@ -184,13 +189,17 @@ fn main() -> Result<(), Box<dyn Error>> {
                     "ordinary-source-event-propagation"
                 }
                 .into();
-                row["endpoint_ownership"] = if owner_links {
+                row["endpoint_ownership"] = if fused {
+                    "shared-producer-events; fused full-pair projection-scoring"
+                } else if owner_links {
                     "shared-producer-events; full-pair projection"
                 } else {
                     "ordinary-join-owned-inputs"
                 }
                 .into();
-                row["tracked_terminal"] = if owner_links {
+                row["tracked_terminal"] = if fused {
+                    "fused-fixed-links-full-payload-and-score"
+                } else if owner_links {
                     "fixed-universe-full-payload-and-score"
                 } else {
                     "ordinary-full-payload-and-score"

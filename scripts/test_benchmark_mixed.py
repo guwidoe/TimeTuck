@@ -282,4 +282,66 @@ class OwnerLinkDriverContractTest(unittest.TestCase):
                 return SimpleNamespace(returncode=0,stderr='',stdout=json.dumps(row)+'\n')
             with patch.object(m.subprocess,'run',side_effect=execute), self.assertRaises(ValueError):m.measure_case(self.fixture.small,args,'synthetic-classpath',0)
 
+class FusedOwnerLinksBenchmarkContractTest(unittest.TestCase):
+    def setUp(self):
+        self.fixture=MixedBenchmarkContractTest();self.fixture.setUp()
+    def test_v2_metadata_is_explicit_and_v1_declaration_unchanged(self):
+        c=self.fixture.small;row=self.fixture.row(runtime='stream');v1=m.graph_metadata('stream','owner-links')
+        self.assertEqual(v1['requested_stream_graph_policy'],'owner-links-shared-fixed-terminal-v1')
+        row.update(m.graph_metadata('stream','owner-links-fused'))
+        self.assertEqual(row['requested_stream_graph_policy'],'owner-links-fused-shared-fixed-terminal-v2')
+        self.assertEqual(row['tracked_terminal'],'fused-fixed-links-full-payload-and-score')
+        self.assertEqual(row['match_id_schema'],v1['match_id_schema'])
+        self.assertEqual(m.parse_result(c,json.dumps(row),'stream',2,graph_policy='owner-links-fused')['per_solve_score'],[0,-12])
+        for key in m.GRAPH_POLICY_FIELDS:
+            changed=deepcopy(row);changed.pop(key)
+            with self.subTest(key=key),self.assertRaises(ValueError):m.parse_result(c,json.dumps(changed),'stream',2,graph_policy='owner-links-fused')
+        with self.assertRaises(ValueError):m.graph_metadata('stream','unknown')
+        with self.assertRaises(ValueError):m.require_graph_metadata(row,'stream','owner-links')
+    def test_five_runtime_rotation_retains_both_complete_controls_all_cases_profiles(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        for profile in ['joint','component-refinement']:
+            for case in m.workloads():
+                order=[]
+                def execute(command,**kwargs):
+                    java='MixedSolverBenchmark' in command;backend='java' if java else command[4]
+                    policy=command[-1] if '--stream-graph-policy' in command else 'ordinary-join'
+                    runtime='java' if java else backend if policy=='ordinary-join' else 'stream_owner_links' if policy=='owner-links' else 'stream_owner_links_fused'
+                    order.append(runtime);self.assertEqual(kwargs['input'],m.encode(case)+'\n')
+                    row=self.fixture.row(case,backend) if java or profile=='joint' else self.fixture.refinement_row(case)
+                    if not java:
+                        row.update(m.graph_metadata(backend,policy));row['complete_future_metadata']={'payloads':deepcopy(case['certificate_routes'])}
+                        row['score_calls']=4 if policy!='ordinary-join' else 8
+                    return SimpleNamespace(returncode=0,stderr='',stdout=json.dumps(row)+'\n')
+                args=SimpleNamespace(iterations=2,warmup=0,samples=1,forks=5,native_search_profile=profile,native_stream_graph_policy='owner-links-fused')
+                with patch.object(m.subprocess,'run',side_effect=execute):dense,stream=m.measure_case(case,args,'synthetic-classpath',0)
+                groups=['java','dense','stream','stream_owner_links','stream_owner_links_fused']
+                self.assertEqual(order,[name for offset in range(5) for name in groups[offset:]+groups[:offset]])
+                self.assertEqual(order.count('java'),5);self.assertEqual(dense['samples']['java'],stream['samples']['java'])
+                self.assertEqual(stream['native_stream_graph_policy'],'owner-links-fused');self.assertNotIn('owner_link_controls',dense)
+                for key,policy,calls in [('ordinary_stream_controls','ordinary-join',8),('owner_link_controls','owner-links',4)]:
+                    control=stream[key];self.assertEqual(control['graph_policy'],policy)
+                    self.assertEqual(len(control['observations']),5);self.assertEqual(len(control['samples']),5)
+                    self.assertEqual([r['score_calls'] for r in control['observations']],[calls]*5)
+                    self.assertEqual(control['observations'][0]['complete_future_metadata'],stream['observations']['rust'][0]['complete_future_metadata'])
+    def test_fused_control_rejects_changed_physical_calls_unknown_metadata_or_quality(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        args=SimpleNamespace(iterations=2,warmup=0,samples=1,forks=1,native_stream_graph_policy='owner-links-fused')
+        for failure in ['physical-calls','unknown-field','quality','phase-work']:
+            def execute(command,**kwargs):
+                java='MixedSolverBenchmark' in command;backend='java' if java else command[4]
+                policy=command[-1] if '--stream-graph-policy' in command else 'ordinary-join'
+                row=self.fixture.row(runtime=backend)
+                if not java:
+                    row.update(m.graph_metadata(backend,policy));row['score_calls']=4 if policy!='ordinary-join' else 8
+                if policy=='owner-links-fused':
+                    if failure=='physical-calls':row['score_calls']=5
+                    elif failure=='unknown-field':row['future_counter']={'must_compare':1}
+                    elif failure=='phase-work':row['steps']=3
+                    else:row['routes'][1].pop()
+                return SimpleNamespace(returncode=0,stderr='',stdout=json.dumps(row)+'\n')
+            with self.subTest(failure=failure),patch.object(m.subprocess,'run',side_effect=execute),self.assertRaises(ValueError):m.measure_case(self.fixture.small,args,'synthetic-classpath',0)
+
 if __name__=='__main__':unittest.main()

@@ -21,7 +21,7 @@ about every problem size, search trace or finite-budget optimum.
 
 The current native verification contains **8,578 Rust tests and 292 doctests**,
 including original regressions and adapted upstream assertions. Source
-`645c98d839097fd86e965e69a56e46df6dc9d63583fbdd867e5960b0ab6bed1b`. The final check passed in 82.993s,
+`46069f24e4025134fff09c60de7f5f3b3d1659f965fea3bbabdd767190d7e62e`. The final check passed in 81.859s,
 executing 5 jobs and reusing 143 unchanged results. The live report remains
 the authority for later counts and freshness.
 
@@ -66,7 +66,50 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Latest qualification — 293 explicit owner-link application graph
+## Latest qualification — 294 fused owner-link application graph
+
+`--native-stream-graph-policy owner-links-fused` selects direct fixed-link
+projection and scoring in one tracked node. Ordinary joins remain the default;
+owner-link v1 remains available. Fused v2 retains the same triple match IDs,
+full payloads/scores, source rows and list shadows as v1. Projection/scoring now
+interleave; ownership, cloning, callback/error timing and journal installation
+can differ. This is an explicit application declaration, not generic operator
+trace equivalence or equal Java search work. Dense and EqOnly remain unchanged.
+
+All four existing policy regressions now cover all three declarations, including
+snapshots, callback boundaries, panic/recovery, partial objectives and all factory
+paths. Three additional Python contracts retain both full controls, all original
+cases/profiles, unknown fields and actual v1/v2 physical call equality. No tests,
+fixtures, budgets, quality floors or upstream assertions were removed.
+
+One controlled three-declaration comparison retains all 16 original rows across
+both search profiles, four rotating CPU2 forks. Larger component Stream medians
+improve **7.82% warm / 14.18% cold** against v1; original joint improves
+**13.27% / 7.36%**. All four larger-case forks improve. Small controls remain,
+including mixed small joint/cold forks; Dense jitter earns no improvement claim.
+Every full output and physical scoring-call count matches v1, apart from elapsed
+time and declared graph metadata. Its actual native source/artifact are also the
+final native source/artifact; the later full-driver input key is recorded separately.
+
+Final `bash scripts/check.sh`: **8,578 Rust +292 doctests**, **5 RUN/143 REUSE**,
+81.859s, source `46069f24e4025134fff09c60de7f5f3b3d1659f965fea3bbabdd767190d7e62e`.
+Only mixed-performance was refreshed; other 17 raw reports retain bytes/dates/keys.
+Solver292 remains current. Fresh Java comparison: **7/8** meet median time
+parity, equal scores in all eight. Larger Stream warm is **16.365 ms Rust /
+14.959 ms Java**; cold **15.790 / 19.402 ms**.
+All ordinary and v1 observations/samples remain in the report, with actual scoring
+calls and unchanged full search outputs checked. No general speed, memory or
+larger-optimum claim follows.
+
+Dashboard index **86.285%**, **2/18 current**, 16 stale, Java target **1**.
+This is a tracked-target index, not remaining effort or an ETA. Inventory stays
+4410/4855, 10 pending, 435 excluded, no failures/unverified. Actual desktop/mobile
+checks cover selected fused and both prior declarations. Goal incomplete.
+Evidence: work/round294-qualification/{integration,candidate-build-receipt,
+final-build-receipt,pair-results,gate-receipt,mixed-performance-receipt,collection,
+browser-proof}.json; work/parallel-round294-evidence.json.
+
+## Previous qualification — 293 explicit owner-link application graph
 
 The mixed example now offers an explicit `owner-links` graph declaration while
 ordinary joins remain the default. Shared fixed owner relationships and a fixed
