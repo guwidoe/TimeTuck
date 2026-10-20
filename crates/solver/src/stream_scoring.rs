@@ -89,13 +89,35 @@ impl<'p, 'a, V: Eq + Clone + 'static, S: AdditiveScore + 'static>
 {
     pub fn new(
         problem: &'p FiniteProblem<V>,
+        graph: StreamGraph<'a, S>,
+        source: PlanningStreamSource<V>,
+        assignment: Assignment<V>,
+    ) -> Result<Self, StreamScoringError> {
+        Self::new_with_consuming(problem, graph, source, assignment, false)
+    }
+    // Only ownership-consuming BASIC search entrypoints may call this. The
+    // director never escapes those calls; public retained/director APIs do not.
+    pub(crate) fn new_consuming(
+        problem: &'p FiniteProblem<V>,
+        graph: StreamGraph<'a, S>,
+        source: PlanningStreamSource<V>,
+        assignment: Assignment<V>,
+    ) -> Result<Self, StreamScoringError> {
+        Self::new_with_consuming(problem, graph, source, assignment, true)
+    }
+    fn new_with_consuming(
+        problem: &'p FiniteProblem<V>,
         mut graph: StreamGraph<'a, S>,
         source: PlanningStreamSource<V>,
         assignment: Assignment<V>,
+        consuming: bool,
     ) -> Result<Self, StreamScoringError> {
         problem.validate(&assignment)?;
         if !graph.source_rows(&source)?.is_empty() {
             return Err(StreamScoringError::PlanningSourceNotEmpty);
+        }
+        if consuming {
+            graph.try_enable_consuming_search(source.node_id(), problem.variables().len());
         }
         let structural = with_structure(S::ZERO, problem, &assignment).structural();
         let mut transaction = graph.transaction();
@@ -853,7 +875,7 @@ pub fn stream_local_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     source: PlanningStreamSource<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    stream_search(None, problem, graph, source, None, config)
+    stream_search(None, problem, graph, source, None, config, true)
 }
 /// Improve an explicit complete assignment using a fresh stream scoring session.
 /// Initialization counts once; graph preparation before this call is excluded.
@@ -864,7 +886,7 @@ pub fn stream_local_search_from<V: Eq + Clone + 'static, S: AdditiveScore + 'sta
     initial: Assignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    stream_local_search_from_monitored(None, problem, graph, source, initial, config)
+    stream_search(None, problem, graph, source, Some(initial), config, true)
 }
 
 pub(crate) fn stream_local_search_from_monitored<
@@ -878,7 +900,7 @@ pub(crate) fn stream_local_search_from_monitored<
     initial: Assignment<V>,
     config: LocalSearchConfig<S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    stream_search(shared, problem, graph, source, Some(initial), config)
+    stream_search(shared, problem, graph, source, Some(initial), config, false)
 }
 fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     shared: Option<&mut dyn crate::time_limit::SearchControl<S>>,
@@ -887,11 +909,16 @@ fn stream_search<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     source: PlanningStreamSource<V>,
     initial: Option<Assignment<V>>,
     config: LocalSearchConfig<S>,
+    consuming: bool,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.validate_acceptance()?;
     validate_source(&graph, &source)?;
     crate::local_search::search_impl_monitored(shared, problem, initial, config, |initial| {
-        StreamScoreDirector::new(problem, graph, source, initial)
+        if consuming {
+            StreamScoreDirector::new_consuming(problem, graph, source, initial)
+        } else {
+            StreamScoreDirector::new(problem, graph, source, initial)
+        }
     })
 }
 

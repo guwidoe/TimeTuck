@@ -104,6 +104,7 @@ fn score<'a, I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 's
         total: S::ZERO,
         name: "sum".into(),
         matches: terminal_rows::<I, T, S>(),
+        consumed: None,
         checkpoint_box: CheckpointBox::new(),
     });
     builder.live_commit_nodes[out.node] = live;
@@ -235,6 +236,7 @@ fn terminal(concrete: bool) -> Box<dyn Node<SimpleScore>> {
             total: SimpleScore::ZERO,
             name: "sum".into(),
             matches: terminal_rows::<(usize, usize), i64, SimpleScore>(),
+            consumed: None,
             checkpoint_box: CheckpointBox::new(),
         })
     } else {
@@ -243,6 +245,7 @@ fn terminal(concrete: bool) -> Box<dyn Node<SimpleScore>> {
             total: SimpleScore::ZERO,
             name: "sum".into(),
             matches: terminal_rows::<(usize, usize), i64, SimpleScore>(),
+            consumed: None,
             checkpoint_box: CheckpointBox::new(),
         })
     }
@@ -358,6 +361,7 @@ fn concrete_terminal_weighted_metadata_and_default_alias_remain_original() {
         total: SimpleScore::ZERO,
         name: "weighted".into(),
         matches: terminal_rows::<usize, i64, SimpleScore>(),
+        consumed: None,
         checkpoint_box: CheckpointBox::new(),
     };
     assert_eq!(node.constraint_weight(), Some(&SimpleScore::new(2)));

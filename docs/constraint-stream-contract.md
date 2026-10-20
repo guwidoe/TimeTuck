@@ -406,6 +406,44 @@ must be deterministic; their external side effects cannot be rolled back. Facts
 and key comparison identity must be immutable. Allocation aborts, forgotten guards
 and panicking destructors are outside ordinary unwind guarantees.
 
+Ownership-consuming basic local-search calls (`stream_local_search`,
+`stream_local_search_from`, and their direct provider/fallible-provider forms)
+may select private copied source and contribution storage. Permission requires
+an initially empty graph, known ordinary nodes, exact certified builtin IDs,
+keys and payloads, a builtin fixed integer score, and no activity or batching
+mode. Every eligibility check precedes activation; populated, custom and unknown
+graphs retain their original storage. The public director constructor, retained
+search, monitored manager/service routes and public graph transactions do not
+select this permission. The consuming call never returns or lends its graph to
+providers, termination hooks or solution observers.
+
+Inside that scope, private terminal history retains IDs and contribution scores
+by value, without retaining tuple payload owners. Every delivered predicate,
+projection, mapping and scoring callback still runs in the original event order;
+terminal payload Clone/discard occurs at the original post-check publication
+phase. Each logical write keeps its own preimage; nested rollback, saved current
+candidates, full snapshots, checked arithmetic, metrics and diagnostic replay
+remain supported. Diagnostics compare terminal IDs, scores and totals and return
+detached evidence. Public pre-call empty views remain empty; externally held
+historical row snapshots remain independent. No callback purity is inferred from
+lack of Drop, and no public match/snapshot ownership promise is relaxed on a
+retained graph. Unbounded contribution IDs use sparse numeric pages; retired
+candidate pages are pruned after journal completion instead of accumulating.
+
+Within that same private consuming scope, an exact builtin bounded join may
+copy captured payloads and journal preimages after the original complete ordinal
+binding. Canonical input IDs and membership indexes keep their original owners;
+unbound/pair-ID/custom/retained paths keep shared payload storage. Full/current
+captures and first-preimage nested rollback remain supported. Copies trade wider
+private slots for fewer recurring payload allocations.
+
+In both retained and consuming graphs, fixed primitive equality joins may visit
+matching bucket bits directly after the original single key lookup and full
+output reservation. Bit order retains
+canonical input IDs and the existing retract/put, payload Clone/Drop/panic and
+poisoned-install phases. Custom key comparisons and ordered joins retain their
+previous traversal. This does not imply callback purity or event coalescing.
+
 ## Basic-variable move binding
 
 `StreamScoreDirector` binds one initially empty source of `(variable_index,

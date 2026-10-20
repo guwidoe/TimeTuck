@@ -26,6 +26,7 @@ fn terminal<'a, I: 'static, T>(
         } else {
             PrimitiveRows::new()
         },
+        consumed: None,
         checkpoint_box: CheckpointBox::new(),
     }
 }

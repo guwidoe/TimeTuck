@@ -151,7 +151,11 @@ impl<I: 'static, T, K: 'static> JoinSide<I, T, K> {
             index::<I>,
         )));
         self.fixed_index.as_mut().unwrap().enable_delta_capture();
-        self.fixed_rows = Some(Box::new(FixedRows::new(rows, index::<I>)));
+        let mut fixed = FixedRows::new(rows, index::<I>);
+        if let Some(copy) = self.consuming_copy {
+            fixed.enable_copied(copy);
+        }
+        self.fixed_rows = Some(Box::new(fixed));
         self.rows.clear();
         self.index.clear();
         true
@@ -165,6 +169,31 @@ impl<
     K: Ord + Clone + 'static,
 > JoinNode<'_, I, J, L, R, K>
 {
+    // Only whole-graph ownership-consuming search activation calls this while
+    // empty. Public/retained and unbounded side payloads keep original owners.
+    // The index and its canonical I owners are independent of copied payloads.
+    pub(crate) fn enable_consuming_rows(&mut self) -> bool {
+        if !self.primitive_graph_journals
+            || self.is_poisoned()
+            || TypeId::of::<I>() != TypeId::of::<usize>()
+            || TypeId::of::<J>() != TypeId::of::<usize>()
+            || !self.left.rows.is_empty()
+            || !self.right.rows.is_empty()
+            || self.left.fixed_rows.is_some()
+            || self.right.fixed_rows.is_some()
+        {
+            return false;
+        }
+        let Some(left) = join_fixed_rows::copied::certify::<K, L>() else {
+            return false;
+        };
+        let Some(right) = join_fixed_rows::copied::certify::<K, R>() else {
+            return false;
+        };
+        self.left.consuming_copy = Some(left);
+        self.right.consuming_copy = Some(right);
+        true
+    }
     pub(crate) fn bind_fixed_input(&mut self, right: bool, count: usize) -> bool {
         if right {
             self.right.bind_fixed(count)

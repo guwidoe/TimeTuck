@@ -33,6 +33,8 @@ mod bound_universes;
 #[cfg(test)]
 mod candidate_capture_tests;
 mod checkpoint_box;
+mod consuming;
+mod consuming_source;
 use checkpoint_box::CheckpointBox;
 mod dependency_batch;
 mod dynamic_dependency;
@@ -270,6 +272,12 @@ trait Node<S: AdditiveScore> {
         unreachable!("not a weighted constraint")
     }
 
+    // Unknown nodes cannot opt in through builder metadata. These hooks never
+    // run on publicly retained graphs/directors or public transactions.
+    fn enable_consuming_storage(&mut self) {}
+    fn consuming_source(&self, _count: usize) -> Option<Box<dyn Node<S>>> {
+        None
+    }
     fn checkpoint(&self) -> Box<dyn Any>;
     // Candidate captures are installed only over the transaction's entry state.
     // Nodes with slot journals can retain current touched entries without
@@ -373,7 +381,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> SourceNode<I, T> {
     }
 }
 
-impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for SourceNode<I, T> {
+impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore + 'static> Node<S>
+    for SourceNode<I, T>
+{
     fn apply_batch(
         &mut self,
         inputs: &[(bool, Event)],
@@ -436,6 +446,9 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S> for
 
     fn source_count(&self) -> Option<usize> {
         Some(self.0.len())
+    }
+    fn consuming_source(&self, count: usize) -> Option<Box<dyn Node<S>>> {
+        consuming_source::owned_source::<I, T, S>(&self.0, count)
     }
     fn clear(&mut self) {
         self.0.clear();
@@ -744,6 +757,11 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn enable_consuming_storage(&mut self) {
+        // The graph-wide private retention preflight runs before initial rows.
+        // Unsupported/unbounded joins keep their original shared payloads.
+        self.0.enable_consuming_rows();
+    }
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
         self.0.capture_checkpoint(original)
     }
@@ -1222,6 +1240,7 @@ struct TerminalState<I, T, S, E> {
     total: S,
     name: String,
     matches: crate::primitive_rows::PrimitiveRows<I, (T, S)>,
+    consumed: Option<crate::primitive_rows::consumed_scores::Rows<I, S>>,
     checkpoint_box: CheckpointBox<TerminalJournal<S>>,
 }
 impl<
@@ -1235,6 +1254,14 @@ impl<
         self.evaluate.constraint_weight()
     }
     fn validate_total(&self, arithmetic: crate::ScoringArithmetic) -> Result<(), GraphError> {
+        if let Some(rows) = &self.consumed {
+            return arithmetic
+                .sum(rows.iter().map(|(_, score)| score))
+                .map(|_| ())
+                .map_err(|_| GraphError::ScoreOverflow {
+                    constraint: Some(self.name.clone()),
+                });
+        }
         arithmetic
             .sum(self.matches.values().map(|(_, score)| score))
             .map(|_| ())
@@ -1248,12 +1275,19 @@ impl<
 
     fn clear(&mut self) {
         self.total = S::ZERO;
-        self.matches.clear();
+        if let Some(rows) = &mut self.consumed {
+            rows.clear();
+        } else {
+            self.matches.clear();
+        }
     }
     fn evaluates_score(&self, event: &Event) -> bool {
         typed::<I, T>(event).value.is_some()
     }
     fn scores_match(&self, checkpoint: &dyn Any) -> bool {
+        if self.consumed.is_some() {
+            return self.consumed_matches(checkpoint);
+        }
         let journal_view;
         let (old, total) = if let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(checkpoint)
         {
@@ -1272,10 +1306,26 @@ impl<
                 .map(|(id, (_, s))| (id, s))
                 .eq(old.iter().map(|(id, (_, s))| (id, s)))
     }
+    fn enable_consuming_storage(&mut self) {
+        assert!(
+            self.matches.is_empty() && consuming::payload::<T>(),
+            "validated consumed terminal"
+        );
+        self.consumed = Some(
+            crate::primitive_rows::consumed_scores::Rows::new()
+                .expect("certified consumed terminal types"),
+        );
+    }
     fn checkpoint(&self) -> Box<dyn Any> {
+        if self.consumed.is_some() {
+            return self.consumed_checkpoint();
+        }
         Box::new((self.matches.clone(), self.total.clone()))
     }
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
+        if self.consumed.is_some() {
+            return self.consumed_capture(original);
+        }
         let Some(saved) = CheckpointBox::<TerminalJournal<S>>::get(original) else {
             return self.checkpoint();
         };
@@ -1288,7 +1338,11 @@ impl<
         // User-defined score cloning may panic; it must precede opening a frame.
         let total = self.total.clone();
         let saved = TerminalJournal {
-            rows: self.matches.begin_journal(),
+            rows: if let Some(rows) = &mut self.consumed {
+                rows.begin()
+            } else {
+                self.matches.begin_journal()
+            },
             total,
         };
         self.checkpoint_box.begin(saved)
@@ -1296,12 +1350,20 @@ impl<
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
         let (saved, empty) =
             CheckpointBox::<TerminalJournal<S>>::unpack(saved).expect("terminal journal");
-        self.matches.commit_journal(saved.rows);
+        if let Some(rows) = &mut self.consumed {
+            rows.commit(saved.rows);
+        } else {
+            self.matches.commit_journal(saved.rows);
+        }
         // Release the cloned score before retaining only its empty carrier.
         drop(saved);
         self.checkpoint_box.recycle(empty);
     }
     fn restore(&mut self, c: Box<dyn Any>) {
+        if self.consumed.is_some() {
+            self.consumed_restore(c);
+            return;
+        }
         let c = match c.downcast::<TerminalCapture<I, T, S>>() {
             Ok(saved) => {
                 self.matches.install_capture(saved.rows);
@@ -1329,10 +1391,16 @@ impl<
         true
     }
     fn match_count(&self) -> usize {
-        self.matches.len()
+        self.consumed
+            .as_ref()
+            .map_or_else(|| self.matches.len(), |rows| rows.len())
     }
     fn matches(&self) -> Option<&dyn Any> {
-        Some(self.matches.materialized())
+        if self.consumed.is_some() {
+            None
+        } else {
+            Some(self.matches.materialized())
+        }
     }
     fn score(&self) -> S {
         self.total.clone()
@@ -1354,6 +1422,9 @@ impl<
             .is_some_and(|score| score.structural() != 0)
         {
             return Err(GraphError::StructuralContribution(self.name.clone()));
+        }
+        if self.consumed.is_some() {
+            return self.apply_consumed(change, contribution, arithmetic);
         }
         // Exact primitive identities and builtin scores have no observable
         // ordering/score hooks. Locate once at the original old-score phase;
@@ -1452,6 +1523,7 @@ pub struct StreamGraphBuilder<'a, S: AdditiveScore> {
     owner: Rc<()>,
     nodes: Vec<Box<dyn Node<S> + 'a>>,
     live_commit_nodes: Vec<bool>,
+    consuming_nodes: Vec<bool>,
     edges: Vec<Vec<Edge>>,
     constraints: BTreeMap<String, usize>,
     datasets: BTreeMap<usize, usize>,
@@ -1472,6 +1544,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             owner: Rc::new(()),
             nodes: Vec::new(),
             live_commit_nodes: Vec::new(),
+            consuming_nodes: Vec::new(),
             edges: Vec::new(),
             constraints: BTreeMap::new(),
             datasets: BTreeMap::new(),
@@ -1500,6 +1573,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         self.nodes.push(Box::new(node));
         // New node kinds must opt in explicitly after checking their concrete types.
         self.live_commit_nodes.push(false);
+        self.consuming_nodes.push(false);
         self.edges.push(Vec::new());
         self.activity_rules.push(ActivityRule::All);
         StreamPort {
@@ -1515,6 +1589,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
     pub fn source<I: Ord + Clone + 'static, T: Clone + 'static>(&mut self) -> StreamSource<I, T> {
         let out = self.push(SourceNode::<I, T>(SnapshotMap::new()));
         self.live_commit_nodes[out.node] = live_commit_key::<I>() && !std::mem::needs_drop::<T>();
+        self.consuming_nodes[out.node] = live_commit_key::<I>() && consuming::payload::<T>();
         StreamSource(out)
     }
     pub fn filter<I: Ord + Clone + 'static, T: Clone + 'static>(
@@ -1541,6 +1616,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             self.push(Filter(node))
         };
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>() && consuming::payload::<T>();
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1602,6 +1678,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             marker: PhantomData,
         });
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] =
+            live_commit_key::<I>() && consuming::payload::<T>() && consuming::payload::<U>();
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1780,6 +1858,10 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         node.bind_graph_inputs();
         let out = self.push(FlatMap(node));
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>()
+            && live_commit_key::<(I, usize)>()
+            && consuming::payload::<T>()
+            && consuming::payload::<U>();
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -1912,6 +1994,13 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         node.bind_primitive_graph_journals();
         let out = self.push(Join::new(node));
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>()
+            && live_commit_key::<J>()
+            && live_commit_key::<(I, J)>()
+            && live_commit_key::<K>()
+            && consuming::payload::<L>()
+            && consuming::payload::<R>()
+            && consuming::payload::<(L, R)>();
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -1966,6 +2055,13 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         node.bind_primitive_graph_journals();
         let out = self.push(Join::new(node));
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>()
+            && live_commit_key::<J>()
+            && live_commit_key::<(I, J)>()
+            && live_commit_key::<K>()
+            && consuming::payload::<L>()
+            && consuming::payload::<R>()
+            && consuming::payload::<(L, R)>();
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
         Ok(out)
@@ -2226,6 +2322,10 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             marker: PhantomData,
         });
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>()
+            && live_commit_key::<K>()
+            && consuming::payload::<T>()
+            && consuming::payload::<(K, IntSummary)>();
         self.connect(input.node, out.node, false);
         Ok(out)
     }
@@ -2385,9 +2485,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             total: S::ZERO,
             name: name.clone(),
             matches: terminal_rows::<I, T, S>(),
+            consumed: None,
             checkpoint_box: CheckpointBox::new(),
         });
         self.live_commit_nodes[out.node] = live_commit;
+        self.consuming_nodes[out.node] = live_commit_key::<I>() && consuming::payload::<T>();
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);
         Ok(StreamConstraint(out))
@@ -2466,8 +2568,10 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             total: S::ZERO,
             name: name.clone(),
             matches: terminal_rows::<I, T, S>(),
+            consumed: None,
             checkpoint_box: CheckpointBox::new(),
         });
+        self.consuming_nodes[out.node] = live_commit_key::<I>() && consuming::payload::<T>();
         self.constraints.insert(name, out.node);
         self.connect(input.node, out.node, false);
         Ok(StreamConstraint(out))
@@ -2574,7 +2678,12 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !self.activity_pruning
             && self.initial_activity.is_none()
             && self.live_commit_nodes.iter().all(|&eligible| eligible);
+        let consuming_eligible = !self.activity_pruning
+            && self.initial_activity.is_none()
+            && self.consuming_nodes.iter().all(|&allowed| allowed);
         let mut graph = StreamGraph {
+            consuming_eligible,
+            consuming_search: false,
             shared_event_producers,
             supports_live_commit,
             score_probe_nodes,
@@ -2639,6 +2748,8 @@ struct TransactionWorkspace {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    consuming_eligible: bool,
+    consuming_search: bool,
     shared_event_producers: Vec<bool>,
     supports_live_commit: bool,
     // None preserves the original probe/ownership path for all custom scores.

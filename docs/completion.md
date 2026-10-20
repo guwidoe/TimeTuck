@@ -19,40 +19,45 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,814 recorded Rust tests and
-292 doctests** (8,820 Cargo test executions). The forward-state batch passes
-`bash scripts/check.sh`, including formatting, all-target Clippy and 54 tooling
-jobs. Exact source, logs and measurements are recorded in
-[the forward-state observation](../compat/observations/real_world-forward-state.json).
-Source-affected comparisons retain their actual freshness. The live report is the
+The current native verification contains **8,843 recorded Rust tests and
+292 doctests** (8,849 Cargo test executions). The consuming-search
+batch passes `bash scripts/check.sh`, formatting, all-target Clippy and
+54 tooling jobs. Exact source, actual logs and qualification are recorded in
+[the consuming-search observation](../compat/observations/real_world-consuming-search.json).
+Source-affected comparisons retain their actual freshness; the live report is the
 authority for current evidence and readiness.
 
 Additional application coverage remains separate from the upstream inventory
-and original timing targets. Four RealWorld full-score/rollback/bounded-search
-regressions retain their own provenance and zero upstream-method credit. Frozen
-public scenarios, application model, settings and benchmark runner are unchanged.
-All **12** newly measured Java/Rust outputs pass independent score and assignment
-checks, with seeds 7/11/23 and ten seconds per runtime on runner-a. Rust streams
-reach **101,915 /38,549 evaluations/s**, or **0.813x /0.477x Java throughput**,
-on golfer/sailing. The prior separate qualification measured 98,425 /36,632 native
-evaluations/s; separate sessions are not an interleaved speedup comparison.
-The selected production combination's rotating native controls improved medians
-2.9%/4.6% against the prior immutable artifact. Its final source additionally
-repairs test-only annotations; the default qualifier rebuilds its actual bytes.
-**0/2** additional throughput targets are met. Sailing feasibility remains
-2/3 Rust and 0/3 Java; quality is separate, without an equal-score gate. These
-bounded results establish neither universal parity nor identical search traces.
+and original timing targets. The four RealWorld application regressions retain
+their own origin and zero upstream-method credit. Frozen public scenarios,
+application model, settings and benchmark runner are unchanged. All **12** new
+Java/Rust outputs independently validate with seeds 7/11/23 and ten seconds per
+runtime on runner-a. Golfer **123,153 Rust /119,896 Java evaluations/s (1.027x)**; sailing **42,480 /81,138 (0.524x)**.
+**1/2** additional Java throughput targets are met. Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate, without an equal-score gate.
+The selected combination's rotating native controls improved medians 21.2%/10.0%
+against the prior qualified 4a20 artifact. Final source additionally repairs two
+equivalent lint expressions and one test inequality; the default qualifier above
+measures its actual bytes. Separate qualification sessions are not interleaved
+speedup comparisons. These bounded observations establish no universal parity.
 
-Certified bounded graph grouping inputs now store their primitive captured values
-and undo by value. Ordinary map, group, membership and direct scoring callbacks
-retain concrete types through their private node implementations. Existing equal
-flat-map lengths may omit their final private store after every output is built;
-primitive terminals locate the old contribution once before the original owner
-publication. Public tuple versions, callback/Clone/Drop phases, weighted metadata,
-generic and standalone behavior remain intact. The batch adds **27** original
-native controls and no upstream-method credit. The separately measured duplicate
-collector-state shortcut was slower and is not integrated. Private snapshot copying
-and increased per-closure code generation are explicit tradeoffs.
+Ownership-consuming basic search can keep private contribution history and
+planning rows by value after an empty, known-node, exact builtin type preflight.
+Certified bounded join payloads can also copy while canonical input IDs/indexes
+remain shared. Public directors, retained/monitored paths, unsupported types and
+populated/activity/batched graphs retain ordinary storage. Every callback,
+payload Clone phase, checked adjustment, metric, diagnostic and rollback remains.
+Fixed primitive equality joins now traverse bucket words directly after the
+original lookup/reservation, preserving canonical match order and staged output
+clones. The batch adds **29** original native controls and no upstream credit.
+Full snapshots/captures copy more numeric state; no memory/code-size improvement
+is claimed. Small/mixed event experiments were not integrated. Fat LTO, target
+CPU, panic policy, model, fixtures, settings and batch policy are unchanged.
+
+The preceding forward-state batch retains bounded primitive graph GroupInputs,
+concrete ordinary map/group/filter/terminal callbacks, existing-equal private
+flat-map length omission and prepared terminal owner publication. Its 27 controls
+and original source-bound observation remain historical. Every public retained
+match owner and callback phase remains intact.
 
 The preceding collector/input-storage batch retains these earlier changes:
 

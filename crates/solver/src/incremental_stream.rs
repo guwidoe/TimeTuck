@@ -206,6 +206,7 @@ impl JoinComparison {
 struct JoinSide<I, T, K> {
     rows: crate::primitive_rows::PrimitiveRows<I, (K, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (K, T)>>>,
+    consuming_copy: Option<join_fixed_rows::copied::Copier<(K, T)>>,
     fixed_index: Option<Box<join_fixed_index::FixedIndex<I, K>>>,
     index: SnapshotMap<K, SnapshotMap<I, ()>>,
     poisoned: bool,
@@ -216,6 +217,7 @@ impl<I, T, K> JoinSide<I, T, K> {
         Self {
             rows: crate::primitive_rows::PrimitiveRows::new(),
             fixed_rows: None,
+            consuming_copy: None,
             fixed_index: None,
             index: SnapshotMap::new(),
             poisoned: false,
@@ -335,20 +337,41 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         let mut output = output_buffer;
         debug_assert!(output.is_empty());
         if !same_key && let Some((old_key, _)) = self.row(&change.id) {
-            let (count, ids) = other.matching_ids_sized(old_key, comparison);
-            output.reserve(count);
-            for id in ids {
-                output.push(TupleChange::retract((change.id.clone(), id.clone())));
+            if comparison == JoinComparison::Equal
+                && let Some(index) = &other.fixed_index
+                && index.supports_equality_visit()
+            {
+                index.for_each_equal(old_key, &mut output, |output, id| {
+                    output.push(TupleChange::retract((change.id.clone(), id.clone())));
+                });
+            } else {
+                let (count, ids) = other.matching_ids_sized(old_key, comparison);
+                output.reserve(count);
+                for id in ids {
+                    output.push(TupleChange::retract((change.id.clone(), id.clone())));
+                }
             }
         }
         if let Some((new_key, row)) = &new {
-            let (count, ids) = other.matching_ids_sized(new_key, comparison);
-            output.reserve(count);
-            for id in ids {
-                output.push(TupleChange::put(
-                    (change.id.clone(), id.clone()),
-                    (row.clone(), other.row(id).expect("indexed row").1.clone()),
-                ));
+            if comparison == JoinComparison::Equal
+                && let Some(index) = &other.fixed_index
+                && index.supports_equality_visit()
+            {
+                index.for_each_equal(new_key, &mut output, |output, id| {
+                    output.push(TupleChange::put(
+                        (change.id.clone(), id.clone()),
+                        (row.clone(), other.row(id).expect("indexed row").1.clone()),
+                    ));
+                });
+            } else {
+                let (count, ids) = other.matching_ids_sized(new_key, comparison);
+                output.reserve(count);
+                for id in ids {
+                    output.push(TupleChange::put(
+                        (change.id.clone(), id.clone()),
+                        (row.clone(), other.row(id).expect("indexed row").1.clone()),
+                    ));
+                }
             }
         }
         // All projection calls and output row clones happen before mutation.
@@ -857,3 +880,8 @@ mod join_journal;
 
 #[cfg(test)]
 mod group_inverse_tests;
+
+#[cfg(test)]
+mod consuming_join_rows_tests;
+#[cfg(test)]
+mod join_equality_visit_tests;

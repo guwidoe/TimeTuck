@@ -119,7 +119,7 @@ pub fn stream_local_search_from_with_provider<
     config: LocalSearchConfig<S>,
     provider: &mut dyn MoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    basic_stream(
+    basic_stream_consuming(
         p,
         graph,
         source,
@@ -141,6 +141,29 @@ pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
     config: LocalSearchConfig<S>,
     context: ProviderContext<'_, FiniteProblem<V>, Assignment<V>, Move<V>, S>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    basic_stream_impl(p, graph, source, initial, config, context, false)
+}
+
+fn basic_stream_consuming<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    p: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    context: ProviderContext<'_, FiniteProblem<V>, Assignment<V>, Move<V>, S>,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
+    basic_stream_impl(p, graph, source, initial, config, context, true)
+}
+
+fn basic_stream_impl<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
+    p: &FiniteProblem<V>,
+    graph: StreamGraph<'_, S>,
+    source: PlanningStreamSource<V>,
+    initial: Assignment<V>,
+    config: LocalSearchConfig<S>,
+    context: ProviderContext<'_, FiniteProblem<V>, Assignment<V>, Move<V>, S>,
+    consuming: bool,
+) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
     config.validate_acceptance()?;
     crate::stream_scoring::validate_source(&graph, &source)?;
     let clock = clock(&config, &context.control);
@@ -151,8 +174,12 @@ pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
             Some(initial),
             config,
             |a| {
-                StreamScoreDirector::new(p, graph, source, a)
-                    .map(|d| crate::solution_observation::Observed::new(d, observer))
+                (if consuming {
+                    StreamScoreDirector::new_consuming(p, graph, source, a)
+                } else {
+                    StreamScoreDirector::new(p, graph, source, a)
+                })
+                .map(|d| crate::solution_observation::Observed::new(d, observer))
             },
             clock,
             Some(context.provider),
@@ -163,7 +190,13 @@ pub(crate) fn basic_stream<V: Eq + Clone + 'static, S: AdditiveScore + 'static>(
             p,
             Some(initial),
             config,
-            |a| StreamScoreDirector::new(p, graph, source, a),
+            |a| {
+                if consuming {
+                    StreamScoreDirector::new_consuming(p, graph, source, a)
+                } else {
+                    StreamScoreDirector::new(p, graph, source, a)
+                }
+            },
             clock,
             Some(context.provider),
         )
@@ -450,7 +483,7 @@ pub fn stream_local_search_from_with_fallible_provider<
     config: LocalSearchConfig<S>,
     provider: &mut dyn crate::FallibleMoveProvider<FiniteProblem<V>, Assignment<V>, Move<V>>,
 ) -> Result<LocalSearchResult<V, S>, LocalSearchError> {
-    basic_stream(
+    basic_stream_consuming(
         p,
         graph,
         source,

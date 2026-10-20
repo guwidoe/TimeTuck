@@ -70,6 +70,8 @@ pub(super) struct Capture<K> {
 
 pub(super) struct FixedIndex<I, K> {
     keys: Vec<Arc<I>>,
+    #[cfg(test)]
+    equality_visit_disabled: bool,
     buckets: SnapshotMap<K, Members>,
     index: fn(&I) -> usize,
     capture_key: Option<KeyMapper<K>>,
@@ -80,6 +82,8 @@ impl<I, K> Clone for FixedIndex<I, K> {
     fn clone(&self) -> Self {
         Self {
             keys: self.keys.clone(),
+            #[cfg(test)]
+            equality_visit_disabled: self.equality_visit_disabled,
             buckets: self.buckets.clone(),
             index: self.index,
             capture_key: self.capture_key,
@@ -106,6 +110,8 @@ impl<I, K> FixedIndex<I, K> {
             .collect();
         Self {
             keys,
+            #[cfg(test)]
+            equality_visit_disabled: false,
             buckets: SnapshotMap::from_shared_sorted(buckets),
             index,
             capture_key: None,
@@ -222,6 +228,43 @@ impl<I, K> FixedIndex<I, K> {
     }
 }
 impl<I, K: Ord + Clone> FixedIndex<I, K> {
+    // The existing numeric capture mapper certifies exact primitive K. Complete
+    // FixedIndex bindings already certify usize occurrence IDs. Other routes
+    // retain their original iterator, including every custom-key comparison.
+    pub(super) fn supports_equality_visit(&self) -> bool {
+        #[cfg(test)]
+        if self.equality_visit_disabled {
+            return false;
+        }
+        self.capture_key.is_some()
+    }
+    #[cfg(test)]
+    pub(super) fn disable_equality_visit_for_tests(&mut self) {
+        self.equality_visit_disabled = true;
+    }
+    // Visit in word/bit order using the SAME canonical input-key references as
+    // matching(). Reserve the full bucket before any output cloning/callback.
+    // This avoids returning the much larger equality/range composite iterator.
+    pub(super) fn for_each_equal<O>(
+        &self,
+        key: &K,
+        output: &mut Vec<O>,
+        mut emit: impl FnMut(&mut Vec<O>, &I),
+    ) {
+        let members = self.buckets.get(key);
+        output.reserve(members.map_or(0, |members| members.len));
+        if let Some(members) = members {
+            for (word_index, word) in members.words.iter().enumerate() {
+                let mut bits = *word;
+                while bits != 0 {
+                    let bit = bits.trailing_zeros() as usize;
+                    bits &= bits - 1;
+                    emit(output, self.keys[word_index * 64 + bit].as_ref());
+                }
+            }
+        }
+    }
+
     pub(super) fn remove(&mut self, key: &K, id: &I) {
         let mut members = self.buckets.get(key).expect("indexed key").clone();
         members.remove((self.index)(id));
