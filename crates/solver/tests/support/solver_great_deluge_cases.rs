@@ -12,6 +12,10 @@ fn great_deluge_works_across_all_models_backends_and_phase_handoffs() {
                 numerator: 1,
                 denominator: 10,
             },
+            GreatDelugeRise::Binary64Ratio {
+                numerator: 1,
+                denominator: 10,
+            },
         ] {
             for selection in [MoveSelection::FirstAccepted, MoveSelection::BestAccepted] {
                 for model in 0usize..3 {

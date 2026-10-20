@@ -23,6 +23,10 @@ fn main() -> Result<(), Box<dyn Error>> {
                 numerator: f[7].parse()?,
                 denominator: f[8].parse()?,
             },
+            "ratio-binary64" => GreatDelugeRise::Binary64Ratio {
+                numerator: f[7].parse()?,
+                denominator: f[8].parse()?,
+            },
             _ => return Err("invalid rain".into()),
         };
         let c = LocalSearchConfig {

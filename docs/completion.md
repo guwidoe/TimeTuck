@@ -19,11 +19,11 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,569 Rust tests and 292 doctests**,
+The current native verification contains **8,574 Rust tests and 292 doctests**,
 including original regressions and adapted upstream assertions. Source
-`1be98a828da84045af124b47f62490e4ff04478fce7e116740ad016341b60277`. The required final check passed in
-374.629s, executing 95 jobs and reusing 53 unchanged results.
-The live report remains the authority for later counts/freshness.
+`838a5d9408978312d16a475f30512b14b8bf42a4164ece84aaf76f87f9e64ad3`. The final check passed in 856.146s,
+executing 107 jobs and reusing 41 unchanged results. The live report remains
+the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -66,6 +66,46 @@ range differences stay visible. Complete exact-default controls still execute:
 65/197 agreements with 132 differing cases. Exact i32/i64 metrics remain default.
 Seven original Rust regressions add no upstream-method credit.
 
+## Latest qualification — 292 explicit binary64 Great Deluge
+
+`GreatDelugeRise::Binary64Ratio` adds an explicit floating accumulation policy;
+exact `Ratio` and configured defaults remain unchanged. Integer initial water
+must have scale zero and fit i64. Separate operand casts, cumulative ratio,
+absolute-base multiplication, base addition and floor define the operation order.
+Wide finite thresholds decode exactly to BigInt without i64 saturation. Initial
+conversion may lower the first threshold; later thresholds can stagnate. A
+u64-bounded rise count keeps operations finite and freezes at MAX. All six
+basic/list/mixed scoped/stream phase paths use the existing shared acceptor.
+
+Actual Java and independent Python comparisons agree in **276/276 original
+cases**, **25/25 boundary prefixes**, and **184/184 separate additional ratio/budget
+probes**. Complete exact-default controls remain **275/276** and **23/25 prefixes**;
+their full Java/native outputs and exact references match prior actual outputs.
+No fixtures, budgets, order, pins, quality checks or old differences were removed.
+No Java internal thresholds/traces, general arithmetic/overflow/decimal equivalence
+or additional upstream-method credit is claimed. The explicit policy closes the
+observed boundary; the original exact arithmetic contract was not a native bug.
+
+Final `bash scripts/check.sh`: **8,574 Rust +292 doctests**,
+**107 RUN/41 REUSE**, 856.146s, source
+`838a5d9408978312d16a475f30512b14b8bf42a4164ece84aaf76f87f9e64ad3`. Four original arithmetic regressions,
+a private counter-saturation boundary and expanded six-engine phase coverage are
+included. Actual desktop/mobile browser checks cover selected and prior exact
+presentations plus current source/model/data checks; the UI detector is clear.
+
+Only solver-differential was refreshed. All other 17 raw reports retain bytes,
+dates and original keys; mixed 291 and stream 289 are now stale. Inventory stays
+4410/4855, 10 pending, 435 excluded, no failed/unverified. The dashboard index is
+**85.448%**, **1/18 current**, Java multiplier **1**. It measures tracked targets,
+not remaining effort or an ETA. Larger mixed Stream parity and recorded range,
+list-metadata and Java-error gaps remain. Goal incomplete. All execution was local;
+runner-c remains parked, no new remote authentication attempt or new subagent was made.
+
+Evidence: work/round292-qualification/{integration,solver-differential-receipt,
+gate-receipt,collection,browser-proof,current-state}.json, retained complete
+controls and work/round292-deluge-review/{README,FOLLOW-UP}.md;
+work/parallel-round292-evidence.json.
+
 ## Previous load-balance qualification (289; now stale)
 
 `WrappingLoadBalanceRootPolicy::Binary64` is an opt-in observation policy on
@@ -103,7 +143,7 @@ Evidence: work/round289-qualification/{integration,release-build-receipt,
 offline-replay,stream-differential-receipt,gate-receipt,collection,verdict,
 browser-proof}.json and work/parallel-round289-evidence.json.
 
-## Latest qualification — 291 bounded source arena
+## Previous qualification — 291 bounded source arena
 
 Private bounded planning sources retain complete lazy-shared rows in reusable
 arena cells; active slots and every undo entry move optional integer handles.

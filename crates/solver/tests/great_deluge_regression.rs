@@ -241,3 +241,163 @@ fn custom_levels_without_exact_arithmetic_keep_other_search_policies() {
             .accepts(Custom(0), Custom(1), &[])
     );
 }
+
+// Original regressions for the explicit binary64 policy; no method credit.
+#[test]
+fn binary64_ratio_retains_tenth_step_boundary_and_exact_control() {
+    let mut exact = GreatDeluge::new(
+        None,
+        GreatDelugeRise::Ratio {
+            numerator: 1,
+            denominator: 10,
+        },
+        HardSoftScore::new(-1, -9),
+    )
+    .unwrap();
+    let mut floating = GreatDeluge::new(
+        None,
+        GreatDelugeRise::Binary64Ratio {
+            numerator: 1,
+            denominator: 10,
+        },
+        HardSoftScore::new(-1, -9),
+    )
+    .unwrap();
+    for _ in 0..10 {
+        exact.step_ended();
+        floating.step_ended();
+    }
+    assert_eq!(exact.water_levels(), &[Decimal::ZERO, Decimal::ZERO]);
+    assert_eq!(
+        floating.water_levels(),
+        &[Decimal::from(-1), Decimal::from(-1)]
+    );
+    assert!(floating.accepts(HardSoftScore::new(0, 1), HardSoftScore::new(0, -9)));
+    assert!(!exact.accepts(HardSoftScore::new(0, 1), HardSoftScore::new(0, -9)));
+    let mut fork = floating.clone();
+    floating.step_ended();
+    assert_eq!(floating.water_levels(), &[Decimal::ZERO, Decimal::ZERO]);
+    assert_eq!(fork.water_levels(), &[Decimal::from(-1), Decimal::from(-1)]);
+    fork.step_ended();
+    assert_eq!(floating.water_levels(), fork.water_levels());
+}
+
+#[test]
+fn binary64_ratio_preserves_aspiration_trial_stability_and_zero_components() {
+    let mut a = GreatDeluge::new(
+        Some(HardMediumSoftScore::new(-2, 2, 0)),
+        GreatDelugeRise::Binary64Ratio {
+            numerator: 1,
+            denominator: 3,
+        },
+        HardMediumSoftScore::ZERO,
+    )
+    .unwrap();
+    for _ in 0..3 {
+        assert!(a.accepts(
+            HardMediumSoftScore::new(-3, 0, 0),
+            HardMediumSoftScore::new(-2, -100, 0)
+        ));
+        assert!(!a.accepts(
+            HardMediumSoftScore::new(10, 0, 0),
+            HardMediumSoftScore::new(-3, 0, 0)
+        ));
+        assert!(!a.accepts(
+            HardMediumSoftScore::ZERO,
+            HardMediumSoftScore::new(100, 0, 0).with_structural(-1)
+        ));
+        assert_eq!(a.water_levels(), &[-2, 2, 0].map(Decimal::from));
+    }
+    a.step_ended();
+    assert_eq!(a.water_levels(), &[-2, 2, 0].map(Decimal::from));
+    a.step_ended();
+    assert_eq!(a.water_levels(), &[-1, 3, 0].map(Decimal::from));
+    a.step_ended();
+    assert_eq!(a.water_levels(), &[0, 4, 0].map(Decimal::from));
+}
+
+#[test]
+fn binary64_ratio_decodes_wide_thresholds_without_integer_saturation() {
+    let mut a = GreatDeluge::new(
+        None,
+        GreatDelugeRise::Binary64Ratio {
+            numerator: u64::MAX,
+            denominator: 1,
+        },
+        s(i64::MIN),
+    )
+    .unwrap();
+    a.step_ended();
+    assert_eq!(
+        a.water_levels()[0].coefficient(),
+        &(BigInt::from(1u8) << 127usize)
+    );
+    assert!(!a.accepts(s(i64::MAX), s(i64::MAX)));
+    assert!(a.accepts(s(i64::MIN), s(i64::MAX)));
+    let mut lower = GreatDeluge::new(
+        None,
+        GreatDelugeRise::Binary64Ratio {
+            numerator: 1,
+            denominator: u64::MAX,
+        },
+        s(-i64::MAX),
+    )
+    .unwrap();
+    lower.step_ended();
+    assert_eq!(lower.water_levels(), &[Decimal::from(i64::MIN)]);
+}
+
+#[test]
+fn binary64_ratio_rejects_nonunit_or_wide_water_and_zero_ratios() {
+    for (num, den) in [(0, 1), (1, 0)] {
+        assert_eq!(
+            GreatDeluge::new(
+                None,
+                GreatDelugeRise::Binary64Ratio {
+                    numerator: num,
+                    denominator: den
+                },
+                s(0)
+            )
+            .unwrap_err(),
+            AcceptanceError::InvalidWaterLevelIncrement
+        );
+    }
+    for value in [
+        Decimal::new(1.into(), 1),
+        Decimal::new(1.into(), -1),
+        Decimal::new(BigInt::from(i64::MAX) + 1u8, 0),
+    ] {
+        let result = GreatDeluge::new(
+            None,
+            GreatDelugeRise::Binary64Ratio {
+                numerator: 1,
+                denominator: 10,
+            },
+            SimpleDecimalScore::new(value),
+        );
+        assert_eq!(
+            result.unwrap_err(),
+            AcceptanceError::UnsupportedScoreArithmetic
+        );
+    }
+    let result = GreatDeluge::new(
+        Some(s(-1).with_structural(-1)),
+        GreatDelugeRise::Binary64Ratio {
+            numerator: 0,
+            denominator: 0,
+        },
+        s(0),
+    );
+    assert_eq!(result.unwrap_err(), AcceptanceError::InvalidWaterLevel);
+    let empty = GreatDeluge::new(
+        None,
+        GreatDelugeRise::Binary64Ratio {
+            numerator: 1,
+            denominator: 10,
+        },
+        BendableScore::<0, 0>::ZERO,
+    )
+    .unwrap();
+    assert!(empty.water_levels().is_empty());
+}

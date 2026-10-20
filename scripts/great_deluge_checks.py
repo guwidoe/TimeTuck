@@ -49,10 +49,10 @@ def reference(case, *, floating_ratio=False):
         else:
             num, den = case['parameters']
             if floating_ratio:
-                # A hypothesis for public-output boundary probes, not a claim
-                # about Java internals. The native reference always uses integers.
-                accumulated_ratio += num / den
-                threshold = tuple(math.floor(v + abs(v) * accumulated_ratio) for v in initial)
+                # Independent model for the explicit native binary64 policy,
+                # not a claim about Java internal arithmetic.
+                accumulated_ratio += float(num) / float(den)
+                threshold = tuple(math.floor(float(v) + abs(float(v)) * accumulated_ratio) for v in initial)
             else:
                 threshold = tuple(v + abs(v) * num * steps // den for v in initial)
         accepted += is_accepted
@@ -110,25 +110,45 @@ def known_java_boundary(case):
     return None
 
 
+def binary64_case(case):
+    selected = copy.deepcopy(case)
+    if selected['rain'] == 'ratio':
+        selected['rain'] = 'ratio-binary64'
+    return selected
+
+
+def arithmetic_probes(matrix):
+    """Additional original ratios/budgets; never replace the existing matrix."""
+    bases = [c for c in matrix if c['rain'] == 'fixed' and c['parameters'] == [0, 1] and c['selection'] == 'first']
+    return [{**copy.deepcopy(c), 'id':f'{c["id"]}-binary-{num}-{den}-{steps}',
+             'rain':'ratio', 'parameters':[num, den], 'steps':steps}
+            for c in bases for num, den in [(1, 3), (2, 3), (7, 10), (1, 7)] for steps in [10, 25]]
+
+
 def run_checks(classpath):
     subprocess.run(['cargo','build','--release','--example','great_deluge_oracle','--locked'],cwd=ROOT,check=True)
     matrix = generate()
     boundary = next(c for c in matrix if known_java_boundary(c))
     probes = [{**copy.deepcopy(boundary), 'id':f'rounding-prefix-{n}', 'steps':n} for n in range(1,26)]
-    cases = matrix + probes
-    payload = '\n'.join(map(encode,cases))+'\n'
+    original = matrix + probes
+    extra = arithmetic_probes(matrix)
+    cases = original + extra
     outputs = {}
-    for name, command in [('java',['java','-Xms256m','-Xmx256m','-cp',classpath,'GreatDelugeOracle']),
-                          ('rust',[str(ROOT/'target/release/examples/great_deluge_oracle')])]:
+    runs = [('java',['java','-Xms256m','-Xmx256m','-cp',classpath,'GreatDelugeOracle'], cases),
+            ('rust',[str(ROOT/'target/release/examples/great_deluge_oracle')], original),
+            ('rust_binary64',[str(ROOT/'target/release/examples/great_deluge_oracle')], list(map(binary64_case, cases)))]
+    for name, command, inputs in runs:
+        payload = '\n'.join(map(encode,inputs))+'\n'
         run = subprocess.run(command,input=payload,text=True,capture_output=True,timeout=180)
         (WORK/f'great-deluge-{name}.stderr.log').write_text(run.stderr)
         if run.returncode:
             raise RuntimeError(f'{name} Great Deluge adapter failed; see work/oracle/great-deluge-{name}.stderr.log')
         outputs[name] = run.stdout.splitlines()
-        if len(outputs[name]) != len(cases)*(2 if name=='rust' else 1):
+        if len(outputs[name]) != len(inputs)*(1 if name=='java' else 2):
             raise ValueError(f'{name} Great Deluge response count')
     failures, references, divergences, probe_results = [], [], [], []
-    for i, c in enumerate(cases):
+    selected_references = [reference(c, floating_ratio=True) for c in cases]
+    for i, c in enumerate(original):
         expected = reference(c)
         references.append(expected)
         for runtime in ['java','scoped','stream']:
@@ -141,24 +161,38 @@ def run_checks(classpath):
                     if baseline and any(baseline[k] != expected[k] for k in ['score','values']):
                         divergences.append({'case':c['id'], 'java':baseline, 'native':{k:expected[k] for k in ['score','values']}})
                     if i >= len(matrix):
-                        check_java(c,outputs['java'][i],reference(c, floating_ratio=True))
                         probe_results.append({'case':c['id'],'steps':c['steps'],'exact':{k:expected[k] for k in ['score','values']},'java':baseline})
                 else:
                     check_rust(c,outputs['rust'][2*i+(runtime=='stream')],expected,runtime)
             except (ValueError, IndexError) as error:
-                failures.append({'case':c['id'],'runtime':runtime,'error':str(error)})
-    (WORK/'great-deluge-cases.json').write_text(json.dumps({'schema_version':1,'seed':SEED,'cases':cases,'references':references,'outputs':outputs},indent=2)+'\n')
-    failed = {f['case'] for f in failures}
+                failures.append({'case':c['id'],'runtime':runtime,'policy':'exact_control','error':str(error)})
+    for i, (c, expected) in enumerate(zip(cases, selected_references)):
+        for runtime in ['java', 'scoped', 'stream']:
+            try:
+                if runtime == 'java':
+                    check_java(c, outputs['java'][i], expected)
+                else:
+                    check_rust(c,outputs['rust_binary64'][2*i+(runtime=='stream')],expected,runtime)
+            except (ValueError, IndexError) as error:
+                failures.append({'case':c['id'],'runtime':runtime,'policy':'binary64_selected','error':str(error)})
+    (WORK/'great-deluge-cases.json').write_text(json.dumps({'schema_version':2,'seed':SEED,'cases':cases,'references':references,'binary64_references':selected_references,'outputs':outputs},indent=2)+'\n')
+    exact_failed = {f['case'] for f in failures if f['policy']=='exact_control'}
+    selected_failed = {f['case'] for f in failures if f['policy']=='binary64_selected'}
+    selected_divergent = {f['case'] for f in failures if f['policy']=='binary64_selected' and f['runtime']=='java'}
     divergent = {d['case'] for d in divergences}
-    report = {'seed':SEED,'total':len(matrix),'passed':sum(c['id'] not in failed|divergent for c in matrix),'failures':failures,
-              'native_reference_passed':sum(not any(f['case']==c['id'] and f['runtime']!='java' for f in failures) for c in matrix),
-              'diverged':sum(c['id'] in divergent for c in matrix), 'divergences':divergences,
-              'boundary_probes':{'total':len(probes),'agreed':sum(c['id'] not in failed|divergent for c in probes),
-                  'diverged':sum(c['id'] in divergent for c in probes),'results':probe_results,
-                  'scope':'Frozen step-prefix outputs check the observed ratio boundary: exact Rust reaches score (0,9) at step 11; Java reaches it at step 13. A separate Python binary-floating cumulative-ratio hypothesis reproduces these final outputs; no Java internal threshold/trace claim.'},
-              'rains': RAINS, 'native_reference_steps':sum(r['steps'] for r in references),
-               'scope':'Original required-variable graph cases; fixed rain (0,1)/(1,0)/(1,3) and ratios 1/10, 1/2, 1/100, original-order first/best accepted selection, first ties and best-rejected fallback. Java final assignments and scores are compared to independent Python enumeration; one observed ratio boundary differs and is recorded separately, never counted as an agreement pass. Rust scoped/stream counters and reasons also match Python. Native arithmetic uses exact rational accumulation; no claim for general Java floating drift/overflow, Java internal traces, decimal/list/mixed differential behavior or new upstream method credit.' }
-    print(f'Great Deluge: {report["passed"]}/{report["total"]} cases; {report["native_reference_steps"]} native reference steps',flush=True)
+    exact = {'total':len(matrix), 'passed':sum(c['id'] not in exact_failed|divergent for c in matrix),
+             'native_reference_passed':sum(not any(f['case']==c['id'] and f['runtime']!='java' and f['policy']=='exact_control' for f in failures) for c in matrix),
+             'diverged':sum(c['id'] in divergent for c in matrix), 'divergences':divergences,
+             'boundary_probes':{'total':len(probes),'agreed':sum(c['id'] not in exact_failed|divergent for c in probes),
+                                'diverged':sum(c['id'] in divergent for c in probes),'results':probe_results}}
+    report = {'seed':SEED,'total':len(matrix),'passed':sum(c['id'] not in selected_failed for c in matrix),'failures':failures,
+              'native_reference_passed':sum(not any(f['case']==c['id'] and f['runtime']!='java' and f['policy']=='binary64_selected' for f in failures) for c in matrix),
+              'selected_policy':'binary64_ratio', 'exact_controls':exact, 'diverged':sum(c['id'] in selected_divergent for c in matrix),
+              'boundary_probes':{'total':len(probes), 'agreed':sum(c['id'] not in selected_failed for c in probes), 'diverged':sum(c['id'] in selected_divergent for c in probes)},
+              'arithmetic_probes':{'total':len(extra), 'passed':sum(c['id'] not in selected_failed for c in extra), 'ratios':[[1,3],[2,3],[7,10],[1,7]], 'steps':[10,25]},
+              'rains': RAINS, 'native_reference_steps':sum(r['steps'] for r in selected_references),
+              'scope':'Original complete276case matrix and25prefixes retained. Explicit Binary64Ratio selected for ratio rain; fixed rain unchanged. Separate operand casts, cumulative binary64 addition, absolute initial multiplication, base addition and floor; native thresholds do not narrow to i64. Scoped/stream results/counters/reasons match independent Python; Java final values/scores checked, no internal-threshold/trace equivalence claim. Exact-default controls retain275/276 agreement and23/25prefixes, never relabelled as selected passes. Additional184original ratio/budget probes are separate. No general Java overflow, decimal/list/mixed differential or upstream-method credit.'}
+    print(f'Great Deluge binary64: {report["passed"]}/{report["total"]}; exact controls {exact["passed"]}/{exact["total"]}; additional probes {report["arithmetic_probes"]["passed"]}/{len(extra)}',flush=True)
     for failure in failures[:8]: print(failure,flush=True)
     return report
 

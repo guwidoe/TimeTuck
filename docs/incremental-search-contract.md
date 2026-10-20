@@ -817,7 +817,7 @@ or exceeds the water level, or strictly improves the previous completed score.
 An equal score below water is rejected. Water starts at the phase initial score
 unless `initial_water_level` supplies an explicit threshold. Trial evaluation,
 best-score changes and rejected candidates leave water unchanged. Every completed
-step raises water, including a selected best-rejected fallback. Each phase starts
+step advances rain, including a selected best-rejected fallback. Each phase starts
 a fresh session; all six basic/list/mixed scoped/stream engines use the shared
 acceptor. Configuration is validated before solver work, even for skipped phases.
 
@@ -832,6 +832,29 @@ Integer thresholds use arbitrary precision and cannot wrap into acceptance.
 Native Decimal thresholds retain their precision, with the same potentially
 unbounded storage needs as existing exact decimal arithmetic.
 
+`GreatDelugeRise::Binary64Ratio` is an explicit alternative; configured defaults
+still select exact `Ratio`. It requires positive u64 operands and initial water
+with scale zero and an exact coefficient fitting i64. Operands are separately
+converted to binary64 before division. A session adds that floating ratio once
+per completed step; it separately multiplies each absolute converted initial
+component, adds the converted initial component, then floors. The finite integer
+result is decoded exactly into BigInt, without saturating to a score integer.
+Initial `water_levels()` remains exact until the first completed step. Conversion
+may lower that first threshold; later thresholds are nondecreasing but can
+stagnate. Trials, aspiration and retained-best changes never advance the sum.
+Clone preserves independent session state, and each phase starts a fresh sum.
+
+The mode performs at most u64::MAX rises, then freezes both sum and water. With
+signed-i64 initial components and u64 ratio operands, this bounds floating
+operations far below overflow; no nonfinite fallback is needed. Scale/range
+violations return UnsupportedScoreArithmetic. Explicit initial water is checked
+during configuration validation; an inferred base can only be checked when the
+phase starts. Other current/candidate values retain the normal exact comparison
+contract and need not fit this initial-water bound. Exact `Score`/`Ratio` behavior,
+including decimal and arbitrary-precision thresholds, is unchanged. This
+operation policy does not establish general Java floating, overflow, decimal or
+internal-acceptance-trace equivalence.
+
 The optional `ScoreLevel::exact_decimal` capability supplies numeric levels and
 precision. It must return Some for every value or None for the entire level type;
 i64 and Decimal implement it. Other custom levels retain their existing search
@@ -841,7 +864,7 @@ score type and expose numeric thresholds through `water_levels()`.
 
 All three pinned GreatDelugeAcceptorTest methods are adapted, preserving 36
 acceptance assertions. Original boundary/integration regressions and the public
-Community API comparison add no method credit. The original 276-case matrix
+Community API comparison add no method credit. The retained exact-policy 276-case matrix
 covers fixed rain (0,1)/(1,0)/(1,3), ratios 1/10, 1/2 and 1/100, first/best accepted
 selection and rejected fallback. Rust scoped/stream results and counters match
 independent exact Python enumeration in all 276 cases. Java final scores and
@@ -853,6 +876,12 @@ an explanatory hypothesis, not an inspection of Java's thresholds or traces.
 Known divergences never count as agreement passes; changed or unexplained outputs
 fail the comparison command. No general Java floating/overflow or decimal-search
 parity is claimed. See `scripts/great_deluge_checks.py` and report details.
+
+The explicit binary64 option now has actual Java and independent Python agreement
+in all 276 original cases and all 25 prefixes, plus 184 separate original probes
+using ratios 1/3, 2/3, 7/10 and 1/7 at limits 10/25. Complete exact-default outputs
+and references remain identical to their prior observations. All six model/backend
+phase integrations are exercised. Neither policy's native trace is a Java trace.
 
 The public configuration and default initial-water concept are described in
 [Timefold's local-search documentation](https://docs.timefold.ai/timefold-solver/latest/optimization-algorithms/local-search).

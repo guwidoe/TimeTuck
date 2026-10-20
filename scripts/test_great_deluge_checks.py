@@ -1,7 +1,7 @@
 """Original reference boundaries and divergence accounting; no method credit."""
 import copy
 import unittest
-from great_deluge_checks import generate, reference, encode, known_java_boundary
+from great_deluge_checks import generate, reference, encode, known_java_boundary, binary64_case, arithmetic_probes
 from termination_checks import check_java, check_rust
 
 
@@ -49,6 +49,25 @@ class GreatDelugeReferenceTest(unittest.TestCase):
         self.assertEqual(len({c['id'] for c in cases}),276)
         self.assertEqual(sum(known_java_boundary(c) is not None for c in cases),1)
         self.assertTrue(all(len(encode(c).split('\t'))==11 for c in cases))
+
+    def test_selected_policy_preserves_original_cases_and_extra_probe_denominator(self):
+        cases=generate();before=copy.deepcopy(cases)
+        selected=list(map(binary64_case,cases))
+        self.assertEqual(cases,before)
+        self.assertEqual(len(selected),276)
+        for old,new in zip(cases,selected):
+            self.assertEqual({k:v for k,v in old.items() if k!='rain'}, {k:v for k,v in new.items() if k!='rain'})
+            self.assertEqual(new['rain'],'ratio-binary64' if old['rain']=='ratio' else 'fixed')
+        extra=arithmetic_probes(cases)
+        self.assertEqual(len(extra),184)
+        self.assertEqual(len({c['id'] for c in extra}),184)
+        self.assertFalse({c['id'] for c in extra}&{c['id'] for c in cases})
+
+    def test_floating_reference_casts_operands_before_division_and_floors_negative_water(self):
+        c=self.case([-2,-3]);c.update(rain='ratio',parameters=[1,3],steps=3)
+        self.assertEqual([t['threshold'] for t in reference(c,floating_ratio=True)['trace']], [[0,-2],[0,-1],[0,0]])
+        c=self.case([-8,-9,-7]);c.update(rain='ratio',parameters=[1,10],steps=10)
+        self.assertEqual(reference(c,floating_ratio=True)['trace'][-1]['threshold'],[0,-1])
 
 
 if __name__=='__main__':unittest.main()

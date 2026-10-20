@@ -1,4 +1,4 @@
-//! Deterministic rising thresholds using exact arithmetic for rain accumulation.
+//! Deterministic thresholds with exact or explicit binary64 rain accumulation.
 use crate::{AcceptanceError, BigInt, Decimal, Score, ScoreLevel};
 use std::cmp::Ordering;
 
@@ -9,6 +9,10 @@ pub enum GreatDelugeRise<S> {
     /// Positive rational fraction of the absolute initial water level per step.
     /// Fractional rain accumulates before rounding, rather than rounding each drop.
     Ratio { numerator: u64, denominator: u64 },
+    /// Explicit binary64 accumulation and integer-floor thresholds. Initial
+    /// water components must have scale zero and fit i64. Exact Ratio remains
+    /// the default configured policy. See [`GreatDeluge`] for numeric limits.
+    Binary64Ratio { numerator: u64, denominator: u64 },
 }
 #[derive(Clone, Debug)]
 enum Rain {
@@ -19,16 +23,32 @@ enum Rain {
         accumulated: Vec<BigInt>,
         denominator: BigInt,
     },
+    Binary64Ratio {
+        base: Vec<f64>,
+        drop: f64,
+        accumulated: f64,
+        steps: u64,
+    },
 }
 /// Candidates meeting the water level, or strictly improving the current score,
-/// are accepted. Each completed step raises the water, even a rejected fallback.
+/// are accepted. Each completed step advances the rain, even a rejected fallback.
 /// Trials and changes in the retained best do not change the water level.
 ///
-/// Exact arithmetic avoids integer overflow and binary-floating drift. Ratio rain
+/// Score and Ratio arithmetic avoid integer overflow and binary-floating drift. Ratio rain
 /// is rounded down only when forming the threshold, at each initial level's scale
 /// (at least zero). This preserves fractional accumulation for integer scores and
 /// decimal precision for decimal scores. Java floating-point/overflow equivalence
 /// outside the documented comparison cases is not claimed.
+///
+/// The opt-in Binary64Ratio instead adds the binary64 ratio once per completed
+/// step, then separately multiplies each absolute initial component, adds the
+/// initial component and floors. Integer thresholds are decoded exactly, without
+/// narrowing to i64. Initial water must have scale zero and fit i64. At most
+/// u64::MAX rises are performed; later calls leave water unchanged. This bounds
+/// every floating operation to finite values, even for extreme valid ratios.
+/// Initial conversion may round down, so the first binary64 threshold can be
+/// below the exact initial water. Subsequent thresholds are nondecreasing.
+/// This policy does not establish general Java arithmetic or trace equivalence.
 ///
 /// ```
 /// use timetuck::{GreatDeluge, GreatDelugeRise, SimpleScore as S};
@@ -59,6 +79,35 @@ fn levels<S: Score>(s: &S) -> Result<Vec<Decimal>, AcceptanceError> {
         })
         .collect()
 }
+fn binary64_base(water: &[Decimal]) -> Result<Vec<f64>, AcceptanceError> {
+    water
+        .iter()
+        .map(|level| {
+            if level.scale() != 0 {
+                return Err(AcceptanceError::UnsupportedScoreArithmetic);
+            }
+            i64::try_from(level.coefficient())
+                .map(|n| n as f64)
+                .map_err(|_| AcceptanceError::UnsupportedScoreArithmetic)
+        })
+        .collect()
+}
+fn binary64_integer(value: f64) -> BigInt {
+    debug_assert!(value.is_finite() && value.fract() == 0.0);
+    let bits = value.to_bits();
+    let exponent = ((bits >> 52) & 0x7ff) as i32;
+    if exponent == 0 {
+        return BigInt::ZERO;
+    }
+    let mantissa = BigInt::from((bits & ((1u64 << 52) - 1)) | (1u64 << 52));
+    let shift = exponent - 1023 - 52;
+    let integer = if shift >= 0 {
+        mantissa << shift as usize
+    } else {
+        mantissa >> (-shift) as usize
+    };
+    if bits >> 63 == 0 { integer } else { -integer }
+}
 impl<S: Score> GreatDeluge<S> {
     pub(crate) fn validate(
         initial: Option<&S>,
@@ -68,7 +117,10 @@ impl<S: Score> GreatDeluge<S> {
             return Err(AcceptanceError::UnsupportedScoreArithmetic);
         }
         if let Some(initial) = initial {
-            levels(initial)?;
+            let water = levels(initial)?;
+            if matches!(rise, GreatDelugeRise::Binary64Ratio { .. }) {
+                binary64_base(&water)?;
+            }
         }
         match rise {
             GreatDelugeRise::Score(s) => {
@@ -80,6 +132,10 @@ impl<S: Score> GreatDeluge<S> {
                 }
             }
             GreatDelugeRise::Ratio {
+                numerator,
+                denominator,
+            }
+            | GreatDelugeRise::Binary64Ratio {
                 numerator,
                 denominator,
             } => {
@@ -126,6 +182,15 @@ impl<S: Score> GreatDeluge<S> {
                     denominator: denominator.into(),
                 }
             }
+            GreatDelugeRise::Binary64Ratio {
+                numerator,
+                denominator,
+            } => Rain::Binary64Ratio {
+                base: binary64_base(&water)?,
+                drop: numerator as f64 / denominator as f64,
+                accumulated: 0.0,
+                steps: 0,
+            },
         };
         Ok(Self {
             water,
@@ -175,6 +240,71 @@ impl<S: Score> GreatDeluge<S> {
                     *water = base.add(&Decimal::new(&*sum / &*denominator, base.scale()));
                 }
             }
+            Rain::Binary64Ratio {
+                base,
+                drop,
+                accumulated,
+                steps,
+            } => {
+                if *steps == u64::MAX {
+                    return;
+                }
+                *steps += 1;
+                *accumulated += *drop;
+                for (water, base) in self.water.iter_mut().zip(base) {
+                    let rise = base.abs() * *accumulated;
+                    *water = Decimal::new(binary64_integer((*base + rise).floor()), 0);
+                }
+            }
         }
+    }
+}
+
+#[cfg(test)]
+mod binary64_tests {
+    use super::*;
+    #[test]
+    fn completed_step_saturation_keeps_finite_water_and_freezes_all_rain_state() {
+        let mut a = GreatDeluge::new(
+            None,
+            GreatDelugeRise::Binary64Ratio {
+                numerator: u64::MAX,
+                denominator: 1,
+            },
+            crate::SimpleScore::new(i64::MIN),
+        )
+        .unwrap();
+        let Rain::Binary64Ratio {
+            steps,
+            accumulated,
+            drop,
+            ..
+        } = &mut a.rain
+        else {
+            unreachable!()
+        };
+        *steps = u64::MAX - 1;
+        *accumulated = *drop * (u64::MAX - 1) as f64;
+        a.step_ended();
+        let saved = a.water.clone();
+        let Rain::Binary64Ratio {
+            steps, accumulated, ..
+        } = &a.rain
+        else {
+            unreachable!()
+        };
+        assert_eq!(*steps, u64::MAX);
+        assert!(accumulated.is_finite());
+        let sum = *accumulated;
+        a.step_ended();
+        assert_eq!(a.water, saved);
+        let Rain::Binary64Ratio {
+            steps, accumulated, ..
+        } = &a.rain
+        else {
+            unreachable!()
+        };
+        assert_eq!(*steps, u64::MAX);
+        assert_eq!(*accumulated, sum);
     }
 }
