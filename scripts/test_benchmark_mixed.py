@@ -191,6 +191,56 @@ class MixedBenchmarkContractTest(unittest.TestCase):
         self.assertEqual(len(commands),3);self.assertEqual(rows[0]['samples']['java'],rows[1]['samples']['java'])
         self.assertTrue(all(x['native_search_profile']=='component-refinement' for x in rows))
 
+    def test_checked_registry_metadata_is_explicit_and_default_remains_eq_only(self):
+        for policy in ['eq-only','ordinal']:
+            row=self.row();row.update(m.registry_metadata(policy))
+            self.assertEqual(m.parse_result(self.small,json.dumps(row),'dense',2,registry_policy=policy)['list_registry_policy'],m.registry_metadata(policy)['list_registry_policy'])
+            if policy=='ordinal':
+                with self.assertRaises(ValueError):m.parse_result(self.small,json.dumps(row),'dense',2)
+        for bad in [{},{'list_registry_policy':'unknown'},{'list_registry_policy':'eq-only'}]:
+            row=self.row();row.update(bad)
+            with self.assertRaises(ValueError):m.parse_result(self.small,json.dumps(row),'dense',2,registry_policy='ordinal')
+        with self.assertRaises(ValueError):m.registry_metadata('unknown')
+    def test_registry_controls_compare_physical_calls_and_unknown_nested_fields(self):
+        eq=self.row();eq.update(m.registry_metadata('eq-only'));eq['future']={'nested':[1,2]}
+        selected=deepcopy(eq);selected.update(m.registry_metadata('ordinal'));selected['elapsed_ns']+=1
+        m.require_same_registry_observations([eq],[selected])
+        for mutate in [lambda r:r.__setitem__('score_calls',99),lambda r:r['future']['nested'].append(3),lambda r:r.__setitem__('future_counter',1),lambda r:r.__setitem__('stream_graph_policy','different')]:
+            bad=deepcopy(selected);mutate(bad)
+            with self.assertRaises(ValueError):m.require_same_registry_observations([eq],[bad])
+        with self.assertRaises(ValueError):m.require_same_registry_observations([eq],[])
+    def test_ordinal_retains_full_same_graph_eq_controls_and_one_java_group(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        for case in m.workloads():
+            for graph in ['ordinary-join','owner-links','owner-links-fused']:
+                groups={'ordinary-join':5,'owner-links':6,'owner-links-fused':7}[graph];order=[]
+                def execute(command,**kwargs):
+                    runtime='java' if 'MixedSolverBenchmark' in command else 'dense' if 'dense' in command else 'stream'
+                    policy=command[command.index('--list-registry-policy')+1] if '--list-registry-policy' in command else 'eq-only'
+                    declaration=command[command.index('--stream-graph-policy')+1] if '--stream-graph-policy' in command else 'ordinary-join'
+                    order.append((runtime,policy,declaration));self.assertEqual(kwargs['input'],m.encode(case)+'\n')
+                    if case['start_mode']=='cold':self.assertIn('cold',command)
+                    row=self.row(case,runtime);row['unknown_full_output']={'retained':[42]}
+                    if runtime!='java':row.update(m.graph_metadata(runtime,declaration));row.update(m.registry_metadata(policy))
+                    return SimpleNamespace(returncode=0,stderr='',stdout=json.dumps(row)+'\n')
+                args=SimpleNamespace(iterations=2,warmup=0,samples=1,forks=groups,native_search_profile='joint',native_stream_graph_policy=graph,native_list_registry_policy='ordinal')
+                with patch.object(m.subprocess,'run',side_effect=execute):rows=m.measure_case(case,args,'synthetic-contract-classpath',0)
+                self.assertEqual(len(order),groups*groups);self.assertEqual(sum(x[0]=='java' for x in order),groups)
+                first=order[:groups];self.assertEqual(len(set(first)),groups)
+                for fork in range(groups):self.assertEqual(order[fork*groups:(fork+1)*groups],first[fork:]+first[:fork])
+                self.assertEqual(rows[0]['samples']['java'],rows[1]['samples']['java'])
+                for row in rows:
+                    self.assertEqual(row['case'],case);self.assertEqual(row['native_list_registry_policy'],'ordinal')
+                    controls=row['eq_only_registry_controls'];self.assertEqual(len(controls['observations']),groups);self.assertEqual(len(controls['samples']),groups)
+                    self.assertTrue(controls['full_observations_equal_except_declared_registry_and_time'])
+                    for control,selected in zip(controls['observations'],row['observations']['rust']):
+                        self.assertEqual(control['list_registry_policy'],'eq-only');self.assertEqual(selected['list_registry_policy'],'ordinal-checked-v1')
+                        self.assertEqual(control['unknown_full_output'],{'retained':[42]});self.assertEqual(control['score_calls'],selected['score_calls'])
+                    m.require_same_registry_observations(controls['observations'],row['observations']['rust'])
+                    if row['native_backend']=='stream' and graph!='ordinary-join':self.assertEqual(len(row['ordinary_stream_controls']['observations']),groups)
+                    if row['native_backend']=='stream' and graph=='owner-links-fused':self.assertEqual(len(row['owner_link_controls']['observations']),groups)
+
 class OwnerLinkDriverContractTest(unittest.TestCase):
     """Synthetic protocol inputs only: no solver, Java, timing or agreement evidence."""
     def setUp(self):

@@ -1,4 +1,5 @@
-//! Immutable registry and range indexes. Hash bounds stay at construction only.
+//! Immutable registry/range indexes with explicit hash or checked ordinal lookup.
+//! Hash bounds stay at hash construction only; ordinary Eq-only defaults remain.
 use super::{ListAssignment, ListEntity, ListError, ListPosition, ListProblem};
 use std::{
     collections::{HashMap, HashSet, hash_map::RandomState},
@@ -7,24 +8,47 @@ use std::{
 };
 
 #[derive(Clone, Debug)]
+enum RegistryLookup<V> {
+    Hash {
+        hash: fn(&RandomState, &V) -> u64,
+        state: RandomState,
+        heads: HashMap<u64, usize>,
+        next: Vec<usize>,
+    },
+    Ordinal(fn(&V) -> usize),
+}
+#[derive(Clone, Debug)]
 pub(super) struct ValueIndex<V> {
-    hash: fn(&RandomState, &V) -> u64,
-    state: RandomState,
-    heads: HashMap<u64, usize>,
-    next: Vec<usize>,
+    lookup: RegistryLookup<V>,
     ranges: Vec<Option<Vec<usize>>>,
     sparse_ranges: bool,
 }
 impl<V: Eq> ValueIndex<V> {
     pub(super) fn find(&self, values: &[V], value: &V) -> Option<usize> {
-        let mut id = *self.heads.get(&(self.hash)(&self.state, value))?;
-        while id != usize::MAX {
-            if values[id] == *value {
-                return Some(id);
+        match &self.lookup {
+            RegistryLookup::Hash {
+                hash,
+                state,
+                heads,
+                next,
+            } => {
+                let mut id = *heads.get(&hash(state, value))?;
+                while id != usize::MAX {
+                    if values[id] == *value {
+                        return Some(id);
+                    }
+                    id = next[id];
+                }
+                None
             }
-            id = self.next[id];
+            RegistryLookup::Ordinal(ordinal) => {
+                let id = ordinal(value);
+                values
+                    .get(id)
+                    .filter(|registered| **registered == *value)
+                    .map(|_| id)
+            }
         }
-        None
     }
     pub(super) fn accepts(&self, entity: usize, id: usize) -> bool {
         self.ranges[entity].as_ref().is_none_or(|ids| {
@@ -55,10 +79,12 @@ impl<V: Eq + Clone> ListProblem<V> {
         hash: fn(&RandomState, &V) -> u64,
     ) -> Result<Self, ListError> {
         let mut index = ValueIndex {
-            hash,
-            state: RandomState::new(),
-            heads: HashMap::with_capacity(values.len()),
-            next: Vec::with_capacity(values.len()),
+            lookup: RegistryLookup::Hash {
+                hash,
+                state: RandomState::new(),
+                heads: HashMap::with_capacity(values.len()),
+                next: Vec::with_capacity(values.len()),
+            },
             ranges: Vec::with_capacity(entities.len()),
             sparse_ranges: false,
         };
@@ -66,11 +92,59 @@ impl<V: Eq + Clone> ListProblem<V> {
             if index.find(&values, value).is_some() {
                 return Err(ListError::DuplicateDomainValue);
             }
-            let hash = (index.hash)(&index.state, value);
-            index
-                .next
-                .push(index.heads.insert(hash, id).unwrap_or(usize::MAX));
+            let RegistryLookup::Hash {
+                hash,
+                state,
+                heads,
+                next,
+            } = &mut index.lookup
+            else {
+                unreachable!("hash construction")
+            };
+            let key = hash(state, value);
+            next.push(heads.insert(key, id).unwrap_or(usize::MAX));
         }
+        Self::finish_indexed(values, entities, index)
+    }
+
+    /// Construct an immutable direct ordinal registry index without requiring Hash.
+    /// Every registry value must map to its own position in `values`, independent
+    /// of numeric value or sorting. Equal values must have equal ordinals, and
+    /// Eq/ordinal identity must remain stable for the model and its clones.
+    /// The callback must be pure; invalid callback traces are not equivalent to
+    /// ordinary equality lookup. Out-of-range/unequal queries never match: each
+    /// lookup checks both bounds and Eq. Duplicate values mapping to an earlier
+    /// equal entry report DuplicateDomainValue; other bad registry ordinals report
+    /// InvalidValueOrdinal. Registry/update/selection order, pins and ranges remain
+    /// unchanged for valid keys. Clones share the immutable index. Rebuilds retain
+    /// this exact function. No default constructor or solver Hash bound changes.
+    pub fn new_ordinal_indexed(
+        values: Vec<V>,
+        entities: Vec<ListEntity<V>>,
+        ordinal: fn(&V) -> usize,
+    ) -> Result<Self, ListError> {
+        for (expected, value) in values.iter().enumerate() {
+            let actual = ordinal(value);
+            if actual < expected && values.get(actual).is_some_and(|earlier| earlier == value) {
+                return Err(ListError::DuplicateDomainValue);
+            }
+            if actual != expected {
+                return Err(ListError::InvalidValueOrdinal { expected, actual });
+            }
+        }
+        let index = ValueIndex {
+            lookup: RegistryLookup::Ordinal(ordinal),
+            ranges: Vec::with_capacity(entities.len()),
+            sparse_ranges: false,
+        };
+        Self::finish_indexed(values, entities, index)
+    }
+
+    fn finish_indexed(
+        values: Vec<V>,
+        entities: Vec<ListEntity<V>>,
+        mut index: ValueIndex<V>,
+    ) -> Result<Self, ListError> {
         for (entity, meta) in entities.iter().enumerate() {
             let range = if let Some(range) = &meta.value_range {
                 let mut ids = HashSet::with_capacity(range.len());
@@ -177,7 +251,14 @@ impl<V: Eq + Clone> ListProblem<V> {
         entities: Vec<ListEntity<V>>,
     ) -> Result<Self, ListError> {
         match &self.value_index {
-            Some(index) => Self::new_using_hash(self.values.clone(), entities, index.hash),
+            Some(index) => match &index.lookup {
+                RegistryLookup::Hash { hash, .. } => {
+                    Self::new_using_hash(self.values.clone(), entities, *hash)
+                }
+                RegistryLookup::Ordinal(ordinal) => {
+                    Self::new_ordinal_indexed(self.values.clone(), entities, *ordinal)
+                }
+            },
             None => Self::new(self.values.clone(), entities),
         }
     }
@@ -209,7 +290,70 @@ impl<V: Eq + Clone> ListProblem<V> {
     where
         V: 'a,
     {
-        if self.value_index.is_some() {
+        if let Some(index) = &self.value_index {
+            if matches!(index.lookup, RegistryLookup::Ordinal(_)) {
+                // Bounded registries need no tree or sorting. Every ordinal
+                // still checks bounds and equality before becoming a bit/slot.
+                // Original captures precede current rows; current owners win.
+                if self.values.len() <= 64 {
+                    let mut positions = [None; 64];
+                    let mut changed = 0u64;
+                    for &entity in touched {
+                        for value in original(entity) {
+                            let id = index.find(&self.values, value).expect("validated registry");
+                            changed |= 1u64 << id;
+                        }
+                    }
+                    for &entity in touched {
+                        for (slot, value) in assignment.lists()[entity].iter().enumerate() {
+                            let id = index.find(&self.values, value).expect("validated registry");
+                            changed |= 1u64 << id;
+                            positions[id] = Some(ListPosition {
+                                entity,
+                                index: slot,
+                            });
+                        }
+                    }
+                    let mut changes = Vec::with_capacity(changed.count_ones() as usize);
+                    while changed != 0 {
+                        let id = changed.trailing_zeros() as usize;
+                        changes.push((id, positions[id]));
+                        changed &= changed - 1;
+                    }
+                    return changes;
+                }
+                // An explicit ordinal index permits checked, direct IDs. Keep
+                // captures in one footprint-sized buffer instead of allocating
+                // a tree node for each affected value. Current positions win
+                // over removals; validated assignments have one current owner.
+                let current_len = touched.iter().fold(0usize, |len, &entity| {
+                    len.saturating_add(assignment.lists()[entity].len())
+                });
+                let capacity = self.values.len().min(current_len.saturating_mul(2));
+                let mut changes = Vec::with_capacity(capacity);
+                for &entity in touched {
+                    for value in original(entity) {
+                        changes.push((
+                            index.find(&self.values, value).expect("validated registry"),
+                            None,
+                        ));
+                    }
+                }
+                for &entity in touched {
+                    for (slot, value) in assignment.lists()[entity].iter().enumerate() {
+                        changes.push((
+                            index.find(&self.values, value).expect("validated registry"),
+                            Some(ListPosition {
+                                entity,
+                                index: slot,
+                            }),
+                        ));
+                    }
+                }
+                changes.sort_unstable_by_key(|(id, position)| (*id, position.is_none()));
+                changes.dedup_by_key(|(id, _)| *id);
+                return changes;
+            }
             let mut changes = std::collections::BTreeMap::new();
             for &entity in touched {
                 for value in original(entity) {
@@ -367,5 +511,132 @@ impl AssignedIds {
             Self::Positions(p) => Some(p),
             _ => None,
         }
+    }
+}
+
+#[cfg(test)]
+mod ordinal_tests {
+    use super::*;
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    static CALLS: AtomicUsize = AtomicUsize::new(0);
+    fn ordinal(v: &usize) -> usize {
+        CALLS.fetch_add(1, Ordering::Relaxed);
+        *v
+    }
+    #[test]
+    fn clone_shares_index_and_rebuild_retains_ordinal_function_and_recomputes_ranges() {
+        let p = ListProblem::new_ordinal_indexed(
+            vec![0, 1, 2],
+            vec![ListEntity::new(vec![0]).with_value_range(vec![0, 1])],
+            ordinal,
+        )
+        .unwrap();
+        let q = p.clone();
+        assert!(Arc::ptr_eq(
+            p.value_index.as_ref().unwrap(),
+            q.value_index.as_ref().unwrap()
+        ));
+        let r = q
+            .rebuild_with_entities(vec![ListEntity::new(vec![2]).with_value_range(vec![2])])
+            .unwrap();
+        assert!(matches!(
+            &r.value_index.as_ref().unwrap().lookup,
+            RegistryLookup::Ordinal(_)
+        ));
+        CALLS.store(0, Ordering::Relaxed);
+        assert_eq!(r.value_index(&2), Some(2));
+        assert_eq!(CALLS.load(Ordering::Relaxed), 1);
+        assert!(!r.accepts_registered(0, 0));
+        assert!(r.accepts_registered(0, 2));
+        assert!(!p.accepts_registered(0, 2));
+        assert_eq!(r.value_index(&usize::MAX), None);
+    }
+    #[test]
+    fn ordinal_changed_positions_keep_registry_order_current_owners_and_removals() {
+        for count in [64, 65, 4096] {
+            let p = ListProblem::new_ordinal_indexed(
+                (0..count).collect(),
+                vec![
+                    ListEntity::new(vec![31, 0, 1]),
+                    ListEntity::new(vec![63, 32]),
+                    ListEntity::new(vec![2]),
+                ],
+                |v| *v,
+            )
+            .unwrap()
+            .allowing_unassigned();
+            let before = p.initial_assignment();
+            let after = ListAssignment::new(vec![vec![32, 0], vec![31, 3], vec![2]]);
+            p.validate(&after).unwrap();
+            let changes =
+                p.changed_value_positions(&after, &[1, 0], |entity| &before.lists()[entity]);
+            assert_eq!(
+                changes,
+                vec![
+                    (
+                        0,
+                        Some(ListPosition {
+                            entity: 0,
+                            index: 1
+                        })
+                    ),
+                    (1, None),
+                    (
+                        3,
+                        Some(ListPosition {
+                            entity: 1,
+                            index: 1
+                        })
+                    ),
+                    (
+                        31,
+                        Some(ListPosition {
+                            entity: 1,
+                            index: 0
+                        })
+                    ),
+                    (
+                        32,
+                        Some(ListPosition {
+                            entity: 0,
+                            index: 0
+                        })
+                    ),
+                    (63, None)
+                ]
+            );
+            assert!(
+                p.changed_value_positions(&after, &[], |entity| &before.lists()[entity])
+                    .is_empty()
+            );
+            let removed = ListAssignment::new(vec![vec![], vec![], vec![2]]);
+            assert_eq!(
+                p.changed_value_positions(&removed, &[0, 1], |entity| &before.lists()[entity]),
+                vec![(0, None), (1, None), (31, None), (32, None), (63, None)]
+            );
+        }
+    }
+    #[test]
+    fn hash_rebuild_stays_hash_and_ordinal_sparse_shape_preserves_sorted_range_ids() {
+        let p = ListProblem::new_indexed(vec![0, 1], vec![ListEntity::new(vec![0])]).unwrap();
+        assert!(matches!(
+            &p.rebuild_with_entities(vec![ListEntity::new(vec![1])])
+                .unwrap()
+                .value_index
+                .as_ref()
+                .unwrap()
+                .lookup,
+            RegistryLookup::Hash { .. }
+        ));
+        let p = ListProblem::new_ordinal_indexed(
+            (0..64).collect(),
+            (0..32)
+                .map(|i| ListEntity::new(vec![i]).with_value_range(vec![i + 32, i]))
+                .collect(),
+            |v| *v,
+        )
+        .unwrap();
+        assert!(p.has_sparse_entity_ranges());
+        assert_eq!(p.indexed_entity_range(7), Some(&[7, 39][..]));
     }
 }

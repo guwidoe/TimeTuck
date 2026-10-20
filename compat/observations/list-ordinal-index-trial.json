@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "classification": "Original native capability and bounded measured performance; no upstream-method credit",
+  "native_source": "5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c",
+  "artifact_sha256": "357decf5df3bfaac9923c50113c79a3fc4f331aa3214f9857713834640965f23",
+  "public_api": "ListProblem::new_ordinal_indexed",
+  "target": "Java time parity at equal-or-better quality",
+  "defaults": "Eq-only unchanged; Hash preserved; Basic Eq-only",
+  "contract": "Pure stable equality-consistent ordinal keys; bounds and Eq checked on every lookup; full rows/shadows/payloads, removals, registry order, rebuild and cold policy retained; <=64 bitset, larger sorted fallback",
+  "native_trial": {
+    "path": "work/round296-qualification/pair-results.json",
+    "sha256": "efd7cecc91f4e49103c11407477ffbd82608a2657d48f012a8fe897653c4dbff",
+    "rows": 16,
+    "forks": 4,
+    "cpu": 2,
+    "component_large_warm_percent": -11.34969663058607,
+    "joint_large_warm_percent": -10.809960655772278,
+    "all_large_warm_forks_improved": true,
+    "component_small_warm_percent": 13.403431374604713,
+    "joint_large_cold_percent": 3.5236095118533095,
+    "full_observations_and_actual_physical_calls_equal_except_time_registry": true
+  },
+  "rejected_trials": [
+    "work/round296-qualification/tree-coalescing-trial/",
+    "work/round296-qualification/sorted-buffer-trial/"
+  ],
+  "diagnostic_profile": {
+    "path": "work/round296-qualification/sorted-buffer-trial/profile-receipt.json",
+    "source": "28941ad9283e0f07d8109d2bce8125e89eade66c772f52e1c38e46b178f33406",
+    "samples": 3358,
+    "lost": 0,
+    "position_self_percent": 3.01,
+    "position_inclusive_percent": 14.74,
+    "sort_self_percent": 6.82,
+    "scope": "Rejected sorted-buffer artifact, whole-program CPU-clock sampling; not final bitset, matched timing or general speed evidence"
+  },
+  "qualification": {
+    "rust_tests": 8587,
+    "doctests": 292,
+    "executed_jobs": 96,
+    "reused_jobs": 52,
+    "gate_seconds": 329.8029245390062,
+    "java_parity": 8,
+    "mixed_rows": 8,
+    "all_scores_equal": true,
+    "refreshed_reports": [
+      "mixed-performance"
+    ],
+    "other17raw_reports_unchanged": true,
+    "index": 85.91383236182037,
+    "current_reports": 1,
+    "goal_complete": false
+  },
+  "limits": "Slower small, Dense and cold controls retained. Eq-only controls also meet Java parity in the fresh run; cross-run Java ratios do not isolate the native gain. No generic callback/Clone/Drop, Java work/trace, memory, arbitrary-scale, universal quality or overall completion claim. Existing behavior differences remain unresolved."
+}

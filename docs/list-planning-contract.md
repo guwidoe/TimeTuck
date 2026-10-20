@@ -1422,3 +1422,25 @@ The original list-repair benchmark accepts `--ruin-sampling coverage-cycle` for
 Rust, leaving the Java public random selector unchanged. Its report names the
 native policy and retains independent validity, score, optimum and work checks.
 Default benchmark sampling remains `independent`.
+
+## Explicit ordinal registry index
+
+`ListProblem::new_ordinal_indexed(values, entities, ordinal)` accepts an explicit
+`fn(&V) -> usize` with `V: Eq + Clone`, without Hash or Ord. Each registry entry
+must map to its position in the supplied registry; numeric value and sorted order
+do not define that position. Keys must be pure, stable and equality-consistent
+for the model and its clones, as Hash identity must be stable for hash indexing.
+Constructor checks cannot prove those obligations for arbitrary callbacks. An
+incorrect registry position returns `InvalidValueOrdinal { expected, actual }`;
+an equal duplicate mapping to an earlier registered entry remains
+`DuplicateDomainValue`. Inconsistent keys are not repaired by quadratic scans.
+
+Every lookup checks both bounds and equality, including outside values and
+`usize::MAX`. Clones share the immutable index. Rebuilding entities preserves the
+exact ordinal function and recomputes range IDs. Pins, ranges, registry order,
+full planning rows/shadows and source publication order remain intact. Ordinal
+changed-position discovery uses a bounded bitset/table for registries up to 64
+values and a sorted buffer for larger registries; both retain removals and prefer
+current owners. Existing Eq-only defaults and Hash indexing remain available.
+Callback/Clone/Drop traces and performance are not universally equivalent across
+index choices; actual workload controls accompany measured gains.

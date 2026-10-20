@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,578 Rust tests and 292 doctests**,
+The current native verification contains **8,587 Rust tests and 292 doctests**,
 including original regressions and adapted upstream assertions. Source
-`46069f24e4025134fff09c60de7f5f3b3d1659f965fea3bbabdd767190d7e62e`. The final check passed in 81.859s,
-executing 5 jobs and reusing 143 unchanged results. The live report remains
+`5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c`. The final check passed in 329.803s,
+executing 96 jobs and reusing 52 unchanged results. The live report remains
 the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
@@ -52,7 +52,7 @@ See the [stream contracts](constraint-stream-contract.md) and
 Java agreement. Completion still needs evidence for every original-scope
 requirement and resolution of the remaining relevant behavior differences.
 
-The current solver292 comparison retains all 4,824 exact encounter-order
+The last solver292 comparison (now stale) retains all 4,824 exact encounter-order
 observations plus the original total-order controls (4,499 agreements and 325
 differences). Explicit binary64 Great Deluge now agrees in 276/276 original cases,
 25/25 boundary prefixes and 184/184 additional probes; exact-default controls stay
@@ -66,7 +66,62 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Latest qualification — 294 fused owner-link application graph
+## Latest qualification — 296 checked ordinal list registry
+
+`ListProblem::new_ordinal_indexed` offers checked ordinal lookup for Eq+Clone
+values without Hash/Ord. Registry entries declare their own stable positions;
+queries check bounds and equality. Invalid ordinals return a typed error. Clones
+share the index; entity rebuilds preserve the exact function and recompute ranges.
+Keys must be pure, stable and equality-consistent. Eq-only defaults and existing
+Hash indexing remain. Changed positions use a bounded bitset/table up to 64 values
+and a sorted buffer above that boundary, preserving removals and registry order.
+The mixed example's explicit `--list-registry-policy ordinal` applies to both
+backends and cold reconstruction; Basic registries remain Eq-only. Complete rows,
+shadows, full match payloads/scores, pins, search work and budgets remain intact.
+
+Nine original Rust regressions cover non-Hash/arbitrary-order registries, errors,
+range/pin atomicity, rebuilds, both storage paths, full source/match/shadow rollback,
+real search and pinned cold handoffs. Three Python contracts retain complete
+same-graph Eq-only Dense/Stream controls and compare physical calls and unknown
+fields. Original graph controls remain. No upstream-method credit is added.
+
+All 16 original workload/profile rows retain four rotating CPU2 forks. Larger
+warm Stream improves **11.35%** with component refinement and **10.81%** with
+joint search against same-source Eq-only, all four forks in each. Small component
+warm Stream is **13.40% slower**; joint larger cold is **3.52% slower**, with mixed
+forks. Component larger cold improves 1.02%, also mixed. Dense results vary. Every
+full output and actual physical call count matches except time/registry metadata.
+No general speed, callback-trace or memory claim follows. Initial tree and sorted
+buffer versions were rejected; the latter's actual profile found sorting at 6.82%
+self and position discovery at 14.74% inclusive (3,358 samples, zero lost), motivating
+the retained bitset. That profile is not of the final bitset artifact.
+
+Final `bash scripts/check.sh`: **8,587 Rust +292 doctests**,
+**96 RUN/52 REUSE**, 329.803s; prior build-only precompile used eight
+workers with normal four-worker verification environment. Native `5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c`.
+One actual Java mixed refresh: **8/8** at measured time parity, equal
+scores in all eight. Larger Stream warm **15.196/16.751 ms Rust/Java**;
+cold **14.990/19.594 ms**. Full Eq-only and prior graph observations/samples remain.
+Eq-only controls also meet Java parity in this run; cross-run Java ratio changes
+do not isolate the native gain. All four fresh Dense medians and both small Stream
+medians are slower under ordinals; their controls remain visible. The larger
+reference is a feasible certificate, not a proved optimum.
+Private and final comparisons use the same actual native artifact; the final
+Python-driver input key is recorded separately. Other 17 raw reports retain bytes,
+dates and keys; changed relevant inputs remain stale. Native-reference passes and
+Java errors never become Java agreement credit.
+
+Dashboard index **85.914%**, **1/18 current**, 17 stale, Java multiplier **1**.
+This index measures tracked targets, not remaining effort or an ETA. Inventory
+stays 4410/4855, 10 pending, 435 excluded, zero failed/unverified. Actual final
+browser evidence covers desktop/mobile and the complete older presentations.
+Goal incomplete; previously recorded compatibility gaps remain.
+Evidence: work/round296-qualification/{integration,candidate-build-receipt,
+final-build-receipt,pair-results,prebuild-receipt,gate-receipt,
+mixed-performance-receipt,collection,browser-proof}.json; tree-coalescing-trial/,
+sorted-buffer-trial/ and work/parallel-round296-evidence.json.
+
+## Previous qualification — 294 fused owner-link application graph
 
 `--native-stream-graph-policy owner-links-fused` selects direct fixed-link
 projection and scoring in one tracked node. Ordinary joins remain the default;

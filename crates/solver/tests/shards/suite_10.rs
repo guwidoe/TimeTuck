@@ -68,6 +68,8 @@ pub mod list_heuristics_regression;
 pub mod list_incremental_validation_regression;
 #[path = "../list_move_description_regression.rs"]
 pub mod list_move_description_regression;
+#[path = "../list_ordinal_index_regression.rs"]
+pub mod list_ordinal_index_regression;
 #[path = "../list_recording.rs"]
 pub mod list_recording;
 #[path = "../list_swap_fallback_cases.rs"]

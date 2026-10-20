@@ -21,6 +21,33 @@ impl StreamGraphPolicy {
         }
     }
 }
+/// Explicit list registry lookup; basic registries and equality-only defaults remain.
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+#[allow(dead_code)]
+pub enum ListRegistryPolicy {
+    #[default]
+    EqOnly,
+    Ordinal,
+}
+impl ListRegistryPolicy {
+    #[allow(dead_code)]
+    pub fn name(self) -> &'static str {
+        match self {
+            Self::EqOnly => "eq-only",
+            Self::Ordinal => "ordinal-checked-v1",
+        }
+    }
+    fn build(
+        self,
+        values: Vec<usize>,
+        entities: Vec<ListEntity<usize>>,
+    ) -> Result<ListProblem<usize>, ListError> {
+        match self {
+            Self::EqOnly => ListProblem::new(values, entities),
+            Self::Ordinal => ListProblem::new_ordinal_indexed(values, entities, |value| *value),
+        }
+    }
+}
 pub type OwnerPair = ((usize, Option<usize>), (usize, Vec<usize>));
 pub type OwnerLinkId = ((usize, usize), usize);
 /// Every policy retains complete inspectable payload/score matches.
@@ -81,6 +108,7 @@ pub fn declare_owner_routes<'a>(
 pub struct Case {
     pub id: String,
     pub stream_graph_policy: StreamGraphPolicy,
+    pub list_registry_policy: ListRegistryPolicy,
     pub points: Vec<[i64; 2]>,
     pub depots: Vec<[i64; 2]>,
     pub capacities: Vec<usize>,
@@ -111,7 +139,14 @@ fn parse_points(s: &str) -> Result<Vec<[i64; 2]>, Box<dyn Error>> {
         .collect()
 }
 impl Case {
+    #[allow(dead_code)]
     pub fn parse(line: &str) -> Result<Self, Box<dyn Error>> {
+        Self::parse_with_registry(line, ListRegistryPolicy::EqOnly)
+    }
+    pub fn parse_with_registry(
+        line: &str,
+        list_registry_policy: ListRegistryPolicy,
+    ) -> Result<Self, Box<dyn Error>> {
         let f: Vec<_> = line.split('\t').collect();
         if ![10, 11].contains(&f.len())
             || f[0].is_empty()
@@ -183,7 +218,7 @@ impl Case {
                 })
                 .collect(),
         )?;
-        let lists = ListProblem::new(
+        let lists = list_registry_policy.build(
             (0..points.len()).collect(),
             (0..owners)
                 .map(|i| {
@@ -200,6 +235,7 @@ impl Case {
         let case = Self {
             id: f[0].into(),
             stream_graph_policy: StreamGraphPolicy::OrdinaryJoin,
+            list_registry_policy,
             points,
             depots,
             capacities,
@@ -338,7 +374,7 @@ pub fn cold_problem(case: &Case) -> Result<MixedProblem<usize, usize>, Box<dyn E
             })
             .collect(),
     )?;
-    let lists = ListProblem::new(
+    let lists = case.list_registry_policy.build(
         (0..case.points.len()).collect(),
         (0..case.capacities.len())
             .map(|i| {

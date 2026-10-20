@@ -2798,6 +2798,11 @@ path = "tests/list_optional_pin_solver_cases.rs"
 test = false
 
 [[test]]
+name = "list_ordinal_index_regression"
+path = "tests/list_ordinal_index_regression.rs"
+test = false
+
+[[test]]
 name = "list_owner_solution_cases"
 path = "tests/list_owner_solution_cases.rs"
 test = false

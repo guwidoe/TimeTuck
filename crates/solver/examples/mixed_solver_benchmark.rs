@@ -1,6 +1,8 @@
 //! Original mixed solve benchmark; parsing/independent validation outside timing.
 mod mixed_benchmark_support;
-use mixed_benchmark_support::{Case, StreamGraphPolicy, run, run_cold, run_component_refinement};
+use mixed_benchmark_support::{
+    Case, ListRegistryPolicy, StreamGraphPolicy, run, run_cold, run_component_refinement,
+};
 use std::{
     error::Error,
     io::{self, BufRead},
@@ -8,10 +10,10 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn Error>> {
     let mut args: Vec<_> = std::env::args().collect();
-    const USAGE: &str = "mixed_solver_benchmark iterations warmup samples dense|stream [cold] [component-refinement] [--stream-graph-policy ordinary-join|owner-links|owner-links-fused]";
+    const USAGE: &str = "mixed_solver_benchmark iterations warmup samples dense|stream [cold] [component-refinement] [--stream-graph-policy ordinary-join|owner-links|owner-links-fused] [--list-registry-policy eq-only|ordinal]";
     if args.iter().skip(1).any(|a| a == "--help" || a == "-h") {
         println!(
-            "{USAGE}\nDefault ordinary-join. Owner-links and owner-links-fused explicitly change match IDs, batching, ownership and physical score callbacks; fused v2 projects/scores each link directly; Dense is unaffected."
+            "{USAGE}\nDefault ordinary-join. Owner-links and owner-links-fused explicitly change match IDs, batching, ownership and physical score callbacks; fused v2 projects/scores each link directly; Dense graph is unaffected. List registry defaults to eq-only; ordinal checks stable list ordinals with bounds and equality on both backends and cold reconstruction. Basic registries remain Eq-only."
         );
         return Ok(());
     }
@@ -25,6 +27,15 @@ fn main() -> Result<(), Box<dyn Error>> {
                 "--stream-graph-policy requires ordinary-join, owner-links or owner-links-fused"
                     .into(),
             ),
+        };
+        args.drain(index..index + 2);
+    }
+    let mut registry_policy = ListRegistryPolicy::EqOnly;
+    if let Some(index) = args.iter().position(|a| a == "--list-registry-policy") {
+        registry_policy = match args.get(index + 1).map(String::as_str) {
+            Some("eq-only") => ListRegistryPolicy::EqOnly,
+            Some("ordinal") => ListRegistryPolicy::Ordinal,
+            _ => return Err("--list-registry-policy requires eq-only or ordinal".into()),
         };
         args.drain(index..index + 2);
     }
@@ -54,7 +65,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("run bounds".into());
     }
     let line = io::stdin().lock().lines().next().ok_or("missing input")??;
-    let mut case = Case::parse(&line)?;
+    let mut case = Case::parse_with_registry(&line, registry_policy)?;
     case.stream_graph_policy = graph_policy;
     if cold != case.quality_floor.is_some() {
         return Err("cold mode requires a quality floor; warm mode uses its initial score".into());
@@ -167,6 +178,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         if sample >= warmup {
             let (best, termination) = last.unwrap();
             let mut row = serde_json::json!({"id":case.id,"elapsed_ns":u64::try_from(elapsed)?,"score":[hard,soft],"depots":best.assignment.basic().values(),"routes":best.assignment.lists().lists(),"evaluations":evaluations,"score_calls":u64::try_from(calls)?,"steps":steps,"termination":termination});
+            row["list_registry_policy"] = registry_policy.name().into();
             row["requested_stream_graph_policy"] = graph_policy.name().into();
             row["stream_graph_policy"] = if stream {
                 graph_policy.name()

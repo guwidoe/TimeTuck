@@ -379,6 +379,18 @@ function renderBenchmarks(kind = "score") {
                 b.append(node("p", "range", cold
                     ? "Cold start · missing depot choices and customer placements are constructed before local search; existing pins remain."
                     : "Warm start · local search begins from a complete feasible assignment."));
+                if (w.native_list_registry_policy) {
+                    b.append(node("p", "range", w.native_list_registry_policy === "ordinal"
+                        ? "List registry · checked ordinals. Basic registries remain Eq-only."
+                        : "List registry · Eq-only."));
+                    const controls = w.eq_only_registry_controls;
+                    if (controls?.samples?.length) {
+                        const times = [...controls.samples].sort((a, b) => a - b);
+                        const middle = Math.floor(times.length / 2);
+                        const median = times.length % 2 ? times[middle] : (times[middle - 1] + times[middle]) / 2;
+                        b.append(node("p", "range", `Eq-only registry control · ${median.toFixed(3)} ms median. Same graph, full search output and physical scoring calls; full observations retained in the report.`));
+                    }
+                }
                 if (w.native_backend === "stream") {
                     const fused = w.native_stream_graph_policy === "owner-links-fused";
                     const linked = fused || w.native_stream_graph_policy === "owner-links";

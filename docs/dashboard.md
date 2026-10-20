@@ -749,3 +749,16 @@ Use `bash scripts/check.sh --force` or add `--force` to an individual comparison
 command when fresh execution is needed, including final-phase validation. Reports
 use each measurement's own source key. Evidence from the former global-key scheme
 stays stale until that job is next run; migrating the keys does not refresh timings.
+
+## Checked list registry comparison
+
+The mixed runner also accepts `--native-list-registry-policy ordinal` (default
+`eq-only`). It selects checked list ordinals for both native backends, including
+fresh cold-model reconstruction inside solve timing; Basic registries remain
+Eq-only. Two additional runtime groups retain complete same-graph Eq-only Dense
+and Stream controls. Registry comparisons require identical full observations
+and actual physical scoring calls except declared registry metadata and elapsed
+time. All original graph controls and the single Java group per case/fork remain.
+The dashboard shows the selected registry and its Eq-only control median; slower
+controls or regressions stay visible. Stable equality-consistent ordinal keys are
+an explicit model-construction obligation, not an inferred property of all values.

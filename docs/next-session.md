@@ -17,89 +17,81 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 294 fused owner-link application graph
+## Latest qualification — 296 checked ordinal list registry
 
-`--native-stream-graph-policy owner-links-fused` selects direct fixed-link
-projection and scoring in one tracked node. Ordinary joins remain the default;
-owner-link v1 remains available. Fused v2 retains the same triple match IDs,
-full payloads/scores, source rows and list shadows as v1. Projection/scoring now
-interleave; ownership, cloning, callback/error timing and journal installation
-can differ. This is an explicit application declaration, not generic operator
-trace equivalence or equal Java search work. Dense and EqOnly remain unchanged.
+`ListProblem::new_ordinal_indexed` offers checked ordinal lookup for Eq+Clone
+values without Hash/Ord. Registry entries declare their own stable positions;
+queries check bounds and equality. Invalid ordinals return a typed error. Clones
+share the index; entity rebuilds preserve the exact function and recompute ranges.
+Keys must be pure, stable and equality-consistent. Eq-only defaults and existing
+Hash indexing remain. Changed positions use a bounded bitset/table up to 64 values
+and a sorted buffer above that boundary, preserving removals and registry order.
+The mixed example's explicit `--list-registry-policy ordinal` applies to both
+backends and cold reconstruction; Basic registries remain Eq-only. Complete rows,
+shadows, full match payloads/scores, pins, search work and budgets remain intact.
 
-All four existing policy regressions now cover all three declarations, including
-snapshots, callback boundaries, panic/recovery, partial objectives and all factory
-paths. Three additional Python contracts retain both full controls, all original
-cases/profiles, unknown fields and actual v1/v2 physical call equality. No tests,
-fixtures, budgets, quality floors or upstream assertions were removed.
+Nine original Rust regressions cover non-Hash/arbitrary-order registries, errors,
+range/pin atomicity, rebuilds, both storage paths, full source/match/shadow rollback,
+real search and pinned cold handoffs. Three Python contracts retain complete
+same-graph Eq-only Dense/Stream controls and compare physical calls and unknown
+fields. Original graph controls remain. No upstream-method credit is added.
 
-One controlled three-declaration comparison retains all 16 original rows across
-both search profiles, four rotating CPU2 forks. Larger component Stream medians
-improve **7.82% warm / 14.18% cold** against v1; original joint improves
-**13.27% / 7.36%**. All four larger-case forks improve. Small controls remain,
-including mixed small joint/cold forks; Dense jitter earns no improvement claim.
-Every full output and physical scoring-call count matches v1, apart from elapsed
-time and declared graph metadata. Its actual native source/artifact are also the
-final native source/artifact; the later full-driver input key is recorded separately.
+All 16 original workload/profile rows retain four rotating CPU2 forks. Larger
+warm Stream improves **11.35%** with component refinement and **10.81%** with
+joint search against same-source Eq-only, all four forks in each. Small component
+warm Stream is **13.40% slower**; joint larger cold is **3.52% slower**, with mixed
+forks. Component larger cold improves 1.02%, also mixed. Dense results vary. Every
+full output and actual physical call count matches except time/registry metadata.
+No general speed, callback-trace or memory claim follows. Initial tree and sorted
+buffer versions were rejected; the latter's actual profile found sorting at 6.82%
+self and position discovery at 14.74% inclusive (3,358 samples, zero lost), motivating
+the retained bitset. That profile is not of the final bitset artifact.
 
-Final `bash scripts/check.sh`: **8,578 Rust +292 doctests**, **5 RUN/143 REUSE**,
-81.859s, source `46069f24e4025134fff09c60de7f5f3b3d1659f965fea3bbabdd767190d7e62e`.
-Only mixed-performance was refreshed; other 17 raw reports retain bytes/dates/keys.
-Solver292 remains current. Fresh Java comparison: **7/8** meet median time
-parity, equal scores in all eight. Larger Stream warm is **16.365 ms Rust /
-14.959 ms Java**; cold **15.790 / 19.402 ms**.
-All ordinary and v1 observations/samples remain in the report, with actual scoring
-calls and unchanged full search outputs checked. No general speed, memory or
-larger-optimum claim follows.
+Final `bash scripts/check.sh`: **8,587 Rust +292 doctests**,
+**96 RUN/52 REUSE**, 329.803s; prior build-only precompile used eight
+workers with normal four-worker verification environment. Native `5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c`.
+One actual Java mixed refresh: **8/8** at measured time parity, equal
+scores in all eight. Larger Stream warm **15.196/16.751 ms Rust/Java**;
+cold **14.990/19.594 ms**. Full Eq-only and prior graph observations/samples remain.
+Eq-only controls also meet Java parity in this run; cross-run Java ratio changes
+do not isolate the native gain. All four fresh Dense medians and both small Stream
+medians are slower under ordinals; their controls remain visible. The larger
+reference is a feasible certificate, not a proved optimum.
+Private and final comparisons use the same actual native artifact; the final
+Python-driver input key is recorded separately. Other 17 raw reports retain bytes,
+dates and keys; changed relevant inputs remain stale. Native-reference passes and
+Java errors never become Java agreement credit.
 
-Dashboard index **86.285%**, **2/18 current**, 16 stale, Java target **1**.
-This is a tracked-target index, not remaining effort or an ETA. Inventory stays
-4410/4855, 10 pending, 435 excluded, no failures/unverified. Actual desktop/mobile
-checks cover selected fused and both prior declarations. Goal incomplete.
-Evidence: work/round294-qualification/{integration,candidate-build-receipt,
-final-build-receipt,pair-results,gate-receipt,mixed-performance-receipt,collection,
-browser-proof}.json; work/parallel-round294-evidence.json.
+Dashboard index **85.914%**, **1/18 current**, 17 stale, Java multiplier **1**.
+This index measures tracked targets, not remaining effort or an ETA. Inventory
+stays 4410/4855, 10 pending, 435 excluded, zero failed/unverified. Actual final
+browser evidence covers desktop/mobile and the complete older presentations.
+Goal incomplete; previously recorded compatibility gaps remain.
+Evidence: work/round296-qualification/{integration,candidate-build-receipt,
+final-build-receipt,pair-results,prebuild-receipt,gate-receipt,
+mixed-performance-receipt,collection,browser-proof}.json; tree-coalescing-trial/,
+sorted-buffer-trial/ and work/parallel-round296-evidence.json.
 
-Next: keep closing relevant compatibility and performance gaps. Preserve all three
-explicit graph declarations and full controls; no generic Clone/Drop/callback trace
-claim. Reuse unchanged successful checks; refresh only deliberately selected reports.
-Do not repeat the rejected indexed-registry trial or previously resolved policy
-investigations. All execution in294 was local; runner-c remains parked, no new SSH/auth
-attempt or new agent was created. One existing agent prepared the source overlay.
+Next: close remaining relevant compatibility and performance gaps. Preserve all
+three graph declarations, both list registry choices and every complete control.
+Do not repeat the rejected tree/sorted-buffer trials or resolved behavior audits.
+Reuse successful unchanged verification; refresh only deliberately chosen reports.
+No new upstream assertions passed in this increment. Initial scope and method
+counts remain unchanged; private JVM arrays/history differences are not waived.
 
-## Investigation 295 — shared captures rejected; position lookup hotspot
+The target release example is now the genuinely built final bitset artifact
+`357decf5df3bfaac9923c50113c79a3fc4f331aa3214f9857713834640965f23`, native `5342c37ce8eaf6b7449b4dda42bfc8512110e94b3aaf7685302de07d302fe48c`.
+The old qualified294 control remains outside target at
+`work/round295-qualification/qualified-v2-binary`. The sorted-buffer profile binds
+its own rejected source/artifact in `sorted-buffer-trial/`; do not call it a current
+profile. Never transplant artifacts or rewrite old source keys. Source restoration
+must write bytes or advance mtimes, not preserve old Rust mtimes with copy2.
 
-The experimental shared-row projection API and mixed v3 policy were built and
-checked privately, then removed: the larger warm case was 0.675% slower than
-same-source v2; cold was 1.266% lower with mixed forks. Full outputs and physical
-callbacks matched across all 16 original workload/profile rows. Six new core tests
-and four expanded mixed tests passed focused checks, but no broad gate or Java
-qualification was run for this rejected source. The complete source/binary/results
-remain in `work/round295-qualification/rejected-sharing/` and `pair-results.json`.
-
-A CPU-clock profile of the actual qualified v2 binary recorded 3,178 samples,
-zero lost. Changed-value-position discovery accounts for 10.98% self /14.88%
-inclusive sampled CPU. All normalized native output matches its qualified sample.
-This is diagnostic whole-program sampling, with no matched timing or general
-speed claim. [Recorded evidence](../compat/observations/mixed-stream-value-position-profile.json).
-Exact qualified294 source, all 18 measurement keys and raw reports were restored;
-existing verification and browser evidence remain valid. No current feature or
-upstream-method credit is added. The goal remains incomplete.
-
-Next: the existing agent is preparing an untracked implementation bundle at
-`work/round296-ordinal-index/`. The proposed explicit ordinal index targets repeated
-registry searches while retaining Eq-only defaults and full source/update order.
-It is not an existing or qualified API; inspect actual files/hashes/status before
-integration. Preserve Hash indexing, equality-consistent key obligations, bounds,
-constructor errors, range/pin checks and cold/repair reconstruction mode. Basic
-registry construction remains Eq-only in the proposed mixed experiment.
-
-The target release example still contains the rejected fa35c6... artifact. Its
-qualified39d8b0... control is `work/round295-qualification/qualified-v2-binary`;
-only execute it with its actual qualified source receipt. A normal future Cargo
-build must rebuild genuinely from restored/new source; never transplant binaries
-or fingerprints. All source restoration wrote HEAD bytes with advanced mtimes.
-No new raw report or cache record was forged/rekeyed. runner-c remains parked.
+All builds, focused checks, final verification, native timings, fresh Java and
+browser checks in296 ran locally. runner-c remains parked: no probes/wake/auth requests.
+runner-a's last bounded connection needed authentication and expired; no remote job
+remains live. One existing agent prepared the initial overlay and later performed
+a bounded read-only review; no new agent was created. All qualification processes are terminal. The dashboard is localhost8765.
 
 ## Remaining limits and retained evidence
 
@@ -115,24 +107,17 @@ No new raw report or cache record was forged/rekeyed. runner-c remains parked.
   retain their complete observations rather than repeating the same audit.
 - Cyclic-supplier checks retain 107/128 agreements and 21 actual Java errors.
   Native-reference passes never count Java failures as successful agreement.
-- Great Deluge292 remains current: explicit binary64 276/276, 25/25 prefixes
+- Great Deluge292 retains its original evidence (see live freshness): explicit binary64 276/276, 25/25 prefixes
   and 184/184 additional probes; exact default stays 275/276.
   Encounter-order ranking has 4824/4824 agreements; total-order controls retain
   4499 agreements/325 differences. Load-balance binary64/wrapping policy has
   101/101 last-observed agreements, exact-root control 100 and default 97; it is
   stale now. Do not repeat unchanged successful investigations for a new turn.
-- Mixed294 selected fused owner links is current, **7/8** at measured Java
-  parity, equal quality in all eight, complete ordinary/v1 controls retained.
-  Larger Stream warm 16.365/14.959 ms Rust/Java,
-  cold 15.790/19.402 ms. No general/equal-work claim.
+- Mixed296 is current, **8/8** at measured Java parity and equal quality in all eight. Larger Stream warm 15.196/16.751 ms Rust/Java, cold 14.990/19.594 ms. Full same-graph Eq-only Dense/Stream and ordinary/v1 graph controls remain. No general/equal-work/memory claim.
 - Source restoration must write bytes or advance mtime; never copy old Rust
   source mtimes or target fingerprints/binaries into a supposed new build.
   Verify actual compiler artifacts before performance comparisons.
 
-Use docs/completion.md for requirements, docs/incremental-search-contract.md and
-other native contracts for behavior, and docs/compatibility.md for qualification
-history. The long previous handoff is recoverable with
-`git show a8f40aa:docs/next-session.md`; it was shortened without deleting history.
-The local dashboard remains http://localhost:8765/. Do not probe/wake/authenticate
-runner-c. runner-a's last bounded check requested reauthentication then timed out; no
-remote jobs remain live and no expired authentication link is reusable.
+
+Use docs/completion.md, docs/compatibility.md and native contracts for current scope,
+requirements and original evidence. Goal remains active and incomplete.

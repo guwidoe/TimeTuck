@@ -179,6 +179,11 @@ pub enum ListError {
     },
     UnassignmentNotAllowed,
     DuplicateDomainValue,
+    /// A registry entry's declared stable ordinal differs from its registry position.
+    InvalidValueOrdinal {
+        expected: usize,
+        actual: usize,
+    },
     DuplicateAssignedValue,
     MissingEntityValueRange {
         entity: usize,
