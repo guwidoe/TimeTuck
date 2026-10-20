@@ -17,7 +17,85 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 286 explicit wrapping load balance
+## Latest qualification — 288 lazy shared planning-source rows
+
+Private bounded planning sources keep temporary rows directly owned. Inspection,
+source-event replay and full snapshots can promote a row to Arc once; promotion invokes no user Clone/Ord. Replay retains its normal payload
+Clone. Retained views and saved snapshots share that exact allocation.
+Trial/commit/rollback still move complete rows and preserve nested journals,
+Clone/Drop behavior, failure recovery and full metadata. Slots/journals are
+larger; first inspection/snapshot may allocate. This is no memory-saving claim,
+public API/default change, skipped update or additional upstream-method credit.
+Three original regressions cover non-Clone ownership, snapshot identity and
+source-event clone failure; existing nested/drop/representative checks remain.
+
+Actual balanced four-fork comparisons against qualified 286 measure **5.18% lower
+larger warm Stream time and 4.56% lower larger cold Stream time**, faster in every
+fork, with identical full assignments, scores, callbacks, evaluations and phases.
+Initial small-cold Stream is **12.78% slower**, larger Dense warm/cold
+**5.35%/5.80% slower**. One bounded 16-fork fixed-artifact control follow-up gives
+**2.02%**, **2.14%/3.06%** higher medians respectively, with mixed forks. Both
+records remain visible; no control or general speedup is claimed. Prioritize the
+still-unmet larger Stream parity target while retaining these tradeoffs.
+
+Final `bash scripts/check.sh`: **8,562 Rust +292 doctests**, **95 RUN/53 REUSE**
+in **587.546s**. Native
+`ed86f9e9ec503d009d70f1b674912e88500d14cd92e703a75f9490aebfbcc32f`.
+One successful final-source gate. Ten earlier focused tests passed before a
+scoped test-only lint annotation; that run's source guard stopped before release
+build and is not final-source evidence. No duplicate focused run or cache transplant.
+
+Fresh original Java comparison retains all eight mixed workloads, complete
+inputs, warm/cold/backend settings, budgets, quality floors and full observations.
+**6/8** meet measured Java parity. Larger Stream warm is
+**22.273 ms vs Java 15.646 ms** (42.4% slower), cold
+**23.547 ms vs Java 19.906 ms** (18.3% slower).
+Scores remain [0,-338] warm and [0,-60] cold. Larger Dense is
+5.667/5.782 ms warm/cold. The larger reference [0,-72] is a feasible
+certificate, not an optimum. Different strategies and callback counts remain
+explicit; cross-run Java ratios do not isolate a native implementation gain.
+
+Only mixed-performance was deliberately refreshed; other 17 raw reports retain
+actual bytes/dates/keys and remain stale. Readiness **85.258%**, **1/18 current**,
+Java multiplier **1** at equal-or-better quality. Inventory stays 4410/4855
+(90.834%), 10 pending, 435 excluded, zero failed/unverified. Shared source changes
+invalidate earlier comparison keys; freshness debt can lower the index despite
+an implementation improvement. Backend/report contracts are unchanged: reuse 286
+desktop/mobile proof plus current source/data/model HTTP checks. Goal incomplete.
+
+Evidence: work/round288-qualification/{integration,candidate-build-receipt,
+pair-results,mixed-performance-receipt,gate-receipt,collection,verdict}.json;
+control-followup/pair-results.json; work/parallel-round288-evidence.json.
+
+## Rejected 287 typed join output and bound-carrier candidate
+
+The combined ordinary-join inline typed buffer/carrier reuse passed seven focused
+join tests, but controlled larger warm Stream was 3.72% slower and small cold
+Stream 9.56% slower; other forks/cases mixed. Exact full outputs/work were retained.
+All four candidate source files are archived; qualified 286 source was restored
+before 288. No full gate or canonical Java refresh was run for rejected 287.
+Do not revive either component as a separately measured improvement. Evidence:
+work/round287-qualification/{pair-results,verdict}.json and rejected-source/.
+Actual warm profiles retain separate candidate and qualified 286 binary identities;
+baseline attribution observes owned-source delivery 12.18%, fixed-source restore
+7.40%, Join.apply 10.88% and changed-value discovery 10.27% inclusive. These overlap
+and cannot be added or treated as optimization gains. No lost profile samples.
+
+Next compatibility work: inspect work/round289-load-root/README.md and
+candidate.patch. This is an unbuilt Rust proposal for an explicit Binary64 root
+policy on the existing wrapping collector; exact and wrapping-exact defaults
+remain unchanged. The independent integer/Fraction reference now passes four
+original tests and agrees with all 101 cases / 8,290 retained actual Java states:
+reference-qualification/receipt.json binds source/input hashes. Do not repeat
+those unchanged reference checks just for a new turn. This is model plausibility,
+not native execution, inferred Java production/conversion-order equivalence,
+current comparison or method credit. Native output/full controls/rounding/errors
+still need qualification. Existing canonical 286 load evidence remains 100/101
+selected and 97/101 exact-default, now stale under shared source changes. The
+separate Java-history-bug question remains unanswered; no waived gaps or inferred
+approval. runner-c stays parked, runner-a last connection timed out; no remote 288 run.
+
+## Previous qualification — 286 explicit wrapping load balance
 
 `WrappingLoadBalanceCollector<K>` adds signed i64 wrapping loads and moments,
 followed by a widened exact rational root with six-significant-digit half-even
@@ -60,20 +138,9 @@ Evidence: work/round286-qualification/{integration,release-build-receipt,
 stream-differential-receipt,mixed-performance-receipt,gate-receipt,collection,
 verdict,browser-proof}.json; work/parallel-round286-evidence.json.
 
-Next: inspect work/round287-mixed-gap/README.md and candidate.patch before any
-integration. This is an unexecuted source-only ordinary Join.apply allocation
-proposal. Its graph-only Empty/One/Many typed buffer preserves public Vec APIs,
-projection/clone/install ordering and many-match behavior. Historical mixed261
-Join.apply cost is 11.96% inclusive; the allocation-only opportunity is smaller
-and current cost is unknown. It cannot by itself be claimed to close the mixed
-gap. Profiles270/273 are other stream workloads, not mixed evidence. No real
-source changes or verification have been performed for287. Preserve full metadata,
-quality and work when assessing it; do not repeat286's successful unchanged gate.
-
-runner-c remains parked. runner-a handle22032 ended255/port22 timeout; its old check
-URL expired and is not reusable. No remote286 result is included. The separate
-Java-history-bug compatibility question remains unanswered; no waived gaps or
-inferred decision. Continue ordinary reversible implementation within the goal.
+The subsequently attempted 287 join candidate was rejected; its actual evidence
+and source archive are listed above. Qualified 286 evidence retains its original
+source and artifact binding.
 
 ## Previous qualification — 285 primitive replacement
 
