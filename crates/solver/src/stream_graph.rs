@@ -35,6 +35,7 @@ mod dependency_batch;
 mod dynamic_dependency;
 mod facts;
 mod filter_map;
+mod final_inputs;
 mod fixed_source;
 pub use facts::FactTransaction;
 mod activity;

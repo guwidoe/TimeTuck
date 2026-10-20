@@ -6,6 +6,7 @@ struct SumGroup<'a, I, T, K> {
     node: SumGroupNode<I, K>,
     mapping: Box<GroupMapping<'a, T, K>>,
     batched: bool,
+    final_inputs: super::final_inputs::FinalInputs,
 }
 
 impl<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static, S: AdditiveScore>
@@ -64,6 +65,28 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 'static, S: 
                 output.extend(<Self as Node<S>>::apply(self, *side, event, arithmetic)?);
             }
             return Ok(output);
+        }
+        if self.final_inputs.prepare::<I, T>(inputs) {
+            let mapped = self
+                .final_inputs
+                .positions()
+                .iter()
+                .map(|&(_, position)| {
+                    let change = typed::<I, T>(&inputs[position].1);
+                    (
+                        change.id.clone(),
+                        change.value.as_ref().map(|row| (self.mapping)(row)),
+                    )
+                })
+                .collect();
+            let changes = self
+                .node
+                .try_apply_sorted_batch(mapped)
+                .expect("sum group overflow");
+            return Ok(erase(changes.into_iter().map(|change| {
+                let key = change.id.clone();
+                change.map(|sum| (key, sum))
+            })));
         }
         let mut latest = BTreeMap::new();
         for (_, event) in inputs {
@@ -166,8 +189,72 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             },
             mapping: Box::new(mapping),
             batched,
+            final_inputs: Default::default(),
         });
         self.connect(input.node, out.node, false);
         Ok(out)
+    }
+}
+
+#[cfg(test)]
+mod final_input_tests {
+    use super::*;
+    use crate::SimpleScore;
+    use std::cell::Cell;
+
+    #[test]
+    fn ordinal_mapping_panic_precedes_state_changes_and_retry_uses_fresh_positions() {
+        let fail = Cell::new(true);
+        let mut group = SumGroup {
+            node: SumGroupNode::<usize, usize>::new(),
+            mapping: Box::new(|row: &i64| {
+                assert!(!fail.get() || *row != 9, "mapping failure");
+                (0usize, *row)
+            }),
+            batched: true,
+            final_inputs: Default::default(),
+        };
+        let events = |rows: &[(usize, Option<i64>)]| {
+            rows.iter()
+                .map(|&(id, value)| (false, Rc::new(TupleChange { id, value }) as Event))
+                .collect::<Vec<_>>()
+        };
+        let initial = events(&[(0, Some(2))]);
+        <_ as Node<SimpleScore>>::apply_batch(
+            &mut group,
+            &initial,
+            NodeArithmetic {
+                impact: crate::ScoringArithmetic::Checked,
+                totals: crate::ScoringArithmetic::Checked,
+            },
+        )
+        .unwrap();
+        let failed = events(&[(0, Some(7)), (usize::MAX, Some(9))]);
+        assert!(
+            std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                <_ as Node<SimpleScore>>::apply_batch(
+                    &mut group,
+                    &failed,
+                    NodeArithmetic {
+                        impact: crate::ScoringArithmetic::Checked,
+                        totals: crate::ScoringArithmetic::Checked,
+                    },
+                )
+                .unwrap();
+            }))
+            .is_err()
+        );
+        fail.set(false);
+        let retry = events(&[(usize::MAX, Some(4)), (usize::MAX, None), (19, Some(3))]);
+        let output = <_ as Node<SimpleScore>>::apply_batch(
+            &mut group,
+            &retry,
+            NodeArithmetic {
+                impact: crate::ScoringArithmetic::Checked,
+                totals: crate::ScoringArithmetic::Checked,
+            },
+        )
+        .unwrap();
+        assert_eq!(typed::<usize, (usize, i64)>(&output[0]).value, Some((0, 5)));
     }
 }

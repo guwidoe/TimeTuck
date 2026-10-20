@@ -1,7 +1,11 @@
 //! Source-ID-authoritative integer sums without value-frequency storage.
 use super::{TupleChange, group_inputs::GroupInputs, join_batch};
-use crate::{SnapshotMap, SumOverflow};
-use std::{any::Any, collections::BTreeMap};
+use crate::SumOverflow;
+mod summaries;
+use std::any::Any;
+#[cfg(test)]
+use std::collections::BTreeMap;
+use summaries::Summaries;
 
 #[derive(Clone, Copy)]
 enum Arithmetic {
@@ -60,10 +64,11 @@ struct Journal {
 /// `try_` methods return `SumOverflow` without modification; other methods panic
 /// on that error. Count overflow panics before installation. Ordinary key/ID
 /// comparison or Clone panics leave this node unchanged, including installation.
-/// Cloning shares immutable state; later updates isolate the clone.
+/// Cloning shares immutable input/tree state and copies primitive bound summaries;
+/// later updates isolate the clone.
 pub struct SumGroupNode<I, K> {
     inputs: GroupInputs<I, (K, i64)>,
-    groups: SnapshotMap<K, SumState>,
+    groups: Summaries<K>,
     arithmetic: Arithmetic,
 }
 
@@ -88,7 +93,7 @@ impl<I, K> SumGroupNode<I, K> {
     pub fn new() -> Self {
         Self {
             inputs: GroupInputs::new(),
-            groups: SnapshotMap::new(),
+            groups: Summaries::new(),
             arithmetic: Arithmetic::Checked,
         }
     }
@@ -140,7 +145,7 @@ impl<I, K> SumGroupNode<I, K> {
             }
             Err(saved) => {
                 let (inputs, groups) = *saved
-                    .downcast::<(GroupInputs<I, (K, i64)>, SnapshotMap<K, SumState>)>()
+                    .downcast::<(GroupInputs<I, (K, i64)>, Summaries<K>)>()
                     .expect("sum group snapshot");
                 self.inputs.install_snapshot(inputs);
                 self.groups.install_snapshot(groups);
@@ -196,8 +201,8 @@ impl<I: Ord + Clone, K: Ord + Clone> SumGroupNode<I, K> {
         &mut self,
         changes: Vec<(I, Option<(K, i64)>)>,
     ) -> Result<Vec<TupleChange<K, i64>>, SumOverflow> {
-        let mut groups = BTreeMap::<K, SumState>::new();
-        let prepare = |groups: &mut BTreeMap<K, SumState>, key: &K| {
+        let mut groups = self.groups.prepare_batch();
+        let prepare = |groups: &mut summaries::Prepared<K>, key: &K| {
             if !groups.contains_key(key) {
                 let (representative, state) = self
                     .groups
@@ -260,7 +265,7 @@ impl<I: Ord + Clone, K: Ord + Clone> SumGroupNode<I, K> {
                 inputs.remove(&id);
             }
         }
-        for (key, state) in groups {
+        for (key, state) in groups.into_entries() {
             if state.count == 0 {
                 summaries.remove(&key);
             } else {
@@ -273,9 +278,13 @@ impl<I: Ord + Clone, K: Ord + Clone> SumGroupNode<I, K> {
     }
 }
 
-impl<I: 'static, K> SumGroupNode<I, K> {
+impl<I: 'static, K: 'static> SumGroupNode<I, K> {
     pub(crate) fn bind_fixed_inputs(&mut self, count: usize) -> bool {
-        self.inputs.bind_fixed(count)
+        let bound = self.inputs.bind_fixed(count);
+        if bound {
+            self.groups.bind();
+        }
+        bound
     }
 }
 

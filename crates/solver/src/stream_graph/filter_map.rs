@@ -35,12 +35,14 @@ struct BatchedFilterMap<'a, I, T, U> {
     // reuse FilterNode's existing fixed storage and transaction journals.
     membership: crate::FilterNode<'a, I, bool>,
     mapping: Box<OptionalMapping<'a, T, U>>,
+    final_inputs: super::final_inputs::FinalInputs,
 }
 impl<'a, I: Ord + Clone + 'static, T, U> BatchedFilterMap<'a, I, T, U> {
     fn new(mapping: impl Fn(&T) -> Option<U> + 'a) -> Self {
         Self {
             membership: crate::FilterNode::new(|accepted| *accepted),
             mapping: Box::new(mapping),
+            final_inputs: Default::default(),
         }
     }
     fn apply_row(&mut self, id: &I, row: Option<&T>) -> Option<TupleChange<I, U>> {
@@ -93,6 +95,17 @@ impl<I: Ord + Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S>
         inputs: &[(bool, Event)],
         _: NodeArithmetic,
     ) -> Result<BatchOutputs, GraphError> {
+        if self.final_inputs.prepare::<I, T>(inputs) {
+            let mut output = Vec::with_capacity(self.final_inputs.positions().len());
+            for index in 0..self.final_inputs.positions().len() {
+                let position = self.final_inputs.positions()[index].1;
+                let change = typed::<I, T>(&inputs[position].1);
+                if let Some(change) = self.apply_row(&change.id, change.value.as_ref()) {
+                    output.push(Rc::new(change) as Event);
+                }
+            }
+            return Ok(output);
+        }
         let mut latest = BTreeMap::new();
         for (_, event) in inputs {
             let change = typed::<I, T>(event);
@@ -241,5 +254,56 @@ mod tests {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod ordinal_final_tests {
+    use super::*;
+    use crate::SimpleScore;
+    use std::cell::RefCell;
+
+    #[test]
+    fn sparse_final_puts_rejections_and_retractions_preserve_callback_order() {
+        let calls = RefCell::new(Vec::new());
+        let mut node = BatchedFilterMap::<usize, i32, i32>::new(|value| {
+            calls.borrow_mut().push(*value);
+            (*value >= 0).then_some(*value)
+        });
+        let events = |rows: &[(usize, Option<i32>)]| {
+            rows.iter()
+                .map(|&(id, value)| (false, Rc::new(TupleChange { id, value }) as Event))
+                .collect::<Vec<_>>()
+        };
+        let arithmetic = NodeArithmetic {
+            impact: crate::ScoringArithmetic::Checked,
+            totals: crate::ScoringArithmetic::Checked,
+        };
+        let batch = events(&[
+            (usize::MAX, Some(8)),
+            (19, Some(-1)),
+            (0, Some(2)),
+            (usize::MAX, Some(9)),
+            (0, None),
+        ]);
+        let output = <_ as Node<SimpleScore>>::apply_batch(&mut node, &batch, arithmetic).unwrap();
+        assert_eq!(*calls.borrow(), vec![-1, 9]);
+        assert_eq!(output.len(), 1);
+        assert_eq!(typed::<usize, i32>(&output[0]).id, usize::MAX);
+        calls.borrow_mut().clear();
+        let batch = events(&[
+            (usize::MAX, Some(11)),
+            (usize::MAX, Some(-2)),
+            (19, Some(3)),
+        ]);
+        let output = <_ as Node<SimpleScore>>::apply_batch(&mut node, &batch, arithmetic).unwrap();
+        assert_eq!(*calls.borrow(), vec![3, -2]);
+        assert_eq!(output.len(), 2);
+        assert_eq!(typed::<usize, i32>(&output[0]).value, Some(3));
+        assert_eq!(typed::<usize, i32>(&output[1]).value, None);
+        calls.borrow_mut().clear();
+        let output = <_ as Node<SimpleScore>>::apply_batch(&mut node, &[], arithmetic).unwrap();
+        assert!(output.is_empty());
+        assert!(calls.borrow().is_empty());
     }
 }

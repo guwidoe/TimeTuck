@@ -17,7 +17,89 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 270 shared fixed-link scoring
+## Latest qualification — 272 bound sum state and ordinal scratch
+
+Existing sum-only group declarations now upgrade summary storage only after a
+successful fixed binding of at most 256 usize input IDs and exactly usize group
+keys. Keys 0..255 use private copyable count/total slots and reusable undo logs;
+larger keys, including usize::MAX, retain sorted map fallback. Unbound and generic
+keys retain the original persistent map. The input universe never constrains the
+mapped-key universe. All input captures, zero/nonempty membership, representatives,
+sorted publications, checked intermediates, nested journals, full saved states,
+activity and reconstruction remain intact. Bound staging uses a sorted Vec.
+The cache reserves 256 optional slots plus 256 shared integer representatives;
+full saved snapshots copy primitive slots. This is a bounded memory/time tradeoff,
+not a memory-saving claim. No new public API or generic bounds.
+
+Batched filter-map and sum grouping reuse ordinal final-input position scratch
+for exactly usize IDs. It handles sparse/huge IDs without universe scans, visits
+final payloads in sorted order, owns no events/payloads and clears before retry.
+Generic ID coalescing and ordinary filter-map remain unchanged. Sum mapping still
+finishes before state installation. Full upstream facts and physical score calls
+remain intact. Eight original tests cover boundary keys/bindings, deterministic
+bound/tree histories, snapshots/nested frames, arithmetic and panic/retry behavior;
+they earn no upstream-method credit.
+
+Actual canonical release executables compared on both hosts, original compiler/
+flags/declarations, all 128 small controls and every timed assignment/score/actual
+callback signature equal. Four balanced pinned forks, all eight original workloads:
+
+| Workload | runner-a elapsed time | Local elapsed time |
+| --- | --- | --- |
+| Hill climbing · change · 32 variables | 8.07% lower (4/4 faster forks) | 9.22% lower (4/4 faster forks) |
+| Hill climbing · change · 96 variables | 10.08% lower (4/4 faster forks) | 10.73% lower (4/4 faster forks) |
+| Tabu · change · 32 variables | 8.38% lower (4/4 faster forks) | 10.05% lower (4/4 faster forks) |
+| Tabu · change · 96 variables | 11.00% lower (4/4 faster forks) | 14.95% lower (4/4 faster forks) |
+| Hill climbing · swap · 32 variables | 7.97% lower (4/4 faster forks) | 7.53% lower (4/4 faster forks) |
+| Hill climbing · swap · 96 variables | 9.17% lower (4/4 faster forks) | 8.88% lower (3/4 faster forks) |
+| Tabu · swap · 32 variables | 7.59% lower (4/4 faster forks) | 8.56% lower (4/4 faster forks) |
+| Tabu · swap · 96 variables | 9.38% lower (4/4 faster forks) | 6.26% lower (4/4 faster forks) |
+
+These are combined native gains within the measured cases. They do not isolate
+summary storage from scratch coalescing, prove arbitrary-scale speed, or establish
+Java parity. No fixture, move, budget, warmup/sample/fork or validation reduction.
+
+Final `bash scripts/check.sh` passed once on runner-a: **8,502 Rust +290 doctests**,
+95 jobs run/52 genuinely reused, worker 365.040s,
+dispatch/collection 371.188s. Native digest
+`c409c462176c7fee33d77a47ebb14d8c9b047287f5defec52b179db1eb2a8431`. Actual source-bound output collected unchanged;
+no duplicate local full gate, cache transplant or result rekey.
+Initial focused compile needed a test fixture type annotation; the next 25 distinct
+focused tests passed. A redundant ok/expect conversion lint was corrected, then
+final all-target clippy passed without repeating the focused tests. Initial
+source/build/pair records remain historical; final actual source/artifacts have
+their own build and comparisons. Required final broad regression covers all fixes.
+
+Only the affected stream Java/native comparison refreshed with original settings:
+128 equal controls and eight equal-quality workloads. hill swap 465.693ms Rust/370.005ms Java; tabu swap 454.761ms Rust/379.122ms Java.
+Java parity remains the target, multiplier 1. Cross-run ratios are not gain evidence.
+Other 17 raw reports retain keys/dates and remain stale. Completion index 84.149%,
+1/18 current; inventory 4410/4855 (90.834%), 10 pending, 435 excluded and zero failed/
+unverified unchanged. HTTP/data/freshness verified; unchanged rendering/consumed
+contract reuse 254 browser evidence. runner-c parked; goal incomplete.
+
+A fresh final-source cpu-clock profile has 1K+ samples, no lost samples and five
+exact outputs. Remaining inclusive costs include fixed-link scoring 14.13%, sum
+updates 12.84%, ordinary preference filtering 8.02%, its terminal 8.02% and transaction
+drop 19.29%; percentages overlap and are sampling, not speed claims. First evaluate
+the existing score_fixed builder for preference keys 0..case.value_count: that
+universe is already part of the model. Preserve full match tables, nonzero filtering,
+actual callbacks, fixtures and quality. Qualify a distinct private client before
+adoption; do not assume a gain or add another API before checking the existing one.
+
+The bounded arithmetic review found no justified native correction: sequence
+MIN/MAX differences reflect Java wrapping versus native widened distance; four
+load cases reflect Java cancellation/long overflow versus independently exact
+native moments. Do not modify correct arithmetic or claim more agreement credit.
+Avoid repeating those already-explained probes.
+
+Evidence: work/round272-qualification/{integration,build-receipt,final-build-receipt,
+gate-receipt,collection,verdict}.json, pair-results.json, remote-pair-results.json,
+stream-performance-receipt.json; work/parallel-round272-evidence.json. Historical
+agent source bundles: work/round272-sum-groups/, work/round272-final-inputs/.
+Arithmetic note: work/round272-behavior-gap/arithmetic-review.json.
+
+## Previous qualification — 270 shared fixed-link scoring
 
 Added optional shared-input fixed-link joins and fully tracked fused scoring,
 including direct, weighted and exact-decimal builders. Endpoint caches retain the

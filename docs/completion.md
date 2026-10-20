@@ -19,10 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,494 passing Rust tests and 290 doctests**,
-source digest `40b35ec681a0e312666fb1a8be1733abe265557419aab5e3806148a25fc143ff`. The required final `bash scripts/check.sh` passed
-on runner-a in 619.420 seconds (including dispatch/collection), running the affected checks and genuinely reusing
-51 unchanged jobs. Source-bound output and checksum metadata were collected
+The latest integrated checkpoint has **8,502 passing Rust tests and 290 doctests**,
+source digest `c409c462176c7fee33d77a47ebb14d8c9b047287f5defec52b179db1eb2a8431`. The required final `bash scripts/check.sh` passed
+on runner-a in 371.188 seconds (including dispatch/collection), running the affected checks and genuinely reusing
+52 unchanged jobs. Source-bound output and checksum metadata were collected
 unchanged; no duplicate local full check or rewritten evidence keys. The live
 report remains the authority for later counts and freshness.
 
@@ -68,7 +68,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **83.9%**: feature families 40%,
+The dashboard's configurable progress index is **84.1%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from
@@ -101,9 +101,9 @@ four balanced forks. A four-rank inline queue for single-source batches reduces
 large change-solve timings by 5.57–7.68% locally; multi-change routing is unchanged,
 and swap controls include slower observations. Original inputs, quality and physical
 callbacks remain intact. These native comparisons establish no general speedup.
-The current round270 stream comparison measures large hill/swap at
-509.212ms versus Java 345.745ms, and large tabu/swap at
-508.314ms versus 369.939ms, with equal scores.
+The current round272 stream comparison retains equal scores on all workloads:
+large hill/swap 465.693ms Rust / 370.005ms Java; large tabu/swap
+454.761ms Rust / 379.122ms Java.
 Java parity remains the target, multiplier 1.
 
 Sorted-set replacement now uses one staged snapshot, preserving multiplicities,
@@ -134,7 +134,10 @@ original ownership/nesting regressions cover the change. Native controlled resul
 are recorded per workload and host; local controls include a slower private
 hill/change case, so no general or standalone checkpoint gain is claimed.
 
-Evidence: work/round270-qualification/collection.json, gate-receipt.json,
+Evidence: work/round272-qualification/collection.json, gate-receipt.json,
+verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json
+and stream-performance-receipt.json;
+work/round270-qualification/collection.json, gate-receipt.json,
 verdict.json, build-receipt.json, pair-results.json, remote-pair-results.json,
 profile-receipt.json and stream-performance-receipt.json;
 work/round267-qualification/collection.json, gate-receipt.json,
@@ -177,3 +180,16 @@ Sharing alone makes runner-a swaps 5.24% slower; the unchanged declaration contr
 is roughly flat there and variable locally. Full output and physical-callback
 signatures agree. No general, tabu timing, standalone sharing, memory or Java-parity
 gain is claimed. Only the affected stream comparison was refreshed.
+
+
+Validated bounded usize sum groups now retain low integer-key summaries in indexed
+primitive slots, with ordered fallback for arbitrary larger keys and unchanged
+generic/unbound maps. Complete input captures and graph rollback remain intact.
+Batched sum/filter-map boundaries reuse integer input-position scratch; generic
+identity coalescing and ordinary filter-map remain unchanged. Eight original
+regressions cover state histories, boundary keys, ownership and panic recovery.
+Actual controlled native timings across all eight original stream workloads are
+recorded by host in the latest handoff. The fixed cache adds bounded retained
+space and copies primitive slots for saved states; no memory-saving, standalone
+component or general speed claim follows. Only the affected stream comparison
+was refreshed; other 17 raw comparison records retain their actual keys and dates.

@@ -2567,3 +2567,28 @@ Legacy incoming-event accounting is unchanged. A private optional counter regist
 adds one slot per graph node and a branch at downstream dispatch; native comparisons
 must include the old executable to expose costs on unchanged declarations. No
 whole-graph memory or speed claim follows from sharing alone.
+
+## Bound sum summaries and ordinal batch scratch
+
+After a validated fixed-input binding succeeds for at most 256 `usize` input IDs,
+sum-only groups whose key type is exactly `usize` use private indexed count/total
+slots for keys 0 through 255. Larger keys, including `usize::MAX`, retain ordered
+map storage; generic keys and unbound inputs retain the original map path. The
+input universe does not restrict the mapped group-key universe. All captured
+source values, nonempty zero totals, sorted publications, checked intermediate
+arithmetic and representative rules remain intact. Nested undo journals and full
+saved states include both storage portions. No new public bounds or declaration
+are required. The indexed portion reserves 256 optional summary slots and shares
+256 integer key representatives; full saved snapshots copy its primitive slots.
+This trades bounded retained space for fewer shared-tree updates and allocations.
+
+Batched sum grouping and batched filter-map also reuse private input-position
+scratch when the identity type is exactly `usize`. It contains only integer IDs
+and event positions, retains the last delivered event per ID and visits final
+inputs in sorted ID order. Sparse and arbitrarily large IDs need no universe
+scan. Scratch is rebuilt before every round, retains no input owners and is not
+logical snapshot state. Generic identity types retain their original map-based
+coalescing and ownership behavior; ordinary filter-map is unchanged. Sum mapping
+still completes before group installation, and graph transactions retain normal
+panic poisoning and rollback. Full source facts and score callback counts are
+unaffected.
