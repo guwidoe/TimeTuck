@@ -30,7 +30,6 @@ use std::{
     sync::Arc,
 };
 
-mod count_reuse;
 mod journal;
 
 type Link<K, V> = Option<Arc<Node<K, V>>>;

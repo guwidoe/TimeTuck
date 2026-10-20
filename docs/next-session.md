@@ -17,6 +17,73 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
+## Latest qualification — 281 compact integer frequency nodes
+
+Checked SumCollector and wrapping IntCollector now use a private persistent AVL
+with scalar i64 keys and usize counts directly inside each shared node. Generic
+SnapshotMap is unchanged except removal of the now-unused primitive retarget
+helper. No public bounds, defaults, arithmetic, capture or snapshot changes.
+Shared roots copy changed paths; unique singleton renames reuse physical nodes.
+Promotion copies counts directly (including huge multiplicities); demotion does
+not allocate traversal storage. Eight new original internal/real-collector tests
+replace five obsolete helper-internal tests, without source-method credit.
+
+Final local `bash scripts/check.sh` passed: **8,533 Rust +290 doctests**,
+95 RUN/53 REUSE in 888.768s. Native `feeaefbcff11143b4fab573613cdae9e768ca1af58221bce2e3c52dede75cfaf`.
+One actual final-source gate, no failed final gate or cache transplantation.
+The initial prototype 98f960fd passed eight focused tests and a release build;
+a review refinement removed an unnecessary small-tree traversal allocation.
+That unmeasured prototype remains separate under initial-prototype/. Final
+canonical library and benchmark artifacts have their own fresh build receipt.
+
+Actual 279 baseline artifact remains bound to its original 2759 source; its
+aggregate inputs were unchanged through 280. The final 281 comparison uses that
+actual baseline against the actual new canonical executable. All 96 full controls
+and six original workloads/settings/outputs are preserved. Four balanced forks:
+checked sums **15.01%/14.57% lower** at 64/512, every fork faster. Set controls had
+mixed initial results; one bounded 16-fork follow-up retains **1.00%/3.83% higher**
+small/large medians, mixed individual forks. Do not dismiss this tradeoff or claim
+general/whole-solve/memory-total improvement. No repeated sum experiment.
+
+Fresh original aggregate Java pipeline preserves all 96 controls and six workloads:
+
+| Collector / captures | Rust µs / pair | Java µs / pair |
+| --- | ---: | ---: |
+| Checked sum · 64 captures | 0.328 | 0.393 |
+| Checked sum · 512 captures | 0.502 | 0.391 |
+| Sorted set · 64 captures | 2.770 | 1.563 |
+| Sorted set · 512 captures | 6.781 | 6.571 |
+| Merged map · 64 captures | 3.562 | 8.880 |
+| Merged map · 512 captures | 6.691 | 12.601 |
+
+Small sum and both maps meet Java parity; sum 512 and both sets do not. Cross-run
+Java ratios vary. Other 17 raw reports keep bytes/dates/keys; all remain stale,
+including stream 280 after shared collector changes. Readiness **84.728%**,
+1/18 current, 17 stale; Java multiplier 1 unchanged. Inventory remains 4410/4855
+(90.834%), 10 pending, 435 excluded, zero failed/unverified. Goal incomplete.
+
+Frontend/report contract unchanged. Reuse 280 browser proof and inspect current
+HTTP data/source/model freshness; no repeated browser round. No new upstream pin,
+method credit, provenance change, exclusion or benchmark work/budget reduction.
+
+Existing Sol agent independently reviewed the final source with no actionable
+finding and no execution. It prepared a separate SOURCE-ONLY proposal under
+work/round282-snapshot-set/ for a one-tree native sorted-set collector/output;
+keep this new API separate from existing SetCollector until reviewed, integrated
+and actually measured. Parent added inline exact-size iteration and a private
+deep-spill regression; seven public regressions, export/adapter patches and a
+SHA256 manifest are present. Only formatting ran: no build, test or benchmark
+execution. No performance or compatibility credit for the proposal.
+The question about reproducing observed Java bugs versus keeping consistent native
+behavior remains unanswered; do not waive those gaps or infer approval.
+runner-c parked. runner-a 281 live auth was requested; inspect the actual SSH handle
+before claiming access. No remote 281 result is included in this qualification.
+
+Evidence work/round281-compact-counts/{integration,candidate-build-receipt,
+pair-results,aggregate-performance-receipt,gate-receipt,collection,verdict}.json;
+set-control-followup/pair-results.json; work/parallel-round281-evidence.json.
+Do not repeat successful unchanged verification or rekey old measurements.
+
 ## Latest qualification — 280 explicit 32-bit collector distances
 
 Added WrappingIntegerSequenceMetric<STEP:i32=1> and WrappingIntegerRangeMetric for

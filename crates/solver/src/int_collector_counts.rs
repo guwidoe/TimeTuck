@@ -1,5 +1,6 @@
 //! Allocation-free small frequency sets, persistent trees for larger collectors.
-use crate::SnapshotMap;
+mod tree;
+use tree::CountsTree;
 const INLINE_VALUES: usize = 2;
 #[derive(Clone, Debug)]
 pub(crate) enum IntCollectorCounts {
@@ -7,7 +8,7 @@ pub(crate) enum IntCollectorCounts {
         entries: [(i64, usize); INLINE_VALUES],
         len: usize,
     },
-    Tree(SnapshotMap<i64, usize>),
+    Tree(CountsTree),
 }
 impl PartialEq for IntCollectorCounts {
     fn eq(&self, other: &Self) -> bool {
@@ -29,7 +30,7 @@ impl PartialEq for IntCollectorCounts {
                     && entries[..*len]
                         .iter()
                         .zip(tree.iter())
-                        .all(|(&(value, count), (&key, &n))| value == key && count == n)
+                        .all(|(&(value, count), (key, n))| value == key && count == n)
             }
         }
     }
@@ -49,7 +50,7 @@ impl IntCollectorCounts {
             Self::Inline { entries, len } => entries[..*len]
                 .binary_search_by_key(&value, |e| e.0)
                 .is_ok(),
-            Self::Tree(tree) => tree.contains_key(&value),
+            Self::Tree(tree) => tree.get(value).is_some(),
         }
     }
     pub(crate) fn increment(&mut self, value: i64) {
@@ -63,17 +64,17 @@ impl IntCollectorCounts {
                         *len += 1;
                     }
                     Err(_) => {
-                        let mut tree = SnapshotMap::new();
+                        let mut tree = CountsTree::new();
                         for &(key, count) in &entries[..*len] {
-                            tree.insert(key, count);
+                            tree.insert_count(key, count);
                         }
-                        tree.insert(value, 1);
+                        tree.increment(value);
                         *self = Self::Tree(tree);
                     }
                 }
             }
             Self::Tree(tree) => {
-                tree.insert(value, tree.get(&value).copied().unwrap_or(0) + 1);
+                tree.increment(value);
             }
         }
     }
@@ -92,23 +93,18 @@ impl IntCollectorCounts {
                 }
             }
             Self::Tree(tree) => {
-                let Some(&count) = tree.get(&value) else {
+                if !tree.remove(value) {
                     return false;
-                };
-                if count > 1 {
-                    tree.insert(value, count - 1);
-                } else {
-                    tree.remove(&value);
-                    // A lower demotion threshold avoids rebuilding a tree on
-                    // every alternation around the inline threshold.
-                    if tree.len() <= INLINE_VALUES / 2 {
-                        let mut entries = [(0, 0); INLINE_VALUES];
-                        let len = tree.len();
-                        for (slot, (&key, &count)) in entries.iter_mut().zip(tree.iter()) {
-                            *slot = (key, count);
-                        }
-                        *self = Self::Inline { entries, len };
+                }
+                // A lower demotion threshold avoids rebuilding a tree on
+                // every alternation around the inline threshold.
+                if tree.len() <= INLINE_VALUES / 2 {
+                    let mut entries = [(0, 0); INLINE_VALUES];
+                    let len = tree.len();
+                    if let Some(key) = tree.min() {
+                        entries[0] = (key, tree.get(key).expect("present sole frequency"));
                     }
+                    *self = Self::Inline { entries, len };
                 }
             }
         }
@@ -141,13 +137,13 @@ impl IntCollectorCounts {
     pub(crate) fn min(&self) -> Option<i64> {
         match self {
             Self::Inline { entries, len } => entries[..*len].first().map(|e| e.0),
-            Self::Tree(tree) => tree.first_key_value().map(|(&k, _)| k),
+            Self::Tree(tree) => tree.min(),
         }
     }
     pub(crate) fn max(&self) -> Option<i64> {
         match self {
             Self::Inline { entries, len } => entries[..*len].last().map(|e| e.0),
-            Self::Tree(tree) => tree.last_key_value().map(|(&k, _)| k),
+            Self::Tree(tree) => tree.max(),
         }
     }
 }

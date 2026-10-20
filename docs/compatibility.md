@@ -10581,3 +10581,25 @@ Community trace or arithmetic-equivalence claim beyond the observed configuratio
 Final `bash scripts/check.sh`: 8,530 Rust +290 doctests; 9 jobs run/139 reused.
 Native digest `838dded110736f902fff345ecc2816a43950de0b93c096adea4ff75fc961f58a`. Evidence:
 work/round280-qualification/{collection,stream-differential-receipt,browser-proof}.json.
+
+
+### Compact private integer frequency storage
+
+Checked SumCollector and wrapping IntCollector now retain primitive frequency
+keys/counts inside shared AVL nodes. Generic SnapshotMap APIs, public collector
+bounds, arithmetic checks, duplicate/zero captures, inline hysteresis and external
+snapshots retain their contracts. Primitive renaming can reuse a detached unique
+node; shared edits copy only changed paths. No key/value callbacks or unsafe code
+are introduced. The removed generic-map-only helper has no remaining production
+caller. Its five implementation-specific tests are replaced by eight original
+compact-tree/collector ownership, generated-history, transition and concurrency
+checks, with no upstream-method credit.
+
+Final `bash scripts/check.sh`: 8,533 Rust +290 doctests;
+95 jobs run/53 reused. Native `feeaefbcff11143b4fab573613cdae9e768ca1af58221bce2e3c52dede75cfaf`.
+Canonical paired sums improve 15.01%/14.57% at 64/512 captures in every fork;
+unchanged set controls retain mixed-fork +1.00%/+3.83% follow-up medians. Full
+96 controls and all six original timed workloads preserve complete output/work.
+Only aggregate-performance is refreshed; the other 17 raw reports retain actual
+bindings and dates. No whole-solve or general speedup claim. Evidence:
+work/round281-compact-counts/{collection,pair-results,verdict,gate-receipt}.json.

@@ -1686,12 +1686,19 @@ This removes redundant internal snapshots without changing the public operations
 or bounds. Private derived Debug field shape changes; no stable text format is
 promised.
 
-For primitive integer frequency replacement, a unique old class and absent new
-class can reuse the removed tree node and its key/value allocations. Structural
-removal and insertion rebalance normally; shared nodes/keys copy on write, and
-journals preserve the pre-edit tree before topology changes. Duplicate classes,
+Primitive integer frequencies use a private persistent AVL tree whose i64 key
+and usize count live directly inside each shared node. No separately shared key
+or count allocations are needed; cloning still shares the root and updates copy
+only shared search/rebalance paths. This specialization accepts no user callbacks
+and does not change generic SnapshotMap storage or public collector bounds.
+A unique old class and absent new class reuse the removed node allocation.
+Structural removal/insertion rebalance normally and preserve duplicate successor
+counts. Collector snapshots isolate edits, including transaction rollback;
+private frequency trees do not use generic-map journals. Duplicate classes,
 existing destinations and inline promotion/demotion keep the ordinary count
-operations. Checked replacement retains its original difference/addition preflight.
+operations. Promotion copies counts directly, including large multiplicities;
+it does not replay occurrences. Checked replacement retains its original
+difference/addition preflight.
 Wrapping IntCollector replacement validates membership and count arithmetic before
 changing frequencies, then applies wrapping subtraction/addition without a staging
 clone. Missing captures, equal values, immutable snapshots and rollback retain
