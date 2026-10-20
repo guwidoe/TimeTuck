@@ -168,12 +168,15 @@ fn put_node(root: &mut Link, detached: Arc<Node>) {
         return;
     };
     let node = Arc::make_mut(owner);
-    let child = if detached.key < node.key {
-        &mut node.left
-    } else {
-        &mut node.right
-    };
-    put_node(child, detached);
+    match detached.key.cmp(&node.key) {
+        Ordering::Less => put_node(&mut node.left, detached),
+        Ordering::Greater => put_node(&mut node.right, detached),
+        Ordering::Equal => {
+            // The owning collector preflights total occurrence count.
+            node.count += detached.count;
+            return;
+        }
+    }
     refresh(node);
     balance(root);
 }
@@ -213,13 +216,26 @@ impl CountsTree {
         }
         true
     }
-    pub(super) fn retarget_singleton(&mut self, old: i64, new: i64) -> bool {
-        if self.get(old) != Some(1) || self.get(new).is_some() {
+    /// Replace one captured primitive occurrence. Owning collectors preflight
+    /// arithmetic; absence is checked before any copy-on-write mutation.
+    #[inline]
+    pub(super) fn replace_one(&mut self, old: i64, new: i64) -> bool {
+        let Some(count) = self.get(old) else {
             return false;
+        };
+        if old == new {
+            return true;
         }
-        let mut detached = detach(&mut self.root, old);
-        Arc::make_mut(&mut detached).key = new;
-        put_node(&mut self.root, detached);
+        if count > 1 {
+            set_count(&mut self.root, old, count - 1);
+            increment(&mut self.root, new);
+        } else {
+            let mut detached = detach(&mut self.root, old);
+            Arc::make_mut(&mut detached).key = new;
+            // Merge or insert in one destination traversal; unique singleton
+            // insertion reuses the physical node without a presence lookup.
+            put_node(&mut self.root, detached);
+        }
         true
     }
     pub(super) fn min(&self) -> Option<i64> {

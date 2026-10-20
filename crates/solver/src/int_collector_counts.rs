@@ -118,9 +118,8 @@ impl IntCollectorCounts {
         // cross its threshold. Larger trees retain their representation.
         if let Self::Tree(tree) = self
             && tree.len() > INLINE_VALUES / 2 + 1
-            && tree.retarget_singleton(old, new)
         {
-            return true;
+            return tree.replace_one(old, new);
         }
         if !self.remove(old) {
             return false;

@@ -10627,3 +10627,41 @@ aggregate workloads; only sum 512 misses. Other 17 raw reports retain actual
 bindings and dates. No whole-solver speedup or additional method coverage claim.
 Evidence: work/round282-qualification/{collection,pair-results,verdict,gate-receipt}.json
 and map-control-followup/pair-results.json.
+
+
+### Fused primitive frequency replacement
+
+Primitive frequency replacement checks the old class once and uses one
+insertion/merge traversal after decrement or singleton detach. The small helper
+is inlined; public arithmetic, multiplicities, shared snapshots, physical node
+reuse and inline hysteresis remain unchanged. Three new original regressions
+plus eight retained tests earn no upstream-method credit.
+
+Final `bash scripts/check.sh`: **8,551 Rust +291 doctests**, 95 RUN/53 REUSE
+in 629.590s. Native `25b8d77ea3edb0cdf34a752c11c7a4b61a893e58b6eac814d61029af6d0a8183`.
+Native large checked-sum pairs improve **16.59%**, every fork faster. Small-sum
+pooled median is 1.14% higher, mixed forks. Initial large set/map controls are
++21.34%/+3.20%; one bounded 16-fork fixed-artifact follow-up is -0.49%/-0.69%,
+mixed forks. Preserve both records; no general or whole-solve speedup claim.
+Fresh original Java comparison retains all 96 controls and six full workloads:
+
+| Collector / captures | Rust µs / pair | Java µs / pair |
+| --- | ---: | ---: |
+| Checked sum · 64 captures | 0.296 | 0.318 |
+| Checked sum · 512 captures | 0.435 | 0.393 |
+| Sorted set · 64 captures | 0.868 | 1.007 |
+| Sorted set · 512 captures | 3.178 | 5.293 |
+| Merged map · 64 captures | 3.096 | 9.294 |
+| Merged map · 512 captures | 6.194 | 10.896 |
+
+Five of six meet measured parity; larger sum remains about 10.9% slower than
+Java. Only aggregate-performance was refreshed; other 17 raw reports keep actual
+bytes/dates/keys and remain stale. Inventory remains 4410/4855 (90.834%), 10
+pending, 435 excluded, zero failed/unverified. Readiness **85.451%**, 1/18
+current, Java multiplier 1. Goal active/incomplete. Existing APIs/defaults,
+upstream pin, provenance, benchmark work/flags/budgets and full outputs unchanged.
+Frontend contract unchanged: reuse 280 browser proof with current HTTP freshness.
+
+Evidence: work/round285-qualification/{integration,candidate-build-receipt,
+pair-results,aggregate-performance-receipt,gate-receipt,collection,verdict}.json;
+large-control-followup/pair-results.json; work/parallel-round285-evidence.json.

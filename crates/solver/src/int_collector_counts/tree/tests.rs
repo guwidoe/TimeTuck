@@ -93,7 +93,7 @@ fn unique_renames_reuse_all_nodes_and_preserve_duplicate_successors() {
         let mut initial = HashSet::new();
         owners(&tree.root, &mut initial);
         for old in (0..len).filter(|k| k % 3 != 1) {
-            assert!(tree.retarget_singleton(old, old + 1000));
+            assert!(tree.replace_one(old, old + 1000));
             let mut expected = before
                 .iter()
                 .copied()
@@ -104,7 +104,7 @@ fn unique_renames_reuse_all_nodes_and_preserve_duplicate_successors() {
             let mut current = HashSet::new();
             owners(&tree.root, &mut current);
             assert_eq!(current, initial);
-            assert!(tree.retarget_singleton(old + 1000, old));
+            assert!(tree.replace_one(old + 1000, old));
             assert_eq!(rows(&tree), before);
         }
     }
@@ -124,7 +124,7 @@ fn snapshots_copy_only_changed_paths_and_keep_original_extreme_counts() {
     owners(&saved.root, &mut original);
     for key in [i64::MIN, 0, 4095, 8191, i64::MAX] {
         let mut candidate = saved.clone();
-        assert!(candidate.retarget_singleton(key, -1));
+        assert!(candidate.replace_one(key, -1));
         let mut changed = HashSet::new();
         owners(&candidate.root, &mut changed);
         assert!(changed.difference(&original).count() <= 8 * height(&saved.root) + 2);
@@ -137,15 +137,15 @@ fn snapshots_copy_only_changed_paths_and_keep_original_extreme_counts() {
 }
 
 #[test]
-fn missing_edits_and_ineligible_renames_preserve_the_exact_root() {
+fn missing_and_equal_replacements_preserve_the_exact_root() {
     let mut tree = CountsTree::new();
     for key in 0..31 {
         tree.increment(key);
     }
     tree.increment(8);
     let saved = tree.clone();
-    for (old, new) in [(8, 99), (7, 8), (7, 7), (99, 100)] {
-        assert!(!tree.retarget_singleton(old, new));
+    for (old, new) in [(7, 7), (8, 8), (99, 100), (99, 99)] {
+        assert_eq!(tree.replace_one(old, new), old != 99);
         assert!(Arc::ptr_eq(
             tree.root.as_ref().unwrap(),
             saved.root.as_ref().unwrap()
@@ -158,7 +158,7 @@ fn missing_edits_and_ineligible_renames_preserve_the_exact_root() {
     ));
     assert_eq!(rows(&tree), rows(&saved));
     let mut empty = CountsTree::new();
-    assert!(!empty.retarget_singleton(0, 1));
+    assert!(!empty.replace_one(0, 1));
     assert!(!empty.remove(0));
 }
 
@@ -261,4 +261,152 @@ fn shared_frequency_roots_remain_independent_across_threads() {
         assert_eq!(changed.sum, original.sum + 1000);
     }
     assert_eq!(initial.summary(), original);
+}
+
+#[test]
+fn fused_replacements_cover_source_multiplicity_destinations_and_physical_nodes() {
+    for shared in [false, true] {
+        for source_count in [1, 4] {
+            // 16 has two children; 18 is its duplicate-count successor.
+            for destination in [18, 22, 29, -9, i64::MIN, i64::MAX] {
+                let mut tree = CountsTree::new();
+                let mut expected = BTreeMap::new();
+                for key in [16, 8, 24, 4, 12, 20, 28, 18, 22] {
+                    let count = if key == 16 {
+                        source_count
+                    } else if key == 18 {
+                        3
+                    } else {
+                        1
+                    };
+                    tree.insert_count(key, count);
+                    expected.insert(key, count);
+                }
+                let saved = shared.then(|| (tree.clone(), expected.clone()));
+                let mut initial_nodes = HashSet::new();
+                owners(&tree.root, &mut initial_nodes);
+                let was_present = expected.contains_key(&destination);
+                assert!(tree.replace_one(16, destination));
+                let old = expected.get_mut(&16).unwrap();
+                *old -= 1;
+                if *old == 0 {
+                    expected.remove(&16);
+                }
+                *expected.entry(destination).or_default() += 1;
+                assert_eq!(
+                    rows(&tree),
+                    expected.iter().map(|(&k, &n)| (k, n)).collect::<Vec<_>>()
+                );
+                if !shared {
+                    let mut current = HashSet::new();
+                    owners(&tree.root, &mut current);
+                    if source_count == 1 && !was_present {
+                        assert_eq!(current, initial_nodes);
+                    }
+                    if source_count == 1 && was_present {
+                        assert_eq!(current.len() + 1, initial_nodes.len());
+                        assert!(current.is_subset(&initial_nodes));
+                    }
+                    if source_count > 1 && was_present {
+                        assert_eq!(current, initial_nodes);
+                    }
+                }
+                if let Some((saved, model)) = saved {
+                    assert_eq!(rows(&saved), model.into_iter().collect::<Vec<_>>());
+                }
+                for (key, count) in expected {
+                    for _ in 0..count {
+                        assert!(tree.remove(key));
+                        rows(&tree);
+                    }
+                    assert!(!tree.remove(key));
+                }
+                assert!(tree.root.is_none());
+            }
+        }
+    }
+}
+
+#[test]
+fn fused_multiset_histories_preserve_avl_counts_and_all_saved_snapshots() {
+    let mut tree = CountsTree::new();
+    let mut model = BTreeMap::<i64, usize>::new();
+    let mut saved = Vec::new();
+    let mut seed = 283_u64;
+    for step in 0..8000 {
+        seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1);
+        let key = ((seed >> 32) % 97) as i64 - 48;
+        let new = ((seed >> 17) % 113) as i64 - 56;
+        match seed % 3 {
+            0 => {
+                tree.increment(key);
+                *model.entry(key).or_default() += 1;
+            }
+            1 => {
+                let found = model.contains_key(&key);
+                assert_eq!(tree.remove(key), found);
+                if found {
+                    let n = model.get_mut(&key).unwrap();
+                    *n -= 1;
+                    if *n == 0 {
+                        model.remove(&key);
+                    }
+                }
+            }
+            _ => {
+                let found = model.contains_key(&key);
+                assert_eq!(tree.replace_one(key, new), found);
+                if found {
+                    let n = model.get_mut(&key).unwrap();
+                    *n -= 1;
+                    if *n == 0 {
+                        model.remove(&key);
+                    }
+                    *model.entry(new).or_default() += 1;
+                }
+            }
+        }
+        assert_eq!(
+            rows(&tree),
+            model.iter().map(|(&k, &n)| (k, n)).collect::<Vec<_>>()
+        );
+        if step % 251 == 0 {
+            saved.push((tree.clone(), model.clone()));
+        }
+    }
+    for (snapshot, model) in saved {
+        assert_eq!(rows(&snapshot), model.into_iter().collect::<Vec<_>>());
+    }
+    for (key, n) in model {
+        for _ in 0..n {
+            assert!(tree.remove(key));
+        }
+    }
+    assert!(tree.root.is_none());
+}
+
+#[test]
+fn fused_replacement_keeps_inline_hysteresis_and_near_limit_frequency_totals() {
+    let mut counts = IntCollectorCounts::Inline {
+        entries: [(1, usize::MAX - 3), (2, 1)],
+        len: 2,
+    };
+    counts.increment(3); // Total is usize::MAX - 1, leaving room for a fourth class.
+    let saved = counts.clone();
+    assert!(counts.replace(3, 1));
+    assert!(matches!(counts, IntCollectorCounts::Tree(_)));
+    let IntCollectorCounts::Tree(tree) = &counts else {
+        unreachable!()
+    };
+    assert_eq!(rows(tree), [(1, usize::MAX - 2), (2, 1)]);
+    assert!(counts.replace(2, 1)); // Two-class fallback demotes at one class.
+    let IntCollectorCounts::Inline { entries, len } = counts else {
+        panic!("expected demotion")
+    };
+    assert_eq!(len, 1);
+    assert_eq!(entries[0], (1, usize::MAX - 1));
+    let IntCollectorCounts::Tree(tree) = saved else {
+        unreachable!()
+    };
+    assert_eq!(rows(&tree), [(1, usize::MAX - 3), (2, 1), (3, 1)]);
 }
