@@ -67,10 +67,39 @@ Do not repeat the rejected indexed-registry trial or previously resolved policy
 investigations. All execution in294 was local; runner-c remains parked, no new SSH/auth
 attempt or new agent was created. One existing agent prepared the source overlay.
 
-The existing review agent is preparing a source-only shared-endpoint feasibility
-bundle under `work/round295-shared-owner-payload/`. No such public API exists yet.
-Inspect its actual status/files before integration; no build, timing or qualification
-is implied. A new shared-core API would require broad regression coverage.
+## Investigation 295 — shared captures rejected; position lookup hotspot
+
+The experimental shared-row projection API and mixed v3 policy were built and
+checked privately, then removed: the larger warm case was 0.675% slower than
+same-source v2; cold was 1.266% lower with mixed forks. Full outputs and physical
+callbacks matched across all 16 original workload/profile rows. Six new core tests
+and four expanded mixed tests passed focused checks, but no broad gate or Java
+qualification was run for this rejected source. The complete source/binary/results
+remain in `work/round295-qualification/rejected-sharing/` and `pair-results.json`.
+
+A CPU-clock profile of the actual qualified v2 binary recorded 3,178 samples,
+zero lost. Changed-value-position discovery accounts for 10.98% self /14.88%
+inclusive sampled CPU. All normalized native output matches its qualified sample.
+This is diagnostic whole-program sampling, with no matched timing or general
+speed claim. [Recorded evidence](../compat/observations/mixed-stream-value-position-profile.json).
+Exact qualified294 source, all 18 measurement keys and raw reports were restored;
+existing verification and browser evidence remain valid. No current feature or
+upstream-method credit is added. The goal remains incomplete.
+
+Next: the existing agent is preparing an untracked implementation bundle at
+`work/round296-ordinal-index/`. The proposed explicit ordinal index targets repeated
+registry searches while retaining Eq-only defaults and full source/update order.
+It is not an existing or qualified API; inspect actual files/hashes/status before
+integration. Preserve Hash indexing, equality-consistent key obligations, bounds,
+constructor errors, range/pin checks and cold/repair reconstruction mode. Basic
+registry construction remains Eq-only in the proposed mixed experiment.
+
+The target release example still contains the rejected fa35c6... artifact. Its
+qualified39d8b0... control is `work/round295-qualification/qualified-v2-binary`;
+only execute it with its actual qualified source receipt. A normal future Cargo
+build must rebuild genuinely from restored/new source; never transplant binaries
+or fingerprints. All source restoration wrote HEAD bytes with advanced mtimes.
+No new raw report or cache record was forged/rekeyed. runner-c remains parked.
 
 ## Remaining limits and retained evidence
 

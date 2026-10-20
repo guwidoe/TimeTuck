@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "kind": "bounded_native_performance_investigation",
+  "qualified_source": {
+    "commit": "462c46d35a8fdd0b25d430f6798f7d7d658a72ea",
+    "rust_digest": "46069f24e4025134fff09c60de7f5f3b3d1659f965fea3bbabdd767190d7e62e",
+    "binary_sha256": "39d8b01d781689d7bb80ed4947001234b57659cc03a12571f980d6bab447495a"
+  },
+  "rejected_trial": {
+    "native": "594d54fd074982db7bc8b8375e670f6cd0c60a9216ff071d600613faa41ded0d",
+    "binary_sha256": "fa35c6d64ff478ab64b1abd6056470ffb2114467f4b3784e3cd7da682c64b1dd",
+    "rows": 16,
+    "comparison": "Qualified294 v2 artifact, current v2 and experimental shared-row v3; complete original8warm/cold/backend rows in both profiles,4rotatingforks, originalquality/budgets; fulloutputs and all physical callbacks equal except elapsed/declaration metadata.",
+    "larger_component_stream": [
+      {
+        "case": "mixed-clustered-pins",
+        "v3_vs_current_v2_percent": 0.6750121933794873,
+        "forks": [
+          -3.276956145993637,
+          0.0676387110576826,
+          4.057989365746506,
+          7.090027088788409
+        ]
+      },
+      {
+        "case": "mixed-clustered-pins-cold",
+        "v3_vs_current_v2_percent": -1.2658106125149948,
+        "forks": [
+          -1.1786758614042436,
+          -12.428990365147008,
+          3.825014165219276,
+          -8.282937019075042
+        ]
+      }
+    ],
+    "qualification": "Focused18coretests (12existing+6new) and4expandedmixedtests passed; no broadgate/Java qualification; all experimentalcode removed from production and archived.",
+    "reason": "No clear larger warm benefit: pooled v3 is0.675%slower; cold1.266%lower with mixedforks. This is a bounded negative result, not a general no-benefit claim."
+  },
+  "profile": {
+    "event": "cpu-clock:u",
+    "frequency_hz": 499,
+    "cpu_affinity": [
+      2
+    ],
+    "solves": 400,
+    "workload": "mixed-clustered-pins \u00b7 stream",
+    "search_profile": "component-refinement",
+    "stream_graph_policy": "owner-links-fused",
+    "samples": 3178,
+    "lost_samples": 0,
+    "profiler_sha256": "2914099e8d0e4530fa9143ffd8a2ed5790bc04eb7f565c49ae85df265dce7782",
+    "input_sha256": "3f2f0ec58e4849d66027e11f90d2d2117c9a060ead41c44f3ab56ba67db6c034",
+    "data_sha256": "0e79fb5048604cc8477c7f01cef1aabc20e23d8db15f9e058a28c9b61b6b017e",
+    "whole_program_scope": "Includes process/input/post-solve checks as well as solver work; sampling is diagnostic, not a matched Java timing refresh.",
+    "complete_normalized_output_matches_qualified_sample": true,
+    "hotspot": {
+      "symbol": "timetuck::list::value_index::<impl timetuck::list::ListProblem<V>>::changed_value_positions",
+      "self_percent": 10.98,
+      "inclusive_percent": 14.88
+    },
+    "receipt": "work/round295-qualification/profile-receipt.json",
+    "self_report": "work/round295-qualification/profile-self.txt",
+    "callgraph_report": "work/round295-qualification/profile-callgraph.txt"
+  },
+  "decision": "Keep qualified v2 and all18actual reports. Next source-only experiment targets repeated registry lookups with an explicit equality-consistent ordinal index, keeping Eq-only defaults and prior constructor semantics. No ordinal API or gain is established yet.",
+  "limits": "No new upstream-method credit, compatibility waiver, source/hash transplantation, whole-solver or general memory/speed claim. Goal remains incomplete."
+}

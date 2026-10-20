@@ -11010,3 +11010,22 @@ checks cover selected fused and both prior declarations. Goal incomplete.
 Evidence: work/round294-qualification/{integration,candidate-build-receipt,
 final-build-receipt,pair-results,gate-receipt,mixed-performance-receipt,collection,
 browser-proof}.json; work/parallel-round294-evidence.json.
+
+## Investigation 295 — shared captures rejected; position lookup hotspot
+
+The experimental shared-row projection API and mixed v3 policy were built and
+checked privately, then removed: the larger warm case was 0.675% slower than
+same-source v2; cold was 1.266% lower with mixed forks. Full outputs and physical
+callbacks matched across all 16 original workload/profile rows. Six new core tests
+and four expanded mixed tests passed focused checks, but no broad gate or Java
+qualification was run for this rejected source. The complete source/binary/results
+remain in `work/round295-qualification/rejected-sharing/` and `pair-results.json`.
+
+A CPU-clock profile of the actual qualified v2 binary recorded 3,178 samples,
+zero lost. Changed-value-position discovery accounts for 10.98% self /14.88%
+inclusive sampled CPU. All normalized native output matches its qualified sample.
+This is diagnostic whole-program sampling, with no matched timing or general
+speed claim. [Recorded evidence](../compat/observations/mixed-stream-value-position-profile.json).
+Exact qualified294 source, all 18 measurement keys and raw reports were restored;
+existing verification and browser evidence remain valid. No current feature or
+upstream-method credit is added. The goal remains incomplete.
