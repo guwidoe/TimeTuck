@@ -78,10 +78,10 @@ fn observe(batch: bool, filter: bool, failure: u8) -> Observation {
     .map(|(id, value)| {
         (
             false,
-            Rc::new(TupleChange {
+            Event::new(TupleChange {
                 id: Id(id, trace.clone(), id_failure.clone()),
                 value: value.map(|v| Row(v, trace.clone())),
-            }) as Event,
+            }),
         )
     })
     .collect();

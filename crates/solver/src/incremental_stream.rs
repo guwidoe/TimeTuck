@@ -412,6 +412,8 @@ pub struct JoinNode<'a, I, J, L, R, K> {
     right: JoinSide<J, R, K>,
     left_key: Box<dyn Fn(&L) -> K + 'a>,
     right_key: Box<dyn Fn(&R) -> K + 'a>,
+    // Only ordinary graph construction enables journals for unbounded joins.
+    primitive_graph_journals: bool,
 }
 
 impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
@@ -475,6 +477,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
             right: JoinSide::new(),
             left_key: Box::new(left_key),
             right_key: Box::new(right_key),
+            primitive_graph_journals: false,
         }
     }
 

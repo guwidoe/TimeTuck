@@ -101,7 +101,7 @@ impl<I: Ord + Clone + 'static, T: 'static, U: 'static, S: AdditiveScore> Node<S>
                 let position = self.final_inputs.positions()[index].1;
                 let change = typed::<I, T>(&inputs[position].1);
                 if let Some(change) = self.apply_row(&change.id, change.value.as_ref()) {
-                    output.push(Rc::new(change) as Event);
+                    output.push(Event::new(change));
                 }
             }
             return Ok(output);
@@ -272,7 +272,7 @@ mod ordinal_final_tests {
         });
         let events = |rows: &[(usize, Option<i32>)]| {
             rows.iter()
-                .map(|&(id, value)| (false, Rc::new(TupleChange { id, value }) as Event))
+                .map(|&(id, value)| (false, Event::new(TupleChange { id, value })))
                 .collect::<Vec<_>>()
         };
         let arithmetic = NodeArithmetic {

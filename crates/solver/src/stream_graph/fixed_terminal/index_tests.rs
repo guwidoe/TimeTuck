@@ -65,7 +65,7 @@ fn relationship_ordinals_validate_full_endpoints_and_restore_saved_match_owners(
         impact: crate::ScoringArithmetic::Checked,
         totals: crate::ScoringArithmetic::Checked,
     };
-    let event = Rc::new(TupleChange::put(first, 11_i64)) as Event;
+    let event = Event::new(TupleChange::put(first, 11_i64));
     node.apply(false, &event, arithmetic).unwrap();
     let held = node
         .matches()
@@ -74,12 +74,12 @@ fn relationship_ordinals_validate_full_endpoints_and_restore_saved_match_owners(
         .unwrap()
         .clone();
     let saved = node.begin_checkpoint();
-    let bad = Rc::new(TupleChange::put(((0usize, 0usize), 7usize), 99_i64)) as Event;
+    let bad = Event::new(TupleChange::put(((0usize, 0usize), 7usize), 99_i64));
     assert!(matches!(
         node.apply(false, &bad, arithmetic),
         Err(GraphError::Dependency(_))
     ));
-    let changed = Rc::new(TupleChange::put(first, 22_i64)) as Event;
+    let changed = Event::new(TupleChange::put(first, 22_i64));
     node.apply(false, &changed, arithmetic).unwrap();
     node.restore(saved);
     assert_eq!(node.total, SimpleScore::new(11));

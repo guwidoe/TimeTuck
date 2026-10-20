@@ -114,10 +114,10 @@ fn observe_batch(
     .map(|(id, value)| {
         (
             false,
-            Rc::new(TupleChange {
+            Event::new(TupleChange {
                 id: Id(id, control.clone()),
                 value: value.map(|v| Input(v, control.trace.clone())),
-            }) as Event,
+            }),
         )
     })
     .collect();
@@ -677,10 +677,10 @@ fn explicit_batches_keep_first_id_and_final_payload_without_cloning_row_payloads
     .map(|(id, tag, value)| {
         (
             false,
-            Rc::new(TupleChange {
+            Event::new(TupleChange {
                 id: Representative(id, tag),
                 value: value.map(|v| Input(v, trace.clone())),
-            }) as Event,
+            }),
         )
     })
     .collect();
@@ -715,7 +715,7 @@ fn explicit_batches_keep_first_id_and_final_payload_without_cloning_row_payloads
         [-1, 2, 5]
     );
     // A direct event remains immediate, including equal-valued accepted puts.
-    let event: Event = Rc::new(TupleChange::put(
+    let event: Event = Event::new(TupleChange::put(
         Representative(1, 11),
         Input(2, trace.clone()),
     ));

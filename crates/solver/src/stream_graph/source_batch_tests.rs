@@ -49,10 +49,10 @@ fn batch(
         .map(|&(id, value)| {
             (
                 false,
-                Rc::new(TupleChange {
+                Event::new(TupleChange {
                     id,
                     value: value.map(|v| Row(v, trace.clone(), fail.clone())),
-                }) as Event,
+                }),
             )
         })
         .collect()
@@ -93,9 +93,9 @@ fn fixed_batches_sort_last_winners_retract_and_reuse_only_ordinal_scratch() {
         output_values(&output),
         [(0, Some(7)), (1, None), (2, Some(5))]
     );
-    assert!(Rc::ptr_eq(&output[0], &inputs[4].1));
-    assert!(Rc::ptr_eq(&output[1], &inputs[3].1));
-    assert!(Rc::ptr_eq(&output[2], &inputs[2].1));
+    assert!(Rc::ptr_eq(output[0].shared_ref(), inputs[4].1.shared_ref()));
+    assert!(Rc::ptr_eq(output[1].shared_ref(), inputs[3].1.shared_ref()));
+    assert!(Rc::ptr_eq(output[2].shared_ref(), inputs[2].1.shared_ref()));
     assert_eq!(
         trace
             .borrow()
@@ -217,18 +217,18 @@ fn generic_source_retains_event_and_stored_representatives_and_clone_drop_order(
         .map(|(key, tag, v)| {
             (
                 false,
-                Rc::new(TupleChange {
+                Event::new(TupleChange {
                     id: Id(key, tag, trace.clone()),
                     value: Some(Row(v, trace.clone(), fail.clone())),
-                }) as Event,
+                }),
             )
         })
         .collect();
     let output =
         <SourceNode<Id, Row> as Node<SimpleScore>>::apply_batch(&mut source, &inputs, arithmetic())
             .unwrap();
-    assert!(Rc::ptr_eq(&output[0], &inputs[2].1));
-    assert!(Rc::ptr_eq(&output[1], &inputs[1].1));
+    assert!(Rc::ptr_eq(output[0].shared_ref(), inputs[2].1.shared_ref()));
+    assert!(Rc::ptr_eq(output[1].shared_ref(), inputs[1].1.shared_ref()));
     assert_eq!(
         *trace.borrow(),
         [
@@ -254,10 +254,10 @@ fn generic_source_retains_event_and_stored_representatives_and_clone_drop_order(
     );
     let replacement: Vec<_> = vec![(
         false,
-        Rc::new(TupleChange {
+        Event::new(TupleChange {
             id: Id(1, 12, trace.clone()),
             value: Some(Row(4, trace.clone(), fail.clone())),
-        }) as Event,
+        }),
     )];
     trace.borrow_mut().clear();
     let next = <SourceNode<Id, Row> as Node<SimpleScore>>::apply_batch(

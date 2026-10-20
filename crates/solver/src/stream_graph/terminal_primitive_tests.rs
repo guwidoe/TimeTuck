@@ -34,7 +34,7 @@ fn apply<I: Ord + Clone + 'static, T: Clone + 'static>(
     id: I,
     value: Option<T>,
 ) -> Result<(), GraphError> {
-    let event: Event = Rc::new(TupleChange { id, value });
+    let event: Event = Event::new(TupleChange { id, value });
     node.apply(false, &event, arithmetic()).map(|_| ())
 }
 fn rows(node: &Terminal<'_, Pair, i64, SimpleScore>) -> Vec<(Pair, i64, SimpleScore)> {

@@ -47,7 +47,7 @@ mod tests {
     use std::{cell::Cell, rc::Rc};
 
     fn event<I: 'static, T: 'static>(id: I, value: Option<T>) -> (bool, Event) {
-        (false, Rc::new(TupleChange { id, value }))
+        (false, Event::new(TupleChange { id, value }))
     }
 
     #[test]

@@ -3,6 +3,7 @@
 //! prefixes and sixteen final-coordinate cells, including usize::MAX. User
 //! key/value owners are shared, never cloned by snapshots or journal restores.
 mod directory;
+pub(crate) mod membership;
 mod pool;
 use crate::SnapshotMap;
 use directory::Directory;

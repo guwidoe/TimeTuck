@@ -1,0 +1,393 @@
+{
+  "kind": "real_world-membership-events-observation",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T17:25:50.941865+00:00",
+  "input_sha256": "bce8442f6f547de2e10e0e828793fddb0e1fd132bc5fdb2bad21a60411bcfa8c",
+  "source_snapshot": "3f2ea6c523c56b9c6657244366223d148a3f0d3e6dac83aa2546963b71ae5748",
+  "native_source_digest": "ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9",
+  "machine": {
+    "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+    "architecture": "x86_64",
+    "hostname": "runner-a",
+    "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+    "allowed_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 0\ncpu cores\t: 4\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 446.825\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 1\ncpu cores\t: 4\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 2\ncpu cores\t: 4\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 4104.632\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 3\ncpu cores\t: 4\napicid\t\t: 6\ninitial apicid\t: 6\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 1537.600\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 0\ncpu cores\t: 4\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 2942.117\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 1\ncpu cores\t: 4\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 537.581\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 2\ncpu cores\t: 4\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 4086.429\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 3\ncpu cores\t: 4\napicid\t\t: 7\ninitial apicid\t: 7\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\n",
+    "tools": [
+      {
+        "command": [
+          "rustc",
+          "-Vv"
+        ],
+        "exit_code": 0,
+        "output": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3\n"
+      },
+      {
+        "command": [
+          "cargo",
+          "-V"
+        ],
+        "exit_code": 0,
+        "output": "cargo 1.92.0 (344c4567c 2025-10-21)\n"
+      },
+      {
+        "command": [
+          "java",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "openjdk version \"25.0.2\" 2026-01-20\nOpenJDK Runtime Environment (build 25.0.2+10-69)\nOpenJDK 64-Bit Server VM (build 25.0.2+10-69, mixed mode, sharing)\n"
+      },
+      {
+        "command": [
+          "javac",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "javac 25.0.2\n"
+      }
+    ]
+  },
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "artifacts": {
+    "rust": {
+      "path": "/home/developer/.cache/timetuck-build/checkouts/native-verification/target/release/examples/real_world_benchmark",
+      "sha256": "f6db50c9624feea5d658d35a8c798587afac36fc2b25f22a4c9220e0ead5254a"
+    },
+    "java_build_receipt": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/final/work/real_world-java/build-receipt.json",
+      "sha256": "b0d789e5322c7b5c3f2399bffaa5f960fe00e7af90e960cb9b08191b24d9cd52"
+    }
+  },
+  "valid": true,
+  "qualified": true,
+  "valid_runs": 12,
+  "cases": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 126678.88411086451,
+          "scores": [
+            [
+              0,
+              19400
+            ],
+            [
+              0,
+              15000
+            ],
+            [
+              0,
+              17200
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.042841859
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 88703.65824157787,
+          "scores": [
+            [
+              0,
+              8400
+            ],
+            [
+              0,
+              9500
+            ],
+            [
+              0,
+              8400
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.000196357
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.7002244996407437,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 81818.70611538892,
+          "scores": [
+            [
+              -12,
+              80400
+            ],
+            [
+              -6,
+              169000
+            ],
+            [
+              -8,
+              87700
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.050347045
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 31998.268949121997,
+          "scores": [
+            [
+              0,
+              87300
+            ],
+            [
+              0,
+              77600
+            ],
+            [
+              -1,
+              188000
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.00144229
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.39108744770413306,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    }
+  ],
+  "comparison_to_prior_qualification": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "native_rate_ratio": 1.1546347155140235,
+      "note": "Separate qualifications; within-session rotating diagnostic controls are reported separately."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "native_rate_ratio": 1.3257269169170474,
+      "note": "Separate qualifications; within-session rotating diagnostic controls are reported separately."
+    }
+  ],
+  "diagnostic_rotating_controls": {
+    "qualified": false,
+    "source_digest": "deea501ae314eb0936bfa6cda57d636fcdc61162164cb772de20ce708bfeead3",
+    "artifact_sha256": "b59cf1a8b2f4dbe96f3e89bd3f3ebba435f3fc5e8d992ea819129afced627210",
+    "valid_runs": 16,
+    "repeats": 4,
+    "seconds": 3,
+    "seed": 7,
+    "summaries": {
+      "social-golfer-32x8x10-v1": {
+        "samples": {
+          "baseline": [
+            80320.58261129957,
+            79627.65525124983,
+            81556.1429627431,
+            80502.77114632788
+          ],
+          "trial": [
+            87792.20027166566,
+            88164.58449039767,
+            88199.07343386092,
+            88073.71384873702
+          ]
+        },
+        "medians": {
+          "baseline": 80411.67687881373,
+          "trial": 88119.14916956735
+        },
+        "gain_pct": 9.585016243809141
+      },
+      "sailing-trip-v1": {
+        "samples": {
+          "baseline": [
+            26446.316174834676,
+            26569.454366661164,
+            26725.995756658875,
+            26216.676262208915
+          ],
+          "trial": [
+            31342.763948122003,
+            31630.493481316396,
+            31467.47447979107,
+            31711.744630621717
+          ]
+        },
+        "medians": {
+          "baseline": 26507.88527074792,
+          "trial": 31548.983980553734
+        },
+        "gain_pct": 19.017355244738376
+      }
+    },
+    "scope": "Actual earlier pilot source. Final production additionally contains two map(Event::new) stylistic Clippy fixes; these pilot results are not final-source qualification."
+  },
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "native_source_digest": "ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9",
+    "rust_tests_passed": 8746,
+    "cargo_test_invocations_passed": 8752,
+    "new_native_regressions": 22,
+    "doctests_passed": 292,
+    "python_tooling_jobs_passed": 54,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9",
+      "source_after": "ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T17:25:17.980193+00:00",
+      "log_sha256": "9449910dc48284a8f818f5ceb573ee2c9910b6a104b8be863a27cd7602d7e92b"
+    },
+    "full_gate_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "3f2ea6c523c56b9c6657244366223d148a3f0d3e6dac83aa2546963b71ae5748",
+      "rust_digest": "ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9",
+      "production_digest": "bce8442f6f547de2e10e0e828793fddb0e1fd132bc5fdb2bad21a60411bcfa8c",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 846.2281296540023,
+          "log_sha256": "c0359ed4acd4546d9771510b3274054ada33f15452be7c04c03ab99bc0816530"
+        },
+        {
+          "name": "qualified",
+          "command": [
+            "python3",
+            "scripts/benchmark_real_world.py",
+            "--report",
+            "work/real_world-stream-event-membership-final/qualified.json"
+          ],
+          "exit_code": 0,
+          "seconds": 211.21477783301088,
+          "log_sha256": "90c76cc2e435077a628fb0a8e67c9ed66403be800872d5b7018478284b709592"
+        }
+      ],
+      "seconds": 1060.588087223994,
+      "policy": "Full standard gate on final unchanged source; genuine prior successful jobs reused in same checkout/environment. Default benchmark protocol and original build receipt unchanged."
+    },
+    "policy": "Exact tested source integrated. Only actual unchanged aggregate Rust log/metadata and qualified report promoted; no per-job cache keys transplanted."
+  },
+  "changes": [
+    "Inline three exact builtin primitive tuple-change shapes; use a reusable event arena and narrow scalar routing queue. Arbitrary types keep shared owners. Whole-event retaining adapters promote once at producers before fanout, including transitive ancestors.",
+    "Cache accepted-ID bits for eligible graph filters without retaining payload/key owners. Preserve output and predicate Clone/callback order, poison/bounds checks, nested rollback and sticky discarded-universe information. Public standalone and Drop/custom paths retain their prior storage.",
+    "Use existing touched-row journals for ordinary graph joins with exact primitive IDs/keys and NoDrop payloads. Fixed/mixed and custom/standalone ownership paths keep their existing checkpoint behavior."
+  ],
+  "limits": [
+    "Both Java throughput targets remain unmet: 0/2.",
+    "The frozen public fixtures, application model, solver settings and benchmark runner are unchanged. Scores/feasibility remain separate raw observations; no equal-quality or identical-trace claim.",
+    "Additional RealWorld application tests retain separate provenance and zero upstream source-method credit. New implementation controls are native regressions.",
+    "Original 18 comparison jobs retain actual evidence and freshness; no old measurement is relabeled.",
+    "No UI assets changed. Backend report/freshness checks reuse existing rendering evidence."
+  ],
+  "evidence": {
+    "final_archive": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/final/results.tar.gz",
+      "sha256": "971f338f8d182618f6afd92d4b906181e6db6eb837de6e40c4c62815fdf97516"
+    },
+    "final_receipt": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/final/work/real_world-stream-event-membership-final/final-receipt.json",
+      "sha256": "13422b4c4e2a682db91d0c45a72220195ff7877235002ba3017d373b69defacd"
+    },
+    "qualified_report": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/final/work/real_world-stream-event-membership-final/qualified.json",
+      "sha256": "c3325495bc037384e90b99eb20756fcba725acec90beb4d4a718691c5e1a615c"
+    },
+    "source_manifest": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/source-manifest.json",
+      "sha256": "5aabb1864fdf44469a2f484730936b8f38b983bc1b3bfc1164fb580548f31f03"
+    },
+    "source_archive": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/source.tar.gz",
+      "sha256": "1312b3b6a54c1c4aa19ffe0059aac9d086457dab607703c26b27f943fbe8c83f"
+    },
+    "integration_receipt": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/integration-receipt.json",
+      "sha256": "f4c3930d14f26fbd0249897be9ee662bf95cab561d1095561c243eee70b73ccc"
+    },
+    "pilot_summary": {
+      "path": "work/real_world-goal/stream-event-membership-results/summary.json",
+      "sha256": "6625641a8e0eb5c7338d0cc0500faeac9f0ecc125a6a2a05f93ff31be259161a"
+    },
+    "pilot_controls": {
+      "path": "work/real_world-goal/stream-event-membership-results/collected/real_world-stream-event-membership/controls.json",
+      "sha256": "4b0e2a31c3db4281a08b3f3589c8e8a13b5781b4b0af954dbcbd74dff07145f2"
+    },
+    "pilot_build_receipt": {
+      "path": "work/real_world-goal/stream-event-membership-results/collected/real_world-stream-event-membership/build-receipt.json",
+      "sha256": "1a084ddf883190dbd7106527fd4143df9381a01862fb26264e41e2b919fabcbc"
+    },
+    "profile_validation": {
+      "path": "work/real_world-goal/stream-event-membership-results/profile-validation.json",
+      "sha256": "f2dfbcad01c1e928547608ebd510947b56fdd44bba387bf0af755abb2d04759c"
+    },
+    "http_verification": {
+      "path": "work/real_world-goal/stream-event-membership-fixed-results/http-verification.json",
+      "sha256": "85b5a24a1660f55c9796ab4d9c14da30f77b6d540c7887701faaf02814447528"
+    }
+  }
+}

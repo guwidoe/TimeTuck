@@ -469,7 +469,7 @@ mod tests {
             Box::new(FixedSourceNode::new(vec![(key.clone(), value.clone())]));
         let outer = node.begin_checkpoint();
         let saved = node.checkpoint();
-        let change: Event = Rc::new(TupleChange::put(0usize, Payload(clones.clone(), 20)));
+        let change: Event = Event::new(TupleChange::put(0usize, Payload(clones.clone(), 20)));
         node.apply_source(&change).unwrap();
         let inner = node.begin_checkpoint();
         node.clear();
@@ -481,7 +481,7 @@ mod tests {
             .unwrap()
             .clone();
         assert!(std::ptr::eq(&view[&0], value.as_ref()));
-        let invalid: Event = Rc::new(TupleChange::put(1usize, Payload(clones.clone(), 99)));
+        let invalid: Event = Event::new(TupleChange::put(1usize, Payload(clones.clone(), 99)));
         assert!(matches!(
             node.apply_source(&invalid),
             Err(GraphError::Dependency(_))

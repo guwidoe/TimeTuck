@@ -11,7 +11,7 @@ fn arithmetic() -> NodeArithmetic {
     }
 }
 fn event<I: 'static, T: 'static>(id: I, value: Option<T>) -> Event {
-    Rc::new(TupleChange { id, value })
+    Event::new(TupleChange { id, value })
 }
 fn apply<I: Ord + Clone + 'static, T: 'static>(
     node: &mut FixedFilter<'_, I, T>,
@@ -112,9 +112,9 @@ fn fixed_filter_nonclone_payloads_forward_actual_events_and_batch_keeps_intermed
             (9, None)
         ]
     );
-    assert!(Rc::ptr_eq(&output[0], &input[1]));
-    assert!(Rc::ptr_eq(&output[1], &input[2]));
-    assert!(Rc::ptr_eq(&output[3], &input[5]));
+    assert!(Rc::ptr_eq(output[0].shared_ref(), input[1].shared_ref()));
+    assert!(Rc::ptr_eq(output[1].shared_ref(), input[2].shared_ref()));
+    assert!(Rc::ptr_eq(output[3].shared_ref(), input[5].shared_ref()));
     assert_eq!(*calls.borrow(), [-1, 3, 4, -2, 5]);
     let invalid = [
         (false, event(2usize, Some(Payload(7)))),
@@ -320,7 +320,7 @@ fn fixed_filter_generated_retract_clone_panics_before_install_and_uses_declared_
         Some(3i64),
     );
     let output = apply(&mut node, &put);
-    assert!(Rc::ptr_eq(&output[0], &put));
+    assert!(Rc::ptr_eq(output[0].shared_ref(), put.shared_ref()));
     assert_eq!(typed::<Id, i64>(&output[0]).id.label, "incoming");
     fail.set(true);
     let rejected = event(

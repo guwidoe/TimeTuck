@@ -7,8 +7,10 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 fn storage<S: AdditiveScore>(g: &StreamGraph<'_, S>) -> (usize, usize) {
     let w = &g.propagation_workspace;
     assert!(w.pending.is_empty());
+    assert!(w.arena_pending.is_empty());
+    assert!(w.arena.is_empty());
     assert!(w.changes.is_empty());
-    (w.pending.capacity(), w.changes.capacity())
+    (w.arena_pending.capacity(), w.changes.capacity())
 }
 
 #[test]

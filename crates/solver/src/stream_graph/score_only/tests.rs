@@ -367,7 +367,7 @@ fn terminal_itself_never_clones_or_retains_payload_and_checkpoints_keep_only_sco
         contributions: SnapshotMap::new(),
     };
     let drops = Rc::new(Cell::new(8));
-    let event = Rc::new(TupleChange::put(0_usize, Payload(drops.clone()))) as Event;
+    let event = Event::new(TupleChange::put(0_usize, Payload(drops.clone())));
     let arithmetic = NodeArithmetic {
         impact: crate::ScoringArithmetic::Checked,
         totals: crate::ScoringArithmetic::Checked,

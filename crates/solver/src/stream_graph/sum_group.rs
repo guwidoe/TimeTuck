@@ -216,7 +216,7 @@ mod final_input_tests {
         };
         let events = |rows: &[(usize, Option<i64>)]| {
             rows.iter()
-                .map(|&(id, value)| (false, Rc::new(TupleChange { id, value }) as Event))
+                .map(|&(id, value)| (false, Event::new(TupleChange { id, value })))
                 .collect::<Vec<_>>()
         };
         let initial = events(&[(0, Some(2))]);

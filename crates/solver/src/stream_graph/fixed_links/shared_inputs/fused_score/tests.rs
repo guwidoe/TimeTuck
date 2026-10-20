@@ -614,7 +614,7 @@ fn private_node(clones: &Rc<Cell<usize>>, panic_clone: &Rc<Cell<bool>>) -> Priva
     }
 }
 fn endpoint(id: usize, value: Option<i64>) -> Event {
-    Rc::new(TupleChange {
+    Event::new(TupleChange {
         id,
         value: value.map(Endpoint),
     })

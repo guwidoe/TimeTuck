@@ -127,7 +127,7 @@ mod tests {
         }
     }
     fn event(id: usize, trace: &Trace) -> Event {
-        Rc::new(Payload(id, trace.clone())) as Event
+        Event::new(Payload(id, trace.clone()))
     }
     fn ids(events: &[Event]) -> Vec<usize> {
         events
@@ -193,13 +193,16 @@ mod tests {
         for count in [0, 1, 4] {
             let trace = Trace::default();
             let events: Vec<_> = (0..count).map(|id| event(id, &trace)).collect();
-            let weak: Vec<_> = events.iter().map(Rc::downgrade).collect();
+            let weak: Vec<_> = events
+                .iter()
+                .map(|event| Rc::downgrade(event.shared_ref()))
+                .collect();
             let alias = events.first().cloned();
             let mut iter = Outputs::from(events).into_iter();
             assert_eq!(iter.len(), count);
             if count > 0 {
                 let first = iter.next().unwrap();
-                assert_eq!(Rc::strong_count(&first), 2);
+                assert_eq!(Rc::strong_count(first.shared_ref()), 2);
                 drop(first);
             }
             drop(iter);

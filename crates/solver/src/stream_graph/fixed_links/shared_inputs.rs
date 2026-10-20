@@ -42,6 +42,10 @@ impl<
     S: AdditiveScore,
 > Node<S> for SharedFixedLinks<'_, E, I, J, L, R, U>
 {
+    fn retains_input_event(&self) -> bool {
+        true
+    }
+
     fn prefers_batch(&self) -> bool {
         true
     }

@@ -284,6 +284,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         let pending = outputs
             .into_iter()
             .flat_map(|event| {
+                let event = if self.graph.shared_event_producers[source] {
+                    event.promote()
+                } else {
+                    event
+                };
                 self.graph.edges[source]
                     .iter()
                     .map(move |&edge| (edge, event.clone()))

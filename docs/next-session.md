@@ -14,8 +14,8 @@ original, skipped or empty tests earn no upstream-method credit. Crates remain
 unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
 compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
-builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
-independent build/test work. Preserve live runs across observation timeouts.
+builds/tests across available machines. Use local and runner-a; runner-c remains parked
+after its actual SSH timeout. Preserve live runs across observation timeouts.
 
 ## Active RealWorld throughput goal — 2026-10-20
 
@@ -24,59 +24,88 @@ remains active, **0/2** targets met. Keep scenarios, application model, runner,
 seeds 7/11/23, ten-second limits and solver settings unchanged. Application tests
 and timings retain zero upstream-method credit; original comparisons stay separate.
 
-The allocation-reuse batch is integrated and fully verified on the unchanged
-runner-a snapshot `15a8e6b6ac17d27fd462886c874d8536db3c83613c176347c03c31b0aedacd85`.
-Native digest: `8dbcd58216fc3515961ed7035b5450a27dd37d3f448b9c23a7f548340668c2d8`.
-Production digest: `13d8c4912c9aa2a6cd6c6b60a3b8bbde9ceab7f927fee17853b5fbb1d693d1bf`.
-Actual `bash scripts/check.sh` passed once: **8,724 recorded Rust identities**
-(8,730 Cargo invocations), **292 doctests**, all-target Clippy, formatting and all
-54 tooling jobs. Full gate908.49s; qualification215.47s. No rerun or cache-key
-transplant. Actual source-bound aggregate Rust logs/metadata and report are promoted.
+The membership/event batch is integrated from immutable runner-a snapshot
+`3f2ea6c523c56b9c6657244366223d148a3f0d3e6dac83aa2546963b71ae5748`.
+Native digest: `ab5107258ba936dd64b2358f633b30a3c485a79032c1f756b33c4b4549836df9`.
+Production digest: `bce8442f6f547de2e10e0e828793fddb0e1fd132bc5fdb2bad21a60411bcfa8c`.
+Actual `bash scripts/check.sh` passed: **8,746 recorded identities**, **8,752 Cargo
+executions**, **292 doctests**, formatting/all-target Clippy and **54 tooling jobs**.
+Gate846.23s, original default benchmark211.21s. Exact actual aggregate Rust
+log/metadata and qualified report are promoted; no per-job cache keys transplanted.
+Do not rerun unchanged verification. Observation:
+`compat/observations/real_world-membership-events.json`.
+Proofs: `work/real_world-goal/stream-event-membership-fixed-results/final/`.
 
-Fresh default qualification: golfer **76,824 Rust /120,840 Java evaluations/s**
-(**0.636x**); sailing **24,136 /76,247** (**0.317x**). All12 outputs independently
-validate; sailing feasibility2/3 Rust and0/3 Java. Short rotating native controls
-show4.6%/9.1% gains, but the new ten-second native medians are roughly level with
-the older separate qualification (+0.2% golfer/-1.9% sailing). Keep these scopes
-separate; no general native gain, equal-quality or Java trace-equivalence claim.
-Actual release SHA: `a4f24d49266c191a92729880a9cd7e17c578ad620cfb9c4be7f54ca1b12f6941`.
-Observation: `compat/observations/real_world-cache-allocation.json`.
-Raw proofs/controls/default outputs: `work/real_world-goal/arc-pool-results/`.
-Live dashboard report/freshness match; unchanged browser rendering evidence reused.
-Original comparisons remain2current/16stale, with actual keys/dates. Inventory
-stays4412passed/0pending/443excluded; no extra upstream credit.
+Fresh same-machine qualifier: golfer **88,704 Rust /126,679 Java evaluations/s**
+(**0.700x**); sailing **31,998 /81,819** (**0.391x**). All12 outputs independently
+validate; sailing feasibility2/3 Rust and0/3 Java. Native rates in the previous
+separate qualifier were76,824/24,136. Earlier rotating three-second controls on
+the pilot source improve9.6%/19.0%; final production additionally contains two
+stylistic map(Event::new) changes and has its own actual build/qualification.
+Keep these scopes separate; no equal-quality or Java-trace-equivalence claim.
+Actual final release SHA:
+`f6db50c9624feea5d658d35a8c798587afac36fc2b25f22a4c9220e0ead5254a`.
 
-Private caches reuse bounded retired unique/no-Weak Arc owners. Exact IntCollector
-groups reset at original retirement so only blank outer allocations are retained;
-arbitrary Drop values keep normal destruction and snapshots start with empty pools.
-Prepared group entries, numeric-page routing and bounded Join output buffers are
-included. Event-wrapper pooling was measured5–6% slower and rejected; source and
-raw evidence stay under `event-pool-results/`, with no broad gate spent on it.
-The validated Arc diagnostic profile is `arc-pool-results/sailing.perf.data`
-(991 samples, zero lost), not matched Java timing.
+Implementation: three exact primitive tuple-change shapes inline; scalar events
+use a reusable arena and narrow queue. Producer promotion preserves whole-event
+sharing, including transitive owner-retaining branches. Graph-private eligible
+filters store acceptance bits; custom/Drop/standalone storage remains intact.
+Eligible ordinary unbounded joins use existing row journals. New22 native controls
+retain zero upstream credit. Original inventory4412passed/0pending/443excluded;
+actual original comparison freshness stays visible, with no relabeled measurements.
 
-## Next primitive-cache prototype
+## Next measured performance candidates
 
-`work/real_world-goal/copy-slot-prototype/` is independent of main and the frozen
-Arc source. Existing filter/group agents implemented exact-TypeId Copy value
-pages, value journals, and graph-only Filter/GroupInputs bindings plus14 controls.
-Standalone/custom/borrowed/Weak/published map paths keep Arc; terminals/source maps
-are unchanged. Both agents are frozen. Root graph hooks are wired. First focused
-Clippy issues and one missing helper alias are archived under `copy-slot-results/`.
-Current local pilot session **70039** is running library/application behavior checks;
-formatting already completed. All537 library tests passed; application check is
-still live at the last observation. Poll before editing/restarting. Main is unaffected.
+All candidates below are isolated from main and the qualified frozen source.
+Do not apply them without a meaningful gain and the final coherent standard gate.
+The existing filter/group GPT-6.1 Sol agents are idle/frozen; the join agent has
+one followup below. No new agents were created.
 
-Before performance measurement, root must add exact `(U3,U3)` / bool-wrapped Pair3
-certification: real contact joins use `(session,person,group)` tuples, whereas the
-initial whitelist includes only Pair4. Add a matching actual-shape control and run
-focused changed controls/application tests on the final source. Full standard
-Clippy/format gate is deferred until a candidate is selected by measurements;
-all failures remain visible. Raw copy pages currently have16cells; large sparse
-payloads may increase allocated bytes. Measure before claiming gains. Consider
-smaller copy-only pages or bounded empty-page reuse only if evidence justifies it.
-No new agents created. runner-c remains parked after its last actual SSH timeout;
-runner-a and local were used concurrently. Preserve live runs across timeouts.
+`event-routing-next-prototype` genuinely builds locally (124.45s), artifact
+`d70b9ad33f01aa5e48cd76488062a900876cb1a0d4e4f71f5ceba4233f29e559`.
+`membership-retain-next-prototype` genuinely builds via a stable local checkout
+(122.67s), artifact `c946dc53f95d5e5733307cf4c993877823694d84363cf0297615e7f989e8eea3`.
+Actual four rotating three-second seed7 same-runner-a controls against the qualified
+f6db baseline: routing +1.11% golfer/-0.08% sailing, not selected; retaining zero
+hot membership rows +2.58%/+0.47%, candidate for the next coherent batch. All24
+outputs independently valid. Raw proofs/summary: `next-controls-results/`.
+No Java/full-gate credit for these locally built diagnostic trials.
+
+A cross-prototype shared Cargo target initially returned the routing binary for
+the membership source in0.08s. That unmeasured attempt was rejected and preserved
+under `membership-retain-next-results/invalid-shared-target-attempt/`. The actual
+122.67s rebuild above uses changed-byte synchronization into one stable local
+checkout, preserving dependency reuse and normal source mtimes. Do not reuse the
+invalid artifact/receipt or fabricate source-binding by adjusting fingerprints.
+
+`terminal-owned-fixed-next-prototype` defers eligible row owners until snapshots
+or captures, with direct numeric handles and bounded retired-row reclamation.
+Exact builtin payload/ID/score gates leave custom ownership on the old path. Root
+caught an initial lazy-key identity gap before measurement: replacements had
+separate uninitialized key cells. The fixed prototype shares one Rc<Key> per
+uninterrupted ID; removal/reinsertion gets a new representative. **10 focused
+controls pass** (93.99s), including actual default-vs-owned escaped key pointers
+when first observation occurs during a candidate, nested rollback and captures.
+Actual release build passes125.99s, artifact
+`097b303ecd938a0969191d8bd948ed7089b90fe59414bda2e951388930f5514b`.
+Actual four rotating three-second seed7 same-runner-a controls complete: all16
+outputs independently valid, +1.00% golfer/-0.53% sailing. This large prototype
+is **not selected**; do not spend a broad gate on it. Worker/report/summary:
+`next-terminal-fixed-controls-results/`. No Java/full-gate credit or performance
+claim for this candidate. Both next diagnostic workers34029/78773 are terminal0.
+
+The existing join agent is inspecting whether Event::downcast_ref retains an
+indirect Any::type_id through its merged as_any vtable. Only if genuine artifact
+assembly supports it, trial concrete per-variant downcast branches in a NEW
+isolated prototype. No new agents, no edits to main or frozen proof source.
+The original `terminal-owned-next-prototype` worker54283 stopped143 and earns no
+measurement credit. The shared local build child is no longer live.
+
+Previous Copy16/Copy4/first-preimage, wide-event-only, page-index and owned-group
+variants were flat or mixed/regressed and remain unselected. Their genuine raw
+proofs stay under `work/real_world-goal/`; do not rebuild/reverify them. Selected
+pilot diagnostic profile: `stream-event-membership-results/profile-compact.txt`,
+1,981 samples, independently valid, local-only (not Java timing/final-source proof).
 
 ## Additional RealWorld application coverage — 2026-10-20
 

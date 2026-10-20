@@ -33,7 +33,7 @@ impl StreamBatch {
         {
             return Err(GraphError::ForeignPort);
         }
-        self.events.push((source.0.node, Rc::new(change)));
+        self.events.push((source.0.node, Event::new(change)));
         self.owner = Some(source.0.owner.clone());
         Ok(())
     }
@@ -262,8 +262,16 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         pending: &mut impl BatchPendingQueue,
     ) {
         for output in outputs {
-            for edge in &self.graph.edges[node] {
-                pending.push(edge.node, (edge.right, output.clone()));
+            let output = if self.graph.shared_event_producers[node] {
+                output.promote()
+            } else {
+                output
+            };
+            if let Some((last, prefix)) = self.graph.edges[node].split_last() {
+                for edge in prefix {
+                    pending.push(edge.node, (edge.right, output.clone()));
+                }
+                pending.push(last.node, (last.right, output));
             }
         }
     }
@@ -326,6 +334,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             },
         };
         for (source, event) in batch.events {
+            let event = if self.graph.shared_event_producers[source] {
+                event.promote()
+            } else {
+                event
+            };
             sources.push(source, (false, event));
         }
         while let Some((source, events)) = sources.pop() {
@@ -631,7 +644,7 @@ mod workspace_tests {
         q.resize(8);
         let payload = Rc::new("payload");
         for id in [7, 3, 7, 1, 3] {
-            q.push(id, (id == 3, payload.clone()));
+            q.push(id, (id == 3, Event::Shared(payload.clone())));
         }
         assert_eq!(Rc::strong_count(&payload), 6);
         let (id, items) = q.pop().unwrap();
@@ -669,7 +682,7 @@ mod small_queue_tests {
             let mut tree = BTreeMap::new();
             for id in (0..width).rev() {
                 for serial in 0..2 {
-                    let event: Event = Rc::new((id, serial));
+                    let event: Event = Event::new((id, serial));
                     small.push(id * 7, (serial == 1, event.clone()));
                     BatchPendingQueue::push(&mut tree, id * 7, (serial == 1, event));
                 }
@@ -689,12 +702,12 @@ mod small_queue_tests {
                     actual.iter().zip(&expected)
                 {
                     assert_eq!(right, expected_right);
-                    assert!(Rc::ptr_eq(event, expected_event));
-                    assert_eq!(Rc::strong_count(event), 2);
+                    assert!(Rc::ptr_eq(event.shared_ref(), expected_event.shared_ref()));
+                    assert_eq!(Rc::strong_count(event.shared_ref()), 2);
                 }
             }
-            let event: Event = Rc::new(42usize);
-            let weak = Rc::downgrade(&event);
+            let event: Event = Event::new(42usize);
+            let weak = Rc::downgrade(event.shared_ref());
             small.push(3, (false, event));
             drop(small.pop());
             assert!(weak.upgrade().is_none());
@@ -714,7 +727,10 @@ mod small_queue_tests {
             let mut queue = Q::default();
             for id in (0..width).rev() {
                 for serial in 0..2 {
-                    queue.push(id, (false, Rc::new(Tracked(id * 10 + serial, log.clone()))));
+                    queue.push(
+                        id,
+                        (false, Event::new(Tracked(id * 10 + serial, log.clone()))),
+                    );
                 }
             }
             // Deliberately unsorted: discard order is the caller's order.

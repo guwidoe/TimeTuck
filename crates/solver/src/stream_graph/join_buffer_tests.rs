@@ -11,7 +11,7 @@ fn apply<I: 'static, T: 'static>(
     right: bool,
     change: TupleChange<I, T>,
 ) -> Outputs {
-    let event = Rc::new(change) as Event;
+    let event = Event::new(change);
     node.apply(
         right,
         &event,
@@ -323,7 +323,7 @@ fn join_buffer_default_batch_preserves_self_join_fifo() {
         ]
         .into_iter()
         .flat_map(|change| {
-            let event = Rc::new(change) as Event;
+            let event = Event::new(change);
             [(false, event.clone()), (true, event)]
         })
         .collect::<Vec<_>>();

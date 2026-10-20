@@ -47,7 +47,7 @@ fn reference(
             node: source.0.node,
             right: false,
         },
-        Rc::new(change) as Event,
+        Event::new(change),
     )]))?;
     tx.failed = false;
     let count = tx.score_evaluations();

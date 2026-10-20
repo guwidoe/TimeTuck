@@ -41,6 +41,7 @@ mod filter_map;
 mod final_inputs;
 mod fixed_filter;
 mod fixed_source;
+mod membership_filter;
 pub use facts::FactTransaction;
 mod activity;
 mod indexed_batch;
@@ -89,7 +90,9 @@ use std::{
     rc::Rc,
 };
 
-type Event = Rc<dyn Any>;
+mod event;
+mod event_queue;
+use event::Event;
 mod outputs;
 use outputs::Outputs;
 type BatchOutputs = Vec<Event>;
@@ -297,6 +300,10 @@ trait Node<S: AdditiveScore> {
     fn joins_input_ids(&self) -> bool {
         false
     }
+    // These adapters publish the producer's complete Rc event allocation.
+    fn retains_input_event(&self) -> bool {
+        false
+    }
     // Opt in only for unary operators that preserve occurrence identity.
     // Payload changes and filtering do not change the validated ID universe.
     fn preserves_input_ids(&self) -> bool {
@@ -351,10 +358,7 @@ fn typed<I: 'static, T: 'static>(event: &Event) -> &TupleChange<I, T> {
 fn erase<I: 'static, T: 'static, C: FromIterator<Event>>(
     changes: impl IntoIterator<Item = TupleChange<I, T>>,
 ) -> C {
-    changes
-        .into_iter()
-        .map(|change| Rc::new(change) as Event)
-        .collect()
+    changes.into_iter().map(Event::new).collect()
 }
 
 struct SourceNode<I, T>(SnapshotMap<I, T>);
@@ -1354,6 +1358,23 @@ struct Edge {
     right: bool,
 }
 
+// Move the final owner into the queue. Single-successor nodes need no event
+// clone; fanout retains the same FIFO owners before any downstream callback.
+fn enqueue_output(
+    edges: &[Edge],
+    output: Event,
+    pending: &mut VecDeque<(Edge, Event)>,
+    shared: bool,
+) {
+    let output = if shared { output.promote() } else { output };
+    if let Some((last, prefix)) = edges.split_last() {
+        for &next in prefix {
+            pending.push_back((next, output.clone()));
+        }
+        pending.push_back((*last, output));
+    }
+}
+
 // Live candidate commits are limited to exact primitive identities: arbitrary
 // Clone/Ord implementations may expose ownership changes even without Drop.
 fn live_commit_key<K: 'static>() -> bool {
@@ -1452,9 +1473,20 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let live_commit = live_commit_key::<I>()
             && !std::mem::needs_drop::<T>()
             && live_commit_callback(&predicate);
-        let mut node = FilterNode::<I, T>::new(predicate);
-        node.bind_primitive_inputs();
-        let out = self.push(Filter(node));
+        let membership = if !std::mem::needs_drop::<T>() {
+            crate::primitive_rows::membership::Membership::<I>::new()
+        } else {
+            None
+        };
+        let out = if let Some(bits) = membership {
+            self.push(membership_filter::MembershipFilter::<I, T>::new(
+                bits, predicate,
+            ))
+        } else {
+            let mut node = FilterNode::<I, T>::new(predicate);
+            node.bind_primitive_inputs();
+            self.push(Filter(node))
+        };
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(input.node, out.node, false);
         Ok(out)
@@ -1823,9 +1855,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<R>()
             && live_commit_callback(&left_key)
             && live_commit_callback(&right_key);
-        let out = self.push(Join::new(JoinNode::<I, J, L, R, K>::new(
-            left_key, right_key,
-        )));
+        let mut node = JoinNode::<I, J, L, R, K>::new(left_key, right_key);
+        node.bind_primitive_graph_journals();
+        let out = self.push(Join::new(node));
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
@@ -1877,9 +1909,9 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && !std::mem::needs_drop::<R>()
             && live_commit_callback(&left_key)
             && live_commit_callback(&right_key);
-        let out = self.push(Join::new(JoinNode::<I, J, L, R, K>::comparing(
-            comparison, left_key, right_key,
-        )));
+        let mut node = JoinNode::<I, J, L, R, K>::comparing(comparison, left_key, right_key);
+        node.bind_primitive_graph_journals();
+        let out = self.push(Join::new(node));
         self.live_commit_nodes[out.node] = live_commit;
         self.connect(left.node, out.node, false);
         self.connect(right.node, out.node, true);
@@ -2439,6 +2471,14 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             observers.edges = self.edges.clone();
             observers.callbacks.sort_by_key(|(node, _)| *node);
         }
+        // Compute before pruning: weight/activity reactivation may restore any
+        // original edge. Promote once per producer, before fanout ownership.
+        let mut shared_event_producers = vec![false; self.nodes.len()];
+        for source in (0..self.nodes.len()).rev() {
+            shared_event_producers[source] = self.edges[source].iter().any(|edge| {
+                self.nodes[edge.node].retains_input_event() || shared_event_producers[edge.node]
+            });
+        }
         let pruned_edges = self.prune_disabled_constraints();
         let mut observed: Vec<_> = self
             .nodes
@@ -2479,6 +2519,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && self.initial_activity.is_none()
             && self.live_commit_nodes.iter().all(|&eligible| eligible);
         let mut graph = StreamGraph {
+            shared_event_producers,
             supports_live_commit,
             score_probe_nodes,
             score_evaluation_counters,
@@ -2508,20 +2549,29 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
 // Ordinary propagation preserves each event boundary. Reuse only the routing
 // and score-delta buffers; no events or user score values survive a drain.
 struct PropagationWorkspace<S> {
+    #[cfg(test)]
     pending: VecDeque<(Edge, Event)>,
+    arena_pending: VecDeque<(Edge, event_queue::QueuedEvent)>,
+    arena: Vec<Event>,
     changes: Vec<(S, S)>,
 }
 impl<S> Default for PropagationWorkspace<S> {
     fn default() -> Self {
         Self {
+            #[cfg(test)]
             pending: VecDeque::new(),
+            arena_pending: VecDeque::new(),
+            arena: Vec::new(),
             changes: Vec::new(),
         }
     }
 }
 impl<S> PropagationWorkspace<S> {
     fn clear(&mut self) {
+        #[cfg(test)]
         self.pending.clear();
+        self.arena_pending.clear();
+        self.arena.clear();
         self.changes.clear();
     }
 }
@@ -2533,6 +2583,7 @@ struct TransactionWorkspace {
 }
 
 pub struct StreamGraph<'a, S: AdditiveScore> {
+    shared_event_producers: Vec<bool>,
     supports_live_commit: bool,
     // None preserves the original probe/ownership path for all custom scores.
     score_probe_nodes: Option<Vec<bool>>,
@@ -2877,7 +2928,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         self.valid()?;
         self.failed = true;
         self.graph.validate(source)?;
-        let event = Rc::new(change) as Event;
+        let event = Event::new(change);
         if self.graph.active.is_some() {
             self.apply_with_activity(source.0.node, event)?;
         } else {
@@ -2922,6 +2973,14 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         Ok(true)
     }
     fn propagate(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
+        #[cfg(test)]
+        if event_queue::wide_mode() {
+            return self.propagate_wide(source, event);
+        }
+        self.propagate_arena(source, event)
+    }
+    #[cfg(test)]
+    fn propagate_wide(&mut self, source: usize, event: Event) -> Result<(), GraphError> {
         // Validated sources only retain facts; all scoring nodes are downstream.
         // An unconnected source cannot change any contribution. Preserve its
         // checkpoint, payload Clone/Drop and error behavior without a workspace
@@ -2930,6 +2989,11 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             self.checkpoint(source);
             return self.graph.nodes[source].apply_source(&event);
         }
+        let event = if self.graph.shared_event_producers[source] {
+            event.promote()
+        } else {
+            event
+        };
         // Taking the buffers leaves an empty slot for nested diagnostics. On an
         // unwind this local owner immediately drops pending events and deltas;
         // transaction checkpoints retain sole ownership of graph rollback.
@@ -3048,9 +3112,12 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                     self.graph.nodes[id].apply(edge.right, &event, arithmetic)
                 }?;
                 outputs.for_each(|output| {
-                    for &next in &self.graph.edges[id] {
-                        pending.push_back((next, output.clone()));
-                    }
+                    enqueue_output(
+                        &self.graph.edges[id],
+                        output,
+                        pending,
+                        self.graph.shared_event_producers[id],
+                    );
                 });
                 continue;
             }
@@ -3068,9 +3135,12 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 changes.push((old, new));
             }
             outputs.for_each(|output| {
-                for &next in &self.graph.edges[id] {
-                    pending.push_back((next, output.clone()));
-                }
+                enqueue_output(
+                    &self.graph.edges[id],
+                    output,
+                    pending,
+                    self.graph.shared_event_producers[id],
+                );
             });
         }
         Ok(())
@@ -3144,3 +3214,6 @@ mod live_commit_eligibility_tests;
 
 #[cfg(test)]
 mod join_buffer_tests;
+
+#[cfg(test)]
+mod ordinary_join_journal_tests;

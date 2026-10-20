@@ -188,7 +188,9 @@ impl<
     }
     pub(crate) fn begin_bound_checkpoint(&mut self) -> Option<Box<dyn Any>> {
         if self.left.fixed_rows.is_none() && self.right.fixed_rows.is_none() {
-            return None;
+            return self
+                .primitive_graph_journals
+                .then(|| self.begin_journal_checkpoint());
         }
         healthy(self.is_poisoned());
         Some(Box::new(BoundCheckpoint {
@@ -201,11 +203,14 @@ impl<
         }))
     }
     pub(crate) fn commit_bound_checkpoint(&mut self, saved: Box<dyn Any>) {
-        if let Ok(saved) = saved.downcast::<BoundCheckpoint<I, J, L, R, K>>() {
-            self.left.commit_bound(saved.left);
-            self.right.commit_bound(saved.right);
-            self.left.commit_index(saved.left_index);
-            self.right.commit_index(saved.right_index);
+        match saved.downcast::<BoundCheckpoint<I, J, L, R, K>>() {
+            Ok(saved) => {
+                self.left.commit_bound(saved.left);
+                self.right.commit_bound(saved.right);
+                self.left.commit_index(saved.left_index);
+                self.right.commit_index(saved.right_index);
+            }
+            Err(saved) => self.commit_if_journal_checkpoint(saved),
         }
     }
     pub(crate) fn restore_bound_checkpoint(&mut self, saved: Box<dyn Any>) {
@@ -223,7 +228,7 @@ impl<
                     self.left.install_captured_side(saved.left);
                     self.right.install_captured_side(saved.right);
                 }
-                Err(saved) => self.restore(saved),
+                Err(saved) => self.restore_checkpoint(saved),
             },
         }
     }

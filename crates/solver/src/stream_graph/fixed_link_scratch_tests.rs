@@ -75,10 +75,10 @@ fn inputs(
         .map(|&(side, id, value)| {
             (
                 side,
-                Rc::new(TupleChange {
+                Event::new(TupleChange {
                     id: id.to_owned(),
                     value: value.map(|v| Row(v, trace.clone(), failure.clone())),
-                }) as Event,
+                }),
             )
         })
         .collect()

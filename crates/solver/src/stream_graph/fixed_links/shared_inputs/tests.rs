@@ -64,7 +64,7 @@ fn node(calls: &Calls, failure: &Rc<Cell<u8>>) -> Links {
     }
 }
 fn event(id: usize, value: Option<i64>, drops: &Drops) -> Event {
-    Rc::new(TupleChange {
+    Event::new(TupleChange {
         id,
         value: value.map(|value| Row {
             value,
@@ -112,9 +112,9 @@ fn both_sides_keep_last_actual_event_owners_and_ignore_unlinked_ids() {
     let left = event(2, Some(5), &drops);
     let right = event(30, Some(7), &drops);
     let unknown = event(99, Some(100), &drops);
-    let unknown_owner = Rc::downgrade(&unknown);
+    let unknown_owner = Rc::downgrade(unknown.shared_ref());
     let retraction = event(3, None, &drops);
-    let retraction_owner = Rc::downgrade(&retraction);
+    let retraction_owner = Rc::downgrade(retraction.shared_ref());
     let inputs = vec![
         (false, event(2, Some(8), &drops)),
         (false, left.clone()),
@@ -155,8 +155,8 @@ fn nested_journals_and_full_snapshot_installs_retain_exact_shared_owners() {
     let mut n = node(&Calls::default(), &Rc::new(Cell::new(0)));
     let left = event(2, Some(1), &drops);
     let right = event(3, Some(3), &drops);
-    let left_owner = Rc::downgrade(&left);
-    let right_owner = Rc::downgrade(&right);
+    let left_owner = Rc::downgrade(left.shared_ref());
+    let right_owner = Rc::downgrade(right.shared_ref());
     drop(apply(&mut n, &[(false, left), (true, right)]));
     let full = <Links as Node<SimpleScore>>::checkpoint(&n);
     let outer = <Links as Node<SimpleScore>>::begin_checkpoint(&mut n);
@@ -178,7 +178,7 @@ fn nested_journals_and_full_snapshot_installs_retain_exact_shared_owners() {
     let original = left_owner.upgrade().unwrap();
     assert!(std::ptr::eq(
         n.left.get(0).unwrap(),
-        typed::<usize, Row>(&original)
+        original.downcast_ref::<TupleChange<usize, Row>>().unwrap()
     ));
     drop(original);
     let held = <Links as Node<SimpleScore>>::checkpoint(&n);

@@ -210,13 +210,13 @@ mod tests {
                 totals: crate::ScoringArithmetic::Checked,
             };
             let committed = node.begin_checkpoint();
-            let update = Rc::new(TupleChange::put(0usize, 8_i64)) as Event;
+            let update = Event::new(TupleChange::put(0usize, 8_i64));
             node.apply(false, &update, arithmetic).unwrap();
             probe.events.borrow_mut().clear();
             node.commit_checkpoint(committed);
             assert_eq!(*probe.events.borrow(), [("drop", 7), ("drop", 7)]);
             let rolled_back = node.begin_checkpoint();
-            let update = Rc::new(TupleChange::put(0usize, 9_i64)) as Event;
+            let update = Event::new(TupleChange::put(0usize, 9_i64));
             node.apply(false, &update, arithmetic).unwrap();
             assert!(!node.scores_match(rolled_back.as_ref()));
             probe.events.borrow_mut().clear();

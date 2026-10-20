@@ -38,6 +38,10 @@ impl<
     S: AdditiveScore + 'static,
 > Node<S> for FusedFixedLinkConstraint<'_, E, I, J, L, R, U, S>
 {
+    fn retains_input_event(&self) -> bool {
+        true
+    }
+
     fn prefers_batch(&self) -> bool {
         true
     }

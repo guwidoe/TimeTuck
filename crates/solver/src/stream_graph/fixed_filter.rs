@@ -98,7 +98,9 @@ impl<I: Ord + Clone + 'static, T: 'static> FixedFilter<'_, I, T> {
         let output = if next == Membership::Accepted {
             Some(event.clone())
         } else if self.rows[slot] == Membership::Accepted {
-            Some(Rc::new(TupleChange::<I, T>::retract(self.ids[slot].clone())) as Event)
+            Some(Event::new(TupleChange::<I, T>::retract(
+                self.ids[slot].clone(),
+            )))
         } else {
             None
         };

@@ -17,10 +17,10 @@ fn events() -> Vec<(bool, Event)> {
     .map(|(side, id, value)| {
         (
             side,
-            Rc::new(TupleChange {
+            Event::new(TupleChange {
                 id,
                 value: value.map(Payload),
-            }) as Event,
+            }),
         )
     })
     .collect()

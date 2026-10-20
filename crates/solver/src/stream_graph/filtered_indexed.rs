@@ -100,10 +100,7 @@ impl<
                 &self.predicate,
                 &self.projection,
             );
-            return Ok(changes
-                .into_iter()
-                .map(|change| Rc::new(change) as Event)
-                .collect());
+            return Ok(changes.into_iter().map(Event::new).collect());
         };
         let predicate = &self.predicate;
         let projection = &self.projection;
@@ -117,9 +114,9 @@ impl<
                 if !visible.contains_key(&change.id) {
                     visible.insert(change.id.clone(), ());
                 }
-                output.push(Rc::new(change) as Event);
+                output.push(Event::new(change));
             } else if visible.remove(&change.id) {
-                output.push(Rc::new(change) as Event);
+                output.push(Event::new(change));
             }
         }
         Ok(output)
