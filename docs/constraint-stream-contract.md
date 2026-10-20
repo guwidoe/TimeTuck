@@ -1451,9 +1451,16 @@ duplicates panic atomically; graph transactions restore their checkpoint on drop
 addition. Adjacent ordered points connect when their distance is in
 `[zero,maximum_gap]`. Sequence length is endpoint distance plus maximum gap;
 break length is endpoint distance alone. Metrics must be deterministic with
-immutable state and arithmetic consistent with index ordering. Integer metrics
-use i64 positions and exact i128 distances, with a const u64 step (default 1).
+immutable state. The selected distance arithmetic also determines connectivity.
+The default IntegerSequenceMetric supports i32/i64 positions and exact i128
+distances, with a const u64 step (default 1).
 Custom metrics can return SignedDuration, as the adapted one-day UTC fixture does.
+WrappingIntegerSequenceMetric<STEP> explicitly selects i32 positions and wrapping
+i32 subtraction/addition. STEP is a positive i32; construction rejects zero and
+negative steps. Negative wrapped distances form breaks under the existing
+nonnegative adjacency rule. Breaks and sequence lengths can be negative after
+overflow. Exact metrics remain the default. Custom STEP behavior is native; the
+Community comparison uses the original default step of one.
 
 `SequenceChain` owns an immutable snapshot of ordered items and full sequence and
 break metadata, including endpoint items, counts, lengths, first/last flags and
@@ -1467,14 +1474,17 @@ does not maintain chain boundaries incrementally. The standalone benchmark in
 `docs/dashboard.md` measures replacement/inverse updates plus full observations;
 it does not isolate insertion/removal cost or measure graph rollback.
 
-The separate public comparison checks 64 original cases/4,689 states through
-add, replacement, removal and temporary changes restored by inverse slot updates.
-Independent Python checks every item and metadata field; Java tie order may vary
-but endpoint identities must match its observed items. One additional boundary
-is explicitly divergent: Java's break from int MIN to MAX has length -1, while
-Rust returns exact 4,294,967,295. It earns no ordinary agreement credit. Native
-regressions additionally exercise i64 endpoints, transaction undo/rebuild, failure
-recovery and actual construction/search against independent full scoring.
+The separate public comparison selects the explicit wrapping32 metric for the
+same 64 original cases and MIN/MAX boundary. It checks add, replacement, removal
+and temporary changes restored by inverse slot updates. Independent Python checks
+every item and metadata field; Java tie order may vary but endpoint identities
+must match its observed items. The full default exact i64 controls also execute
+and remain separately retained: the MIN/MAX break is exactly 4,294,967,295 there,
+while the selected wrapping metric yields Java's -1. The selectable metric does
+not change ordinary default behavior, stable native logical-ID ties or snapshots.
+Native regressions additionally exercise i64 endpoints, explicit i32 policies,
+transaction undo/rebuild, failure recovery and actual construction/search against
+independent full scoring. No upstream-method or performance credit is added.
 
 ## Connected ranges
 
@@ -1491,9 +1501,12 @@ measure their half-open interiors: touching endpoints do not double-count, and
 zero-length intervals contribute no overlap. Empty-only components have
 `None` minimum and maximum overlap; otherwise each bound is `Some(usize)`.
 `has_overlap` means maximum overlap exceeds one. Component length and gap length
-come from a pure `RangeMetric`; `IntegerRangeMetric` subtracts i64 endpoints
-exactly into i128. Custom metrics can use SignedDuration. Reversed ranges are
-rejected atomically. No Java int-overflow behavior is reproduced.
+come from a pure `RangeMetric`; the default `IntegerRangeMetric` subtracts i32/i64
+endpoints exactly into i128. `WrappingIntegerRangeMetric` explicitly selects i32
+endpoints and wrapping i32 subtraction for component/gap lengths. Ordered endpoints,
+connectivity, overlap counts, logical identity and snapshots retain the same rules;
+only lengths can become negative after overflow. Custom metrics can use SignedDuration.
+Reversed ranges are rejected atomically under either metric.
 
 ConnectedRangeChain owns immutable components and gaps. Component items sort by
 start/end/ID, repeating each occurrence; complete native values, including IDs,
@@ -1506,14 +1519,15 @@ It rebuilds components/overlap metadata rather than maintaining boundaries
 incrementally. No dedicated connected-range performance claim exists yet.
 
 Public Java/native/Python comparisons retain all 197 original cases and 11,583
-states. Native fields match independent connectivity/midpoint counts everywhere.
-Java agrees on all 64 distinct-identity positive-length cases, and 65/197 cases
-overall after mapping its empty-component MAX/MIN sentinels to native absence.
-The other 132 cases differ; none gets agreement credit. Shared-object duplicate
-removal can leave a Java occurrence behind, empty-range overlap flags can disagree
-with maximum counts, and integer lengths can overflow. Inputs and full differences
-are retained. All original shared-identity cases were kept after adding the distinct
-cohort to isolate the cause. There are no Java runtime-error cases in this run.
+states with both arithmetic policies. The explicit wrapping32 comparison checks
+modular component/gap lengths; default exact i64 outputs and the complete original
+Java difference cohort are separately retained. Java agrees on all 64 distinct-
+identity positive-length cases. Empty-component MAX/MIN sentinels map to native
+absence. Shared-object duplicate removal can leave a Java occurrence behind and
+empty-range overlap flags can disagree with maximum counts; neither discrepancy
+is hidden or treated as an agreement. All original shared-identity cases remain.
+The selectable arithmetic does not reproduce Java's history-dependent flags,
+live-object behavior or identity-hash order. No upstream-method or timing credit.
 
 A separate fresh qualification covers 1,892 distinct-identity histories and
 16,660 states. Native results match the independent snapshot policy throughout;

@@ -19,12 +19,17 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The latest integrated checkpoint has **8,523 passing Rust tests and 290 doctests**,
-source digest `2759e59f842aaada04d309132c86752a169bf9f316e44350a2ef3dc9c6531891`. The required final
-`bash scripts/check.sh` passed locally in 672.668s, executing 95 jobs and
-reusing 52 genuinely unchanged results. Native/source/log checksums retain
-actual bindings; no duplicate gate, cache transplantation or rewritten evidence.
-The live report remains the authority for later counts and freshness.
+The latest integrated checkpoint has **8,530 passing Rust tests and 290 doctests**,
+source digest `838dded110736f902fff345ecc2816a43950de0b93c096adea4ff75fc961f58a`. The required final
+`bash scripts/check.sh` passed locally in 95.007s, executing 9 jobs and
+reusing 139 genuinely unchanged results. Native/source/log checksums retain
+actual bindings. An earlier prebuild was stopped before test execution after a
+duplicate PATH prefix caused false cache misses. The shell launcher now removes
+duplicates while preserving lookup order, empty entries, arguments and exit status.
+A subsequent gate caught an incorrect panic expectation in a new range regression;
+that fixture was corrected and the failed run retained. Production code and the
+Java comparison input key were unchanged. No successful gate or Java comparison
+was duplicated; no cache records were restored or relabelled. The live report remains the authority for later counts and freshness.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -45,7 +50,7 @@ its literal edition assertion using existing native Cargo package diagnostics.
 This adds no runtime feature, JVM loading or Enterprise functionality.
 
 Known differential limits remain in connected-range duplicate/empty-interval
-semantics, sequence-distance arithmetic, large-number load balancing and other
+semantics, default exact arithmetic versus Community overflow, large-number load balancing and other
 recorded identity/ranking policies. Shared cyclic-supplier comparisons retain
 21 actual Java runtime errors separately from successful-result agreement.
 See the [stream contracts](constraint-stream-contract.md) and
@@ -57,9 +62,21 @@ The last solver differential demonstrates 4,824 exact observations for explicit
 encounter-order policies; original total-order controls retain 4499 agreements /
 325 differences, all matching independent Python. These results now remain stale
 under changed shared-core inputs. Existing defaults/policy choices stay visible.
-Only aggregate-performance was deliberately refreshed in 279, preserving 96 original
-controls and all six workload outputs. The other 17 raw reports retain original
-bytes/dates/keys; 1/18 measurement families current, 17 stale. No rekeyed old results.
+Only stream-differential was refreshed in 280, retaining every original fixture,
+Java adapter and full observation. Explicit signed-32-bit wrapping metrics close
+the sequence MIN/MAX break and range MIN/MAX length differences: sequences now
+agree in 65/65 cases (4,692 states), ranges in 66/197 cases (11,583 states). All 197
+native range cases also pass independent modular calculations. The 131 remaining
+range differences stay visible. Complete exact-default controls still execute:
+64 ordinary sequence agreements plus its separate overflow difference; ranges
+65/197 agreements with 132 differing cases. Exact i32/i64 metrics remain default.
+Seven original Rust regressions add no upstream-method credit.
+
+The other 17 raw reports keep original bytes/dates/keys. The 279 aggregate report
+remains current through its unchanged relevant inputs and original source/artifact
+binding; there is no new timing measurement. Two of 18 families are current and
+16 remain stale. No old result is rekeyed. The dashboard's two policy notes have
+fresh desktop/mobile and legacy-format rendering checks.
 
 Primitive frequency replacement now reuses a removed unique-class node when the
 new value is absent. Shared paths and keys still copy on write; structural edits
@@ -105,7 +122,7 @@ feasible certificate, not an optimum. The target remains Java median-time parity
 or better at equal-or-better quality. These shared-host times vary with load;
 controlled mixed-workload comparisons show no meaningful warm Stream gain.
 
-The dashboard's configurable progress index is **84.6%**: feature families 40%,
+The dashboard's configurable progress index is **85.2%**: feature families 40%,
 behavior 20%, performance 30%, current evidence 10%. It is an explicit index of
 tracked targets, not estimated engineering effort or remaining time. Family
 balancing and weakest-workload scoring prevent numerous easy/fast cases from

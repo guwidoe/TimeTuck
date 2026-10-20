@@ -4,13 +4,19 @@ use std::{
     io::{self, BufRead},
 };
 use timetuck::*;
-type C = ConnectedRangeCollector<usize, i64, usize>;
-type Node = CollectNode<usize, (), (usize, i64, i64, usize), C>;
-fn emit(id: &str, state: usize, n: &Node) {
+type C<P, M> = ConnectedRangeCollector<usize, P, usize, M>;
+type Node<P, M> = CollectNode<usize, (), (usize, P, P, usize), C<P, M>>;
+fn emit<P: Copy + Ord + std::fmt::Display, M: RangeMetric<P>>(
+    id: &str,
+    state: usize,
+    n: &Node<P, M>,
+) where
+    M::Distance: std::fmt::Display,
+{
     let c = n
         .groups()
         .next()
-        .map_or_else(|| C::default().finish(), |(_, c)| c);
+        .map_or_else(|| C::<P, M>::default().finish(), |(_, c)| c);
     let optional = |v: Option<usize>| v.map_or_else(|| "-".into(), |v| v.to_string());
     let ranges = c
         .ranges()
@@ -59,7 +65,10 @@ fn emit(id: &str, state: usize, n: &Node) {
         }
     );
 }
-fn main() {
+fn run<P: Copy + Ord + std::fmt::Display + std::str::FromStr, M: RangeMetric<P>>()
+where
+    M::Distance: std::fmt::Display,
+{
     for line in io::stdin().lock().lines() {
         let line = line.unwrap();
         let f = line.split('\t').collect::<Vec<_>>();
@@ -68,13 +77,17 @@ fn main() {
             .map(|r| {
                 let v = r
                     .split(',')
-                    .map(|v| v.parse::<i64>().unwrap())
+                    .map(|v| {
+                        v.parse::<P>()
+                            .ok()
+                            .expect("endpoint outside selected integer domain")
+                    })
                     .collect::<Vec<_>>();
                 (v[0], v[1])
             })
             .collect::<Vec<_>>();
         let capture = |i: usize| ((), (i, intervals[i].0, intervals[i].1, i));
-        let mut n = Node::new();
+        let mut n = Node::<P, M>::new();
         let mut slots = BTreeMap::new();
         let mut state = 0;
         emit(f[0], state, &n);
@@ -109,5 +122,13 @@ fn main() {
                 state += 1;
             }
         }
+    }
+}
+
+fn main() {
+    match std::env::args().skip(1).collect::<Vec<_>>().as_slice() {
+        [] => run::<i64, IntegerRangeMetric>(),
+        [mode] if mode == "--wrapping32" => run::<i32, WrappingIntegerRangeMetric>(),
+        _ => panic!("usage: range_oracle [--wrapping32]"),
     }
 }

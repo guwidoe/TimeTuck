@@ -49,4 +49,16 @@ class SequenceChecksTest(unittest.TestCase):
         with self.assertRaises(ValueError): validate([case],java)
         with self.assertRaises(ValueError): validate([case],native,java=True)
 
+    def test_explicit_wrapping_requires_native_identity_order_and_correct_lengths(self):
+        case={'id':'b','points':[-2**31,2**31-1], 'operations':[('c',0,0),('c',1,1)]}
+        wrapped=['b\t0\t-\t-', 'b\t1\t1,1,1,1,-,-,0,0:0\t-',
+                 'b\t2\t1,1,1,0,-,-1,0,0:0;1,1,0,1,-1,-,1,1:1\t-1,1,1,0,1']
+        self.assertEqual(validate([case],wrapped,wrapping=True),3)
+        with self.assertRaises(ValueError):validate([case],wrapped)
+        with self.assertRaises(ValueError):validate([case],wrapped[:-1]+[wrapped[-1].replace('\t-1,1,1,0,1','\t-2,1,1,0,1')],wrapping=True)
+        reversed_ties=self.lines.copy()
+        reversed_ties[2]='x\t2\t2,1,1,1,-,-,1,0:1,0\t-'
+        self.assertEqual(validate([self.case],reversed_ties,java=True),4)
+        with self.assertRaises(ValueError):validate([self.case],reversed_ties,wrapping=True)
+
 if __name__ == '__main__': unittest.main()

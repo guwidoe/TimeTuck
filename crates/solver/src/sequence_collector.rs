@@ -14,7 +14,7 @@ pub trait SequenceMetric<P>: Clone + Default {
     fn zero(&self) -> Self::Distance;
     fn maximum_gap(&self) -> Self::Distance;
 }
-/// Integer indices with exact widened distances, including i64 endpoints.
+/// Integer indices with exact widened distances, including i32 and i64 endpoints.
 /// STEP is both the largest connecting gap and the length of a singleton.
 /// This does not reproduce Java int distance overflow.
 #[derive(Clone, Copy, Debug, Default)]
@@ -32,6 +32,45 @@ impl<const STEP: u64> SequenceMetric<i64> for IntegerSequenceMetric<STEP> {
     }
     fn maximum_gap(&self) -> i128 {
         i128::from(STEP)
+    }
+}
+impl<const STEP: u64> SequenceMetric<i32> for IntegerSequenceMetric<STEP> {
+    type Distance = i128;
+    fn distance(&self, from: &i32, to: &i32) -> i128 {
+        i128::from(*to) - i128::from(*from)
+    }
+    fn add(&self, left: i128, right: i128) -> i128 {
+        left.checked_add(right).expect("sequence distance overflow")
+    }
+    fn zero(&self) -> i128 {
+        0
+    }
+    fn maximum_gap(&self) -> i128 {
+        i128::from(STEP)
+    }
+}
+/// Explicit wrapping signed-32-bit sequence distances and lengths.
+///
+/// Distance uses `to.wrapping_sub(from)` and length addition uses `wrapping_add`.
+/// A wrapped negative distance becomes a break under the ordinary nonnegative
+/// connectivity rule. Break and sequence lengths may therefore be negative.
+/// STEP is the largest connecting gap and singleton length; constructing a
+/// collector rejects zero or negative STEP. Exact integer metrics remain default.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct WrappingIntegerSequenceMetric<const STEP: i32 = 1>;
+impl<const STEP: i32> SequenceMetric<i32> for WrappingIntegerSequenceMetric<STEP> {
+    type Distance = i32;
+    fn distance(&self, from: &i32, to: &i32) -> i32 {
+        to.wrapping_sub(*from)
+    }
+    fn add(&self, left: i32, right: i32) -> i32 {
+        left.wrapping_add(right)
+    }
+    fn zero(&self) -> i32 {
+        0
+    }
+    fn maximum_gap(&self) -> i32 {
+        STEP
     }
 }
 #[derive(Clone, Debug, Eq, PartialEq)]

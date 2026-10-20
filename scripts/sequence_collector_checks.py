@@ -52,7 +52,7 @@ def components(points, ids):
     return groups
 
 
-def validate(cases, lines, java=False):
+def validate(cases, lines, java=False, *, wrapping=False):
     rows = [(c, i, slots) for c in cases for i, slots in enumerate(states(c))]
     if len(rows) != len(lines):
         raise ValueError('Sequence observation count differs')
@@ -68,7 +68,7 @@ def validate(cases, lines, java=False):
             raise ValueError('Sequence or break count differs')
         def distance(a, b):
             v = points[b] - points[a]
-            return (v + 2**31) % 2**32 - 2**31 if java else v
+            return (v + 2**31) % 2**32 - 2**31 if java or wrapping else v
         gaps = [distance(a[-1], b[0]) for a, b in zip(groups, groups[1:])]
         ends = []
         for i, (raw, group) in enumerate(zip(ss, groups)):
@@ -77,7 +77,10 @@ def validate(cases, lines, java=False):
                 raise ValueError('Malformed sequence fields')
             meta = parts[0].split(',')
             ids = list(map(int, parts[1].split(',')))
-            expected = [str(len(group)), str(distance(group[0], group[-1])+1),
+            length = distance(group[0], group[-1]) + 1
+            if java or wrapping:
+                length = (length + 2**31) % 2**32 - 2**31
+            expected = [str(len(group)), str(length),
                         str(int(i == 0)), str(int(i+1 == len(groups))),
                         '-' if i == 0 else str(gaps[i-1]),
                         '-' if i+1 == len(groups) else str(gaps[i])]
@@ -105,21 +108,33 @@ def run_checks(classpath):
     payload = ''.join(c['id']+'\t'+','.join(map(str, c['points']))+'\t'+
                       ';'.join(':'.join(map(str, o)) for o in c['operations'])+'\n' for c in inputs)
     outputs = {}
+    ordinary_observations = None
     for runtime, command in {
         'java': ['java', '-cp', classpath, 'SequenceCollectorOracle'],
-        'rust': [str(ROOT/'target/release/examples/sequence_oracle')],
+        'rust_exact': [str(ROOT/'target/release/examples/sequence_oracle')],
+        'rust': [str(ROOT/'target/release/examples/sequence_oracle'),'--wrapping32'],
     }.items():
         r = subprocess.run(command, input=payload, text=True, capture_output=True, check=True, timeout=60)
         lines = r.stdout.splitlines()
-        observations = validate(cases, lines[:-3], java=runtime == 'java')
-        validate([boundary], lines[-3:], java=runtime == 'java')
+        observations = validate(cases, lines[:-3], java=runtime == 'java',wrapping=runtime == 'rust')
+        validate([boundary], lines[-3:], java=runtime == 'java',wrapping=runtime == 'rust')
+        if ordinary_observations is None:
+            ordinary_observations = observations
+        else:
+            assert observations == ordinary_observations
         outputs[runtime] = lines
-    return {'seed': SEED, 'total': len(cases), 'passed': len(cases), 'observations': observations,
-            'boundary_divergences': 1, 'boundary': boundary, 'cases': cases, 'outputs': outputs,
-            'scope': 'Original public standalone collector add, replace, remove and trial/undo cases. '
+    return {'seed': SEED, 'total': len(inputs), 'passed': len(inputs),
+            'native_reference_passed':len(inputs),'observations':ordinary_observations+3,
+            'ordinary_total':len(cases),'ordinary_passed':len(cases),
+            'boundary_total':1,'boundary_passed':1,'boundary_divergences':0,
+            'arithmetic_policy':'wrapping32','boundary': boundary, 'cases': cases, 'outputs': outputs,
+            'exact_controls':{'total':len(cases),'passed':len(cases),'observations':ordinary_observations,
+                'boundary_divergences':1,'output_keys':{'java':'java','rust':'rust_exact'}},
+            'scope': 'Explicit WrappingIntegerSequenceMetric with signed i32 indices is selected for the Community comparison. '
+            'All original cases and the original MIN/MAX boundary pass with modular 32-bit distances; '
+            'the default exact i64 controls and their separate overflow difference remain under exact_controls and outputs.rust_exact. '
+            'Public standalone collector add, replace, remove and trial/undo. '
             'Python checks membership, count, length, first/last flags, neighboring breaks and endpoint identities. '
             'Java ties may use different identity ordering; each observed endpoint must match its own ordered items. '
-            'Rust additionally requires stable logical-ID ties. One separate int-min/max break overflows to -1 in '
-            'Java versus exact 4294967295 in Rust, reported as a divergence without agreement credit. '
-            'Snapshots use owned values; Java live views and mutable object aliasing are not claimed. '
-            'No timing or upstream-method credit.'}
+            'Rust additionally requires stable logical-ID ties. Snapshots use owned values; '
+            'Java live views and mutable object aliasing are not claimed. No timing or upstream-method credit.'}

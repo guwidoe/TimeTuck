@@ -126,6 +126,8 @@ pub mod score_history_regression;
 pub mod scoring_context_cases;
 #[path = "../segmented_slice_regression.rs"]
 pub mod segmented_slice_regression;
+#[path = "../sequence_wrapping_regression.rs"]
+pub mod sequence_wrapping_regression;
 #[path = "../service_validation_cases.rs"]
 pub mod service_validation_cases;
 #[path = "../set_value_range_regression.rs"]

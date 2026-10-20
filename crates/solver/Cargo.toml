@@ -2353,6 +2353,11 @@ path = "tests/input_order_exploration.rs"
 test = false
 
 [[test]]
+name = "integer_range_metric_regression"
+path = "tests/integer_range_metric_regression.rs"
+test = false
+
+[[test]]
 name = "interleave_refill_regression"
 path = "tests/interleave_refill_regression.rs"
 test = false
@@ -4941,6 +4946,11 @@ test = false
 [[test]]
 name = "sequence_tree_cases"
 path = "tests/sequence_tree_cases.rs"
+test = false
+
+[[test]]
+name = "sequence_wrapping_regression"
+path = "tests/sequence_wrapping_regression.rs"
 test = false
 
 [[test]]

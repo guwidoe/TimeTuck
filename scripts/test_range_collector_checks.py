@@ -41,4 +41,18 @@ class RangeCollectorChecksTest(unittest.TestCase):
             if not c['boundary']:
                 for s in states(c):self.assertEqual(len(s),len(set(s.values())))
 
+    def test_explicit_wrapping_keeps_exact_controls_and_all_nonlength_fields(self):
+        c=dict(id='wide',intervals=[[-2**31,2**31-1]],operations=[('c',0,0)])
+        exact=['wide\t0\t-\t-', 'wide\t1\t-2147483648,2147483647,4294967295,1,1,1,0:0\t-']
+        wrapped=[line.replace('4294967295','-1') for line in exact]
+        self.assertEqual(validate([c],exact)['passed'],1)
+        self.assertEqual(validate([c],wrapped,wrapping=True)['passed'],1)
+        self.assertEqual(validate([c],wrapped,java=True,wrapping=True)['passed'],1)
+        self.assertEqual(validate([c],wrapped,java=True)['passed'],0)
+        with self.assertRaises(ValueError):validate([c],wrapped)
+        with self.assertRaises(ValueError):validate([c],exact,wrapping=True)
+        for old,new in [('1,1,1,0:0','1,1,1,1:0'),('1,1,1,0:0','2,1,1,0:0')]:
+            with self.subTest(field=new),self.assertRaises(ValueError):
+                validate([c],wrapped[:1]+[wrapped[1].replace(old,new)],wrapping=True)
+
 if __name__=='__main__':unittest.main()

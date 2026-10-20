@@ -48,7 +48,10 @@ def generate():
     return cases
 
 
-def reference(case, slots):
+def reference(case, slots, *, wrapping=False):
+    def distance(a, b):
+        value = b - a
+        return (value + 2**31) % 2**32 - 2**31 if wrapping else value
     intervals = case['intervals']
     counts = Counter(slots.values())
     remaining = set(counts)
@@ -69,9 +72,9 @@ def reference(case, slots):
         active = [sum(counts[i] for i in found if 2*intervals[i][0] <= a+b < 2*intervals[i][1])
                   for a,b in zip(points, points[1:])]
         low, high = (min(active),max(active)) if active else (None,None)
-        groups.append(dict(start=points[0],end=points[-1],length=points[-1]-points[0],count=len(ids),
+        groups.append(dict(start=points[0],end=points[-1],length=distance(points[0],points[-1]),count=len(ids),
                            minimum=low,maximum=high,overlap=high is not None and high > 1,items=sorted(ids)))
-    gaps = [[a['end'],b['start'],b['start']-a['end']] for a,b in zip(groups,groups[1:])]
+    gaps = [[a['end'],b['start'],distance(a['end'],b['start'])] for a,b in zip(groups,groups[1:])]
     return dict(ranges=groups,gaps=gaps)
 
 
@@ -107,7 +110,7 @@ def parse(case, state, line, java):
     return dict(ranges=ranges,gaps=gaps)
 
 
-def validate(cases, lines, java=False):
+def validate(cases, lines, java=False, *, wrapping=False):
     cursor=0; observations=0; passed=0; errors=[]; differences=[]
     for case in cases:
         case_passed=True
@@ -117,7 +120,7 @@ def validate(cases, lines, java=False):
             if len(f)==3 and f[:2]==[case['id'],'ERROR']:
                 if not java or not f[2]:raise ValueError('Unexpected native/error response')
                 errors.append(dict(case=case['id'],state=state,error=f[2]));cursor+=1;case_passed=False;break
-            actual=parse(case,state,lines[cursor],java);expected=reference(case,slots)
+            actual=parse(case,state,lines[cursor],java);expected=reference(case,slots,wrapping=wrapping)
             cursor+=1;observations+=1
             if actual!=expected:
                 if not java:raise ValueError(f'Native range differs: {case["id"]} state {state}')
@@ -134,23 +137,39 @@ def run_checks(classpath):
                     ';'.join(':'.join(map(str,o)) for o in c['operations'])+'\n' for c in cases)
     outputs={};results={}
     for runtime,command in {'java':['java','-cp',classpath,'RangeCollectorOracle'],
-                            'rust':[str(ROOT/'target/release/examples/range_oracle')]}.items():
+                            'rust_exact':[str(ROOT/'target/release/examples/range_oracle')],
+                            'rust':[str(ROOT/'target/release/examples/range_oracle'),'--wrapping32']}.items():
         r=subprocess.run(command,input=payload,text=True,capture_output=True,check=True,timeout=120)
-        outputs[runtime]=r.stdout.splitlines();results[runtime]=validate(cases,outputs[runtime],java=runtime=='java')
+        outputs[runtime]=r.stdout.splitlines()
+        results[runtime]=validate(cases,outputs[runtime],java=runtime=='java',wrapping=runtime=='rust')
     ordinary={c['id'] for c in cases if not c['boundary']}
-    java=results['java']
-    if any(d['case'] in ordinary for d in java['errors']+java['differences']):
-        raise ValueError('Distinct positive-length range comparison failed')
+    exact=results['java'];java=validate(cases,outputs['java'],java=True,wrapping=True)
+    for result in [exact,java]:
+        if any(d['case'] in ordinary for d in result['errors']+result['differences']):
+            raise ValueError('Distinct positive-length range comparison failed')
+    previous={d['case'] for d in exact['differences']};selected={d['case'] for d in java['differences']}
+    if previous-selected!={'range-boundary-3'} or selected-previous:
+        raise ValueError('Explicit wrapping policy must close only the original length-overflow difference')
     return dict(seed=SEED,total=len(cases),passed=java['passed'],observations=results['rust']['observations'],
                 native_reference_passed=results['rust']['passed'],java_observations=java['observations'],
                 ordinary_total=len(ordinary),ordinary_passed=len(ordinary),boundary_total=len(cases)-len(ordinary),
                 divergent_cases=java['divergent_cases'],java_error_cases=java['error_cases'],
                 differences=java['differences'],errors=java['errors'],cases=cases,outputs=outputs,
-                scope='Public collector add/replace/remove and inverse-update trial/undo, with every membership occurrence, '
-                'component endpoint/length/count/overlap bound/flag and gap endpoint/length checked against independent '
-                'Python pairwise connectivity and midpoint counts. Native stable start/end/ID order is checked separately; '
-                'Java item order is not compared. Java zero-length MAX/MIN overlap sentinels normalize to native None. '
-                'Shared-identity removal failures, other zero-length overlap flags/count differences and integer length overflow remain explicit divergences, '
+                arithmetic_policy='wrapping32',
+                exact_controls=dict(total=len(cases),passed=exact['passed'],
+                    native_reference_passed=results['rust_exact']['passed'],
+                    observations=results['rust_exact']['observations'],
+                    divergent_cases=exact['divergent_cases'],java_error_cases=exact['error_cases'],
+                    differences=exact['differences'],errors=exact['errors'],
+                    output_keys=dict(java='java',rust='rust_exact')),
+                scope='Explicit WrappingIntegerRangeMetric with signed i32 endpoints is selected for the Community comparison; '
+                'default exact i64 results and their complete original difference cohort are retained under exact_controls and outputs.rust_exact. '
+                'Public add/replace/remove and inverse-update trial/undo check every membership occurrence, '
+                'component endpoint/length/count/overlap bound/flag and gap endpoint/length against independent '
+                'Python pairwise connectivity and midpoint counts, with modular 32-bit lengths for the selected policy. '
+                'Native stable start/end/ID order is checked separately; Java item order is not compared. '
+                'Java zero-length MAX/MIN overlap sentinels normalize to native None. '
+                'Shared-identity removal failures and other zero-length overlap flags/count differences remain explicit divergences, '
                 'never agreement credit; runtime errors retain case identity and the observed prefix. Positive-length bounded '
                 'cases with distinct active identities must all agree. Native snapshots are owned; Java live object/hash mutation is not claimed. '
                 'No timing or extra upstream-method credit.')

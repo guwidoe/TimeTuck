@@ -429,13 +429,13 @@ pub use dynamic_dependency_node::{DynamicDependencyInput, DynamicDependencyNode}
 mod sequence_collector;
 pub use sequence_collector::{
     ConsecutiveSequence, IntegerSequenceMetric, SequenceBreak, SequenceChain, SequenceCollector,
-    SequenceItem, SequenceMetric,
+    SequenceItem, SequenceMetric, WrappingIntegerSequenceMetric,
 };
 
 mod range_collector;
 pub use range_collector::{
     ConnectedRange, ConnectedRangeChain, ConnectedRangeCollector, IntegerRangeMetric, RangeGap,
-    RangeItem, RangeMetric,
+    RangeItem, RangeMetric, WrappingIntegerRangeMetric,
 };
 
 mod load_balance_collector;

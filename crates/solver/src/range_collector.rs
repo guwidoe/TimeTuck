@@ -8,13 +8,31 @@ pub trait RangeMetric<P>: Clone + Default {
     type Distance: Clone;
     fn distance(&self, start: &P, end: &P) -> Self::Distance;
 }
-/// Exact widened i64 endpoint subtraction; does not reproduce Java int overflow.
+/// Exact widened i32/i64 endpoint subtraction; does not reproduce Java int overflow.
 #[derive(Clone, Copy, Debug, Default)]
 pub struct IntegerRangeMetric;
 impl RangeMetric<i64> for IntegerRangeMetric {
     type Distance = i128;
     fn distance(&self, a: &i64, b: &i64) -> i128 {
         i128::from(*b) - i128::from(*a)
+    }
+}
+impl RangeMetric<i32> for IntegerRangeMetric {
+    type Distance = i128;
+    fn distance(&self, a: &i32, b: &i32) -> i128 {
+        i128::from(*b) - i128::from(*a)
+    }
+}
+/// Signed 32-bit endpoint distances with wrapping subtraction, as observed in
+/// Community integer range collectors. Point ordering, connectivity and overlap
+/// still use the original signed endpoints. A length or gap can be negative
+/// after overflow. Select this metric explicitly; the default remains exact.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct WrappingIntegerRangeMetric;
+impl RangeMetric<i32> for WrappingIntegerRangeMetric {
+    type Distance = i32;
+    fn distance(&self, a: &i32, b: &i32) -> i32 {
+        b.wrapping_sub(*a)
     }
 }
 /// Captured logical range. Results repeat the item once per occurrence.

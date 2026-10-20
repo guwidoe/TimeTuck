@@ -10552,3 +10552,32 @@ warm/cold time, with exact output/work equality. No general speed or equal-work
 Java claim. Only mixed performance was refreshed; older measurements retain
 honest freshness. Evidence: work/round225-changed-positions/{collection,verdict}.json
 and work/round225-changed-positions-collection.json.
+
+
+### Explicit signed-32-bit collector distance policies
+
+WrappingIntegerSequenceMetric<STEP> and WrappingIntegerRangeMetric select i32
+indices/endpoints and modular distance arithmetic. Existing IntegerSequenceMetric
+and IntegerRangeMetric additionally accept i32 while retaining exact i128 results;
+the i64 implementations and default exact policy are unchanged. Sequence steps
+must be positive. Wrapped negative distances form breaks under the existing
+adjacency rule; lengths can wrap. Range ordering/connectivity/overlap use original
+signed endpoints and only component/gap lengths use modular subtraction.
+
+The original full Community comparison now executes both modes. Explicit wrapping
+closes two original arithmetic boundary differences: sequences 65/65 cases and
+4,692 states; ranges 66/197 cases and 11,583 states, with every native state also
+checked independently. Complete default exact observations and their prior
+separate differences remain in the report. Shared-identity/empty-range flags,
+identity-hash ties and live-view semantics are not changed. Native callers choose
+the metric explicitly; ordinary defaults are preserved. No upstream-method or
+performance credit is added.
+
+Four original sequence and three range regressions check signed endpoints,
+negative/wrapped lengths, large custom steps, invalid step configuration, stable
+IDs, capture multiplicities, missing/failed edits, immutable snapshots and actual
+transaction rollback/scoring. Custom step behavior is native, with no general
+Community trace or arithmetic-equivalence claim beyond the observed configuration.
+Final `bash scripts/check.sh`: 8,530 Rust +290 doctests; 9 jobs run/139 reused.
+Native digest `838dded110736f902fff345ecc2816a43950de0b93c096adea4ff75fc961f58a`. Evidence:
+work/round280-qualification/{collection,stream-differential-receipt,browser-proof}.json.

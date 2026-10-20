@@ -40,6 +40,8 @@ pub mod gather_sampling_regression;
 pub mod incremental_stream_regression;
 #[path = "../indexed_list_model.rs"]
 pub mod indexed_list_model;
+#[path = "../integer_range_metric_regression.rs"]
+pub mod integer_range_metric_regression;
 #[path = "../late_acceptance.rs"]
 pub mod late_acceptance;
 #[path = "../list_change_replay_cases.rs"]

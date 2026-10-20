@@ -17,73 +17,75 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The latest user instruction is to leave
 runner-c alone for now; use runner-a and local, with no runner-c probes or wake/auth requests.
 
-## Latest qualification — 279 primitive frequency-node reuse
+## Latest qualification — 280 explicit 32-bit collector distances
 
-Native frequency-one replacement with an absent destination reuses the removed
-AVL node/key/value allocations. Two-child deletion swaps successor key/value Arcs,
-keeping exact representatives and counts. Shared paths/keys copy on write; structural
-journals preserve prior states. Duplicate/existing destinations, missing/equal keys,
-inline promotion/demotion and checked difference/addition rules remain intact.
-Wrapping IntCollector replacement avoids default staging after membership/count
-preflight, retaining wrapping subtraction/addition. No unsafe code, new bounds or public API.
+Added WrappingIntegerSequenceMetric<STEP:i32=1> and WrappingIntegerRangeMetric for
+i32 points with wrapping subtraction/addition. Existing integer metrics now also
+accept i32 with exact i128 distances; defaults and all i64 implementations retain
+exact arithmetic. No new generic public bounds or unsafe code. Sequence steps
+must be positive; negative wrapped neighbor distances form breaks and lengths
+can wrap. Range ordering/connectivity/overlap still use original signed points.
 
-Actual canonical original six workloads, 200 iterations / three warmups / five
-samples / four balanced forks: checked sum64 **26.60% lower**, sum512 **24.63% lower**,
-all four forks each. Full update/restore/observation work unchanged; all 96 original
-controls and every timed array/checksum agree. Separate actual-library diagnostic
-allocator capture confirms 8→2 allocation requests per sum pair; instrumented times
-are excluded, no byte/peak-memory claim. Initial slower controls were retained and
-investigated once with fixed artifacts / original settings /16 balanced forks:
-small set 1.58%, large set 5.35%, large map 2.45% higher medians, mixed forks.
-**Retained tradeoff; no general speedup claim.** Other allocation counts unchanged.
+Original full Community comparison, unchanged fixtures/Java adapters/pin/work:
+sequence **65/65** with 4,692 states; range **66/197** with 11,583 states and 197 native
+reference passes. This closes the two original integer arithmetic boundaries.
+The remaining 131 range differences stay visible. Exact-default controls freshly
+execute too: 64 ordinary sequence agreements +1 separate overflow difference;
+range 65/197, 132 differences. All full outputs/cases retained under the policy and
+exact_controls; top-level counts explicitly select wrapping32. No source-method
+credit or performance claim. Do not change defaults or re-audit explained Java
+range-history/large-load/ratio differences for credit.
 
-One final `bash scripts/check.sh` passed locally: **8,523 Rust +290 doctests**,
-95 RUN /52 REUSE, 672.668s. Native `2759e59f842aaada04d309132c86752a169bf9f316e44350a2ef3dc9c6531891`.
-Count only 147 declared job events, ignoring nested Python cache fixture announcements.
-No duplicate gate or cache transplantation. Five new original map tests preserve
-AVL/order/size/heights, unique allocation owners, snapshots/key owners, two-child
-successors and nested journals. One original integration test compares 512 mixed
-checked/wrapping histories to an independent multiset and drains all occurrences.
-Private source screen: 27 tests /32 sum controls is separate, not canonical evidence.
+One final `bash scripts/check.sh` passed locally: **8,530 Rust +290 doctests**,
+9 RUN/139 REUSE, 95.007s. Native `838dded110736f902fff345ecc2816a43950de0b93c096adea4ff75fc961f58a`.
+Four new sequence and three range original regressions cover actual snapshots,
+captures, failed edits and scoring/transaction rollback, plus arithmetic/ID bounds.
+Two new strict Python policy tests preserve native identity ordering and reject
+bad lengths/counts/flags. One real shell launcher regression passes arguments,
+empty/current-directory PATH entries, lookup order and failure status.
 
-Frozen source-only proposal work/round279-count-reuse-prepare/manifest.json. Parent
-corrected 5 test constructors to supply ExactSizeIterator (bounded i64 ranges→Vec
-into_iter); original proposal/errors retained unchanged. Root generated Cargo test
-layout includes the original new integration source. Only aggregate Java comparison
-refreshed; original 96 controls and six workloads retained:
+An initial gate prebuild was deliberately stopped BEFORE test execution after
+proving duplicate PATH prefixes caused false misses. Partial log/diagnosis remain
+in interrupted-gate.json, gate-before-path-fix.log and path-diagnostic.json. No
+old records were recreated/rekeyed. scripts/check.sh now removes exact duplicate
+PATH entries before fingerprinting. Launch future gates normally: the script
+preserves canonical lookup order regardless of repeated caller prefixes. Only the
+successful final gate counts; source and per-job outputs keep actual bindings.
+The untracked Python regression has a separate pre-job source supplement because
+the original snapshot selector enumerated tracked scripts only; it is independently
+hashed by its real per-job record. Future freeze helper includes untracked sources.
 
-| Collector / captures | Rust µs / pair | Java µs / pair |
-| --- | ---: | ---: |
-| Checked sum · 64 captures | 0.407 | 0.391 |
-| Checked sum · 512 captures | 0.578 | 0.346 |
-| Sorted set · 64 captures | 2.136 | 1.094 |
-| Sorted set · 512 captures | 5.979 | 5.874 |
-| Merged map · 64 captures | 3.591 | 9.775 |
-| Merged map · 512 captures | 6.646 | 13.407 |
+The next gate exposed an incorrect expectation in a new range regression: invalid
+interval insertion propagates a panic and poisons its transaction. The fixture
+now catches that panic and checks rollback; production code did not change.
+The failed gate is retained in failed-validation-fixture/. The Java comparison
+keeps its actual earlier source binding (76d1c9ae); the final source (838dded1)
+differs only in that fixture, with the comparison input key unchanged.
 
-Sums/sets still miss measured Java parity; both map cases beat Java. Large set
-no longer establishes parity in this fresh run; do not relabel prior ratios as
-current. Other 17 raw reports keep original bytes/dates/keys and remain stale. Shared
-core changes 16 measurement keys. UI and consumed contract unchanged: reuse 275
-browser proof; current HTTP/data/freshness inspected.
+Only stream-differential refreshed; other 17 raw reports keep original bytes/dates/keys.
+Only three comparison keys change: stream-differential, stream-performance,
+sequence-performance. Aggregate 279 remains current by its unchanged input key,
+with its original source/artifact/timing binding. No new benchmark claim or rerun.
+Readiness **85.171%**, 2/18 current, 16 stale. Java time parity/equal-or-better
+quality remains multiplier 1. Inventory 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/
+unverified. Goal incomplete. Previous 279 sum and 277 set improvements remain.
 
-Dashboard readiness **84.590%**, 1/18 current, target Java multiplier 1 at equal/better
-quality. Inventory 4410/4855 (90.834%), 10 pending, 435 excluded, zero failed/unverified. No
-upstream-method credit; objective incomplete. Performance remains important.
+Dashboard notes explicitly distinguish wrapping results and exact controls.
+Current desktop 1440/mobile 390 and legacy-format presentation passed in one
+bounded actual-browser check, with no overflow/exceptions. Mechanical detector [];
+no style/layout changes. HTTP/source/model freshness checked. No old UI proof is
+substituted for these changed notes.
 
-Evidence work/round279-qualification/{retention,gate-receipt,job-accounting,
-collection,current-state}.json and work/round279-allocation-probe/.
-278 search-only source experiment was rejected after actual Cargo small 4.23%/large
-2.09% sum gains with mixed forks (one large 21.81% slower); baseline 4490 was restored
-exactly before 279. Its own actual source/artifacts/outputs remain under
-work/round278-qualification/rejection.json. **Do not revive it or rerun restored 277.**
-Previous 277 prepared set optimization remains, with its qualified 8517+290 gate in
-work/round277-qualification/. Its earlier timing/Java ratios are historical.
+Source-only sequence proposal frozen in work/round280-sequence-wrapping/, based
+on committed 1dd33177/native 2759. Parent added RangeMetric/oracle, strict Python
+comparisons/UI notes and launcher fix. Agent performed rustfmt only; actual parent
+execution is separate. No outstanding agent work. runner-c parked, no probes or authentication requests.
+runner-a's prior 279 connection is terminal 255 and its URL expired; no remote 280 run.
 
-runner-c parked: no probes/wake/auth requests. Latest runner-a 279 persistent client ended
-255/port 22 timeout; its authentication URL is expired (no live client). No remote 279
-run is claimed. Start a new connection only when useful, never reuse expired links.
-One source-only agent completed 279; no outstanding tracked integration work.
+Evidence work/round280-qualification/{integration,stream-differential-receipt,
+gate-receipt,job-accounting,collection,browser-proof,current-state}.json;
+work/parallel-round280-evidence.json. Do not rerun already successful unchanged
+checks or relabel any previous measurement as fresh.
 
 ## Previous qualification — 276 journaled fused-score rows
 
