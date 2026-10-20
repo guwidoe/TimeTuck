@@ -19,38 +19,36 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,850 recorded Rust tests and
-292 doctests** (8,856 Cargo test executions). The contribution-write
+The current native verification contains **8,852 recorded Rust tests and
+292 doctests** (8,858 Cargo test executions). The sparse-score
 batch passes `bash scripts/check.sh`, formatting, all-target Clippy and
 54 tooling jobs. Exact source, logs and qualification appear in
-[the contribution-write observation](../compat/observations/real_world-contribution-writes.json).
+[the sparse-score observation](../compat/observations/real_world-sparse-score-storage.json).
 The live report remains the authority for evidence freshness and readiness.
 
 The four additional RealWorld application regressions remain separate from the
 original upstream inventory. Frozen public cases, model, settings and runner are
 unchanged. All **12** Java/Rust outputs independently validate with seeds 7/11/23
-and ten seconds per runtime on runner-a. Golfer **121,202 Rust /121,894 Java evaluations/s (0.994x)**; Sailing **44,938 /81,499 (0.551x)**.
+and ten seconds per runtime on runner-a. Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing **45,121 /81,571 (0.553x)**.
 **0/2** additional throughput targets are met. Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
-Rotating native controls for the exact selected combination improved Sailing by
-**5.839%** and Golfer by **0.378%** versus the previous qualified eb0 artifact.
+Rotating native controls for the selected sparse storage measured
+**+1.575% Golfer /+1.170% Sailing** versus qualified1426 artifact9898.
 These short controls earn no Java parity credit; the default qualifier above
 measures actual final bytes. Separate qualification sessions do not isolate speedup.
 
-Private consuming terminals now omit an identical contribution store only after
-all callbacks, structural checks, old/new score clones, checked adjustment and
-final ID/payload Clone phases. A present zero remains distinct from an absent row.
-Exact primitive group I/K graphs construct erased outputs after the same staged
-output identities and poison clearing, avoiding array/flatten staging. Payload-key
-clones, Event creation, callbacks, metadata and FIFO order remain. Public retained
-terminal owners, standalone/custom group paths and rollback retain their contracts.
-These **seven** new native controls earn no upstream-method credit.
+Private consuming score storage retains hot pages and stores other full numeric
+positions directly in a standard HashMap, removing mostly empty page allocations.
+Sorted observations, every-write undo, zero/absence and full/current/nested restore
+remain. Sparse map capacity can remain after peak use; no total-memory claim is
+made. All full collector summaries, frequency edits, overflow checks and callbacks
+remain. The separate count-accessor combination was not selected. These **two**
+new native controls earn no upstream method credit.
 
-Earlier consuming source/terminal retention, bounded copied join payloads and fixed
-equality visitors remain as recorded in
-[the previous observation](../compat/observations/real_world-consuming-search.json).
-The larger owned group/pair payload, packed member event and unbounded visitor
-experiments were not integrated after their small/mixed results. Fat LTO, target
-CPU, PGO, panic policy, batch policy and benchmark settings are unchanged.
+Earlier consuming storage, bounded join traversal and contribution/output staging
+remain as recorded in [the previous observation](../compat/observations/real_world-contribution-writes.json).
+Empty FlatMap/Group/Join carrier pooling and equal-contribution arithmetic were
+not integrated after measured flat/regressive results. Compiler target, PGO, panic
+policy, batch policy and benchmark settings are unchanged.
 
 The preceding forward-state batch retains bounded primitive graph GroupInputs,
 concrete ordinary map/group/filter/terminal callbacks, existing-equal private

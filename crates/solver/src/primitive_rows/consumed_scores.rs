@@ -1,10 +1,12 @@
 //! Copy-certified contribution rows for an ownership-consuming search only.
 //! No public row view or escaped owner is permitted at this binding boundary.
 //! Ordinary PrimitiveRows and all of their Arc ownership rules remain unchanged.
+//! Hot two-coordinate IDs use pages; all other numeric positions store one row
+//! directly in a standard hash map. Cold observations sort complete positions.
 use super::{Mapper, PageKey, Position, mapper};
 use std::{
     any::TypeId,
-    collections::{BTreeMap, BTreeSet},
+    collections::{BTreeSet, HashMap},
 };
 
 const CELLS: usize = 16;
@@ -28,7 +30,7 @@ impl<I, S> Page<I, S> {
 type Row<I, S> = Vec<Option<Box<Page<I, S>>>>;
 pub(crate) struct Rows<I, S> {
     dense: Vec<Row<I, S>>,
-    tree: BTreeMap<PageKey, Box<Page<I, S>>>,
+    sparse: HashMap<Position, Entry<I, S>>,
     map: Mapper<I>,
     copy_id: fn(&I) -> I,
     copy_score: fn(&S) -> S,
@@ -59,7 +61,7 @@ impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
         }
         Some(Self {
             dense: Vec::new(),
-            tree: BTreeMap::new(),
+            sparse: HashMap::new(),
             map: mapper::<I>()?,
             copy_id: Clone::clone,
             copy_score: Clone::clone,
@@ -74,76 +76,67 @@ impl<I, S> Rows<I, S> {
     fn copy(&self, entry: &Entry<I, S>) -> Entry<I, S> {
         ((self.copy_id)(&entry.0), (self.copy_score)(&entry.1))
     }
-    fn page(&self, key: PageKey) -> Option<&Page<I, S>> {
-        match hot(key) {
-            Some((p, q)) => self.dense.get(p)?.get(q)?.as_deref(),
-            None => self.tree.get(&key).map(Box::as_ref),
+    fn dense_page_mut(&mut self, p: usize, q: usize, create: bool) -> Option<&mut Page<I, S>> {
+        if !create
+            && self
+                .dense
+                .get(p)
+                .and_then(|r| r.get(q))
+                .and_then(Option::as_ref)
+                .is_none()
+        {
+            return None;
         }
-    }
-    fn page_mut(&mut self, key: PageKey, create: bool) -> Option<&mut Page<I, S>> {
-        match hot(key) {
-            Some((p, q)) => {
-                if !create
-                    && self
-                        .dense
-                        .get(p)
-                        .and_then(|r| r.get(q))
-                        .and_then(Option::as_ref)
-                        .is_none()
-                {
-                    return None;
-                }
-                if self.dense.len() <= p {
-                    self.dense.resize_with(p + 1, Vec::new);
-                }
-                let row = &mut self.dense[p];
-                if row.len() <= q {
-                    row.resize_with(q + 1, || None);
-                }
-                if create {
-                    Some(
-                        row[q]
-                            .get_or_insert_with(|| Box::new(Page::empty()))
-                            .as_mut(),
-                    )
-                } else {
-                    row[q].as_deref_mut()
-                }
-            }
-            None => {
-                if create {
-                    Some(
-                        self.tree
-                            .entry(key)
-                            .or_insert_with(|| Box::new(Page::empty()))
-                            .as_mut(),
-                    )
-                } else {
-                    self.tree.get_mut(&key).map(Box::as_mut)
-                }
-            }
+        if self.dense.len() <= p {
+            self.dense.resize_with(p + 1, Vec::new);
+        }
+        let row = &mut self.dense[p];
+        if row.len() <= q {
+            row.resize_with(q + 1, || None);
+        }
+        if create {
+            Some(
+                row[q]
+                    .get_or_insert_with(|| Box::new(Page::empty()))
+                    .as_mut(),
+            )
+        } else {
+            row[q].as_deref_mut()
         }
     }
     fn get_at(&self, pos: Position) -> Option<&Entry<I, S>> {
-        self.page(pos.page)?.cells[pos.cell].as_ref()
+        match hot(pos.page) {
+            Some((p, q)) => self.dense.get(p)?.get(q)?.as_deref()?.cells[pos.cell].as_ref(),
+            None => self.sparse.get(&pos),
+        }
     }
     fn set(&mut self, pos: Position, value: Option<Entry<I, S>>) -> Option<Entry<I, S>> {
-        let page = self.page_mut(pos.page, value.is_some())?;
-        let old = std::mem::replace(&mut page.cells[pos.cell], value);
-        if page.cells[pos.cell].is_some() {
-            page.occupied |= 1 << pos.cell;
-        } else {
-            page.occupied &= !(1 << pos.cell);
-        }
-        let now_empty = page.occupied == 0;
-        let present = page.cells[pos.cell].is_some();
+        let present = value.is_some();
+        let old = match hot(pos.page) {
+            Some((p, q)) => {
+                let page = self.dense_page_mut(p, q, present)?;
+                let old = std::mem::replace(&mut page.cells[pos.cell], value);
+                if present {
+                    page.occupied |= 1 << pos.cell;
+                } else {
+                    page.occupied &= !(1 << pos.cell);
+                }
+                if page.occupied == 0 {
+                    self.empty.push(pos.page);
+                }
+                old
+            }
+            // Sparse numeric IDs retain only their live row. In particular,
+            // nested pair IDs do not allocate sixteen mostly empty cells.
+            None => match value {
+                Some(value) => self.sparse.insert(pos, value),
+                None => self.sparse.remove(&pos),
+            },
+        };
         match (old.is_some(), present) {
             (false, true) => self.len += 1,
             (true, false) => self.len -= 1,
             _ => {}
-        }
-        if now_empty {
-            self.empty.push(pos.page);
         }
         old
     }
@@ -156,20 +149,14 @@ impl<I, S> Rows<I, S> {
         }
     }
     fn prune(&mut self) {
+        // Only direct pages can become empty retained containers. Sparse rows
+        // leave the map at their original removal/rollback publication phase.
         for key in self.empty.drain(..) {
-            match hot(key) {
-                Some((p, q)) => {
-                    if let Some(cell) = self.dense.get_mut(p).and_then(|r| r.get_mut(q))
-                        && cell.as_ref().is_some_and(|p| p.occupied == 0)
-                    {
-                        *cell = None;
-                    }
-                }
-                None => {
-                    if self.tree.get(&key).is_some_and(|p| p.occupied == 0) {
-                        self.tree.remove(&key);
-                    }
-                }
+            if let Some((p, q)) = hot(key)
+                && let Some(cell) = self.dense.get_mut(p).and_then(|r| r.get_mut(q))
+                && cell.as_ref().is_some_and(|p| p.occupied == 0)
+            {
+                *cell = None;
             }
         }
     }
@@ -189,13 +176,7 @@ impl<I, S> Rows<I, S> {
                 }
             }
         }
-        for (key, page) in &self.tree {
-            for cell in 0..CELLS {
-                if page.occupied & (1 << cell) != 0 {
-                    positions.push(Position { page: *key, cell });
-                }
-            }
-        }
+        positions.extend(self.sparse.keys().copied());
         positions.sort_unstable();
         positions
     }
@@ -305,7 +286,7 @@ impl<I, S> Clone for Rows<I, S> {
     fn clone(&self) -> Self {
         let mut snapshot = Self {
             dense: Vec::new(),
-            tree: BTreeMap::new(),
+            sparse: HashMap::new(),
             map: self.map,
             copy_id: self.copy_id,
             copy_score: self.copy_score,
@@ -388,13 +369,13 @@ mod tests {
         assert_eq!(values(&rows), wanted);
         rows.rollback(install);
         assert_eq!(values(&rows), base);
-        // Sparse dead candidate pages are released instead of accumulating.
+        // Sparse dead candidate rows are removed instead of accumulating.
         for page in 0..20usize {
             let token = rows.begin();
             put(&mut rows, (usize::MAX, page * 16), 7);
             rows.rollback(token);
             assert_eq!(values(&rows), base);
-            assert_eq!(rows.tree.len(), 2);
+            assert_eq!(rows.sparse.len(), 2);
         }
     }
     #[test]
@@ -419,3 +400,6 @@ mod tests {
         assert_eq!(values(&rows), vec![((0, 0), SimpleScore::new(1))]);
     }
 }
+
+#[cfg(test)]
+mod sparse_tests;

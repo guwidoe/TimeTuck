@@ -1,0 +1,518 @@
+{
+  "kind": "real_world-sparse-score-storage-observation",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T22:55:43.157974+00:00",
+  "input_sha256": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+  "native_source_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+  "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+  "host": "runner-a",
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "inputs": {
+    "social-golfer-32x8x10-v1": {
+      "problem_sha256": "79eca4c3b64232fcde48b3a19ff33316b29be6aa4f7482d91fa602b0572ff453",
+      "model_sha256": "ae603205fd6767cf475b2e8549556f7c4e7967143610cef499f47e7f93d314f2",
+      "manifest_sha256": "c4e99d2673a1830ffaada53c7d9562f0ee69f2b1ae2a8276c9de2441d33885ab",
+      "initial_schedule_sha256": "9b44419c30eb1309b429b7452c6e940ea4991684c9e723ae792a37c2c6254219",
+      "initial_validation": {
+        "score": [
+          0,
+          -3883200
+        ],
+        "feasible": true,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 0,
+          "unique_contacts": 48,
+          "repeat_penalty_units": 3888,
+          "soft_pair_penalty": 0,
+          "balance_penalty": 0
+        }
+      }
+    },
+    "sailing-trip-v1": {
+      "problem_sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff",
+      "model_sha256": "84bacef1169320dbbce62613ca88170684f6800d71be3786650845aa1ac0e557",
+      "manifest_sha256": "35f3774be3f586221b6515b09c2ffc2f8c0f307da3ea4e6042043d0ace21143a",
+      "initial_schedule_sha256": "2c3cde920227f9149e051b250c622d818fe3797e60e02e701ac2cc78c6d02efd",
+      "initial_validation": {
+        "score": [
+          -49,
+          -2593500
+        ],
+        "feasible": false,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 49,
+          "unique_contacts": 545,
+          "repeat_penalty_units": 8600,
+          "soft_pair_penalty": 88000,
+          "balance_penalty": 1700000
+        }
+      }
+    }
+  },
+  "qualification": {
+    "valid": true,
+    "qualified": true,
+    "source_unchanged": true,
+    "artifacts_source_bound": true,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 127139.41336228707,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ],
+              [
+                0,
+                19400
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.044068682
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 124525.96756649899,
+            "scores": [
+              [
+                0,
+                8400
+              ],
+              [
+                0,
+                9500
+              ],
+              [
+                0,
+                11700
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000099404
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.979444251576488,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 81570.58404572758,
+            "scores": [
+              [
+                -12,
+                81800
+              ],
+              [
+                -5,
+                69700
+              ],
+              [
+                -7,
+                87000
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.056715043
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 45120.88864756012,
+            "scores": [
+              [
+                0,
+                93500
+              ],
+              [
+                0,
+                83500
+              ],
+              [
+                -1,
+                194100
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000844698
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.5531514721319862,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ]
+  },
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8852,
+    "cargo_test_invocations_passed": 8858,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 2,
+    "new_native_test_identities": [
+      [
+        "crates/solver/src/lib.rs",
+        "primitive_rows::consumed_scores::sparse_tests::consuming_scores_sparse_rows_every_preimage_zero_absence_nested_capture_full_install_and_outer_rollback"
+      ],
+      [
+        "crates/solver/src/lib.rs",
+        "primitive_rows::consumed_scores::sparse_tests::consuming_scores_sparse_rows_preserve_full_coordinates_same_page_cells_and_global_order"
+      ]
+    ],
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+      "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+      "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 43.70483975397656,
+          "log_sha256": "16719b17dee275eb43d42dcc92077712115d42608e8c9c97bba4055672b558c9"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 327.13671102700755,
+          "log_sha256": "fd0d2be20b06bee0e6ccff0b4bd4a0d49061fbd91c277fa1bd481caf0626b9d8"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 276.93890908098547,
+          "log_sha256": "a2618c5e915ebc4c5919912208a59f59a12370df2db8893b58f9b1567adc7281"
+        },
+        {
+          "name": "qualified",
+          "command": [
+            "python3",
+            "scripts/benchmark_real_world.py",
+            "--report",
+            "work/real_world-sparse-score-rows-next-final/qualified.json"
+          ],
+          "exit_code": 0,
+          "seconds": 220.33213975699618,
+          "log_sha256": "e1baf9cdbe31b1e9543d10efe71d0734874783eee1f8d20e2706cd121639db6c"
+        }
+      ],
+      "seconds": 872.3690037199995,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. Default RealWorld qualifier and independent output validation unchanged. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "1426f8457b753cefc28ed83ebd16717187bd08d9",
+      "source_snapshot": "de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2",
+      "rust_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+      "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+      "changed_files": [
+        "crates/solver/src/primitive_rows.rs",
+        "crates/solver/src/primitive_rows/consumed_scores.rs",
+        "crates/solver/src/primitive_rows/consumed_scores/sparse_tests.rs"
+      ],
+      "full_gate": {
+        "name": "fullgate",
+        "command": [
+          "bash",
+          "scripts/check.sh"
+        ],
+        "exit_code": 0,
+        "seconds": 276.93890908098547,
+        "log_sha256": "a2618c5e915ebc4c5919912208a59f59a12370df2db8893b58f9b1567adc7281"
+      },
+      "qualified_artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+      "native_recorded_tests": 8852,
+      "qualified_valid_assignments": 12,
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json",
+        "work/real_world-performance.json"
+      ],
+      "final_receipt_sha256": "a9dec87c94ce1b7f5a3fa84f3d421da16bf48dfbc8bdee5c579b8e6825b23c41",
+      "policy": "Exact frozen Rust bytes integrated after actual unchanged-source standard gate and default original qualification passed. Only genuine aggregate Rust log/metadata and application report promoted; no per-job cache records transplanted."
+    }
+  },
+  "changes": [
+    "The exact private consuming score backend keeps its existing hot pages but stores each non-hot numeric Position directly in a standard HashMap. Full coordinates, sorted enumeration, every-write undo, present-zero distinction and full/current/nested restore contracts are retained. No public owner/version path or constructor gate was broadened."
+  ],
+  "tradeoffs": [
+    "Sparse HashMap buckets retain peak capacity; this is not a total-memory or universal-speed claim. Its random iteration is hidden behind globally sorted complete positions. Dense pages remain unchanged.",
+    "Count-accessor combination, empty FlatMap and Group/Join carrier pooling and equal-contribution arithmetic prototypes were rejected after their measured regressions/flat results; they were not broadly verified or integrated.",
+    "No fixture, model, compiler target, PGO, panic policy, batch policy, runner or Java settings changed. Scores and feasibility remain separate without an equal-score gate."
+  ],
+  "diagnostic_controls": [
+    {
+      "selection": "selected sparse storage",
+      "qualified": false,
+      "native_source_digest": "64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988",
+      "production_digest": "66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99",
+      "source_snapshot": "d736c240f65fd49803a1fc5b2c1bf1276acd6e799c0a38c5b967a029219a3265",
+      "baseline_binding": {
+        "rust_digest": "5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b",
+        "production_digest": "85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52",
+        "artifact_sha256": "9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb",
+        "source_snapshot": "a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6",
+        "qualified_report_sha256": "4a0e3f04ba030e3b723bdab2e973ab1c518163b8338c1b4dff7c34238a44f07b",
+        "final_receipt_sha256": "6fbc032210860dba939b574c5bfedd4bf232522db23d88ff659ea3ca0622e080"
+      },
+      "artifact_sha256": "ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 43903.61389838617,
+            "trial": 44417.429524685496
+          },
+          "gain_pct": 1.1703264963302207
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 122175.62588139912,
+            "trial": 124099.68468516893
+          },
+          "gain_pct": 1.5748303230609828
+        }
+      },
+      "proof_directory": "work/real_world-goal/consuming-score-sparse-rows-next-results",
+      "controls_sha256": "a132c01f95582ad1f717ee68f7d8a22776be7d1b1c5bdb709f206ebe7b581dc1"
+    },
+    {
+      "selection": "unselected mixed combined accessor",
+      "qualified": false,
+      "native_source_digest": "1f09359e98a6bd18a4845c051e9d67875561510f903fba5170b1221d210f4942",
+      "production_digest": "9524cf3cc368c4cf7e3fe77cf8cf19eec105defd98580fe877feb59e035af056",
+      "source_snapshot": "cdb94424d4e08e4c373d738f5cabceaa11fa91cfeb86679f0c10e6fe37f01d9d",
+      "baseline_binding": {
+        "rust_digest": "5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b",
+        "production_digest": "85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52",
+        "artifact_sha256": "9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb",
+        "source_snapshot": "a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6",
+        "qualified_report_sha256": "4a0e3f04ba030e3b723bdab2e973ab1c518163b8338c1b4dff7c34238a44f07b",
+        "final_receipt_sha256": "6fbc032210860dba939b574c5bfedd4bf232522db23d88ff659ea3ca0622e080"
+      },
+      "artifact_sha256": "1bd304fc7d0c6e5f010fb1780c3c5979f061d37c7436431a1742a27c3d836657",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44540.21253102645,
+            "trial": 44854.705150245514
+          },
+          "gain_pct": 0.706086929872618
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123379.40762415464,
+            "trial": 123034.57056389016
+          },
+          "gain_pct": -0.27949320466422733
+        }
+      },
+      "proof_directory": "work/real_world-goal/sparse-count-accessor-1426-next-results",
+      "controls_sha256": "961adfbaeb885827ff93523d1581d363eb308c2b606564359e3eee66dbe4596d"
+    },
+    {
+      "selection": "unselected sailing regression",
+      "qualified": false,
+      "native_source_digest": "ec4933266caeb48acae499973d7005420e2966bf8c2e90af53eab54a35f677b7",
+      "production_digest": "08a96641888492e184a808cb44629a12c73fa402267d98a59e015f2079a00b26",
+      "source_snapshot": "c5324ef058d6bd3a52bf537dddbaa7523d35ccd912204652f4c4eebe81a05c08",
+      "baseline_binding": {
+        "rust_digest": "5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b",
+        "production_digest": "85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52",
+        "artifact_sha256": "9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb",
+        "source_snapshot": "a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6",
+        "qualified_report_sha256": "4a0e3f04ba030e3b723bdab2e973ab1c518163b8338c1b4dff7c34238a44f07b",
+        "final_receipt_sha256": "6fbc032210860dba939b574c5bfedd4bf232522db23d88ff659ea3ca0622e080"
+      },
+      "artifact_sha256": "be5096b82891d3a978c176c06a0e8e75b5e3d0fffffab6890040a4a200eb28be",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44310.63421999711,
+            "trial": 43762.18450905586
+          },
+          "gain_pct": -1.2377383456491753
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 122397.66125293516,
+            "trial": 122201.99061316976
+          },
+          "gain_pct": -0.15986468839550572
+        }
+      },
+      "proof_directory": "work/real_world-goal/flatmap-journal-carrier-1426-next-results",
+      "controls_sha256": "016d1f147069f6b420bdcf16531d55d7519553b224c27a191a563de7566c822d"
+    },
+    {
+      "selection": "unselected flat/regression",
+      "qualified": false,
+      "native_source_digest": "0897d7655ccf32534d1288f6ec15090a65a64fcb8805ab28e84457c286797507",
+      "production_digest": "877fd9a45faaed95a03c3f808462896a980e0441dc568dd4705b8163b5d0d710",
+      "source_snapshot": "ab85beebfdeef5605fb68c43eac70b13dce13ce9c6d5446ac59c9b08ca4c8d83",
+      "baseline_binding": {
+        "rust_digest": "5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b",
+        "production_digest": "85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52",
+        "artifact_sha256": "9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb",
+        "source_snapshot": "a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6",
+        "qualified_report_sha256": "4a0e3f04ba030e3b723bdab2e973ab1c518163b8338c1b4dff7c34238a44f07b",
+        "final_receipt_sha256": "6fbc032210860dba939b574c5bfedd4bf232522db23d88ff659ea3ca0622e080"
+      },
+      "artifact_sha256": "6fe2907e5106fac83e2308c1031ea3d67eb8771211276ffcb037af4fc00e70e2",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44317.838183295906,
+            "trial": 44289.26108952158
+          },
+          "gain_pct": -0.06448214747329928
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 123107.67129672041,
+            "trial": 121901.91006541296
+          },
+          "gain_pct": -0.9794363085637969
+        }
+      },
+      "proof_directory": "work/real_world-goal/group-join-carrier-1426-next-results",
+      "controls_sha256": "b080bba5235bd7dd7dccf8d857050b023f1d4fc37b049b9d7540ae98e349fd6d"
+    },
+    {
+      "selection": "unselected sailing regression",
+      "qualified": false,
+      "native_source_digest": "0c06375c59ac2da0a8a6baeacf1fc7621bfe416a6f1a90d8b42132cc7b3cce9c",
+      "production_digest": "ffc9c2298ffc13f2d3404aaf9788e677c5d37a4a21a74383dd045fe7c3610f09",
+      "source_snapshot": "064103fc7bacf1bfe593fca4b262c36703f71d57627797790874df21dbc6ef5b",
+      "baseline_binding": {
+        "rust_digest": "5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b",
+        "production_digest": "85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52",
+        "artifact_sha256": "9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb",
+        "source_snapshot": "a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6",
+        "qualified_report_sha256": "4a0e3f04ba030e3b723bdab2e973ab1c518163b8338c1b4dff7c34238a44f07b",
+        "final_receipt_sha256": "6fbc032210860dba939b574c5bfedd4bf232522db23d88ff659ea3ca0622e080"
+      },
+      "artifact_sha256": "416e026dc2fe56dc67bb7b37e6cdf973b6a1c2c81cdad9bf5b1f3d0c9c5ee7b3",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 44336.06563326178,
+            "trial": 43810.86112445562
+          },
+          "gain_pct": -1.1845988165718913
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 122622.83375101509,
+            "trial": 123429.99259428203
+          },
+          "gain_pct": 0.6582451396498268
+        }
+      },
+      "proof_directory": "work/real_world-goal/consuming-equal-arithmetic-1426-next-results",
+      "controls_sha256": "4a2d492df7db72328b891f157382238f06c8ac438430ae1384e8da22423ad22b"
+    }
+  ],
+  "pilot_policy": "Four rotating three-second seed7 native controls per case on runner-a CPU2,3, against actual qualified9898. No Java qualification credit. The selected source is the exact standalone sparse storage candidate; the accessor combination was rejected. No standalone count-accessor gain or additive component gain is claimed. Default qualification measures actual final bytes.",
+  "profile_evidence": {
+    "directory": "work/real_world-goal/current-1426-profile",
+    "scope": "Local diagnostic of actual qualified9898; independently validated output, zero lost samples; not matched Java timing."
+  },
+  "count_accessor_evidence": "work/real_world-goal/group-count-accessor-1426-next-evidence/receipt.json",
+  "proof_directory": "work/real_world-goal/sparse-score-rows-next-final-results/",
+  "original_inventory": "Original 4412 adapted passes/0pending/443excluded and four external RealWorld tests unchanged; two additional native regressions earn zero upstream-method credit."
+}

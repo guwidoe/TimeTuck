@@ -25,70 +25,74 @@ settings, seeds 7/11/23, ten-second limits and CPU2,3 pairing. Scores/feasibilit
 remain separate; no equal-score gate or compiler/CPU/PGO/panic/batch changes.
 Use local and runner-a; runner-c remains parked. Use only existing authorized agents.
 
-The contribution-write batch is integrated from actual snapshot
-`a527a053e5d5ec6b964cefe177cee152e5a7dc2fa03c72d44f9d6a2a33f7f3a6`. Native `5530f19fe2bd8aa112548724cf7e1046437f01bd374ede325a4e7484f17a6a8b`;
-production `85029bc2e3d57d7d2797f5a212438cb01303741b5f87616fc0d305cd48dc0d52`. Actual `bash scripts/check.sh` passes:
-**8,850 recorded identities /8,856 Cargo executions**,
+The sparse-score batch is integrated from actual snapshot
+`de586fafecf3c83fafcf76695323cb4262b3dea99f6bcf7678ef98fc18352bc2`. Native `64d8d528bc0fff1ba3f8a1e010bb5f6b7e871d507e58afd58d6eb48f6d750988`;
+production `66ae7b74788fafd27f0a47d6f8fe0575c039ace0f1ebd719becd9c12d27c5a99`. Actual `bash scripts/check.sh` passes:
+**8,852 recorded identities /8,858 Cargo executions**,
 **292 doctests** and **54 tooling jobs**.
-Actual timings: preflight 27.10s, prebuild 191.29s, fullgate 278.68s, qualified 126.55s; total 627.68s.
-Actual measured binary `9898c38d76e1fef351e7899c4dba38dc87a0c7a16afb488f35d71e11440ee1eb`.
-Observation: `compat/observations/real_world-contribution-writes.json`.
-Proofs: `work/real_world-goal/terminal-group-staging-next-final-results/`.
+Actual timings: preflight 43.70s, prebuild 327.14s, fullgate 276.94s, qualified 220.33s; total 872.37s.
+Actual measured binary `ac9db02069c5d82cfab83027e657ba6dfc2e790541f1e915ef3dee5c028fb190`.
+Observation: `compat/observations/real_world-sparse-score-storage.json`.
+Proofs: `work/real_world-goal/sparse-score-rows-next-final-results/`.
 All four worker commands actually pass on unchanged source; the original SSH
-returns real logs, all assignment outputs and the checksum-verified binary.
-Only genuine aggregate Rust logs/metadata and qualified application report are
-promoted; no per-job evidence keys are transplanted. No UI code changed.
+returns real logs, assignments and the checksum-verified binary. Only genuine
+aggregate Rust logs/metadata and qualified application report are promoted;
+no per-job evidence keys are transplanted. No UI code changed.
 
-Current same-machine qualifier: Golfer **121,202 Rust /121,894 Java evaluations/s (0.994x)**; Sailing **44,938 /81,499 (0.551x)**.
+Current same-machine qualifier: Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing **45,121 /81,571 (0.553x)**.
 All 12 outputs validate independently with checksum/config/Cartesian coverage.
 Sailing feasibility is 2/3 Rust and 0/3 Java; scores and feasibility remain separate without an equal-score gate.
-Selected rotating native controls measured +0.378% Golfer/+5.839% Sailing against
-qualified eb0 artifact7e; these are short diagnostics, without Java target credit.
+Selected rotating native controls measured +1.575% Golfer/+1.170% Sailing
+against qualified1426 artifact9898; these diagnostics earn no Java target credit.
 
-Only five Rust files changed: private equal contribution writes plus exact
-primitive graph group output construction. Callbacks/checks/arithmetic/Clone,
-zero presence, summary fields, owner fallbacks, staged IDs and poison/FIFO phases
-remain. Seven native controls were added; upstream 4412 passed/0 pending/443
-excluded and the four external tests remain unchanged. Earlier consuming storage
-and fixed equality traversal from eb0 remain, without unbounded copied payloads.
+Only three Rust files changed: private sparse score rows and Position hashing,
+plus two new sparse controls. Full summaries,
+callbacks, overflow/inverse phases, full-range coordinates, zero/absence, every
+preimage and sorted observations remain. Peak HashMap capacity can be retained.
+Upstream 4412 passed/0pending/443excluded and four external tests are unchanged.
+No rejected accessor, arithmetic or carrier-pool source is included.
 
-Do not repeat the other isolated experiments from this round:
+Do not repeat this round's terminal measurements without new relevant inputs:
 
 | Prototype | Golfer /Sailing median gain | Selection |
 | --- | --- | --- |
-| Compact 80-byte member event | -1.451% /+0.512% | Excluded |
-| Unbounded direct equality visitor | -1.208% /+0.523% | Excluded |
-| Owned group scalar inverses and moved preimages | +0.425% /+1.227% | Excluded: small gain versus 732 lines |
-| Unbounded copied pair-ID join payloads | -3.007% /+0.296% | Excluded |
-| Private equal contributions | -0.793% /+4.321% | Included in measured combination |
-| Group output staging | +1.063% /+1.377% | Included in measured combination |
+| consuming-score-sparse-rows-next-results | +1.575% /+1.170% | selected sparse storage |
+| sparse-count-accessor-1426-next-results | -0.279% /+0.706% | unselected mixed combined accessor |
+| flatmap-journal-carrier-1426-next-results | -0.160% /-1.238% | unselected sailing regression |
+| group-join-carrier-1426-next-results | -0.979% /-0.064% | unselected flat/regression |
+| consuming-equal-arithmetic-1426-next-results | +0.658% /-1.185% | unselected sailing regression |
 
-All seven pilot comparisons have 16 independently valid outputs and exact
-source/artifact/baseline bindings in the observation. Individual controls passed
-5 equal-write, 5 member-event, 4 group-inverse, 5 pair-payload and 2 group-output
-tests. No standalone unbounded-visitor test execution is claimed; it was excluded.
-The initial member-event filter typo executed zero tests after compilation;
-the corrected five tests ran on the genuine unchanged compiled artifact (0.147s).
-Neither result was relabeled. No broad gate was run for excluded prototypes.
+All five comparisons have 16 independently valid outputs and exact source,
+artifact and qualified9898 baseline bindings. Sparse controls passed in the standalone focused run and final standard gate.
+The final gate uses the same frozen sparse Rust bytes as the pilot. All 72 group
+tests passed for the excluded accessor combination.
+No standalone count-accessor speed claim is made. FlatMap carrier tests passed2,
+Group/Join carrier tests5 and existing equal arithmetic tests5; no broad gate
+was spent on excluded candidates.
 
-Next: profile the actual current qualified binary if needed, without rebuilding.
-The 7e baseline profile and its disassembly are historical after this source
-change. FirstAccepted live commit already exists; do not reimplement it.
-A distinct next storage lead: 278 of Sailing's 279 member-pair terminal rows
-occupy separate fallback pages with one live row out of 16 slots; 189 balance
-keys also use fallback. A private direct sparse HashMap<Position,(I,S)> could keep
-the existing dense pages, each-write undo and sorted enumeration while removing
-that wasted page space. Use the standard hasher and preserve full-range IDs;
-prior membership/page hash trials were flat and are not evidence of a gain here.
-No implementation or gain is claimed. Group/Join/primitive FlatMap journal
-carriers are another bounded lead: they still allocate up to three pairs per
-Golfer trial and seven per Sailing trial. Round267 pooled Source/FixedLinks/
-Terminal; MembershipFilter is already pooled. Reuse only empty token wrappers,
-outside cloned snapshots, after every captured owner has moved/dropped.
-Prepare v10 diagnostic helpers from v9 with THIS actual source/artifact and final
-receipt; v9 is explicitly bound to eb0/cfee/9bc/7e and cannot become a new baseline
-by relabeling. Current ignored state/handles are in
-`work/real_world-goal/active-performance-state.json`.
+Read-only evidence on actual9898 found residual extrema tree walks before both
+count-only checks in `try_edit` and `group_entry`; no whole-summary copy remains.
+The small count accessor was tested in a mixed combined pilot and excluded.
+Evidence: `work/real_world-goal/group-count-accessor-1426-next-evidence/`.
+Actual9898 Sailing profile is in `work/real_world-goal/current-1426-profile/`,
+with valid output/zero lost samples. It is historical after this source change;
+it is neither a new-source profile nor a matched Java timing. FirstAccepted live
+commit already exists. Count-accessor combination, carrier pooling and equal arithmetic were rejected, and
+prior event/owned collector/layout experiments remain recorded in previous
+observations. Do not repeat them without a distinct measured lead.
+
+The same original profile's allocator audit is saved in
+`work/real_world-goal/allocator-callers-9898-audit/`. Second join output vectors
+account for 2.47% of samples and overlap the rejected join-propagation prototype.
+Join-index owner checks account for 1.36%, collector inverse owner checks 0.91%;
+these are not proved clone allocations. No untried large allocation win was found.
+The propagation/membership audit also overlaps rejected score-delta and queue/event
+variants; no further source or measurements were made.
+
+v10 diagnostic helpers bind5530/8502/9898. They cannot be reused as a new baseline
+by relabeling. Current ignored state is in
+`work/real_world-goal/active-performance-state.json`. All jobs for this batch are
+terminal and collected; no agent implementation or build remains live.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

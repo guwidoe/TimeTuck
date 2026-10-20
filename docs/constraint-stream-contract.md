@@ -458,6 +458,13 @@ old-then-new order. Remaining local rows are exact builtin values; custom keys o
 identities use original array erasure. No callback, event, summary field or scoring
 work is suppressed, and the Outputs/Event layouts remain unchanged.
 
+The exact private consuming score backend retains hot dense pages and stores
+other full numeric positions directly in a standard HashMap. Observations, copies,
+clear and installation enumerate globally sorted positions; every write still
+records its preimage. Full-range IDs, present zero, current/full/nested restore and
+the exact builtin constructor gates remain. Sparse map capacity may remain after
+peak use. Ordinary public row owners and version history are unchanged.
+
 ## Basic-variable move binding
 
 `StreamScoreDirector` binds one initially empty source of `(variable_index,
