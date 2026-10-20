@@ -17,6 +17,27 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
+## K-opt native test adaptations — 2026-10-20
+
+The final two source methods now have native adaptations in
+`crates/solver/tests/sequential_kopt_cases.rs`, with the original TEST-derived
+fixture in `tests/fixtures/nonsequential_kopt_fixture.rs`. Preserve original
+owner roles, min2/max6/distribution/draw2, selected-value/direction/repair order,
+k6, every removed endpoint and every active partner connection. Execute,
+validate and undo each actual proposal. The raw17-entry original expectation is
+retained, but Java sentinel/four out-of-domain storage slots translate to native
+active12-port matching; no raw getter-array ABI claim. A separate native control
+proves sensitivity to active matching, invariance to spare storage and invalid
+active-index rejection. No production Rust changed.
+
+Inventory: **4412/4855 passed, 0 pending, 443 excluded, zero failed/unverified**.
+Strict index **95.809%**, behavior **79.047%**. All18 measurement keys and raw
+reports are unchanged; reuse the existing runtime/performance qualification.
+The final standard gate uses selective job reuse. Current native requirements
+also require both new named source adaptations to pass in the full gate.
+Dashboard UI bytes are unchanged, so reuse its actual desktop/mobile proof and
+check the regenerated report/live freshness only.
+
 ## Scope classification correction — 2026-10-20
 
 Eight JVM/reflection/class-loader/Maven methods left pending by the old module-only
@@ -30,7 +51,7 @@ unchanged, so the successful Rust gate and measurements are reused. The current
 dashboard browser receipt is `compat/observations/scope-classification-dashboard.json`;
 305 qualification and its receipts below remain historical.
 
-## Current state — 305 native acceptance verified
+## Historical state — 305 native acceptance verified
 
 The original native acceptance targets are demonstrated: **7/7 capability
 requirements, 109/109 timed workloads at measured Java time/quality parity,

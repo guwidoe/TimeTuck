@@ -1,5 +1,24 @@
 # Compatibility testing
 
+## Native nonsequential k-opt test adaptations
+
+The two `KOptListMoveIteratorTest.testNonsequentialKOptOnSameEntity` and
+`testNonsequentialKOptOnDifferentEntity` methods now have passing native
+adaptations in `sequential_kopt_cases.rs`. The attributed TEST helper retains
+same-owner/e1-e2-e1-e2-e1 fixtures, origin/value order, forward directions, draw2
+from equal weights over min2/max6, original repair draw position and the entire
+raw17-entry partner expectation. Actual native selection must match k6, all12
+removed endpoints in order and all12 active partners, then execute/validate/undo.
+
+The native representation omits Java's null/index0 sentinel and four partner
+entries outside the actual12-port descriptor domain. This translation is
+explicit in the provenance ledger: these are native adapted-test passes, not
+byte-for-byte Java getter-buffer agreement. An active reference to spare storage
+fails validation. Native controls retain spare-invariance, active-mutation
+sensitivity and malformed/short-array rejection. Expected descriptor data never
+configures the runtime selector. Earlier pending/full-buffer experiments below
+remain historical; no production Rust or measurement inputs change.
+
 ## Target
 
 Initial reference: Timefold Solver Community 2.7.0, exact commit recorded in

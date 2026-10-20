@@ -19,9 +19,10 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,600 Rust tests and 292 doctests**.
-Source `9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249` passes the final
-standard gate in 461.148s after 99.033s build-only precompile. All18 comparison
+The current native verification contains **8,603 Rust tests and 292 doctests**.
+The latest test-only k-opt batch reuses unchanged successful gate jobs and runs
+the affected checks through `bash scripts/check.sh`. The prior 305 runtime
+qualification below remains historical. All 18 comparison
 reports are current, and all 109 original timed workloads meet the configured
 Java time/quality target. The live report remains the authority for later counts
 and freshness; historical gate outcomes remain in their original evidence.
@@ -32,20 +33,29 @@ cold construction reaches the independently enumerated small optimum and beats
 the larger feasible certificate while preserving pins. These results establish
 bounded application behavior, rather than universal optimality or performance.
 
-The inventory has **4,410/4,855 passing adapted methods (90.834%), 2 pending,
-443 excluded and zero failed/unverified**. The percentage counts statically
-discovered annotated source methods, not all JUnit runtime invocations or overall
-project completion. Exclusions remain visible in the full denominator.
+The inventory has **4,412/4,855 passing adapted methods (90.875%), 0 pending,
+443 excluded and zero failed/unverified**. All **4,412 in-scope source methods**
+have passing native adaptations. These are statically discovered annotated
+methods, not all JUnit runtime invocations or overall project completion.
+Exclusions remain visible in the full denominator.
 
-Eight JVM/reflection/loading/Maven methods previously left pending are now exact
-method-level exclusions in `compat/exclusions.json`, consistent with the initial
-native scope. The two private k-opt endpoint/partner-array assertions remain
-pending: their original exact representation assertions have not been adapted,
-while physical native execution and rollback have separate proof. No original
-method receives pass credit from this classification correction. The strict index
-is now **95.801%** because its feature component excludes out-of-scope methods;
-behavior remains **79.047%**, with every raw Java difference/error retained.
-The previous 305 qualification below preserves its historical counts.
+Eight JVM/reflection/loading/Maven methods use exact method-level exclusions,
+consistent with the initial native scope. The final two k-opt methods now have
+native descriptor adaptations: original owner roles, draw inputs and order,
+chosen k, all twelve removed endpoints and all twelve active partner connections
+are checked against actual selector output. Both computed moves execute and undo.
+The complete original 17-entry Java expectation remains in the attributed
+fixture. Its sentinel and four entries outside the twelve-port active domain
+have no native storage counterpart. This is an explicit representation translation,
+not exact raw Java getter/buffer compatibility; active connections cannot point
+to spare storage. An independent control checks active-mutation sensitivity,
+spare-entry invariance and rejection of malformed active matching.
+
+The strict index is **95.809%**; behavior remains **79.047%**, with every raw Java
+difference/error retained. All 18 benchmark/comparison inputs are unchanged;
+no measurement is rerun or relabeled. The prior classification and qualification
+records retain their historical counts. See the exact test mappings and
+representation limits in `compat/provenance.json`.
 
 One complete Community version-identity method preserves its literal edition
 assertion using existing native Cargo package diagnostics. This adds no runtime
@@ -80,7 +90,7 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Current qualification — 305
+## Historical runtime qualification — 305
 
 The original native acceptance targets are demonstrated: **7/7 capability
 requirements, 109/109 timed workloads at measured Java time/quality parity,

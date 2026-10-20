@@ -56,9 +56,9 @@ The browser receipt binds actual app/HTML/CSS/font bytes and desktop/mobile chec
 the separate live `native_completion_digest` changes when those inputs or policy
 records change, without rekeying Rust execution or measurements.
 
-Current 305 qualification demonstrates 7/7 native requirements, 109/109 measured
-time/quality targets and 18/18 current jobs. Strict source inventory remains
-4410/4855 with 2 pending and 443 excluded; strict index 95.801%. Native readiness
+Runtime qualification plus the final k-opt adaptations demonstrate 7/7 native
+requirements, 109/109 measured time/quality targets and 18/18 current jobs. Source inventory is
+4412/4855 with 0 pending and 443 excluded; strict index 95.809%. Native readiness
 is bounded by the original contracts and measured inputs. It is not universal
 Timefold/JVM equivalence, arbitrary-scale performance or an estimate of remaining
 engineering effort. See [completion evidence](completion.md).
@@ -126,8 +126,9 @@ Statuses:
 - Excluded: explicitly out of scope with a recorded reason in `compat/exclusions.json`.
   Rules can match a module `path_prefix` or one exact pinned `method_id`; method
   exclusions do not hide other tests in the same class. Eight JVM-only methods
-  formerly pending now use exact exclusions. The two private k-opt array
-  assertions remain pending. Neither status earns pass credit.
+  formerly pending now use exact exclusions. The final two k-opt methods have
+  passing native active-descriptor adaptations, with Java sentinel/spare-storage
+  translation documented in the provenance ledger. Exclusions earn no pass credit.
 
 The full JSON contains individual source links, mapping identities, result logs,
 exclusion reasons, timestamps, source hashes, and performance samples. Selecting

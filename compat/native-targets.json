@@ -68,7 +68,7 @@
         },
         {
           "path": "compat/provenance.json",
-          "sha256": "d31ae107a298098bbbb92eacf50c4136c3d9b8cc67836416bcfb1699ec5c9f2c"
+          "sha256": "5f46cbac73f48a3677328d28c92966ea1ce4531490812ca42276ba9ffb8534d3"
         },
         {
           "path": "THIRD_PARTY_NOTICES.md",
@@ -221,6 +221,14 @@
         {
           "path": "crates/solver/tests/value_capture_regression.rs",
           "name": "equal_identities_preserve_first_write_payload_through_later_overrides"
+        },
+        {
+          "path": "crates/solver/tests/sequential_kopt_cases.rs",
+          "name": "test_nonsequential_k_opt_on_same_entity"
+        },
+        {
+          "path": "crates/solver/tests/sequential_kopt_cases.rs",
+          "name": "test_nonsequential_k_opt_on_different_entity"
         }
       ],
       "files": [],
@@ -773,14 +781,14 @@
       "disposition": "native-kopt-behavior",
       "contract": "docs/list-planning-contract.md",
       "requirement": "models-moves-rollback",
-      "limits": "Physical native topology, pins, execution, search and undo verified; exact private Java arrays remain unadapted."
+      "limits": "Native test adaptation compares chosen k, exact removed endpoints and all active added-edge partners, plus actual physical execution/undo. Java sentinel and four spare partner-storage entries are explicitly translated away; raw Java descriptor-buffer ABI is outside scope. Both named native source adaptations must pass in the current full gate."
     },
     {
       "method_id": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java#testNonsequentialKOptOnDifferentEntity:371",
       "disposition": "native-kopt-behavior",
       "contract": "docs/list-planning-contract.md",
       "requirement": "models-moves-rollback",
-      "limits": "Physical native topology, pins, execution, search and undo verified; exact private Java arrays remain unadapted."
+      "limits": "Native test adaptation compares chosen k, exact removed endpoints and all active added-edge partners, plus actual physical execution/undo. Java sentinel and four spare partner-storage entries are explicitly translated away; raw Java descriptor-buffer ABI is outside scope. Both named native source adaptations must pass in the current full gate."
     }
   ],
   "performance_targets": {
