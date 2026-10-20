@@ -17,6 +17,7 @@ pub(in crate::incremental_stream) struct Paged<I, V> {
     index: fn(&I, usize, usize) -> Option<usize>,
     frames: Vec<Undo<V>>,
     spare: Vec<Undo<V>>,
+    pool: Pool<V>,
 }
 impl<I, V> Clone for Paged<I, V> {
     fn clone(&self) -> Self {
@@ -27,6 +28,7 @@ impl<I, V> Clone for Paged<I, V> {
             index: self.index,
             frames: Vec::new(),
             spare: Vec::new(),
+            pool: self.pool.empty_clone(),
         }
     }
 }
@@ -54,8 +56,16 @@ impl<I, V> Paged<I, V> {
         let present = old.is_some();
         if let Some(frame) = self.frames.last_mut() {
             frame.push((index, old));
+        } else if !std::mem::needs_drop::<V>()
+            && let Some(old) = old
+        {
+            self.pool.retire(old);
         }
         present
+    }
+    pub(super) fn insert(&mut self, index: usize, value: V) {
+        let owner = self.pool.take(value);
+        self.replace(index, Some(owner));
     }
     pub(super) fn clear(&mut self) {
         for page in 0..self.pages.len() {
@@ -83,14 +93,27 @@ impl<I, V> Paged<I, V> {
                 parent.append(&mut undo);
             }
         }
-        undo.clear();
+        if std::mem::needs_drop::<V>() {
+            // Preserve the original vector destruction path for user Drop.
+            undo.clear();
+        } else {
+            for (_, value) in undo.drain(..) {
+                if let Some(value) = value {
+                    self.pool.retire(value);
+                }
+            }
+        }
         self.spare.push(undo);
     }
     pub(super) fn rollback(&mut self, token: usize) {
         assert_eq!(self.frames.len(), token + 1, "group pair journal order");
         let mut undo = self.frames.pop().unwrap();
         for (index, value) in undo.drain(..).rev() {
-            self.set(index, value);
+            if std::mem::needs_drop::<V>() {
+                self.set(index, value);
+            } else if let Some(retired) = self.set(index, value) {
+                self.pool.retire(retired);
+            }
         }
         self.spare.push(undo);
     }
@@ -186,6 +209,7 @@ impl<I: 'static, V> Paged<I, V> {
             index: index::<I>,
             frames: Vec::new(),
             spare: Vec::new(),
+            pool: Pool::new(),
         };
         for (id, value) in entries {
             paged.set(index::<I>(id.as_ref(), left, right).unwrap(), Some(value));
@@ -331,3 +355,6 @@ mod capture_tests {
         assert_eq!(rows.get(&(0, 0)).unwrap().0, 1);
     }
 }
+
+#[cfg(test)]
+mod pool_tests;

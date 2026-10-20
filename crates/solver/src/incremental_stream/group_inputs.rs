@@ -8,7 +8,9 @@
 //! exposes values only. Group K representatives remain in their shared payloads
 //! and in the unchanged groups map; the complete-key join helper stays separate.
 mod paged;
-use crate::primitive_rows::{PrimitiveRows, RowsCapture};
+#[cfg(test)]
+mod pool_tests;
+use crate::primitive_rows::{PrimitiveRows, RowsCapture, pool::Pool};
 use paged::Paged;
 use std::{
     any::{Any, TypeId},
@@ -33,6 +35,7 @@ pub(super) struct Dense<I, V> {
     index: fn(&I) -> usize,
     frames: Vec<Undo<V>>,
     spare: Vec<Undo<V>>,
+    pool: Pool<V>,
 }
 impl<I, V> Clone for Dense<I, V> {
     fn clone(&self) -> Self {
@@ -41,6 +44,7 @@ impl<I, V> Clone for Dense<I, V> {
             index: self.index,
             frames: Vec::new(),
             spare: Vec::new(),
+            pool: self.pool.empty_clone(),
         }
     }
 }
@@ -59,8 +63,16 @@ impl<I, V> Dense<I, V> {
         let present = old.is_some();
         if let Some(frame) = self.frames.last_mut() {
             frame.push((index, old));
+        } else if !std::mem::needs_drop::<V>()
+            && let Some(old) = old
+        {
+            self.pool.retire(old);
         }
         present
+    }
+    fn insert(&mut self, index: usize, value: V) {
+        let owner = self.pool.take(value);
+        self.replace(index, Some(owner));
     }
     fn begin(&mut self) -> usize {
         let token = self.frames.len();
@@ -77,14 +89,30 @@ impl<I, V> Dense<I, V> {
                 parent.append(&mut undo);
             }
         }
-        undo.clear();
+        if std::mem::needs_drop::<V>() {
+            // Preserve the original vector destruction path for user Drop.
+            undo.clear();
+        } else {
+            for (_, value) in undo.drain(..) {
+                if let Some(value) = value {
+                    self.pool.retire(value);
+                }
+            }
+        }
         self.spare.push(undo);
     }
     fn rollback(&mut self, token: usize) {
         assert_eq!(self.frames.len(), token + 1, "group input journal order");
         let mut undo = self.frames.pop().unwrap();
         for (index, value) in undo.drain(..).rev() {
-            self.values[index] = value;
+            if std::mem::needs_drop::<V>() {
+                self.values[index] = value;
+            } else {
+                let retired = std::mem::replace(&mut self.values[index], value);
+                if let Some(retired) = retired {
+                    self.pool.retire(retired);
+                }
+            }
         }
         self.spare.push(undo);
     }
@@ -221,7 +249,7 @@ impl<I, V> PreparedChange<'_, I, V> {
             Self::Paged { rows, index } => {
                 let index = index.expect("bound group pair outside universe");
                 drop(id);
-                rows.replace(index, Some(Arc::new(value)));
+                rows.insert(index, value);
             }
             Self::Dense { rows, index } => {
                 assert!(
@@ -229,7 +257,7 @@ impl<I, V> PreparedChange<'_, I, V> {
                     "bound group input outside universe"
                 );
                 drop(id);
-                rows.replace(index, Some(Arc::new(value)));
+                rows.insert(index, value);
             }
         }
     }
@@ -285,7 +313,7 @@ impl<I: Ord, V> GroupInputs<I, V> {
             Self::Paged(rows) => {
                 let index = rows.index(&id).expect("bound group pair outside universe");
                 drop(id);
-                rows.replace(index, Some(Arc::new(value)));
+                rows.insert(index, value);
             }
             Self::Dense(rows) => {
                 let index = (rows.index)(&id);
@@ -294,7 +322,7 @@ impl<I: Ord, V> GroupInputs<I, V> {
                     "bound group input outside universe"
                 );
                 drop(id);
-                rows.replace(index, Some(Arc::new(value)));
+                rows.insert(index, value);
             }
         }
     }
@@ -364,6 +392,7 @@ impl<I: 'static, V> GroupInputs<I, V> {
             index: index::<I>,
             frames: Vec::new(),
             spare: Vec::new(),
+            pool: Pool::new(),
         }));
         true
     }

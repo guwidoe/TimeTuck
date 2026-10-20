@@ -404,3 +404,53 @@ fn membership_filter_builder_keeps_custom_drop_payload_lifetimes_on_the_legacy_r
     }
     assert_eq!(run(false), run(true));
 }
+
+#[test]
+fn membership_filter_recycles_only_empty_journal_carriers_across_nested_restore() {
+    type Filter = MembershipFilter<'static, usize, usize>;
+    let mut filter = Filter::new(Membership::new().unwrap(), |value| value.is_multiple_of(2));
+    let put = |id, value| Event::new(TupleChange::put(id, value));
+    filter.apply_row(&put(0usize, 2usize));
+    let full = <Filter as Node<SimpleScore>>::checkpoint(&filter);
+    let outer = <Filter as Node<SimpleScore>>::begin_checkpoint(&mut filter);
+    let outer_owner = outer.as_ref() as *const dyn Any as *const ();
+    filter.apply_row(&put(0, 3));
+    let inner = <Filter as Node<SimpleScore>>::begin_checkpoint(&mut filter);
+    filter.apply_row(&put(1, 4));
+    <Filter as Node<SimpleScore>>::commit_checkpoint(&mut filter, inner);
+    let current = <Filter as Node<SimpleScore>>::capture_checkpoint(&filter, outer.as_ref());
+    <Filter as Node<SimpleScore>>::restore(&mut filter, outer);
+    // Original ID is accepted again; the trial-only ID is absent.
+    assert!(
+        filter
+            .apply_row(&Event::new(TupleChange::<usize, usize>::retract(0)))
+            .is_some()
+    );
+    assert!(
+        filter
+            .apply_row(&Event::new(TupleChange::<usize, usize>::retract(1)))
+            .is_none()
+    );
+    <Filter as Node<SimpleScore>>::restore(&mut filter, full);
+    <Filter as Node<SimpleScore>>::restore(&mut filter, current);
+    assert!(
+        filter
+            .apply_row(&Event::new(TupleChange::<usize, usize>::retract(0)))
+            .is_none()
+    );
+    assert!(
+        filter
+            .apply_row(&Event::new(TupleChange::<usize, usize>::retract(1)))
+            .is_some()
+    );
+    for commit in [true, false, true, false] {
+        let saved = <Filter as Node<SimpleScore>>::begin_checkpoint(&mut filter);
+        assert_eq!(saved.as_ref() as *const dyn Any as *const (), outer_owner);
+        filter.apply_row(&put(2, 8));
+        if commit {
+            <Filter as Node<SimpleScore>>::commit_checkpoint(&mut filter, saved);
+        } else {
+            <Filter as Node<SimpleScore>>::restore(&mut filter, saved);
+        }
+    }
+}

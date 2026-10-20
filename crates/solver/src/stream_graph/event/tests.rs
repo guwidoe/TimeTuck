@@ -403,3 +403,55 @@ fn arena_wide_inline_and_shared_scalar_routes_have_identical_observables() {
         assert_eq!(arena, shared);
     }
 }
+
+#[test]
+fn borrowed_downcast_matches_only_exact_shape_for_inline_and_shared_events() {
+    type PairChange = TupleChange<(usize, usize), (Triple, Triple)>;
+    type TripleChange = TupleChange<usize, Triple>;
+    type PlanningChange = TupleChange<usize, Planning>;
+    struct Custom(usize);
+    type CustomChange = TupleChange<usize, Custom>;
+    fn queries(event: &Event) -> [bool; 4] {
+        [
+            event.downcast_ref::<PairChange>().is_some(),
+            event.downcast_ref::<TripleChange>().is_some(),
+            event.downcast_ref::<PlanningChange>().is_some(),
+            event.downcast_ref::<CustomChange>().is_some(),
+        ]
+    }
+    for retract in [false, true] {
+        let events = [
+            Event::new(PairChange {
+                id: (usize::MAX, 0),
+                value: (!retract).then_some(((1, 2, 3), (4, 5, 6))),
+            }),
+            Event::new(TripleChange {
+                id: usize::MAX,
+                value: (!retract).then_some((1, 2, 3)),
+            }),
+            Event::new(PlanningChange {
+                id: usize::MAX,
+                value: (!retract).then_some((1, Some(2))),
+            }),
+            Event::new(CustomChange {
+                id: usize::MAX,
+                value: (!retract).then_some(Custom(7)),
+            }),
+        ];
+        for (shape, event) in events.into_iter().enumerate() {
+            let expected: [bool; 4] = std::array::from_fn(|index| index == shape);
+            assert_eq!(queries(&event), expected);
+            assert!(event.downcast_ref::<usize>().is_none());
+            let promoted = event.promote();
+            assert_eq!(queries(&promoted), expected);
+            assert!(promoted.downcast_ref::<usize>().is_none());
+            if shape == 3 {
+                let row = promoted.downcast_ref::<CustomChange>().unwrap();
+                assert_eq!(
+                    row.value.as_ref().map(|value| value.0),
+                    (!retract).then_some(7)
+                );
+            }
+        }
+    }
+}

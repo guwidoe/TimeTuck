@@ -5,18 +5,18 @@ use std::{alloc::Layout, mem, sync::Arc};
 
 const MAX_ITEMS: usize = 64;
 const MAX_BYTES: usize = 32 * 1024;
-struct Pool<T> {
+pub(crate) struct Pool<T> {
     slots: Vec<Arc<T>>,
     reset: Option<fn(&mut T)>,
 }
 impl<T> Pool<T> {
-    fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self {
             slots: Vec::new(),
             reset: None,
         }
     }
-    fn empty_clone(&self) -> Self {
+    pub(crate) fn empty_clone(&self) -> Self {
         Self {
             slots: Vec::new(),
             reset: self.reset,
@@ -37,7 +37,7 @@ impl<T> Pool<T> {
         };
         MAX_ITEMS.min(MAX_BYTES / bytes.max(1))
     }
-    fn take(&mut self, value: T) -> Arc<T> {
+    pub(crate) fn take(&mut self, value: T) -> Arc<T> {
         match self.slots.pop() {
             Some(mut owner) => {
                 *Arc::get_mut(&mut owner).expect("private retired Arc owner") = value;
@@ -46,7 +46,7 @@ impl<T> Pool<T> {
             None => Arc::new(value),
         }
     }
-    fn retire(&mut self, mut owner: Arc<T>) {
+    pub(crate) fn retire(&mut self, mut owner: Arc<T>) {
         if (mem::needs_drop::<T>() && self.reset.is_none())
             || self.slots.len() >= Self::limit()
             || Arc::strong_count(&owner) != 1

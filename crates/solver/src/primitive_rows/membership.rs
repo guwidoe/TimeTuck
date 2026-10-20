@@ -70,16 +70,15 @@ impl Entry<'_> {
                         row.resize(q + 1, 0);
                     }
                     row[q] = bits;
-                } else if let Some(row) = rows.get_mut(p) {
-                    if let Some(cell) = row.get_mut(q) {
-                        *cell = 0;
-                    }
-                    while row.last() == Some(&0) {
-                        row.pop();
-                    }
-                    while rows.last().is_some_and(Vec::is_empty) {
-                        rows.pop();
-                    }
+                } else if let Some(row) = rows.get_mut(p)
+                    && let Some(cell) = row.get_mut(q)
+                {
+                    *cell = 0;
+                    // Keep bounded direct storage for later puts/rollback. A
+                    // trailing empty prefix used to drop its inner allocation,
+                    // forcing the next trial to allocate it again. Logical
+                    // iteration already skips zero cells; explicit clear drops
+                    // the inner rows. Numeric hot limits still bound growth.
                 }
             }
         }
@@ -204,6 +203,9 @@ impl<I> Membership<I> {
             for key in keys {
                 self.set_page(key, 0, true);
             }
+            // An explicit reset releases retained direct rows too. Journals
+            // already hold their previous bits for a later logical rollback.
+            self.rows.clear();
         }
     }
     pub(crate) fn begin(&mut self) -> usize {

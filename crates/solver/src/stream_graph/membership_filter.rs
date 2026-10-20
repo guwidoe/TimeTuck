@@ -34,12 +34,12 @@ impl<I> Bounds<I> {
     }
 }
 enum Saved<I> {
-    Frame(usize),
     Full(Membership<I>),
     Delta(Capture),
 }
 pub(super) struct MembershipFilter<'a, I, T> {
     bits: Membership<I>,
+    checkpoint_box: CheckpointBox<usize>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
     bounds: Bounds<I>,
     rejected_universe_incomplete: bool,
@@ -49,6 +49,7 @@ impl<'a, I, T> MembershipFilter<'a, I, T> {
     pub(super) fn new(bits: Membership<I>, predicate: impl Fn(&T) -> bool + 'a) -> Self {
         Self {
             bits,
+            checkpoint_box: CheckpointBox::new(),
             predicate: Box::new(predicate),
             bounds: Bounds::Open,
             rejected_universe_incomplete: false,
@@ -160,14 +161,22 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
             !self.poisoned,
             "incremental stream node is poisoned; rebuild the pipeline"
         );
-        Box::new(Saved::<I>::Frame(self.bits.begin()))
+        let token = self.bits.begin();
+        self.checkpoint_box.begin(token)
     }
     fn commit_checkpoint(&mut self, saved: Box<dyn Any>) {
-        if let Saved::Frame(token) = *saved
-            .downcast::<Saved<I>>()
-            .expect("membership filter checkpoint")
-        {
-            self.bits.commit(token);
+        match CheckpointBox::<usize>::unpack(saved) {
+            Ok((token, empty)) => {
+                self.bits.commit(token);
+                self.checkpoint_box.recycle(empty);
+            }
+            Err(saved) => {
+                drop(
+                    saved
+                        .downcast::<Saved<I>>()
+                        .expect("membership filter checkpoint"),
+                );
+            }
         }
     }
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
@@ -175,20 +184,25 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore> Node<S>
             !self.poisoned,
             "incremental stream node is poisoned; rebuild the pipeline"
         );
-        if let Some(Saved::Frame(token)) = original.downcast_ref::<Saved<I>>() {
+        if let Some(token) = CheckpointBox::<usize>::get(original) {
             Box::new(Saved::<I>::Delta(self.bits.capture(*token)))
         } else {
             <Self as Node<S>>::checkpoint(self)
         }
     }
     fn restore(&mut self, saved: Box<dyn Any>) {
-        match *saved
-            .downcast::<Saved<I>>()
-            .expect("membership filter checkpoint")
-        {
-            Saved::Frame(token) => self.bits.rollback(token),
-            Saved::Full(snapshot) => self.bits.install(snapshot),
-            Saved::Delta(capture) => self.bits.install_capture(capture),
+        match CheckpointBox::<usize>::unpack(saved) {
+            Ok((token, empty)) => {
+                self.bits.rollback(token);
+                self.checkpoint_box.recycle(empty);
+            }
+            Err(saved) => match *saved
+                .downcast::<Saved<I>>()
+                .expect("membership filter checkpoint")
+            {
+                Saved::Full(snapshot) => self.bits.install(snapshot),
+                Saved::Delta(capture) => self.bits.install_capture(capture),
+            },
         }
         self.poisoned = false;
     }

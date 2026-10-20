@@ -60,15 +60,13 @@ impl Event {
     }
     #[inline]
     pub(super) fn downcast_ref<T: Any>(&self) -> Option<&T> {
-        self.as_any().downcast_ref()
-    }
-    #[inline]
-    fn as_any(&self) -> &dyn Any {
+        // Keep each concrete inline vtable at its own downcast. Merging them
+        // first prevents the known type test from folding to the enum tag.
         match self {
-            Self::Pair(row) => row,
-            Self::Triple(row) => row,
-            Self::Planning(row) => row,
-            Self::Shared(row) => row.as_ref(),
+            Self::Pair(row) => (row as &dyn Any).downcast_ref::<T>(),
+            Self::Triple(row) => (row as &dyn Any).downcast_ref::<T>(),
+            Self::Planning(row) => (row as &dyn Any).downcast_ref::<T>(),
+            Self::Shared(row) => row.as_ref().downcast_ref::<T>(),
         }
     }
     #[cfg(test)]

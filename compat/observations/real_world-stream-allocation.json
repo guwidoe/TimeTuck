@@ -1,0 +1,398 @@
+{
+  "kind": "real_world-stream-allocation-observation",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T18:16:38.365544+00:00",
+  "input_sha256": "1fe851e15a1d55ba7a934942ab7d2b9a6818e648a05ca5293ed2d8a331c27ccc",
+  "native_source_digest": "f1e13742d909919e0e19178b57f53d13d70710cd4603a29f43f7b9a824dbe5a8",
+  "source_snapshot": "90a38ed558e5886127eac64d4e8cebe3632352c3724669b3879c859c569f938b",
+  "host": "runner-a",
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "inputs": {
+    "social-golfer-32x8x10-v1": {
+      "problem_sha256": "79eca4c3b64232fcde48b3a19ff33316b29be6aa4f7482d91fa602b0572ff453",
+      "model_sha256": "ae603205fd6767cf475b2e8549556f7c4e7967143610cef499f47e7f93d314f2",
+      "manifest_sha256": "c4e99d2673a1830ffaada53c7d9562f0ee69f2b1ae2a8276c9de2441d33885ab",
+      "initial_schedule_sha256": "9b44419c30eb1309b429b7452c6e940ea4991684c9e723ae792a37c2c6254219",
+      "initial_validation": {
+        "score": [
+          0,
+          -3883200
+        ],
+        "feasible": true,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 0,
+          "unique_contacts": 48,
+          "repeat_penalty_units": 3888,
+          "soft_pair_penalty": 0,
+          "balance_penalty": 0
+        }
+      }
+    },
+    "sailing-trip-v1": {
+      "problem_sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff",
+      "model_sha256": "84bacef1169320dbbce62613ca88170684f6800d71be3786650845aa1ac0e557",
+      "manifest_sha256": "35f3774be3f586221b6515b09c2ffc2f8c0f307da3ea4e6042043d0ace21143a",
+      "initial_schedule_sha256": "2c3cde920227f9149e051b250c622d818fe3797e60e02e701ac2cc78c6d02efd",
+      "initial_validation": {
+        "score": [
+          -49,
+          -2593500
+        ],
+        "feasible": false,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 49,
+          "unique_contacts": 545,
+          "repeat_penalty_units": 8600,
+          "soft_pair_penalty": 88000,
+          "balance_penalty": 1700000
+        }
+      }
+    }
+  },
+  "rust_artifact_sha256": "0727343b6c5f49002d27b681ed4834a569cb1b949313552ee674b18f1e9a59c2",
+  "qualification": {
+    "valid": true,
+    "qualified": true,
+    "source_unchanged": true,
+    "artifacts_source_bound": true,
+    "runs": 12,
+    "valid_runs": 12,
+    "parity_targets_met": 0,
+    "required_parity_targets": 2,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 126719.7857770956,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                12800
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.047326013
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 92418.60971290195,
+            "scores": [
+              [
+                0,
+                8400
+              ],
+              [
+                0,
+                9500
+              ],
+              [
+                0,
+                9500
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000195944
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.7293147565406196,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ.",
+        "prior_separate_qualified_rust_evaluations_per_second": 88703.65824157787,
+        "change_from_prior_separate_qualification_pct": 4.188047646475512
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 81787.28014788665,
+            "scores": [
+              [
+                -12,
+                79700
+              ],
+              [
+                -5,
+                67600
+              ],
+              [
+                -9,
+                80300
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.069164495
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 33055.55737373913,
+            "scores": [
+              [
+                0,
+                87300
+              ],
+              [
+                0,
+                77600
+              ],
+              [
+                -1,
+                189600
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.001434744
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.40416501580647407,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ.",
+        "prior_separate_qualified_rust_evaluations_per_second": 31998.268949121997,
+        "change_from_prior_separate_qualification_pct": 3.304205069024979
+      }
+    ]
+  },
+  "native_controls": {
+    "qualified": false,
+    "source_equals_final_production": true,
+    "protocol": "Four rotating three-second seed7 native baseline/trial pairs on runner-a; all16 independently valid, separate from original three-seed ten-second Java qualification.",
+    "baseline_commit": "4601f73",
+    "baseline_artifact_sha256": "f6db50c9624feea5d658d35a8c798587afac36fc2b25f22a4c9220e0ead5254a",
+    "trial_artifact_sha256": "0727343b6c5f49002d27b681ed4834a569cb1b949313552ee674b18f1e9a59c2",
+    "summaries": {
+      "sailing-trip-v1": {
+        "baseline": 31345.851705709094,
+        "trial": 32826.88675370073,
+        "gain_pct": 4.724819927996693
+      },
+      "social-golfer-32x8x10-v1": {
+        "baseline": 87776.68995402956,
+        "trial": 91888.69878346035,
+        "gain_pct": 4.684625077095461
+      }
+    }
+  },
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8754,
+    "cargo_test_invocations_passed": 8760,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 8,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "f1e13742d909919e0e19178b57f53d13d70710cd4603a29f43f7b9a824dbe5a8",
+      "source_after": "f1e13742d909919e0e19178b57f53d13d70710cd4603a29f43f7b9a824dbe5a8",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T18:11:57.250023+00:00",
+      "log_sha256": "3238d8743d570f9523bda550c5bf8c226de06ab0a8998437a8788654ce13e202"
+    },
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "90a38ed558e5886127eac64d4e8cebe3632352c3724669b3879c859c569f938b",
+      "rust_digest": "f1e13742d909919e0e19178b57f53d13d70710cd4603a29f43f7b9a824dbe5a8",
+      "production_digest": "1fe851e15a1d55ba7a934942ab7d2b9a6818e648a05ca5293ed2d8a331c27ccc",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 24.473356591988704,
+          "log_sha256": "b2975f06820094d2f97b522d7760a51ab2c3bde6b620631d5cdfe292f3259ca9"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 359.47491353999067,
+          "log_sha256": "827780cad1d90c5fe448beaf2a06e4abaccbb2130208cbe37822fe5beafc7fb1"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 271.3804646750068,
+          "log_sha256": "797ae1353b3d0eddbc0d93d9e154d56cf958a33e5f52d1d7f0bfd4a1a9461aef"
+        },
+        {
+          "name": "qualified",
+          "command": [
+            "python3",
+            "scripts/benchmark_real_world.py",
+            "--report",
+            "work/real_world-stream-allocation-next-final/qualified.json"
+          ],
+          "exit_code": 0,
+          "seconds": 126.78257568199479,
+          "log_sha256": "9fb8893c376326c5bd84e9fda2028e55541ef83d65f3349c798fbb3bdf77f967"
+        }
+      ],
+      "seconds": 785.8892356480064,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. Default RealWorld qualifier and independent output validation unchanged. Total duration includes preflight/prebuild."
+    },
+    "policy": "Exact frozen Rust bytes integrated after successful standard gate. Promoted only actual source-bound aggregate Rust log/metadata and qualified application report; no fabricated or transplanted per-job success keys."
+  },
+  "changes": [
+    "Reuse bounded, unique and non-Weak NoDrop grouped-input Arc allocations. Active journals, full snapshots, captures, Clone/preflight and original Drop paths retain their ownership phases. Existing pool limits remain64items and32KiB counted layout per cache.",
+    "Keep bounded direct membership rows after zeroing logical bits, avoiding repeated allocation during candidate rollback. Explicit clear releases retained rows; arbitrary full-range IDs keep sparse fallback. The4096x64 logical-cell domain does not claim a hard allocator-byte bound.",
+    "Recycle only empty membership checkpoint carriers after the bit journal is consumed. Full snapshots/current captures and nested active owners stay independent.",
+    "Downcast each exact inline event variant at its concrete match arm, removing the erased common-vtable type test; shared/custom owner behavior and promotion are unchanged."
+  ],
+  "unselected_diagnostics": [
+    {
+      "candidate": "wider-event-next-prototype",
+      "summary": {
+        "sailing-trip-v1": {
+          "baseline": 31447.936409516144,
+          "trial": 31766.351236206778,
+          "gain_pct": 1.0125142156999667
+        },
+        "social-golfer-32x8x10-v1": {
+          "baseline": 87527.51466214309,
+          "trial": 86392.13304580035,
+          "gain_pct": -1.2971710903997735
+        }
+      },
+      "reason": "Golfer regression;14focused controls passed, all16 diagnostic outputs valid; no full gate or integration."
+    }
+  ],
+  "limits": [
+    "Both Java throughput targets remain unmet:0/2. Scores and feasibility remain separate raw observations; neither equal quality nor identical search traces is claimed.",
+    "Frozen public fixtures, model, settings, runner, seeds7/11/23, ten-second qualification and same-machine protocol are unchanged.",
+    "Four external application tests keep separate provenance and zero upstream-method credit. The eight new implementation controls are native regressions.",
+    "Original18comparison jobs retain actual freshness; no old measurement is relabeled. No UI assets or rendering contracts changed."
+  ],
+  "evidence": {
+    "final_archive": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/results.tar.gz",
+      "sha256": "514bf11342a6c51d2e6f67a6cb64088d3b0972e6726325444bab81b1c95305b7"
+    },
+    "final_receipt": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/work/real_world-stream-allocation-next-final/final-receipt.json",
+      "sha256": "a0b53bcdf244b714cff2d9fa1f60de38232b29ffdaf328b238101301ac3eb003"
+    },
+    "qualified_report": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/work/real_world-stream-allocation-next-final/qualified.json",
+      "sha256": "349f834813fdcbe5db78b20f960542b6ee419efc59eb019a21fc9851215134b5"
+    },
+    "source_manifest": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/source-manifest.json",
+      "sha256": "04e2d038491a0ba7133931a44fe7876f213124b1365077c84bd29c28974b1cc1"
+    },
+    "source_archive": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/source.tar.gz",
+      "sha256": "d3ad3ad7db4ef776c0d61117e59db712c41a575ec1e95afb72c8a83b311f1a81"
+    },
+    "integration_receipt": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/integration-receipt.json",
+      "sha256": "baea1794e7916c79fa9909a3dc716edbc7f9f8b5e70c2370d739929db704cd40"
+    },
+    "native_log": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/work/rust-tests.log",
+      "sha256": "3238d8743d570f9523bda550c5bf8c226de06ab0a8998437a8788654ce13e202"
+    },
+    "native_log_metadata": {
+      "path": "work/real_world-goal/stream-allocation-next-final-results/work/rust-tests.log.json",
+      "sha256": "54f22bfddbcb02b78ff4029f712f2b4c1bdefdbf05d47c40cb3d2fc0186bb008"
+    },
+    "pilot_controls": {
+      "path": "work/real_world-goal/stream-allocation-next-results/real_world-stream-allocation-next/controls.json",
+      "sha256": "c3ce9407d1892d9a4917d2e4c1154cf7fbfe9c19bd1844e995d12d3506083ca6"
+    },
+    "pilot_summary": {
+      "path": "work/real_world-goal/stream-allocation-next-results/summary.json",
+      "sha256": "9e2d9dc318dccde8324ef3f978383de5e7b936eeb53600c5cb1c3d8de6f0d861"
+    },
+    "profile_receipt": {
+      "path": "work/real_world-goal/stream-allocation-next-results/profile-receipt.json",
+      "sha256": "cd77df917faf3dc887af2a75620b6ce95e63144aa19ed8ae7dc18d72b92d7cac"
+    }
+  }
+}

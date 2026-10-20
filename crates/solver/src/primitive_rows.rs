@@ -4,7 +4,7 @@
 //! key/value owners are shared, never cloned by snapshots or journal restores.
 mod directory;
 pub(crate) mod membership;
-mod pool;
+pub(crate) mod pool;
 use crate::SnapshotMap;
 use directory::Directory;
 use pool::Pools;

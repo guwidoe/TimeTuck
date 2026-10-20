@@ -19,11 +19,11 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,746 recorded Rust tests and
-292 doctests** (8,752 Cargo test executions). The RealWorld membership/event
-batch passes `bash scripts/check.sh`, including formatting, all-target Clippy and
-54 tooling jobs. Exact source, logs and measurements are recorded in
-[the membership/event observation](../compat/observations/real_world-membership-events.json).
+The current native verification contains **8,754 recorded Rust tests and
+292 doctests** (8,760 Cargo test executions). The stream-allocation batch passes
+`bash scripts/check.sh`, including formatting, all-target Clippy and 54 tooling
+jobs. Exact source, logs and measurements are recorded in
+[the allocation observation](../compat/observations/real_world-stream-allocation.json).
 Original source-affected comparisons retain their actual freshness. The live
 report is the authority for current evidence and readiness.
 
@@ -33,20 +33,22 @@ regressions retain their own provenance and zero upstream-method credit. The
 frozen public scenarios, application model, settings and benchmark runner are
 unchanged. All **12** newly measured Java/Rust outputs pass independent score and
 assignment checks, with seeds 7/11/23 and ten seconds per runtime on runner-a.
-Rust streams reach **88,704 / 31,998 evaluations/s**, or **0.700x / 0.391x Java
+Rust streams reach **92,419 /33,056 evaluations/s**, or **0.729x /0.404x Java
 streams throughput**, on golfer/sailing. The prior separate qualification measured
-76,824 / 24,136 native evaluations/s. Earlier rotating three-second native controls
-on the pilot source improved 9.6%/19.0%; keep these distinct from the final-source
-qualification. Both additional throughput targets remain unmet. Sailing feasibility
-is 2/3 Rust and 0/3 Java; raw quality remains separate, without an equal-score gate.
-These bounded results establish neither universal parity nor identical search traces.
+88,704 /31,998 native evaluations/s. Rotating three-second native controls on the
+same final production source improved 4.7% on each workload; keep this diagnostic
+protocol distinct from the original qualification. Both additional throughput
+targets remain unmet. Sailing feasibility is 2/3 Rust and 0/3 Java; raw quality
+remains separate, without an equal-score gate. These bounded results establish
+neither universal parity nor identical search traces.
 
-Eligible primitive events now use inline tuple changes and a reusable arena with
-a narrow scalar queue. Whole-event retaining adapters preserve shared owners
-through producer promotion before fanout. Eligible graph filters retain accepted-ID
-bits while preserving callback/Clone/error/rollback behavior; ordinary primitive
-graph joins use touched-row journals. Generic/custom ownership paths retain their
-existing contracts. The batch adds 22 original native controls and no upstream credit.
+Eligible grouped-input caches reuse bounded retired NoDrop allocations while
+preserving active journals, snapshots, captures and Weak observers. Membership
+filters retain bounded zeroed direct rows and recycle empty checkpoint carriers.
+Inline event downcasts keep each concrete type check in its variant arm. The
+batch adds eight original native controls and no upstream credit. Earlier inline
+events, the narrow scalar queue, accepted-ID bits and primitive join journals
+remain in place; generic/custom ownership paths preserve their existing contracts.
 
 The candidate-storage batch passes the standard gate with **8,670 recorded
 native tests and 292 doctests**, formatting, Clippy and tooling checks. Seven
