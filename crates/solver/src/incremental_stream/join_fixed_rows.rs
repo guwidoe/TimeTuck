@@ -58,9 +58,13 @@ impl<I, V> FixedRows<I, V> {
             frame.push((index, old));
         }
     }
-    pub(super) fn insert(&mut self, id: I, value: V) {
-        let index = (self.index)(&id);
+    pub(super) fn validate_insert(&self, id: &I) -> usize {
+        let index = (self.index)(id);
         assert!(index < self.values.len(), "validated bound join row ID");
+        index
+    }
+    pub(super) fn insert(&mut self, id: I, value: V) {
+        let index = self.validate_insert(&id);
         // Match map replacement: discard the incoming representative before
         // replacing the stored payload; the original key owner stays retained.
         drop(id);

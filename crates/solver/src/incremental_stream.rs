@@ -35,6 +35,8 @@ mod group_immediate_tests;
 mod group_inputs;
 #[cfg(test)]
 mod group_primitive_tests;
+#[cfg(test)]
+mod rejected_cache_tests;
 mod sum_group;
 pub use sum_group::SumGroupNode;
 mod join_batch;
@@ -90,6 +92,12 @@ pub struct FilterNode<'a, I, T> {
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (bool, T)>>>,
     pair_rows: Option<Box<filter_pairs::PairRows<I, (bool, T)>>>,
     predicate: Box<dyn Fn(&T) -> bool + 'a>,
+    // Only an initially empty, primitive-ID, NoDrop cache may omit rejected
+    // inputs. Public standalone nodes retain their original ownership behavior.
+    elide_rejected: bool,
+    // Once an unbounded rejection was discarded, retained rows cannot prove
+    // a smaller universe. This conservative capability only ever turns off.
+    rejected_universe_incomplete: bool,
     poisoned: bool,
 }
 
@@ -138,6 +146,8 @@ impl<'a, I: Ord + Clone, T: Clone> FilterNode<'a, I, T> {
             fixed_rows: None,
             pair_rows: None,
             predicate: Box::new(predicate),
+            elide_rejected: false,
+            rejected_universe_incomplete: false,
             poisoned: false,
         }
     }

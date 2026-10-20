@@ -2,10 +2,13 @@
 //! Generic/borrowed keys retain SnapshotMap. Primitive pages use exact numeric
 //! prefixes and sixteen final-coordinate cells, including usize::MAX. User
 //! key/value owners are shared, never cloned by snapshots or journal restores.
+mod directory;
 use crate::SnapshotMap;
+use directory::Directory;
+#[cfg(test)]
+use std::collections::BTreeMap;
 use std::{
     any::{Any, TypeId},
-    collections::{BTreeMap, btree_map},
     fmt,
     ops::Index,
     sync::{Arc, OnceLock},
@@ -64,7 +67,7 @@ enum Undo<K, V> {
 }
 type Frame<K, V> = Vec<Undo<K, V>>;
 struct Paged<K, V> {
-    pages: BTreeMap<PageKey, Arc<Page<K, V>>>,
+    pages: Directory<K, V>,
     map: Mapper<K>,
     len: usize,
     frames: Vec<Frame<K, V>>,
@@ -106,7 +109,7 @@ enum PreparedKind<'a, K, V> {
 // other mutable fields are borrowed separately; no page or row owner changes
 // until commit, and commit never repeats the directory lookup.
 struct PreparedPage<'a, K, V> {
-    entry: btree_map::Entry<'a, PageKey, Arc<Page<K, V>>>,
+    entry: directory::Entry<'a, K, V>,
     pos: Position,
     found: bool,
     len: &'a mut usize,
@@ -155,10 +158,8 @@ impl<K, V> PreparedPage<'_, K, V> {
             return false;
         }
         self.cache.take();
-        let btree_map::Entry::Occupied(mut entry) = self.entry else {
-            unreachable!("prepared occupied page");
-        };
-        let page = Arc::make_mut(entry.get_mut());
+        let mut entry = self.entry;
+        let page = Arc::make_mut(entry.get_mut().expect("prepared occupied page"));
         let old = page.cells[self.pos.cell].take();
         page.occupied &= !(1 << self.pos.cell);
         *self.len -= 1;
@@ -231,7 +232,7 @@ impl<K, V> Clone for PrimitiveRows<K, V> {
 impl<K, V> Paged<K, V> {
     fn new(map: Mapper<K>) -> Self {
         Self {
-            pages: BTreeMap::new(),
+            pages: Directory::new(),
             map,
             len: 0,
             frames: Vec::new(),
@@ -289,10 +290,7 @@ impl<K, V> Paged<K, V> {
         inspect: impl FnOnce(Option<&V>) -> R,
     ) -> (PreparedPage<'_, K, V>, R) {
         let entry = self.pages.entry(pos.page);
-        let row = match &entry {
-            btree_map::Entry::Occupied(page) => page.get().cells[pos.cell].as_ref(),
-            btree_map::Entry::Vacant(_) => None,
-        };
+        let row = entry.get().and_then(|page| page.cells[pos.cell].as_ref());
         let found = row.is_some();
         let observed = inspect(row.map(|row| row.value.as_ref()));
         (
@@ -387,12 +385,7 @@ impl<K, V> Paged<K, V> {
             self.pages.retain(|_, page| page.occupied != 0);
             return;
         }
-        let mut keys: Vec<_> = self
-            .pages
-            .keys()
-            .chain(saved.pages.keys())
-            .copied()
-            .collect();
+        let mut keys: Vec<_> = self.pages.keys().chain(saved.pages.keys()).collect();
         keys.sort_unstable();
         keys.dedup();
         for key in keys {
@@ -440,7 +433,7 @@ impl<K, V> PrimitiveRows<K, V> {
         }
     }
     #[cfg(test)]
-    pub(crate) fn is_empty(&self) -> bool {
+    pub(crate) fn is_empty_for_tests(&self) -> bool {
         self.len() == 0
     }
     pub(crate) fn iter(&self) -> Iter<'_, K, V> {
@@ -608,7 +601,7 @@ impl<K, V> PrimitiveRows<K, V> {
                     rows.empty.clear();
                     return;
                 }
-                let keys: Vec<_> = rows.pages.keys().copied().collect();
+                let keys: Vec<_> = rows.pages.keys().collect();
                 for page in keys {
                     for cell in 0..CELLS {
                         let pos = Position { page, cell };
@@ -760,7 +753,7 @@ pub(crate) struct Iter<'a, K, V> {
 enum IterKind<'a, K, V> {
     Tree(crate::snapshot_map::Iter<'a, K, V>),
     Paged {
-        pages: btree_map::Values<'a, PageKey, Arc<Page<K, V>>>,
+        pages: directory::Values<'a, K, V>,
         cells: std::slice::Iter<'a, Option<Entry<K, V>>>,
     },
 }
@@ -939,7 +932,7 @@ mod tests {
         rows.install_snapshot(full);
         assert_eq!(collect(&rows), before_inner);
         rows.clear();
-        assert!(rows.is_empty());
+        assert!(rows.is_empty_for_tests());
         rows.rollback_journal(outer);
         assert_eq!(collect(&rows), original);
         {
@@ -1321,7 +1314,7 @@ mod prepared_tests {
             owner
         );
         rows.prepare_change(&name.as_str(), |_| ()).0.remove();
-        assert!(rows.is_empty());
+        assert!(rows.is_empty_for_tests());
         assert!(!rows.is_primitive());
     }
 }
@@ -1351,7 +1344,7 @@ mod entry_cursor_tests {
             let pages: Vec<_> = paged
                 .pages
                 .iter()
-                .map(|(key, page)| (*key, Arc::strong_count(page)))
+                .map(|(key, page)| (key, Arc::strong_count(page)))
                 .collect();
             assert!(
                 catch_unwind(AssertUnwindSafe(|| {
@@ -1370,7 +1363,7 @@ mod entry_cursor_tests {
                 paged
                     .pages
                     .iter()
-                    .map(|(key, page)| (*key, Arc::strong_count(page)))
+                    .map(|(key, page)| (key, Arc::strong_count(page)))
                     .collect::<Vec<_>>(),
                 pages
             );

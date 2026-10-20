@@ -25,44 +25,54 @@ seeds 7/11/23, ten-second limits and solver settings unchanged. Additional tests
 and timings retain zero upstream-method credit; the original 18 comparison jobs
 and 109-workload universe remain separate.
 
-The guarded first-accepted live-commit batch is integrated and verified.
-The actual standard gate passes **8,697 recorded Rust tests +292 doctests**,
-formatting, all-target Clippy and tooling. No source/settings changes were made
-during the successful gate. runner-c separately passed 496 library+4 application tests.
-The release snapshot predates only a cfg(test) type-alias lint fix; selected
-production input digest exactly matches integrated production.
+The guarded live-commit batch was committed in `be81f44`; the following cache
+page-directory/rejected-filter batch is integrated and verified. Its actual
+standard gate passed on runner-a: **8,708 recorded Rust tests +292 doctests**,
+formatting, all-target Clippy and tooling. One generated benchmark Python cache
+file changed the first tooling key. The same-source retry reused every successful
+Rust target, formatting, Clippy and doctest; only failed/previously unrun tooling
+ran. No Rust/settings changes occurred during that retry. All failed logs remain.
 
-Fresh qualified runner-a comparison: **63,900 Rust /130,268 Java evaluations/s**
-on Golfer and **15,143 /73,597** on Sailing: **0.491x /0.206x** Java streams.
-Native medians improve 1.10x/1.15x over candidate-storage. All 12 outputs validate
-independently under unchanged cases/settings and seeds 7/11/23 × ten seconds.
-Sailing remains feasible 2/3 Rust vs 0/3 Java streams; quality stays separate.
-Production digest: `26525a0d4d77752e7437587192cd4251e2c4af0ef1b564e20640e414a4d06812`.
-Observation: `compat/observations/real_world-live-commit.json`; raw evidence:
-`work/real_world-goal/live-commit-results/`. Actual preserved release SHA:
-`3288da4d441d6b7b03fb374f36429b889dd244303445cd0fde8c6e05c62480a1`.
+Fresh qualified runner-a comparison: **76,669 Rust /126,365 Java evaluations/s**
+on Golfer and **24,596 /81,706** on Sailing: **0.607x /0.301x** Java streams.
+Native medians improve 1.20x/1.62x over the qualified live-commit build. All 12
+outputs validate independently under unchanged cases/model/settings and seeds
+7/11/23 × ten seconds. Sailing remains feasible 2/3 Rust vs 0/3 Java; quality is
+separate and is not equal-gated. Both Java throughput targets remain unmet.
 
-Live commit is conservative: exact `usize` planning values, built-in integer scores,
-whitelisted node/key shapes, NoDrop payloads/callback captures, no activity
-observers/pruning or diagnostic assertions. Accepted candidates keep rollback
-armed through iterator disposal and commit policy. Saved rejected fallback and
-unknown/custom paths remain unchanged. Dispatch microvariant is included; the
-concrete-callback variant was rejected and remains isolated.
+Production input: `4cec5d9146d36a18992b8c0dcd066c5976933dd8ecff16957d6d05c553897e0b`.
+Native source: `a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8`.
+Observation: `compat/observations/real_world-cache-directory.json`.
+Raw receipts/controls/qualified outputs/gate logs:
+`work/real_world-goal/directory-results/`. Preserved actual release SHA:
+`ca38919a57f4a64b1f640836dd1076ff8132a5c8e8ee58e7e5594baf8b25a0e5`.
+Measured immutable source snapshot predates cfg(test)-only lint/helper changes;
+its selected production input digest matches the final verified source exactly.
+The unchanged actual remote Rust logs/metadata feed the local report. No remote
+verification cache keys/records were transplanted into the local job cache.
 
-Next isolated prototype: `work/real_world-goal/directory-prototype/`, adding a
-sparse hot-page directory and omitting NoDrop primitive rejected filter payloads.
-Discarded unbounded rejections conservatively disable narrower later binding.
-Its actual runner-a tests/timings are tracked in
-`work/real_world-goal/directory-continuation.json`; inspect the existing worker
-before changing sources or launching anything. Initial 506 library passes and
-production Clippy were retained after one cfg(test) integer-annotation correction;
-the failed test and application target rerun selectively. No main integration
-or throughput claim until actual receipts and controls have been assessed.
+Hot numeric cache pages use sparse direct lookup; arbitrary/full `usize` keys keep
+ordered tree fallback. Only initially empty exact-primitive/NoDrop filters omit
+rejected cache payloads. Predicates/output Clone order and bounds/poison remain.
+Discarded unbounded rejection evidence conservatively prevents narrower later
+binding across rollback/full restore/clear. Custom ownership/standalone paths stay.
+The preceding live-commit capability and dispatch optimizations remain intact.
 
-Original 18 comparisons retain actual stale keys/dates, upstream inventory stays
-4412 passed/0 pending/443 excluded. No frontend assets changed; inspect current
-HTTP data/freshness and reuse rendering proof. runner-c completed its focused work,
-then disconnected; no runner-c fullgate was launched. Main fullgate ran locally.
+Next: use the qualified directory artifact/profile to close the remaining actual
+throughput gap. Local diagnostic profile has 995 DWARF samples/0 lost and a validated
+final score: `profile-compact.txt`, `profile-callers.txt` and `sailing.perf.data`
+inside the raw directory above. It is not a matched Java timing. Allocation,
+Paged::entry and group/filter/join/terminal updates remain prominent. A read-only
+existing-agent review identified typed graph-Join output-buffer reuse as a bounded
+unmeasured 3–5% opportunity; details in `next-profile-note.json`. Prefer substantial
+remaining gains; no following optimization is implemented or build running.
+
+Original 18 comparisons retain actual stale keys/dates; upstream inventory stays
+4412 passed/0 pending/443 excluded, with zero new upstream credit. No frontend
+assets changed; inspect current HTTP data/freshness and reuse rendering proof.
+runner-c completed the prior live-commit focused tests, then disconnected. Main live
+commit fullgate ran locally; this directory fullgate ran on runner-a. All existing
+agents are finished; no new agents were created.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

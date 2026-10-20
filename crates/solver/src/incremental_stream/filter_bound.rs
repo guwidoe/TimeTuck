@@ -36,11 +36,18 @@ impl<I: Ord + Clone, T: Clone> FilterNode<'_, I, T> {
                 _ => None,
             }
         }
+        let elide_rejected = self.elide_rejected && matches!(&new, Some((false, _)));
         if let Some(rows) = &mut self.pair_rows {
             let was_accepted = rows.get(&id).is_some_and(|(accepted, _)| *accepted);
             let result = output(&id, &new, was_accepted);
             self.poisoned = true;
             match new {
+                Some(_) if elide_rejected => {
+                    // Rejected puts still validate the declared universe at the
+                    // original publication boundary, including poison on failure.
+                    rows.validate_insert(&id);
+                    rows.remove(&id);
+                }
                 Some(row) => rows.insert(id, row),
                 None => rows.remove(&id),
             }
@@ -53,6 +60,10 @@ impl<I: Ord + Clone, T: Clone> FilterNode<'_, I, T> {
                 let result = output(&id, &new, was_accepted);
                 self.poisoned = true;
                 match new {
+                    Some(_) if elide_rejected => {
+                        rows.validate_insert(&id);
+                        rows.remove(&id);
+                    }
                     Some(row) => rows.insert(id, row),
                     None => rows.remove(&id),
                 }
@@ -66,6 +77,10 @@ impl<I: Ord + Clone, T: Clone> FilterNode<'_, I, T> {
                 let result = output(&id, &new, was_accepted);
                 self.poisoned = true;
                 match new {
+                    Some(_) if elide_rejected => {
+                        prepared.remove();
+                        self.rejected_universe_incomplete = true;
+                    }
                     Some(row) => prepared.insert(id, row),
                     None => prepared.remove(),
                 }
@@ -211,10 +226,18 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
         if self.fixed_rows.is_some() || self.pair_rows.is_some() || std::mem::needs_drop::<T>() {
             return false;
         }
-        self.rows.bind_primitive()
+        // Existing rows may be retained by full snapshots or journals. Never
+        // change their rejection ownership policy through a later conversion.
+        let initially_empty = self.rows.len() == 0;
+        let bound = self.rows.bind_primitive();
+        self.elide_rejected |= bound && initially_empty;
+        bound
     }
     pub(crate) fn bind_fixed_pairs(&mut self, left: usize, right: usize) -> bool {
-        if self.fixed_rows.is_some() || self.pair_rows.is_some() {
+        if self.rejected_universe_incomplete
+            || self.fixed_rows.is_some()
+            || self.pair_rows.is_some()
+        {
             return false;
         }
         let Some(rows) = PairRows::bind(self.rows.materialized(), left, right) else {
@@ -225,7 +248,8 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static> FilterNode<'_, I, T> {
         true
     }
     pub(crate) fn bind_fixed_inputs(&mut self, count: usize) -> bool {
-        if TypeId::of::<I>() != TypeId::of::<usize>()
+        if self.rejected_universe_incomplete
+            || TypeId::of::<I>() != TypeId::of::<usize>()
             || count > 4096
             || self.fixed_rows.is_some()
             || self.pair_rows.is_some()

@@ -1,0 +1,414 @@
+{
+  "kind": "external_application_cache_directory_measurement",
+  "upstream_method_credit": 0,
+  "generated_at": "2026-10-20T14:54:01.658170+00:00",
+  "input_sha256": "4cec5d9146d36a18992b8c0dcd066c5976933dd8ecff16957d6d05c553897e0b",
+  "source_snapshot": "a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56",
+  "verification_snapshot": "464fa56c13116c540a7192f480f6cb2a163ead606871d377940227a65bd9d49a",
+  "machine": {
+    "platform": "Linux-7.2.3-arch1-3-x86_64-with-glibc2.44",
+    "architecture": "x86_64",
+    "hostname": "runner-a",
+    "python": "3.14.7 (main, Aug 10 2026, 07:46:56) [GCC 16.1.1 20260728]",
+    "allowed_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 644.551\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 0\ncpu cores\t: 4\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 1\ncpu cores\t: 4\napicid\t\t: 2\ninitial apicid\t: 2\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 2\ncpu cores\t: 4\napicid\t\t: 4\ninitial apicid\t: 4\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 3\ncpu cores\t: 4\napicid\t\t: 6\ninitial apicid\t: 6\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 0\ncpu cores\t: 4\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 1\ncpu cores\t: 4\napicid\t\t: 3\ninitial apicid\t: 3\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 4200.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 2\ncpu cores\t: 4\napicid\t\t: 5\ninitial apicid\t: 5\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 140\nmodel name\t: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz\nstepping\t: 1\nmicrocode\t: 0xbe\ncpu MHz\t\t: 400.000\ncache size\t: 8192 KB\nphysical id\t: 0\nsiblings\t: 8\ncore id\t\t: 3\ncpu cores\t: 4\napicid\t\t: 7\ninitial apicid\t: 7\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 27\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l2 cdp_l2 ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid movdiri movdir64b fsrm avx512_vp2intersect md_clear ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple pml ept_violation_ve ept_mode_based_exec tsc_scaling\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb gds bhi spectre_v2_user its its_native_only\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\n",
+    "tools": [
+      {
+        "command": [
+          "rustc",
+          "-Vv"
+        ],
+        "exit_code": 0,
+        "output": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3\n"
+      },
+      {
+        "command": [
+          "cargo",
+          "-V"
+        ],
+        "exit_code": 0,
+        "output": "cargo 1.92.0 (344c4567c 2025-10-21)\n"
+      },
+      {
+        "command": [
+          "java",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "openjdk version \"25.0.2\" 2026-01-20\nOpenJDK Runtime Environment (build 25.0.2+10-69)\nOpenJDK 64-Bit Server VM (build 25.0.2+10-69, mixed mode, sharing)\n"
+      },
+      {
+        "command": [
+          "javac",
+          "-version"
+        ],
+        "exit_code": 0,
+        "output": "javac 25.0.2\n"
+      }
+    ]
+  },
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "artifacts": {
+    "rust": {
+      "path": "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/target/release/examples/real_world_benchmark",
+      "sha256": "ca38919a57f4a64b1f640836dd1076ff8132a5c8e8ee58e7e5594baf8b25a0e5"
+    },
+    "java_classes": {
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Bal.class": "7a56754e5c28cfc6de28ff68ce40d40f4a6ad49db1803d61b8745bb28b6eee8a",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Incremental.class": "649bec65c29984c3a08b91245d35ad0d15bbd2a4659f9dccb45f79844e4a9f30",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Plan.class": "d14e3a77d0177ac78b1213c18e2433f2e7db9f6bf1867f5406d194d9af7eb1d6",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Req.class": "61b30785d81a866fc9a7871b15965333fbfc1fb99903cc181a15fc50bd46da52",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$SameSessionSwap.class": "881e6e656b95ccd34c33a7f69c36637d17ebb905c7ebf943f2a701efee3c434d",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Seat.class": "daa6d47c21f5453bca5631c208b904121cacfb044aeaef7255bd4bfc248d5cad",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Slot.class": "f22f935b8956cc22129e55f8cfbffe28bcf8bd530bb783a228cbbd4645e74619",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$SpareSeatChange.class": "09030e7ca473e472b12d28d7217e3efd9a0a01bb69a0d6055cc7e230828d0c27",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark$Streams.class": "a55b5a0205723026c0be6ffb1cda44a4a595f8f535e3d9d807d9ffdba4bd99ee",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/real_world-java/classes/ApplicationBenchmark.class": "66c77c50912b007ccde118497feb21d2ea52bfaf1c27137686e45f1abb8c8c9e"
+    },
+    "java_dependencies": {
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/HdrHistogram-2.2.2.jar": "22d1d4316c4ec13a68b559e98c8256d69071593731da96136640f864fa14fad8",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/angus-activation-2.0.3.jar": "a6bd35c538cf90fff941ad6258c40c08fca0b5c9c3f536c657114f27ce0527a7",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/gizmo2-2.1.1.jar": "777af2f3b98bbc238938e95c0679c5a1473ec86513e1b88c36901a30c58c9b8e",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/istack-commons-runtime-4.1.2.jar": "7fd6792361f4dd00f8c56af4a20cecc0066deea4a8f3dec38348af23fc2296ee",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jakarta.activation-api-2.1.4.jar": "c9db52100ce6c8aac95cc39075f95720d2e561b11f8051b81c121ad4effd7004",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jakarta.xml.bind-api-4.0.5.jar": "5e489b6c874c4119e003ff1403db523ee3a8959ec499f3de29e77245efccf216",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jaxb-core-4.0.9.jar": "6b014df25d22c8446cc2df0a378c5b2137747f197a731d99eb24c756b26f7e8d",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jaxb-runtime-4.0.9.jar": "93e09b7316b6af68d6e2083e4c297daf28e8957f45d725077af812c0b12c39ab",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jboss-logging-3.6.0.Final.jar": "924529a679ad76a4665115c47f053e47c6fd272f59a632ba70db481c925ef7a2",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jdk-classfile-backport-26.jar": "2eb2741b04c632ca361fb7dc947e993785639e76233129e84b2c85d618ae12ca",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/jspecify-1.0.1.jar": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/micrometer-commons-1.17.1.jar": "f2cee6ef046e72eec8128474c7f58c6217173b45ae373c30de0289f2a56ab0fd",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/micrometer-core-1.17.1.jar": "9ca47dfa831409b40253c8dc98c17b9d3e050ebbde4d1543c5521dca2b95ad56",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/micrometer-observation-1.17.1.jar": "eb34f0cd84a879393ae5c21160fc06385ccdc74f36a4d1e31b199f59acfdaf71",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/slf4j-api-2.0.18.jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/smallrye-common-constraint-2.16.0.jar": "9ce104ceb2284024fcf8d427ad2abcbb533e6afedf517a2b8727269f6a5920a6",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/smallrye-common-resource-2.16.0.jar": "00fefb18cf87306ad8427d444c8f098de5c64c82183579b0b7d7c14f28308413",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/timefold-solver-core-2.7.0.jar": "80aa953d86f19dc86ce2b4f6da16338cd01a3617d9c5f96ed53ef3dfa5dc7141",
+      "/home/developer/.cache/timetuck-build/sources/a745baab348b857c1e21bf8a3074dba8a55aaf37fc97ca8982982678198d3d56/work/oracle/solver/dependencies/txw2-4.0.9.jar": "d6343e5945d87266ca4e8974a0a2a876e1bd147a00fb65ed3f2e1a3a00f3a82a"
+    }
+  },
+  "valid": true,
+  "qualified": true,
+  "valid_runs": 12,
+  "cases": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 126365.29630323296,
+          "scores": [
+            [
+              0,
+              20500
+            ],
+            [
+              0,
+              18300
+            ],
+            [
+              0,
+              13900
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.041665424
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 76668.616605889,
+          "scores": [
+            [
+              0,
+              4000
+            ],
+            [
+              0,
+              6200
+            ],
+            [
+              0,
+              8400
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.000267371
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.6067220894406868,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 81705.59649455338,
+          "scores": [
+            [
+              -11,
+              71200
+            ],
+            [
+              -5,
+              69100
+            ],
+            [
+              -9,
+              86700
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.052640642
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 24595.913349070473,
+          "scores": [
+            [
+              0,
+              83000
+            ],
+            [
+              0,
+              74100
+            ],
+            [
+              -1,
+              185100
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.001918378
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.30103095019580545,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    }
+  ],
+  "comparison_to_prior": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "prior_rust_evaluations_per_second": 63900.19823178943,
+      "current_rust_evaluations_per_second": 76668.616605889,
+      "native_throughput_ratio": 1.1998181340186744
+    },
+    {
+      "case": "sailing-trip-v1",
+      "prior_rust_evaluations_per_second": 15143.133042781266,
+      "current_rust_evaluations_per_second": 24595.913349070473,
+      "native_throughput_ratio": 1.6242288355774137
+    }
+  ],
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "CARGO_BUILD_JOBS=4 bash scripts/check.sh",
+    "expected_native_source_digest": "a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8",
+    "prototype_library_identities_passed": 507,
+    "prototype_application_passes": 4,
+    "prototype_production_clippy_passed": true,
+    "test_only_fixes": "The original unchanged-production run passed506librarytests and failed one unannotated nested-key fixture. The corrected exactusize fixture passed individually; four application tests passed. The first broadgate stopped at test-onlyClippylints; testhelper naming and a deliberate single-thread Arc ownership test annotation fixed them. Production input digest stayed identical; measured evidence was not rerun or rekeyed.",
+    "integrated_gate_exit_code": 0,
+    "native_source_digest": "a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8",
+    "rust_tests_passed": 8708,
+    "cargo_test_invocations_passed": 8714,
+    "doctests_passed": 292,
+    "cargo_log_metadata": {
+      "command": "per-target cargo test (matching successful targets reused)",
+      "source_before": "a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8",
+      "source_after": "a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8",
+      "exit_code": 0,
+      "finished_at": "2026-10-20T15:17:13.215091+00:00",
+      "log_sha256": "beb846a1351a0d060d439f15be10988662ad42f147cd9dadfe1561f7974c8d66"
+    },
+    "checks": {
+      "fmt": {
+        "key": "a6885705ad4d04d45ab504fcd96c3ca7828a2a6fb795f351ea0e8805f1767c20",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T15:00:27.218131+00:00",
+        "outputs": {
+          "/home/developer/.cache/timetuck-build/checkouts/native-verification/work/verification/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "clippy": {
+        "key": "8c0999a5d7bb98096b929c10345325eba2f3a2a1a96243e1020f66c49f29ec0b",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T15:01:02.981208+00:00",
+        "outputs": {
+          "/home/developer/.cache/timetuck-build/checkouts/native-verification/work/verification/clippy.log": "cfcf7d02a70a36705b6c1cee6d98224bea215350b37fb3ea83e8672dcc0a227c"
+        }
+      },
+      "doctests": {
+        "key": "2d94eb4832de3ef69d2bae4a472484dd426b261767f9dc189b9c77071d4ac754",
+        "exit_code": 0,
+        "finished_at": "2026-10-20T15:15:23.121014+00:00",
+        "outputs": {
+          "/home/developer/.cache/timetuck-build/checkouts/native-verification/work/verification/doctests.log": "10715c5a2ad767c2903c1b9c41bc8f2b269259e006dd67746fde8723bf3a9dd7"
+        }
+      }
+    },
+    "remote_source_binding": {
+      "uploaded_source": "/home/developer/.cache/timetuck-build/sources/464fa56c13116c540a7192f480f6cb2a163ead606871d377940227a65bd9d49a",
+      "build_workspace": "/home/developer/.cache/timetuck-build/checkouts/native-verification",
+      "rust_digest": "a7997a5f2d038ecbecebdf62d3e88ea1c23ee46bf7a7d43b54f90a7e518bc1e8",
+      "source_manifest_sha256": "adc42432cc180b282fcd0cb3c1c6cab3a233236c4db699d9d9c92b69b092a32c",
+      "cargo_home": "/home/developer/.cache/timetuck-build/cargo-homes/native-verification",
+      "vendor": "/home/developer/.cache/timetuck-build/vendor-by-lock/0ef5bbd1a1f50c719a1616bf2cdb07c5e55e420873a59f85df9d6512148849a6",
+      "policy": "Immutable uploaded inputs preserved; exact files mirrored into locked stable checkout. Matching native digest asserted before/after actual checks; genuine successful per-job records stay in the same checkout. No result relabeling or cache transplant.",
+      "exit_code": 0,
+      "seconds": 29.442298093999852
+    },
+    "retry": "First complete Rust/doctest pass stopped at test_real_world_reference because dynamically imported benchmark prep created a Python cache file inside its input glob. Same frozen source/settings passed the standard gate retry; every successful Rust target, fmt, Clippy and doctest was reused. Only failed and previously unrun tooling jobs ran."
+  },
+  "limits": [
+    "Frozen cases/model/runner/settings and default3seeds\u00d710seconds stay unchanged; both actualJava streams throughput targets remain unmet.",
+    "Raw feasibility/quality stays separate; no equal-quality gate or identical stochastic trace claim.",
+    "Hybrid hot rows cover only bounded numeric page coordinates; arbitraryfullusizekeys use orderedtreefallback. Empty growth is sparse and capped.",
+    "Only initiallyempty primitiveID/NoDroppayload filters omit rejected cache entries. Predicate/outputClone order and bounds/poison remain; lost unbounded rejection evidence conservatively prevents later narrowerbindings across rollback/fullrestore/clear. Customownership/standalone paths keep prior behavior.",
+    "Measured source snapshot predates cfgtest-only helper/annotation fixes; selected production input digest exactly matches final verification source.",
+    "No upstream method credit, original comparison count, successful record transplant or stale-key reclassification.",
+    "Prior/current native medians are separately qualified same-host comparisons; larger short control ratios are diagnostic only."
+  ],
+  "evidence": {
+    "qualified_report": {
+      "path": "work/real_world-goal/directory-results/qualified/work/real_world-directory/qualified.json",
+      "sha256": "dc8e49c81df60876540971d1d982a4e43011d2dbbb21709fd845303fd2edd2f5"
+    },
+    "qualified_receipt": {
+      "path": "work/real_world-goal/directory-results/qualified/work/real_world-directory/qualified-receipt.json",
+      "sha256": "3dcfe197d09af664bf005906fc86686ad2acd346711ee506ab598de5c0370ccf"
+    },
+    "qualified_archive": {
+      "path": "work/real_world-goal/directory-results/qualified-results.tar.gz",
+      "sha256": "572ade44341b7652487086e7f47dd491441502cccbcb1ff5d80a563de8833de4"
+    },
+    "qualified_source_manifest": {
+      "path": "work/real_world-goal/directory-results/qualified-source-manifest.json",
+      "sha256": "fa5a969303b1be65270974cb405614682724137797f6c1c3ffb3215d9d71da7a"
+    },
+    "qualified_source_archive": {
+      "path": "work/real_world-goal/directory-prototype/work/real_world-directory/source.tar.gz",
+      "sha256": "afa34b45747fee05dcc3589d6fe2844f655b29934aafea76cb3cd9035ab05404"
+    },
+    "gate_source_manifest": {
+      "path": "work/real_world-goal/directory-results/gate-source-manifest.json",
+      "sha256": "d525a133c69eba4c1793ff32ce89e559db3a651840263b4cbeb9f988f80edb29"
+    },
+    "gate_source_archive": {
+      "path": "work/real_world-goal/directory-results/gate-source.tar.gz",
+      "sha256": "e62226aae4fd1644a484bc68ad0896afe72c0c12a1d5e07c06bd611c19fa9a8c"
+    },
+    "initial_test_archive": {
+      "path": "work/real_world-goal/directory-results/first/results.tar.gz",
+      "sha256": "2eb5ff264fbf4fb3a6e4bf6b8c8f35145cfa5c1a4c4f9ca3bc780e070cf79dc7"
+    },
+    "initial_test_source_manifest": {
+      "path": "work/real_world-goal/directory-results/first/source-manifest.json",
+      "sha256": "8e3449ac2ea8540216f395c79e36abc8ff628c916c60c18ca1a746d0f58c762f"
+    },
+    "corrected_test_archive": {
+      "path": "work/real_world-goal/directory-results/current/results.tar.gz",
+      "sha256": "98c10d8370c5272bbec9f617f47176bc78a2375a12bdf6f52f41c0fbe186337c"
+    },
+    "corrected_test_receipt": {
+      "path": "work/real_world-goal/directory-results/current/work/real_world-directory/remote-receipt.json",
+      "sha256": "5598e3bbf8d88a9a94953025a1f33bf9ec02788eb585d1e71c7985d6e047edb9"
+    },
+    "first_gate_archive": {
+      "path": "work/real_world-goal/directory-results/first-gate/results.tar.gz",
+      "sha256": "aa4594f5747b7371e0f0a32ec0ddb7f35827e9fe342c78b7cacc61ee6da2ef5f"
+    },
+    "release_binary": {
+      "path": "work/real_world-goal/directory-results/real_world_benchmark",
+      "sha256": "ca38919a57f4a64b1f640836dd1076ff8132a5c8e8ee58e7e5594baf8b25a0e5"
+    },
+    "diagnostic_profile_validation": {
+      "path": "work/real_world-goal/directory-results/profile-validation.json",
+      "sha256": "054bf585233626d0a4094004a66231e72576ea3bc6b3db69e57baf677560ef7e"
+    },
+    "gate_archive": {
+      "path": "work/real_world-goal/directory-results/gate-results.tar.gz",
+      "sha256": "b882b8ba6c64455e8fefafe0b1c976217b06584bc46c2ceba93f6cc822d77190"
+    },
+    "gate_log": {
+      "path": "work/real_world-goal/directory-results/gate-dispatch.log",
+      "sha256": "4190603ec2bddcf4eb56aafdc5b2212fb059cba19d47add0b911ec6be04d2235"
+    },
+    "gate_receipt": {
+      "path": "work/real_world-goal/directory-results/gate-collected/work/source-binding.json",
+      "sha256": "0938a922cb5ec6cf8c76939a8db6e446434e7e1d86fdc07b7f3ef7dad256fab7"
+    },
+    "native_test_metadata": {
+      "path": "work/real_world-goal/directory-results/gate-collected/work/rust-tests.log.json",
+      "sha256": "323183ec7f0acbab1046fbd6b0a2b1765dd84a71baf3275328a767d3eb149d93"
+    },
+    "failed_tooling_archive": {
+      "path": "work/real_world-goal/directory-results/failed-first-tooling/results.tar.gz",
+      "sha256": "90744d43bb2a056a9e53bee83096ecabea0d0fdf128fe6a3b99fa87fb65f53b9"
+    },
+    "integration": {
+      "path": "work/real_world-goal/directory-results/integration.json",
+      "sha256": "f03cc2f5db096ed44b6e38d6e6efa6b0e5f3dd7ba2b3a12651e18bade8fcd42f"
+    },
+    "dashboard_data_check": {
+      "path": "work/real_world-goal/directory-results/dashboard-data-check.json",
+      "sha256": "0fd1d9c0c1ca523882ddf5f756525e4ab4b7843c1c8f178bb267560c5d0368aa"
+    }
+  }
+}

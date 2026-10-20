@@ -127,8 +127,11 @@ impl<I, V> PairRows<I, V> {
             .filter_map(Option::as_ref)
             .map(|row| (row.key.as_ref(), row.value.as_ref()))
     }
+    pub(super) fn validate_insert(&self, id: &I) -> usize {
+        self.position(id).expect("validated bound pair row ID")
+    }
     pub(super) fn insert(&mut self, id: I, value: V) {
-        let slot = self.position(&id).expect("validated bound pair row ID");
+        let slot = self.validate_insert(&id);
         if entry(&self.root, slot).is_some() {
             // Equal incoming representatives drop before replacing the payload.
             drop(id);
