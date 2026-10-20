@@ -24,6 +24,38 @@
     {
       "path_prefix": "service/quarkus/",
       "reason": "JVM/Quarkus framework integration is outside the native Rust compatibility scope."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java#ignoreSyntheticMembers:254",
+      "reason": "Java reflection and synthetic-member filtering are outside the native Rust scope."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/enterprise/TimefoldSolverEnterpriseServiceTest.java#failsOnLoad:9",
+      "reason": "JVM Enterprise service discovery/loading is outside the native Community scope."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java#gizmoUsesCorrectParentClassLoader:129",
+      "reason": "Generated JVM accessor class-loader selection is outside the native Rust scope."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoSolutionClonerTest.java#debuggingDisabled:35",
+      "reason": "Generated JVM solution-cloner debugging is outside the native Rust scope."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java#solveCustomClassLoader:2183",
+      "reason": "Custom JVM class-loader integration is outside the native Rust scope."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureFailsForCommunityEditionBuild:489",
+      "reason": "Maven plugin edition configuration is outside the native Rust scope."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureFailsForCommunityEditionBuildEvenWhenConfigurationSkipped:510",
+      "reason": "Maven plugin edition configuration, including skipped configuration, is outside the native Rust scope."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureSucceedsForEnterpriseEditionBuild:523",
+      "reason": "Maven Enterprise edition configuration is outside the native Community scope."
     }
   ]
 }

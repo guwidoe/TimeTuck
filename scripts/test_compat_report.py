@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 from differential_scores import source_digest
-from compat_report import counts, declarations, family, read_test_run, resolve_provenance_target
+from compat_report import exclusion_matches, counts, declarations, family, read_test_run, resolve_provenance_target
 
 class InventoryTests(unittest.TestCase):
     def test_constraint_engine_and_api_cases_share_a_subsystem(self):
@@ -18,6 +18,16 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual(family(root + 'api/score/SimpleScoreTest.java'), 'Score APIs & types')
         self.assertEqual(family(root + 'impl/util/ListTest.java'), 'Core utilities & configuration')
         self.assertEqual(family('quarkus-integration/' + root), 'JVM integrations')
+
+    def test_exact_exclusion_does_not_hide_other_methods_in_the_same_class(self):
+        rule = {'method_id': 'Example.java#jvmOnly:9', 'reason': 'JVM only'}
+        for identity, expected in [('Example.java#jvmOnly:9', True),
+                                   ('Example.java#nativeBehavior:20', False),
+                                   ('Other.java#jvmOnly:9', False),
+                                   ('Example.java#jvmOnly:10', False)]:
+            with self.subTest(identity=identity):
+                self.assertEqual(exclusion_matches({'id': identity, 'path': identity.split('#')[0]}, rule), expected)
+        self.assertTrue(exclusion_matches({'path': 'quarkus/example.java'}, {'path_prefix': 'quarkus'}))
 
     def test_ignores_comments_and_literals(self):
         text = '''

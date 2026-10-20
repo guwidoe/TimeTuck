@@ -181,6 +181,20 @@ class NativeReadinessTests(unittest.TestCase):
         self.report['verification']['native_tests']['tests'] = [t for t in tests if 'kopt_subtour' not in t['path']]
         self.assertFalse(self.evaluate()['native_ready'])
 
+    def test_jvm_exclusions_are_resolved_but_cannot_hide_pending_kopt_assertions(self):
+        for method in self.report['methods']:
+            if PENDING_METHODS[method['id']] == 'initial-jvm-scope':
+                method['status'] = 'excluded'
+        self.report['summary'].update(pending=2, excluded=8)
+        result = self.evaluate()
+        self.assertTrue(result['native_ready'], result['blockers'])
+        statuses = [m['original_status'] for m in result['method_boundaries']]
+        self.assertEqual(statuses.count('excluded'), 8)
+        self.assertEqual(statuses.count('pending'), 2)
+        kopt = next(m for m in self.report['methods'] if m['status'] == 'pending')
+        kopt['status'] = 'excluded'
+        self.assertFalse(self.evaluate()['native_ready'])
+
     def test_all_original_performance_quality_and_capture_rules_are_unchanged(self):
         original = deepcopy(self.report['mixed_performance'])
         for row in (solve_row(2, 1), solve_row(.1, 1, [0, -3], [0, 1]),

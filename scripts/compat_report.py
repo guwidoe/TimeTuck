@@ -192,6 +192,13 @@ def resolve_provenance_target(lookup, case):
     return targets[0]
 
 
+def exclusion_matches(method, rule):
+    """Match either a module prefix or one pinned source declaration."""
+    if 'method_id' in rule:
+        return method['id'] == rule['method_id']
+    return method['path'].startswith(rule['path_prefix'])
+
+
 def build_report(execute=True, test_output=None):
     verified_source = verification_digest()
     native_source = rust_digest(ROOT)
@@ -200,7 +207,7 @@ def build_report(execute=True, test_output=None):
     rules = json.loads((ROOT / 'compat/exclusions.json').read_text())['rules']
     for method in methods:
         for rule in rules:
-            if method['path'].startswith(rule['path_prefix']):
+            if exclusion_matches(method, rule):
                 method.update(status='excluded', reason=rule['reason'])
                 break
     ledger = json.loads((ROOT / 'compat/provenance.json').read_text())['cases']

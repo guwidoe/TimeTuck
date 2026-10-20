@@ -653,8 +653,8 @@
       ],
       "limits": "Source-bound desktop/mobile rendering and original observations; source-method counts are not runtime invocation or native requirement counts.",
       "browser_evidence": {
-        "path": "compat/observations/native-readiness-dashboard.json",
-        "sha256": "739d79a8fe744ce125dcafc5098354d2998fb87a1ed017b99e6e708c89dc062b"
+        "path": "compat/observations/scope-classification-dashboard.json",
+        "sha256": "e6ecad7d2f9e2f734e6134843d566383340a9ddb79ebd5169c6ef5dc931c3f05"
       }
     }
   ],

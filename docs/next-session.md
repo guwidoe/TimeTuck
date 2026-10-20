@@ -17,6 +17,19 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
+## Scope classification correction — 2026-10-20
+
+Eight JVM/reflection/class-loader/Maven methods left pending by the old module-only
+exclusion rules now have exact method-level exclusions and individual reasons.
+Current inventory: **4410/4855 passed, 2 pending, 443 excluded, zero failed or
+unverified**. The two exact private k-opt array assertions remain pending; native
+physical behavior has separate passing proof. No methods were converted to passes.
+Strict index **95.801%**, behavior **79.047%**; accepted Java differences and errors
+retain their actual counts. Native source and all 18 comparison job inputs are
+unchanged, so the successful Rust gate and measurements are reused. The current
+dashboard browser receipt is `compat/observations/scope-classification-dashboard.json`;
+305 qualification and its receipts below remain historical.
+
 ## Current state — 305 native acceptance verified
 
 The original native acceptance targets are demonstrated: **7/7 capability

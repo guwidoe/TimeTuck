@@ -32,17 +32,24 @@ cold construction reaches the independently enumerated small optimum and beats
 the larger feasible certificate while preserving pins. These results establish
 bounded application behavior, rather than universal optimality or performance.
 
-The inventory has **4,410/4,855 passing adapted methods (90.834%), 10 pending,
-435 excluded and zero failed/unverified**. The percentage counts statically
+The inventory has **4,410/4,855 passing adapted methods (90.834%), 2 pending,
+443 excluded and zero failed/unverified**. The percentage counts statically
 discovered annotated source methods, not all JUnit runtime invocations or overall
-project completion. Even clearing all 10 pending methods would give only 91.04%
-with the existing exclusions; exclusions remain visible in the denominator.
-The 10 pending methods include eight JVM/loading/framework seams and two exact
-private k-opt endpoint/partner-array assertions. They are not evidence of ten
-missing native algorithms, and native implementation does not make those original
-assertions pass. One complete Community version-identity method now preserves
-its literal edition assertion using existing native Cargo package diagnostics.
-This adds no runtime feature, JVM loading or Enterprise functionality.
+project completion. Exclusions remain visible in the full denominator.
+
+Eight JVM/reflection/loading/Maven methods previously left pending are now exact
+method-level exclusions in `compat/exclusions.json`, consistent with the initial
+native scope. The two private k-opt endpoint/partner-array assertions remain
+pending: their original exact representation assertions have not been adapted,
+while physical native execution and rollback have separate proof. No original
+method receives pass credit from this classification correction. The strict index
+is now **95.801%** because its feature component excludes out-of-scope methods;
+behavior remains **79.047%**, with every raw Java difference/error retained.
+The previous 305 qualification below preserves its historical counts.
+
+One complete Community version-identity method preserves its literal edition
+assertion using existing native Cargo package diagnostics. This adds no runtime
+feature, JVM loading or Enterprise functionality.
 
 Known differential limits remain in connected-range duplicate/empty-interval
 semantics, default exact arithmetic versus Community overflow and other

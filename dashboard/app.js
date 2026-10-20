@@ -187,8 +187,10 @@ function renderNativeReadiness() {
         if (row.status !== "resolved") item.append(node("small", "completion-open", "Boundary evidence unresolved"));
         boundaries.append(item);
     }
-    const methodCount = Array.isArray(model.method_boundaries) ? model.method_boundaries.length : 0;
-    if (methodCount) boundaries.append(node("li", "", `${methodCount} pending original methods retain their JVM or private-representation scope boundaries. Their inventory status is unchanged.`));
+    const methodBoundaries = Array.isArray(model.method_boundaries) ? model.method_boundaries : [];
+    const excludedMethods = methodBoundaries.filter(row => row.original_status === "excluded").length;
+    const pendingMethods = methodBoundaries.filter(row => row.original_status === "pending").length;
+    if (methodBoundaries.length) boundaries.append(node("li", "", `Original method boundaries: ${excludedMethods} excluded; ${pendingMethods} pending. Exclusions and pending assertions earn no passes. See individual methods for reasons.`));
     $("native-freshness").textContent = current
         ? "Readiness uses current source, targets and comparison evidence. These bounded requirements do not estimate remaining engineering effort or prove universal equivalence."
         : "Last saved evidence. Source verification, policy freshness and live status must be current before readiness can be established.";

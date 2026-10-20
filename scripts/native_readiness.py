@@ -325,7 +325,8 @@ def build_native_readiness(report, strict_completion, manifest=None, root=ROOT):
     lookup = {m.get('id'): m for m in methods if isinstance(m, dict)} if methods_ok else {}
     for mapping in manifest['method_boundaries']:
         method = lookup.get(mapping['method_id'])
-        met = (isinstance(method, dict) and method.get('status') in ('pending', 'passed') and
+        allowed_statuses = ('pending', 'passed', 'excluded') if mapping['disposition'] == 'initial-jvm-scope' else ('pending', 'passed')
+        met = (isinstance(method, dict) and method.get('status') in allowed_statuses and
                requirements.get(mapping['requirement'], False))
         result['method_boundaries'].append({**mapping, 'status': 'resolved' if met else 'unresolved',
                                            'original_status': method.get('status') if isinstance(method, dict) else 'unknown'})
@@ -362,7 +363,7 @@ def build_native_readiness(report, strict_completion, manifest=None, root=ROOT):
               ('original-performance-target', performance_ok, 'Every original workload meets the strict equal-or-better quality/time target.'),
               ('native-requirements', all(requirements.values()), 'All seven original native requirements have executable evidence.'),
               ('behavior-boundaries', behavior_ok and len(resolved) == len(COHORTS), 'Every observed behavior boundary is resolved for its exact cohort.'),
-              ('original-method-boundaries', methods_ok, 'Exact pending JVM/private-array mappings; no inventory credit.')]
+              ('original-method-boundaries', methods_ok, 'Exact JVM exclusions/private-array mappings; no method pass credit.')]
     result['checklist'] = [{'id': key, 'status': 'met' if met else 'not_met', 'detail': detail} for key, met, detail in checks]
     result['blockers'] += [detail for _, met, detail in checks if not met]
     for item in result['requirements']:
