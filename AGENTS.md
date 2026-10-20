@@ -8,8 +8,8 @@ or mechanically port Timefold production implementation into `crates/`.
 Use tests and public API documentation as specifications. Do not claim a formal
 clean-room process: no organizational separation has been established.
 
-The current repository is a scaffold, not a solver. Read `docs/next-session.md`
-and `docs/compatibility.md` before implementation. Keep the scope to Community;
+The repository contains the independent native solver. Read `docs/completion.md`,
+`docs/next-session.md` and `docs/compatibility.md` before implementation. Keep the scope to Community;
 Enterprise code, artifacts, and features are not an authorized source.
 
 ## Work conventions

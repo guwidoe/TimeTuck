@@ -12,8 +12,8 @@
             rel="icon"
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
-        <link rel="stylesheet" href="styles.css?v=06e9e1f7cdd5" />
-        <script src="app.js?v=1122d9b38bf8" defer></script>
+        <link rel="stylesheet" href="styles.css?v=4fb2ee76c08b" />
+        <script src="app.js?v=ce9fe7a39342" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -48,10 +48,28 @@
             </div>
             <div id="message" class="message" role="alert" hidden></div>
             <div id="content" hidden>
+                <section class="native-overview" aria-labelledby="native-heading">
+                    <div class="native-header">
+                        <h2 id="native-heading">Native rewrite readiness</h2>
+                        <strong id="native-status" role="status">Loading evidence…</strong>
+                    </div>
+                    <p class="native-intro">Native capabilities, approved behavior contracts and measured Java performance parity.</p>
+                    <div id="native-summary" class="native-summary"></div>
+                    <ul id="native-blockers" class="native-blockers"></ul>
+                    <details id="native-evidence">
+                        <summary>Capability evidence and compatibility boundaries</summary>
+                        <ul id="native-evidence-blockers" class="native-blockers"></ul>
+                        <ul id="native-requirements" class="native-requirements"></ul>
+                        <h3>Accepted native contracts and scope boundaries</h3>
+                        <ul id="native-boundaries" class="native-boundaries"></ul>
+                        <p class="native-note">Accepted native contracts do not add Java agreement passes. Original pending methods, Java errors and unsupported cases remain in the comparisons below.</p>
+                    </details>
+                    <p id="native-freshness" class="native-note"></p>
+                </section>
                 <section class="completion-overview" aria-labelledby="completion-heading">
                     <div class="completion-header">
                         <div>
-                            <h2 id="completion-heading">Project completion</h2>
+                            <h2 id="completion-heading">Strict comparison index</h2>
                             <p id="completion-status">Loading the completion model…</p>
                         </div>
                         <div class="completion-value">

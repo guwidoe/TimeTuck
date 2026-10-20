@@ -71,6 +71,27 @@ class ProvenanceTargetTests(unittest.TestCase):
         self.assertIs(resolve_provenance_target(unique, case), methods[0])
 
 class CapturedResultTests(unittest.TestCase):
+    def test_focused_or_unknown_log_producer_cannot_claim_a_full_native_gate(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / 'focused.log'
+            path.write_text('Running tests/one.rs (target/debug/one)\ntest real_case ... ok\n')
+            metadata = {'source_before': 'a', 'source_after': 'a', 'exit_code': 0,
+                        'log_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+            for command, expected in [(None, False), (['cargo', 'test', '--test', 'one'], False),
+                                      ('cargo test --test one', False),
+                                      ('per-target cargo test (matching successful targets reused)', True)]:
+                with self.subTest(command=command):
+                    metadata['command'] = command
+                    path.with_suffix('.log.json').write_text(json.dumps(metadata))
+                    results, runs = read_test_run(path, 'a')
+                    self.assertEqual(results[('crates/solver/tests/one.rs', 'real_case')], 'passed')
+                    self.assertIs(runs[0]['full_native_gate'], expected)
+                    self.assertEqual(runs[0]['native_source_digest'], 'a')
+                    self.assertEqual(runs[0]['log_sha256'], metadata['log_sha256'])
+            metadata['exit_code'] = 101
+            path.with_suffix('.log.json').write_text(json.dumps(metadata))
+            self.assertFalse(read_test_run(path, 'a')[1][0]['full_native_gate'])
+
     def test_real_results_are_scoped_to_the_correct_target(self):
         with TemporaryDirectory() as directory:
             path = Path(directory) / 'run.log'

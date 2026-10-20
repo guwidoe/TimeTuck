@@ -4,12 +4,12 @@ import argparse
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
-from compat_report import ROOT, verification_digest, completion_digest
+from compat_report import ROOT, verification_digest, completion_digest, native_completion_digest
 
 class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split('?')[0] == '/api/freshness':
-            payload = json.dumps({'verification_digest': verification_digest(), 'completion_digest': completion_digest()}).encode()
+            payload = json.dumps({'verification_digest': verification_digest(), 'completion_digest': completion_digest(), 'native_completion_digest': native_completion_digest()}).encode()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Cache-Control', 'no-store')

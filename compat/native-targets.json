@@ -1,0 +1,2691 @@
+{
+  "schema_version": 1,
+  "target_set": "original-native-goal-v1",
+  "scope": "Seven original native capability requirements, approved exact policy boundaries and all original measured equal-quality Java-time targets. Bounded readiness does not imply whole-Timefold/JVM equivalence, arbitrary-scale speed or universal finite-budget optimality.",
+  "requirements": [
+    {
+      "id": "independent-community-solver",
+      "label": "Independent native solver and Community attribution",
+      "contract": "docs/compatibility.md#target",
+      "tests": [
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "strip_release_candidate_strips_trailing_rc_suffix"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "strip_release_candidate_leaves_non_rc_versions_unchanged"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "strip_release_candidate_handles_null"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "banner_falls_back_to_manifest_when_resource_missing"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "banner_prefers_real_git_properties_over_absent_manifest_version"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "bare_version_prefers_real_git_properties_over_absent_manifest_version"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "community_banner_with_git_ref_with_ref"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "community_banner_with_git_ref_without_ref"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "git_ref_of_core_properties_is_null_or_valid_sha"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "identify_solver_version_with_git_ref_matches_community_pattern"
+        },
+        {
+          "path": "crates/solver/tests/solver_version_cases.rs",
+          "name": "community_service_identifies_community_edition"
+        }
+      ],
+      "files": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "ee30a00dd771b6778df9ebd0fe5939ebdb0b75eb7a37cc64e0cb43eac963cb46"
+        },
+        {
+          "path": "crates/solver/Cargo.toml",
+          "sha256": "f37b4862337c4d66ba98a7b0fa607378715565d56ba134a51a2dc342e70ef680"
+        },
+        {
+          "path": "compat/upstream.json",
+          "sha256": "33d93a5c79ee6368fa15bfb4eed10c8278ea4291903d2f412648a3fefd2d78c9"
+        },
+        {
+          "path": "compat/provenance.json",
+          "sha256": "d31ae107a298098bbbb92eacf50c4136c3d9b8cc67836416bcfb1699ec5c9f2c"
+        },
+        {
+          "path": "THIRD_PARTY_NOTICES.md",
+          "sha256": "c9914357196adbe8408b42191fd3b2180a7c410177292e151e841170e912821a"
+        }
+      ],
+      "jobs": [],
+      "limits": "Independent Rust implementation; no formal clean-room or whole-Timefold equivalence claim; crates remain unpublished.",
+      "browser_evidence": null
+    },
+    {
+      "id": "scores",
+      "label": "Scores and independently checked arithmetic",
+      "contract": "docs/score-contract.md",
+      "tests": [
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "checked_integer_hooks_match_wide_arithmetic_at_signed_boundaries"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "stream_removal_overflow_restores_matches_and_diagnostics_allow_different_replay_order"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "graph_total_checks_whole_routed_update_and_rolls_back_all_terminals"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "scoped_impact_and_total_failures_restore_all_three_models"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "scoped_totals_widen_initial_sums_and_complete_multi_constraint_adjustments"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "overflow_propagates_out_of_all_six_solver_paths"
+        },
+        {
+          "path": "crates/solver/tests/checked_scoring_regression.rs",
+          "name": "diagnostic_replay_keeps_impact_checks_even_when_modular_products_would_match"
+        }
+      ],
+      "files": [],
+      "jobs": [
+        "differential",
+        "performance"
+      ],
+      "limits": "Exact default arithmetic and explicitly selected wrapping/binary64 policies remain distinct; no cross-runtime transcendental equivalence.",
+      "browser_evidence": null
+    },
+    {
+      "id": "models-moves-rollback",
+      "label": "Basic/list/mixed models, moves, pins, ranges and rollback",
+      "contract": "docs/list-planning-contract.md",
+      "tests": [
+        {
+          "path": "crates/solver/tests/temporary_moves.rs",
+          "name": "basic_scoped_and_stream_processing_and_replay"
+        },
+        {
+          "path": "crates/solver/tests/temporary_moves.rs",
+          "name": "list_scoped_and_stream_processing_and_replay_preserve_pins"
+        },
+        {
+          "path": "crates/solver/tests/temporary_moves.rs",
+          "name": "mixed_scoped_and_stream_processing_and_replay_restore_both_components"
+        },
+        {
+          "path": "crates/solver/tests/temporary_moves.rs",
+          "name": "fresh_check_recalculates_and_reports_corruption_after_restoring"
+        },
+        {
+          "path": "crates/solver/tests/temporary_moves.rs",
+          "name": "invalid_moves_do_not_run_postprocessors_or_change_director_state"
+        },
+        {
+          "path": "crates/solver/tests/list_k_opt_regression.rs",
+          "name": "all_small_reconnections_match_independent_permutation_edge_differences"
+        },
+        {
+          "path": "crates/solver/tests/list_k_opt_regression.rs",
+          "name": "invalid_edges_subtours_and_configurations_are_rejected_without_mutation"
+        },
+        {
+          "path": "crates/solver/tests/list_k_opt_regression.rs",
+          "name": "k_opt_escapes_two_opt_plateau_in_both_list_scoring_backends"
+        },
+        {
+          "path": "crates/solver/tests/list_k_opt_regression.rs",
+          "name": "large_groups_are_lazy_and_have_no_machine_word_cardinality_limit"
+        },
+        {
+          "path": "crates/solver/tests/list_k_opt_regression.rs",
+          "name": "k_opt_integrates_joint_moves_orders_acceptors_and_both_mixed_backends"
+        },
+        {
+          "path": "crates/solver/tests/k_opt_topology_regression.rs",
+          "name": "every_small_degree_two_graph_matches_components_and_move_validation"
+        },
+        {
+          "path": "crates/solver/tests/k_opt_topology_regression.rs",
+          "name": "count_matches_independent_endpoint_matchings"
+        },
+        {
+          "path": "crates/solver/tests/k_opt_topology_regression.rs",
+          "name": "circular_reversal_covers_all_boundaries_and_nonclone_payloads"
+        },
+        {
+          "path": "crates/solver/tests/k_opt_topology_regression.rs",
+          "name": "malformed_topology_is_rejected_without_panicking"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "even_proposals_repair_live_components_and_execute_with_retained_edges_and_undo"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "callbacks_reject_budget_and_already_removed_cuts_without_mutating_routes"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "live_payloads_and_pins_refresh_position_resolution"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "bounded_even_k_geometry_and_reversed_draws_produce_real_connected_tours"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "multiowner_wrap_and_prefixes_follow_combined_original_adjacency"
+        },
+        {
+          "path": "crates/solver/tests/kopt_subtour_repair_regression.rs",
+          "name": "active_graph_repairs_feed_dense_and_stream_search_on_current_assignments"
+        },
+        {
+          "path": "crates/solver/tests/value_capture_regression.rs",
+          "name": "nested_composites_match_independent_full_array_execution_and_error_order"
+        },
+        {
+          "path": "crates/solver/tests/value_capture_regression.rs",
+          "name": "capture_clones_only_distinct_outputs_instead_of_the_assignment"
+        },
+        {
+          "path": "crates/solver/tests/value_capture_regression.rs",
+          "name": "invalid_indices_and_panics_leave_input_intact_without_cloning_invalid_queries"
+        },
+        {
+          "path": "crates/solver/tests/value_capture_regression.rs",
+          "name": "equal_identities_preserve_first_write_payload_through_later_overrides"
+        }
+      ],
+      "files": [],
+      "jobs": [
+        "list_differential",
+        "list_performance",
+        "kopt_performance"
+      ],
+      "limits": "Native equality/IDs and physical k-opt behavior; no private Java endpoint arrays, reflection or getter bug compatibility.",
+      "browser_evidence": null
+    },
+    {
+      "id": "search",
+      "label": "Construction, heuristic improvement, repair and exact optimization",
+      "contract": "docs/incremental-search-contract.md",
+      "tests": [
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "bounded_tree_matches_exhaustive_optima_and_prunes"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "unknown_bounds_match_every_complete_assignment_and_mixed_sign_scores"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "optional_none_pins_empty_ranges_and_initial_values"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "all_evaluation_prefixes_preserve_best_and_do_not_claim_optimality"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "frontier_limit_never_discards_work_and_claims_completion"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "structural_rejection_is_only_for_leaves_and_positive_state_uses_full_order"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "visited_leaf_checks_its_own_bound_and_all_ancestor_bounds"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "cancellation_observation_and_final_leaf_exhaustion_precedence"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "zero_limits_do_not_invoke_callbacks"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "owned_scores_and_panics_leave_the_problem_reusable"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "generated_admissible_bounds_match_independent_complete_tables"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "partial_constraint_network_scores_and_bounds_drive_real_search"
+        },
+        {
+          "path": "crates/solver/tests/branch_and_bound.rs",
+          "name": "score_order_is_exact_for_owned_decimal_levels_and_unknown_bounds"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "all_eighteen_routes_preserve_anchors_and_restore_best_under_every_order"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "all_eighteen_unrestricted_routes_restore_best_under_every_order"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "list_leaves_match_independent_enumeration_with_optional_values_pins_and_ranges"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "root_partial_and_leaf_evaluations_share_exact_phase_and_solve_budgets"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "admissible_bounds_prune_completion_space_and_exhaustion_allows_later_improvement"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "cancellation_time_and_frontier_interruptions_preserve_retained_state"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "impossible_required_domain_is_not_scored_in_basic_or_mixed_completion"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "completion_uses_actual_handoff_payloads_and_rebases_retained_cache"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "dependencies_restrict_insertions_without_reordering_existing_values"
+        },
+        {
+          "path": "crates/solver/tests/bounded_completion.rs",
+          "name": "custom_partial_handoff_and_optional_pinned_null_are_completion_anchors"
+        }
+      ],
+      "files": [],
+      "jobs": [
+        "solver_differential",
+        "solver_performance",
+        "heuristic_performance",
+        "construction_performance",
+        "repair_performance",
+        "list_repair_performance",
+        "pillar_performance"
+      ],
+      "limits": "Only exhausted exact search with valid bounds proves optimality; finite budgets retain best results and seeds do not establish identical Java traces.",
+      "browser_evidence": null
+    },
+    {
+      "id": "streams-derived-values",
+      "label": "Incremental scoring, streams, collectors and derived values",
+      "contract": "docs/constraint-stream-contract.md",
+      "tests": [
+        {
+          "path": "crates/solver/tests/range_collector_regression.rs",
+          "name": "identity_multiplicity_atomic_failures_and_immutable_hashes"
+        },
+        {
+          "path": "crates/solver/tests/range_collector_regression.rs",
+          "name": "empty_intervals_custom_metrics_and_exact_integer_extremes"
+        },
+        {
+          "path": "crates/solver/tests/range_collector_regression.rs",
+          "name": "generated_group_changes_match_independent_intervals_after_commit_and_undo"
+        },
+        {
+          "path": "crates/solver/tests/range_collector_regression.rs",
+          "name": "callback_failures_restore_graph_and_captured_retractions_do_not_map"
+        },
+        {
+          "path": "crates/solver/tests/range_collector_regression.rs",
+          "name": "construction_and_saved_search_candidates_match_full_range_objective"
+        },
+        {
+          "path": "crates/solver/tests/aligned_dependencies.rs",
+          "name": "all_three_node_graphs_and_partitions_match_independent_reachability"
+        },
+        {
+          "path": "crates/solver/tests/aligned_dependencies.rs",
+          "name": "fixed_dependency_collapse_cycles_recover_and_alignment_is_transitive"
+        },
+        {
+          "path": "crates/solver/tests/aligned_dependencies.rs",
+          "name": "invalid_metadata_fails_before_callbacks_and_none_remains_consistent"
+        },
+        {
+          "path": "crates/solver/tests/aligned_dependencies.rs",
+          "name": "callback_unwind_and_large_alignment_leave_plan_reusable"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "shared_nodes_checkpoint_once_and_undo_does_not_replay_callbacks"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "errors_and_caught_panics_abort_the_entire_multi_input_transaction"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "foreign_handles_and_duplicate_names_are_rejected_without_partial_registration"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "empty_graph_and_deep_graph_use_bounded_stack_and_wrapping_score_arithmetic"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "multi_source_candidates_match_independent_recomputation_across_commit_and_undo"
+        },
+        {
+          "path": "crates/solver/tests/stream_graph_regression.rs",
+          "name": "reconverging_paths_keep_raw_facts_and_group_summaries_consistent"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "key_clone_panics_during_commit_poison_join_and_group_nodes"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "panicking_identity_order_poisoned_terminal_cannot_report_an_old_score"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "filter_transitions_cache_rejections_and_do_not_replay_on_retraction"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "join_updates_evaluate_only_the_changed_key_and_matching_bucket"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "self_join_survives_alternating_left_and_right_first_updates"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "groups_capture_old_values_and_emit_no_phantom_empty_groups"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "score_terminal_retracts_cached_contributions_and_rejects_structural_scores_atomically"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "user_callback_panics_before_mutation_leave_nodes_usable"
+        },
+        {
+          "path": "crates/solver/tests/incremental_stream_regression.rs",
+          "name": "composed_filter_join_group_and_score_match_full_recomputation_for_2000_edits"
+        },
+        {
+          "path": "crates/solver/tests/shadow_native_binding_regression.rs",
+          "name": "native_dynamic_bindings_support_nonclone_entity_keys"
+        },
+        {
+          "path": "crates/solver/tests/shadow_native_binding_regression.rs",
+          "name": "native_signatures_keep_order_and_multiplicity_separate_from_deduplicated_edges"
+        },
+        {
+          "path": "crates/solver/tests/shadow_native_binding_regression.rs",
+          "name": "native_identity_and_registration_bounds_survive_failed_refresh_and_restore"
+        },
+        {
+          "path": "crates/solver/tests/shadow_native_binding_regression.rs",
+          "name": "native_and_compiled_path_bindings_share_propagation_diagnostics_and_rollback"
+        }
+      ],
+      "files": [],
+      "jobs": [
+        "stream_differential",
+        "stream_performance",
+        "concurrent_performance",
+        "sequence_performance",
+        "aggregate_performance"
+      ],
+      "limits": "Explicit native policies and every reference error remain visible; user callback side effects and allocation aborts are outside rollback guarantees.",
+      "browser_evidence": null
+    },
+    {
+      "id": "applications-services",
+      "label": "Configured applications and solver services",
+      "contract": "docs/owned-roster-workflow.md",
+      "tests": [
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "real_file_workflow_reaches_independent_optimum_and_preserves_input"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "same_owned_factory_uses_each_jobs_current_intervals_staff_and_preferences"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "invalid_input_and_configuration_preserve_existing_output_document"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "zero_deadline_publishes_actual_partial_score_and_reweighted_solve_is_feasible"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "warm_start_xml_step_caps_change_work_and_return_quality_on_both_backends"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "custom_xml_root_history_stops_real_warm_roster_and_round_trips"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_workflow_regression.rs",
+          "name": "invalid_custom_xml_preserves_existing_output_on_both_backends"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_cli_regression.rs",
+          "name": "parsing_preserves_demo_help_version_and_rejects_ambiguous_usage"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_cli_regression.rs",
+          "name": "file_invocation_executes_both_backends_and_preserves_documents_on_errors"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_cli_regression.rs",
+          "name": "non_utf8_paths_and_existing_symlink_hardlink_aliases_are_preserved"
+        },
+        {
+          "path": "crates/solver/tests/owned_roster_cli_regression.rs",
+          "name": "representative_file_roster_solves_128_shifts_with_a_planted_quality_certificate"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "both_real_mixed_backends_improve_the_complete_coupled_warm_start"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "whole_owner_and_prefix_pins_are_retained_by_actual_search"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "malformed_or_incomplete_protocol_does_not_become_a_timed_workload"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "cold_mixed_solve_constructs_both_variable_kinds_and_reaches_the_small_optimum"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "cold_clustered_solve_keeps_pins_and_reaches_an_independent_feasible_certificate"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "cold_construction_obeys_the_shared_budget_and_returns_actual_partial_work"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "component_refinement_keeps_quality_and_shared_caps_across_phase_handoffs"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "cold_customer_penalties_match_independent_math_at_partial_and_final_caps"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "owner_links_qualification::actual_policy_ids_payloads_shadows_and_joint_publication_survive_commit_and_drop"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "owner_links_qualification::callback_panic_restores_real_director_rows_matches_and_allows_recovery"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "owner_links_qualification::cold_partial_objective_and_complete_metadata_are_independently_checked"
+        },
+        {
+          "path": "crates/solver/tests/mixed_benchmark_regression.rs",
+          "name": "owner_links_qualification::every_real_factory_policy_backend_keeps_small_quality_and_phase_budgets"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "queued_cancellation_releases_id_without_running_and_old_handles_are_safe"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "active_cancellation_keeps_real_exact_search_best_and_is_not_preemptive"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "solve_errors_and_unwinding_panics_release_workers_and_ids"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "multiple_waiters_share_owned_results_without_clone_and_timeout_does_not_cancel"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "shutdown_cancels_queue_requests_active_cancellation_and_rejects_submissions"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "dropping_manager_is_nonblocking_and_handles_outlive_it"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "fifo_order_and_concurrency_cap_hold_under_concurrent_submission"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "shutdown_from_own_worker_returns_error_and_drop_cannot_self_join"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "zero_workers_rejected_and_dropping_job_handle_does_not_cancel"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "panic_payload_destructor_cannot_kill_worker_or_strand_next_job"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "queued_input_destructors_may_reenter_manager_and_finished_results_are_released"
+        },
+        {
+          "path": "crates/solver/tests/solver_manager_regression.rs",
+          "name": "abandoned_result_destructor_cannot_strand_later_jobs"
+        }
+      ],
+      "files": [],
+      "jobs": [
+        "mixed_performance"
+      ],
+      "limits": "Roster planted certificate and mixed independent small optimum/larger feasible certificate only; cooperative scheduling and no arbitrary-scale quality guarantee.",
+      "browser_evidence": null
+    },
+    {
+      "id": "dashboard",
+      "label": "Visual test and performance dashboard",
+      "contract": "docs/dashboard.md",
+      "tests": [],
+      "files": [],
+      "jobs": [
+        "solver_performance",
+        "mixed_performance",
+        "heuristic_performance",
+        "repair_performance",
+        "list_repair_performance",
+        "construction_performance",
+        "list_performance",
+        "kopt_performance",
+        "stream_performance",
+        "concurrent_performance",
+        "sequence_performance",
+        "aggregate_performance",
+        "pillar_performance",
+        "performance",
+        "differential",
+        "solver_differential",
+        "list_differential",
+        "stream_differential"
+      ],
+      "limits": "Source-bound desktop/mobile rendering and original observations; source-method counts are not runtime invocation or native requirement counts.",
+      "browser_evidence": {
+        "path": "compat/observations/native-readiness-dashboard.json",
+        "sha256": "739d79a8fe744ce125dcafc5098354d2998fb87a1ed017b99e6e708c89dc062b"
+      }
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "connected-range-history",
+      "job": "stream_differential",
+      "check": "range_collector_checks",
+      "disposition": "accepted_native_policy",
+      "contract": "docs/constraint-stream-contract.md",
+      "reason": "User chose snapshot-consistent half-open native ranges including empty intervals; exact observed Java history differences are retained.",
+      "authority": "Explicit user reply in this project chat",
+      "evidence": {
+        "path": "compat/observations/connected-range-history.json",
+        "sha256": "e4dc96da361b524af4b68716a2b99ab7351190b2127ce07b633b69945c5d68bb"
+      },
+      "cohort_sha256": "511566073439939be73a01b9fe17d3486557f9656ab326dd0d94f1013b04fc8b",
+      "requirements": [
+        "streams-derived-values"
+      ]
+    },
+    {
+      "id": "list-planning-value-metadata",
+      "job": "list_differential",
+      "check": "value_metadata",
+      "disposition": "accepted_native_policy",
+      "contract": "docs/list-planning-contract.md#planning-value-metadata-comparison",
+      "reason": "User chose stable native first-touch capture and rollback; successful differing Java sets, getter errors and unsupported empty compositions remain unavailable/different.",
+      "authority": "Explicit user reply in this project chat",
+      "evidence": {
+        "path": "compat/observations/list-metadata-policy.json",
+        "sha256": "ede51545a59edf857e0fbc0a90247b7eb6daeb52ee00b6ccc038df79e9a80b19"
+      },
+      "cohort_sha256": "569cf61342cf8b29dbb2dc3dc623b676d74ce7bc72eec5a738e0b829042bb88b",
+      "requirements": [
+        "models-moves-rollback"
+      ]
+    },
+    {
+      "id": "cyclic-supplier-reference-errors",
+      "job": "stream_differential",
+      "check": "concurrent_checks",
+      "disposition": "reference_unavailable",
+      "contract": "docs/constraint-stream-contract.md",
+      "reason": "Actual Java null-finish supplier errors have no successful reference outcome; native exhaustive reachability, cycle/downstream and recovery tests independently prove the bounded native behavior.",
+      "authority": "Observed unavailable Java reference; independent native cycle/recovery proof",
+      "evidence": {
+        "path": "work/round305-final/retained-reports/stream-differential.json",
+        "sha256": "fdf3aa2d1c12468ce964fc42b09aa19ba6a8a9d483780eab1c0688a756d82acc"
+      },
+      "cohort_sha256": "af2b233eb62dd1ae3c302ff2775e2b57554c9a2d87309cb9a9c387e9ed9217db",
+      "requirements": [
+        "streams-derived-values"
+      ]
+    }
+  ],
+  "method_boundaries": [
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/config/util/ConfigUtilsTest.java#ignoreSyntheticMembers:254",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/enterprise/TimefoldSolverEnterpriseServiceTest.java#failsOnLoad:9",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/domain/common/accessor/MemberAccessorFactoryTest.java#gizmoUsesCorrectParentClassLoader:129",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/domain/solution/cloner/gizmo/GizmoSolutionClonerTest.java#debuggingDisabled:35",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/solver/DefaultSolverTest.java#solveCustomClassLoader:2183",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureFailsForCommunityEditionBuild:489",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureFailsForCommunityEditionBuildEvenWhenConfigurationSkipped:510",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "service/tools/maven-plugin/src/test/java/ai/timefold/solver/tools/maven/ConfigureMojoTest.java#testConfigureSucceedsForEnterpriseEditionBuild:523",
+      "disposition": "initial-jvm-scope",
+      "contract": "docs/compatibility.md#target",
+      "requirement": "independent-community-solver",
+      "limits": "Original pending assertion remains pending; initial JVM/framework/Enterprise boundary earns no native or method credit."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java#testNonsequentialKOptOnSameEntity:361",
+      "disposition": "native-kopt-behavior",
+      "contract": "docs/list-planning-contract.md",
+      "requirement": "models-moves-rollback",
+      "limits": "Physical native topology, pins, execution, search and undo verified; exact private Java arrays remain unadapted."
+    },
+    {
+      "method_id": "core/src/test/java/ai/timefold/solver/core/impl/heuristic/selector/move/generic/list/kopt/KOptListMoveIteratorTest.java#testNonsequentialKOptOnDifferentEntity:371",
+      "disposition": "native-kopt-behavior",
+      "contract": "docs/list-planning-contract.md",
+      "requirement": "models-moves-rollback",
+      "limits": "Physical native topology, pins, execution, search and undo verified; exact private Java arrays remain unadapted."
+    }
+  ],
+  "performance_targets": {
+    "performance": {
+      "config": {
+        "iterations": 5000000,
+        "samples": 5,
+        "warmup": 3,
+        "forks": 3,
+        "seed": 20261001
+      },
+      "workloads": [
+        {
+          "name": "simple",
+          "case_sha256": null,
+          "inputs": {
+            "unit": "ns / iteration"
+          }
+        },
+        {
+          "name": "hard_soft",
+          "case_sha256": null,
+          "inputs": {
+            "unit": "ns / iteration"
+          }
+        },
+        {
+          "name": "hard_medium_soft",
+          "case_sha256": null,
+          "inputs": {
+            "unit": "ns / iteration"
+          }
+        }
+      ]
+    },
+    "solver_performance": {
+      "config": {
+        "iterations": 5,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261001,
+        "algorithms": [
+          "brute",
+          "depth",
+          "breadth",
+          "score",
+          "bound"
+        ]
+      },
+      "workloads": [
+        {
+          "name": "Brute force \u00b7 6 variables / 3 values",
+          "case_sha256": "d8f96666d9a09e483265d4662b00f426113b9a723a4fd2d0c0d084abf3593ccb",
+          "inputs": {
+            "algorithm": "brute",
+            "unit": "ms / solve",
+            "complete_assignments": 729,
+            "optimal_score": [
+              0,
+              35
+            ]
+          }
+        },
+        {
+          "name": "Brute force \u00b7 8 variables / 3 values",
+          "case_sha256": "4184946003034b37fc371afe6e7fd6ef53520920c1778aa3b01ab82fc4cb3994",
+          "inputs": {
+            "algorithm": "brute",
+            "unit": "ms / solve",
+            "complete_assignments": 6561,
+            "optimal_score": [
+              0,
+              45
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 depth first \u00b7 6 variables / 3 values",
+          "case_sha256": "6d249a5c5bba56d186d39a90b54051459517790e541c85720881f4a19c2e8886",
+          "inputs": {
+            "algorithm": "depth",
+            "unit": "ms / solve",
+            "complete_assignments": 729,
+            "optimal_score": [
+              0,
+              -17
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 depth first \u00b7 8 variables / 3 values",
+          "case_sha256": "c1d02a7e635df22456dcdd486d2e5d47baec36299ecec7c85e700f940af86c26",
+          "inputs": {
+            "algorithm": "depth",
+            "unit": "ms / solve",
+            "complete_assignments": 6561,
+            "optimal_score": [
+              0,
+              -26
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 breadth first \u00b7 6 variables / 3 values",
+          "case_sha256": "272b4eda3d17a2e268e3b9ed11a6ebe87f052691750af52196973371e53cb07b",
+          "inputs": {
+            "algorithm": "breadth",
+            "unit": "ms / solve",
+            "complete_assignments": 729,
+            "optimal_score": [
+              0,
+              -17
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 breadth first \u00b7 8 variables / 3 values",
+          "case_sha256": "68d7e7b21cd37646c7fa2a018ea139b8f32aa74e26980c487ff289fba1a89b9b",
+          "inputs": {
+            "algorithm": "breadth",
+            "unit": "ms / solve",
+            "complete_assignments": 6561,
+            "optimal_score": [
+              0,
+              -26
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 score first \u00b7 6 variables / 3 values",
+          "case_sha256": "52aec6e5d156199b5334657b96329864bd77795c80037cda9e1f7999db6653c6",
+          "inputs": {
+            "algorithm": "score",
+            "unit": "ms / solve",
+            "complete_assignments": 729,
+            "optimal_score": [
+              0,
+              -17
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 score first \u00b7 8 variables / 3 values",
+          "case_sha256": "3ea6e005687133393712b0138cd4ad825198e7d2440f53cca56d342525375b47",
+          "inputs": {
+            "algorithm": "score",
+            "unit": "ms / solve",
+            "complete_assignments": 6561,
+            "optimal_score": [
+              0,
+              -26
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 optimistic bound first \u00b7 6 variables / 3 values",
+          "case_sha256": "b2db940862c546031bb59d7143a0aa448524d8b8fb5202692a8d55a222b2f726",
+          "inputs": {
+            "algorithm": "bound",
+            "unit": "ms / solve",
+            "complete_assignments": 729,
+            "optimal_score": [
+              0,
+              -17
+            ]
+          }
+        },
+        {
+          "name": "Branch and bound \u00b7 optimistic bound first \u00b7 8 variables / 3 values",
+          "case_sha256": "3bdd945188df13e219c3547d245554ac5321a7a71c8e4b869cb869596a48d715",
+          "inputs": {
+            "algorithm": "bound",
+            "unit": "ms / solve",
+            "complete_assignments": 6561,
+            "optimal_score": [
+              0,
+              -26
+            ]
+          }
+        }
+      ]
+    },
+    "mixed_performance": {
+      "config": {
+        "iterations": 3,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "native_search_profile": "component-refinement",
+        "native_stream_graph_policy": "owner-links-fused",
+        "native_list_registry_policy": "ordinal",
+        "stream_graph_declaration": {
+          "default": "ordinary-join",
+          "owner_links": "shared endpoints; fixed full-payload tracked terminal; ((relationship_owner,left_owner),right_owner) IDs; final publication per affected link per director batch",
+          "owner_links_fused": "direct projection/scoring into full tracked matches; no inter-node link event; callback/clone/error order differs from v1",
+          "controls": "selected link policies retain full ordinary Stream observations/samples; fused also retains v1 controls, requiring identical actual physical calls and all full observations except declaration metadata/time",
+          "registry_construction": "checked list ordinals; Basic EqOnly; complete same-graph EqOnly controls"
+        },
+        "seed": 20261017,
+        "seed_scope": "Java seed; native Original order is deterministic without random draws",
+        "max_steps": 24,
+        "max_evaluations": 40000,
+        "start_modes": [
+          "warm",
+          "cold"
+        ],
+        "native_joint_moves": true,
+        "java_joint_moves": false,
+        "native_cold_stream_unassigned_penalty": "route-cardinality",
+        "native_cold_dense_unassigned_penalty": "route-cardinality",
+        "native_phase_policy": "component search until stalled, then joint refinement; shared per-case step/evaluation bounds"
+      },
+      "workloads": [
+        {
+          "name": "mixed-small \u00b7 dense",
+          "case_sha256": "0d9b4d6bd4d1c86a417cd149abf487f6f3b868793fffd29b66ea03af1049345f",
+          "inputs": {
+            "algorithm": "mixed warm-start hill climbing",
+            "start_mode": "warm",
+            "native_backend": "dense",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "not-applicable-dense",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-small",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -78
+            ],
+            "reference_kind": "independent_exhaustive_optimum",
+            "reference_score": [
+              0,
+              -12
+            ],
+            "optimal_score": [
+              0,
+              -12
+            ]
+          }
+        },
+        {
+          "name": "mixed-small \u00b7 stream",
+          "case_sha256": "0d9b4d6bd4d1c86a417cd149abf487f6f3b868793fffd29b66ea03af1049345f",
+          "inputs": {
+            "algorithm": "mixed warm-start hill climbing",
+            "start_mode": "warm",
+            "native_backend": "stream",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "owner-links-fused",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-small",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -78
+            ],
+            "reference_kind": "independent_exhaustive_optimum",
+            "reference_score": [
+              0,
+              -12
+            ],
+            "optimal_score": [
+              0,
+              -12
+            ]
+          }
+        },
+        {
+          "name": "mixed-clustered-pins \u00b7 dense",
+          "case_sha256": "b750e1273aa3679fc8cc40d527a8b6ed52497a46bdb1aadc57ded898b6bc8621",
+          "inputs": {
+            "algorithm": "mixed warm-start hill climbing",
+            "start_mode": "warm",
+            "native_backend": "dense",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "not-applicable-dense",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-clustered-pins",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -586
+            ],
+            "reference_kind": "independently_scored_feasible_certificate",
+            "reference_score": [
+              0,
+              -72
+            ]
+          }
+        },
+        {
+          "name": "mixed-clustered-pins \u00b7 stream",
+          "case_sha256": "b750e1273aa3679fc8cc40d527a8b6ed52497a46bdb1aadc57ded898b6bc8621",
+          "inputs": {
+            "algorithm": "mixed warm-start hill climbing",
+            "start_mode": "warm",
+            "native_backend": "stream",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "owner-links-fused",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-clustered-pins",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -586
+            ],
+            "reference_kind": "independently_scored_feasible_certificate",
+            "reference_score": [
+              0,
+              -72
+            ]
+          }
+        },
+        {
+          "name": "mixed-small-cold \u00b7 dense",
+          "case_sha256": "748d99f9eed1a4e3717882826206f1a533396fbce104778afcb897fb7ef096a1",
+          "inputs": {
+            "algorithm": "mixed cold construction + hill climbing",
+            "start_mode": "cold",
+            "native_backend": "dense",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "not-applicable-dense",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-small-cold",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -12
+            ],
+            "reference_kind": "independent_exhaustive_optimum",
+            "reference_score": [
+              0,
+              -12
+            ],
+            "optimal_score": [
+              0,
+              -12
+            ]
+          }
+        },
+        {
+          "name": "mixed-small-cold \u00b7 stream",
+          "case_sha256": "748d99f9eed1a4e3717882826206f1a533396fbce104778afcb897fb7ef096a1",
+          "inputs": {
+            "algorithm": "mixed cold construction + hill climbing",
+            "start_mode": "cold",
+            "native_backend": "stream",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "owner-links-fused",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-small-cold",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -12
+            ],
+            "reference_kind": "independent_exhaustive_optimum",
+            "reference_score": [
+              0,
+              -12
+            ],
+            "optimal_score": [
+              0,
+              -12
+            ]
+          }
+        },
+        {
+          "name": "mixed-clustered-pins-cold \u00b7 dense",
+          "case_sha256": "c8529fbdc60b7b29ebcf49f02eae5f70184822188a909fb6a4481682bb9a4970",
+          "inputs": {
+            "algorithm": "mixed cold construction + hill climbing",
+            "start_mode": "cold",
+            "native_backend": "dense",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "not-applicable-dense",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-clustered-pins-cold",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -72
+            ],
+            "reference_kind": "independently_scored_feasible_certificate",
+            "reference_score": [
+              0,
+              -72
+            ]
+          }
+        },
+        {
+          "name": "mixed-clustered-pins-cold \u00b7 stream",
+          "case_sha256": "c8529fbdc60b7b29ebcf49f02eae5f70184822188a909fb6a4481682bb9a4970",
+          "inputs": {
+            "algorithm": "mixed cold construction + hill climbing",
+            "start_mode": "cold",
+            "native_backend": "stream",
+            "native_list_registry_policy": "ordinal",
+            "native_search_profile": "component-refinement",
+            "native_stream_graph_policy": "owner-links-fused",
+            "unit": "ms / solve",
+            "java_sample_group": "mixed-clustered-pins-cold",
+            "java_samples_shared_between_native_rows": true,
+            "quality_floor": [
+              0,
+              -72
+            ],
+            "reference_kind": "independently_scored_feasible_certificate",
+            "reference_score": [
+              0,
+              -72
+            ]
+          }
+        }
+      ]
+    },
+    "heuristic_performance": {
+      "config": {
+        "steps": 50,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261001,
+        "iterations": 1,
+        "algorithms": [
+          "hill",
+          "diversified",
+          "ratio_tabu",
+          "tabu",
+          "move_tabu",
+          "value_tabu",
+          "late_tabu",
+          "oscillation_last",
+          "oscillation_best",
+          "step",
+          "deluge"
+        ],
+        "rejected_fallback": {
+          "rust": "highest_score",
+          "java": "configured_public_forager"
+        },
+        "strategic_oscillation": {
+          "oscillation_last": "last_completed_step",
+          "oscillation_best": "retained_best",
+          "entity_tabu_tenure": 2
+        },
+        "entity_tabu_ratio": 0.2,
+        "diversified_history": 3,
+        "value_tabu_tenure": 2,
+        "move_tabu_tenure": 2,
+        "combined_late_history": 3,
+        "combined_tabu_tenure": 2,
+        "step_counting_period": 7,
+        "great_deluge_rise": [
+          0,
+          1
+        ]
+      },
+      "workloads": [
+        {
+          "name": "Hill climbing \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "hill",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "hill",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Diversified late acceptance \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "diversified",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Diversified late acceptance \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "diversified",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Ratio tabu \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "ratio_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Ratio tabu \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "ratio_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Move tabu \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "move_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Move tabu \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "move_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "value_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "value_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Late acceptance + tabu \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "late_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Late acceptance + tabu \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "late_tabu",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Strategic oscillation \u00b7 last step \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "oscillation_last",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Strategic oscillation \u00b7 last step \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "oscillation_last",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Strategic oscillation \u00b7 best score \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "oscillation_best",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Strategic oscillation \u00b7 best score \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "oscillation_best",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Step counting \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "step",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Step counting \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "step",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Great Deluge \u00b7 32 variables",
+          "case_sha256": "27a041edfc84577dbf620142adbd42d4e46aec792f29733c3abe0692f8cdf69e",
+          "inputs": {
+            "algorithm": "deluge",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Great Deluge \u00b7 96 variables",
+          "case_sha256": "d09068e501a17bc64087505acd6078dfc2bdf4ba5f5be9128090813e021c6b10",
+          "inputs": {
+            "algorithm": "deluge",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    "construction_performance": {
+      "config": {
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261221,
+        "validation_seed": 20261001,
+        "iterations": 1,
+        "algorithms": [
+          "sequential",
+          "pooled",
+          "value-queue"
+        ]
+      },
+      "workloads": [
+        {
+          "name": "Sequential \u00b7 32 variables",
+          "case_sha256": "6e5c0f022be61741375268c0bd237a7a4102513daaf78fd1fca5edcdb155ef76",
+          "inputs": {
+            "algorithm": "sequential",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Sequential \u00b7 96 variables",
+          "case_sha256": "2d4d01070aa9ca93dfa5175c17fbd4cbbbaa20630595e9239ea647fc260d42f4",
+          "inputs": {
+            "algorithm": "sequential",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Pooled cheapest insertion \u00b7 32 variables",
+          "case_sha256": "6e5c0f022be61741375268c0bd237a7a4102513daaf78fd1fca5edcdb155ef76",
+          "inputs": {
+            "algorithm": "pooled",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Pooled cheapest insertion \u00b7 96 variables",
+          "case_sha256": "2d4d01070aa9ca93dfa5175c17fbd4cbbbaa20630595e9239ea647fc260d42f4",
+          "inputs": {
+            "algorithm": "pooled",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Cycling value queue \u00b7 32 variables",
+          "case_sha256": "6e5c0f022be61741375268c0bd237a7a4102513daaf78fd1fca5edcdb155ef76",
+          "inputs": {
+            "algorithm": "value-queue",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Cycling value queue \u00b7 96 variables",
+          "case_sha256": "2d4d01070aa9ca93dfa5175c17fbd4cbbbaa20630595e9239ea647fc260d42f4",
+          "inputs": {
+            "algorithm": "value-queue",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    "repair_performance": {
+      "config": {
+        "steps": 8,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "ruin_sampling": "coverage-cycle",
+        "construction_placement": "cheapest",
+        "native_scoring": "incremental-cached",
+        "seed": 20261222,
+        "iterations": 1,
+        "algorithms": [
+          "half",
+          "all"
+        ]
+      },
+      "workloads": [
+        {
+          "name": "Half-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+          "case_sha256": "37a5d572683a7affc7f0c65cc52eca8c22c480120cbccccea9057b8c76c89c9a",
+          "inputs": {
+            "algorithm": "half",
+            "ruined_count": 16,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Half-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+          "case_sha256": "5b06741f08de30b80d53e73ace77c3cfc6dcc7abf5b8194169954071d044ed6f",
+          "inputs": {
+            "algorithm": "half",
+            "ruined_count": 48,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Whole-group repair \u00b7 32 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+          "case_sha256": "37a5d572683a7affc7f0c65cc52eca8c22c480120cbccccea9057b8c76c89c9a",
+          "inputs": {
+            "algorithm": "all",
+            "ruined_count": 32,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Whole-group repair \u00b7 96 variables \u00b7 Rust coverage-cycle / cheapest \u00b7 incremental-cached scoring",
+          "case_sha256": "5b06741f08de30b80d53e73ace77c3cfc6dcc7abf5b8194169954071d044ed6f",
+          "inputs": {
+            "algorithm": "all",
+            "ruined_count": 96,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    "list_repair_performance": {
+      "config": {
+        "steps": 8,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "ruin_sampling": "coverage-cycle",
+        "seed": 20261225,
+        "iterations": 1,
+        "algorithms": [
+          "optional-all",
+          "optional-half",
+          "required-all",
+          "required-half"
+        ]
+      },
+      "workloads": [
+        {
+          "name": "Required list \u00b7 half maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+          "case_sha256": "d583b07f838faf2de080b9f97b95452f3c6a97e6a2ffdbba51874d3aabd1ea38",
+          "inputs": {
+            "algorithm": "required-half",
+            "minimum_ruined": 1,
+            "maximum_ruined": 12,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                21,
+                18,
+                15,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                22,
+                19,
+                16,
+                13,
+                10,
+                7,
+                4,
+                1
+              ],
+              [
+                23,
+                20,
+                17,
+                14,
+                11,
+                8,
+                5,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Required list \u00b7 half maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+          "case_sha256": "7dee42b49f1a170d897077837c7903f73dd157012ffc2544305bda5bdf983846",
+          "inputs": {
+            "algorithm": "required-half",
+            "minimum_ruined": 1,
+            "maximum_ruined": 24,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                45,
+                42,
+                39,
+                36,
+                33,
+                30,
+                27,
+                24,
+                21,
+                18,
+                15,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                46,
+                43,
+                40,
+                37,
+                34,
+                31,
+                28,
+                25,
+                22,
+                19,
+                16,
+                13,
+                10,
+                7,
+                4,
+                1
+              ],
+              [
+                47,
+                44,
+                41,
+                38,
+                35,
+                32,
+                29,
+                26,
+                23,
+                20,
+                17,
+                14,
+                11,
+                8,
+                5,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Optional list \u00b7 half maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+          "case_sha256": "b0a0dfd7d2cbdf340dc4f6ae5565e1b621b2a9e28ac312cf50de8521362e935f",
+          "inputs": {
+            "algorithm": "optional-half",
+            "minimum_ruined": 1,
+            "maximum_ruined": 12,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                21,
+                18,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                22,
+                19,
+                16,
+                13,
+                7,
+                4,
+                1
+              ],
+              [
+                23,
+                17,
+                14,
+                11,
+                8,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Optional list \u00b7 half maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+          "case_sha256": "30311e8e4e8d0320c0b66fc754fd75acdec8d0c3696457a558c50305cd9bc023",
+          "inputs": {
+            "algorithm": "optional-half",
+            "minimum_ruined": 1,
+            "maximum_ruined": 24,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                42,
+                39,
+                36,
+                33,
+                27,
+                24,
+                21,
+                18,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                46,
+                43,
+                37,
+                34,
+                31,
+                28,
+                22,
+                19,
+                16,
+                13,
+                7,
+                4,
+                1
+              ],
+              [
+                47,
+                44,
+                41,
+                38,
+                32,
+                29,
+                26,
+                23,
+                17,
+                14,
+                11,
+                8,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Required list \u00b7 all maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+          "case_sha256": "d583b07f838faf2de080b9f97b95452f3c6a97e6a2ffdbba51874d3aabd1ea38",
+          "inputs": {
+            "algorithm": "required-all",
+            "minimum_ruined": 1,
+            "maximum_ruined": 24,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                21,
+                18,
+                15,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                22,
+                19,
+                16,
+                13,
+                10,
+                7,
+                4,
+                1
+              ],
+              [
+                23,
+                20,
+                17,
+                14,
+                11,
+                8,
+                5,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Required list \u00b7 all maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+          "case_sha256": "7dee42b49f1a170d897077837c7903f73dd157012ffc2544305bda5bdf983846",
+          "inputs": {
+            "algorithm": "required-all",
+            "minimum_ruined": 1,
+            "maximum_ruined": 48,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                45,
+                42,
+                39,
+                36,
+                33,
+                30,
+                27,
+                24,
+                21,
+                18,
+                15,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                46,
+                43,
+                40,
+                37,
+                34,
+                31,
+                28,
+                25,
+                22,
+                19,
+                16,
+                13,
+                10,
+                7,
+                4,
+                1
+              ],
+              [
+                47,
+                44,
+                41,
+                38,
+                35,
+                32,
+                29,
+                26,
+                23,
+                20,
+                17,
+                14,
+                11,
+                8,
+                5,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Optional list \u00b7 all maximum \u00b7 24 values \u00b7 Rust coverage cycle",
+          "case_sha256": "b0a0dfd7d2cbdf340dc4f6ae5565e1b621b2a9e28ac312cf50de8521362e935f",
+          "inputs": {
+            "algorithm": "optional-all",
+            "minimum_ruined": 1,
+            "maximum_ruined": 24,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                21,
+                18,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                22,
+                19,
+                16,
+                13,
+                7,
+                4,
+                1
+              ],
+              [
+                23,
+                17,
+                14,
+                11,
+                8,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Optional list \u00b7 all maximum \u00b7 48 values \u00b7 Rust coverage cycle",
+          "case_sha256": "30311e8e4e8d0320c0b66fc754fd75acdec8d0c3696457a558c50305cd9bc023",
+          "inputs": {
+            "algorithm": "optional-all",
+            "minimum_ruined": 1,
+            "maximum_ruined": 48,
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ],
+            "planted": [
+              [],
+              [
+                42,
+                39,
+                36,
+                33,
+                27,
+                24,
+                21,
+                18,
+                12,
+                9,
+                6,
+                3,
+                0
+              ],
+              [
+                46,
+                43,
+                37,
+                34,
+                31,
+                28,
+                22,
+                19,
+                16,
+                13,
+                7,
+                4,
+                1
+              ],
+              [
+                47,
+                44,
+                41,
+                38,
+                32,
+                29,
+                26,
+                23,
+                17,
+                14,
+                11,
+                8,
+                2
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "list_performance": {
+      "config": {
+        "steps": 20,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "construction_destination_order": "entity-starts-then-registry-value-anchors",
+        "seed": 20261006,
+        "range_seed": 20261007,
+        "value_tabu_size": 3,
+        "two_opt_score_limit": 10000,
+        "two_opt_rust_order": {
+          "kind": "shuffled-window",
+          "seed": 20261006,
+          "window": 1024
+        },
+        "iterations": 1
+      },
+      "workloads": [
+        {
+          "name": "Construction \u00b7 16 customers",
+          "case_sha256": "6027d6ab357fb146bd1e75948ef4c1691f48e371584e1976602645c7fecc23b6",
+          "inputs": {
+            "mode": "construct",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Construction \u00b7 32 customers",
+          "case_sha256": "f058887ed89e7839dcf406ea91b6e4a610bcbc5f9aa261a7f886af285c87692b",
+          "inputs": {
+            "mode": "construct",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 16 customers",
+          "case_sha256": "e551a74e4edc5aef5089dcd21124d8cf9e2149a91eaed78b414012d95be2967f",
+          "inputs": {
+            "mode": "hill",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 32 customers",
+          "case_sha256": "d8207993e91d4abc0d50de1e087ae82d00019e55f30db138ea1ef8eb0c503c9e",
+          "inputs": {
+            "mode": "hill",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Two-opt \u00b7 16 customers",
+          "case_sha256": "1f1146a09b73a93f54b88b672a79687d49f7314467daa6400bd00d33849b49b3",
+          "inputs": {
+            "mode": "two-opt",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Two-opt \u00b7 32 customers",
+          "case_sha256": "3334cf10154775a2722d45961ced6562213cb7447747621c4e0396d163b17f1c",
+          "inputs": {
+            "mode": "two-opt",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 relocation \u00b7 16 customers",
+          "case_sha256": "c1aa356960827ec89f452e5810ebe6c8b5da3fc9fe643905a097b8f20f3152c9",
+          "inputs": {
+            "mode": "value-tabu-change",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 relocation \u00b7 32 customers",
+          "case_sha256": "fde1064ce756642d966a29f27f2b0e98b8e29d9d7045c7f7e71b1e605479e413",
+          "inputs": {
+            "mode": "value-tabu-change",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 relocation \u00b7 96 customers",
+          "case_sha256": "8b837f75393ac0ac73e8b4d4d33f9da38f89120981b7eb02eb47c9534df1ef75",
+          "inputs": {
+            "mode": "value-tabu-change",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 swaps \u00b7 16 customers",
+          "case_sha256": "0792aadf857ff18d226a6984477170742d9ebff710609896b24da34d9cf31838",
+          "inputs": {
+            "mode": "value-tabu-swap",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 swaps \u00b7 32 customers",
+          "case_sha256": "b00db2f575abe85693d65e3a95607291b2d54bdae7455c175426abd112271c34",
+          "inputs": {
+            "mode": "value-tabu-swap",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "Value tabu \u00b7 swaps \u00b7 96 customers",
+          "case_sha256": "46f5a6e20cd05f6b44bd5aa5d6b0bd43388190e9f50da7acdcb6aa0aa9332b2d",
+          "inputs": {
+            "mode": "value-tabu-swap",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        }
+      ]
+    },
+    "kopt_performance": {
+      "config": {
+        "steps": 30,
+        "evaluations": 10000,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261008,
+        "native_window": 4096,
+        "native_attempts_per_step": 10000,
+        "native_strategies": [
+          "window",
+          "sampled"
+        ],
+        "iterations": 1
+      },
+      "workloads": [
+        {
+          "name": "K-opt 2\u20133 \u00b7 12 values \u00b7 window",
+          "case_sha256": "35a2906e33841c5070dfe172dfc72bde291ba8167eedf652fd427c9f13765dc0",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 3,
+            "native_strategy": "window",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20133 \u00b7 16 values \u00b7 window",
+          "case_sha256": "fa0b20518627f316e02a37cf0938ffeb39088b1ad2c8829a3eab3a815890c9eb",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 3,
+            "native_strategy": "window",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20134 \u00b7 12 values \u00b7 window",
+          "case_sha256": "35a2906e33841c5070dfe172dfc72bde291ba8167eedf652fd427c9f13765dc0",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 4,
+            "native_strategy": "window",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20134 \u00b7 16 values \u00b7 window",
+          "case_sha256": "fa0b20518627f316e02a37cf0938ffeb39088b1ad2c8829a3eab3a815890c9eb",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 4,
+            "native_strategy": "window",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20133 \u00b7 12 values \u00b7 sampled",
+          "case_sha256": "35a2906e33841c5070dfe172dfc72bde291ba8167eedf652fd427c9f13765dc0",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 3,
+            "native_strategy": "sampled",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20133 \u00b7 16 values \u00b7 sampled",
+          "case_sha256": "fa0b20518627f316e02a37cf0938ffeb39088b1ad2c8829a3eab3a815890c9eb",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 3,
+            "native_strategy": "sampled",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20134 \u00b7 12 values \u00b7 sampled",
+          "case_sha256": "35a2906e33841c5070dfe172dfc72bde291ba8167eedf652fd427c9f13765dc0",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 4,
+            "native_strategy": "sampled",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        },
+        {
+          "name": "K-opt 2\u20134 \u00b7 16 values \u00b7 sampled",
+          "case_sha256": "fa0b20518627f316e02a37cf0938ffeb39088b1ad2c8829a3eab3a815890c9eb",
+          "inputs": {
+            "minimum": 2,
+            "maximum": 4,
+            "native_strategy": "sampled",
+            "unit": "ms / solve",
+            "optimal_score": null
+          }
+        }
+      ]
+    },
+    "stream_performance": {
+      "config": {
+        "steps": 50,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261017,
+        "iterations": 1,
+        "rust_graph": "batched",
+        "rust_relationships": "fixed-links",
+        "rust_fixed_state": "dense-slots",
+        "rust_grouping": "sum-only-i64-wrapping",
+        "rust_projection": "filter-map-batched",
+        "rust_link_scoring": "fused-tracked-shared-inputs",
+        "rust_preferences": "fixed-filter-and-score",
+        "neighborhoods": [
+          "change",
+          "swap"
+        ],
+        "rust_swap_pairs": "unique"
+      },
+      "workloads": [
+        {
+          "name": "Hill climbing \u00b7 change \u00b7 32 variables",
+          "case_sha256": "53a52b0af925c8a9e131bb22fb29bbbcba21b308d059458770cf6638148549cf",
+          "inputs": {
+            "algorithm": "hill",
+            "neighborhood": "change",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 change \u00b7 96 variables",
+          "case_sha256": "648042b9a88fbda4ad665d8122378efb3b178890e90e314e988e7d27b6de408e",
+          "inputs": {
+            "algorithm": "hill",
+            "neighborhood": "change",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 change \u00b7 32 variables",
+          "case_sha256": "53a52b0af925c8a9e131bb22fb29bbbcba21b308d059458770cf6638148549cf",
+          "inputs": {
+            "algorithm": "tabu",
+            "neighborhood": "change",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 change \u00b7 96 variables",
+          "case_sha256": "648042b9a88fbda4ad665d8122378efb3b178890e90e314e988e7d27b6de408e",
+          "inputs": {
+            "algorithm": "tabu",
+            "neighborhood": "change",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 swap \u00b7 32 variables",
+          "case_sha256": "4c9c739bce5f5327d03ac273e2eea17f1fe46899ba623d102a2e1e8f34b7f85f",
+          "inputs": {
+            "algorithm": "hill",
+            "neighborhood": "swap",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Hill climbing \u00b7 swap \u00b7 96 variables",
+          "case_sha256": "4d0775e613b83986cbb9d8a1e63dee6ff3f123ce3525924fd9835e0c4e1dab81",
+          "inputs": {
+            "algorithm": "hill",
+            "neighborhood": "swap",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 swap \u00b7 32 variables",
+          "case_sha256": "4c9c739bce5f5327d03ac273e2eea17f1fe46899ba623d102a2e1e8f34b7f85f",
+          "inputs": {
+            "algorithm": "tabu",
+            "neighborhood": "swap",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Tabu \u00b7 swap \u00b7 96 variables",
+          "case_sha256": "4d0775e613b83986cbb9d8a1e63dee6ff3f123ce3525924fd9835e0c4e1dab81",
+          "inputs": {
+            "algorithm": "tabu",
+            "neighborhood": "swap",
+            "unit": "ms / solve",
+            "optimal_score": [
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    "concurrent_performance": {
+      "config": {
+        "iterations": 200,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261004
+      },
+      "workloads": [
+        {
+          "name": "Swap \u00b7 16 visits",
+          "case_sha256": "84b6b9e0bbd3765f61e740ca24307788480b3136058f22c7f16f58f78e9801f2",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Swap \u00b7 64 visits",
+          "case_sha256": "ed3e2c0aa51fb1462c55edd770f0bfecc8816444ecd14ac5076d551086ecafbd",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Relocate \u00b7 16 visits",
+          "case_sha256": "086930c1bcefffa7e173d468004812f5d77d541a1fa532e731434cb38949f611",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Relocate \u00b7 64 visits",
+          "case_sha256": "b7f25029efe67e3037a023e2459bc94d4065efdcd7ea7e727e860a2b695627de",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        }
+      ]
+    },
+    "sequence_performance": {
+      "config": {
+        "iterations": 200,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261221
+      },
+      "workloads": [
+        {
+          "name": "Dense \u00b7 64 items",
+          "case_sha256": "44039e1f215ff06d689f867d75dc6d1ba373b88e8903f29d3de870303aa800cc",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Dense \u00b7 512 items",
+          "case_sha256": "1507e923cc49e7bba9b633f46aa96668aa664cc86a6838edde03a574105753b5",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Fragmented \u00b7 64 items",
+          "case_sha256": "a6f5be192f96ad24747af26951d7f549129ca66f34243b446974b801fe294f1a",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Fragmented \u00b7 512 items",
+          "case_sha256": "0e488bbd18362f8a6d1d2f12ffd9eded690e30ca1a4388040d3356b987510d3c",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        }
+      ]
+    },
+    "aggregate_performance": {
+      "config": {
+        "iterations": 200,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261228
+      },
+      "workloads": [
+        {
+          "name": "Checked sum \u00b7 64 captures",
+          "case_sha256": "91aa6ce7c90995a8a907afff32d9fb3f6bd97fda274db898aade5904fdf23b75",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Checked sum \u00b7 512 captures",
+          "case_sha256": "9cf34557c599076431eec7576b2a9d8d883d049f581da74b3f4126dce896c151",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Sorted set \u00b7 64 captures",
+          "case_sha256": "764b8bff2f344272534cef95f899c63e0acbe289c549700ebdb6fc8de60b8002",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Sorted set \u00b7 512 captures",
+          "case_sha256": "28c6506472d0befe0f27ae1baba89895b9db2440a834de31ff580e05db7a9ce6",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Merged map \u00b7 64 captures",
+          "case_sha256": "af962c8a8fb7600b3692bf46229d74dbc94a21f5323c216c9d54f80b14ce8325",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        },
+        {
+          "name": "Merged map \u00b7 512 captures",
+          "case_sha256": "a08c761f52d6ecaa281ea1f48d98b5acb85b6e68b9daf4505a92520900b0af2a",
+          "inputs": {
+            "unit": "ms / update-restore pair"
+          }
+        }
+      ]
+    },
+    "pillar_performance": {
+      "config": {
+        "iterations": 1000,
+        "warmup": 3,
+        "samples": 5,
+        "forks": 3,
+        "seed": 20261017
+      },
+      "workloads": [
+        {
+          "name": "Change \u00b7 16 entities",
+          "case_sha256": "93dd7d3204b60ea5502ff5e759d5aefccc6997d25bc0b2dbef57f78fbd7a3c60",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Change \u00b7 64 entities",
+          "case_sha256": "acacf4ff470254133620f632cb28e94b03942a0eb1fdc8b10f442662e50d3072",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Swap \u00b7 16 entities",
+          "case_sha256": "cf485ac17dc9ce75e89388c29b802a2b9b02b056e2b3c3103df2afcc8ce89819",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Swap \u00b7 64 entities",
+          "case_sha256": "8f82782327df3d8e45fd22d9d307868336252363f827cfe9be19306d2bf81608",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Tuple Swap \u00b7 16 entities",
+          "case_sha256": "42f8f609ec0590fdf5330caae336c1d67495c9c128587f315980a810fd56f6de",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        },
+        {
+          "name": "Tuple Swap \u00b7 64 entities",
+          "case_sha256": "cdc35b08ea74e317461a91ade71ef6acc393146406251a63dff010d0783dcee0",
+          "inputs": {
+            "unit": "ms / transaction"
+          }
+        }
+      ]
+    }
+  }
+}

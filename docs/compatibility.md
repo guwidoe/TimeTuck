@@ -11208,3 +11208,41 @@ order. The 16 differing successful Java sets, 40 getter errors and 33 unsupporte
 empty compositions remain visible; none earn Java agreement or method credit.
 The [decision and complete comparison binding](../compat/observations/list-metadata-policy.json)
 are retained separately from the raw results.
+
+## Current qualification — 305
+
+The original native acceptance targets are demonstrated: **7/7 capability
+requirements, 109/109 timed workloads at measured Java time/quality parity,
+and 18/18 current comparison reports**. Native readiness is separate from the
+unchanged strict comparison calculation, now **95.720%**. Its pending methods,
+Java differences, errors and unsupported observations retain their original counts.
+
+Release builds use Thin LTO and one codegen unit; dev/test profiles are unchanged.
+A six-fork runner-c comparison retains all 16 original mixed workload/profile rows,
+full outputs and actual callback counts. Larger component Stream improves 7.97%
+warm /8.82% cold against the qualified 304 artifact. Every selected row's pooled
+median improves; compared with thin-only, joint larger cold Dense is 0.91% slower
+with mixed forks. Final genuine runner-a builds have their own source/artifact
+receipts. Fresh warm mixed Stream is **12.140 ms Rust /12.701 ms Java**, both
+`[0,-338]`. These bounded measurements imply neither universal speed nor identical
+Java execution work. The small arena-inlining trial was rejected and is absent.
+
+Final source `9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249` passes one
+`bash scripts/check.sh`: **8,600 Rust tests and 292 doctests**, formatting, Clippy
+and tooling checks; 461.148s after 99.033s build-only precompile. All 14 performance
+families ran on runner-a with both runtimes there; all 4 complete differential
+jobs ran on runner-c. Every original configuration, workload, quality floor, control,
+raw observation and failure category remains. Successful jobs were reused when
+unchanged; initial runner-c environment/fixture failures and one invalid repair-settings
+run remain archived with zero qualification credit.
+
+The native model requires source-bound named passes, the exact seven original
+requirements, complete current original comparisons, reviewed exact policy cohorts
+and current desktop/mobile rendering evidence. It cannot convert native success
+into a Java/method pass. The visual dashboard and live native policy key were
+verified on desktop/mobile; source/model changes prevent a stale ready display.
+
+See [source-bound qualification](../compat/observations/current-source-qualification.json),
+[native target definitions](../compat/native-targets.json) and
+[dashboard input proof](../compat/observations/native-readiness-dashboard.json) and
+[confirmed readiness](../compat/observations/native-readiness-dashboard-confirmed.json).

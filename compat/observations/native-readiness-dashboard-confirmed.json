@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "proof": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1100,
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": true,
+      "requirements": [
+        "met",
+        "met",
+        "met",
+        "met",
+        "met",
+        "met",
+        "met"
+      ],
+      "current": 18,
+      "total": 18,
+      "strictIndex": 95.72001891223715,
+      "strictReady": false,
+      "status": "Tracked native targets met",
+      "summary": "7 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "generatedAt": "2026-10-20T11:08:35.197512+00:00"
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 1000,
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": true,
+      "requirements": [
+        "met",
+        "met",
+        "met",
+        "met",
+        "met",
+        "met",
+        "met"
+      ],
+      "current": 18,
+      "total": 18,
+      "strictIndex": 95.72001891223715,
+      "strictReady": false,
+      "status": "Tracked native targets met",
+      "summary": "7 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "generatedAt": "2026-10-20T11:08:35.197512+00:00"
+    }
+  ],
+  "errors": [],
+  "input_sha256": {
+    "dashboard/app.js": "ce9fe7a39342f03b56c2ac963ad99a7d3f21d27d419b96cff08abfc1f1fd5b1b",
+    "dashboard/index.html": "bf96a59bdfda3620d0d2d844c07c49c6dd4920b8bec8afe138bc64f538ff0e3a",
+    "dashboard/styles.css": "4fb2ee76c08b89843f67b4c65022b2b21031c5909ac0371cbd8249ca12d317da",
+    "dashboard/assets/Barlow-SemiBold.ttf": "86577cb32f8abe3673db53ca0f4221e6856751a4f6730c867e00f720f8bb1fc5"
+  },
+  "qualification_receipt": "compat/observations/native-readiness-dashboard.json",
+  "qualification_receipt_sha256": "739d79a8fe744ce125dcafc5098354d2998fb87a1ed017b99e6e708c89dc062b",
+  "report_sha256": "965ed8d329d56449e6ccff55fca84633e7980792c13a1b92d4112c049dd62440",
+  "policy": "Same final UI inputs and same confirmation round: actual browser receipt bound, backend-only report regenerated from existing successful native gate and18 genuine current jobs, then actual desktop/mobile live native-ready state confirmed. No additional solver test or benchmark executions."
+}

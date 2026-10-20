@@ -1,4 +1,4 @@
-# Completion evidence and remaining gaps
+# Native completion evidence and compatibility boundaries
 
 The original target is native Rust planning and optimization behavior, using
 pinned Timefold Community tests and public APIs as specifications. Java API/ABI,
@@ -19,13 +19,12 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,600 Rust tests and 292 doctests**,
-including original regressions and adapted upstream assertions. Source
-`91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941`. The successful selective retry took
-98.618s (2 jobs executed, 146 reused). The initial 392.839s gate hit five existing
-10 ms archive-fixture deadlines; the unchanged failed shard then passed. The
-build-only precompile took 742.150s. All initial outcomes remain in the evidence.
-The live report remains the authority for later counts and freshness.
+The current native verification contains **8,600 Rust tests and 292 doctests**.
+Source `9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249` passes the final
+standard gate in 461.148s after 99.033s build-only precompile. All18 comparison
+reports are current, and all 109 original timed workloads meet the configured
+Java time/quality target. The live report remains the authority for later counts
+and freshness; historical gate outcomes remain in their original evidence.
 
 The applications establish concrete quality criteria: both roster backends solve
 128 initially unassigned shifts to the planted zero-penalty certificate; mixed
@@ -60,13 +59,13 @@ compositions remain visible. Completion still needs current evidence for every
 original-scope requirement; documented Java API differences do not prove native
 capability gaps.
 
-The current 304 solver comparison retains all 4,824 exact encounter-order
+The current 305 solver comparison retains all 4,824 exact encounter-order
 observations plus the original total-order controls (4,499 agreements and 325
 differences). Explicit binary64 Great Deluge now agrees in 276/276 original cases,
 25/25 boundary prefixes and 184/184 additional probes; exact-default controls stay
 275/276. All original controls remain visible in the refreshed report.
 
-The current 304 stream comparison retains explicit signed-32-bit wrapping metrics:
+The current 305 stream comparison retains explicit signed-32-bit wrapping metrics:
 retain 65/65 sequence agreements and 66/197 range agreements; all 197 native range
 cases pass independent modular calculations. The remaining 131 Java differences
 stay visible, including contradictory upstream histories. Exact-default controls
@@ -74,23 +73,43 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
-## Current qualification — 304
+## Current qualification — 305
 
-All 18 measurement reports now match the unchanged qualified native source above.
-Four complete differential jobs ran locally; 13 complete performance jobs ran on
-runner-a with both runtimes on the same CPU and original settings/quality/controls.
-The current repair report was reused unchanged. Of 109 timed workloads, 108 meet
-the configured time/quality target. Warm mixed Stream remains slower:
-**12.932 ms Rust /11.850 ms Java**, equal score `[0,-338]`; all other timed rows
-meet the target. 13/14 performance sections fully qualify. This measurement does
-not isolate a native regression against an older run on another machine.
+The original native acceptance targets are demonstrated: **7/7 capability
+requirements, 109/109 timed workloads at measured Java time/quality parity,
+and 18/18 current comparison reports**. Native readiness is separate from the
+unchanged strict comparison calculation, now **95.720%**. Its pending methods,
+Java differences, errors and unsupported observations retain their original counts.
 
-The strict comparison index is **95.541%**, 18/18 reports current.
-User-approved range/list native policies do not change its raw Java agreement,
-error or unsupported counts, or the original method inventory. This index is not
-remaining effort or a proof of native completion. The performance miss remains
-an implementation target; a separate native-readiness display is still only a
-design. See [current evidence](../compat/observations/current-source-qualification.json).
+Release builds use Thin LTO and one codegen unit; dev/test profiles are unchanged.
+A six-fork runner-c comparison retains all 16 original mixed workload/profile rows,
+full outputs and actual callback counts. Larger component Stream improves 7.97%
+warm /8.82% cold against the qualified 304 artifact. Every selected row's pooled
+median improves; compared with thin-only, joint larger cold Dense is 0.91% slower
+with mixed forks. Final genuine runner-a builds have their own source/artifact
+receipts. Fresh warm mixed Stream is **12.140 ms Rust /12.701 ms Java**, both
+`[0,-338]`. These bounded measurements imply neither universal speed nor identical
+Java execution work. The small arena-inlining trial was rejected and is absent.
+
+Final source `9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249` passes one
+`bash scripts/check.sh`: **8,600 Rust tests and 292 doctests**, formatting, Clippy
+and tooling checks; 461.148s after 99.033s build-only precompile. All 14 performance
+families ran on runner-a with both runtimes there; all 4 complete differential
+jobs ran on runner-c. Every original configuration, workload, quality floor, control,
+raw observation and failure category remains. Successful jobs were reused when
+unchanged; initial runner-c environment/fixture failures and one invalid repair-settings
+run remain archived with zero qualification credit.
+
+The native model requires source-bound named passes, the exact seven original
+requirements, complete current original comparisons, reviewed exact policy cohorts
+and current desktop/mobile rendering evidence. It cannot convert native success
+into a Java/method pass. The visual dashboard and live native policy key were
+verified on desktop/mobile; source/model changes prevent a stale ready display.
+
+See [source-bound qualification](../compat/observations/current-source-qualification.json),
+[native target definitions](../compat/native-targets.json) and
+[dashboard input proof](../compat/observations/native-readiness-dashboard.json) and
+[confirmed readiness](../compat/observations/native-readiness-dashboard-confirmed.json).
 
 ## Previous implementation and measurements — 303
 

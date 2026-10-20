@@ -206,3 +206,14 @@ Paired timing bars use mint for Rust and reference blue for Java, with explicit 
 - **Don't** use dark pending or exclusion chart colors as small text; use their readable text treatments.
 - **Don't** imply that a microbenchmark ratio measures whole-solver performance.
 - **Don't** turn method squares into the sole way to inspect a result.
+
+## Native readiness and strict comparisons
+
+The native readiness panel precedes the strict comparison index. It uses the
+existing surface fill, mint/amber status text and a three-column desktop evidence
+summary, becoming two columns on mobile. Counts describe original capability
+requirements, measured Java-parity workloads and current comparison jobs.
+Capability proofs and accepted native contracts expand below; raw Java agreements,
+errors, unsupported cases and pending methods retain their original accounting.
+Missing or stale evidence never displays readiness. The strict comparison panel
+keeps its existing geometry, formula and percentages.

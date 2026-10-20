@@ -1058,3 +1058,30 @@ h3,
 }
 
 .completion-limit { font-size: 12px; margin-bottom: 6px; }
+
+.native-overview { margin-bottom: 24px; padding: 25px 30px 20px; background: var(--surface); border-radius: var(--radius); }
+.native-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.native-header > strong { font-size: 15px; }
+.native-intro { margin-top: 5px; font-size: 13px; }
+.native-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 28px; margin: 22px 0 18px; }
+.native-metric { display: flex; flex-direction: column; gap: 3px; }
+.native-metric strong { font-size: 21px; font-variant-numeric: tabular-nums; }
+.native-metric span, .native-note, .native-blockers, .native-boundaries { font-size: 13px; }
+.native-blockers { padding-left: 20px; margin-bottom: 16px; }
+.native-blockers li + li { margin-top: 6px; }
+.native-overview summary { cursor: pointer; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+.native-requirements { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin: 18px 0; }
+.native-requirements li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px 12px; border-top: 1px solid var(--line); padding: 12px 0; font-size: 13px; }
+.native-requirements li > p, .native-requirements li > small { flex-basis: 100%; }
+.native-requirements p, .native-note, .native-boundaries span, .native-boundaries small { color: var(--muted); }
+.native-boundaries { padding-left: 20px; margin: 12px 0; }
+.native-boundaries li + li { margin-top: 12px; }
+.native-boundaries span, .native-boundaries small { display: block; margin-top: 4px; }
+.native-note { margin-top: 16px; }
+@media (max-width: 760px) {
+    .native-overview { padding: 20px; }
+    .native-header { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .native-requirements { grid-template-columns: minmax(0, 1fr); }
+    .native-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
+}
+@media (max-width: 420px) { .native-overview { padding: 18px 16px; } }

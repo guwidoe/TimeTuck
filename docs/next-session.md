@@ -4,8 +4,8 @@
 
 Build an independent Rust constraint optimization solver using pinned Timefold
 Community tests/public APIs as specifications, with a visual compatibility and
-performance dashboard. Objective incomplete; continue closing the remaining compatibility gaps.
-Keep pursuing the full objective; this batch is not completion. Never copy or translate
+performance dashboard. The original native acceptance requirements are demonstrated in 305. Preserve
+those results and the original strict compatibility boundaries. Never copy or translate
 upstream production; Community only, no formal clean-room claim. Upstream pin
 remains v2.7.0, `8b815bc6b5f3eb81feedc94dea0885a93b267762`.
 
@@ -17,53 +17,59 @@ commit occasionally and reuse unchanged verification. Use up to three concurrent
 builds/tests across available machines. The user has re-enabled runner-c; use local, runner-a and runner-c for
 independent build/test work. Preserve live runs across observation timeouts.
 
-## Current state — 304 source qualification and policy decisions
+## Current state — 305 native acceptance verified
 
-Native source is unchanged from qualified 303:
-`91293273b471934d676f56b677e5fe18db01a29af86f1ec37f724ae5868fb941`. Reuse **8,600 Rust tests +292 doctests** and the
-successful source-bound gate; no repeated broad gate or browser suite this batch.
+The original native acceptance targets are demonstrated: **7/7 capability
+requirements, 109/109 timed workloads at measured Java time/quality parity,
+and 18/18 current comparison reports**. Native readiness is separate from the
+unchanged strict comparison calculation, now **95.720%**. Its pending methods,
+Java differences, errors and unsupported observations retain their original counts.
 
-All **18/18 reports are current**. Four complete differential jobs ran locally;
-thirteen complete performance jobs ran on runner-a with both runtimes on its CPU.
-Repair's already current 303 report retains its exact bytes/date/key. All original
-settings, fixtures, full native controls, sampled outputs and quality criteria
-remain. No reduced cases, new credits, exclusions or relabeled older results.
+Release builds use Thin LTO and one codegen unit; dev/test profiles are unchanged.
+A six-fork runner-c comparison retains all 16 original mixed workload/profile rows,
+full outputs and actual callback counts. Larger component Stream improves 7.97%
+warm /8.82% cold against the qualified 304 artifact. Every selected row's pooled
+median improves; compared with thin-only, joint larger cold Dense is 0.91% slower
+with mixed forks. Final genuine runner-a builds have their own source/artifact
+receipts. Fresh warm mixed Stream is **12.140 ms Rust /12.701 ms Java**, both
+`[0,-338]`. These bounded measurements imply neither universal speed nor identical
+Java execution work. The small arena-inlining trial was rejected and is absent.
 
-**108/109 timed workloads meet the target; 13/14 complete performance sections.**
-The sole current miss is warm `mixed-clustered-pins · stream`: **12.931825 ms Rust
-/11.849886 ms Java**, ratio 1.091304, equal score `[0,-338]`. Other seven mixed
-rows meet the target. This is a new same-CPU measurement, not a controlled
-cross-run native regression claim. The next implementation target is this case;
-do not re-audit resolved range/list/JVM seams or blindly refresh all reports again.
+Final source `9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249` passes one
+`bash scripts/check.sh`: **8,600 Rust tests and 292 doctests**, formatting, Clippy
+and tooling checks; 461.148s after 99.033s build-only precompile. All 14 performance
+families ran on runner-a with both runtimes there; all 4 complete differential
+jobs ran on runner-c. Every original configuration, workload, quality floor, control,
+raw observation and failure category remains. Successful jobs were reused when
+unchanged; initial runner-c environment/fixture failures and one invalid repair-settings
+run remain archived with zero qualification credit.
 
-The actual measured mixed artifact is saved outside Cargo target:
-`work/round304-qualification/baseline-mixed_solver_benchmark`, SHA256
-`f1a2bfa29c575abb33e3f312809625f124efddc5b51f11558ab4099b37f3a2d8`.
-`mixed-baseline-artifact.json` binds it to runner-a's actual measurement/source.
-Use the existing original row/config/control outputs to profile/compare it;
-genuinely build changes, never transplant target artifacts/fingerprints or mtimes.
-runner-a queue and all local jobs are terminal. runner-c remains offline; its 303 worker
-outcome remains unresolved, preserve that snapshot and do not restart blindly.
+The native model requires source-bound named passes, the exact seven original
+requirements, complete current original comparisons, reviewed exact policy cohorts
+and current desktop/mobile rendering evidence. It cannot convert native success
+into a Java/method pass. The visual dashboard and live native policy key were
+verified on desktop/mobile; source/model changes prevent a stale ready display.
 
-User explicitly chose **consistent native range behavior** and **stable native
-list capture/rollback**, instead of Java's history flags/post-move getter behavior.
-Both approvals are recorded in compat/observations/. Strict agreements remain
-range 66/197 with 197 native passes; list metadata 425/514 with 514 native passes,
-16 differences, 40 Java errors, 33 unsupported; cyclic 107/128 and 21 Java errors.
-Native/reference success never becomes Java agreement. Preserve all raw cases.
+See [source-bound qualification](../compat/observations/current-source-qualification.json),
+[native target definitions](../compat/native-targets.json) and
+[dashboard input proof](../compat/observations/native-readiness-dashboard.json) and
+[confirmed readiness](../compat/observations/native-readiness-dashboard-confirmed.json).
 
-Dashboard strict measured index **95.541%**, source inventory
-4410/4855, 10 pending, 435 excluded, zero failed/unverified. This index is not effort,
-ETA or native completion. The ten pending remain eight JVM/API seams plus two private kopt
-array assertions; native physical kopt exists. A read-only scope trace found no
-new missing native algorithm. Goal remains incomplete: current timing target
-still misses one workload and final native readiness must stay distinct from the
-strict original comparison index. Design only for that future model supplement:
-work/round304-completion-model-design.md; both user policy approvals arrived
-subsequently. Do not turn accepted policies/errors into agreement passes.
+No further native implementation blocker was established by the final scope
+trace. The strict original inventory remains 4410/4855, 10 pending, 435 excluded,
+zero failed/unverified. Native range policy and list capture are explicitly
+user-approved; all raw counts stay visible. Ten pending JVM/private-array
+assertions are not silently converted to passes.
 
-Evidence: compat/observations/current-source-qualification.json,
-work/round304-qualification/ and work/parallel-round304-evidence.json.
+All qualification jobs are terminal; runner-c and runner-a were reachable and used.
+The original 303 runner-c tests were collected successfully without restarting them.
+runner-c now has the checksum-verified portable OpenJDK 25.0.2 used for qualification.
+The dashboard is http://localhost:8765. Current model-only or documentation edits
+do not justify repeating the unchanged successful Rust gate or benchmarks.
+
+Evidence is in work/round305-final/, work/round305-lto-trial/ and
+work/round305-codegen-trial/. Never transplant Cargo artifacts/fingerprints or
+rekey historical verification. Restore Rust bytes with fresh mtimes if needed.
 
 ## Previous implementation — 299 coalesced checked-sum replacements
 

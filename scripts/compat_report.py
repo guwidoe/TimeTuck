@@ -16,6 +16,7 @@ import sys
 from verification_inputs import measurement_digest, report_digest, rust_digest
 from rust_test_layout import shard_origins
 from completion_progress import build_completion, model_digest
+from native_readiness import build_native_readiness, model_digest as native_model_digest, named_test_evidence
 
 ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION = re.compile(r'@(?:org\.junit\.jupiter\.(?:api|params)\.)?(Test|ParameterizedTest|RepeatedTest|TestFactory|TestTemplate)\b')
@@ -35,6 +36,10 @@ def completion_policy():
 
 def completion_digest():
     return model_digest(completion_policy())
+
+
+def native_completion_digest():
+    return native_model_digest(root=ROOT)
 
 
 def declarations(text):
@@ -163,7 +168,14 @@ def read_test_run(test_output, verified_source):
                     raise ValueError(f'Unknown test identity in {current}: {state[1]}')
                 path = origins[current][module]
             results[(path, name)] = {'ok':'passed', 'FAILED':'failed', 'ignored':'unverified'}[state[2]]
-    runs = [{'command': ['python3', 'scripts/run_rust_tests.py'], 'exit_code': test_exit, 'output': output}]
+    # A checksum/source-bound focused Cargo log is useful evidence, but is not a
+    # successful full native gate. Only the actual all-target assembler emits
+    # this metadata command; unknown/legacy/focused producers fail closed.
+    full_gate = (test_exit == 0 and
+                 metadata.get('command') == 'per-target cargo test (matching successful targets reused)')
+    runs = [{'command': ['python3', 'scripts/run_rust_tests.py'], 'exit_code': test_exit, 'output': output,
+             'full_native_gate': full_gate, 'native_source_digest': verified_source,
+             'log_sha256': metadata['log_sha256']}]
     return results, runs
 
 
@@ -182,6 +194,7 @@ def resolve_provenance_target(lookup, case):
 
 def build_report(execute=True, test_output=None):
     verified_source = verification_digest()
+    native_source = rust_digest(ROOT)
     ref = json.loads((ROOT / 'compat/upstream.json').read_text())
     files, methods = inventory(ref)
     rules = json.loads((ROOT / 'compat/exclusions.json').read_text())['rules']
@@ -207,7 +220,7 @@ def build_report(execute=True, test_output=None):
     if test_output is None:
         results, runs = run_local(ledger, execute)
     else:
-        results, runs = read_test_run(test_output, rust_digest(ROOT))
+        results, runs = read_test_run(test_output, native_source)
 
     for case in ledger:
         method = resolve_provenance_target(lookup, case)
@@ -231,13 +244,18 @@ def build_report(execute=True, test_output=None):
     digest = verified_source
     if verification_digest() != verified_source:
         raise ValueError('Sources changed during verification; rerun to produce a consistent report.')
+    if rust_digest(ROOT) != native_source:
+        raise ValueError('Native sources changed during verification; rerun to produce a consistent report.')
     report = {'schema_version': 1, 'generated_at': datetime.now(timezone.utc).isoformat(),
             'reference': ref, 'source_digest': digest, 'verification_digest': verified_source,
+            'native_source_digest': native_source,
             'inventory': {'source_files': len(files), 'annotations': dict(Counter(m['annotation'] for m in methods)),
                           'unit': 'statically discovered annotated test methods',
                           'exclusion_rules': rules,
                           'limitations': 'Not a JUnit runtime test count. Parameterized, repeated, and inherited template invocations are not expanded. Custom composed test annotations and non-Java tests are not included. The original Java suite is not run by this report.'},
-            'verification': {'successful': bool(runs) and all(r['exit_code'] == 0 for r in runs)},
+            'verification': {'successful': bool(runs) and all(r['exit_code'] == 0 for r in runs),
+                             'native_tests': named_test_evidence(results, native_source,
+                                 full_gate=bool(runs) and all(r.get('full_native_gate') is True for r in runs))},
             'summary': counts(methods), 'families': groups, 'methods': methods, 'runs': runs,
             'differential': load_measurement('differential'),
             'performance': load_measurement('performance'),
@@ -258,6 +276,7 @@ def build_report(execute=True, test_output=None):
             'aggregate_performance': load_measurement('aggregate-performance'),
             'pillar_performance': load_measurement('pillar-performance')}
     report['completion'] = build_completion(report, completion_policy())
+    report['native_readiness'] = build_native_readiness(report, report['completion'], root=ROOT)
     return report
 
 

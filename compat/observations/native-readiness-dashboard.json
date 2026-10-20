@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "proof": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1100,
+      "status": "Targets remain",
+      "summary": "6 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "requirements": 7,
+      "boundaries": "Consistent connected rangesUser chose snapshot-consistent half-open native ranges including empty intervals; exact observed Java history differences are retained.total: 197 · passed: 66 · native reference passed: 197 · java error cases: 0 · divergent cases: 131Stable list value captureUser chose stable native first-touch capture and rollback; successful differing Java sets, getter errors and unsupported empty compositions remain unavailable/different.total: 514 · passed: 425 · native reference passed: 514 · java error cases: 40 · unsupported cases: 33 · divergent cases: 16 · order differences: 282Cyclic suppliers with unavailable Java outcomesActual Java null-finish supplier errors have no successful reference outcome; native exhaustive reachability, cycle/downstream and recovery tests independently prove the bounded native behavior.total: 128 · passed: 107 · native reference passed: 128 · java error cases: 21 · divergent cases: 010 pending original methods retain their JVM or private-representation scope boundaries. Their inventory status is unchanged.",
+      "blockers": "Capability or contract evidence still needs verification. Open the evidence details below.",
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": false,
+      "generatedAt": "2026-10-20T11:07:11.523641+00:00",
+      "strictIndex": 95.72001891223715,
+      "strictReady": false,
+      "strictDisplay": "95.7%",
+      "methodCounts": {
+        "total": 4855,
+        "passed": 4410,
+        "failed": 0,
+        "pending": 10,
+        "excluded": 435,
+        "unverified": 0,
+        "percent": 90.834
+      },
+      "source": "9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249",
+      "requirementStates": [
+        {
+          "id": "independent-community-solver",
+          "status": "met"
+        },
+        {
+          "id": "scores",
+          "status": "met"
+        },
+        {
+          "id": "models-moves-rollback",
+          "status": "met"
+        },
+        {
+          "id": "search",
+          "status": "met"
+        },
+        {
+          "id": "streams-derived-values",
+          "status": "met"
+        },
+        {
+          "id": "applications-services",
+          "status": "met"
+        },
+        {
+          "id": "dashboard",
+          "status": "unknown"
+        }
+      ],
+      "panelWidth": 1334,
+      "fallbacks": {
+        "missing": {
+          "status": "Evidence unavailable",
+          "summaryCount": 0
+        },
+        "stale": "Verification needed",
+        "ready": "Tracked native targets met",
+        "overflow": false
+      }
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 1000,
+      "status": "Targets remain",
+      "summary": "6 / 7Requirements with current evidence109 / 109Timed workloads at Java parity18 / 18Comparison reports current",
+      "requirements": 7,
+      "boundaries": "Consistent connected rangesUser chose snapshot-consistent half-open native ranges including empty intervals; exact observed Java history differences are retained.total: 197 · passed: 66 · native reference passed: 197 · java error cases: 0 · divergent cases: 131Stable list value captureUser chose stable native first-touch capture and rollback; successful differing Java sets, getter errors and unsupported empty compositions remain unavailable/different.total: 514 · passed: 425 · native reference passed: 514 · java error cases: 40 · unsupported cases: 33 · divergent cases: 16 · order differences: 282Cyclic suppliers with unavailable Java outcomesActual Java null-finish supplier errors have no successful reference outcome; native exhaustive reachability, cycle/downstream and recovery tests independently prove the bounded native behavior.total: 128 · passed: 107 · native reference passed: 128 · java error cases: 21 · divergent cases: 010 pending original methods retain their JVM or private-representation scope boundaries. Their inventory status is unchanged.",
+      "blockers": "Capability or contract evidence still needs verification. Open the evidence details below.",
+      "overflow": false,
+      "sourceFresh": true,
+      "modelFresh": true,
+      "nativeFresh": true,
+      "live": true,
+      "nativeReady": false,
+      "generatedAt": "2026-10-20T11:07:11.523641+00:00",
+      "strictIndex": 95.72001891223715,
+      "strictReady": false,
+      "strictDisplay": "95.7%",
+      "methodCounts": {
+        "total": 4855,
+        "passed": 4410,
+        "failed": 0,
+        "pending": 10,
+        "excluded": 435,
+        "unverified": 0,
+        "percent": 90.834
+      },
+      "source": "9fd3d27a1e1654d7277a8728e9c1a8df0501edb163e15adcdf6fb63dbd4e9249",
+      "requirementStates": [
+        {
+          "id": "independent-community-solver",
+          "status": "met"
+        },
+        {
+          "id": "scores",
+          "status": "met"
+        },
+        {
+          "id": "models-moves-rollback",
+          "status": "met"
+        },
+        {
+          "id": "search",
+          "status": "met"
+        },
+        {
+          "id": "streams-derived-values",
+          "status": "met"
+        },
+        {
+          "id": "applications-services",
+          "status": "met"
+        },
+        {
+          "id": "dashboard",
+          "status": "unknown"
+        }
+      ],
+      "panelWidth": 346,
+      "fallbacks": {
+        "missing": {
+          "status": "Evidence unavailable",
+          "summaryCount": 0
+        },
+        "stale": "Verification needed",
+        "ready": "Tracked native targets met",
+        "overflow": false
+      }
+    }
+  ],
+  "errors": [],
+  "input_sha256": {
+    "dashboard/app.js": "ce9fe7a39342f03b56c2ac963ad99a7d3f21d27d419b96cff08abfc1f1fd5b1b",
+    "dashboard/index.html": "bf96a59bdfda3620d0d2d844c07c49c6dd4920b8bec8afe138bc64f538ff0e3a",
+    "dashboard/styles.css": "4fb2ee76c08b89843f67b4c65022b2b21031c5909ac0371cbd8249ca12d317da",
+    "dashboard/assets/Barlow-SemiBold.ttf": "86577cb32f8abe3673db53ca0f4221e6856751a4f6730c867e00f720f8bb1fc5"
+  },
+  "report_sha256": "f1e4fe9c231a40b176fca5abd17a7aa584c84eae1ffe89a0923d2d685b9eefc0",
+  "policy": "Actual local Chromium desktop/mobile rendering of source-bound report. Current live source/strict/native policy keys, exact original method counters, native requirements and all accepted raw policy counters checked. Missing model, stale live native key and completed-target display tested via browser-only substitutions; no solver/Java/method credit follows. Screenshot input bytes bound independently of generated report."
+}

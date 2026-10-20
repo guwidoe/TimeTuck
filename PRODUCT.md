@@ -22,10 +22,11 @@ A development dashboard inside this Rust repository. Generated verification
 reports are its source of truth. The user explicitly prefers a visual overview;
 individual test details remain accessible.
 
-The completion view combines feature coverage, behavior checks, measured Java
-performance parity and verification freshness using explicit project weights.
-It shows remaining targets and distinguishes last-demonstrated evidence from
-current verification; it does not estimate remaining engineering effort or time.
+The native readiness view checks the seven original native capability requirements,
+all 109 original measured time/quality targets and current verification. Accepted
+native contracts remain distinct from raw Java agreement and original method counts.
+A separate strict comparison index retains its explicit feature, behavior, performance
+and freshness weights. Neither view estimates remaining engineering effort or time.
 
 ## Capabilities and Constraints
 

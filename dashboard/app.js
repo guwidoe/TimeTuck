@@ -16,7 +16,8 @@ let report,
     lastStamp,
     fresh = true,
     completionFresh = true,
-    completionLive = false;
+    completionLive = false,
+    nativeFresh = false;
 const n = (value) => format.format(value);
 const pct = (value) => (value == null ? "—" : `${value.toFixed(2)}%`);
 // Derive display precision from counts, avoiding double rounding of report.percent.
@@ -109,6 +110,7 @@ function render() {
         }),
     );
     renderCompletion();
+    renderNativeReadiness();
     renderDetail();
     renderBenchmarks();
     renderBenchmarks("solver");
@@ -131,6 +133,65 @@ function render() {
         `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
     $("content").hidden = false;
     restoreFocus(focused);
+}
+function renderNativeReadiness() {
+    const model = report.native_readiness;
+    const summary = $("native-summary"), blockers = $("native-blockers"), evidenceBlockers = $("native-evidence-blockers");
+    const requirements = $("native-requirements"), boundaries = $("native-boundaries");
+    for (const target of [summary, blockers, evidenceBlockers, requirements, boundaries]) target.replaceChildren();
+    const available = model?.schema_version === 1 && model.target_set === "original-native-goal-v1" && typeof model.model_digest === "string" && Array.isArray(model.requirements) && model.requirements.length > 0 && Array.isArray(model.checklist) && model.checklist.length > 0;
+    $("native-evidence").hidden = !available;
+    if (!available) {
+        $("native-status").textContent = "Evidence unavailable";
+        $("native-freshness").textContent = "Regenerate the report to assess native readiness. Missing evidence cannot establish completion.";
+        return;
+    }
+    const current = fresh && nativeFresh && completionFresh && completionLive;
+    const ready = model.native_ready === true && current;
+    $("native-status").textContent = ready ? "Tracked native targets met" : current ? "Targets remain" : "Verification needed";
+    $("native-status").className = ready ? "completion-met" : "completion-open";
+    const capabilities = model.requirements.filter(row => row.status === "met").length;
+    const performance = Array.isArray(model.performance) ? model.performance : [];
+    const met = performance.reduce((sum, row) => sum + (Number.isInteger(row.met) ? row.met : 0), 0);
+    const total = performance.reduce((sum, row) => sum + (Number.isInteger(row.total) ? row.total : 0), 0);
+    for (const [label, value, complete] of [
+        ["Requirements with current evidence", `${capabilities} / ${model.requirements.length}`, capabilities === model.requirements.length],
+        [performance.every(row => row.freshness === "current") ? "Timed workloads at Java parity" : "Last measured workloads at Java parity", total ? `${met} / ${total}` : "Unmeasured", total > 0 && met === total],
+        ["Comparison reports current", `${report.completion?.current_jobs ?? 0} / ${report.completion?.total_jobs ?? 0}`, report.completion?.current_jobs > 0 && report.completion.current_jobs === report.completion.total_jobs],
+    ]) {
+        const item = node("div", "native-metric");
+        item.append(node("strong", complete ? "completion-met" : "completion-open", value), node("span", "", label));
+        summary.append(item);
+    }
+    const open = Array.isArray(model.blockers) ? model.blockers : [];
+    for (const text of open) evidenceBlockers.append(node("li", "", `Needed: ${text}`));
+    const jobsCurrent = report.completion?.current_jobs ?? 0, jobsTotal = report.completion?.total_jobs ?? 0;
+    if (jobsTotal > jobsCurrent) blockers.append(node("li", "", `${jobsTotal - jobsCurrent} comparison reports need measurements for the current source.`));
+    for (const row of performance.filter(item => item.status === "not_met")) {
+        const worst = row.bottleneck;
+        if (worst?.name) blockers.append(node("li", "", `${worst.name}: performance target unmet${row.freshness === "current" ? "" : " in previous evidence"}. ${worst.detail || ""}`));
+    }
+    if (!current) blockers.prepend(node("li", "", "Live verification or target freshness is missing. Readiness cannot be established."));
+    if (!ready && !blockers.children.length) blockers.append(node("li", "", "Capability or contract evidence still needs verification. Open the evidence details below."));
+    for (const row of model.requirements) {
+        const item = node("li");
+        item.append(node("strong", "", row.label || row.id), node("span", row.status === "met" ? "completion-met" : "completion-open", row.status === "met" ? "Evidenced" : "Evidence needed"), node("p", "", row.limits || row.contract || ""));
+        for (const error of row.evidence_errors || []) item.append(node("small", "", error));
+        requirements.append(item);
+    }
+    for (const row of model.boundaries || []) {
+        const item = node("li");
+        item.append(node("strong", "", ({"connected-range-history": "Consistent connected ranges", "list-planning-value-metadata": "Stable list value capture", "cyclic-supplier-reference-errors": "Cyclic suppliers with unavailable Java outcomes"})[row.id] || row.id), node("span", "", row.reason || row.disposition || ""));
+        const counts = row.counts || {};
+        if (Object.keys(counts).length) item.append(node("small", "", Object.entries(counts).map(([key, value]) => `${key.replaceAll("_", " ")}: ${typeof value === "number" ? n(value) : value}`).join(" · ")));
+        if (row.status !== "resolved") item.append(node("small", "completion-open", "Boundary evidence unresolved"));
+        boundaries.append(item);
+    }
+    const methodCount = Array.isArray(model.method_boundaries) ? model.method_boundaries.length : 0;
+    if (methodCount) boundaries.append(node("li", "", `${methodCount} pending original methods retain their JVM or private-representation scope boundaries. Their inventory status is unchanged.`));
+    $("native-freshness").textContent = current
+        ? "Readiness uses current source, targets and comparison evidence. These bounded requirements do not estimate remaining engineering effort or prove universal equivalence."
+        : "Last saved evidence. Source verification, policy freshness and live status must be current before readiness can be established.";
 }
 function renderCompletion() {
     const model = report.completion;
@@ -638,6 +699,7 @@ async function reload() {
         fresh = true;
         completionFresh = true;
         completionLive = false;
+        nativeFresh = false;
         try {
             const state = await fetch("api/freshness", { cache: "no-store" });
             if (state.ok) {
@@ -645,6 +707,7 @@ async function reload() {
                 completionLive = typeof snapshot.completion_digest === "string" && typeof snapshot.verification_digest === "string";
                 fresh = snapshot.verification_digest === data.verification_digest;
                 completionFresh = snapshot.completion_digest === data.completion?.model_digest;
+                nativeFresh = typeof snapshot.native_completion_digest === "string" && snapshot.native_completion_digest === data.native_readiness?.model_digest;
             }
         } catch {
             /* Static hosting still shows the generation timestamp. */
@@ -662,6 +725,7 @@ async function reload() {
             lastStamp = report.generated_at;
         } else {
             renderCompletion();
+            renderNativeReadiness();
             renderBenchmarks();
             renderBenchmarks("solver");
             renderBenchmarks("mixed");

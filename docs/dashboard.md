@@ -31,12 +31,42 @@ to loopback, serves the dashboard directory, and exposes a read-only source
 fingerprint. No framework, node modules, account, or hosting is required.
 The browser reloads saved results every 15 seconds. It never runs tests itself.
 `bash scripts/check.sh` regenerates coverage when the pinned submodule is present.
-The separate Java oracle and benchmarks require JDK 21 and Maven Central access.
+Current qualification uses portable OpenJDK 25.0.2 and Maven Central artifacts.
+Use each retained report configuration when reproducing a comparison; standalone
+driver defaults can select different native policies.
 
-## Project completion index
+## Native rewrite readiness
 
-The top panel is a configurable progress index, separate from raw upstream-method
-coverage. Its default weights in `compat/completion.json` are feature coverage 40%,
+The top panel reports the seven original native capability requirements,
+original timed workloads at Java parity and current comparison jobs. It uses an
+explicit checklist rather than inventing another effort percentage. All requirements
+must have current source-bound execution evidence; exact accepted native policies,
+reference-unavailable outcomes and JVM/private-array boundaries remain separate
+from raw method and Java agreement counts. Missing or altered evidence blocks
+native readiness. The strict comparison index below remains unchanged.
+
+`compat/native-targets.json` defines the fixed native requirements and exact
+reviewed cohorts. `compat_report.py` trusts named passes only after validating the
+actual full-target Cargo producer, source fingerprints and log checksum. Mere
+presence of a test path, a focused log or a native-reference count is insufficient.
+The manifest also freezes the 109 original workload names, cases, configurations
+and input limits. Missing, duplicate or altered rows/configurations block native
+readiness even when remaining timings meet parity. Timings and outputs may improve.
+The browser receipt binds actual app/HTML/CSS/font bytes and desktop/mobile checks;
+the separate live `native_completion_digest` changes when those inputs or policy
+records change, without rekeying Rust execution or measurements.
+
+Current 305 qualification demonstrates 7/7 native requirements, 109/109 measured
+time/quality targets and 18/18 current jobs. Strict source inventory remains
+4410/4855 with 10 pending and 435 excluded; strict index 95.720%. Native readiness
+is bounded by the original contracts and measured inputs. It is not universal
+Timefold/JVM equivalence, arbitrary-scale performance or an estimate of remaining
+engineering effort. See [completion evidence](completion.md).
+
+## Strict comparison index
+
+The strict comparison panel is a configurable progress index, separate from raw
+upstream-method coverage and native readiness. Its default weights in `compat/completion.json` are feature coverage 40%,
 behavior checks 20%, performance 30% and current evidence 10%. These are explicit
 project settings, not measured estimates of implementation effort or time.
 
