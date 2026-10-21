@@ -62,9 +62,21 @@ All new build/verification jobs are terminal and collected. Source integration
 reuses their actual evidence. Existing Java5725 remains historical; no full suite,
 new timing or repeated successful check is needed for commit. v31 pilot helpers
 now bind genuine3c4/6d8/939 release/equivalence,11 final checks/Clippy and original
-raw controls. They are syntax checked,not yet dispatched. v30 remains historical
+raw controls. First v31 dispatch passed its source/artifact/equivalence assertions. v30 remains historical
 3fd/e40;usev31 for the next incremental candidate. A fresh profile can now inspect the changed ownership backend;
 the older flat-map profile still describes its preceding runtime.
+
+A fresh selected-artifact Sailing profile is available at
+`work/real_world-goal/selected-owned-collector-sailing-profile`:actual10s seed7,
+CPU2,3,994 cycle samples,zero lost,one independently valid full output. It is a
+diagnostic,not another timing or Java qualifier. Owned set/record/entry/insertion
+helpers account for about6% self samples. The held-page experiment65762/d1be
+removes duplicate lookups while preserving scalar/structural order, but is closed:
+Sailing+.456%(2/4faster),Golfer-1.603%(all4slower),16valid outputs. No Rust tests,
+Clippy,app,Java or integration on that source. Main664745f unchanged. A separate
+adjacent-scalar undo cancellation in the new ordered boxed journal is being
+measured;actual handles remain in ignored active state. No unchanged retry.
+Proof: `compat/observations/real_world-owned-collector-held-page.json`.
 
 Preceding selected batch: outline the existing Triple join publisher loop and make direction
 constant per call. Same original scratch Vec, complete rows, Event construction,

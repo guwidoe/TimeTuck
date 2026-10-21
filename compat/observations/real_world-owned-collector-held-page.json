@@ -1,0 +1,83 @@
+{
+  "kind": "real_world-owned-collector-held-page",
+  "generated_at": "2026-10-21T16:11:56.313908+00:00",
+  "status": "closed;flat Sailing/Golfer regression;not integrated",
+  "native_source_digest": "65762c6d3e3836d2bb9ac38ac7e223881cc3d7208da9052f9d43821bb812467d",
+  "input_sha256": "d1be328de5969c1a19e3692f823bfa30bddbeb93598f260ee17e8818021d0a70",
+  "source_snapshot": "c97b9d65c6fb9f990308aee3bc66d66be7d2ef0353adf7ae73370df1e2449a47",
+  "artifact_sha256": "68b7b6f1f2a402c80cd3e66db83b476c798bc1a1971f56d13cf4fcca27e4f656",
+  "mechanism": "Current consumed boxed collectors:hold one native directory entry through exact-P lookup,scalar edit,cloned structural fallback,canonical singleton death/rebirth and ordered undo publication. Keep entry internal,return summaries. Split box/key pool helpers permit safe disjoint borrows. Private empty page can persist across immediate singleton rebirth;every forward arithmetic edit,callback/input publication and emitted full row remains.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-collector-held-page-next-results/real_world-owned-collector-held-page-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64382.950367292135,
+            63307.49996231058,
+            64159.6728084023,
+            63382.54582921676
+          ],
+          "trial": [
+            64248.028918201155,
+            63671.07202832492,
+            63875.197504006814,
+            64680.169640652464
+          ]
+        },
+        "medians": {
+          "baseline": 63771.109318809526,
+          "trial": 64061.613211103984
+        },
+        "gain_pct": 0.455541538162918
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            187524.9271927578,
+            189014.68596441537,
+            187781.08116223605,
+            188245.23086218766
+          ],
+          "trial": [
+            184124.3540859364,
+            183719.94624405133,
+            185873.40930030038,
+            186183.0669077894
+          ]
+        },
+        "medians": {
+          "baseline": 188013.15601221187,
+          "trial": 184998.88169311837
+        },
+        "gain_pct": -1.6032252120153356
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "checks": [],
+  "test_scope": "No Rust tests/app/Clippy/full suite/Java on rejected source. Draft history test strengthens exact lookup coverage but was not executed or credited.",
+  "profile_basis": {
+    "native_source_digest": "3c4c5374f41eceedb9b7493c2519a77961f1718720ecf32a4af1bd3690b0e335",
+    "artifact": "93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e",
+    "directory": "work/real_world-goal/selected-owned-collector-sailing-profile",
+    "receipt_sha256": "7f5688e73b076a971452de5212d0dc109862ef5fd545117f18d7d0c43ff02d0f",
+    "collection_sha256": "ef64439ed9055aac92729598ac0c353badaae714ecd7c1fbfab1b14a955b9e4b",
+    "samples": 994,
+    "lost": 0,
+    "valid_outputs": 1,
+    "scope": "One actual runner-a10s seed7 CPU2,3 cycles99Hz profile of selected committed artifact. Diagnostic only;not timing/Java/causal proof. Owned set3.13%,record_set1.31%,entry.81%,insert.91% self samples."
+  },
+  "receipts": {
+    "receipt.json": "0a6bd1008aa6b5a1c166aa50403af04a21188a2cee35ad81df8306ca6dacbfc4",
+    "build-receipt.json": "7cbd82d8bfe463bb239ac2c192dce71593d0654db80319837d770f3cbc00bf28",
+    "controls.json": "b36b7934ca74a6936cbe6677f6bb6a43ee839e7589a345eff75d906dff83f066",
+    "baseline-binding.json": "c80627bd72f92d25662705c54d93df4197bb1bb4edd981fe1712928102f0c540"
+  },
+  "policy": "Sailing+.4555%,2/4faster;Golfer-1.6032%,all4slower. Close unchanged with16 independently valid full outputs. No further tests/timings or integration. v31 actual baseline binding succeeded on this first dispatch;current main664745f unchanged and Java5725 stays stale."
+}
