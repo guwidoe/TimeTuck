@@ -2910,3 +2910,13 @@ retain their phases. Singleton key rebirth, callbacks, poison and all capture fo
 remain. Three original native controls check policy equivalence, actual borrowed
 public IDs/keys, and overflow/shared/Weak inverse fallback. See the
 [group-addressing observation](../compat/observations/real_world-static-group-addressing.json).
+
+Fixed primitive graph equality joins may use PrimitiveRows for the outer bucket
+map under the existing primitive-ID/key and NoDrop-payload binding. Member-vector
+cloning, key cloning, canonical input-ID owners, match order and callback/error
+phases remain. Ordered/custom/borrowed and Drop routes retain the original tree.
+Paged every-write undo and full/current/nested captures retain saved canonical
+bucket owners, including installs of pre-activation Tree snapshots. Intermediate
+private bucket owners can live until frame end instead of earlier AVL promotion;
+no public API exposes those owners. Full page snapshots/per-write undo have memory
+tradeoffs. See the [bucket-directory observation](../compat/observations/real_world-fixed-bucket-directory.json).

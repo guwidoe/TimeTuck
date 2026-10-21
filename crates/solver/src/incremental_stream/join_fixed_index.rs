@@ -7,6 +7,9 @@ use std::{
     ops::Bound,
     sync::Arc,
 };
+mod buckets;
+use buckets::Buckets;
+
 type SharedBuckets<I, K> = Vec<(Arc<K>, Arc<SnapshotMap<I, ()>>)>;
 
 #[derive(Clone)]
@@ -60,7 +63,8 @@ type KeyCode = [usize; 4];
 type KeyMapper<K> = fn(&K) -> KeyCode;
 type CapturedEntries<K> = Vec<(KeyCode, Option<(Arc<K>, Arc<Members>)>)>;
 enum SavedBuckets<K> {
-    Full(SnapshotMap<K, Members>),
+    Full(Buckets<K>),
+    Paged(crate::primitive_rows::RowsCapture<K, Members>),
     Delta(CapturedEntries<K>),
 }
 pub(super) struct Capture<K> {
@@ -72,7 +76,7 @@ pub(super) struct FixedIndex<I, K> {
     keys: Vec<Arc<I>>,
     #[cfg(test)]
     equality_visit_disabled: bool,
-    buckets: SnapshotMap<K, Members>,
+    buckets: Buckets<K>,
     index: fn(&I) -> usize,
     capture_key: Option<KeyMapper<K>>,
     frames: Vec<Vec<KeyCode>>,
@@ -112,7 +116,7 @@ impl<I, K> FixedIndex<I, K> {
             keys,
             #[cfg(test)]
             equality_visit_disabled: false,
-            buckets: SnapshotMap::from_shared_sorted(buckets),
+            buckets: Buckets::Tree(SnapshotMap::from_shared_sorted(buckets)),
             index,
             capture_key: None,
             frames: Vec::new(),
@@ -125,13 +129,20 @@ impl<I, K> FixedIndex<I, K> {
         }
     }
     pub(super) fn clear(&mut self) {
+        if self.buckets.is_paged() {
+            self.buckets.clear();
+            return;
+        }
         if let (Some(map), Some(frame)) = (self.capture_key, self.frames.last_mut()) {
-            frame.extend(self.buckets.keys().map(map));
+            frame.extend(self.buckets.tree().keys().map(map));
         }
         self.buckets.clear();
     }
     pub(super) fn begin(&mut self) -> usize {
         let token = self.buckets.begin_journal();
+        if self.buckets.is_paged() {
+            return token;
+        }
         assert_eq!(
             token,
             self.frames.len(),
@@ -142,6 +153,9 @@ impl<I, K> FixedIndex<I, K> {
     }
     pub(super) fn commit(&mut self, token: usize) {
         self.buckets.commit_journal(token);
+        if self.buckets.is_paged() {
+            return;
+        }
         let mut frame = self.frames.pop().expect("fixed index capture frame");
         if let Some(parent) = self.frames.last_mut() {
             if parent.is_empty() {
@@ -155,17 +169,36 @@ impl<I, K> FixedIndex<I, K> {
     }
     pub(super) fn rollback(&mut self, token: usize) {
         self.buckets.rollback_journal(token);
+        if self.buckets.is_paged() {
+            return;
+        }
         let mut frame = self.frames.pop().expect("fixed index capture frame");
         frame.clear();
         self.spare.push(frame);
     }
     pub(super) fn install(&mut self, saved: Self) {
+        if self.buckets.is_paged() {
+            self.buckets.install_snapshot(saved.buckets);
+            return;
+        }
         if let (Some(map), Some(frame)) = (self.capture_key, self.frames.last_mut()) {
-            frame.extend(self.buckets.keys().chain(saved.buckets.keys()).map(map));
+            frame.extend(
+                self.buckets
+                    .tree()
+                    .keys()
+                    .chain(saved.buckets.tree().keys())
+                    .map(map),
+            );
         }
         self.buckets.install_snapshot(saved.buckets);
     }
     pub(super) fn capture_current(&self, token: usize) -> Capture<K> {
+        if let Buckets::Paged(rows) = &self.buckets {
+            return Capture {
+                count: self.keys.len(),
+                buckets: SavedBuckets::Paged(rows.capture_current(token)),
+            };
+        }
         assert!(
             token < self.frames.len(),
             "active fixed index capture token"
@@ -195,6 +228,13 @@ impl<I, K> FixedIndex<I, K> {
     pub(super) fn install_capture(&mut self, saved: Capture<K>) {
         assert_eq!(self.keys.len(), saved.count, "fixed index capture universe");
         let entries = match saved.buckets {
+            SavedBuckets::Paged(capture) => {
+                let Buckets::Paged(rows) = &mut self.buckets else {
+                    unreachable!("paged fixed bucket capture binding")
+                };
+                rows.install_capture(capture);
+                return;
+            }
             SavedBuckets::Full(rows) => {
                 // Nonprimitive keys retain the original full map owner policy.
                 self.buckets.install_snapshot(rows);
@@ -224,7 +264,7 @@ impl<I, K> FixedIndex<I, K> {
         // Rebuild only the small bucket map on selected-candidate installation.
         // Its existing journal preserves outer undo and exact key representatives.
         self.buckets
-            .install_snapshot(SnapshotMap::from_shared_sorted(next));
+            .install_snapshot(Buckets::Tree(SnapshotMap::from_shared_sorted(next)));
     }
 }
 impl<I, K: Ord + Clone> FixedIndex<I, K> {
@@ -316,6 +356,12 @@ impl<I, K: Ord + Clone> FixedIndex<I, K> {
 }
 
 impl<I, K: 'static> FixedIndex<I, K> {
+    pub(super) fn enable_directory_buckets(&mut self) -> bool {
+        if self.capture_key.is_none() || !self.frames.is_empty() {
+            return false;
+        }
+        self.buckets.bind_primitive()
+    }
     pub(super) fn enable_delta_capture(&mut self) {
         fn cast<K: 'static, T: 'static>(key: &K) -> &T {
             (key as &dyn Any)
@@ -513,3 +559,6 @@ mod join_index_capture_tests {
         assert_eq!(COMPARES.with(Cell::get), comparisons);
     }
 }
+
+#[cfg(test)]
+mod directory_tests;

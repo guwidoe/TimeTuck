@@ -456,6 +456,12 @@ impl<K, V> PrimitiveRows<K, V> {
             storage: Storage::Tree(SnapshotMap::new()),
         }
     }
+    // Transfer existing canonical owners before a private operator binds pages.
+    pub(crate) fn from_snapshot_map(rows: SnapshotMap<K, V>) -> Self {
+        Self {
+            storage: Storage::Tree(rows),
+        }
+    }
     pub(crate) fn is_primitive(&self) -> bool {
         matches!(self.storage, Storage::Paged(_))
     }

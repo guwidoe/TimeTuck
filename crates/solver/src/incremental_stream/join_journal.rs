@@ -35,6 +35,14 @@ impl<
             // key buckets and their matching order remain unchanged.
             self.left.rows.bind_primitive();
             self.right.rows.bind_primitive();
+            if self.comparison == JoinComparison::Equal {
+                if let Some(index) = &mut self.left.fixed_index {
+                    index.enable_directory_buckets();
+                }
+                if let Some(index) = &mut self.right.fixed_index {
+                    index.enable_directory_buckets();
+                }
+            }
             self.primitive_graph_journals = true;
         }
         self.primitive_graph_journals

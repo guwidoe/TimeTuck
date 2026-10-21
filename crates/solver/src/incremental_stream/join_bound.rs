@@ -124,7 +124,7 @@ impl<I, T, K> JoinSide<I, T, K> {
     }
 }
 impl<I: 'static, T, K: 'static> JoinSide<I, T, K> {
-    fn bind_fixed(&mut self, count: usize) -> bool {
+    fn bind_fixed(&mut self, count: usize, directory_buckets: bool) -> bool {
         if TypeId::of::<I>() != TypeId::of::<usize>()
             || count > 4096
             || self.fixed_rows.is_some()
@@ -151,6 +151,12 @@ impl<I: 'static, T, K: 'static> JoinSide<I, T, K> {
             index::<I>,
         )));
         self.fixed_index.as_mut().unwrap().enable_delta_capture();
+        if directory_buckets {
+            self.fixed_index
+                .as_mut()
+                .unwrap()
+                .enable_directory_buckets();
+        }
         let mut fixed = FixedRows::new(rows, index::<I>);
         if let Some(copy) = self.consuming_copy {
             fixed.enable_copied(copy);
@@ -195,10 +201,12 @@ impl<
         true
     }
     pub(crate) fn bind_fixed_input(&mut self, right: bool, count: usize) -> bool {
+        let directory_buckets =
+            self.primitive_graph_journals && self.comparison == JoinComparison::Equal;
         if right {
-            self.right.bind_fixed(count)
+            self.right.bind_fixed(count, directory_buckets)
         } else {
-            self.left.bind_fixed(count)
+            self.left.bind_fixed(count, directory_buckets)
         }
     }
     pub(crate) fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {

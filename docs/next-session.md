@@ -20,71 +20,71 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Neither current target is proved. Preserve the model, fixtures, runner,
-settings, seeds7/11/23, ten-second limits and CPU2,3 pairing. Scores/feasibility
-remain separate; no equal-score gate or compiler/CPU/PGO/panic/batch changes.
-Use local and runner-a; runner-c remains parked. Use only existing authorized agents.
+Current original-protocol proof meets **1/2 targets**: Golfer meets parity, Sailing remains below parity.
+Preserve the model/fixtures/runner/settings, seeds7/11/23, ten-second limits and
+CPU2,3 pairing. Scores/feasibility stay separate; no equal-score gate or compiler,
+PGO, panic or batch-policy changes. Local + runner-a; runner-c remains parked. Only
+existing authorized agents; do not spawn new agents. Preserve live handles.
 
-The group-addressing batch changes five production files and two existing test
-files. A private lookup policy makes Group positions statically resolvable through
-the existing exact builtin graph gate. Shared helpers retain the original stored
-mapper for public borrowed/custom paths, with no new static lifetime bound.
-All original phase ordering remains: failed inverse preflight still looks up a
-second time; count/Arc checks precede overflow, reserve, cache invalidation,
-collector edit and inverse publication. Singleton removal/reinsert, canonical key
-owners, callbacks, poison and full/current/nested captures are unchanged.
-Three new original controls cover differential policy captures and Weak owners,
-actual non-static public IDs/keys, and overflow/shared/Weak inverse fallback.
-Native `971ee3d6ea9425519219e1b6bb629dcbbf596dee3a635e0521907da7edf44ce5`; production `4990864141e5c8fa4cc1f8eb5052466fef065e17b2335919eaa30181f510cf5d`;
-final snapshot `00656771afb0bbcf9d6a11d10b649ce86c8e06831beaec813ab3e82b879321d2`. Actual full native gate:
-**8,855 recorded identities /8,861 Cargo executions /292 doctests /54 tooling jobs**.
-Clippy preflight, genuine all-target no-run prebuild and normal jobs4
-`bash scripts/check.sh` all actually pass on unchanged Rust bytes.
-Measured artifact `0bb8e04d6a720b202b4621a9ad06687f438420f35d814ecb182f6ec2c2a5d712`.
-Observation: `compat/observations/real_world-static-group-addressing.json`.
-Proofs: `work/real_world-goal/group-static-mapper-831-next-final-results/`. Only genuine aggregate Rust logs/metadata
-are promoted; no per-job cache transplant or Java report promotion.
+Selected fixed-bucket directory batch: six Rust files, three original native
+controls. Existing exact primitive graph equality joins use PrimitiveRows for
+fixed outer buckets. Constructor transfers actual canonical key/value Arcs;
+Members words/key Clone and callback/error/matching order stay intact. Ordered,
+custom, Drop and borrowed paths remain Tree without new public bounds. Paged
+journals/captures/full/current/nested installs reuse existing row undo; early Tree
+full saves can install into later Paged bindings. Original input-ID Arcs remain.
+Private intermediate bucket owners may live until frame end rather than AVL root
+promotion. They have no public escape. Full page clones and larger per-write logs
+are memory tradeoffs, not an allocation-elimination or universal speed claim.
 
-Selected rotating native3s controls against actual verified831/8e:
-**+1.816% Golfer /+2.881% Sailing**, all16 independently valid. The three new
-focused tests pass. Source-bound compiled mapper evidence is recorded under
-`work/real_world-goal/group-static-mapper-831-next-evidence/`.
-These diagnostics earn no Java parity credit. The earlier score and Membership
-addressing optimizations remain. Do not add or multiply separate-session gains
-into a qualified Java ratio.
+Native `47f4f43290299a097b4ce18813e6145e952a7eaaa78fbb55e2773bae644777bf`; production `021a4cd324ecd8c8f29204bfa4de9733c8eb5fed1b16b9b6e8f6a9dee26a4b57`;
+final snapshot `4816cd6ae95ab2172b070b2403a899faa54c9bbbb5a924d083394c557bac2be2`; qualified artifact `a7cbb8e0ba724e46f5bf76e28f50bbf89c6e025a9b7af6398ba23efa9f608d0b`.
+Actual unchanged-source Clippy + all-target prebuild + normal jobs4
+`bash scripts/check.sh` + original default Java qualifier all pass.
+**8,858 named Rust identities /8,864 Cargo executions /292 doctests /54 tooling jobs**.
+Genuine aggregate Rust logs/metadata and actual qualified report promoted; no
+per-job cache records transplanted. Proof: `work/real_world-goal/bucket-storage-a31-next-final-results/`.
+Observation: `compat/observations/real_world-fixed-bucket-directory.json`.
+Dashboard backend data/freshness updated; unchanged UI proof reused.
 
-The old default Java report remains unchanged and visibly stale: historical
-ratios **0.979444 Golfer /0.553151 Sailing**, all12 valid, Sailing2/3 native feasible
-versus0/3 Java. Defer the default qualifier until materially closer to parity;
-final success still needs current original-protocol measurements meeting both
-targets. No unchanged-source rerun to fish for a passing Golfer result.
+Current original-protocol Java medians, all12 independently valid:
 
-The frozen owned fixed-bucket word-index audit found exact prior overlap:
-`fixed-index-words-next-prototype` already had owned word membership/inverse logs,
-full/current/nested ownership, canonical key retention and tombstones. Its actual
-10 focused passes and24 valid controls measured +1.482%G/+.410%S; unselected.
-No duplicate code/build/test run was made.
-The generic apply-and-emit audit also found exact prior overlap:
-`leveled-emit-{fixed-}next-prototype` already returned Result<()> to a caller-owned
-sink with original guard phases and specialized Join emission. Actual controls
-were +.677%G/−.561%S, unselected. Current scalar Outputs::for_each is already
-inlined; actual result/event copies exist but their enclosing profile self time
-is not removable copy cost. No generic sink implementation or repeated run.
-Shared-input Group two-event output allocation could be a distinct mechanism,
-but its applicability/payoff has not been established by that read-only audit.
+| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Throughput target |
+| --- | ---: | ---: | ---: | --- |
+| Golfer | 152,426 | 121,584 | 1.254x | met |
+| Sailing | 50,061 | 82,196 | 0.609x | below target |
 
-Earlier caller-owned score probes, inline journals, retained group inverse
-locators, typed FlatMap buffers and small-count states remain excluded after
-flat/mixed/regressive controls; retain their old evidence, do not retry unchanged.
-Previous observations retain original source bindings and attribution.
+Sailing feasibility 2/3 Rust versus0/3 Java. Raw scores stay separate.
+The original protocol was deliberately refreshed after a material native gain,
+not after every small increment. Future source changes make these results stale;
+never relabel them as current or multiply diagnostic gains into Java ratios.
 
-The preceding8e local profile is under `work/real_world-goal/current-831-profile/`:
-original Sailing10s seed7, independently valid0/87300, zero lost samples. It is
-historical after this change and earns no Java timing credit.
-Ignored state: `work/real_world-goal/active-performance-state.json`, round_831.
-Consult it for completed/live agent work; observation timeout is not terminal
-evidence. Future native baselines bind actual full-gate receipts and measured
-artifacts without requiring another Java qualifier; old Java stays stale.
+Selected original native3s controls against actual a31/0bb8: **+18.470%G/+5.587%S**,
+all16 valid. Nativepilot54bf/prod021a was followed by a CFG-test State-alias fix
+only, final47f4 with identical production bytes. Corrected3 focused controls pass
+91.244s; final gate and qualifier build/measure the actual final source afresh.
+Actual pilot ELF a7cbb8e0...f608d0b confirms directory operations and Tree fallback;
+Members word cloning and fresh value allocations remain. Compiled proof:
+`work/real_world-goal/fixed-bucket-directory-a31-next-evidence/compiled-bucket-proof.json`.
+
+Rejected, no broad gates or combination: four-word Position **+.309%G/+.249%S**,
+53 focused pass after two stale test-field references were corrected; bitmap Pair
+pages **−1.411%G/+.393%S**,11 focused pass. Bitmap actual size1544vs2048B, but new
+certified copies on removal/page seed/full clone remain real costs; no causal
+attribution of timing. Original failed test compilations remain recorded.
+Do not retry unchanged or integrate their unselected tests.
+
+Read-only audits ruled out direct owned collector rows as an old regressive
+experiment; a scalar+Birth/Death lifecycle backend remains a distinct unimplemented
+idea with no demonstrated payoff. Fixed-slot index calls and owned-input static
+indexing are distinct but occupy narrow sampled regions; no prototype. Generic
+sink/alternate queues/leveled emit overlap earlier failed work. State retains all
+source-bound receipts and stop decisions; do not repeat these audits unchanged.
+
+The preceding0bb8 local Sailing10s profile, seed7, valid0/87300 and zero lost samples
+is `work/real_world-goal/current-a31-profile/`. It becomes historical after this
+change; no Java timing credit. Ignored state:
+`work/real_world-goal/active-performance-state.json`, round_a31.
 
 ## Additional RealWorld application coverage — 2026-10-20
 
