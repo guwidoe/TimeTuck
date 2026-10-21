@@ -1,0 +1,88 @@
+{
+  "kind": "real_world-filter-finish-outlined",
+  "status": "closed;unintegrated;both workloads slower",
+  "native_source_digest": "a61ab57dc3fc8fcdb4a880f1397002c5ca6b86d1a5da2d93fce4986957e57ec1",
+  "input_sha256": "ada208ff421bb8d6a16dc7b7d38248b3992c012131830fbd76eb3ac7765cb55f",
+  "source_snapshot": "21297fb17671c693103b418f9261d7bc942600684cbb0b9a4430bfe28760991a",
+  "artifact_sha256": "9b7119b96a71d4a50b1da3653715dc7bae9d1ff2ef4301b56995bdff556b2415",
+  "mechanism": "Oneinline(always) to inline(never) attribute on common generic filter body with continuation,keeping compact-return specialization in its own routine. Allotherfilebytes/body operations identical. NewgenuineCargo release,no unit repetitions for unchanged bodies.",
+  "body_equivalence": {
+    "only_change": "One inline(always) to inline(never) attribute on generic original filter body with finish continuation;all file bytes/bodies otherwise identical.",
+    "original_native_tests_source": "1718168e18cedb050d36cb3dcdab9b453e37a690c87b20ea2001c3805f1f7977",
+    "original_proof_directory": "work/real_world-goal/filter-finish-focused1",
+    "original_tests_passed": 22,
+    "original_file_sha256": "72f233a64aba2cfcb0744d00132cd8b12656aecf881924e23e756566f0fb7c85",
+    "new_file_sha256": "0cb24afb516ce51dff163b99df61131d348ad70c027cbac3fedad7dff432afe2",
+    "policy": "No unit test repetitions on unchanged bodies. Source-bound22 prior passes remain prior-source evidence,not new-source execution credit. Genuine new Cargo release+16 independently validated native outputs assess changed code generation."
+  },
+  "prior_source_semantic_verification": {
+    "source": "1718168e18cedb050d36cb3dcdab9b453e37a690c87b20ea2001c3805f1f7977",
+    "passed": 22,
+    "proof_directory": "work/real_world-goal/filter-finish-focused1",
+    "scope": "Prior-source executions only;not relabeled as current-source tests."
+  },
+  "actual_current_source_tests_passed": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/filter-finish-outlined-next-results/real_world-filter-finish-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66641.6787224246,
+            65748.93419235539,
+            65592.08498616969,
+            66058.92872119826
+          ],
+          "trial": [
+            64027.081478393164,
+            61918.97124177193,
+            64826.374891554806,
+            61866.62777688224
+          ]
+        },
+        "medians": {
+          "baseline": 65903.93145677683,
+          "trial": 62973.02636008254
+        },
+        "gain_pct": -4.447238627359473
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195533.57269487955,
+            198000.24815845332,
+            197402.43215787888,
+            197353.15618724973
+          ],
+          "trial": [
+            193624.39381718016,
+            192322.51334626984,
+            194059.2142020842,
+            192412.33310507025
+          ]
+        },
+        "medians": {
+          "baseline": 197377.7941725643,
+          "trial": 193018.3634611252
+        },
+        "gain_pct": -2.2086733361847743
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "independent_validation_sha256": "01f1b6eeeb424a057c8e394deee19d3969f09266bc3050ba133ff25e9b07b1cd",
+  "receipts": {
+    "receipt.json": "fcbff35393eeb0865f508c9ef6a4778ae84d246c928798c0050688e4890ff4f4",
+    "build-receipt.json": "85b77082eec22f73fcfb7e2b7a34e1f31ebc36929b2078383747d5df0d1767ab",
+    "controls.json": "ba6cee487e37f7ac3979985b6ccf0410b9b4e9c5ebdabdf9be229b1f796437f8",
+    "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "Actual16nativeoutputs valid;S-4.447%/G-2.209%,all4slowerboth. No integration,app/Clippy/full/Java or unchanged retry. Prior22body checks reused explicitly ontheir originalsource,0newunitexecutions. Selected817b/47fc/1f5e/currentJava317eca04 remainunchanged1of2targets."
+}

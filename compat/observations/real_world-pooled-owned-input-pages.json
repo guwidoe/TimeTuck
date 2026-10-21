@@ -1,0 +1,101 @@
+{
+  "kind": "real_world-pooled-owned-input-pages",
+  "status": "closed;unintegrated;all four pairs slower on both workloads",
+  "native_source_digest": "a84c9ea971353146b744983b89dbceb385ad2d35ca948215dfa6400f1862b82d",
+  "input_sha256": "f41d081d59940fc3c91202daf309ac8291d66c56e938f8d857809107dfc212ac",
+  "source_snapshot": "43aad0263194fee1d886c3adbb1264c39709a3995a2a820f4bbb7ecdde2c4040",
+  "artifact_sha256": "9dc8b72873065db88c48d6c9351e603ee0a60ceee05d2153410cfc72df226597",
+  "mechanism": "Track occupied cells in private16-cell owned input pages; reclaim only after outermost journal finishes and reuse at most256 empty allocated boxes. Preserve full input values,shared64-cell conversion,all callbacks,undo and captures.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/pooled-owned-input-pages-next-results/real_world-pooled-owned-input-pages-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66379.78373471924,
+            65798.50501775165,
+            65677.8081863562,
+            66198.18098936578
+          ],
+          "trial": [
+            62678.72084539248,
+            63014.70680029748,
+            62655.46421631779,
+            62713.66193992126
+          ]
+        },
+        "medians": {
+          "baseline": 65998.34300355872,
+          "trial": 62696.19139265687
+        },
+        "gain_pct": -5.003385631551083
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196518.81506626267,
+            197213.78629579383,
+            196810.49921995492,
+            195310.79602057615
+          ],
+          "trial": [
+            189280.8291055826,
+            190915.54888431964,
+            184309.93380288457,
+            186955.38071199847
+          ]
+        },
+        "medians": {
+          "baseline": 196664.65714310878,
+          "trial": 188118.10490879056
+        },
+        "gain_pct": -4.345748930423765
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 16,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_inputs::owned::page_tests",
+      "incremental_stream::group_inputs::owned::pool_tests",
+      "stream_graph::owned_group_input_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/pooled-owned-input-pages-focused1",
+    "receipt_sha256": "3ad51245148dfe16978f18d76499b5bb5ce5be56a76f2728726364161df95714",
+    "log_sha256": "703f0f17df331091445dfcd9d85ea2ad01bc9c280f29795c20ed90f8fc60d89b",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "52954f0fd6fba9382bc5dc9d3821375ff67e5a17bd7a7b4ccf3c193a25c68fe7",
+  "receipts": {
+    "receipt.json": "f7e075f665c9421441686b639ef79e28186f99bf91f0b57ed2f520252536472d",
+    "build-receipt.json": "e7ea61ef330a19f11b4a6285927683c81e6add4a960f04c5360db9f58b15d1c3",
+    "controls.json": "234d81c36db9a6b7e1b3cdc43aabd13efef0d115afd79bc9e812242b83e2c982",
+    "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+    "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+    "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+    "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios."
+}

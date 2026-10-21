@@ -1,0 +1,51 @@
+{
+  "kind": "real_world-score-only-instruction-profile",
+  "status": "collected;guided closed filter and input-page experiments",
+  "proof_directory": "work/real_world-goal/selected-score-only-sailing-profile",
+  "native_source_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+  "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+  "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+  "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+  "samples": 4996,
+  "lost_samples": 0,
+  "receipt_sha256": "7312c19ec23a54e49ee5b585dd76109a830a0816d1a0a3537c29aa6c948a3e74",
+  "perf_data_sha256": "887e70b6f363c7552b710035dc889f575006a6bbd4784d0a9cf66ec3e6910341",
+  "output_sha256": "e7c7e63d35b40831965c74077fba7ad30b8b45e33422e411065afeeb87029be4",
+  "problem_sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff",
+  "independent_local_validation": {
+    "score": [
+      0,
+      94500
+    ],
+    "feasible": true,
+    "structural_errors": [],
+    "pin_violations": [],
+    "breakdown": {
+      "capacity_penalty": 0,
+      "hard_pair_penalty": 0,
+      "unique_contacts": 2631,
+      "repeat_penalty_units": 109,
+      "soft_pair_penalty": 54500,
+      "balance_penalty": 103200
+    },
+    "reported_score": [
+      0,
+      94500
+    ],
+    "score_matches": true,
+    "valid": true
+  },
+  "initial_score_and_assignments_match": true,
+  "annotation_exit_code": 0,
+  "annotation_sha256": "f5ee988c41028e2f907695fc4c69b6b3cadbcb36cbe763a892bd575a6aea4b91",
+  "annotation_receipt_sha256": "4e4fbacd1df034f1947feff094400afa0d95ace8efe905eb7f07874c2fbf495b",
+  "scope": "One actual selected-score-only10s seed7 CPU2,3 499Hz cycle profile;no build,tests,Java qualifier,timing gain or component causality claim.",
+  "observed_hot_paths": {
+    "propagate_arena_percent": 10.86,
+    "largest_group_summary_percent": 7.98,
+    "largest_membership_filter_apply_row_percent": 6.56,
+    "largest_terminal_apply_change_percent": 5.41
+  },
+  "finding": "Current selected filter apply_row emits full numeric tuple returns and extensive stack copies before private forwarding reduces them to a byte action. New common finish continuation allows the compiler to eliminate unused scalar output copies;original algorithm and public identity return remain. Actual performance unproven until native controls.",
+  "limits": "Non-precise cycle samples and skid do not establish exact cost or causality for an individual movaps,jcc or following instruction. Inline costs aggregate inside containing symbols. Existing Java profile remains unchanged and is not repeated. No test/full-gate/benchmark/upstream credit."
+}

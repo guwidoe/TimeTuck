@@ -1,0 +1,109 @@
+{
+  "kind": "real_world-small-owned-input-pages",
+  "status": "closed;unintegrated;both essentially flat",
+  "native_source_digest": "893507ffb1ba65f62fe5bf23505de952c027e66ff0c69b7b25151df370088555",
+  "input_sha256": "cebed4ca6ace84c302edf39a3f029ed3cfe1a4973cb8f8e581b853d3d0769e5d",
+  "source_snapshot": "42f070593fdf2d9877c66b57d84d00d5eef72f5cb10f9cb0e5fbe6821c6110cf",
+  "artifact_sha256": "08efca2ce5bf3e7d6de7c3a5146e7c9a4ff6c68cb2ae0b52536b0fcd80f77873",
+  "mechanism": "Owned bounded pair input pages16instead64. Original64-cell shared activation pages split inordinal order into4chunks through unchanged certified copier;onlynonempty ownedchunksallocate. Converted tail is trimmed to ceil(universe/16) to avoid full-install padding underflow. Same every-write preimages,universe/index/validation,fullvalue/capture/restore and public/custom behavior. Fixed final source executes only3 previously failing cases;12passes on initial source remain separately bound.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/small-owned-input-pages-fixed-results/real_world-small-owned-input-pages-fixed/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            61989.25321358743,
+            66244.14528269449,
+            64295.354973529524,
+            65507.36705364028
+          ],
+          "trial": [
+            65273.676049809415,
+            65206.475566279776,
+            64838.554520090824,
+            64864.22911168963
+          ]
+        },
+        "medians": {
+          "baseline": 64901.3610135849,
+          "trial": 65035.3523389847
+        },
+        "gain_pct": 0.20645379897619165
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197649.81355468128,
+            195773.0196477268,
+            193727.24641656893,
+            194944.63079003373
+          ],
+          "trial": [
+            196659.38259547454,
+            193450.55850892435,
+            195050.66009713724,
+            195707.80006117135
+          ]
+        },
+        "medians": {
+          "baseline": 195358.82521888026,
+          "trial": 195379.2300791543
+        },
+        "gain_pct": 0.010444811106524732
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 3,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_inputs::owned::page_tests",
+      "owned_group_inputs_pair_sparse_boundaries_absence_rebirth_and_bounds_match_original",
+      "owned_group_inputs_graph_bound_loads_contacts_captures_public_owners_and_panics_match_original"
+    ],
+    "proof_directory": "work/real_world-goal/small-owned-input-pages-fixed-focused1",
+    "receipt_sha256": "870c297ced8f4a6bb1ffb5b952f177c1ea0420d76eef3a5875dd9b9a58669b73",
+    "log_sha256": "e6321fb88a0d9233bf287b303d1956bd13736c77d304a0aa81575065fc807154",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "9ac7087e1789f44a2f9ca749c5e5cdfcbeb6bd499ba179534d2fdb089bee76aa",
+  "receipts": {
+    "receipt.json": "3dced70c6b6bb5c05a8a92d88cd7c51f10214012f35c79a3eb4191e447bc84d4",
+    "build-receipt.json": "e07b744f937d10f420115168b0355845696bdaedebeb10b8b90ddc9df8c57e28",
+    "controls.json": "3134a981ef25eb8fd9dc26dab65bdf705136eb3356dee7e1c80972ae3ef70360",
+    "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+    "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+    "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+    "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "initial_failure": {
+    "native_source_digest": "dbc630883bc86f6b9e2bbc759c14abedd5d302f4738bf582b2100728c1097888",
+    "production_digest": "8c138c3da734f99ed0f42766844decc75b2b7540de4c44d687c4a5edd654063f",
+    "exit_code": 101,
+    "passed": 12,
+    "failed": 3,
+    "receipt_sha256": "b233088dff46c45e7f94964da26d8b36bdad5023d9c1d03ab38a952a244487f6",
+    "log_sha256": "f97e1998117fa07b2952f13e9444ea48021f7212d793a6b8f01dc4ff082067bf",
+    "reason": "Expanded trailing shared page introduced empty subpages beyond declared count;full install subtract count-page_start underflowed in debug. Original source/failure preserved. Fixed source trims onlytailpadding andreruns3failures,not12successfulchecks. Original release16outputsvalid do not establish fullsnapshot correctness;notintegrated/rekeyed."
+  }
+}

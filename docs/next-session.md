@@ -49,6 +49,19 @@ Use prepared `v35-master-dispatch.py` / `v35-artifact-remote.py` for the next
 changed candidate;they bind current817b/47fc/1f5e and actual Java317eca04.
 Do not repeat completed tests or this matrix on an unchanged source.
 
+The next five trials are closed and unintegrated. Continuation-based filters
+passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
+Golfer3.153%. Outlining that continuation also slowed both4.447%/2.209%; its
+attribute-only change reused prior-source body checks,with zero new unit runs.
+Smaller owned input pages were flat (+.206%/+.010%); the first conversion had
+12 passes/3 debug-underflow failures,then only those3 failures were rerun after
+trimming out-of-universe tail pages. Bounded empty-page reclamation passed16
+checks/16 valid outputs but slowed both5.003%/4.346%. Every control output was
+independently checked. The current selected-artifact profile has4996 cycle
+samples,zero lost,one independently valid full output. No runtime was selected,
+Java comparison refreshed or unchanged test repeated for these experiments.
+Separate observations preserve every source/failure. All their jobs are terminal.
+
 Three other changes are closed and unintegrated:arena visibility18 passes/16valid
 outputs,S-.218%/G+.322%;flattened owned undo18/16,S-.790%/G-.876%;private score
 preimage hints35/16,S-1.428%/G-2.100%. No extra app/Clippy/Java/full checks or retries

@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-filter-finish",
+  "status": "closed;unintegrated;both workloads slower;separate outlining refinement also closed",
+  "native_source_digest": "1718168e18cedb050d36cb3dcdab9b453e37a690c87b20ea2001c3805f1f7977",
+  "input_sha256": "11a5ad05828dfce16b0460dcae7ca35babfb8d2b3d1e7425a5e1b277e1d0e0f5",
+  "source_snapshot": "222f399ac2ac66c7ef29def7a8177ad13d3f8ef12196c63732643aa5dcb6a336",
+  "artifact_sha256": "6b9de2d94e395f01d64c052b0e62a17bbda4a8ceba7c9bcfd1351d36d6cc343e",
+  "mechanism": "Share original MembershipFilter.apply_row body through always-inlined finish continuation:ordinary/public route returns original full tuple and closed numeric forwarding uses original None/Same/Retract classification. Original body is verbatim except final expression;all predicates,clones,output-preparation,bounds/poison/journal and callback phases remain. Compiler can remove unused scalar copies from private return. Actual old/new filter-related apply function bytes7309to8738(+19.55%),but this does not establish cause of the slowdown.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/filter-finish-next-results/real_world-filter-finish-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65660.56971722475,
+            65976.91087437171,
+            65558.28028330392,
+            65868.0585989513
+          ],
+          "trial": [
+            62569.76972023438,
+            64277.10103249743,
+            64297.08334799943,
+            64848.128242206054
+          ]
+        },
+        "medians": {
+          "baseline": 65764.31415808803,
+          "trial": 64287.092190248426
+        },
+        "gain_pct": -2.2462364076185404
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197962.80784926313,
+            195039.88890050078,
+            195510.60158971197,
+            197376.57055410423
+          ],
+          "trial": [
+            192986.15468860482,
+            180360.1196588987,
+            188534.10856551552,
+            191964.66017513306
+          ]
+        },
+        "medians": {
+          "baseline": 196443.5860719081,
+          "trial": 190249.3843703243
+        },
+        "gain_pct": -3.153170752704759
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 22,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::membership_filter::",
+      "stream_graph::consuming::tests::consuming_search_actual_graph_fifo",
+      "stream_graph::event_queue::tests",
+      "stream_graph::propagation_workspace_tests"
+    ],
+    "proof_directory": "work/real_world-goal/filter-finish-focused1",
+    "receipt_sha256": "f450f58dbba3462fb8beef3b00f553657f92c255910833108867a60108df95fa",
+    "log_sha256": "4474df28baab9cab1d2ae4080b0d0f3db4bac3b51d4e80c6dd56af939f7f9333",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "5d1bb752e3cfcc1dff6cd2986e73d049a95e417c04e044153931cd680e52704e",
+  "receipts": {
+    "receipt.json": "7ecff5353658429287da69cace1f29463d53ecb8267aeb4a8460ea0236aeef56",
+    "build-receipt.json": "db86b2970811fdcaf1fac6458f7fe24b4301b379fbb215218e5e63b17c2fbb8d",
+    "controls.json": "51896eda1c87cc2dc7093af75ebcfa1d5671d0017ec1a421f2f86730f2f72e53",
+    "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+    "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+    "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+    "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios."
+}
