@@ -1,0 +1,101 @@
+{
+  "kind": "real_world-sparse-depth-score-undo",
+  "status": "closed;unintegrated;Sailing flat,Golfer slower",
+  "native_source_digest": "6beccf76fb5b8971633af845dc3b36739598006ad9a8e3ccca1243b0d69c9289",
+  "input_sha256": "ec6576437b3ba115d9c109a2490ddcde06c6b7f78aee841c22021019dfcbbf9f",
+  "source_snapshot": "f7c8f1443aef8ecfd20581f3294f3929c3a2263053e27d418b15d3927258df25",
+  "artifact_sha256": "affb6cce1dafc1829c53507d4f9519aed57338b93ecca113097918f18a4c5354",
+  "mechanism": "Sparse private score entries store full optional score and nested journal depth beside the already-looked-up row. First preimages perkey/frame retain ancestor depth;temporary absent entries retire at outermost commit/rollback. Dense original every-write and sparse first-preimage inverse sequences commute for disjoint exact builtin positions with no callbacks/Drop hooks. All forward updates,callback/Clone/check/FIFO phases,fullwidth coordinates and cold sorted views/full/current/entry snapshots remain. Larger physical sparse cells and temporary tombstones can increase memory;no epochcounter or source rekey.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/sparse-depth-score-undo-next-results/real_world-sparse-depth-score-undo-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65298.948695356754,
+            64501.87951434993,
+            65722.00019923739,
+            62433.950838163524
+          ],
+          "trial": [
+            66426.5681570769,
+            65852.9985856346,
+            61035.22458686065,
+            64134.54252517547
+          ]
+        },
+        "medians": {
+          "baseline": 64900.41410485334,
+          "trial": 64993.77055540503
+        },
+        "gain_pct": 0.1438456931890597
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196719.02215382838,
+            197394.15417293416,
+            196643.34178754262,
+            193219.14886952424
+          ],
+          "trial": [
+            191865.90512200343,
+            193814.21407464222,
+            195961.93367590816,
+            195711.01190512886
+          ]
+        },
+        "medians": {
+          "baseline": 196681.1819706855,
+          "trial": 194762.61298988556
+        },
+        "gain_pct": -0.9754715532906855
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 38,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/sparse-depth-score-undo-focused1",
+    "receipt_sha256": "1d2dd7b5391aa7a630d5dd179eab4cb3ce3952926c0a46c3a212eba47ad416c7",
+    "log_sha256": "3c27180137b907702cd0a1889351fcc31924102a39505eda16a7fbfd71e960b7",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "bfed28e328b365b735c522e11140e5ed386c02feebeef24c0f28b85a45087b93",
+  "receipts": {
+    "receipt.json": "09e382e6f44eed01ffa97ecf9b29dcf1544729699133adcb86504fee775c3111",
+    "build-receipt.json": "ea24c74123f298f9abe81e3556fef504ac82415429b3cf426271850480242bf9",
+    "controls.json": "6377f0f6e37a16e0175084c9bb6cf6e3e55719fd2d19732a9da50db2ddd876ee",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "38 actual focused checks and16 independently valid outputs. Sailing+.144%(3/4 faster but fixed median statistic essentially flat),Golfer-.975%(1/4). No favorable-pair selection,unchanged retry,integration,app/Clippy/Java checks or full suite. Current9848/df9b/1d5b andJavaeeee remain authoritative."
+}

@@ -57,10 +57,15 @@ The next three trials are closed without runtime changes:input-presence pages
 19/16,S-.796%/G+.296%;dense-page first-preimage masks38/16,S-2.674%/G-2.476%,all
 pairs slower both. Each source/failure boundary and independent output validation
 is in its separate observation. No retry,app/Clippy/Java/full checks for these.
-Current sparse-depth score undo passed38 focused checks and its original release/
-controls run on runner-a session90603. Independent-input hash-word multiplication
-is under local focused check60813. Both are isolated prototypes off selected9848;
-no changes selected or speedup claims yet. Preserve live handles across timeouts.
+Sparse-depth score undo also closed:38 checks/16 valid outputs,S+.144%(fixed
+median essentially flat)/G-.975%. Do not retry either journal mechanism unchanged.
+Independent-input hash-word multiplication passes37 actual checks on9ad89661/
+2962a3bf,log5264325f. runner-a dispatch65760 ended255 after SSH check timed out;
+no remote outcome is known. Live recovery/master connection92899 awaits the
+already-requested Tailscale SSH authentication. Inspect snapshot892d8346 and
+worker/receipts before any restart. Preserve failed transport/prototype evidence;
+never restart because observing failed. No runtime selected or speedup claimed.
+All selected9848/df9b/1d5b/Javaeeee evidence and dashboard remain current.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
