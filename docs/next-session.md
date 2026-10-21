@@ -93,18 +93,25 @@ join/publisher tests and 16 valid outputs. Not integrated. Close this combinatio
 and the unchanged standalone indexed candidate; never add component gains or
 repeat these timings. Proof:
 `compat/observations/real_world-group-publication-indexed-row-combination.json`.
-Next investigate a larger Sailing join cost. Member equality joins use Pair IDs,
-Quad payloads and Pair keys. Matching index enumeration then repeatedly looks up
-full rows in PrimitiveRows; keys remain unchanged for many group moves, so index
-update shortcuts alone will not help. A private consumed numeric contiguous
-bucket-row backend is only a hypothesis, not implemented. Preserve full-ID sorted
-emission, original callbacks, original output staging, every capture/journal/
-rollback/clear and public/custom paths. Do not reopen closed static mapped reads,
-concrete-key callbacks, member-owner pools, buffer handoffs or indexed-row variant.
+The contiguous member-bucket hypothesis was implemented and measured, then closed
+without integration. Exact Pair IDs/Quad rows/Pair keys use sorted full-row vectors
+per key and an ID registry, with scalar nested undo/captures. All 7 relevant node,
+consumed-graph and external application tests pass; all 16 native outputs validate.
+Sailing +0.885% and Golfer -0.085% were mixed (2/4 faster each), insufficient to
+justify the extra storage. Original Clippy flagged only type complexity; a
+separate alias-only repair passed lib/example Clippy and was not timed or tested.
+Neither variant earns main test or Java-parity credit. All handles terminal and
+collected. No full suite or Java qualification on the rejected backend. Preserve
+both prototypes and receipts; do not repeat unchanged variants.
+Proof: `compat/observations/real_world-contiguous-member-buckets.json`.
 
-Existing v28 helpers remain bound to historical ec026/218/874a and actual229
-focused tests/Clippy/current-at-that-sourceJava16b0. Do not relabel them for new
-source. Build any future helper from actual aee829 receipts. No full suite,
+The next hypothesis must address a different measured Sailing cost. Do not reopen
+closed static mapped reads, concrete-key callbacks, member-owner pools, buffer
+handoffs, indexed-row variants or this duplicated contiguous-bucket registry.
+
+Existing v29 helpers bind actual selected aee829/59be6/6d297, its 21 focused tests,
+Clippy and original Java report5725. They built/measured the rejected contiguous
+member candidate. Historical v28 remains unchanged for ec026. No full suite,
 unchanged qualifier, repeated browser check or runner-c probe. Goal active/incomplete.
 
 The following deferred-totals baseline is historical. Its runtime,

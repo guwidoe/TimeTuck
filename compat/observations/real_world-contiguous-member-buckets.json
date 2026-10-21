@@ -1,0 +1,212 @@
+{
+  "kind": "real_world-contiguous-member-buckets",
+  "generated_at": "2026-10-21T12:41:50.276578+00:00",
+  "status": "closed; modest mixed Sailing signal, flat Golfer; not integrated",
+  "native_source_digest": "ad8ada18c6d41af35d934fc338036382750ae9a36ea83f05951eea94946d69ae",
+  "input_sha256": "3d0212a081edf2b0980abcc11ad39a981aa3eaa7791ba7abe5bad0d3edd7a0f3",
+  "source_snapshot": "e5f655f57aee35512ad9efb1b3b683b6c78fbe40f87a96d7f91249f200676427",
+  "artifact_sha256": "11e7950fd7595e8f2e022c7a9a76905e442ab77d62815e1d6b509eca819b336b",
+  "mechanism": "Private whole-consumed equality join for exact full Pair IDs, Quad payloads and Pair keys. BTreeMap ID registry plus sorted contiguous complete rows per key removes repeated opposite-side PrimitiveRows lookups while retaining original typed output staging, callback order and full fields. Scalar inverse frames handle nested commit/rollback, delta/full capture, clear and preactivation full snapshots without projection replay. No coordinate limit, unsafe, Event/queue change or model/settings change. Original public/custom/ordered/fixed join paths remain.",
+  "tradeoff": "Duplicates full payloads in the ID registry and contiguous buckets, adds private backend storage and mutation/journal work. Measurements do not establish a useful overall gain.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "contiguous_member::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "seconds": 91.91670519197942,
+      "receipt_sha256": "b5cbec4eb4a7d198818f4b4d4c0fd2e1a31e7e9ec75e5f5330e25c26c45c50af",
+      "proof_directory": "work/real_world-goal/contiguous-member-flatmap-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "shared_member_carrier_consumed_graph_preserves_callbacks_captures_failures_and_retry",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 1,
+      "seconds": 0.4474389959941618,
+      "receipt_sha256": "bbd68743b1fb7805e7aa0054e0a36f7631b26d29b0198dfc8ce9fe1f3898f150",
+      "proof_directory": "work/real_world-goal/contiguous-member-flatmap-graph1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--test",
+        "real_world_application_regression",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 24.192037472006632,
+      "receipt_sha256": "b74e98d3bb55d2d69a84a946f7e08bd318bcad401975ba48a67eac35d73b5397",
+      "proof_directory": "work/real_world-goal/contiguous-member-flatmap-application1"
+    }
+  ],
+  "tests_passed": 7,
+  "full_native_gate": false,
+  "new_original_regressions": 2,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/contiguous-member-flatmap-next-results/real_world-contiguous-member-flatmap-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            58693.43293813475,
+            58884.88298890348,
+            61049.58218847095,
+            58468.556088597536
+          ],
+          "trial": [
+            59170.978151199466,
+            56464.93311707228,
+            59447.608287506475,
+            62486.29631781342
+          ]
+        },
+        "medians": {
+          "baseline": 58789.157963519116,
+          "trial": 59309.29321935297
+        },
+        "gain_pct": 0.88474690546958
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            182949.89020000043,
+            184820.3002849963,
+            183547.65952964922,
+            175484.94629580763
+          ],
+          "trial": [
+            180424.71409449927,
+            182117.44693091325,
+            184629.52533476547,
+            184068.38465812278
+          ]
+        },
+        "medians": {
+          "baseline": 183248.77486482484,
+          "trial": 183092.91579451802
+        },
+        "gain_pct": -0.08505326729839613
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "receipts": {
+    "receipt.json": "4b7557ebef3b85876e3dc2fe72078132e0cdd5c921d1ceebf3f773943654196c",
+    "build-receipt.json": "86def8b151618023724420fda337ff06c05e0097377e17c817ba527d897e48c6",
+    "controls.json": "c331dfbb90a8ca7d3816a749783c08bf5c72cd3b2801a5ce1c61fe51d8d1fd10",
+    "baseline-binding.json": "cda1bae73a739d0c10b6193f6763d6bf5dc89c20b93f0d94953e3079d9066b2e"
+  },
+  "style_check": {
+    "original_source": "Clippy failed only type_complexity for optional generic backend field. Original source/log/receipt preserved. No claim that measured source passed Clippy.",
+    "original_receipt_sha256": "9e7e4a8ddf270003facde941103b06a107fd30b749033a87abccc627a763a13c",
+    "alias_only_repair": {
+      "native_source_digest": "639b3d0c3f0e33a62a033410795215c1082a2fbd342c9334f2808def938d7c47",
+      "input_sha256": "64a4789d6e932eb1f5a5d8da07ed5d81ce4544d21b57aed7f5152532f4a5313e",
+      "status": "Actual lib/example Clippy passed. No tests, release timing or Java matrix on alias source; it is also unselected.",
+      "receipt_sha256": "7781120bbf6a0498402136611357f2082d141630222c696c4977856f091fb8c4"
+    }
+  },
+  "baseline": {
+    "rust_digest": "aee829a5a1faaf0d6c5918a69f742c4dd4a33ac37e8953b935a36309816f6d27",
+    "production_digest": "59be6ab0e5ce028af5b31d9f31d7e855b3f519ba2a2fce4ce17d4f6a2e69d9f3",
+    "artifact_sha256": "6d29717bc078561672f138fa1dc102b685c037ceeb1c634c02bf5d8468d005ab",
+    "source_snapshot": "a32b7ed7a7a64f7c0ae9e61356a90aaa21702825bb47884b74662b10bd5c89e9",
+    "pilot_receipt_sha256": "67f242b8f43f41231bde9b1eb551f34abf8336e5e2b6c34b41f2911c073b812e",
+    "build_receipt_sha256": "8f16ac9d5ed704b039e5a8a7a6cd511613a9e2e489dc52ae5c938c694c747aa2",
+    "local_verification": {
+      "rust_digest": "aee829a5a1faaf0d6c5918a69f742c4dd4a33ac37e8953b935a36309816f6d27",
+      "checks": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "flat_map",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 15,
+          "receipt_sha256": "5d5f6086cd6f6a9500130b01b547a098065f67c399c851a9dfc5bfb2a5b7d910",
+          "proof_directory": "work/real_world-goal/standard-flatmap-ec026-focused2"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "stream_graph::event::tally_tests::",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 2,
+          "receipt_sha256": "dc15944d72530b5b86d0c75f0850f19d8a8ff4bc14cd419a79d2de09864143da",
+          "proof_directory": "work/real_world-goal/standard-flatmap-ec026-tally-focused1"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--test",
+            "real_world_application_regression",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 4,
+          "receipt_sha256": "30a465ef7a0137bed4aa3ee4113449dfb2d89c97995812a37d857d16c71d9ee6",
+          "proof_directory": "work/real_world-goal/standard-flatmap-ec026-application1"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--lib",
+            "--example",
+            "real_world_benchmark",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "tests_passed": null,
+          "receipt_sha256": "c082e07eabd20c1e04c6cb39f8c8030bf99202dad0499bdc497a317297288777",
+          "proof_directory": "work/real_world-goal/standard-flatmap-ec026-clippy1"
+        }
+      ],
+      "full_native_gate": false,
+      "focused_tests_passed": 21,
+      "aggregate_metadata_sha256": "3a9f6f5adf926de8b487542a77d130005002b3ffd4e1db840369a8d2cc0f5436",
+      "scope": "Actual15 flat_map+2 tally+4 external application Cargo tests and lib/example Clippy on exact selected source. No full suite."
+    },
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "5725a1cab0ce75f45cbd2b2801a02238690020f37b6eb8ead1a944459fe2adba",
+    "trial_current_java_targets_proven": 0,
+    "qualification": "Baseline has actual21 focused tests/Clippy,16 native outputs and original current Java matrix5725:1of2 targets. New trial native controls earn no trial Java parity credit. No full suite."
+  },
+  "policy": "Close both unchanged variants. Keep main1ce3ea5 source aee829/59be6/6d297 and current Java5725 report unchanged. Candidate7 focused checks/16 outputs earn no main test or Java parity credit. No full suite or further qualification. All jobs terminal and collected; local plus runner-a, runner-c parked.",
+  "proof_directory": "work/real_world-goal/contiguous-member-flatmap-next-results"
+}
