@@ -474,21 +474,29 @@ regressions and policy options do not earn extra upstream-method credit.
 
 ## Current RealWorld runtime
 
-The selected runtime now caches logically absent empty collectors privately,
-reviving their values through scalar undo instead of repeated row retirement.
-Cache creation stops above8,192 physical rows;logical views,explicit empty values,
-full/delta snapshots and nested rollback retain their contracts. This retains
-some private key/value storage across trials;public/shared/custom routes are unchanged.
-Four rotating native pairs measured **Sailing +0.745% (3/4 faster),Golfer +2.981%
-(4/4)**;all16 outputs independently validate including initial states. Actual21
-same-source focused/application passes and lib/example Clippy pass;no full suite
-or upstream credit. Source6f9ede18/prod1c87ec2f/artifact12e2dd51 is integrated.
-The fresh original Java/Rust matrix is current on this source:all12 full outputs
-independently validate under the original3seed10s rotating same-machine protocol.
-**Golfer1.554863x Java;Sailing0.886679x Java:1/2 targets met.** Sailing needs
-12.780373% more Rust throughput. Rust2/3 versus Java0/3 Sailing runs are feasible;
-quality remains separate. Report3ea8613a is current;old4795 is preserved historical.
-[Evidence](../compat/observations/real_world-cached-empty-owned-groups.json).
+The selected runtime stores scores alone in private contribution pages,hash rows
+and every-write undo. Complete numeric storage positions retain the identity;
+cold ordered views reconstruct all7 supported numeric shapes without narrowing.
+Views allocate/cache complete typed pairs until next write,so observed peak memory
+can increase. Public/custom rows and original terminal input clone/callback/check
+phases are unchanged. Prepared IDs must match their original mapped positions,
+as every production caller guarantees.
+
+Four rotating native pairs measured **Sailing +0.904% (4/4 faster),Golfer -1.373%
+(0/4 faster)**. The tradeoff favors the remaining Sailing target;all16 full outputs
+independently validate including initial states. Actual36 focused checks,4 external
+application cases and lib/example Clippy pass on817b1386/prod47fc4cef;artifact1f5e4680.
+No full suite,new upstream credit or unchanged validation repeats. The genuine
+original Java/Rust3seed10s matrix is live on runner-a,local session24424:
+`work/real_world-goal/score-only-current-java-qualification`. Collect it before
+restarting. Earlier Java3ea8613a remains historical/stale;do not extrapolate native gains.
+[Evidence](../compat/observations/real_world-score-only-rows.json).
+
+Three other changes are closed and unintegrated:arena visibility18 passes/16valid
+outputs,S-.218%/G+.322%;flattened owned undo18/16,S-.790%/G-.876%;private score
+preimage hints35/16,S-1.428%/G-2.100%. No extra app/Clippy/Java/full checks or retries
+were spent on them. Their separate source-bound observations are preserved;
+do not repeat these mechanisms unchanged.
 
 ## Historical runtime qualification — 305
 

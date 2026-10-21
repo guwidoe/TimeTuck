@@ -1,0 +1,93 @@
+{
+  "kind": "real_world-score-preimage-cache",
+  "status": "closed;unintegrated;both workloads slower",
+  "native_source_digest": "9567170472fac884dd0babe4de52836d192cfd75b9c36a59ffd3d526228c8194",
+  "input_sha256": "c7766a6471fc68a449a0d8222303abb892564797aaeb7e41e4d7a80bd3a78fa3",
+  "source_snapshot": "7e60837802d63759402c438c5da1c0f1bd487ccd1e205467f4b93368376ac1bd",
+  "artifact_sha256": "e81d4bc4a008495a3ba622e2197f942ecbcabf7d54ab4cfc5a5e9d0543330aa3",
+  "mechanism": "Eight exact Position-validated per-frame hints omit repeated private contribution rollback preimages. Every original forward set,score/ID/payload clone,callback,arithmetic,guard and publication retained. Collisions/stale hints keep extra records;nested commit can retain duplicates but original entry preimages survive;full/current/capture/spare behavior matches independent controls. One original private storage-count assertion changes4to1;all semantic assertions retained. No upstream-adapted assertion changed.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/score-preimage-cache-next-results/real_world-score-preimage-cache-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65096.251839747965,
+            65937.26691017362,
+            65776.23805548613,
+            65784.00671117165
+          ],
+          "trial": [
+            65111.22210445863,
+            64788.58865171695,
+            64892.59451853518,
+            64222.321278453666
+          ]
+        },
+        "medians": {
+          "baseline": 65780.12238332888,
+          "trial": 64840.591585126065
+        },
+        "gain_pct": -1.4282898300610802
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            200978.7508102939,
+            198787.1205069314,
+            199439.3433795158,
+            194953.75108948033
+          ],
+          "trial": [
+            195698.33477564866,
+            192577.40013387383,
+            194418.97013005364,
+            195444.88873772326
+          ]
+        },
+        "medians": {
+          "baseline": 199113.2319432236,
+          "trial": 194931.92943388846
+        },
+        "gain_pct": -2.099962151449286
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 35,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/score-preimage-cache-focused1",
+    "receipt_sha256": "a25fc31a31174f4bed17e3fcdce2aa8a77c86a0ec6434c175380999102b9605c",
+    "log_sha256": "43b5bb3e889ccfbabbcce315366f26ab5eb1ed78408a2540c4f9e486603106ba",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "7e3aa4f229eff9bbd9dfa98b255c93a58a13572ad97dba8bcaef8a6cc46f5847",
+  "receipts": {
+    "receipt.json": "9367a92fe3e0a55e24e6485c547377a1ea8aadf4cf364d7dca0d5d2470f9c0e6",
+    "build-receipt.json": "466758c4a8a33e7b5b3090cfcb331813b65634f091c2a30900967ee7305620c5",
+    "controls.json": "b7cc113e46ab9e4ce223170ba5d18a807c6d4c590b129ce1102cdece18ee002e",
+    "baseline-binding.json": "7aac79e457d8d7228f990244bd049d29a4c2a24d01899450ef0dabdf24c739e3"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Current selected6f9ede18/1c87ec2f/12e2dd51 and originalJava3ea8613a remain unchanged;1of2 targets,Sailingneeds12.780373% moreRust. Diagnostic gains do not qualify Java or add to old ratios."
+}

@@ -6,9 +6,10 @@
 //! sort complete positions; the private hash order is never an observation.
 use super::{Mapper, PageKey, Position, mapper};
 use std::{
-    any::TypeId,
+    any::{Any, TypeId},
     collections::{BTreeSet, HashMap},
     hash::{BuildHasher, Hasher},
+    sync::OnceLock,
 };
 
 // Only private library-generated Position keys use this table. Hashing never
@@ -65,19 +66,18 @@ impl Hasher for PositionHasher {
         self.word(value as u64);
     }
 }
-type Sparse<I, S> = HashMap<Position, Entry<I, S>, PositionState>;
+type Sparse<S> = HashMap<Position, S, PositionState>;
 
 const CELLS: usize = 16;
 const HOT_ROWS: usize = 4096;
 const HOT_COLUMNS: usize = 64;
-type Entry<I, S> = (I, S);
-type Cells<I, S> = [Option<Entry<I, S>>; CELLS];
-type Undo<I, S> = Vec<(Position, Option<Entry<I, S>>)>;
-struct Page<I, S> {
-    cells: Cells<I, S>,
+type Cells<S> = [Option<S>; CELLS];
+type Undo<S> = Vec<(Position, Option<S>)>;
+struct Page<S> {
+    cells: Cells<S>,
     occupied: u16,
 }
-impl<I, S> Page<I, S> {
+impl<S> Page<S> {
     fn empty() -> Self {
         Self {
             cells: std::array::from_fn(|_| None),
@@ -85,19 +85,20 @@ impl<I, S> Page<I, S> {
         }
     }
 }
-type Row<I, S> = Vec<Option<Box<Page<I, S>>>>;
+type Row<S> = Vec<Option<Box<Page<S>>>>;
 pub(crate) struct Rows<I, S> {
-    dense: Vec<Row<I, S>>,
-    sparse: Sparse<I, S>,
+    dense: Vec<Row<S>>,
+    sparse: Sparse<S>,
     map: Mapper<I>,
-    copy_id: fn(&I) -> I,
+    restore_id: fn(Position) -> I,
+    observed: OnceLock<Vec<(I, S)>>,
     copy_score: fn(&S) -> S,
     len: usize,
-    frames: Vec<Undo<I, S>>,
-    spare: Vec<Undo<I, S>>,
+    frames: Vec<Undo<S>>,
+    spare: Vec<Undo<S>>,
     empty: Vec<PageKey>,
 }
-pub(crate) struct Capture<I, S>(Undo<I, S>);
+pub(crate) struct Capture<I, S>(Undo<S>, std::marker::PhantomData<fn() -> I>);
 pub(crate) struct Prepared<'a, I, S> {
     rows: &'a mut Rows<I, S>,
     pos: Position,
@@ -112,6 +113,35 @@ pub(crate) fn builtin_score<S: 'static>() -> bool {
 fn hot(PageKey([a, b, p, q]): PageKey) -> Option<(usize, usize)> {
     (a | b | (p & !(HOT_ROWS - 1)) | (q & !(HOT_COLUMNS - 1)) == 0).then_some((p, q))
 }
+// Inverse of the existing injective builtin Position mapping. Numeric fields
+// retain their full usize width,including MAX;only the final coordinate is paged.
+// I is certified before construction. Reconstruction is cold and has no user
+// clone/comparison/destruction hooks; ordinary public row storage is unchanged.
+fn original_id<I: 'static>(pos: Position) -> I {
+    let [a, b, c, q] = pos.page.0;
+    assert!(pos.cell < CELLS, "contribution cell");
+    let d = q
+        .checked_mul(CELLS)
+        .and_then(|q| q.checked_add(pos.cell))
+        .expect("complete numeric identity");
+    let mut out: Option<I> = None;
+    macro_rules! typed {
+        ($ty:ty,$value:expr) => {
+            if let Some(slot) = (&mut out as &mut dyn Any).downcast_mut::<Option<$ty>>() {
+                *slot = Some($value);
+                return out.expect("certified contribution identity");
+            }
+        };
+    }
+    typed!(usize, d);
+    typed!((usize, usize), (c, d));
+    typed!((usize, usize, usize), (b, c, d));
+    typed!(((usize, usize), usize), ((b, c), d));
+    typed!((usize, (usize, usize)), (b, (c, d)));
+    typed!(((usize, usize), (usize, usize)), ((a, b), (c, d)));
+    typed!((usize, usize, usize, usize), (a, b, c, d));
+    unreachable!("certified primitive contribution identity")
+}
 impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
     pub(crate) fn new() -> Option<Self> {
         if !builtin_score::<S>() {
@@ -121,7 +151,8 @@ impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
             dense: Vec::new(),
             sparse: Sparse::default(),
             map: mapper::<I>()?,
-            copy_id: Clone::clone,
+            restore_id: original_id::<I>,
+            observed: OnceLock::new(),
             copy_score: Clone::clone,
             len: 0,
             frames: Vec::new(),
@@ -131,10 +162,10 @@ impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
     }
 }
 impl<I, S> Rows<I, S> {
-    fn copy(&self, entry: &Entry<I, S>) -> Entry<I, S> {
-        ((self.copy_id)(&entry.0), (self.copy_score)(&entry.1))
+    fn copy(&self, entry: &S) -> S {
+        (self.copy_score)(entry)
     }
-    fn dense_page_mut(&mut self, p: usize, q: usize, create: bool) -> Option<&mut Page<I, S>> {
+    fn dense_page_mut(&mut self, p: usize, q: usize, create: bool) -> Option<&mut Page<S>> {
         if !create
             && self
                 .dense
@@ -163,14 +194,15 @@ impl<I, S> Rows<I, S> {
         }
     }
     #[inline(always)]
-    fn get_at(&self, pos: Position) -> Option<&Entry<I, S>> {
+    fn get_at(&self, pos: Position) -> Option<&S> {
         match hot(pos.page) {
             Some((p, q)) => self.dense.get(p)?.get(q)?.as_deref()?.cells[pos.cell].as_ref(),
             None => self.sparse.get(&pos),
         }
     }
     #[inline(always)]
-    fn set(&mut self, pos: Position, value: Option<Entry<I, S>>) -> Option<Entry<I, S>> {
+    fn set(&mut self, pos: Position, value: Option<S>) -> Option<S> {
+        self.observed.take();
         let present = value.is_some();
         let old = match hot(pos.page) {
             Some((p, q)) => {
@@ -201,7 +233,7 @@ impl<I, S> Rows<I, S> {
         old
     }
     #[inline(always)]
-    fn replace(&mut self, pos: Position, value: Option<Entry<I, S>>) {
+    fn replace(&mut self, pos: Position, value: Option<S>) {
         let old = self.set(pos, value);
         if let Some(frame) = self.frames.last_mut() {
             frame.push((pos, old));
@@ -245,10 +277,20 @@ impl<I, S> Rows<I, S> {
         self.len
     }
     pub(crate) fn iter(&self) -> impl Iterator<Item = (&I, &S)> {
-        self.positions().into_iter().map(|pos| {
-            let row = self.get_at(pos).expect("live contribution");
-            (&row.0, &row.1)
-        })
+        self.observed
+            .get_or_init(|| {
+                self.positions()
+                    .into_iter()
+                    .map(|pos| {
+                        (
+                            (self.restore_id)(pos),
+                            self.copy(self.get_at(pos).expect("live contribution")),
+                        )
+                    })
+                    .collect()
+            })
+            .iter()
+            .map(|(id, score)| (id, score))
     }
     #[inline(always)]
     pub(crate) fn prepare_change<R>(
@@ -263,7 +305,7 @@ impl<I, S> Rows<I, S> {
         // its mapper visible to this monomorphization instead of returning a
         // five-word Position through the stored function pointer's ABI.
         let pos = mapper::<I>().expect("certified consumed row ID")(id);
-        let old = inspect(self.get_at(pos).map(|row| &row.1));
+        let old = inspect(self.get_at(pos));
         (Prepared { rows: self, pos }, old)
     }
     pub(crate) fn clear(&mut self) {
@@ -321,6 +363,7 @@ impl<I, S> Rows<I, S> {
                 .into_iter()
                 .map(|pos| (pos, self.get_at(pos).map(|v| self.copy(v))))
                 .collect(),
+            std::marker::PhantomData,
         )
     }
     pub(crate) fn install_capture(&mut self, saved: Capture<I, S>) {
@@ -356,7 +399,8 @@ impl<I, S> Clone for Rows<I, S> {
             dense: Vec::new(),
             sparse: Sparse::default(),
             map: self.map,
-            copy_id: self.copy_id,
+            restore_id: self.restore_id,
+            observed: OnceLock::new(),
             copy_score: self.copy_score,
             len: 0,
             frames: Vec::new(),
@@ -371,7 +415,8 @@ impl<I, S> Clone for Rows<I, S> {
 }
 impl<I, S> Prepared<'_, I, S> {
     pub(crate) fn insert(self, id: I, value: S) {
-        self.rows.replace(self.pos, Some((id, value)));
+        self.rows.replace(self.pos, Some(value));
+        drop(id);
     }
     pub(crate) fn remove(self) {
         self.rows.replace(self.pos, None);
@@ -471,3 +516,105 @@ mod tests {
 
 #[cfg(test)]
 mod sparse_tests;
+
+#[cfg(test)]
+mod score_only_tests {
+    use super::*;
+    use crate::{HardSoftScore, SimpleScore};
+    use std::fmt::Debug;
+    fn check<I: Ord + Clone + Debug + 'static>(ids: Vec<I>) {
+        let mut rows = Rows::<I, HardSoftScore>::new().unwrap();
+        let mut oracle = std::collections::BTreeMap::new();
+        for (n, id) in ids.iter().enumerate() {
+            let score = HardSoftScore::new(n as i64, i64::MIN + n as i64);
+            let (p, _) = rows.prepare_change(id, |s| s.copied());
+            p.insert(id.clone(), score);
+            oracle.insert(id.clone(), score);
+        }
+        let current =
+            |r: &Rows<I, HardSoftScore>| r.iter().map(|(k, s)| (k.clone(), *s)).collect::<Vec<_>>();
+        let base = oracle.into_iter().collect::<Vec<_>>();
+        assert_eq!(current(&rows), base);
+        let outer = rows.begin();
+        let (p, _) = rows.prepare_change(&ids[0], |s| s.copied());
+        p.remove();
+        let removed = current(&rows);
+        assert_eq!(removed.len(), base.len() - 1);
+        let delta = rows.capture(outer);
+        let full = rows.clone();
+        rows.rollback(outer);
+        assert_eq!(current(&rows), base);
+        let t = rows.begin();
+        rows.install_capture(delta);
+        assert_eq!(current(&rows), removed);
+        rows.clear();
+        assert!(current(&rows).is_empty());
+        rows.install(full);
+        assert_eq!(current(&rows), removed);
+        rows.rollback(t);
+        assert_eq!(current(&rows), base);
+        assert!(Rows::<String, SimpleScore>::new().is_none());
+    }
+    #[test]
+    fn score_only_rows_reconstruct_all_builtin_identity_shapes_and_full_max_coordinates() {
+        let m = usize::MAX;
+        check(vec![0usize, 15, 16, m]);
+        check(vec![(0usize, 0usize), (1, 15), (4096, 16), (m, m)]);
+        check(vec![
+            (0usize, 0usize, 0usize),
+            (1, 2, 15),
+            (3, 4, 16),
+            (m, m, m),
+        ]);
+        check(vec![
+            ((0usize, 0usize), 0usize),
+            ((1, 2), 15),
+            ((3, 4), 16),
+            ((m, m), m),
+        ]);
+        check(vec![
+            (0usize, (0usize, 0usize)),
+            (1, (2, 15)),
+            (3, (4, 16)),
+            (m, (m, m)),
+        ]);
+        check(vec![
+            ((0usize, 0usize), (0usize, 0usize)),
+            ((1, 2), (3, 15)),
+            ((4, 5), (6, 16)),
+            ((m, m), (m, m)),
+        ]);
+        check(vec![
+            (0usize, 0usize, 0usize, 0usize),
+            (1, 2, 3, 15),
+            (4, 5, 6, 16),
+            (m, m, m, m),
+        ]);
+    }
+    #[test]
+    fn score_only_rows_observers_invalidate_and_keep_present_zero_distinct_from_absence() {
+        let mut rows = Rows::<(usize, usize, usize, usize), SimpleScore>::new().unwrap();
+        let id = (1, 2, 3, usize::MAX);
+        let (p, _) = rows.prepare_change(&id, |s| s.copied());
+        p.insert(id, SimpleScore::ZERO);
+        assert_eq!(
+            rows.iter().map(|(k, s)| (*k, *s)).collect::<Vec<_>>(),
+            vec![(id, SimpleScore::ZERO)]
+        );
+        let (p, old) = rows.prepare_change(&id, |s| s.copied());
+        assert_eq!(old, Some(SimpleScore::ZERO));
+        p.remove();
+        assert!(rows.iter().next().is_none());
+        let (p, old) = rows.prepare_change(&id, |s| s.copied());
+        assert_eq!(old, None);
+        p.insert(id, SimpleScore::new(7));
+        assert_eq!(
+            rows.iter().map(|(k, s)| (*k, *s)).collect::<Vec<_>>(),
+            vec![(id, SimpleScore::new(7))]
+        );
+        assert_eq!(
+            std::mem::size_of::<Cells<SimpleScore>>(),
+            16 * std::mem::size_of::<Option<SimpleScore>>()
+        );
+    }
+}

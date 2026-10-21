@@ -1,0 +1,162 @@
+{
+  "kind": "real_world-score-only-rows",
+  "status": "selected;Sailing native gain with Golfer tradeoff;fresh Java qualification pending",
+  "native_source_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+  "input_sha256": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+  "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+  "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+  "mechanism": "Store only complete builtin scores in private consumed contribution pages,hash rows and every-write undo. Full numeric Position already contains the identity;all7 original numeric ID shapes are reconstructed exactly for cold ordered views. Materialized typed views are cached untilset,full/delta snapshots copy scores and retain phantomI type protection;MAX and zero/absence unchanged. Constructor gate,all terminal mapping/score/ID/payload clones,checked arithmetic,FIFO/publication and public/custom row storage remain. Cold views allocate complete pairs and may increase peak memory while retained;active score rows and undo shrink.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/score-only-rows-next-results/real_world-score-only-rows-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65786.87776332216,
+            65921.17304037942,
+            65361.13685098161,
+            64641.6523161561
+          ],
+          "trial": [
+            65832.63133764573,
+            66090.21526255383,
+            66387.22878598652,
+            66243.1108793355
+          ]
+        },
+        "medians": {
+          "baseline": 65574.00730715189,
+          "trial": 66166.66307094466
+        },
+        "gain_pct": 0.903796775781518
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197456.90222784676,
+            199440.3592323457,
+            198541.72679119377,
+            201012.61583932093
+          ],
+          "trial": [
+            196317.90941870134,
+            196220.13005088098,
+            196297.74693527137,
+            194906.91935889883
+          ]
+        },
+        "medians": {
+          "baseline": 198991.04301176974,
+          "trial": 196258.9384930762
+        },
+        "gain_pct": -1.372978641321032
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 36,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/score-only-rows-focused1",
+    "receipt_sha256": "c4188f1c4a23642bb57526c800716f2053ff8187dfe2eabe6ff0435fac79882d",
+    "log_sha256": "5e4fc2c5e346a94c07512d53467ead42b5b5c2c9d8fb245a37dbbc0367228003",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "3049a4e77d7ef34caf101dab91205b67423b4938580610ad6a7e3ff01014dc39",
+  "receipts": {
+    "receipt.json": "089f2a0edc094fcc77bed850075f22ef6ff8df4b5582ad66fc5e2fcee58affd0",
+    "build-receipt.json": "a13e1b27498332469e9f1b1dcd55055cf3653efa00fba1cbe99f0f5aafc4ea35",
+    "controls.json": "488dcb7e239773ee8ffc5116b8ebaceddccdce4d8748afa7220cdc4289093263",
+    "baseline-binding.json": "7aac79e457d8d7228f990244bd049d29a4c2a24d01899450ef0dabdf24c739e3"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Selected for remaining Sailing target after36 focused checks,4 application cases,lib/example Clippy and16 independently validated native outputs. Sailing+.9038%,all4pairs faster;Golfer-1.373%,all4slower. Exact source817b1386/47fc4cef/artifact1f5e4680 integrated. OriginalJava3ea8613a remains historical/stale;fresh original matrix next. No unchanged test repeats,full suite,upstream credit or extrapolation.",
+  "focused_verification": {
+    "full_native_gate": false,
+    "native_source_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+    "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+    "actual_current_source_tests_passed": 40,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::consumed_scores::",
+          "stream_graph::consuming::",
+          "stream_graph::terminal_prepared_tests",
+          "stream_graph::terminal_primitive_tests",
+          "stream_graph::group_summary_lane::tests"
+        ],
+        "tests_passed": 36,
+        "exit_code": 0,
+        "seconds": 98.29947632897529,
+        "proof_directory": "work/real_world-goal/score-only-rows-focused1",
+        "log_sha256": "5e4fc2c5e346a94c07512d53467ead42b5b5c2c9d8fb245a37dbbc0367228003",
+        "receipt_sha256": "c4188f1c4a23642bb57526c800716f2053ff8187dfe2eabe6ff0435fac79882d"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 13.45571025199024,
+        "proof_directory": "work/real_world-goal/score-only-rows-application1",
+        "log_sha256": "799197e2161c83423226b123d072063c9c7990efd3e4fa0cf3d9203ff95c2880",
+        "receipt_sha256": "b6581ad5d02d5726dc843d2f2dcaf9bd35bac5201fb49ef54f077f167074aaa2"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 12.426758643996436,
+        "proof_directory": "work/real_world-goal/score-only-rows-clippy1",
+        "log_sha256": "531045e2877ecaa264d7a0d0a0dd876a21de3ee0265b4862b1f4576392f6122e",
+        "receipt_sha256": "e1d583d064aaba07b879efcdb8c529f505cb56ff6173e3606e2cd12bb9b970a7"
+      }
+    ],
+    "policy": "40 actual same-source focused/application passes and lib/example Clippy. No repeated tests or full suite."
+  },
+  "new_original_native_tests": 2,
+  "current_source_tests_credited": 40,
+  "tradeoffs": "Cold observations allocate/cache complete typed ID-score pairs until next write;this can increase observed peak memory. Numeric ID copies in hot storage are removed;original terminal input clone phases remain. Valid prepared IDs must map to the prepared position,as all production callers guarantee. Unsupported/custom IDs retain ordinary storage."
+}
