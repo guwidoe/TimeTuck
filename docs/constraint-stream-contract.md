@@ -2922,6 +2922,16 @@ remain. Three original native controls check policy equivalence, actual borrowed
 public IDs/keys, and overflow/shared/Weak inverse fallback. See the
 [group-addressing observation](../compat/observations/real_world-static-group-addressing.json).
 
+The private primitive row-page directory also supports direct lookup for bounded
+four-coordinate PageKeys: first/third coordinates below 128, second below 16 and
+final word coordinate below 4, after the original two-coordinate region. A disjoint
+encoded index range preserves lexicographic key order. Complete key decoding is
+used by forward/reverse iteration and sorted owner release. Larger full-width
+keys keep the tree. Directory/Entry/Page layouts and canonical key/value Arcs,
+prepared writes, normal undo and full/current/nested snapshots remain. Sparse
+prefix metadata and full-snapshot copies can grow; no memory reduction is claimed.
+See the [extended directory observation](../compat/observations/real_world-wide-row-directory.json).
+
 Fixed primitive graph equality joins may use PrimitiveRows for the outer bucket
 map under the existing primitive-ID/key and NoDrop-payload binding. Member-vector
 cloning, key cloning, canonical input-ID owners, match order and callback/error

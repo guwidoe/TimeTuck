@@ -250,3 +250,100 @@ fn numeric_hot_routing_preserves_all_prefix_and_boundary_high_bits() {
         }
     }
 }
+
+#[test]
+fn wide_directory_preserves_complete_key_order_owners_and_nested_installs_across_all_tiers() {
+    let mut directory = Directory::new();
+    let mut keys = boundaries();
+    keys.extend([
+        PageKey([0, 1, 0, 0]),
+        PageKey([0, 1, 0, 3]),
+        PageKey([0, 1, 0, 4]),
+        PageKey([0, 16, 0, 0]),
+        PageKey([1, 0, 0, 0]),
+        PageKey([127, 15, 127, 3]),
+        PageKey([128, 0, 0, 0]),
+        PageKey([1, 0, 128, 0]),
+    ]);
+    keys.sort_unstable();
+    keys.dedup();
+    let high = PageKey([127, 15, 127, 3]);
+    assert!(directory.entry(high).get().is_none());
+    assert!(directory.dense.is_empty());
+    for key in &keys {
+        directory.entry(*key).or_insert_with(page);
+    }
+    assert_eq!(directory.keys().collect::<Vec<_>>(), keys);
+    assert_eq!(
+        directory.keys().rev().collect::<Vec<_>>(),
+        keys.iter().rev().copied().collect::<Vec<_>>()
+    );
+    assert_eq!(directory.dense.len(), DIRECT_ROWS);
+    let mut walk = directory.iter();
+    let mut expected = keys.iter();
+    while expected.len() > 0 {
+        assert_eq!(walk.len(), expected.len());
+        assert_eq!(walk.next().map(|(k, _)| k), expected.next().copied());
+        assert_eq!(
+            walk.next_back().map(|(k, _)| k),
+            expected.next_back().copied()
+        );
+    }
+    assert_eq!(walk.len(), 0);
+    assert!(walk.next().is_none());
+    assert!(walk.next_back().is_none());
+    for key in &keys {
+        let actual = direct(*key);
+        if let Some((p, q)) = actual {
+            assert_eq!(direct_key(p, q), *key);
+        }
+    }
+    type Key = (usize, usize, usize, usize);
+    let ids: Vec<Key> = keys
+        .iter()
+        .map(|PageKey([a, b, c, q])| (*a, *b, *c, q.saturating_mul(16)))
+        .collect();
+    let mut rows = PrimitiveRows::new();
+    assert!(rows.bind_primitive());
+    for (n, id) in ids.iter().enumerate() {
+        rows.insert(*id, n);
+    }
+    let full = rows.clone();
+    let materialized = rows.materialized().clone();
+    let original: Vec<_> = rows.shared_entries();
+    let outer = rows.begin_journal();
+    for id in ids.iter().step_by(2) {
+        rows.remove(id);
+    }
+    let inner = rows.begin_journal();
+    rows.insert((1, 0, 0, 0), 999);
+    rows.insert((127, 15, 127, 63), 1000);
+    let candidate: Vec<_> = rows.iter().map(|(k, v)| (*k, *v)).collect();
+    let captured = rows.capture_current(outer);
+    rows.commit_journal(inner);
+    rows.rollback_journal(outer);
+    for (key, value) in &original {
+        let current = rows
+            .shared_entries()
+            .into_iter()
+            .find(|(k, _)| **k == **key)
+            .unwrap();
+        assert!(Arc::ptr_eq(key, &current.0));
+        assert!(Arc::ptr_eq(value, &current.1));
+    }
+    let trial = rows.begin_journal();
+    rows.install_capture(captured);
+    assert_eq!(
+        rows.iter().map(|(k, v)| (*k, *v)).collect::<Vec<_>>(),
+        candidate
+    );
+    rows.install_snapshot(full.clone());
+    assert_eq!(rows.materialized(), &materialized);
+    rows.rollback_journal(trial);
+    assert_eq!(rows.materialized(), &materialized);
+    let maximum = usize::MAX;
+    assert!(direct(PageKey([maximum, 0, 0, 0])).is_none());
+    assert!(direct(PageKey([1, maximum, 0, 0])).is_none());
+    assert!(direct(PageKey([1, 0, maximum, 0])).is_none());
+    assert!(direct(PageKey([1, 0, 0, maximum])).is_none());
+}

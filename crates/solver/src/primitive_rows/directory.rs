@@ -18,6 +18,43 @@ fn hot(key: PageKey) -> Option<(usize, usize)> {
     let outside = a | b | (p & !(ROWS - 1)) | (q & !(COLUMNS - 1));
     (outside == 0).then_some((p, q))
 }
+// A disjoint extension of the same direct directory handles small four-part
+// page keys. Encoding preserves key order after the original two-part region;
+// no page owner, entry shape or lookup container is duplicated.
+const WIDE_COORDINATES: usize = 128;
+const WIDE_PREFIX_COLUMNS: usize = 16;
+const WIDE_WORD_COLUMNS: usize = 4;
+#[cfg(test)]
+const DIRECT_ROWS: usize = ROWS + WIDE_COORDINATES * WIDE_PREFIX_COLUMNS * WIDE_COORDINATES;
+#[inline(always)]
+fn direct(key: PageKey) -> Option<(usize, usize)> {
+    hot(key).or_else(|| {
+        let [a, b, p, q] = key.0;
+        let outside = (a & !(WIDE_COORDINATES - 1))
+            | (b & !(WIDE_PREFIX_COLUMNS - 1))
+            | (p & !(WIDE_COORDINATES - 1))
+            | (q & !(WIDE_WORD_COLUMNS - 1));
+        (outside == 0).then(|| {
+            (
+                ROWS + (a * WIDE_PREFIX_COLUMNS + b) * WIDE_COORDINATES + p,
+                q,
+            )
+        })
+    })
+}
+fn direct_key(p: usize, q: usize) -> PageKey {
+    if p < ROWS {
+        PageKey([0, 0, p, q])
+    } else {
+        let prefix = (p - ROWS) / WIDE_COORDINATES;
+        PageKey([
+            prefix / WIDE_PREFIX_COLUMNS,
+            prefix % WIDE_PREFIX_COLUMNS,
+            (p - ROWS) % WIDE_COORDINATES,
+            q,
+        ])
+    }
+}
 pub(super) struct Directory<K, V> {
     dense: Vec<Row<K, V>>,
     dense_len: usize,
@@ -47,21 +84,21 @@ impl<K, V> Directory<K, V> {
     }
     #[inline(always)]
     pub(super) fn get(&self, key: &PageKey) -> Option<&Owner<K, V>> {
-        match hot(*key) {
+        match direct(*key) {
             Some((p, q)) => self.dense.get(p)?.get(q)?.as_ref(),
             None => self.tree.get(key),
         }
     }
     #[inline(always)]
     pub(super) fn get_mut(&mut self, key: &PageKey) -> Option<&mut Owner<K, V>> {
-        match hot(*key) {
+        match direct(*key) {
             Some((p, q)) => self.dense.get_mut(p)?.get_mut(q)?.as_mut(),
             None => self.tree.get_mut(key),
         }
     }
     #[inline(always)]
     pub(super) fn entry(&mut self, key: PageKey) -> Entry<'_, K, V> {
-        match hot(key) {
+        match direct(key) {
             Some((p, q)) => Entry::Dense {
                 rows: &mut self.dense,
                 count: &mut self.dense_len,
@@ -111,7 +148,7 @@ impl<K, V> Directory<K, V> {
             .flat_map(|(p, row)| {
                 row.into_iter()
                     .enumerate()
-                    .filter_map(move |(q, page)| page.map(|page| (PageKey([0, 0, p, q]), page)))
+                    .filter_map(move |(q, page)| page.map(|page| (direct_key(p, q), page)))
             })
             .peekable();
         let mut tree = tree.into_iter().peekable();
@@ -239,7 +276,7 @@ impl<'a, K, V> Iterator for DenseIter<'a, K, V> {
             self.front += 1;
             if let Some(page) = &row[q] {
                 self.remaining -= 1;
-                return Some((PageKey([0, 0, p, q]), page));
+                return Some((direct_key(p, q), page));
             }
         }
         None
@@ -261,7 +298,7 @@ impl<K, V> DoubleEndedIterator for DenseIter<'_, K, V> {
             self.back -= 1;
             if let Some(page) = &row[q] {
                 self.remaining -= 1;
-                return Some((PageKey([0, 0, p, q]), page));
+                return Some((direct_key(p, q), page));
             }
         }
         None

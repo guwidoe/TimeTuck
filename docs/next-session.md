@@ -20,52 +20,57 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Neither current parity target is proved. Preserve same-machine serial rotating
-Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent validations.
-Scores/feasibility remain separate. Model/fixtures/declarations/runner/compiler/
-CPU/PGO/panic/batch settings are unchanged. Local + runner-a; runner-c parked. No new
-subagents. Reuse unchanged checks; a commit/context reset alone warrants no rerun.
+Neither current parity target is proved. Preserve original same-machine serial
+rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
+validations. Scores/feasibility remain separate. Model, fixtures, declarations,
+runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
+runner-c parked. No new subagents. A commit/context reset warrants no repeat checks.
 
-Selected batch: two Rust files, one original native regression. Private accepted-ID
-membership adds a bounded direct tier for four-coordinate builtin IDs. The old
-2D tier takes precedence; arbitrary large coordinates retain the original tree.
-Shared Entry publication, full PageKey undo, accepted counts and every callback
-remain. No-op preparation/publication allocates nothing. Full/current/nested
-captures and rollback retain complete bits; clear releases direct rows. Additional
-bounded capacity and full-snapshot copying are memory tradeoffs.
+Selected batch: two Rust files, one original native regression. The private row
+page directory extends its existing direct region for bounded four-coordinate
+PageKeys. Encoded indices preserve key order after the original 2D region; larger
+keys keep the ordered fallback. Directory/Entry/Page layouts, canonical Arcs and
+the original mutation/journal bodies remain. Complete key decoding preserves
+forward/reverse iteration and sorted clear/drop. Extra sparse metadata and full
+snapshot copies are memory tradeoffs. Existing wide accepted-membership pages,
+bucket bit inverses and private score hashing are unchanged.
 
-Native `989a270c44bcf00fb3728b77d5248b41bc0e082362e6fcf12ff2ff44add30d76`;
-production `b4396c8e32667edaa737366a76adee5bb446cbcd59ba4dea01d37cc101ac810f`;
-final snapshot `0206d52a22ebd1393337b213770984c042b2c90ed40ed73c32eb206272a650a6`;
-actual measured artifact `bf26198ab1f69390b28227ee63311a825e3e589af3cdd3cb98b9c261ee6295bd`.
+Native `0031880b24221b0f12124a5710b8767fc2c08ff580bb1af3a879958e92628689`;
+production `1aa4d4a3344d5a71800382866074663111ba7e4c7ea7f531a9d4114be14cf4f7`;
+final snapshot `ba29e51d7a69fb846bf79ce414b3d6f97f209583c92df779b431ef15d19c4f75`;
+actual measured artifact `4b3f85546976a9084188c4377ced8226c74d89e5e1de81e195c82efa4f986ea0`.
 Actual Clippy, all-target no-run prebuild and one normal jobs 4
-`bash scripts/check.sh`: **8,873 named /8,879 Cargo executions /292 doctests
-/54 tooling jobs**. Genuine aggregate Rust log/metadata promoted only; no job-cache
-transplants. Upstream4412passed/0pending/443excluded; external4; native regressions4457.
-Observation: `compat/observations/real_world-wide-membership-pages.json`.
-Proof: `work/real_world-goal/wide-membership-pages-0282-next-final-results/`.
-Backend report/freshness checked; unchanged UI rendering proof reused.
+`bash scripts/check.sh`: **8,874 named /8,880 Cargo executions /292 doctests
+/54 tooling jobs**. Only genuine aggregate Rust log/metadata promoted; no job-cache
+transplants. Upstream: 4,412 passed, 0 pending, 443 excluded; external: 4;
+native regressions: 4,458. Observation:
+`compat/observations/real_world-wide-row-directory.json`. Proof:
+`work/real_world-goal/wide-row-directory-989a-next-final-results/`.
+Backend report/freshness checked; unchanged rendering proof reused.
 
-Actual native controls vs verified02dd/0282/2c05/0850:
-**+1.099% Golfer /+2.298% Sailing**,16 independently valid rotating3s seed7 outputs.
-33 focused membership tests passed. The preceding wide-join typed storage trial
-was unselected after flat Sailing (+.369%) and regressive Golfer (-1.785%); its
-corrected two tests passed, but no broad gate or source integration was spent.
-Earlier summary score probes and numeric join addressing were also flat; do not
-repeat closed trials without a distinct mechanism. Prior selected bitmap inverses
-and private score hashing remain. Authoritative trial state:
-`work/real_world-goal/active-performance-state.json`.
+Actual native controls against verified912/989a/b439/bf2619: **+3.375% Sailing**,
+Golfer essentially flat (+.268%); 16 independently valid rotating3s seed7 outputs.
+54 focused storage tests passed on original pilot4d7b/1aa4. Final003188 changes
+only one cfg(test) checked-multiply/unwrap-or-MAX expression to equivalent
+saturating_mul. No assertion or production byte changed; actual full final gate
+and a real byte-identical final release build prove the reuse. Original pilot
+receipts retain their original native digest. Collector inline undo preimages
+were discarded after flat Sailing (+.229%) and regressive Golfer (-.643%); seven
+focused controls passed but no broad gate or integration was spent. Do not repeat
+closed ownership, layout, queue, summary-probe or storage trials without a distinct
+mechanism. Trial state: `work/real_world-goal/active-performance-state.json`.
 
-Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
-all 12valid, Sailing feasible Rust2/3 Java0/3 on old021a source. Defer qualifier until
-materially closer to Sailing parity. Current controls earn no Java parity credit;
-do not multiply native gains into old Java ratios. Goal remains incomplete.
+Original Java reportb14a remains unchanged and stale: historical G1.253663/S.609042,
+all 12 valid, Sailing feasible Rust2/3 Java0/3 on old021a. Defer the qualifier until
+materially closer to Sailing parity. No current Java target credit or multiplying
+native gains into historical ratios. The goal is incomplete.
 
-One local Sailing10s seed7 profile of the measured candidate already exists at
-`work/real_world-goal/current-wide-membership-profile/`, independently valid 0/94400,
-zero lost samples, source/artifact joined to the later passing gate. Reuse without
-rebuilding or recording again. Previous0282 profile is historical. Finish this
-integration/commit before implementing another candidate.
+The exact current release artifact has one local Sailing10s seed7 diagnostic at
+`work/real_world-goal/current-wide-directory-profile/`, with independent output
+validation and zero lost samples. It uses the actual final release binding and
+source; no rebuild or Java timing credit. Reuse this recording. Previous989a
+profile is historical. Finish integration/commit before implementing another
+candidate; no full gate, profile or benchmark repeat for the commit alone.
 
 ## Previous verified typed-output source — 2026-10-21
 

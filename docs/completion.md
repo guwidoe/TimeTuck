@@ -19,33 +19,35 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,873 recorded Rust tests and
-292 doctests** (8,879 Cargo test executions). The wide membership-page batch
+The current native verification contains **8,874 recorded Rust tests and
+292 doctests** (8,880 Cargo test executions). The extended page-directory batch
 passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Source-bound evidence](../compat/observations/real_world-wide-membership-pages.json)
-records its actual builds, controls and one additional native regression.
-The live report remains the authority for freshness and readiness.
+[Source-bound evidence](../compat/observations/real_world-wide-row-directory.json)
+records the actual gate, release artifact and native controls. The live report
+remains the authority for freshness and readiness.
 
 The four external RealWorld application regressions remain separate from the
-upstream inventory. Frozen fixtures, model, declarations, settings and runner are
-unchanged. Private accepted-ID membership adds direct bitmap lookup for bounded
-four-coordinate numeric identities. The existing two-coordinate tier takes
-precedence; arbitrary larger coordinates retain the original tree fallback.
-Preparation/no-op updates do not grow rows. Full/current captures, nested
-commit/rollback, full-width identity, callback order and every-change undo remain.
-Explicit clear releases the retained rows. Full snapshots copy their bits.
+upstream inventory. Frozen fixtures, model, declarations, settings and runner
+remain unchanged. Private primitive row pages add direct lookup for bounded
+four-coordinate page keys in a disjoint ordered index range. The existing entry
+and page containers retain canonical key/value owners and their layout. Larger
+full-width keys keep the ordered tree fallback. Sorted iteration in both directions,
+clear/drop order, prepared updates, captures and nested rollback remain.
 
-The additional direct capacity is a memory tradeoff, especially for sparse high
-prefixes; this is not a memory reduction claim. One original regression covers
-all tier boundaries, no-op preparation, nested captures/install/clear/rollback and
-retained allocation reuse. It earns no upstream-method credit. The previous
-[bit inverses and score hashing](../compat/observations/real_world-bucket-bit-inverses.json)
-remain unchanged.
+Additional sparse directory metadata and its full-snapshot copies are memory
+tradeoffs. One new original regression checks all storage tiers, full coordinates,
+canonical owners and nested saved installs. All 54 focused primitive-row controls
+passed before the final gate. The previous
+[accepted-membership lookup](../compat/observations/real_world-wide-membership-pages.json)
+and [bit inverses/score hashing](../compat/observations/real_world-bucket-bit-inverses.json)
+remain unchanged. No new upstream-method credit is earned.
 
-Actual four rotating native three-second controls measured **+1.099% Golfer
-/+2.298% Sailing** against the preceding verified Rust binary. All sixteen
-outputs independently validate. These are short native controls; their gains
-are not added to earlier gains and do not establish Java parity.
+Four rotating native three-second controls measured **+3.375% Sailing**; Golfer
+was essentially flat (**+0.268%**). All sixteen outputs independently validate.
+A final real release build is byte-identical to the measured artifact after an
+equivalent cfg(test) arithmetic expression was made idiomatic. Original timing
+receipts retain their actual source identities. These gains are not added to
+previous gains and do not establish Java parity.
 
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
