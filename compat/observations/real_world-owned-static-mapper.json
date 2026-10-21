@@ -1,0 +1,90 @@
+{
+  "kind": "real_world-owned-static-mapper",
+  "status": "measured;modest mixed Sailing gain;unintegrated candidate",
+  "native_source_digest": "63b545cf7db8b54cba1606ce01a331027743e95520033672c1f2a8bf36f187eb",
+  "input_sha256": "76da7a689c3a3e36be9c3ec1d34c4bdd9a17bb9e5fec0bf5c736e2320652d170",
+  "source_snapshot": "e0f58aa0b9d8d8c71414890afacb0a08428ec19bf2b65176169af196cfc03c66",
+  "artifact_sha256": "4b4f456d2a50fc57791b7d212872fed9a0f836d123540df0108674d36eae7630",
+  "mechanism": "Carry the already selected LookupPolicy<P> through owned collector get/insert/remove fallback helpers instead of returning to the stored mapper function pointer. Scalar edits already used P. Original logical operations, directory probes, canonical Arc keys, collector copies, retirement/history/callback phases and public Stored policy remain. No held directory entry/address caching or widened helper return; no model/settings/compiler changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-static-mapper-next-results/real_world-owned-static-mapper-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64738.34458464725,
+            64458.838827339605,
+            65324.391931331484,
+            65785.37131997159
+          ],
+          "trial": [
+            65809.63954119926,
+            64665.368335754894,
+            65765.04669167355,
+            65417.63060730391
+          ]
+        },
+        "medians": {
+          "baseline": 65031.368257989365,
+          "trial": 65591.33864948872
+        },
+        "gain_pct": 0.8610773638928704
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            192974.5907349179,
+            192996.47954960624,
+            191473.24091010523,
+            194365.98987531042
+          ],
+          "trial": [
+            192999.68485731177,
+            191423.9434744842,
+            191420.45457549134,
+            194860.71007436342
+          ]
+        },
+        "medians": {
+          "baseline": 192985.53514226206,
+          "trial": 192211.814165898
+        },
+        "gain_pct": -0.400921745660221
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 10,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "source_unchanged": true,
+    "receipt_sha256": "8af2fe8f0a6787e4e4cfa6d6f71d427169409f098b44abdb7d24e73d463e6aed",
+    "log_sha256": "f115de207a67939149e8259dae5ab32bfa8ac475d1c5a1488cc5a50b7254939e",
+    "proof_directory": "work/real_world-goal/owned-static-mapper-focused1"
+  },
+  "receipts": {
+    "receipt.json": "dd3753ac35348006cb0cc4240bfe7789351ebff1be39298cbc51a6c053b1b381",
+    "build-receipt.json": "93b8d626c7910f85bf0dff7e3f6c691dd0db328f16c82f6d61d8792be4d638e4",
+    "controls.json": "fd9eec26c904ad9700e1ff4463f76bf4c6159c6894ddda8ec3e755884c2cb05e",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "10 focused checks pass and16 native outputs independently valid. Sailing +.8611% (3/4 faster),Golfer -.4009% (2/4). Small mixed candidate,not integrated/qualified,no unchanged retry or extra app/Clippy/Java/full checks. Do not add gains to original Java ratios. Main retains selected d466/465509/84e98d."
+}

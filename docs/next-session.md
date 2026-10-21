@@ -150,11 +150,31 @@ and `real_world-live-flag-collector-arena.json`. The old singleton retirement id
 was found in014945 history: its queued remote build was cancelled before launch;
 already-started5 local tests completed and remain prototype-only evidence.
 
-Two distinct remaining kernel trials are in flight:unit-only return for summary
-terminals (31 relevant tests pass; remote native controls pending), and applying
-the already-selected static address policy throughout the newer owned collector
-fallback (local checks/remote controls pending). Consult ignored active state and
-actual session receipts before continuing; do not restart unresolved work.
+The unit-only terminal return trial is also closed:31 direct checks and16 valid
+outputs, Sailing +.011% / Golfer -.084%, both2/4 faster. No signature change was
+integrated; see `compat/observations/real_world-terminal-unit-result.json`.
+The owned static mapper fallback trial passed10 focused checks and16 validated
+native outputs. Sailing +.861% (3/4 faster) / Golfer -.401% (2/4) is a small mixed
+candidate, retained unintegrated with no unchanged retry. See
+`compat/observations/real_world-owned-static-mapper.json`.
+
+A larger private compact-binary collector kernel was also implemented:zero/one
+frequencies, boxed arbitrary-integer fallback and cold cached full observer views.
+Its13 focused tests and16 complete outputs pass, including new independent
+multiset/promotion/snapshot/extreme-count/overflow checks. Both workloads regressed:
+Sailing -1.271% / Golfer -1.046%, allfour pairs slower each. It is closed and
+unintegrated; no app/Clippy/Java/full checks or API changes were added. See
+`compat/observations/real_world-compact-binary-owned-collectors.json`.
+
+All five current native trials and all local checks are terminal/collected.
+The duplicate singleton remote worker was deliberately cancelled before build;
+its original source archive and dispatch241 remain. Main runtime and actual Java
+report4795 remain unchanged/current,1of2 targets. No new native/upstream passes
+were promoted. Next investigate Java's actual runtime profile, using original
+Community adapter arguments and compiled-method diagnostics for symbolization,
+then compare with the existing selected Rust994-sample profile. No repeated Rust
+profile/default qualification or small layout retries are justified by this batch.
+Local+runner-a;runner-c parked,no subagents. Preserve frozen sources and every raw result.
 
 
 The preceding consumed-graph collector backend owns each mutable integer

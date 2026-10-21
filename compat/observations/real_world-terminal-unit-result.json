@@ -1,0 +1,92 @@
+{
+  "kind": "real_world-terminal-unit-result",
+  "status": "closed;not integrated;flat both workloads",
+  "native_source_digest": "c8ce2891861909dddd72a077fa55430efcd39dc8a7171104874e98bf2bf4105d",
+  "input_sha256": "ebaf9439538e4485a3f655af8bfa32ae7e922b7aebe772cbb4fc0d298c36354c",
+  "source_snapshot": "21b7045e9b4ff4e494d877abde5a7006e0da17126ebf66eafb5357855ea25651",
+  "artifact_sha256": "6b8aa8121514cf7859d5fc3271884218a023f3c87d0c6c44061e77b90e0c60a0",
+  "mechanism": "Private borrowed-summary terminal vtable returns Result<(),GraphError> instead of the general event-output container. Shared terminal apply_change and consumed apply return unit; ordinary Node.apply wraps success in its original empty Outputs. Remove known-empty queue output handling only for certified summary receivers. Same evaluate/Clone/checked arithmetic/guard/commit/error/rollback/FIFO phases, no extra callback or virtual call; model, compiler and policies unchanged.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/terminal-unit-result-next-results/real_world-terminal-unit-result-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65665.14910917367,
+            65332.32033979061,
+            63828.463572302055,
+            65464.27952859528
+          ],
+          "trial": [
+            65515.270186951064,
+            65305.79460066031,
+            64970.536413926864,
+            65504.85868857838
+          ]
+        },
+        "medians": {
+          "baseline": 65398.299934192946,
+          "trial": 65405.326644619345
+        },
+        "gain_pct": 0.010744484846658686
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            192875.17626913878,
+            193761.00587392552,
+            193528.6355778075,
+            194071.77768795393
+          ],
+          "trial": [
+            196040.48002036868,
+            194927.55706666704,
+            192036.1264056677,
+            191589.83067764482
+          ]
+        },
+        "medians": {
+          "baseline": 193644.8207258665,
+          "trial": 193481.84173616738
+        },
+        "gain_pct": -0.08416387749913268
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 31,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::consuming::",
+      "stream_graph::group_summary_lane::tests",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::score_routing_tests::custom_no_drop"
+    ],
+    "source_unchanged": true,
+    "receipt_sha256": "57eb5893512c4ecd2c8610fb6a6bd35cc4446c82cbdc639df65f270c12ca8a29",
+    "log_sha256": "5a5df9a640affd599195c7a19f89f66aca4c8d1a696b2034fe7251a0da4e56a1",
+    "proof_directory": "work/real_world-goal/terminal-unit-result-focused1",
+    "scope": "Consumed and summary paths, public/custom prepared/primitive terminal ownership,callback failures,structural/overflow checks,clone order,current/full/nested rollback and custom score hooks."
+  },
+  "receipts": {
+    "receipt.json": "231839e5210fc8a5f44570576fe116effb18fe3eaf180ed3eb0f879f8da8e1de",
+    "build-receipt.json": "3c1e99c2d309d500bb2421a343175f52391b81e9cb7fcad00975f5fc0947c875",
+    "controls.json": "2f4d7c58578074be4b47500281df9ed618ebe5818cdc59cb9ba1186627b539cf",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "31 relevant checks pass,16 full outputs independently valid. Sailing +.01074% / Golfer -.08416%,two of four faster each. Flat;no integration/app/Clippy/Java/full/retry/current-main verification credit. No need to retry this signature change unchanged or to widen it speculatively."
+}

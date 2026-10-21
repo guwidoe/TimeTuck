@@ -1,0 +1,93 @@
+{
+  "kind": "real_world-compact-binary-owned-collectors",
+  "status": "closed;not integrated;regressive both workloads",
+  "native_source_digest": "4104a26e5fa753e97cebc6a0d1b01057073bc714544384d64f987a5ec39969ed",
+  "input_sha256": "308e409d07b8fe0a29e3d8b1252d5edd9877dbd094dd7ee451783b143c6daad5",
+  "source_snapshot": "dc595f883c39af65b5f4363fc37133d39b93e87d17d9e8e0245487466570f74a",
+  "artifact_sha256": "cf403daffed001f1075774477220fa556ea3be9ef11ec689dc0f3b76978bc774",
+  "mechanism": "Consumed-only collector arena stores compact zero/one frequency state and a boxed original IntCollector for arbitrary integers. Binary summaries/edits and wrapping sums use exact frequencies, general promotion delegates to original collector. Cold OnceLock boxed full views support borrowed inspection; snapshots/captures reconstruct independent complete collectors. Canonical Arc keys,full positions,slot retirement,scalar/row journals and public/custom paths remain. New crate-private binary reconstruction constructor checks total count. No unsafe/model/fixture/declaration/runner/compiler/PGO/panic/batch-policy changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/compact-binary-owned-next-results/real_world-compact-binary-owned-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64887.043929518804,
+            65351.40260520738,
+            65366.152836888934,
+            65592.80889935841
+          ],
+          "trial": [
+            64578.14951336563,
+            64448.5029132335,
+            64478.47416595655,
+            64599.01795416483
+          ]
+        },
+        "medians": {
+          "baseline": 65358.77772104816,
+          "trial": 64528.31183966109
+        },
+        "gain_pct": -1.270626395327501
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            193151.00139282199,
+            194366.3692610914,
+            194999.3865164245,
+            195091.93672394266
+          ],
+          "trial": [
+            192409.7460263717,
+            192883.62256019822,
+            191535.48127468256,
+            193579.30159587492
+          ]
+        },
+        "medians": {
+          "baseline": 194682.87788875797,
+          "trial": 192646.68429328495
+        },
+        "gain_pct": -1.0459027612261251
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 13,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "group_collectors::owned::compact::tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "source_unchanged": true,
+    "receipt_sha256": "d8356c608aeb86735face701fb5956361217b492d52de319543045e2ee2a4759",
+    "log_sha256": "dbead81e944dba2b89b665cbb36e2eefd9cd7ea4faef5ce7c151bbf16e2d9c20",
+    "proof_directory": "work/real_world-goal/compact-binary-owned-focused1",
+    "scope": "3 new independent BTreeMap multiset/promotion/clone and extreme frequency/wrapping/overflow/cached-owner controls, plus10 directly affected ownership,growth,retirement,nested/full/delta,overflow,public fallback and summary FIFO graph controls."
+  },
+  "receipts": {
+    "receipt.json": "db6880cff718507118288e7dc8520b559d9c7af378bf0b94ad6823a73e4e943b",
+    "build-receipt.json": "fceae39f0785114b8ee43f95315eefc2ac5e62e4dcc863329e8db3de3e92fc44",
+    "controls.json": "79d0cebff827bc99f0388b94bed4d4769a3d4852a7b4c6199240a24492e53084",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "layout_limit": "The local debug binary contains no type symbols; GDB sizeof queries yielded no data. No measured layout/byte-size claim or layout recompile is made.",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "13 direct tests pass,16 full outputs independently valid. Sailing -1.27063% / Golfer -1.04590%,all4 pairs slower both. Do not integrate or retry unchanged. No app/Clippy/Java/full checks, public API hook, upstream credit or current-main verification promotion. Frozen source preserved."
+}
