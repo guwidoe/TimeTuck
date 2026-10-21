@@ -1,0 +1,123 @@
+{
+  "kind": "real_world-outlined-group-entry",
+  "generated_at": "2026-10-21T14:17:03.351674+00:00",
+  "status": "closed without integration;apparent original Sailing gain reversed in timing-only control",
+  "native_source_digest": "4d555c427fd164bfb147f4d056ca43eb08d630f2f935d48123b46563688b0c21",
+  "input_sha256": "6adaf6a5c295df04c59f6f47cbbb6f62b0adfcfca87b01b8fa05ba712ed935d8",
+  "source_snapshot": "cf13d0c9b127caf18c8752aa4397aef99baf56f48254df0d56fe6dc96195dc78",
+  "artifact_sha256": "489035024d3953c50995c67cefc26811fba66ebb5be0c86e417ed54ecd8ea6ba",
+  "mechanism": "Only group_entry apply attribute changes inline(always) to inline(never). Entire algorithm,parameters,values,arithmetic,input preparation,summary/callback/drop/poison phases,FIFO,guards,captures and undo unchanged. Distinct from earlier explicit-match closure rewrite. Actual nm check finds2 outlined generated entry functions;no inferred speed benefit from symbol shape.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/outlined-group-entry-next-results/real_world-outlined-group-entry-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            61386.73095085807,
+            53136.51910819895,
+            47695.80584369362,
+            53101.07155435789
+          ],
+          "trial": [
+            59723.30663902248,
+            55300.447063013,
+            51029.931881713965,
+            52895.656705649184
+          ]
+        },
+        "medians": {
+          "baseline": 53118.79533127842,
+          "trial": 54098.05188433109
+        },
+        "gain_pct": 1.843521764651257
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            174082.73415919684,
+            175871.41742596476,
+            174066.7927644456,
+            181715.56793518554
+          ],
+          "trial": [
+            175699.7637711513,
+            176052.9537611322,
+            166058.13117283944,
+            170826.3419805772
+          ]
+        },
+        "medians": {
+          "baseline": 174977.07579258078,
+          "trial": 173263.05287586426
+        },
+        "gain_pct": -0.9795699859268092
+      }
+    }
+  },
+  "timing_only_retry": {
+    "reason": "Original Sailing baseline varied47.7k-61.4k eval/s;one timing-only retry of the same built artifacts with CPU telemetry. No Rust builds/tests repeated.",
+    "proof_directory": "work/real_world-goal/outlined-group-entry-telemetry-controls",
+    "valid_outputs": 16,
+    "summary": {
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            170810.80808369713,
+            173805.4727934044,
+            170993.164915245,
+            170115.2582605796
+          ],
+          "trial": [
+            170392.97984562907,
+            170660.93374333615,
+            168911.99001246042,
+            169863.49206756812
+          ]
+        },
+        "medians": {
+          "baseline": 170901.98649947107,
+          "trial": 170128.2359565986
+        },
+        "gain_pct": -0.45274520134080953,
+        "pairs_faster": 0
+      },
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            51676.72332705006,
+            51639.28121467465,
+            52964.87074915042,
+            52289.03789268963
+          ],
+          "trial": [
+            50909.83127274084,
+            51220.71647236825,
+            51115.70451143049,
+            50941.51775542575
+          ]
+        },
+        "medians": {
+          "baseline": 51982.88060986984,
+          "trial": 51028.61113342812
+        },
+        "gain_pct": -1.8357379684351915,
+        "pairs_faster": 0
+      }
+    },
+    "receipt_sha256": "6849db6b28c8ba4e344d12cc14ff022564fdd9b79b9ddfee0f829df287645bb5",
+    "controls_sha256": "42d8cd63ba6fe2ebe5fb0ac61656016ae446b9ee44281c53c9c892d623a890b8"
+  },
+  "receipts": {
+    "receipt.json": "d884874b36797234f61fb828826d3ad2cb8926659a1f86f41a79b35b7c3554c7",
+    "build-receipt.json": "870148ac7a6c5802124e6ce779d4b332591a0af90456ca5f85fd3bd4b86f56e0",
+    "controls.json": "0db9dff989f83b2a7f95ec7f3afdedc8ff42e091b65e9660eb70264d5f32b04a"
+  },
+  "compiled_code_proof": {
+    "path": "work/real_world-goal/outlined-group-entry-next-results/compiled-entry-proof.json",
+    "sha256": "f5594deb37561b84de2c595eaabf40fb5e2b9a9b9e7ef23817186b13f4905352"
+  },
+  "focused_tests": "Not run:benchmark-first unselected source;actual release build and32 complete independently validated benchmark outputs only. No pass credit.",
+  "policy": "Original Sailing+1.844%/Golfer-.980% mixed pairs;retry Sailing-1.836%/Golfer-.453%,all4 pairs slower each. Preserve both original statistic/runs;no favorable selection or third unchanged retry. No application,Clippy,full suite,Java qualification or current-main credit. Selected daa8a18 unchanged;goal active and incomplete."
+}

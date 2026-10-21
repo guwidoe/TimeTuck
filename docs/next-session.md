@@ -96,11 +96,18 @@ source. No application/Clippy/full suite/Java run or main credit on either.
 Proofs: `compat/observations/real_world-binary-frequency-counts.json` and
 `compat/observations/real_world-uniform-thin-collector.json`.
 
-Next isolated trial changes only primitive group_entry's inline(always) hint to
-inline(never), preserving its body and all phases. This consolidates its generated
-code across callers; distinct from the earlier explicit-match closure trial.
-Source frozen in `work/real_world-goal/outlined-group-entry-next-prototype/`;
-original v30 native controls active. No speed claim before collection.
+The primitive group_entry inline(never) trial is also closed. Same entire body
+and phases, just one compiler attribute. Actual ELF contains2 outlined entry
+functions. Original native controls measured Sailing+1.844%/Golfer-.980%, but
+Sailing baseline drifted47.7k-61.4k. One timing-only retry reused the same built
+binaries with CPU telemetry: Sailing-1.836%/Golfer-.453%,all4 pairs slower each.
+All32 outputs independently valid;no Rust tests/app/Clippy/full suite/Java run
+or integration. No third unchanged retry or favorable-run selection. Proof:
+`compat/observations/real_world-outlined-group-entry.json`.
+All current jobs are terminal/collected. Main runtime remains daa8a18 (3fd/e40),
+its11 focused passes and stale originalJava5725 unchanged. Goal incomplete.
+Next work must remove actual propagation/rollback work; reuse existing profiling
+and do not repeat closed compiler-hint or collector representation variants.
 
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
