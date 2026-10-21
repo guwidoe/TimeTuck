@@ -4,6 +4,12 @@
 > The source-bound results below remain historical; they do not qualify the
 > renamed source. See [history preparation](public-history.md).
 
+> Private GitHub cutover completed on 2026-10-22. This sanitized checkout points
+> to the new private `guwidoe/TimeTuck`; the original checkout points to the private
+> read-only archive. Integrate later original work through reviewed, anonymized
+> patches; do not merge the original history. Publication and Pages remain
+> deferred. See the [cutover handoff](public-history.md#private-hosted-history-cutover--2026-10-22).
+
 ## Objective and boundaries
 
 Build an independent Rust constraint optimization solver using pinned Timefold

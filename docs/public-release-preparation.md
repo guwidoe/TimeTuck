@@ -113,19 +113,36 @@ It does not refresh historical throughput qualifications. The two absent
 historical diagnostics and other ignored raw-output limitations remain explicitly
 recorded in [history preparation](public-history.md#retained-archive-limitations).
 
+## Private GitHub cutover — 2026-10-22
+
+The owner subsequently authorized the clean hosted cutover, with everything
+remaining private. The canonical `guwidoe/TimeTuck` is now a new standalone
+repository containing the 132 sanitized branches. A fresh clone matched the
+export's branch tips and reachable objects; an original hosted commit returned
+404 through the new repository. The original repository, its history and all 46
+Actions runs are retained in the private, read-only `TimeTuck-private-archive`.
+The original checkout's remote points to that archive; no live source work was
+discarded or rewritten. See the [cutover handoff](public-history.md#private-hosted-history-cutover--2026-10-22).
+
+The clean repository has the prepared description and topics. Actions were
+disabled during the historical branch upload and restored after preparation;
+the new repository inherits no original Actions logs or artifacts. The dashboard
+variable is explicitly `PUBLISH_DASHBOARD=false`; no site was published.
+
+CI now downloads the history-test dependency from a pinned upstream commit and
+verifies its SHA-256 before use. Its four focused integration tests pass with
+that fresh download. Documentation links and the added history delta are checked
+separately; existing source-bound correctness and performance evidence is reused
+because no solver, fixture, dependency, pin or UI asset changed in this cutover.
+
 ## Publication steps still intentionally deferred
 
-1. Obtain the owner's explicit publication/cutover instruction. The hosted
-   repository remains private and retains its original refs and Actions history.
-   **Do not simply change its visibility.** Use the reviewed sanitized candidate
-   for a clean standalone GitHub repository; preserve the original privately.
-   A normal force-push is insufficient assurance about retained cached objects.
-   See the [hosted cutover](public-history.md#hosted-history-cutover-remains-a-publication-step).
-2. Review changes after the captured source and the hosted result before making
-   anything public. Prepared metadata: description “Experimental Rust constraint
-   optimization solver inspired by Timefold Community”; topics `rust`,
-   `constraint-programming`, `optimization`, `scheduling`, `local-search`.
-   Apply metadata and update private-status wording during the authorized cutover.
+1. Obtain the owner's explicit instruction to make the clean repository public.
+   Keep the original archive private. The private cutover is complete; it does not
+   authorize any visibility change, site, package, release or announcement.
+2. Review subsequent changes and refresh the hosted visibility, refs, history
+   delta and Actions review. Update the README's private-status wording when
+   publication is authorized; the preparation audit does not cover future work.
 3. Immediately after publication, enable and verify the chosen
    [GitHub private vulnerability reporting route](../SECURITY.md). GitHub makes it
    available for public repositories; it remains inactive during preparation.

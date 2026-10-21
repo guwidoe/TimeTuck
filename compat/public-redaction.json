@@ -6,6 +6,11 @@
   "required_attribution": "Author names and copyright notices retained; Timefold pin, licenses, upstream test identities and approved public fixture bytes retained.",
   "files": [
     {
+      "path": ".github/workflows/ci.yml",
+      "original_sha256": "5d668f99a87074692f142ea0f75a151cf5c3394970a3d79cddfd837cf5d43722",
+      "candidate_sha256": "e05471022ac0e5460037250fa2006f21418d5f9029abb2255ead2cd6fbc596eb"
+    },
+    {
       "path": "THIRD_PARTY_NOTICES.md",
       "original_sha256": "8b7bf34b627de1ce47658246250bcfb49c94d7bcae4960a5c88b9b445ebaf628",
       "candidate_sha256": "cd0a3f605e3f3a4ee03cdbff7979cb2d6d0b5718cd677c689763d661f879c416"
@@ -673,7 +678,7 @@
     {
       "path": "docs/github-pages.md",
       "original_sha256": "1b85062cda602570b5bce38de9d115f3fe6873a251878e09681b772a37ed3da2",
-      "candidate_sha256": "df74acd85cdb888a32482f30ec37aa50fb35868cefa11ec628dc02a11c83bc4a"
+      "candidate_sha256": "8edb381064b5e1e263fa4d24f3b193d62a48176714de33dcfe760fe037b1c2af"
     },
     {
       "path": "docs/real_world-model.md",
@@ -693,7 +698,7 @@
     {
       "path": "docs/next-session.md",
       "original_sha256": "2336c60bdea5bf4b9044e0833a568cbac92dc45b232ffad68eb10cfadf1c2415",
-      "candidate_sha256": "c243b75721e9c25eb6c921873b9ab084a3ee3398c7dfdf54650383832620c1b7"
+      "candidate_sha256": "c435f25176ff863810af154ed47d2e6d1e3da659e54eae26fa5b8218fde98436"
     },
     {
       "path": "docs/performance.md",
@@ -703,7 +708,7 @@
     {
       "path": "docs/public-release-preparation.md",
       "original_sha256": "08b98de67fc775fbfe09b048e63eaf5792a9da575deb0390e3dfd5ca97e89d3d",
-      "candidate_sha256": "3f5d4b5a80d434c22de181110dd435580458acb798a44cd3de1ef9b2c9f03d66"
+      "candidate_sha256": "f7a11fb76b7d16832d1410d52f60e7ae60ad11d7dec532a06b56da50288573d3"
     },
     {
       "path": "docs/roadmap.md",
@@ -832,7 +837,7 @@
     {
       "path": "docs/next-session.md",
       "source_sha256": "c1b615266c03dcb00acf627ae0816bcdf5388a8efefa781b4183c4517d4218e6",
-      "candidate_sha256": "c243b75721e9c25eb6c921873b9ab084a3ee3398c7dfdf54650383832620c1b7"
+      "candidate_sha256": "c435f25176ff863810af154ed47d2e6d1e3da659e54eae26fa5b8218fde98436"
     }
   ]
 }

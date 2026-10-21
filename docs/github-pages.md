@@ -118,3 +118,8 @@ pushed, no separate public repository was created, and no site was published.
 History anonymization clears the saved snapshot freshness flags without changing
 its original export date, evidence digests, counts, scores or measured ratios.
 A static snapshot does not qualify the renamed source.
+
+On 2026-10-22, the owner authorized a clean private GitHub cutover. The prepared
+files and workflow are now in the new private `guwidoe/TimeTuck`, with
+`PUBLISH_DASHBOARD=false` explicitly set. The earlier hosting deferral still
+applies: no Pages site or separate public dashboard repository was created.

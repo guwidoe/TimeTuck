@@ -55,31 +55,45 @@ The separate candidate checkout and private receipts live under ignored
 for its captured source and validation. A later development commit needs its own
 review and sanitized integration; an earlier audit does not cover it.
 
-## Hosted-history cutover remains a publication step
+## Private hosted-history cutover — 2026-10-22
 
-The existing private GitHub repository still holds the original history and
-Actions logs. **Do not make that existing repository public unchanged.** A normal
-push of a sanitized tip would leave old branch tips, logs, cached commits and
-other historical references exposed.
+The owner authorized a clean GitHub cutover while keeping everything private.
+[guwidoe/TimeTuck](https://github.com/guwidoe/TimeTuck) is now a new, standalone
+private repository populated only from the sanitized candidate. All 132 branch
+tips and the reachable object set matched the reviewed export in a fresh clone.
+An original hosted commit was inaccessible through the new repository's API.
 
-For this anonymization, the recommended cutover is a clean repository populated
-only from the sanitized candidate, with the original repository retained privately.
+The original repository is retained as the private, read-only
+`guwidoe/TimeTuck-private-archive`, including its original history and 46 Actions
+runs. **Keep that archive private.** No original logs, artifacts, issues or releases
+were copied into the clean repository. Actions were paused during the bulk upload
+to avoid starting CI on each historical branch; ordinary CI is enabled for future
+changes. Dashboard publication remains gated by `PUBLISH_DASHBOARD=false`.
+
+The old development checkout's shared `origin` now points to the archive. The
+sanitized working checkout under `work/release-preparation/release/` points to
+the clean repository. Continue clean-history development there or in a fresh
+clone. Review and anonymize any remaining private work as patches; merging the
+original graph would restore the history this cutover excludes. The active
+original checkout and its uncommitted work were preserved.
+
+A fresh hosted repository was chosen because a normal push of a sanitized tip
+would leave retained branch tips, logs, cached commits and other historical
+references in the original repository.
 GitHub's [history-removal documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 states that force-pushed commits can remain accessible in cached views and that
 Support does not remove non-sensitive data. A support purge cannot be assumed
 for application-name anonymization. Reusing the existing hosted repository would
 require a separately verified way to remove all retained content.
 
-Preserve the original private archive. Review Actions logs, artifacts, releases,
-issues, pull requests and repository metadata; remove or replace original hosted
-records that disclose private identities. Local filtering alone cannot certify
-GitHub's retained objects or caches. Recheck the hosted result before changing
-visibility. These remote actions require the owner's later cutover instruction.
+Private receipts retain the original and new repository identities, captured refs,
+clone comparison and settings checks. Recheck changes and the hosted result before
+any later visibility change; this cutover does not authorize publication.
 
 Immediately after an authorized publication, enable and verify the selected
 [GitHub private vulnerability reporting route](../SECURITY.md). Enable the prepared
 [Pages workflow](github-pages.md) only when hosting is authorized. No hosted
-repository, site, package or release is published by preparation.
+repository, site, package or release was made public by this cutover.
 
 ## Retained archive limitations
 
