@@ -19,19 +19,27 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-The current original matrix on selected arena source d466/465509 proves
-Golfer1.603315x and Sailing.873827x: one of two targets met. Sailing still
-needs14.439% more Rust throughput; all12 outputs independently validate.
-Preserve original same-machine serial
-rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
-validations. Scores/feasibility remain separate. Model, fixtures, declarations,
-runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
-runner-c parked. No new subagents. A commit/context reset warrants no repeat checks.
-Latest user testing policy: run only directly relevant tests and compile checks;
-no full suites unless explicitly requested. The completed suite below predates
-that update and must not be repeated on commit or integration.
+Preserve same-machine serial rotating Java/Rust pairs,seeds7/11/23 x10s,CPUs2,3,
+and12 independent full-output validations. Scores/feasibility stay separate.
+Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
+unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
+checks;no full suites or repeats for a commit/turn/context change.
 
-The current selected collector backend stores consumed integer values in a
+The selected runtime now caches logically absent empty collectors privately,
+reviving their values through scalar undo instead of repeated row retirement.
+Cache creation stops above8,192 physical rows;logical views,explicit empty values,
+full/delta snapshots and nested rollback retain their contracts. This retains
+some private key/value storage across trials;public/shared/custom routes are unchanged.
+Four rotating native pairs measured **Sailing +0.745% (3/4 faster),Golfer +2.981%
+(4/4)**;all16 outputs independently validate including initial states. Actual21
+same-source focused/application passes and lib/example Clippy pass;no full suite
+or upstream credit. Source6f9ede18/prod1c87ec2f/artifact12e2dd51 is integrated.
+The original Java/Rust matrix is running on runner-a (local session17454,
+`work/real_world-goal/cached-empty-current-java-qualification`). Collect it before
+restarting. Earlier Java4795 remains historical/stale;do not extrapolate native gains.
+[Evidence](../compat/observations/real_world-cached-empty-owned-groups.json).
+
+The previous selected collector backend stores consumed integer values in a
 reusable contiguous arena. Pages retain canonical Arc keys and slot indices;
 ordered scalar undo reaches the slot directly, while structural undo retains
 retired slots until the corresponding frame finishes. Cold captures retain full

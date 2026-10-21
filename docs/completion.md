@@ -472,6 +472,22 @@ retain their separate overflow differences. Binary64/wrapping load balance retai
 101/101 agreements, wrapping-exact-root 100/101 and exact-default 97/101. Native
 regressions and policy options do not earn extra upstream-method credit.
 
+## Current RealWorld runtime
+
+The selected runtime now caches logically absent empty collectors privately,
+reviving their values through scalar undo instead of repeated row retirement.
+Cache creation stops above8,192 physical rows;logical views,explicit empty values,
+full/delta snapshots and nested rollback retain their contracts. This retains
+some private key/value storage across trials;public/shared/custom routes are unchanged.
+Four rotating native pairs measured **Sailing +0.745% (3/4 faster),Golfer +2.981%
+(4/4)**;all16 outputs independently validate including initial states. Actual21
+same-source focused/application passes and lib/example Clippy pass;no full suite
+or upstream credit. Source6f9ede18/prod1c87ec2f/artifact12e2dd51 is integrated.
+The original Java/Rust matrix is running on runner-a (local session17454,
+`work/real_world-goal/cached-empty-current-java-qualification`). Collect it before
+restarting. Earlier Java4795 remains historical/stale;do not extrapolate native gains.
+[Evidence](../compat/observations/real_world-cached-empty-owned-groups.json).
+
 ## Historical runtime qualification — 305
 
 The original native acceptance targets are demonstrated: **7/7 capability

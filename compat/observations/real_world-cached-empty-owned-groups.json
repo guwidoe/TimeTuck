@@ -1,0 +1,141 @@
+{
+  "kind": "real_world-cached-empty-owned-groups",
+  "status": "selected;native gain;fresh Java qualification pending",
+  "native_source_digest": "6f9ede18b97e6cab56fdb0b719aabb745f8ed3bcc8b075c4ef736824a3c0302a",
+  "input_sha256": "1c87ec2fb2754af5fb212e2e1e401734298ce2607722ea7c34894a8dc2b529a0",
+  "source_snapshot": "06a87077cfc4c5d05d0f470abe47cf27491de6a572c50becf438254c66e03995",
+  "artifact_sha256": "12e2dd513f934867d11e3221278d4767660bac46b9e088212594208282670597",
+  "mechanism": "Private exact primitive ownership-consumed collectors retain bounded logically absent empty rows across committed trials and revive them through scalar inverse edits. One high slot-index tag records visibility without enlarging16B entries or ordered undo. All physical indexes mask it;undo restores prior visibility and full values. Full snapshots retain private cached rows;delta/observer views expose absence. Up to8192 physical rows may create cache entries;larger sets retain original structural removal. Original public/shared/custom routes,callbacks,full summary outputs,arithmetic,FIFO and model unchanged.",
+  "tradeoffs": "Private canonical numeric-key allocation lifetimes differ. Up to8192 empty key/value rows plus their directory pages may remain allocated across trials until clear;this bounds retained row count,not total live data or a byte budget. Logical get/iteration/captures hide only tagged cache entries;explicit empty collectors preserve presence. Cache high-water history can differ across snapshot/rollback while logical values remain identical.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/cached-empty-owned-groups-next-results/real_world-cached-empty-owned-groups-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65602.86897117851,
+            65416.83076027111,
+            65884.66471337383,
+            65072.49284178752
+          ],
+          "trial": [
+            65786.85351707265,
+            66364.82108046336,
+            65174.62368388516,
+            66209.25259669477
+          ]
+        },
+        "medians": {
+          "baseline": 65509.84986572481,
+          "trial": 65998.05305688371
+        },
+        "gain_pct": 0.7452363150878272
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195069.9090309959,
+            194242.23109781335,
+            193712.63427998318,
+            191246.1656357582
+          ],
+          "trial": [
+            201711.46744991906,
+            200994.31486208958,
+            198527.00820316287,
+            197157.04173003146
+          ]
+        },
+        "medians": {
+          "baseline": 193977.43268889826,
+          "trial": 199760.66153262623
+        },
+        "gain_pct": 2.98139261024406
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "focused_verification": {
+    "full_native_gate": false,
+    "native_source_digest": "6f9ede18b97e6cab56fdb0b719aabb745f8ed3bcc8b075c4ef736824a3c0302a",
+    "production_digest": "1c87ec2fb2754af5fb212e2e1e401734298ce2607722ea7c34894a8dc2b529a0",
+    "actual_current_source_tests_passed": 21,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::group_collectors::owned::cached_empty_tests",
+          "incremental_stream::group_entry::tests",
+          "owned_collector_box",
+          "owned_collector_arena_growth",
+          "incremental_stream::group_batch::carrier_tests",
+          "stream_graph::group_summary_lane::tests"
+        ],
+        "tests_passed": 17,
+        "exit_code": 0,
+        "seconds": 94.5667397659854,
+        "proof_directory": "work/real_world-goal/cached-empty-owned-groups-focused1",
+        "log_sha256": "e0a1dfaa90223b73ca25d0fefbec4944ff95c1418055d19748c82bdaa474299e",
+        "receipt_sha256": "be6f0777f56f04996436dd8d9474598cc91ded46081b7ed8cb752143f2b20db2"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 24.821188694011653,
+        "proof_directory": "work/real_world-goal/cached-empty-owned-groups-application1",
+        "log_sha256": "7be0f97ba6cdfb0ec8ec2bfed8d7bc7cf65905dc675d7ecd43fa7089c54bff15",
+        "receipt_sha256": "8623776b9ee37e613f29ad2fa407f427eccae4ba6d4801d30fc756b01914d2c0"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 20.078087056986988,
+        "proof_directory": "work/real_world-goal/cached-empty-owned-groups-clippy1",
+        "log_sha256": "b7211bd9e017443d6b3c46ea42e7a50ef23420f002dcbe3241fdf36cb16c707a",
+        "receipt_sha256": "5aab7a8ceb77b700e60ee64e6869109dc146e9f7dd4411f644127a459dd0be1d"
+      }
+    ],
+    "policy": "21 actual same-source focused/application passes and lib/example Clippy. No repeated tests or full suite."
+  },
+  "independent_validation_sha256": "903fa836dbed0e152bd6eae39f77b34d07bad63f0eafe4b04443efa472423cdf",
+  "receipts": {
+    "receipt.json": "47d86412ecbdafb2deb4040c170cad954c9e23c3f6b71e1b217a823fe7ed4fd4",
+    "build-receipt.json": "919fd48a01ca5892b13528a2997fc05925ef87daa54a6286d97b683c81ab4cc2",
+    "controls.json": "21737539727b692541ddf8ddd3f8ae56b1833172bbbaf8585e0e16a3bf409809",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "new_original_native_tests": 2,
+  "upstream_method_credit": 0,
+  "policy": "Selected after17 focused passes,4 application cases,lib/example Clippy and16 independent native output validations. Native Sailing+.745%(3/4 faster),Golfer+2.981%(4/4). No repeated unchanged tests,full suite,model/settings/compiler changes or extrapolated Java ratios. Historical Java4795 preserved,now stale;actual fresh original-protocol matrix next."
+}

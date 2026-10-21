@@ -3,9 +3,22 @@ mod arena;
 use super::super::directory::PageDirectory;
 use super::*;
 
+// Cached empty rows retain only private numeric keys and reusable values.
+// The tag preserves the original 16-byte entry. Up to8192 physical rows may
+// create tombstones; larger live sets use original structural retirement.
+const INACTIVE: usize = 1 << (usize::BITS - 1);
+const CACHE_ROWS: usize = 8192;
 struct OwnedEntry<K> {
     key: Arc<K>,
     value: usize,
+}
+impl<K> OwnedEntry<K> {
+    fn slot(&self) -> usize {
+        self.value & !INACTIVE
+    }
+    fn active(&self) -> bool {
+        self.value & INACTIVE == 0
+    }
 }
 impl<K> Clone for OwnedEntry<K> {
     fn clone(&self) -> Self {
@@ -42,7 +55,7 @@ enum OwnedUndo<K> {
 impl<K> OwnedUndo<K> {
     fn position(&self, wide: &[Position], arena: &arena::Arena) -> Position {
         match self {
-            Self::Scalar(slot, _) => arena.position(*slot),
+            Self::Scalar(slot, _) => arena.position(*slot & !INACTIVE),
             Self::Row(packed, _) => InverseFrame::decode(wide, *packed),
         }
     }
@@ -109,7 +122,7 @@ impl<K> Clone for Owned<K> {
             values: self.values.clone_live(
                 self.pages
                     .values()
-                    .flat_map(|p| p.cells.iter().flatten().map(|e| e.value)),
+                    .flat_map(|p| p.cells.iter().flatten().map(|e| e.slot())),
             ),
         }
     }
@@ -158,7 +171,7 @@ impl<K> Owned<K> {
     fn retire(&mut self, entry: Option<OwnedEntry<K>>) {
         if let Some(OwnedEntry { key, value }) = entry {
             self.keys.retire(key);
-            self.values.retire(value);
+            self.values.retire(value & !INACTIVE);
         }
     }
     fn record_set(&mut self, pos: Position, next: Option<OwnedEntry<K>>) {
@@ -190,11 +203,13 @@ impl<K> Owned<K> {
         self.pages
             .values()
             .flat_map(|page| page.cells.iter().flatten())
-            .map(|e| (e.key.as_ref(), self.values.get(e.value)))
+            .filter(|e| e.active())
+            .map(|e| (e.key.as_ref(), self.values.get(e.slot())))
     }
     pub(super) fn get_key_value(&self, key: &K) -> Option<(&K, &IntCollector)> {
         self.entry((self.map)(key))
-            .map(|e| (e.key.as_ref(), self.values.get(e.value)))
+            .filter(|e| e.active())
+            .map(|e| (e.key.as_ref(), self.values.get(e.slot())))
     }
     pub(super) fn get(&self, key: &K) -> Option<&IntCollector> {
         self.get_key_value(key).map(|(_, v)| v)
@@ -216,7 +231,7 @@ impl<K> Owned<K> {
     }
     pub(super) fn remove(&mut self, key: &K) -> bool {
         let pos = (self.map)(key);
-        if self.entry(pos).is_none() {
+        if self.entry(pos).is_none_or(|row| !row.active()) {
             return false;
         }
         self.record_set(pos, None);
@@ -283,16 +298,7 @@ impl<K> Owned<K> {
                     self.retire(retired);
                 }
                 OwnedUndo::Scalar(slot, edit) => {
-                    let collector = self.values.get_mut(slot);
-                    match edit {
-                        ScalarEdit::Insert(v) => {
-                            assert!(collector.remove(v), "inverse group occurrence")
-                        }
-                        ScalarEdit::Remove(v) => collector.insert(v),
-                        ScalarEdit::Replace(a, b) => {
-                            assert!(collector.replace_captured(b, a), "inverse group occurrence")
-                        }
-                    }
+                    self.undo_scalar(slot, edit);
                 }
             }
         }
@@ -314,9 +320,9 @@ impl<K> Owned<K> {
                 .map(|pos| {
                     (
                         pos,
-                        self.entry(pos).map(|e| Entry {
+                        self.entry(pos).filter(|e| e.active()).map(|e| Entry {
                             key: e.key.clone(),
-                            value: Arc::new(self.values.get(e.value).clone()),
+                            value: Arc::new(self.values.get(e.slot()).clone()),
                         }),
                     )
                 })
@@ -354,7 +360,8 @@ impl<K> Owned<K> {
                 key: e.key.clone(),
                 value: self
                     .values
-                    .insert(pos, snapshot.values.get(e.value).clone()),
+                    .insert(pos, snapshot.values.get(e.slot()).clone())
+                    | (e.value & INACTIVE),
             });
             self.record_set(pos, entry);
         }
@@ -375,12 +382,15 @@ impl<K> Owned<K> {
     pub(super) fn shared_entries(&self) -> Vec<(Arc<K>, Arc<IntCollector>)> {
         self.positions()
             .into_iter()
-            .map(|p| {
+            .filter_map(|p| {
                 let row = self.entry(p).unwrap();
-                (
+                if !row.active() {
+                    return None;
+                }
+                Some((
                     row.key.clone(),
-                    Arc::new(self.values.get(row.value).clone()),
-                )
+                    Arc::new(self.values.get(row.slot()).clone()),
+                ))
             })
             .collect()
     }
@@ -398,12 +408,7 @@ impl<K> Owned<K> {
                         saved.set(pos, old.clone());
                     }
                     OwnedUndo::Scalar(slot, edit) => {
-                        let c = saved.values.get_mut(*slot);
-                        match *edit {
-                            ScalarEdit::Insert(v) => assert!(c.remove(v)),
-                            ScalarEdit::Remove(v) => c.insert(v),
-                            ScalarEdit::Replace(a, b) => assert!(c.replace_captured(b, a)),
-                        }
+                        saved.undo_scalar(*slot, *edit);
                     }
                 }
             }
@@ -412,18 +417,42 @@ impl<K> Owned<K> {
             saved
                 .pages
                 .values()
-                .flat_map(|p| p.cells.iter().flatten().map(|e| e.value)),
+                .flat_map(|p| p.cells.iter().flatten().map(|e| e.slot())),
         );
         saved.cleanup();
         saved
+    }
+    fn undo_scalar(&mut self, tagged: usize, edit: ScalarEdit) {
+        let slot = tagged & !INACTIVE;
+        let collector = self.values.get_mut(slot);
+        let was_empty = collector.summary().count == 0;
+        match edit {
+            ScalarEdit::Insert(v) => assert!(collector.remove(v), "inverse group occurrence"),
+            ScalarEdit::Remove(v) => collector.insert(v),
+            ScalarEdit::Replace(a, b) => {
+                assert!(collector.replace_captured(b, a), "inverse group occurrence")
+            }
+        }
+        if was_empty || tagged & INACTIVE != 0 {
+            let pos = self.values.position(slot);
+            let row = self.pages.get_mut(&pos.page).unwrap().cells[pos.cell]
+                .as_mut()
+                .unwrap();
+            assert_eq!(row.slot(), slot, "cached collector identity");
+            row.value = tagged;
+        }
     }
     #[inline(always)]
     fn scalar<P: LookupPolicy<K>>(&mut self, key: &K, edit: ScalarEdit) -> Option<IntSummary> {
         let pos = P::locate(self.map, key);
         let row = self.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
-        let slot = row.value;
+        let tagged = row.value;
+        let slot = row.slot();
         let count = self.values.get(slot).summary().count;
-        if count == 0 || (count == 1 && !matches!(edit, ScalarEdit::Insert(_))) {
+        if (!row.active() && !matches!(edit, ScalarEdit::Insert(_)))
+            || (count == 0 && row.active())
+            || (count == 1 && !matches!(edit, ScalarEdit::Insert(_)) && self.len > CACHE_ROWS)
+        {
             return None;
         }
         if matches!(edit, ScalarEdit::Insert(_)) {
@@ -441,8 +470,13 @@ impl<K> Owned<K> {
             }
         }
         let summary = collector.summary();
+        row.value = if summary.count == 0 {
+            slot | INACTIVE
+        } else {
+            slot
+        };
         if let Some(frame) = self.frames.last_mut() {
-            frame.edits.push(OwnedUndo::Scalar(slot, edit));
+            frame.edits.push(OwnedUndo::Scalar(tagged, edit));
         }
         Some(summary)
     }
@@ -483,7 +517,7 @@ impl<K: Ord + Clone> Owned<K> {
         }
         let before = old.and_then(|(key, value)| {
             if let Some(summary) = self.scalar::<P>(key, ScalarEdit::Remove(*value)) {
-                return Some(summary);
+                return (summary.count != 0).then_some(summary);
             }
             let mut collector = self.get(key).expect("input group").clone();
             assert!(collector.remove(*value), "input occurrence");
@@ -507,5 +541,112 @@ impl<K: Ord + Clone> Owned<K> {
             summary
         });
         (before, after)
+    }
+}
+
+#[cfg(test)]
+mod cached_empty_tests {
+    use super::*;
+    use crate::primitive_rows::Exact;
+    fn rows() -> Owned<usize> {
+        Owned::new(crate::primitive_rows::mapper::<usize>().unwrap())
+    }
+    fn insert(r: &mut Owned<usize>, k: usize, v: i64) {
+        let (_, new) = r.apply::<Exact>(None, Some(&(k, v)), Some(&k), false);
+        assert_eq!(new.unwrap().sum, v);
+    }
+    fn remove(r: &mut Owned<usize>, k: usize, v: i64) {
+        let (old, new) = r.apply::<Exact>(Some(&(k, v)), None, None, false);
+        assert!(old.is_none() && new.is_none());
+        assert!(r.get(&k).is_none());
+        assert!(!r.remove(&k));
+    }
+    #[test]
+    fn cached_empty_owned_rows_reuse_slots_and_preserve_nested_full_delta_restore() {
+        let mut r = rows();
+        for key in [0, 16, usize::MAX] {
+            insert(&mut r, key, 7);
+        }
+        let outer = r.begin();
+        for key in [0, 16, usize::MAX] {
+            remove(&mut r, key, 7);
+        }
+        assert_eq!(r.iter().count(), 0);
+        assert_eq!(r.len, 3);
+        assert_eq!(r.shared_entries().len(), 0);
+        let empty_delta = r.capture(outer);
+        let empty_full = r.clone();
+        let child = r.begin();
+        for key in [0, 16, usize::MAX] {
+            let pos = (r.map)(&key);
+            let slot = r.entry(pos).unwrap().slot();
+            insert(&mut r, key, i64::MIN);
+            assert_eq!(r.entry(pos).unwrap().slot(), slot);
+        }
+        let populated_delta = r.capture(child);
+        r.commit(child);
+        assert_eq!(r.iter().count(), 3);
+        let diagnostic = r.journal_snapshot(outer);
+        assert_eq!(
+            diagnostic
+                .iter()
+                .map(|(_, c)| c.summary().sum)
+                .collect::<Vec<_>>(),
+            vec![7, 7, 7]
+        );
+        r.rollback(outer);
+        assert_eq!(
+            r.iter().map(|(_, c)| c.summary().sum).collect::<Vec<_>>(),
+            vec![7, 7, 7]
+        );
+        let t = r.begin();
+        r.install_capture(empty_delta);
+        assert_eq!(r.iter().count(), 0);
+        r.install_capture(populated_delta);
+        assert_eq!(
+            r.iter().map(|(_, c)| c.summary().sum).collect::<Vec<_>>(),
+            vec![i64::MIN; 3]
+        );
+        r.install(empty_full);
+        assert_eq!(r.iter().count(), 0);
+        r.rollback(t);
+        assert_eq!(
+            r.iter().map(|(_, c)| c.summary().sum).collect::<Vec<_>>(),
+            vec![7, 7, 7]
+        );
+        let t = r.begin();
+        r.clear();
+        assert_eq!(r.iter().count(), 0);
+        r.rollback(t);
+        assert_eq!(r.iter().count(), 3);
+        r.clear();
+        assert_eq!(r.len, 0);
+        assert_eq!(r.iter().count(), 0);
+    }
+    #[test]
+    fn cached_empty_owned_rows_cap_and_explicit_empty_collectors_keep_presence() {
+        let mut r = rows();
+        for key in 0..=CACHE_ROWS {
+            insert(&mut r, key, 1);
+        }
+        remove(&mut r, CACHE_ROWS, 1);
+        assert!(r.entry((r.map)(&CACHE_ROWS)).is_none());
+        let slot = r.entry((r.map)(&0)).unwrap().slot();
+        remove(&mut r, 0, 1);
+        assert_eq!(r.entry((r.map)(&0)).unwrap().slot(), slot);
+        assert!(!r.entry((r.map)(&0)).unwrap().active());
+        insert(&mut r, 0, 9);
+        assert_eq!(r.entry((r.map)(&0)).unwrap().slot(), slot);
+        r.insert(usize::MAX, IntCollector::new());
+        assert!(r.get(&usize::MAX).is_some());
+        assert_eq!(r.get(&usize::MAX).unwrap().summary(), IntSummary::default());
+        let t = r.begin();
+        r.clear();
+        r.rollback(t);
+        assert!(r.get(&usize::MAX).is_some());
+        assert_eq!(
+            std::mem::size_of::<OwnedEntry<usize>>(),
+            2 * std::mem::size_of::<usize>()
+        );
     }
 }
