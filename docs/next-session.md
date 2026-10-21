@@ -392,13 +392,18 @@ The collector prepared-entry experimentcf12/47986 is closed too: one lookup
 serves inverse or cloned replacement, but returning the large prepared entry
 measured Sailing-5.809%/Golfer-5.814%,all4 slower each,16 outputs valid. No Rust
 tests/app/Clippy/full suite/Java or integration. Earlier Result-interface source
-passed a lib/example check;not a frozen-source test claim. A separate refinement
-keeps the entry and entire fallback inside the operation,returning only summary;
-current native job is recorded in ignored active state.
+passed a lib/example check;not a frozen-source test claim. The separate refinement
+dc35/184ed keeps the entry and entire fallback internal and returns only summary.
+It still regresses Sailing-1.365%(all4slower)/Golfer-2.373%(1/4faster),16 outputs
+valid. Both sources closed;no further checks or unchanged timing retry. All jobs
+are terminal/collected. Main runtime and historicalJava5725 unchanged;goal active.
+Next work needs a different mechanism;do not revisit these membership histories
+or collector-entry shapes unchanged. Existing cycle profile remains available.
 Proofs: `compat/observations/real_world-membership-first-preimage.json`,
 `compat/observations/real_world-membership-epoch.json`,
-`compat/observations/real_world-membership-consecutive.json` and
-`compat/observations/real_world-group-prepared-edit.json`.
+`compat/observations/real_world-membership-consecutive.json`,
+`compat/observations/real_world-group-prepared-edit.json` and
+`compat/observations/real_world-group-held-entry.json`.
 
 ## Previous verified group-edit inlining — 2026-10-21
 

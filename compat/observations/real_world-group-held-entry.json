@@ -1,0 +1,73 @@
+{
+  "kind": "real_world-group-held-entry",
+  "generated_at": "2026-10-21T15:41:50.449313+00:00",
+  "status": "closed;regressive;not integrated",
+  "native_source_digest": "dc35fe9fd0070ddb24d28debdc2534e4c060121e3e5c2777a5db1abc5518dd47",
+  "input_sha256": "184edc1a7a8e911b77263bbe538c278c69a51657363bf9af3e24966afce6e2f1",
+  "source_snapshot": "7bd2da030b5940c22637eab7f2477a7ee6eca394a63d3d1bdd893041741d4703",
+  "artifact_sha256": "8a4fd8b5e6e176cfe02e563ba9d67da1c13d3edebd8485bb76def2b70329c63a",
+  "mechanism": "Single directory entry stays internal to whole scalar-or-replacement operation;return only Option<IntSummary>. Construct PreparedPage only on fallback. Every original inverse reserve/encode/mutate/history step,cloned replacement,shared/Weak fallback,canonical singleton remove/reinsert remains. No callback/model/settings changes. Separate refinement of large returned-entry candidate,not an unchanged timing retry.",
+  "checks": [],
+  "test_scope": "No Rust tests on rejected source;actual Cargo release build and16 complete independently validated native outputs only.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/group-held-entry-next-results/real_world-group-held-entry-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63043.817239151605,
+            62410.26418893712,
+            62553.03819327741,
+            62501.981105795174
+          ],
+          "trial": [
+            62068.13563195993,
+            61362.254063463755,
+            61502.97553059102,
+            61845.43109424076
+          ]
+        },
+        "medians": {
+          "baseline": 62527.509649536296,
+          "trial": 61674.20331241589
+        },
+        "gain_pct": -1.3646894653299713
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            185101.7567913157,
+            184758.1777451254,
+            185787.80360517415,
+            180365.00418628752
+          ],
+          "trial": [
+            178693.08228075845,
+            180559.79080949994,
+            180752.2785537571,
+            180524.84458419928
+          ]
+        },
+        "medians": {
+          "baseline": 184929.96726822056,
+          "trial": 180542.3176968496
+        },
+        "gain_pct": -2.3726006315715975
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "receipts": {
+    "receipt.json": "7c6eaf043c85bb7749750896c9b416f4f8ea877ba7b0cda9e1b901b0c4885a01",
+    "build-receipt.json": "7f83900b1f6c075af099159522ae92e9f1c46fd196c38fa2d284929e4898e8be",
+    "controls.json": "aa45e1f864e95bc96c0371be9522f89fbea7250e9f39d9fbd61f8b964f28f439"
+  },
+  "policy": "Sailing-1.365%,all4slower;Golfer-2.373%,1/4faster. Close unchanged. No app/Clippy/full suite/Java qualifier or current-main credit. No third unchanged retry;both lookup variants closed. Main3fd/e40 remains selected,goal active/incomplete.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}
