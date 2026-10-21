@@ -2,6 +2,7 @@
 //! Generic/borrowed keys retain SnapshotMap. Primitive pages use exact numeric
 //! prefixes and sixteen final-coordinate cells, including usize::MAX. User
 //! key/value owners are shared, never cloned by snapshots or journal restores.
+pub(crate) mod bit_buckets;
 pub(crate) mod consumed_scores;
 mod directory;
 pub(crate) mod group_collectors;

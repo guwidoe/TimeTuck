@@ -59,6 +59,22 @@ impl Members {
     }
 }
 
+impl crate::primitive_rows::bit_buckets::BitValue for Members {
+    fn count(&self) -> usize {
+        self.len
+    }
+    fn bit(&self, id: usize) -> bool {
+        self.words[id / 64] & (1u64 << (id % 64)) != 0
+    }
+    fn assign(&mut self, id: usize, present: bool) {
+        if present {
+            self.insert(id)
+        } else {
+            self.remove(id)
+        }
+    }
+}
+
 type KeyCode = [usize; 4];
 type KeyMapper<K> = fn(&K) -> KeyCode;
 type CapturedEntries<K> = Vec<(KeyCode, Option<(Arc<K>, Arc<Members>)>)>;
@@ -306,8 +322,18 @@ impl<I, K: Ord + Clone> FixedIndex<I, K> {
     }
 
     pub(super) fn remove(&mut self, key: &K, id: &I) {
+        let numeric = if let Buckets::Paged(rows) = &mut self.buckets {
+            let numeric = (self.index)(id);
+            if rows.try_edit(key, numeric, false) {
+                self.record_key(key);
+                return;
+            }
+            Some(numeric)
+        } else {
+            None
+        };
         let mut members = self.buckets.get(key).expect("indexed key").clone();
-        members.remove((self.index)(id));
+        members.remove(numeric.unwrap_or_else(|| (self.index)(id)));
         if members.len == 0 {
             self.buckets.remove(key);
         } else {
@@ -316,12 +342,22 @@ impl<I, K: Ord + Clone> FixedIndex<I, K> {
         self.record_key(key);
     }
     pub(super) fn insert(&mut self, key: &K, id: &I) {
+        let numeric = if let Buckets::Paged(rows) = &mut self.buckets {
+            let numeric = (self.index)(id);
+            if rows.try_edit(key, numeric, true) {
+                self.record_key(key);
+                return;
+            }
+            Some(numeric)
+        } else {
+            None
+        };
         let mut members = self
             .buckets
             .get(key)
             .cloned()
             .unwrap_or_else(|| Members::new(self.keys.len()));
-        members.insert((self.index)(id));
+        members.insert(numeric.unwrap_or_else(|| (self.index)(id)));
         self.buckets.insert(key.clone(), members);
         self.record_key(key);
     }

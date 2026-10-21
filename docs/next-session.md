@@ -20,59 +20,55 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Neither current parity target is proved. Original protocol remains same-machine
-serial rotating pairs, seeds7/11/23 x10s, CPU2,3, all12 independently valid.
-Scores/feasibility stay separate. No model, fixture, declaration, runner, compiler,
-CPU/PGO/panic/batch-policy changes. Local + runner-a; runner-c parked. No new subagents.
+Neither current parity target is proved. Preserve same-machine serial rotating
+Java/Rust pairs, seeds7/11/23 x10s, CPU2,3, all12 independently valid; scores and
+feasibility separate. Model/fixtures/declarations/runner/compiler/CPU/PGO/panic/
+batch settings unchanged. Local + runner-a; runner-c parked. No new subagents.
 
-Selected inline-event batch: six Rust files, five additional original native tests.
-Exact Copy membership filters in private consuming scalar Inline queues return a
-small None/Same/Retract action. Original apply_row remains unchanged: predicate,
-output preparation, bounds, poison, journal and callback phases are preserved.
-Classification follows complete apply. Same forwards the existing immutable arena
-index in original edge/FIFO order. A rejected replacement put emits the original
-full-ID retraction. Shared producers, shared inputs, public/custom/batch paths keep
-original routing. Namespace completeness is not needed for safe slot aliasing;
-fixed and Open acceptance caches retain their original algorithm and validation.
-Exact Pair-ID primitive Quad4 and Tally5 rows fit the existing72B Event, with full
-usize/i64 fields and canonical promotion before retained fanout. QueuedEvent24B,
-edge/queued40B. This differs from the old regressive104B Event variant.
+Selected batch: six Rust files, one new original native regression. Private Paged
+fixed equality-join buckets retain one inverse per unshared surviving bitmap edit.
+Arc::get_mut requires strong/Weak uniqueness. Dirty full/current/materialized/shared
+observers copy values while retaining canonical key Arcs. Rollback interleaves
+bit inverses with normal structural edits; nested commits offset normal positions.
+Empty bucket retirement/rebirth, shared/Weak owners and public/custom/ordered paths
+keep original replacement. Input ID owners, projection/callback/output order remain.
+Private consumed-score sparse Position hashing uses complete five-word keys/Eq and
+a 16-byte state; hot pages, sorted observations, zero/absence and undo remain. No public
+bounds/traits or unsafe code added. More per-edit metadata/dirty observer copies are
+tradeoffs, not a universal memory claim. Prior inline-event/summary storage retained.
 
-Native `382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b`;
-production `7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494`;
-final snapshot `3160622b25e054953780167441b632e4760c0ec5a0d87644f615c970db64884e`;
-actual measured artifact `c7d2339c90943dd16b835a0a1d96a1ce259b31309121d07849285b1a66a9048b`.
-Actual Clippy, all-target no-run prebuild and normal jobs4 `bash scripts/check.sh`
-pass on the unchanged final source: **8,871 named native /8,877 Cargo executions
-/292 doctests /54 tooling jobs**. Only genuine aggregate Rust log/metadata promoted,
-no per-job cache transplants. Upstream4412passes/0pending/443excluded and external4
-unchanged; native regressions4455. Observation:
-`compat/observations/real_world-inline-event-forwarding.json`.
-Proof: `work/real_world-goal/filter-tallies-6c6-next-final-results/`. Verify report data/freshness; unchanged UI proof reused.
+Native `02821b4b038cb1f92f149102c230e65aef6616ec0a0a75b22a3cdd3927a839a3`;
+production `2c05802c602e830b576ccc0c6a908fa3463889670339b54c401c42d32c38d827`;
+final snapshot `9d9c6521a2d1d25d9d7cd3cb2ea6f5ce1c6813af3429db301677b6fc8c7b9e27`;
+actual measured artifact `0850ea4d46fe84a8aef79534edea6703f2d513dc5d598ea96c384f752874b71e`.
+Actual unchanged-source Clippy, all-target no-run prebuild and normal jobs4
+`bash scripts/check.sh`: **8,872 named /8,878 Cargo executions /292 doctests
+/54 tooling jobs**. Genuine aggregate Rust log/metadata promoted only; no job-cache
+transplants. Upstream4412passed/0pending/443excluded, external4, native regressions4456.
+Observation: `compat/observations/real_world-bucket-bit-inverses.json`.
+Proof: `work/real_world-goal/bits-hash-382-next-final-results/`. Backend report/freshness checked; unchanged UI proof reused.
 
-Actual combined native controls against verified6c6/570309:
-**+6.991% Golfer /+4.700% Sailing**, all16 independently valid, rotating3s seed7.
-Separate forwarding +5.293%G/+3.574%S and inline rows +.109%G/+.956%S are historical
-component controls, not additive. Five focused controls passed on their respective
-sources. Combined all-target Clippy initially found one test-result type needing
-an alias; fixed source was actually measured and fully gated. Original fixture
-import/type/visibility and excessive fixed-bound activation failures remain
-recorded; no assertions were weakened. Bound-only variant was flat Sailing and
-unselected. Do not repeat it or reinterpret its failed activation checks as passes.
+Actual combined native controls vs verifiedbde/382c/c7d233:
+**+5.570% Golfer /+3.108% Sailing**,16 independently valid rotating3s seed7 outputs.
+Standalone bit inverses +3.977%G/+1.807%S and hash-state +.198%G/+1.781%S are separate
+historical controls, never additive or a Java parity estimate. New bit route passed6
+focused controls, hash-state4; combined Clippy actual50.456s. Box-owned collectors
+and inline membership words were discarded after flat Sailing controls; do not
+repeat them or the closed queue/filter/summary-publication trials without a distinct
+mechanism. Ignored authoritative trial details: `work/real_world-goal/active-performance-state.json`.
 
-Original Java reportb14a remains byte-for-byte unchanged and visibly stale:
-historical G1.253663/S.609042, all12valid, Sailing feasible Rust2/3 Java0/3. It met
-1/2 targets on old021a source. Defer qualifier until materially closer to Sailing
-parity; do not multiply short native gains into Java ratios. Final success still
-requires both targets on current original-protocol evidence.
+Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
+all12valid, Sailing feasible Rust2/3 Java0/3 on old021a source. Defer qualifier until
+materially closer to Sailing parity. Success still requires both targets on current
+original-protocol evidence. Do not multiply short native gains into Java ratios.
 
-The selected artifact already has one local Sailing10s seed7 profile at
-`work/real_world-goal/current-filter-tallies-profile/`, independently valid0/91600,
-zero lost samples. It was recorded while the final gate ran and matches the later
-successful gate's source/artifact. Reuse it without rebuild or repeat recording.
-The preceding570309 profile and typed-output audit are historical after this change.
-Ignored authoritative handoff: `work/real_world-goal/active-performance-state.json`.
-Reuse successful unchanged verification; a commit/context reset alone requires no rerun.
+One local Sailing10s seed7 profile of the measured binary already exists at
+`work/real_world-goal/current-bits-hash-profile/`, independently valid score/assignment,
+1992 samples and zero lost. Recorded during the native gate, source/artifact joined
+to the later passing receipt. Reuse it without rebuilding or recording again. The
+precedingc7d233 profile is historical. A commit/context reset alone is no reason to
+rerun successful unchanged checks. Finish integration/commit before implementing
+another candidate.
 
 ## Previous verified typed-output source — 2026-10-21
 

@@ -19,32 +19,34 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,871 recorded Rust tests and
-292 doctests** (8,877 Cargo test executions). The inline-event forwarding batch
+The current native verification contains **8,872 recorded Rust tests and
+292 doctests** (8,878 Cargo test executions). The bitmap-inverse batch
 passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Actual source-bound evidence](../compat/observations/real_world-inline-event-forwarding.json)
-records the selected optimization and five additional native regressions.
+[Actual source-bound evidence](../compat/observations/real_world-bucket-bit-inverses.json)
+records the selected optimization and one additional native regression.
 The live report remains the authority for evidence freshness and readiness.
 
 The four additional RealWorld application regressions remain separate from the
 original upstream inventory. Frozen public cases, model, settings and runner are
-unchanged. Exact Copy membership filters in private consuming scalar graphs now
-forward an immutable existing arena slot for accepted inputs and accepted
-retractions. Rejected replacement puts still emit the required retraction. The
-original filtering algorithm, callback/poison/bounds/journal phases and FIFO order
-remain. Public, custom, shared-owner and batch paths keep their original routing.
-Exact Pair-ID Quad4/Tally5 FlatMap rows fit inline without widening the72B Event;
-full numeric fields and canonical producer-promoted shared owners remain.
-Five native regressions cover these boundaries, captures, panic/error recovery,
-callback/work-count traces, full numeric fields and actual FlatMap/group scoring.
+unchanged. Private primitive equality-join buckets now retain one inverse per
+unshared surviving membership-bit edit. Shared/Weak owners and empty bucket
+retirement/rebirth retain ordinary replacement. Full/current/shared observations
+copy dirty values while retaining canonical key and input-ID Arcs, preserving
+snapshot independence through nested commit and rollback. Public/custom/ordered
+paths and every original projection, callback and output event remain.
+
+Private consuming score positions use a numeric hasher with complete keys and Eq,
+a 16-byte builder state, and the original sorted observations/undo/zero/absence rules.
+One new native regression exercises actual bit inverses interleaved with structural
+edits and dirty full/current captures. Existing ownership and score-storage controls
+remain. Each edit retains metadata and dirty snapshots copy bitmap values; no total
+memory claim is made. Prior inline filter forwarding and typed output chunks remain
+as recorded in their [original observation](../compat/observations/real_world-inline-event-forwarding.json).
 
 Actual combined four rotating native three-second controls measured
-**+6.991% Golfer /+4.700% Sailing** against the preceding verified Rust binary.
-All sixteen outputs independently validate. Individual component measurements
-are not added, and these controls do not establish Java parity. Existing typed
-summary chunks and borrowed Join carriers remain as recorded in their
-[original observation](../compat/observations/real_world-typed-output-storage.json).
-Arena/chunk capacity can remain after peak use; no total-memory claim is made.
+**+5.570% Golfer /+3.108% Sailing** against the preceding verified Rust binary.
+All sixteen outputs independently validate. Individual gains are not added, and
+these controls do not establish Java parity.
 
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently

@@ -2966,3 +2966,24 @@ remain. Wider/custom shapes retain their previous representations. Private peak 
 capacity can remain; no universal memory claim. Five original native controls and
 combined source-bound measurements are in the
 [inline-event observation](../compat/observations/real_world-inline-event-forwarding.json).
+
+## Private fixed-bucket bit inverses and numeric score hashing
+
+Exact primitive Paged fixed equality-join buckets can mutate an unshared surviving
+Members bitmap and retain each bit's preimage, full Position, owner classification
+and preceding ordinary-edit count. Shared/Weak owners and an empty bucket's removal
+and rebirth retain ordinary map replacement. Rollback restores ordinary structural
+history before each corresponding bit inverse; nested commit adjusts positions.
+Dirty full/current/materialized/shared observations copy bitmap values and retain
+actual canonical key Arcs, so subsequent mutation/rollback cannot change an escaped
+snapshot. Canonical input-ID Arcs, public/custom/ordered paths, original projections,
+callbacks and output FIFO remain. No callback or event is coalesced. Each edit adds
+metadata; dirty observers copy values. Private intermediate owners may remain until
+frame end; there is no universal memory/performance claim.
+
+Private ownership-consuming score rows hash complete five-word numeric Positions
+with their original Eq; neither user ID nor score hash callbacks run here. A 16-byte
+builder state keeps the prior builder footprint. Hot pages, sorted observations,
+zero versus absence, every-write undo and full/current/nested restores remain.
+The selected source and original native regression are recorded in the
+[bucket-bit observation](../compat/observations/real_world-bucket-bit-inverses.json).

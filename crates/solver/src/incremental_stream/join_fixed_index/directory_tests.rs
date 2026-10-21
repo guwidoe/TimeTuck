@@ -384,3 +384,65 @@ fn directory_buckets_keep_ordered_custom_drop_and_actual_borrowed_fallbacks() {
     let key = String::from("key");
     borrowed(&left, &right, &key);
 }
+
+#[test]
+fn fixed_bucket_bit_inverses_preserve_dirty_observers_and_interleaved_nested_structural_undo() {
+    fn run(paged: bool) -> Vec<Rows> {
+        let mut index = numeric_index();
+        if paged {
+            assert!(index.enable_directory_buckets());
+        }
+        let base = contents(&index);
+        let outer = index.begin();
+        for id in 0..24 {
+            index.remove(&(0, id % 3), &id);
+            index.insert(&(9, id % 2), &id);
+        }
+        if let Buckets::Paged(rows) = &index.buckets {
+            assert!(
+                rows.active_inverse_count() >= 24,
+                "exercise actual per-bit undo"
+            );
+        }
+        let middle = contents(&index);
+        let saved = index.clone();
+        let child = index.begin();
+        // Structural removals must interleave correctly with earlier/later bit
+        // inverses, including those at the same coordinates and canonical keys.
+        index.clear();
+        for id in [0usize, 1, 63, 64, 128] {
+            index.insert(&(usize::MAX, id % 2), &id);
+        }
+        index.insert(&(usize::MAX, 0), &128);
+        let wanted = contents(&index);
+        let capture = index.capture_current(outer);
+        index.commit(child);
+        for id in [0usize, 64, 128] {
+            index.remove(&(usize::MAX, 0), &id);
+        }
+        index.rollback(outer);
+        assert_eq!(contents(&index), base);
+        assert_eq!(
+            contents(&saved),
+            middle,
+            "full dirty observer stays immutable"
+        );
+        let frame = index.begin();
+        index.install_capture(capture);
+        assert_eq!(contents(&index), wanted);
+        let inner = index.begin();
+        index.remove(&(usize::MAX, 0), &64);
+        index.insert(&(0, 0), &64);
+        index.rollback(inner);
+        assert_eq!(contents(&index), wanted);
+        index.rollback(frame);
+        assert_eq!(contents(&index), base);
+        let frame = index.begin();
+        index.install(saved);
+        assert_eq!(contents(&index), middle);
+        index.rollback(frame);
+        assert_eq!(contents(&index), base);
+        vec![base, middle, wanted]
+    }
+    assert_eq!(run(true), run(false));
+}

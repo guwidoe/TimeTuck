@@ -1,12 +1,12 @@
 //! Fixed equality joins may locate primitive bucket keys through the directory.
 //! Members and their canonical Arc owners keep the original replacement policy.
 use super::{Members, SnapshotMap};
-use crate::primitive_rows::PrimitiveRows;
+use crate::primitive_rows::{PrimitiveRows, bit_buckets::BitBuckets};
 use std::{ops::Bound, sync::Arc};
 
 pub(super) enum Buckets<K> {
     Tree(SnapshotMap<K, Members>),
-    Paged(Box<PrimitiveRows<K, Members>>),
+    Paged(Box<BitBuckets<K, Members>>),
 }
 impl<K> Clone for Buckets<K> {
     fn clone(&self) -> Self {
@@ -63,7 +63,7 @@ impl<K> Buckets<K> {
             // A full snapshot can predate private graph activation. The working
             // binding stays unchanged while exact saved key/value owners transfer.
             (Self::Paged(rows), Self::Tree(saved)) => {
-                rows.install_snapshot(PrimitiveRows::from_snapshot_map(saved));
+                rows.install_rows_snapshot(PrimitiveRows::from_snapshot_map(saved));
             }
             (Self::Tree(rows), Self::Paged(saved)) => {
                 rows.install_snapshot(saved.materialized().clone());
@@ -119,7 +119,7 @@ impl<K: 'static> Buckets<K> {
         let mut rows = PrimitiveRows::from_snapshot_map(rows);
         let bound = rows.bind_primitive();
         *self = if bound {
-            Self::Paged(Box::new(rows))
+            Self::Paged(Box::new(BitBuckets::new(rows)))
         } else {
             Self::Tree(rows.materialized().clone())
         };

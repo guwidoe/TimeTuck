@@ -2,12 +2,70 @@
 //! No public row view or escaped owner is permitted at this binding boundary.
 //! Ordinary PrimitiveRows and all of their Arc ownership rules remain unchanged.
 //! Hot two-coordinate IDs use pages; all other numeric positions store one row
-//! directly in a standard hash map. Cold observations sort complete positions.
+//! directly in a standard hash table with a numeric-key hasher. Cold observations
+//! sort complete positions; the private hash order is never an observation.
 use super::{Mapper, PageKey, Position, mapper};
 use std::{
     any::TypeId,
     collections::{BTreeSet, HashMap},
+    hash::{BuildHasher, Hasher},
 };
+
+// Only private library-generated Position keys use this table. Hashing never
+// invokes user ID/score callbacks. Equality and all original coordinates remain
+// authoritative; cold observations and captures keep their existing sorting.
+struct PositionHasher(u64);
+// Retain the original hash-builder footprint so dense rows keep their layout.
+#[derive(Clone)]
+struct PositionState([u64; 2]);
+impl Default for PositionState {
+    fn default() -> Self {
+        Self([
+            0x9e37_79b9_7f4a_7c15 ^ 0x517c_c1b7_2722_0a95,
+            0x517c_c1b7_2722_0a95,
+        ])
+    }
+}
+impl BuildHasher for PositionState {
+    type Hasher = PositionHasher;
+    #[inline]
+    fn build_hasher(&self) -> Self::Hasher {
+        PositionHasher(self.0[0] ^ self.0[1])
+    }
+}
+impl PositionHasher {
+    #[inline]
+    fn word(&mut self, value: u64) {
+        self.0 = (self.0.rotate_left(7) ^ value).wrapping_mul(0x517c_c1b7_2722_0a95);
+    }
+}
+impl Hasher for PositionHasher {
+    #[inline]
+    fn finish(&self) -> u64 {
+        let mut value = self.0;
+        value ^= value >> 33;
+        value = value.wrapping_mul(0xff51_afd7_ed55_8ccd);
+        value ^= value >> 33;
+        value
+    }
+    #[inline]
+    fn write(&mut self, bytes: &[u8]) {
+        let mut chunks = bytes.chunks_exact(8);
+        for chunk in &mut chunks {
+            self.word(u64::from_ne_bytes(
+                chunk.try_into().expect("eight-byte chunk"),
+            ));
+        }
+        for &byte in chunks.remainder() {
+            self.word(u64::from(byte));
+        }
+    }
+    #[inline]
+    fn write_usize(&mut self, value: usize) {
+        self.word(value as u64);
+    }
+}
+type Sparse<I, S> = HashMap<Position, Entry<I, S>, PositionState>;
 
 const CELLS: usize = 16;
 const HOT_ROWS: usize = 4096;
@@ -30,7 +88,7 @@ impl<I, S> Page<I, S> {
 type Row<I, S> = Vec<Option<Box<Page<I, S>>>>;
 pub(crate) struct Rows<I, S> {
     dense: Vec<Row<I, S>>,
-    sparse: HashMap<Position, Entry<I, S>>,
+    sparse: Sparse<I, S>,
     map: Mapper<I>,
     copy_id: fn(&I) -> I,
     copy_score: fn(&S) -> S,
@@ -61,7 +119,7 @@ impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
         }
         Some(Self {
             dense: Vec::new(),
-            sparse: HashMap::new(),
+            sparse: Sparse::default(),
             map: mapper::<I>()?,
             copy_id: Clone::clone,
             copy_score: Clone::clone,
@@ -296,7 +354,7 @@ impl<I, S> Clone for Rows<I, S> {
     fn clone(&self) -> Self {
         let mut snapshot = Self {
             dense: Vec::new(),
-            sparse: HashMap::new(),
+            sparse: Sparse::default(),
             map: self.map,
             copy_id: self.copy_id,
             copy_score: self.copy_score,
