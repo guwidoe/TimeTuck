@@ -1,6 +1,6 @@
 {
   "kind": "real_world-count-states",
-  "status": "selected;modest native Sailing gain,Golfer flat;original Java qualification running",
+  "status": "selected;current original Java matrix proves1of2targets;modest Sailing improvement",
   "native_source_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
   "input_sha256": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
   "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
@@ -86,7 +86,7 @@
     "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
   },
   "full_native_gate": false,
-  "java_qualification_run": false,
+  "java_qualification_run": true,
   "upstream_method_credit": 0,
   "comparison_baseline": {
     "rust_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
@@ -96,7 +96,7 @@
     "current_java_throughput_targets_proven": 1,
     "current_java_report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173"
   },
-  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "policy": "22 actual same-source focused/application passes and Clippy;16 independently validated diagnostic native outputs;new actual original Java/Rust3seeds10s matrix validates all12 full outputs including initial states/structure/pins/scores. Current9848/df9b/1d5b. Sailing improved modestly from66641to67585 evaluations/s;Java75107to75375.1of2targets,more Sailing work remains. No equal-quality gate,upstream credit,full suite,unchanged repeats or additive component extrapolation.",
   "focused_verification": {
     "full_native_gate": false,
     "native_source_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
@@ -164,5 +164,116 @@
   },
   "new_original_native_tests": 1,
   "current_source_tests_credited": 22,
-  "tradeoffs": "On the measured64-bit target private counts shrink48to40bytes and IntCollector64to56bytes. More enum cases replace the former inline length;larger collectors retain the existing persistent tree. No arbitrary-scale memory or universal throughput claim."
+  "tradeoffs": "On the measured64-bit target private counts shrink48to40bytes and IntCollector64to56bytes. More enum cases replace the former inline length;larger collectors retain the existing persistent tree. No arbitrary-scale memory or universal throughput claim.",
+  "current_original_java": {
+    "report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a",
+    "proof_directory": "work/real_world-goal/count-states-current-java-qualification",
+    "independent_validation_sha256": "32a68a21b3c151bfabdd27719a8a1c404f6972e38866e1b82bd7e50e06084e0f",
+    "all_outputs_valid": 12,
+    "same_selected_release_artifact": true,
+    "targets_met": 1,
+    "required_targets": 2,
+    "targets": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "rust_over_java": 1.6556648872334432,
+        "throughput_target_met": true,
+        "additional_rust_throughput_percent_needed": 0,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 118575.40010084774,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.044705723
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 196321.12643663047,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000100266
+          }
+        }
+      },
+      {
+        "case": "sailing-trip-v1",
+        "rust_over_java": 0.8966459020901081,
+        "throughput_target_met": false,
+        "additional_rust_throughput_percent_needed": 11.52674625166641,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75375.26504979594,
+            "scores": [
+              [
+                -12,
+                -14800
+              ],
+              [
+                -6,
+                65900
+              ],
+              [
+                -10,
+                91600
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.055155355
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 67584.92252585528,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196500
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000900941
+          }
+        }
+      }
+    ]
+  }
 }

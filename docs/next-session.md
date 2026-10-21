@@ -35,9 +35,12 @@ Four rotating native pairs measured **Sailing +1.389% (3/4 faster),Golfer +.136%
 checks,4 RealWorld application cases and lib/example Clippy pass on9848e7c1/
 productiondf9b08e0/artifact1d5b9518. Original regression1 earns no upstream credit;
 no full suite or repeated checks. Exact source is integrated. Original Java
-qualification is live at count-states-current-java-qualification/session53313;
-preserve that job until terminal. Prior317eca04 is historical/source-stale,
-not relabeled;it proved1/2 targets,Golfer1.611318x/Sailing.887283x.
+qualificationeeee0130 is current:all12 outputs independently valid,
+**Golfer1.655665x/Sailing0.896646x Java;1/2 targets**.
+Sailing needs11.526746% more Rust throughput. Actual Sailing medians
+Rust67585/Java75375 evaluations/s versus prior66641/75107:modest improvement.
+Rust2/3 versus Java0/3 Sailing runs are feasible;quality stays separate.
+Prior317eca04 remains historical/source-stale. All jobs terminal/collected.
 [Evidence](../compat/observations/real_world-count-states.json).
 
 The preceding score-only private contribution storage remains in the selected
@@ -45,8 +48,9 @@ runtime. Cold complete ID/score views reconstruct all7 numeric shapes and may
 increase peak memory;original terminal Clone/callback/check phases remain.
 Its original qualification317eca04 and40 actual checks remain bound to817b1386/
 47fc4cef/1f5e4680. Do not repeat them or add the new native gain to Java ratios.
-Prepared v35 controls bind that preceding baseline only;update the next helper
-from actual9848/df9b/1d5b receipts and the new Java qualification after collection.
+Prepared v36 controls bind current9848/df9b/1d5b,22 actual checks/Clippy and
+originalJavaeeee0130. v35 is historical. Do not repeat completed checks or this
+matrix on unchanged inputs;v36 is prepared only,no unchanged job dispatched.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
