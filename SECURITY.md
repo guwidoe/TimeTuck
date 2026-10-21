@@ -9,10 +9,12 @@ owner through your existing private collaboration channel. Include the affected
 revision, a minimal reproduction, impact, and a proposed fix if available.
 Do not include real credentials, private schedules, or unrelated personal data.
 
-A public private-reporting route has not yet been verified for this repository.
-Before publication, configure and verify GitHub private vulnerability reporting
-or document another working private contact. Until then, do not treat a public
-issue as a confidential reporting channel.
+The selected public reporting route is
+[GitHub private vulnerability reporting](https://github.com/guwidoe/TimeTuck/security/advisories/new).
+It must be enabled and verified immediately after publication, when GitHub makes
+the feature available for a public repository. It is not active while this
+repository remains private. Until it is verified, use the existing private
+collaboration channel; public issues are not confidential reports.
 
 If you discover an exposed credential, notify its owner privately so it can be
 revoked or rotated. Removing the current file alone does not remove historical

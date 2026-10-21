@@ -1,5 +1,16 @@
 # Third-party notices
 
+## Bundled real-world application workloads
+
+Copyright (c) 2022-2026 Guido Witt-Dörring.
+
+The copyright owner authorized Apache-2.0 reuse of the specifically bundled
+application benchmark code, native model, settings and two approved public
+fixture snapshots on 2026-10-21. The [application notice](tests/application/real_world/NOTICE.md)
+identifies the scope and modifications. The repository's [LICENSE](LICENSE)
+supplies the terms. This grant does not extend to the remaining private
+application or its restricted fixtures. Timefold attribution below is separate.
+
 ## Timefold Solver Community reference
 
 Source: https://github.com/TimefoldAI/timefold-solver
