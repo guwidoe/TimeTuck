@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_commit": "acfbaaad908a5e964dae3344083173d985544b04",
-  "scope": "Current-tree redaction record; the entire captured Git graph was separately rewritten and audited. Private identity mappings and original history remain outside this repository.",
+  "scope": "Current-tree redaction and integration record; the captured Git graph was separately rewritten and audited. Private mappings and original history remain outside this repository.",
   "evidence_policy": "Original measurement/source hashes and dates remain historical. Candidate file checksums are redaction receipts, not evidence of solver or benchmark execution.",
   "required_attribution": "Author names and copyright notices retained; Timefold pin, licenses, upstream test identities and approved public fixture bytes retained.",
   "files": [
@@ -611,6 +611,16 @@
       "candidate_sha256": "f9caaf09c8cbb80e3f3f9cce7f211514083cd1ecdd606f15730b4f03a5b8cd2b"
     },
     {
+      "path": "crates/solver/src/incremental_stream.rs",
+      "original_sha256": "c44a5e506833d1cba67ad5b244fb37db68852ba62129de8481a203908c5eef0f",
+      "candidate_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream/join_equality_visit_tests.rs",
+      "original_sha256": "a54216aa319ae7f090d0b530ae62fb0af4b856b3bb10a539fa58499a513be590",
+      "candidate_sha256": "d70d783c0de251b36a74d0c126018677773aa0ae90c2530b3bc2983ae5d2f7dc"
+    },
+    {
       "path": "crates/solver/tests/real_world_application_regression.rs",
       "original_sha256": "373bbf941d2875aae771e7a602f5be5a5b0aed1c599e8b015fca38d510cbae67",
       "candidate_sha256": "da2a53802d288ee7522ce2c79a09eae3a6ff493c4bb2612c5b88f1497ad4a489"
@@ -683,7 +693,7 @@
     {
       "path": "docs/next-session.md",
       "original_sha256": "2336c60bdea5bf4b9044e0833a568cbac92dc45b232ffad68eb10cfadf1c2415",
-      "candidate_sha256": "5a6f2437cfa0645b16fbe167848e64cbc3beb81f89949ba49d3d5e8998475625"
+      "candidate_sha256": "c243b75721e9c25eb6c921873b9ab084a3ee3398c7dfdf54650383832620c1b7"
     },
     {
       "path": "docs/performance.md",
@@ -693,7 +703,7 @@
     {
       "path": "docs/public-release-preparation.md",
       "original_sha256": "08b98de67fc775fbfe09b048e63eaf5792a9da575deb0390e3dfd5ca97e89d3d",
-      "candidate_sha256": "1b6935c382478c2149b9cd96bfe5bf694d240ee2947569dd6dc770b0830a78df"
+      "candidate_sha256": "3f5d4b5a80d434c22de181110dd435580458acb798a44cd3de1ef9b2c9f03d66"
     },
     {
       "path": "docs/roadmap.md",
@@ -789,6 +799,40 @@
       "path": "tests/application/real_world/source-manifest.json",
       "original_sha256": "53e632f69a48c7f17c9251c0a98746d54f759780db9a762aa997f0f1a7de93b6",
       "candidate_sha256": "e6f057b700fa3b4338fbd62a74ed9f2f42e93de151fe0be54fea62309144b88d"
+    }
+  ],
+  "integrated_source_commit": "7cabf623ac139cd0b1eeae4983b99b4a1c49524b",
+  "integration_note": "A concurrent solver update was applied as a sanitized follow-up commit. Library source bytes match that original commit; its performance evidence keeps the original hashes and remains historical for the renamed source.",
+  "integrated_files": [
+    {
+      "path": "compat/observations/real_world-ordered-join-visit.json",
+      "source_sha256": "7572b26fcea4447f6f999217584b89bc9c9d5913753c41098f11f87b387f2793",
+      "candidate_sha256": "a00281682bbde4dac495a10d18abed3c0f0c1bf28f58a0b92147e896deb8881e"
+    },
+    {
+      "path": "compat/observations/real_world-selected-hash-branch-profile.json",
+      "source_sha256": "64d06f6b45a49968f50d8c54ee80bfe7d21202b421f909e80ea1f58a04328873",
+      "candidate_sha256": "0e532a3c5184ac0f0966a9c0aee43c7cd8dfbb4f81f754219be996905f2c8aec"
+    },
+    {
+      "path": "compat/observations/real_world-tree-equality-visit.json",
+      "source_sha256": "ce0127ff2739654da1e75ab18d0ac6d067a2f87eab3ef10762adc8c1f33433ca",
+      "candidate_sha256": "1a36ce2c78977fd5d62522d021003bc988b15535e8b2f66e2347d5e31f98fecf"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream.rs",
+      "source_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c",
+      "candidate_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream/join_equality_visit_tests.rs",
+      "source_sha256": "d70d783c0de251b36a74d0c126018677773aa0ae90c2530b3bc2983ae5d2f7dc",
+      "candidate_sha256": "d70d783c0de251b36a74d0c126018677773aa0ae90c2530b3bc2983ae5d2f7dc"
+    },
+    {
+      "path": "docs/next-session.md",
+      "source_sha256": "c1b615266c03dcb00acf627ae0816bcdf5388a8efefa781b4183c4517d4218e6",
+      "candidate_sha256": "c243b75721e9c25eb6c921873b9ab084a3ee3398c7dfdf54650383832620c1b7"
     }
   ]
 }

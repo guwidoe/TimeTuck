@@ -73,8 +73,9 @@ The initial filter covered 1,279 commits. Ninety private editor checkpoint refs
 were archived and excluded from the release mirror. The completed mirror audit
 covered **1,194 commits across 132 branch refs** and every stored Git object,
 including tree filenames and unreachable objects, with **zero forbidden-identity
-findings**. A final documentation commit and bundle check are recorded in the
-private preparation receipts. The public [redaction record](../compat/public-redaction.json)
+findings**. The final export includes a sanitized concurrent solver update and follow-up
+documentation; its 1,197 commits and bundle checks are recorded in the private
+preparation receipts. The public [redaction record](../compat/public-redaction.json)
 keeps neutral current paths and separate original/candidate checksums.
 
 Preparation verification:
@@ -87,9 +88,13 @@ Preparation verification:
   checks successfully, and the README example returns 243 evaluations and
   `0hard/-3soft`. The renamed Java benchmark compiles against the pinned Community
   artifacts. No full Rust suite, benchmark matrix or Java solver suite was run.
-- All 724 native production source files are byte-identical to the captured
-  source. The pin, provenance ledger, licenses, Cargo lockfile and dashboard UI
-  assets are unchanged. All existing copyright lines are retained. The previous
+- The initial anonymization preserved native production bytes. Concurrent solver
+  commit `7cabf623ac139cd0b1eeae4983b99b4a1c49524b` was then included through a
+  sanitized patch. All 724 library source/test files match that source exactly.
+  Its existing 41-pass focused join log was checksum-verified and retained; the
+  four application regressions were rerun on the combined candidate. The pin,
+  provenance ledger, licenses, Cargo lockfile and dashboard UI assets are
+  unchanged. All existing copyright lines are retained. The previous
   4,414-case/2,371-fixture attribution audit is reused because its inputs are
   unchanged; this is not new upstream-method test credit.
 - The four approved application problem/manifest files retain their original
@@ -103,7 +108,7 @@ Preparation verification:
   recorded in private receipts; no unresolved credential finding is accepted.
 
 Focused correctness evidence binds to application input SHA-256
-`4f1b37e056939c21db5aec3076f8e0f83f33ae21248448cff8787fa75ae0a5d9`.
+`f4c66116030f2ff04b76944d83acc391ebb004425e857d8b9887f7b7616225f3`.
 It does not refresh historical throughput qualifications. The two absent
 historical diagnostics and other ignored raw-output limitations remain explicitly
 recorded in [history preparation](public-history.md#retained-archive-limitations).
