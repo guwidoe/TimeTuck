@@ -120,13 +120,23 @@ no application/Clippy/full suite/Java or integration credit. Close it unchanged.
 Actual compiled group-summary handlers grew22,871B to43,483B;that is code-size
 evidence,not causal proof of cache misses or an isolated CAS cost.
 Proof: `compat/observations/real_world-local-group-cell-diagnostic.json`.
-A separate local-only outline refinement preserves the Atomic finish path and
-returns full old/new numeric summaries from a shared local apply routine. Exact
-builtin I/K conversion gates make moved private locals free of user Clone/Drop.
-Mapping callbacks,common mutation/poison/history and downstream guard phases stay.
-It also fixes Default inference and sealed-policy visibility. Prototype
-`work/real_world-goal/local-group-cell-outlined-next-prototype/`;actual focused
-checks and v30 native controls active. No speed claim or source credit yet.
+The separate local-only outline refinement288cb/b5a8/890954 is also closed.
+Atomic finish path unchanged;Local shared apply returns full old/new numeric
+summaries after remaining exact builtin IK locals drop. Mapping,mutation,poison,
+history and downstream guards remain;Default inference/visibility issues fixed.
+Actual4 named focused cases pass including Default inference;wrapper terminated
+143 after completed test log,so separate collection verifies source/log and records
+missing child exit receipt. No rerun or fabricated successful wrapper receipt.
+Original3s controls S+6.241%/G-2.957% had substantial Sailing drift. One longer
+10s native-only control used same artifacts: S-2.783%,all4slower;G-1.055%,2/4faster.
+All32 outputs independently valid;no application/Clippy/full suite/Java or main
+credit. Raw worker prose erroneously says3s;actual16commands/child summaries and
+collector assert10s. Explicit sidecar corrects note without altering raw evidence.
+Actual handlers23770B plus32432B local helpers;not a causal speed explanation.
+Proof: `compat/observations/real_world-outlined-local-group-cell.json`.
+Both local-cell sources are closed unchanged;all jobs terminal/collected. No
+current-main test or throughput credit;3fd/e40 and originalJava5725 unchanged.
+Goal incomplete. Reuse current profile and avoid retrying these kernels unchanged.
 
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,

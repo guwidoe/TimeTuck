@@ -1,0 +1,163 @@
+{
+  "kind": "real_world-outlined-local-group-cell",
+  "generated_at": "2026-10-21T14:48:47.238753+00:00",
+  "status": "closed without integration;long controls regress",
+  "native_source_digest": "288cbbf7317bd0e2bfd427283ba52af43d1e8417717b8755effa1b957c9d050b",
+  "input_sha256": "b5a8f76ec3da51ac1e6220f61a126cb97d58d60c80b1014bae2baa448bbe25f4",
+  "source_snapshot": "42e3d886cd96ba54e04b3ab5c3f35d87b91fe4ed010c5cc78fac5d1fca4ecf52",
+  "artifact_sha256": "89095404c96412d9f0c89e5850fe876f2e54bb028c219b2f5fc374e2fa9ceec7",
+  "mechanism": "Refine private local collector-cell kernel by outlining Local apply into shared IKP routine returning both full summaries. Atomic finish path unchanged. Kernel conversion explicitly checks exact builtin I/K,so private locals moved before numeric staging have no user Clone/Drop hooks. Original mapping callbacks,scalar updates,arithmetic,poison/reset,guards,FIFO,shared/weak fallback,captures and undo remain. Also Atomic-specific Default preserves inference;sealed cell reset hook removes visibility leakage. Whole combined refinement,not isolated CAS or outlining estimate.",
+  "focused_checks": {
+    "tests_passed": 4,
+    "scope": "Same4 relevant original cases on actual new source,plus public Default inference assertion. Includes independent full multiset oracle and actual callback/work/failure/recovery comparison.",
+    "launch_command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "local_group_cell",
+      "--",
+      "--color=never"
+    ],
+    "proof_directory": "work/real_world-goal/local-group-cell-outlined-focused1",
+    "collection_receipt_sha256": "867415e81aa58ee6ce54f08805fb4489c67256da2c566bd70fdbd40d441c38f9",
+    "log_sha256": "8fb444956e3a628b1536dd8ea8ad1b9780348a6a4dd4bbc8b218dbbecf4a68ef",
+    "wrapper_exit_code": 143,
+    "cargo_exit_code": null,
+    "limit": "Actual log records completed compile and all4 named passes. Wrapper terminated after tests before writing original receipt. Collection verifies captured source manifest against unchanged prototype/build mirror. No fabricated successful wrapper status or original build-receipt,old log rekey or test rerun."
+  },
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/local-group-cell-outlined-next-results/real_world-local-group-cell-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            55254.765795855004,
+            50688.78257371607,
+            62857.753402577204,
+            52420.465768438255
+          ],
+          "trial": [
+            53971.67752776604,
+            51094.36615405855,
+            60423.901767327334,
+            61054.97096842578
+          ]
+        },
+        "medians": {
+          "baseline": 53837.61578214663,
+          "trial": 57197.789647546684
+        },
+        "gain_pct": 6.241312540653654
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            178807.7274843612,
+            178537.27294936022,
+            179650.77584048078,
+            177197.02886596535
+          ],
+          "trial": [
+            174597.02717970664,
+            171035.82013374692,
+            173421.62997534164,
+            173356.32766140398
+          ]
+        },
+        "medians": {
+          "baseline": 178672.50021686073,
+          "trial": 173388.97881837282
+        },
+        "gain_pct": -2.957098261945812
+      }
+    }
+  },
+  "long_timing_control": {
+    "reason": "Original3s Sailing controls drifted50.7k-62.9k and apparent+6.241% had2/4 faster pairs. One longer native-only diagnostic used same cached artifacts to investigate variance.",
+    "configuration": {
+      "cases": [
+        "social-golfer-32x8x10-v1",
+        "sailing-trip-v1"
+      ],
+      "pairs_per_case": 4,
+      "seconds": 10,
+      "seed": 7,
+      "cpu_affinity": [
+        2,
+        3
+      ],
+      "order": "serial rotating baseline/trial",
+      "score_gate": "complete independent original validation;no equal-score gate"
+    },
+    "valid_outputs": 16,
+    "no_build_or_test_rerun": true,
+    "summary": {
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            180631.77953864788,
+            175466.82415728347,
+            172264.61163493432,
+            177423.44228784752
+          ],
+          "trial": [
+            175054.0282781798,
+            176375.94990447347,
+            174113.49371179353,
+            167077.7983293318
+          ]
+        },
+        "medians": {
+          "baseline": 176445.1332225655,
+          "trial": 174583.76099498666
+        },
+        "gain_pct": -1.0549297640479072,
+        "pairs_faster": 2
+      },
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            53433.6691634949,
+            55029.58286591426,
+            61583.52111114144,
+            63658.274048816485
+          ],
+          "trial": [
+            52810.14784187934,
+            52716.53959232129,
+            60557.1057464863,
+            60608.139906218035
+          ]
+        },
+        "medians": {
+          "baseline": 58306.55198852785,
+          "trial": 56683.62679418282
+        },
+        "gain_pct": -2.7834353756064134,
+        "pairs_faster": 0
+      }
+    },
+    "receipt_sha256": "77dd867313f8f3ef9dff4b11c8b03851c1913a799279ea89a9346aef33eed17d",
+    "controls_sha256": "9e36598911cceebc10c176b39376684a32e2f281f48fc698e611601b4017085e",
+    "raw_note_erratum": "work/real_world-goal/local-group-cell-outlined-long-controls/raw-note-erratum.json",
+    "proof_directory": "work/real_world-goal/local-group-cell-outlined-long-controls"
+  },
+  "compiled_code_observation": {
+    "path": "work/real_world-goal/local-group-cell-outlined-next-results/compiled-group-layout.json",
+    "sha256": "8e5d10e1d07b2ed7ae6117660315d1939ce4b850655f2dd620ad07630236f8f0",
+    "handler_bytes": 23770,
+    "local_helper_bytes": 32432,
+    "limit": "Handler size near baseline22871B,with separate local helpers. Static size does not prove cause or speedup."
+  },
+  "receipts": {
+    "receipt.json": "f8929f0c6e0c64a6826a06c0afd88936ca41395cb9cb1b83ce194c0a5e7c2168",
+    "build-receipt.json": "7cca60146853de482be509db93b99c5c949c2fb3a16f46c8dfe6c592b8af2a1f",
+    "controls.json": "03a2650e05b1a50d1bb54fc7820b6b043d22be639e601d7d7985606209e52c98"
+  },
+  "policy": "First3s controls S+6.241%/G-2.957% were mixed/noisy. Longer10s native controls S-2.783%,all4slower;G-1.055%,2/4faster;all32 outputs valid. Preserve both configurations/statistic/runs. No application,Clippy,full suite,Java or main credit. Do not repeat unchanged source or infer an isolated CAS/outline gain. Main daa8a18 unchanged;goal active/incomplete.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}
