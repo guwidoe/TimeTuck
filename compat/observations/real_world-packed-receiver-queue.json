@@ -1,0 +1,95 @@
+{
+  "kind": "real_world-packed-receiver-queue",
+  "generated_at": "2026-10-21T17:00:59.967696+00:00",
+  "status": "closed;not integrated;every native pair slower",
+  "native_source_digest": "6d5a922ecd8d1723aef2ad11826d56b15f3ef84c924a1b5eebc4482c7de8f12f",
+  "input_sha256": "149f1e08bd415220c1a52a27b8f76fafc8c8ce48d34ecd05e7b2e4ac2869c11b",
+  "source_snapshot": "2b9f8457d7875dfa77a9de139d61be7fd961cf92b531bf76c6887d65c4a176aa",
+  "artifact_sha256": "1c3e9b4ac3d50f0b27c2ee8fb64f1245eb9b8b93d05a734f84be073ab446c12d",
+  "mechanism": "Reuse original event kinds while packing node+direction into one usize receiver;out-of-range synthetic full-width nodes use a boxed Wide escape preserving every node/index/payload bit.32B queue cell versus40B,unpack on delivery. No coalescing,event/callback/guard/FIFO/fanout/owner/model/settings change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/packed-receiver-queue-next-results/real_world-packed-receiver-queue-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63788.68705975463,
+            64276.184900791115,
+            63912.46533818045,
+            63972.40225281628
+          ],
+          "trial": [
+            61766.95356511371,
+            62538.19097850899,
+            62985.637791333626,
+            63134.78604054182
+          ]
+        },
+        "medians": {
+          "baseline": 63942.433795498364,
+          "trial": 62761.91438492131
+        },
+        "gain_pct": -1.8462222041041088
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            188744.20816549863,
+            189318.16422593824,
+            187550.9750354284,
+            186485.92078713008
+          ],
+          "trial": [
+            184208.0996479142,
+            185929.75561113437,
+            185590.22773744212,
+            186263.28193388853
+          ]
+        },
+        "medians": {
+          "baseline": 188147.5916004635,
+          "trial": 185759.99167428823
+        },
+        "gain_pct": -1.2690037145122735
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "stream_graph::event_queue::tests",
+        "stream_graph::group_summary_lane::tests",
+        "stream_graph::join_output::",
+        "stream_graph::propagation_workspace_tests",
+        "stream_graph::membership_filter::shared_forward_tests"
+      ],
+      "tests_passed": 23,
+      "seconds": 123.22959538199939,
+      "native_source_digest": "6d5a922ecd8d1723aef2ad11826d56b15f3ef84c924a1b5eebc4482c7de8f12f",
+      "log_sha256": "42f7e96ee0296a58823410cfb1f70723a124d0203812cefe8dcc1b9c68f0f193",
+      "receipt_sha256": "ce550e07ba29ef4f5a16da714f33862e962715a6dd1a8bd77b7455d4f48fc4fd",
+      "scope": "Actual unchanged frozen source;MAX and compact receivers,all four original payload kinds,indices,Rc/FIFO/growth,summary/join/shared forward/rollback/full/current/nested/error/overflow/retry. No main test credit."
+    }
+  ],
+  "receipts": {
+    "receipt.json": "07e54d1de31615952900ce52b4ae11489be9ab930b0b04a5d65d1c19dbb2f11f",
+    "build-receipt.json": "c8197e3b8bbb053fc57b51c8be8651cca3b1195233a4d99ea31966d9285ed8c0",
+    "controls.json": "efa72dbd2491d729f1236a48dc60bc8521b09152247d5de05748f0701242f07f",
+    "baseline-binding.json": "ea4f7c6ad690d0830bc49b5aa82dac8d020fcb13a7dadea8e224bd5dfc9c7b96"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "16 independently valid outputs,Sailing-1.84622/Golfer-1.26900%,every4pair slowerboth. Close with23 focused passes,no integration/retry/app/Clippy/full/Java. Alljobs terminal collected;selected runtimefc93b33 unchanged,originalJava5725historical/stale."
+}

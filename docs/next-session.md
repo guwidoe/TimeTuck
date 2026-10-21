@@ -60,13 +60,22 @@ The fused collector-summary lookupaeb600/36622 is closed,not integrated:
 succeeded. The direction-in-tag queue7c9/dfe830 is closed:16valid outputs,
 Sailing-2.386%/Golfer-4.100%,all4pairs slowerboth. Corrected cfg(test) sourceb4a395
 passes23 focused cases;first4de compilefailure retained,zero executed. No
-integration,app/Clippy/finalreleasebridge/full/Java/retry. A distinct packedreceiver
-prototype6d5a922/149f1e now packs node+side into oneusize,keeping the original
-payload variants plus boxed escape for full-width synthetic node IDs. It retains
-32Bcells/FIFO/fullpayloads/Rc phases. Actual runner-a job29112 is live;local
-focused checks are next. Preserve live handles in ignored active state;no restart
-on observation timeout. Main selectedruntime remainsfc93b33/0b4fcc/55e146/5a1911.
-Proof: `compat/observations/real_world-directional-queue.json`.
+integration,app/Clippy/finalreleasebridge/full/Java/retry. The packed receiver
+alternative6d5a922/149f1e is also closed:23 actual focused passes,16 valid outputs,
+Sailing-1.846%/Golfer-1.269%,every pair slowerboth. No further checks or integration.
+Do not retry either queue representation unchanged. Proofs:
+`compat/observations/real_world-directional-queue.json` and
+`compat/observations/real_world-packed-receiver-queue.json`.
+A distinct consumed collector value arena is now under implementation in ignored
+`owned-collector-arena-next-prototype`:pages retain canonical Arc keys and arena
+indices;ordered scalar undo records reach stable slots directly,structural undo
+retains retired slots until commit/rollback. Full snapshots copy only live cells;
+wide positions retain complete addresses. This changes private value allocation
+identities and retains high-water slot capacity. Check original live handles in
+ignored active state;no restart on timeout. No pass/speed/integration credit yet.
+Main selectedruntime remainsfc93b33/0b4fcc/55e146/5a1911.
+Separate README/docs edits appeared from another writer;leave them untouched.
+
 
 The preceding consumed-graph collector backend owns each mutable integer
 collector in a box and records scalar and structural undo in one ordered journal.
