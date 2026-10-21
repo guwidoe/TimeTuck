@@ -1,0 +1,98 @@
+{
+  "kind": "real_world-ordered-join-visit",
+  "status": "Closed unintegrated: Sailing +0.391% (3/4 faster), Golfer -0.859% (1/4 faster);flat/mixed.18 focused checks and16 independent valid outputs. Subsequent model inspection confirms both frozen workloads declare equality joins,so this ordered feature is not a useful target for the active goal. No retry,application/Clippy/Java/full suite.",
+  "native_source_digest": "a8a5ec4df8c6ccd26dee4c5fd065b8f8883237cbb9a1b95aad05347958ee6a90",
+  "input_sha256": "bbaf27587bab758181ecde2955918e6dd6c7aa33c58be4df3c9a3e86debb2da9",
+  "source_snapshot": "a120d8d812d6a0a94c5019e214e05ea9f49309a9e55cef32aed26ff7b39a9fb0",
+  "artifact_sha256": "af7aa4733e51eb5bb7033bdba0d6469edb07ed04b42cd38d94a90878d771cada",
+  "mechanism": "Direct ordered fixed numeric bucket visitor removes the composite iterator while preserving key/ID order,canonical references,reserve/Clone/Drop/projection/panic/nested snapshot phases. Custom keys retain their original iterator.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/ordered-join-visit-next-results/real_world-ordered-join-visit-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65946.31375368305,
+            65195.591085239226,
+            66295.8555866348,
+            66747.44119077423
+          ],
+          "trial": [
+            66421.9496593114,
+            66002.98058111574,
+            66857.20050768206,
+            66337.81879721594
+          ]
+        },
+        "medians": {
+          "baseline": 66121.08467015892,
+          "trial": 66379.88422826366
+        },
+        "gain_pct": 0.39140246926641087
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197369.19368080096,
+            197673.04607853875,
+            198999.09266530743,
+            198571.11613097627
+          ],
+          "trial": [
+            196922.26346855843,
+            195917.65409657205,
+            199458.76854688415,
+            194556.69201094707
+          ]
+        },
+        "medians": {
+          "baseline": 198122.0811047575,
+          "trial": 196419.95878256526
+        },
+        "gain_pct": -0.8591280248526401
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 18,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::join_equality_visit_tests",
+      "incremental_stream::join_fixed_index::join_index_capture_tests",
+      "incremental_stream::consuming_join_rows_tests",
+      "stream_graph::join_output::tests"
+    ],
+    "proof_directory": "work/real_world-goal/ordered-join-visit-focused1",
+    "receipt_sha256": "8d0135e1ef998dfcf925f259204317e765fb7460b11de48934cb4d296821ac1b",
+    "log_sha256": "ec7a95298f6906ce3a9c24d883b1403e689d85acd0081e75859f8071aea024d9",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "37bac42170b3e3ac7322c7c08b0952a8ac3fb88759284d5dc14feb1a2ea604fb",
+  "receipts": {
+    "receipt.json": "8b79e9a0cc412c8489e4f6101488454e93880f0cf9f07b8a13306216ba5be556",
+    "build-receipt.json": "1c6040366ee8435f92cb14430940244bc3d5e011e0116a5a3d39352c0bbf3ecf",
+    "controls.json": "2c5158ff0b2357f0dc5fb42668079eb2927cfa3e275030729efe0173b8b688f9",
+    "baseline-binding.json": "559dd3b0fae040cd6a0dd564c0e9583067e0e1c3d94029ce7ab4dc391adcbaae"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+    "production_digest": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+    "artifact_sha256": "af77f9f3fdf4001b977530b8c63d37c10563d3148ddbf95497fd03e4f8ca57d1",
+    "source_snapshot": "892d83466115da166348ab1e3ecccc536168ec28f163072aac9b11e32cce656a"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios."
+}

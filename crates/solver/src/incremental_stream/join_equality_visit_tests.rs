@@ -316,3 +316,126 @@ fn equality_visit_custom_key_falls_back_and_all_ordered_relations_preserve_match
         }
     }
 }
+
+fn tree_node(legacy: bool) -> Node {
+    let mut node = JoinNode::new(
+        |r: &Row| {
+            TRACE.with(|t| t.borrow_mut().push(("left", r.key, r.value)));
+            (r.key, usize::MAX)
+        },
+        |r: &Row| {
+            TRACE.with(|t| t.borrow_mut().push(("right", r.key, r.value)));
+            (r.key, usize::MAX)
+        },
+    );
+    for id in 0usize..131 {
+        node.apply_left(TupleChange::put(
+            id,
+            Row {
+                key: id % 3,
+                value: id as i64,
+            },
+        ));
+        node.apply_right(TupleChange::put(
+            id,
+            Row {
+                key: id % 3,
+                value: -(id as i64),
+            },
+        ));
+    }
+    node.left.disable_tree_visit = legacy;
+    node.right.disable_tree_visit = legacy;
+    assert!(node.left.fixed_index.is_none() && node.right.fixed_index.is_none());
+    assert_eq!(node.left.uses_tree_equality_visit(), !legacy);
+    node
+}
+
+fn tree_history_scenario(legacy: bool) -> (Vec<(&'static str, usize, i64)>, Vec<Changes>) {
+    FAIL_CLONE.with(|n| n.set(0));
+    CLONES.with(|n| n.set(0));
+    let mut node = tree_node(legacy);
+    TRACE.with(|t| t.borrow_mut().clear());
+    let full = node.checkpoint();
+    let outer = node.begin_journal_checkpoint();
+    let mut changes = Vec::new();
+    changes.push(normalize(
+        node.apply_left(TupleChange::put(0usize, Row { key: 0, value: 900 })),
+    ));
+    changes.push(normalize(
+        node.apply_left(TupleChange::put(0usize, Row { key: 2, value: 901 })),
+    ));
+    changes.push(normalize(
+        node.apply_right(TupleChange::put(64usize, Row { key: 2, value: 902 })),
+    ));
+    let inner = node.begin_journal_checkpoint();
+    changes.push(normalize(node.apply_right(TupleChange::retract(127usize))));
+    changes.push(normalize(node.apply_left(TupleChange::retract(63usize))));
+    changes.push(normalize(
+        node.apply_left(TupleChange::put(63usize, Row { key: 9, value: 903 })),
+    ));
+    node.commit_journal_checkpoint(inner);
+    let saved = node.capture_journal_checkpoint(outer.as_ref()).unwrap();
+    node.restore_checkpoint(outer);
+    let install = node.begin_journal_checkpoint();
+    node.restore_checkpoint(saved);
+    node.restore_checkpoint(install);
+    node.restore(full);
+    drop(node);
+    (TRACE.with(|t| t.borrow().clone()), changes)
+}
+#[test]
+fn tree_equality_visit_keeps_clone_drop_projection_order_nested_captures_and_full_restore() {
+    assert_eq!(tree_history_scenario(false), tree_history_scenario(true));
+}
+#[test]
+fn tree_equality_visit_clone_failures_leave_staging_healthy_and_preserve_rollback() {
+    fn run(legacy: bool, after: usize) -> Vec<(&'static str, usize, i64)> {
+        FAIL_CLONE.with(|n| n.set(0));
+        CLONES.with(|n| n.set(0));
+        let mut node = tree_node(legacy);
+        TRACE.with(|t| t.borrow_mut().clear());
+        let saved = node.begin_journal_checkpoint();
+        FAIL_CLONE.with(|n| n.set(CLONES.with(Cell::get) + after));
+        assert!(
+            catch_unwind(AssertUnwindSafe(
+                || node.apply_left(TupleChange::put(0, Row { key: 2, value: 900 }))
+            ))
+            .is_err()
+        );
+        FAIL_CLONE.with(|n| n.set(0));
+        assert!(!node.is_poisoned());
+        node.restore_checkpoint(saved);
+        drop(node);
+        TRACE.with(|t| t.borrow().clone())
+    }
+    for after in [1, 2, 3, 40] {
+        assert_eq!(run(false, after), run(true, after));
+    }
+}
+#[test]
+fn tree_equality_visit_preserves_full_pair_ids_canonical_refs_and_reservation_before_delivery() {
+    let mut side = JoinSide::<(usize, usize), i64, (usize, usize)>::new();
+    for (id, key) in [
+        ((0, 0), (0, usize::MAX)),
+        ((0, usize::MAX), (0, usize::MAX)),
+        ((usize::MAX, 0), (1, usize::MAX)),
+        ((usize::MAX, usize::MAX), (0, usize::MAX)),
+        ((63, 64), (1, usize::MAX)),
+    ] {
+        side.install_projected(id, Some((key, 7)), false);
+    }
+    let saved = side.clone();
+    for side in [&side, &saved] {
+        for key in [(0, usize::MAX), (1, usize::MAX), (2, usize::MAX)] {
+            let (count, ids) = side.matching_ids_sized(&key, JoinComparison::Equal);
+            let expected: Vec<_> = ids.map(|id| (*id, id as *const (usize, usize))).collect();
+            let mut actual = vec![((7, 7), std::ptr::null())];
+            side.for_each_tree_equal(&key, &mut actual, |out, id| {
+                assert!(out.capacity() > count);
+                out.push((*id, id as *const (usize, usize)));
+            });
+            assert_eq!(&actual[1..], expected.as_slice());
+        }
+    }
+}

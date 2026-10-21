@@ -20,7 +20,7 @@ compatibility gaps so the pending backlog shrinks. Keep performance important,
 commit occasionally and reuse unchanged verification. Do not create new subagents. Distribute builds/tests across available machines. Use local and runner-a; runner-c remains parked
 after its actual SSH timeout. Preserve live runs across observation timeouts.
 
-## Active RealWorld throughput goal — 2026-10-21
+## Active RealWorld throughput goal — 2026-10-22
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
 Preserve same-machine serial rotating Java/Rust pairs,seeds7/11/23 x10s,CPUs2,3,
@@ -29,14 +29,45 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-The selected runtime changes private numeric score-position hashing:each input
+The selected runtime now visits an unbounded equality join's original exact
+bucket directly. It removes the fixed/equality/range composite iterator while
+retaining one lookup,full reservation,canonical ID refs,ID/payload Clone/Drop/
+projection and poison/error phases. Fixed-index and ordered routes remain.
+Four rotating native pairs measured **Sailing+.820%(4/4 faster)/Golfer-.155%
+(2/4,flat)**;all16 full outputs independently validate. Actual41 focused join
+checks+4 application cases and lib/example Clippy pass on **e29320c0/production
+bb97be0d/artifact3da1f03d**. Exact frozen source is integrated. Three original
+native tests add no upstream credit. No full suite or repeated successful checks.
+Fresh original default Java/Rust qualification **3954caba** is current:all12
+outputs independently validate,original policy/toolchain/dependency/class
+checksums retained. **Golfer1.685278x/Sailing.912571x Java,1/2 targets.** Actual
+Sailing medians Rust68410/Java74964 evaluations/s;Rust needs **9.5805%** more
+throughput. Rust2/3 versus Java0/3 Sailing runs are feasible;quality stays separate.
+No gains inferred from native controls. Historicaleeee is preserved,not rekeyed.
+Worker receipt.reason retains an old compact-frequency label only;all hashes,
+commands,artifact identity and45-check bindings prove this equality visitor.
+[Evidence](../compat/observations/real_world-tree-equality-visit.json).
+
+A new branch-miss diagnostic of preceding9ad8/2962/af77 completed with one valid
+full output,zero lost samples. Outer counters show.836% misses overall and include
+profiler startup/record overhead. It is not comparative timing or precise branch
+attribution. Group summary contributes2.83% of miss samples versus9.09% of the
+separate cycle profile;generic join matching6.03% misses guided the new visitor.
+[Diagnostic](../compat/observations/real_world-selected-hash-branch-profile.json).
+The ordered fixed-index visitor passed18 checks/16valid outputs but was flat:
+S+.391%/G-.859%. Both frozen application declarations use equality joins,so the
+ordered feature does not target this goal;closed/unintegrated,no retry/app/Clippy/
+Java/full suite. Its sourcea8a5/bbaf and snapshot a120d8d8 remain preserved.
+[Ordered trial](../compat/observations/real_world-ordered-join-visit.json).
+
+The preceding selected runtime changes private numeric score-position hashing:each input
 word is multiplied before XOR into the rotated accumulator,shortening the
 multiply dependency chain. Full Position equality,final avalanche,cold sorting,
 callbacks,scoring and rollback remain. Four rotating native3s pairs measured
 **Sailing +1.317% / Golfer +.231%,3/4 pairs faster on both**;all16 full outputs
 independently validate. Actual37 focused+4 application checks and lib/example
-Clippy pass on **9ad89661/production2962a3bf/artifactaf77f9f3**. The exact frozen
-source is integrated. New original hash-distribution regression earns no upstream
+Clippy passed on preceding **9ad89661/production2962a3bf/artifactaf77f9f3**. That exact source
+remains as the base of the equality visitor. New original hash-distribution regression earns no upstream
 method credit. No full suite or repeated checks. OriginalJavaeeee is historical/
 source-stale;it last proved Golfer1.655665x/Sailing.896646x on preceding9848,
 **1/2 targets then**. Do not add native gains to those ratios or qualify current
@@ -82,14 +113,14 @@ fixed and rustfmt completed before final snapshot7e1253ea. Exact capsule,actual
 final checks and controls in small-pair-inputs-next-results;dispatch58857 terminal0.
 [Evidence](../compat/observations/real_world-small-pair-inputs.json).
 
-Prepared v37 controls bind actual selected9ad8/2962/af77,41 same-source checks+
-Clippy,16 independently valid original native outputs. HistoricalJavaeeee remains
-explicitly source-stale;no current-Java credit or extrapolated gain. v36 binds the
-preceding9848/df9b/1d5b only. All owned build/test/measurement/profile jobs are
-terminal and collected. Dashboard server PID24571 serves8765;backend report9749
-finished with41 actual current-source checks and HTTP200,all3 freshness hashes
-matched. UI rendering unchanged. Goal incomplete;fresh original3seed10s Java/Rust
-proof is still required before claiming current parity on both cases.
+Prepared v37 native controls still bind preceding9ad8/2962/af77,41checks and
+its16 valid native outputs. Later controls must use actual e293/bb97/3da1 receipts,
+45 checks and current originalJava3954caba;never rekey old bindings. All owned
+build/test/profile/timing/qualification jobs are terminal and collected. Dashboard
+PID24571 serves8765;backend refresh95562 finished with current45 checks and fresh
+Java3954,HTTP200/all3 freshness hashes matched. UI rendering unchanged. Goal remains incomplete:1/2 throughput targets.
+Do not repeat completed checks or original qualification on unchanged inputs.
+No new agents,runner-c parked.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and

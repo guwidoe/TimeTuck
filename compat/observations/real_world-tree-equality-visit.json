@@ -1,0 +1,284 @@
+{
+  "kind": "real_world-tree-equality-visit",
+  "status": "selected/integrated;45 actual same-source checks+Clippy;original Java3954caba current,all12 full outputs independently valid. Golfer1.685278x/Sailing.912571x;1/2 targets. Goal incomplete.",
+  "native_source_digest": "e29320c0bb882dafec4f6b085473aae1fd2a3e37895f75deb0ba850d8ece5dd2",
+  "input_sha256": "bb97be0d7a3810d1fd283db03d02bba370f168b84f29bfbcb7600f35138aa452",
+  "source_snapshot": "f168d3e497d99efe6f75ba084e5ccc7bc863436727d6cc223b58ca55a63a6b93",
+  "artifact_sha256": "3da1f03dc03cdb2e8c865d0635c9b7dc71bda0ca414699661523c93fcfa055f6",
+  "mechanism": "Unbounded equality joins traverse the original exact SnapshotMap bucket directly instead of constructing fixed/equality/range composite iterators. Preserve one lookup,full reservation,canonical key references,all ID/payload Clone/Drop/projection/panic and poisoned installation phases,nested snapshots and rollback. Fixed equality/custom fixed indexes and ordered comparisons retain original paths;no storage/model change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/tree-equality-visit-next-results/real_world-tree-equality-visit-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66366.56094293129,
+            66033.74919807492,
+            65971.8490970384,
+            66398.90796786449
+          ],
+          "trial": [
+            66482.92217145856,
+            67002.9519414306,
+            66197.6036072947,
+            67544.27012314505
+          ]
+        },
+        "medians": {
+          "baseline": 66200.1550705031,
+          "trial": 66742.93705644459
+        },
+        "gain_pct": 0.8199104448674222
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197036.162005181,
+            196159.48855818802,
+            196952.57853420987,
+            195210.61229702213
+          ],
+          "trial": [
+            197388.42781062887,
+            196896.46467817656,
+            195606.03651094934,
+            195043.96534290886
+          ]
+        },
+        "medians": {
+          "baseline": 196556.03354619895,
+          "trial": 196251.25059456297
+        },
+        "gain_pct": -0.15506161074639868
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 41,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::join_",
+      "incremental_stream::consuming_join_rows_tests",
+      "stream_graph::join_output::tests"
+    ],
+    "proof_directory": "work/real_world-goal/tree-equality-visit-focused1",
+    "receipt_sha256": "41c234eb94e0428c768c9de5e83a54550403f3e79cc399688f5e00023e0f89d9",
+    "log_sha256": "f657776e15811f5c3f016428f07f8afc6ce2a39813879ec8c87ff35a47a36d57",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "eca3a67baae9c4d3cce46c3151b1b0a53080915c934cf836154abf3250389a79",
+  "receipts": {
+    "receipt.json": "a0433e024d6b74bd36558931aa9cb9fa6cf0c99f107379d873d9732e3785f2df",
+    "build-receipt.json": "1065681b679d605d2745ffb7c3dbb2979a1fda720ba8fdcfefa812be1c10abca",
+    "controls.json": "fbf685738ef2192e78e016d9a6a0321f472217182a37f9d35422fb5ec3828501",
+    "baseline-binding.json": "559dd3b0fae040cd6a0dd564c0e9583067e0e1c3d94029ce7ab4dc391adcbaae"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": true,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+    "production_digest": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+    "artifact_sha256": "af77f9f3fdf4001b977530b8c63d37c10563d3148ddbf95497fd03e4f8ca57d1",
+    "source_snapshot": "892d83466115da166348ab1e3ecccc536168ec28f163072aac9b11e32cce656a"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "focused_verification": {
+    "full_native_gate": false,
+    "native_source_digest": "e29320c0bb882dafec4f6b085473aae1fd2a3e37895f75deb0ba850d8ece5dd2",
+    "production_digest": "bb97be0d7a3810d1fd283db03d02bba370f168b84f29bfbcb7600f35138aa452",
+    "actual_current_source_tests_passed": 45,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "incremental_stream::join_",
+          "incremental_stream::consuming_join_rows_tests",
+          "stream_graph::join_output::tests"
+        ],
+        "tests_passed": 41,
+        "exit_code": 0,
+        "seconds": 85.99629104300402,
+        "proof_directory": "work/real_world-goal/tree-equality-visit-focused1",
+        "log_sha256": "f657776e15811f5c3f016428f07f8afc6ce2a39813879ec8c87ff35a47a36d57",
+        "receipt_sha256": "41c234eb94e0428c768c9de5e83a54550403f3e79cc399688f5e00023e0f89d9"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 13.495793064997997,
+        "proof_directory": "work/real_world-goal/tree-equality-visit-application1",
+        "log_sha256": "17e7284198a035e1e146870baeb60440d045e29df92eaba91605c680ce7c8d96",
+        "receipt_sha256": "1b9f4523179a96ea9b17e6f2d954313ea2bc5966a94cfa92b088aa11828ee5ca"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 15.376538287993753,
+        "proof_directory": "work/real_world-goal/tree-equality-visit-clippy1",
+        "log_sha256": "a85420355feda6b241ac3d6ad6c21ed8075f0448a0d989855eeb754f511b9a20",
+        "receipt_sha256": "33ee2f19a479959ffacd3540c4c8b941c713d037c9599b67754bf57496ca1f74"
+      }
+    ],
+    "policy": "45 actual same-source focused/application passes+lib/example Clippy;no unchanged repeats or full suite."
+  },
+  "current_source_tests_credited": 45,
+  "new_original_native_tests": 3,
+  "tradeoffs": "Adds a direct unbounded equality loop alongside fixed-index and ordered fallbacks. No new production storage or field. New disable_tree_visit field is cfg(test) only,for comparison with the original iterator. Code size/placement can change;modest measured Sailing gain is not universal or Java parity.",
+  "default_java_qualification": {
+    "proof_directory": "work/real_world-goal/tree-equality-current-java-qualification",
+    "independent_validation_sha256": "a51c998651a6cfe2f01e653c6c08abf2d4a9dd98f568abbfeae3df2f177a6536",
+    "qualified_report_sha256": "3954caba70846e1acd3003999451d090ab217b3a0c4a6e888a439d67ab7ca22f",
+    "source_snapshot": "f168d3e497d99efe6f75ba084e5ccc7bc863436727d6cc223b58ca55a63a6b93",
+    "artifact_sha256": "3da1f03dc03cdb2e8c865d0635c9b7dc71bda0ca414699661523c93fcfa055f6",
+    "current_throughput_targets_met": 1,
+    "required_targets": 2,
+    "independent_valid_outputs": 12,
+    "same_original_configuration": true,
+    "same_original_toolchain": true,
+    "same_original_Java_dependency_and_class_checksums": true,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 116837.49927867447,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.046084132
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 196903.63745408802,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000101203
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.6852777461835617,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 74964.37607424782,
+            "scores": [
+              [
+                -12,
+                81000
+              ],
+              [
+                -5,
+                68500
+              ],
+              [
+                -8,
+                88500
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.054599998
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 68410.33249845472,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196500
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000916163
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9125712249068584,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "remaining_sailing_rust_gain_pct": 9.580487824615002,
+    "prior_count_states_report": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a",
+    "policy": "Fresh actual original same-machine rotating3seeds10s CPU2,3;genuine Cargo+javac source/artifact bindings and12 independent local full-output validations. Historical report remains preserved;native gains not extrapolated. Quality stays separate."
+  }
+}

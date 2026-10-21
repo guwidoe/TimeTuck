@@ -209,6 +209,8 @@ struct JoinSide<I, T, K> {
     consuming_copy: Option<join_fixed_rows::copied::Copier<(K, T)>>,
     fixed_index: Option<Box<join_fixed_index::FixedIndex<I, K>>>,
     index: SnapshotMap<K, SnapshotMap<I, ()>>,
+    #[cfg(test)]
+    disable_tree_visit: bool,
     poisoned: bool,
 }
 
@@ -220,6 +222,8 @@ impl<I, T, K> JoinSide<I, T, K> {
             consuming_copy: None,
             fixed_index: None,
             index: SnapshotMap::new(),
+            #[cfg(test)]
+            disable_tree_visit: false,
             poisoned: false,
         }
     }
@@ -258,6 +262,31 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         match &mut self.fixed_rows {
             Some(rows) => rows.clear(),
             None => self.rows.clear(),
+        }
+    }
+    #[inline]
+    fn uses_tree_equality_visit(&self) -> bool {
+        #[cfg(test)]
+        if self.disable_tree_visit {
+            return false;
+        }
+        self.fixed_index.is_none()
+    }
+    // Unbounded equality already knows its exact bucket. Avoid constructing
+    // fixed/equality/range iterator alternatives; retain the original lookup,
+    // complete reservation and canonical key references before any row Clone.
+    fn for_each_tree_equal<O>(
+        &self,
+        key: &K,
+        output: &mut Vec<O>,
+        mut emit: impl FnMut(&mut Vec<O>, &I),
+    ) {
+        let ids = self.index.get(key);
+        output.reserve(ids.map_or(0, SnapshotMap::len));
+        if let Some(ids) = ids {
+            for id in ids.keys() {
+                emit(output, id);
+            }
         }
     }
     fn matching_ids<'b>(
@@ -344,6 +373,10 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
                 index.for_each_equal(old_key, &mut output, |output, id| {
                     output.push(TupleChange::retract((change.id.clone(), id.clone())));
                 });
+            } else if comparison == JoinComparison::Equal && other.uses_tree_equality_visit() {
+                other.for_each_tree_equal(old_key, &mut output, |output, id| {
+                    output.push(TupleChange::retract((change.id.clone(), id.clone())));
+                });
             } else {
                 let (count, ids) = other.matching_ids_sized(old_key, comparison);
                 output.reserve(count);
@@ -358,6 +391,13 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
                 && index.supports_equality_visit()
             {
                 index.for_each_equal(new_key, &mut output, |output, id| {
+                    output.push(TupleChange::put(
+                        (change.id.clone(), id.clone()),
+                        (row.clone(), other.row(id).expect("indexed row").1.clone()),
+                    ));
+                });
+            } else if comparison == JoinComparison::Equal && other.uses_tree_equality_visit() {
+                other.for_each_tree_equal(new_key, &mut output, |output, id| {
                     output.push(TupleChange::put(
                         (change.id.clone(), id.clone()),
                         (row.clone(), other.row(id).expect("indexed row").1.clone()),

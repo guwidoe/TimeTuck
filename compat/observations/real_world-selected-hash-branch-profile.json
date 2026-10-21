@@ -1,0 +1,36 @@
+{
+  "kind": "real_world-selected-hash-branch-profile",
+  "status": "completed diagnostic;guides ordered-join visitor experiment,not a timing improvement or Java proof",
+  "native_source_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+  "input_sha256": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+  "source_snapshot": "892d83466115da166348ab1e3ecccc536168ec28f163072aac9b11e32cce656a",
+  "artifact_sha256": "af77f9f3fdf4001b977530b8c63d37c10563d3148ddbf95497fd03e4f8ca57d1",
+  "receipt_sha256": "25f129f5e9ce1c4b5ff72fcc9df7f8b35b9557f2a9ef538be5c1b38704bfbf75",
+  "independent_validation_sha256": "37e92ff1e87a104477a7827dd58917e1e55e1d6144ef1a8881052350cc2c6127",
+  "full_output_valid": true,
+  "initial_state_matches": true,
+  "lost_samples": 0,
+  "counter_scope": "One10s seed7 CPU2,3 native run under perf record(branch-misses,499Hz) and outer perf stat. Counters include profiler startup/record overhead;not pure native instruction accounting or comparative timing. Cycle profile remains a separate captured diagnostic. Nonprecise branch samples may skid.",
+  "counters": {
+    "cycles": 41344926213,
+    "instructions": 88924900051,
+    "branches": 13902910378,
+    "branch_misses": 116247819,
+    "cache_misses": 30573273,
+    "branch_miss_percent": 0.836140173815339
+  },
+  "counter_sha256": "8c3e8a50041ece14a8ad0eb1ec3f07cd36db06f11a62fc98a2b51a8920662b4a",
+  "branch_miss_samples_by_symbol_percent": {
+    "JoinSide::apply_buffered": 10.35,
+    "TerminalState::restore": 8.97,
+    "TerminalState::apply_change": 8.25,
+    "GroupCollectors::rollback_journal": 8.09,
+    "propagate_arena": 6.86,
+    "JoinSide::matching_ids_sized": 6.03,
+    "GroupState::apply_group_summary": 2.83
+  },
+  "decision": "Group-input pages are cycle-hot but not dominant in branch-miss samples;no further presence-mask/dense-pair retry. Implement a direct numeric ordered-bucket visitor to remove the large equality/range composite iterator,retaining callback order and custom-key fallback. Actual candidate timing is required.",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0
+}
