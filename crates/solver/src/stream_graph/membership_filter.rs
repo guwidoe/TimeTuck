@@ -7,7 +7,7 @@ use std::any::TypeId;
 #[cfg(test)]
 mod tests;
 
-// Exact Copy rows only. Same reuses the producer's existing private arena cell;
+// Exact Copy rows only. Same reuses a private arena cell or shared numeric owner;
 // Retract is needed when a previously accepted put becomes rejected.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(super) enum InlineForward {
@@ -22,6 +22,9 @@ fn inline_shape<I: 'static, T: 'static>() -> bool {
             || TypeId::of::<T>() == TypeId::of::<(usize, Option<usize>)>()))
         || (TypeId::of::<I>() == TypeId::of::<(usize, usize)>()
             && TypeId::of::<T>() == TypeId::of::<(Triple, Triple)>())
+        || (TypeId::of::<I>() == TypeId::of::<((usize, usize), (usize, usize))>()
+            && TypeId::of::<T>()
+                == TypeId::of::<((usize, usize, usize, usize), (usize, usize, usize, usize))>())
 }
 
 enum Bounds<I> {
@@ -270,3 +273,6 @@ mod concrete_callback_tests;
 
 #[cfg(test)]
 mod inline_forward_tests;
+
+#[cfg(test)]
+mod shared_forward_tests;

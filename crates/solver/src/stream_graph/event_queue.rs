@@ -49,6 +49,28 @@ pub(super) fn enqueue_shared(
     }
 }
 
+// Forward only after the original filter apply/guard phases have completed.
+// Producer-retention metadata and the closed consuming graph certify that the
+// numeric owner's identity is private; public/retaining routes never enter.
+#[inline(always)]
+pub(super) fn enqueue_existing(
+    edges: &[Edge],
+    input: &Event,
+    inline: Option<usize>,
+    pending: &mut VecDeque<(Edge, QueuedEvent)>,
+) {
+    if let Some(index) = inline {
+        for &edge in edges {
+            pending.push_back((edge, QueuedEvent::Inline(index)));
+        }
+    } else {
+        let Event::Shared(owner) = input else {
+            unreachable!("queued numeric event")
+        };
+        enqueue_shared(edges, owner.clone(), pending);
+    }
+}
+
 impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
     pub(super) fn propagate_arena(
         &mut self,
@@ -226,7 +248,6 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 if self.graph.consuming_search
                     && self.graph.inline_forward_nodes[id]
                     && !self.graph.shared_event_producers[id]
-                    && let Some(index) = inline_index
                 {
                     let action = {
                         let _count = ScoreEvaluationDelta::new(
@@ -238,12 +259,10 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                     match action {
                         membership_filter::InlineForward::None => {}
                         membership_filter::InlineForward::Same => {
-                            for &next in &self.graph.edges[id] {
-                                pending.push_back((next, QueuedEvent::Inline(index)));
-                            }
+                            enqueue_existing(&self.graph.edges[id], event, inline_index, pending);
                         }
                         membership_filter::InlineForward::Retract => {
-                            let output = event.inline_retraction();
+                            let output = event.forward_retraction();
                             enqueue(&self.graph.edges[id], output, pending, arena, false);
                         }
                     }

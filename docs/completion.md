@@ -19,13 +19,31 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,878 recorded Rust tests and
-292 doctests** (8,884 Cargo test executions). The typed join-publication batch
-passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Source-bound evidence](../compat/observations/real_world-typed-join-publication.json)
-records the actual native gate, release artifact and controls. The live report
-remains the authority for freshness and readiness. Origins are4,412 upstream
-adaptations /4 external RealWorld /4,462 native regressions.
+The current native verification contains **8,881 recorded Rust tests and
+292 doctests** (8,887 Cargo test executions). The private shared-filter-forwarding
+batch passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling
+jobs. [Source-bound evidence](../compat/observations/real_world-shared-filter-forwarding.json)
+records actual checks, artifact identity and native controls. Origins are 4,412
+upstream adaptations /4 external RealWorld /4,465 native regressions.
+
+Closed consuming acceptance filters now reuse private immutable Shared owners
+for exact numeric member rows. Full-ID retractions, original predicate/clone/
+cache/journal/guard phases, callback order and every logical output remain.
+Public/custom/retaining/transitive/batch paths keep their original canonical
+owners. Three original regressions cover ownership, full fields, fanout/FIFO,
+captures/nesting, errors/overflow/panic and retry. No persistent representation
+or Event/queue layout changed; no universal memory/speed claim.
+
+Actual rotating 3s seed 7 native controls measured **+3.083% Sailing /+.131% Golfer**
+(effectively flat), all 4 Sailing pairs faster and all 16 outputs independently
+valid. One cfg-only test Recorder correction is explicit. An actual final Cargo
+release command verified byte-identical artifact to the measured pilot; the full
+native gate runs on corrected source. Original pilot receipts/timings remain
+unchanged, with no repeated native measurement or metadata rekeying. The separate
+owner-transfer variant was modest and is not integrated. No native gains are
+added to historical Java ratios.
+
+The preceding typed-join-publication batch remains as historical evidence below.
 
 Exact Triple joins now publish full rows directly into the original event arena;
 exact numeric member joins publish one original shared Rc owner per full row.
@@ -36,8 +54,8 @@ ownership, captures, errors/overflow and retry. Public/custom/unsupported/batch
 handling remains. Broader publisher code may increase code/compile cost; no
 universal speed or memory claim.
 
-Actual rotating3s seed7 native controls measured **+2.299% Sailing /+2.319%
-Golfer** versus the precedingbeeb source; all16 outputs independently validate.
+Actual rotating 3s seed 7 native controls measured **+2.299% Sailing /+2.319%
+Golfer** versus the precedingbeeb source; all 16 outputs independently validate.
 The coherent source was actually measured. Exact matching crate manifests bind
 the genuine pilot build/artifact to the final native gate, without another
 release build. No component gains are added and no Java parity is established.
@@ -54,7 +72,7 @@ require side storage; this is not a universal memory claim. One new original
 native regression covers full coordinates, nested commits/captures and ownership.
 Origins are 4,412 upstream adaptations /4 external RealWorld /4,459 native tests.
 
-Four actual rotating 3s seed7 native controls measured **+1.413% Sailing** and
+Four actual rotating 3s seed 7 native controls measured **+1.413% Sailing** and
 **+0.178% Golfer** (effectively flat), all 16 outputs independently valid. The
 unchanged frozen Rust passes the final native gate. Exact crate manifests bind
 the genuine original pilot release build and artifact; no second release build
@@ -93,7 +111,7 @@ retains the same verified production build. Seven dispatch, collector and
 member-row candidates were rejected after flat/mixed/regressive native controls;
 the selective member-row candidate also failed an unwind check. A current-artifact
 profile and a separate instrumented incidence check are recorded. The latter
-observed no equal projections in 13.29 million group updates on its two seed7
+observed no equal projections in 13.29 million group updates on its two seed 7
 cases, so the proposed shortcut was not implemented. These diagnostics add no
 native-test credit, upstream credit or Java qualification.
 
@@ -105,24 +123,24 @@ only a modest +0.629% Sailing/-0.257% Golfer signal. Focused tests passed,
 without new integrated test credit. The existing native gate was reused;
 no broad gate or Java qualifier was repeated.
 
-The latest original-protocol Java qualification is **current** on the unchanged
-67f/378 source and original 7f439 artifact: paired seeds7/11/23 x10s on runner-a
-CPU2,3, all 12 assignments independently valid and revalidated after collection.
-Both actual Cargo release and Java builds ran; the resulting Rust artifact is
-byte-identical to the prior gated pilot. The unchanged native gate was reused.
-[Qualification evidence](../compat/observations/real_world-current-81e-qualification.json).
+The latest original-protocol Java qualification is retained **historical and
+stale for this new source**. On previous 67f/378/7f439 it measured paired
+seeds7/11/23x10s on runner-a CPU2,3, all 12 assignments independently valid and
+revalidated after collection. Its Rust artifact was byte-identical to that
+source's genuine gated pilot.
+[Previous-source qualification](../compat/observations/real_world-current-81e-qualification.json).
 
-| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Current target |
+| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Previous target |
 | --- | ---: | ---: | ---: | --- |
 | Golfer | 180,326 | 122,886 | 1.467x | met |
 | Sailing | 59,759 | 81,835 | 0.730x | below target |
 
-**One of two current throughput targets is met.** Sailing needs about 36.9%
-more native throughput at the measured Java rate. Scores/feasibility remain
-separate, without an equal-score gate: Sailing is feasible 2/3 Rust and 0/3 Java;
-Golfer is3/3 for both. The earlier021a report remains preserved byte-for-byte as
-historical evidence; native relative gains were never added to its Java ratios.
-This deliberate refresh follows multiple accepted changes, not every increment.
+**Neither current target is proved on the new Rust source.** The previous
+qualification met 1/2 targets. Scores/feasibility remain separate, no equal-score
+gate: Sailing feasible 2/3 Rust and 0/3 Java, Golfer 3/3 both. Report 866338 is retained
+byte-for-byte and visibly source-bound. No multiplying native gains into it; defer
+another original-protocol refresh until materially closer to Sailing parity.
+The performance goal is incomplete. Older 021a/b14a remains historical as well.
 
 A later [performance investigation](../compat/observations/real_world-performance-investigation-67f.json)
 selected no runtime changes. Accounting scopes and static join reads were flat

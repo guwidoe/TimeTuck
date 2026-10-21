@@ -1,0 +1,212 @@
+{
+  "kind": "real_world-private-shared-filter-forwarding",
+  "generated_at": "2026-10-21T09:39:21.919927+00:00",
+  "native_source_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+  "input_sha256": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+  "source_snapshot": "4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388",
+  "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+  "upstream_method_credit": 0,
+  "changes": [
+    "Closed consuming acceptance filters may reuse an intrinsically shared exact numeric member event owner. The original apply_row, predicate/clones/bounds/cache/journal and evaluation-guard phases complete before the existing compact action publishes. Accepted puts and accepted retractions reuse the same immutable owner; rejected replacements create a full-ID retraction.",
+    "The original single bool capability array and one-byte action remain; exact Member IDPairPair/QuadQuad is added to existing builtin shapes. No new Node vtable methods, global metadata, queue/Event/workspace fields or member payload arena. Existing inline events retain original arena indices.",
+    "Public/custom/unsupported/batch and owner-retaining/transitive producers retain original fresh owner publication. Retention metadata is computed before pruning, unchanged. Private Copy owners can remain shared until queued consumers release them; no public owner identity/Drop guarantee is weakened and no universal memory/speed claim is made."
+  ],
+  "correctness": {
+    "recorded_native_tests_passed": 8881,
+    "cargo_test_invocations_passed": 8887,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "command": "bash scripts/check.sh",
+    "new_native_regressions": 3,
+    "new_test_names": [
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_member_actions_keep_full_ids_fifo_fanout_and_private_owner_lifetimes",
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_consumed_member_graph_preserves_callbacks_captures_errors_overflow_and_retry",
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_public_unknown_and_retaining_endpoints_keep_distinct_promoted_owners"
+    ],
+    "focused_graph_tests_passed": 222,
+    "focused_seconds": 189.9918418249872,
+    "focused_receipt_sha256": "5d9c8e785b2f7d72c841fdb0040bfd589a305680adeb8282608392708b501d35",
+    "contract": "Full/MAX IDs and all fields, acceptance/rejection/retraction/absence, FIFO/fanout/empty outputs, exact private Rc reuse/Weak release, actual consumed callback/work/score traces, full/current/nested captures, rollback/panics/structural errors/overflow/retry versus original and wide/forcedShared references. Unknown observer rejects production consuming eligibility; test-only private override separately isolates the retention guard, preserving distinct source/output and common fanout owners. Event72B/queued24B on64bit unchanged.",
+    "final_receipt_sha256": "195d742b4041c06c6e53c1a275fe1f3a155b44e0ed3556fa3f46836f00e09b78",
+    "full_native_gate_seconds": 304.50904794901726,
+    "preflight_and_prebuild_seconds": 196.9709959079919
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            55082.93670587549,
+            54940.44661020572,
+            54535.08673440435,
+            51895.64477409093
+          ],
+          "trial": [
+            56397.22906890686,
+            55673.77008980484,
+            56548.8388466097,
+            56453.11459601385
+          ]
+        },
+        "medians": {
+          "baseline": 54737.766672305035,
+          "trial": 56425.17183246036
+        },
+        "gain_pct": 3.082707356800296
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            173848.26581357545,
+            175548.10878101742,
+            171223.33931789384,
+            174844.77952637683
+          ],
+          "trial": [
+            175722.04638575442,
+            172072.60776071728,
+            174704.90518644272,
+            174444.15734183814
+          ]
+        },
+        "medians": {
+          "baseline": 174346.52266997614,
+          "trial": 174574.53126414045
+        },
+        "gain_pct": 0.13077897435092023
+      }
+    },
+    "proof_directory": "work/real_world-goal/shared-filter-forward-67f-next-results",
+    "original_native_source_digest": "6ebce8255b4f9ee730abce7458cc2a5a331628ba1488f10b1e68fa729c2e8919",
+    "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+    "snapshot": "5d659a71a8eac220e330e1b9665a1f1eb7ffe7ee3843fa54668718995bec39d3",
+    "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+    "controls_sha256": "9b25e2be2d6668fabfee92127b12bbe3f68a321cb64a3aa75e30f6549962a398",
+    "scope": "Actual same-machine four rotating3s seed7 native pairs per case on runner-a CPU2,3, all16 independently valid. All4 Sailing pairs faster, Golfer effectively flat. No new Java parity proof and no adding native gains to historical Java ratios."
+  },
+  "cfg_only_correction_and_actual_artifact_binding": {
+    "original_failure": "Initial new test Recorder omitted the required clear trait method; compile failed before tests. Adding only the required empty method to this test-only diagnostic recorder fixes the harness; production code and original assertions are unchanged.",
+    "original_pilot_native_digest": "6ebce8255b4f9ee730abce7458cc2a5a331628ba1488f10b1e68fa729c2e8919",
+    "corrected_final_native_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+    "final_source_binding": {
+      "rust_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "changed_crate_paths": [
+        "crates/solver/src/stream_graph/membership_filter/shared_forward_tests.rs"
+      ],
+      "crate_source_identical": false,
+      "cfg_test_only_paths": [
+        "crates/solver/src/stream_graph/membership_filter/shared_forward_tests.rs"
+      ],
+      "production_inputs_identical": true,
+      "identical_release_artifact_verified": true,
+      "pilot_source_snapshot": "5d659a71a8eac220e330e1b9665a1f1eb7ffe7ee3843fa54668718995bec39d3",
+      "final_source_snapshot": "4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388",
+      "policy": "Original measured artifact retained. One cfg-only required-method correction is explicit; an actual Cargo release command on final source verifies byte-identical artifact. Native full gate runs on corrected native hash. Original pilot receipts/timings keep original hashes; no remeasurement or relabel."
+    },
+    "genuine_original_pilot_build": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--example",
+        "real_world_benchmark"
+      ],
+      "exit_code": 0,
+      "seconds": 100.85246643502614,
+      "rust_digest": "6ebce8255b4f9ee730abce7458cc2a5a331628ba1488f10b1e68fa729c2e8919",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+      "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+      "log_sha256": "bea99f5e1c35f2ca25dd4cc546d4f3e2e27e8e917aabd5982fe433505abe3552"
+    },
+    "genuine_final_artifact_build": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--example",
+        "real_world_benchmark"
+      ],
+      "exit_code": 0,
+      "seconds": 98.27229271299439,
+      "rust_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "log_sha256": "d14596a71397714d1f1e76f6e7e07e406192b8e105c5e8716f982bc012e9f1e6"
+    },
+    "policy": "One explicitly enumerated cfg-only module difference. An actual Cargo release command on final source verifies byte-identical measured artifact. The full native gate runs on corrected frozen source. Original pilot build/control receipts retain original hashes and timings; no repeated native measurement or metadata rekeying."
+  },
+  "unselected_owner_transfer": {
+    "native_source_digest": "96724a8cea2d996301876a429e3ce4d2c4ac80dbb1b1a8f0bc65a8d572b6282b",
+    "production_digest": "02c4ccf9f21b778d40c03a93a5cbe8cd958a848c0de16b68580491a43a90bbdd",
+    "snapshot": "0e82177bf77a5c90158910dcd36c83d6af23bd5d3b5e88bf0c7236f171ba21e0",
+    "valid_outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            50378.808362094314,
+            54664.44691576402,
+            55289.89172335943,
+            56054.514819809076
+          ],
+          "trial": [
+            54521.46744817051,
+            53547.03671502584,
+            56614.48115174604,
+            56187.199701250545
+          ]
+        },
+        "medians": {
+          "baseline": 54977.169319561726,
+          "trial": 55354.33357471053
+        },
+        "gain_pct": 0.6860379677907646
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            174247.64837796785,
+            174293.85797526193,
+            170697.08710980156,
+            166104.35968412945
+          ],
+          "trial": [
+            175280.05702190485,
+            170381.82234298455,
+            173405.74905923964,
+            169307.93623626372
+          ]
+        },
+        "medians": {
+          "baseline": 172472.3677438847,
+          "trial": 171893.7857011121
+        },
+        "gain_pct": -0.3354636167758662
+      }
+    },
+    "focused_graph_tests_passed": 222,
+    "focused_seconds": 58.69376910798019,
+    "proof_directory": "work/real_world-goal/shared-filter-transfer-67f-next-results",
+    "scope": "Actually measured coherent forwarding+owned transfer versus67f, not an incremental gain versus the selected forwarder. Moving the local holder into Option<Event> and transferring its owner offered only a modest Sailing signal. No broad gate or integration; no unchanged repeat."
+  },
+  "java_qualification": {
+    "status": "Previous67f/378 source only; unchanged and now stale for new source",
+    "previous_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+    "historical_targets_met": 1,
+    "current_targets_proven": 0,
+    "historical_golfer_ratio": 1.4674266542912704,
+    "historical_sailing_ratio": 0.7302422873618117,
+    "policy": "The goal still requires current original serial rotating3seeds10s CPU2,3 Java/Rust qualification with all12valid. Scores/feasibility separate, no equal-score gate. Keep previous measurement visibly source-bound, no extrapolation; defer another refresh until materially closer to Sailing parity."
+  },
+  "origins": "4412 adapted/4 external/4465 native regressions. New3 tests are original native; no upstream method credit.",
+  "proof_directory": "work/real_world-goal/shared-filter-forward-67f-next-final-results/",
+  "policy": "Frozen model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy unchanged. Actual full gate once on selected coherent source; only genuine aggregate Rust log/json promoted, no per-job metadata transplant. Local+runner-a, runner-c parked, no new agents."
+}

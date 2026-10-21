@@ -66,6 +66,25 @@ impl Event {
             Self::Shared(_) => unreachable!("only private inline filter inputs"),
         }
     }
+    // Only the consuming acceptance route calls this. Shared owners whose
+    // identity is retained downstream are excluded by producer metadata.
+    pub(super) fn forward_retraction(&self) -> Self {
+        if let Self::Shared(owner) = self {
+            macro_rules! shape {
+                ($id:ty, $row:ty) => {
+                    if let Some(row) = owner.downcast_ref::<TupleChange<$id, $row>>() {
+                        return Self::new(TupleChange::<$id, $row>::retract(row.id));
+                    }
+                };
+            }
+            shape!(usize, Triple);
+            shape!(usize, Planning);
+            shape!((usize, usize), (Triple, Triple));
+            shape!(((usize, usize), (usize, usize)), (Quad, Quad));
+            unreachable!("certified numeric acceptance event")
+        }
+        self.inline_retraction()
+    }
     // Promotion belongs to the producer, before cloning any fanout owners.
     pub(super) fn promote(self) -> Self {
         let owner: Rc<dyn Any> = match self {
