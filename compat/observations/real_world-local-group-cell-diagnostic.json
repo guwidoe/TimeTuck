@@ -1,0 +1,101 @@
+{
+  "kind": "real_world-local-group-cell-diagnostic",
+  "generated_at": "2026-10-21T14:41:25.919216+00:00",
+  "status": "closed first direct-enum implementation;regressive;not integrated",
+  "native_source_digest": "b0da9450acd2f6b1608e9893ce651c6ba82498b6de18163d058ed99a1d71f7c8",
+  "input_sha256": "28045f76e4c9526a508e8e29c4be78be5496d4ccf0ce26ef7286350ec64ccab9",
+  "source_snapshot": "991999a33d981b6ffbfdcd7569b7bad59b92bb90cc3f8af18637a488cf15e412",
+  "artifact_sha256": "54a9e2b42381a84f85dbff848ae69d9980183b917bdbbf643fa8c119451ddbed",
+  "mechanism": "Separate sealed collector-cell policy in shared GroupNode/GroupCollectors/apply/entry/history. Default Atomic retains ordinary IntCollector refs and Arc uniqueness;private consumed graph Kernel enum switches empty certified numeric groups to Arc<RefCell<IntCollector>>. Local guards use strong/weak count loads plus RefMut;RefCell prevents Send/Sync so counts cannot change concurrently through safe code. Shared/Weak mutation falls back to original replacement. Dirty snapshots copy values using outer owner identity. Full values,keys,scalar updates,callbacks,work,FIFO and journal order retained.",
+  "public_traits": "Actual original control compiles Send+Sync for default public GroupNode and GroupCollectors;thread-local cells live only in distinct private kernel instantiation. Public new remains Atomic-specific for inference.",
+  "known_integration_limits": [
+    "Unannotated GroupNode::default() type inference regresses under generic Default impl;confirmed standalone rustc. Must use Atomic-specific Default before integration.",
+    "Sealed public Policy.enable_pool signature exposes crate-private PrimitiveRows;2 visibility warnings. No Clippy claim."
+  ],
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "local_group_cell",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 458.34567978797713,
+      "receipt_sha256": "f402c3c6cea55c8284b9b1bf8042bce890817558ee774f042e93cda011719fa6",
+      "log_sha256": "16c4610f8dfa17ec26cbb97ae972e623cc5617e52032a5bf293b8cd218d9c5ab",
+      "proof_directory": "work/real_world-goal/local-group-cell-focused1"
+    }
+  ],
+  "test_scope": "New4 original controls:default Send/Sync;shared/weak fallback;dirty/full/current observers;nested scalar/normal commits/rollback;MAX count overflow before mutation;independent generated full-key/extreme-value group recomputation;actual graph callback/work/capture/panic/failed-read/retry comparison to public path. No global API or full-suite credit.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/local-group-cell-next-results/real_world-local-group-cell-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62490.33455577539,
+            62242.81454911312,
+            63391.826030369026,
+            61611.131515675566
+          ],
+          "trial": [
+            61993.33138056239,
+            61869.335871523326,
+            62098.015838099775,
+            61593.386211011464
+          ]
+        },
+        "medians": {
+          "baseline": 62366.57455244426,
+          "trial": 61931.33362604286
+        },
+        "gain_pct": -0.6978753114545433
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184906.31162164253,
+            185186.57828502482,
+            185588.5727584111,
+            183758.13756020923
+          ],
+          "trial": [
+            180247.35566600272,
+            183257.23435252282,
+            181735.161638291,
+            183555.9466877243
+          ]
+        },
+        "medians": {
+          "baseline": 185046.44495333367,
+          "trial": 182496.19799540692
+        },
+        "gain_pct": -1.3781658753670656
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "receipts": {
+    "receipt.json": "30eaf7728e47295101e7459f29b9eb134bd155ed25ccefc015d33fecd66b5be8",
+    "build-receipt.json": "ad07360c28bdb7b81dba803245e4c343a06a9ad26dd9e4fdb7dfa6b31707f4f6",
+    "controls.json": "5edab7c021a28ac3a3556fa25323e5c6e09f54b8ed3e6a09c7d35dcdd06a32a6"
+  },
+  "compiled_code_observation": {
+    "path": "work/real_world-goal/local-group-cell-next-results/compiled-group-summary-layout.json",
+    "sha256": "59d633b3a67a0a1972b5d7239f8f24a6ac74b090f0193792c1d19efcc91ad3f0",
+    "baseline_group_summary_symbol_bytes": 22871,
+    "trial_group_summary_symbol_bytes": 43483,
+    "limit": "Actual source-bound generated code size only;does not establish instruction-cache misses or isolate cause of throughput regression."
+  },
+  "preparation_failure": "Earlier unmeasured check4702f5 failed3 mechanical constructor/read-adapter errors;fixed before measured b0da source. Actual check1 log/source map/receipt retained. No pass credit on that source.",
+  "policy": "Sailing-.698%/Golfer-1.378%,all4 pairs slower each,16 complete outputs independently valid. No app,Clippy,full suite,Java or integration on this diagnostic source. Close unchanged. A separate outlined-local helper refinement with Default/visibility fixes is active;its results cannot be inferred from this source or credited to it."
+}

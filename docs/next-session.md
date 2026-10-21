@@ -109,6 +109,25 @@ its11 focused passes and stale originalJava5725 unchanged. Goal incomplete.
 Next work must remove actual propagation/rollback work; reuse existing profiling
 and do not repeat closed compiler-hint or collector representation variants.
 
+A separate private group-cell kernel was implemented using a sealed cell policy
+and the original shared GroupNode/GroupCollectors algorithms. Public default
+storage remains atomic/Send+Sync;only a consumed graph's empty certified numeric
+groups become RefCell cells. Existing strong/weak fallback and dirty snapshot
+copying remain. Actual4 new focused controls pass,16 native outputs validate,
+but direct enum sourceb0da/28045 regresses Sailing-.698%/Golfer-1.378%,all4 pairs
+slower each. It also has a known Default inference issue and2 visibility warnings;
+no application/Clippy/full suite/Java or integration credit. Close it unchanged.
+Actual compiled group-summary handlers grew22,871B to43,483B;that is code-size
+evidence,not causal proof of cache misses or an isolated CAS cost.
+Proof: `compat/observations/real_world-local-group-cell-diagnostic.json`.
+A separate local-only outline refinement preserves the Atomic finish path and
+returns full old/new numeric summaries from a shared local apply routine. Exact
+builtin I/K conversion gates make moved private locals free of user Clone/Drop.
+Mapping callbacks,common mutation/poison/history and downstream guard phases stay.
+It also fixes Default inference and sealed-policy visibility. Prototype
+`work/real_world-goal/local-group-cell-outlined-next-prototype/`;actual focused
+checks and v30 native controls active. No speed claim or source credit yet.
+
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
 eliminating the intermediate Vec<TupleChange>. Original mapper/iterator
