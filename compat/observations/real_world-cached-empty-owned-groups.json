@@ -1,6 +1,6 @@
 {
   "kind": "real_world-cached-empty-owned-groups",
-  "status": "selected;native gain;fresh Java qualification pending",
+  "status": "selected;current original Java matrix proves1of2 targets",
   "native_source_digest": "6f9ede18b97e6cab56fdb0b719aabb745f8ed3bcc8b075c4ef736824a3c0302a",
   "input_sha256": "1c87ec2fb2754af5fb212e2e1e401734298ce2607722ea7c34894a8dc2b529a0",
   "source_snapshot": "06a87077cfc4c5d05d0f470abe47cf27491de6a572c50becf438254c66e03995",
@@ -137,5 +137,118 @@
   "full_native_gate": false,
   "new_original_native_tests": 2,
   "upstream_method_credit": 0,
-  "policy": "Selected after17 focused passes,4 application cases,lib/example Clippy and16 independent native output validations. Native Sailing+.745%(3/4 faster),Golfer+2.981%(4/4). No repeated unchanged tests,full suite,model/settings/compiler changes or extrapolated Java ratios. Historical Java4795 preserved,now stale;actual fresh original-protocol matrix next."
+  "policy": "Selected after21 actual same-source passes,lib/example Clippy and16 valid native control outputs. Fresh actual original runner-a rotating Java/Rust3seeds10s matrix independently validates all12 outputs and original initial states. Golfer1.554863x/Sailing.886679x,1of2 targets;Sailing needs12.780373% extra Rust throughput. Quality separate;Rust2/3 feasible vsJava0/3 on Sailing. OldJava4795 preserved historical. No repeated unchanged tests,full suite,upstream credit,source rekey,model/settings/compiler changes or extrapolation.",
+  "current_original_java_qualification": {
+    "report_sha256": "3ea8613a0d0879c771947cb9369117ef8b315e202d13bd0c062b4c5377dad6c2",
+    "proof_directory": "work/real_world-goal/cached-empty-current-java-qualification",
+    "collection_verification_sha256": "b51191159c5c0d40302cd1c2653217ef69f071d36000aace44d04d825d806621",
+    "independently_valid_outputs": 12,
+    "targets_met": 1,
+    "required_targets": 2,
+    "targets": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "rust_over_java": 1.554862730839932,
+        "throughput_target_met": true,
+        "additional_rust_throughput_percent_needed": 0,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 126923.80092415109,
+            "scores": [
+              [
+                0,
+                17200
+              ],
+              [
+                0,
+                12800
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.047569197
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 197349.08771350945,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000107033
+          }
+        }
+      },
+      {
+        "case": "sailing-trip-v1",
+        "rust_over_java": 0.8866791040223355,
+        "throughput_target_met": false,
+        "additional_rust_throughput_percent_needed": 12.780372906454552,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75558.33756647486,
+            "scores": [
+              [
+                -12,
+                -16000
+              ],
+              [
+                -5,
+                69300
+              ],
+              [
+                -10,
+                71500
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.049122631
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 66995.9990548591,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196500
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000902804
+          }
+        }
+      }
+    ],
+    "same_original_configuration": true,
+    "same_original_Java_dependency_and_class_checksums": true,
+    "same_original_toolchain": true
+  }
 }

@@ -34,10 +34,15 @@ Four rotating native pairs measured **Sailing +0.745% (3/4 faster),Golfer +2.981
 (4/4)**;all16 outputs independently validate including initial states. Actual21
 same-source focused/application passes and lib/example Clippy pass;no full suite
 or upstream credit. Source6f9ede18/prod1c87ec2f/artifact12e2dd51 is integrated.
-The original Java/Rust matrix is running on runner-a (local session17454,
-`work/real_world-goal/cached-empty-current-java-qualification`). Collect it before
-restarting. Earlier Java4795 remains historical/stale;do not extrapolate native gains.
+The fresh original Java/Rust matrix is current on this source:all12 full outputs
+independently validate under the original3seed10s rotating same-machine protocol.
+**Golfer1.554863x Java;Sailing0.886679x Java:1/2 targets met.** Sailing needs
+12.780373% more Rust throughput. Rust2/3 versus Java0/3 Sailing runs are feasible;
+quality remains separate. Report3ea8613a is current;old4795 is preserved historical.
 [Evidence](../compat/observations/real_world-cached-empty-owned-groups.json).
+All owned checks and measurements are terminal and collected. Use the prepared
+`v34-master-dispatch.py` / `v34-artifact-remote.py` for the next changed candidate;
+they bind this current runtime and Java evidence. Do not repeat this matrix unchanged.
 
 The previous selected collector backend stores consumed integer values in a
 reusable contiguous arena. Pages retain canonical Arc keys and slot indices;
