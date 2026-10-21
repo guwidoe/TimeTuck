@@ -1,0 +1,73 @@
+{
+  "kind": "real_world-membership-consecutive",
+  "generated_at": "2026-10-21T15:34:04.278999+00:00",
+  "status": "closed;not integrated",
+  "native_source_digest": "744609785bd11e366322e06ee73655719e6d7a9a3f9aa20316ce8f7225c73f04",
+  "input_sha256": "7108ae50f3fdeedb100b001b45e3bf0d710978685af64a74240f91b19977a850",
+  "source_snapshot": "779d3642f995832be1d75a1cb8db1dc77fde16e51bb98c5a31bba9b068cce776",
+  "artifact_sha256": "d4218cb072f82071933d7c523a186eafdff98f30de425752bc96eb06420cff12",
+  "mechanism": "Keep original u16 words;compare full word key only against last existing record,coalescing consecutive edits. Interleaved word histories and nested records remain. Raw rollback then original length;no cache,epoch or word widening.",
+  "checks": [],
+  "test_scope": "No Rust tests on this rejected source;benchmark-first screening only.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/membership-consecutive-next-results/real_world-membership-consecutive-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            61902.03670986919,
+            62483.96966518624,
+            62500.823931450715,
+            58152.65700892749
+          ],
+          "trial": [
+            62208.40196853957,
+            62393.116199659606,
+            62347.86574743931,
+            61618.23474482088
+          ]
+        },
+        "medians": {
+          "baseline": 62193.00318752772,
+          "trial": 62278.13385798944
+        },
+        "gain_pct": 0.13688142732877218
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            182047.4554546589,
+            183797.9498467372,
+            178186.0931969542,
+            185604.44822484584
+          ],
+          "trial": [
+            185005.44457874526,
+            184105.1529649864,
+            177707.8001430048,
+            185031.19017446542
+          ]
+        },
+        "medians": {
+          "baseline": 182922.70265069805,
+          "trial": 184555.29877186584
+        },
+        "gain_pct": 0.8925060134746365
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "receipts": {
+    "receipt.json": "ebf15616eea0f4b4fb3f5ea5990db5d520e41db141562be19629f0f9720479c0",
+    "build-receipt.json": "2aa0d64c5169f34e5bf28f0d576e0642b2b10e91ca3e40cf8cb6862d31818261",
+    "controls.json": "0dba05dec4121d9e0fde5f9f74e7f52e6f70bdc5f076546a15fda6dbbe0f9530"
+  },
+  "policy": "Close unchanged;no additional application,Clippy,full suite,original Java matrix or current-main credit. No unchanged timing retry. Main3fd/e40 remains selected;goal active/incomplete.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}

@@ -1,0 +1,90 @@
+{
+  "kind": "real_world-membership-epoch",
+  "generated_at": "2026-10-21T15:34:04.278048+00:00",
+  "status": "closed;not integrated",
+  "native_source_digest": "4176e5bb8cc583f4489da26f2f0df58919315ec8aed06e2ee034a2981898358f",
+  "input_sha256": "48dbf8481217878e108052a8acf3d9014135eac5fd95ecf0f4ecc846bba5ebc3",
+  "source_snapshot": "084257bd475617926c40152e165fe52ab05948fc1cdc96d1fd3e670186546853",
+  "artifact_sha256": "9b749e49f1899034d5b4079ff24e666866cf6c13c148fd63b915e596c7f79c99",
+  "mechanism": "u64 words retain logical16 membership bits and48-bit frame stamp. Record first changed word per epoch;clone retains monotonic counter;exhausted nested frames log every edit until all frames close and tags can reset. Raw restore plus saved length;all forward membership/predicate/publication operations remain. Four times word payload,not universal total-memory claim.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "first_preimage",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "seconds": 358.9040238270245,
+      "receipt_sha256": "d4760c37dff76c3e5144c3d48646383ebf48050e559f5c3cace6f2842d4a808c",
+      "log_sha256": "8ebb4f09f4f8b84d6ced6fe689261e438c481f27828aba4ca49995f67455f27f",
+      "proof_directory": "work/real_world-goal/membership-epoch-focused1"
+    }
+  ],
+  "test_scope": "Independent BTreeSet hot/wide/MAX/nested/capture/clear/install;word coalescing,separate words,spare epochs,clone during active frame,exhaustion with live parent and zero-epoch fallback,reset after all frames close.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/membership-epoch-next-results/real_world-membership-epoch-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62261.0527450472,
+            63194.63278031128,
+            62086.9188104901,
+            60354.24841045732
+          ],
+          "trial": [
+            61670.4279618357,
+            61781.47166976521,
+            61888.84383485977,
+            61203.00174627764
+          ]
+        },
+        "medians": {
+          "baseline": 62173.98577776865,
+          "trial": 61725.94981580046
+        },
+        "gain_pct": -0.7206164384725544
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            182437.59467686343,
+            180114.97695517063,
+            185742.05655201626,
+            185255.70711063707
+          ],
+          "trial": [
+            180955.52830648565,
+            181175.73213514106,
+            177449.95075435462,
+            181046.99949021242
+          ]
+        },
+        "medians": {
+          "baseline": 183846.65089375025,
+          "trial": 181001.26389834902
+        },
+        "gain_pct": -1.547695854979514
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "receipts": {
+    "receipt.json": "1870055545119d1ce4e6d6c71799a4a7230a7d2b62c0cbfc4d05cf13910ad5b6",
+    "build-receipt.json": "42e9e56b3b58fd0595578f4ee4361f283a0b4887fcab27b09997258d7ac64696",
+    "controls.json": "f0088d3b240611de1a51df6679f2d3bd0b015f819b61d3c10847eec227ba4b17"
+  },
+  "policy": "Close unchanged;no additional application,Clippy,full suite,original Java matrix or current-main credit. No unchanged timing retry. Main3fd/e40 remains selected;goal active/incomplete.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}

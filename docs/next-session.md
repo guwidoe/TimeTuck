@@ -381,10 +381,17 @@ Word first-preimage hashing17a81/32cca/bfe567 is closed. Its8-slot exact-key
 hint cache coalesces only private membership word histories;all forward updates
 remain. Actual2 focused checks and16 independent outputs pass,but Sailing-1.486%
 and Golfer-1.288%,all4 pairs slower each. No more checks,unchanged retry or main
-credit. The separate epoch-stamped u64-word alternative is being tested in
-`work/real_world-goal/membership-epoch-next-prototype`;its focused/native jobs
-are recorded in the ignored active state. Main3fd/e40 stays selected,goal incomplete.
-Proof: `compat/observations/real_world-membership-first-preimage.json`.
+credit. The separate epoch-stamped u64-word alternative4176/48db/9b749 is also closed:
+2 focused checks pass (including nested/capture/clone/exhaustion),16 outputs valid,
+Sailing-.721%/Golfer-1.548%. No further checks or retry. The simpler consecutive-
+word variant7446/7108 passes16 output validations but Sailing+.137%/Golfer+.893%
+is flat/mixed;benchmark-first rejection avoided Rust tests. Both preserved and
+unintegrated. Main3fd/e40 stays selected,goal incomplete. A separate collector
+prepared-entry implementation now removes duplicate inverse-fallback lookup;
+current jobs are recorded in ignored active state.
+Proofs: `compat/observations/real_world-membership-first-preimage.json`,
+`compat/observations/real_world-membership-epoch.json` and
+`compat/observations/real_world-membership-consecutive.json`.
 
 ## Previous verified group-edit inlining — 2026-10-21
 
