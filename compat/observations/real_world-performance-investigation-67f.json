@@ -1,0 +1,154 @@
+{
+  "kind": "real_world-performance-investigation",
+  "generated_at": "2026-10-21T08:54:51.565476+00:00",
+  "native_source_digest": "67f1e924b5406df437eb9a03b5537bef5db2846ec9848c1b29eac82f93b4a48a",
+  "production_digest": "378cf318b4e58607548dad932fc3853354bdb35bc640c9e74afb3c4ed8f610d9",
+  "upstream_method_credit": 0,
+  "integrated_native_test_credit": 0,
+  "selected_runtime_changes": [],
+  "trials": [
+    {
+      "candidate": "accounting-scope-67f-next",
+      "mechanism": "Separate the absent-counter path from original per-dispatch optional guard through inline operation helper; retain counted Rc owner and unwind accounting.",
+      "selection": "Flat Sailing; unselected",
+      "native_source_digest": "a9917a0b39fb54e05ba50ee1354cc7da68c09cbbb6f0365abf6d2424edb5b761",
+      "production_digest": "4075ae436b907a69eefc05a6307dfc82ac7a194d54ed8a7e4f378749c0efc2d5",
+      "snapshot": "12c756e23dbde7964632ca0d2471de27fcafa2949461a052b290f0a1a16551d7",
+      "artifact_sha256": "ea169d02b42ce8e89f4af91dee7e3f742c831e2fc15698205468272b99c729f0",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": -0.09553456128513771,
+        "social-golfer-32x8x10-v1": 0.29734210127019267
+      },
+      "controls_sha256": "81697d062b74090894189f85c3c0798ecec16c6dad818cf2716ebfd1a7a74ebd",
+      "actual_receipt_sha256": "40592db7ebea9a05fbd50ae1f1df4ae8493e28fb0927449e6433b110720e05a2",
+      "proof_directory": "work/real_world-goal/accounting-scope-67f-next-results",
+      "full_native_gate": false,
+      "integrated": false,
+      "focused": {
+        "passed": 219,
+        "seconds": 70.50935144899995,
+        "receipt_sha256": "9fd7c5d90264c1e8d4b9282250fa82271fa9732e3494d24fce01fc1cc54d80eb"
+      }
+    },
+    {
+      "candidate": "copied-touchmarks-67f-next",
+      "mechanism": "Copied bounded join frames replace linear first-touch searches with per-frame bitmaps; retain exact first originals/order/nesting and reset on reuse.",
+      "selection": "Slower; unselected",
+      "native_source_digest": "dbb6af17a86599deeb7932cb8d44ca16f9f490d6c785495b263540aa8d25632a",
+      "production_digest": "088757ea0fbb9a6e625ec639dd9692b42eacdad7fdab9c59532d073181c4ee02",
+      "snapshot": "6f5f7e4cf5f87bfa2923c8c3987c4087d52b2d777c361fd3083fcbbc076a8f44",
+      "artifact_sha256": "3d343a0f9ccef06650d7cf058ac9dd2df7c62670d54a20d9cde1659ee1a1181d",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": -0.5617475173050224,
+        "social-golfer-32x8x10-v1": -3.829675747753325
+      },
+      "controls_sha256": "790ed50639ecfb18cd8c59f431d889d1c64f2b0d52166455e7613d74cfe28415",
+      "actual_receipt_sha256": "d7043e56ea70d1e218d1ea844c24924dba6be82030ef40de62b1e76075d25ace",
+      "proof_directory": "work/real_world-goal/copied-touchmarks-67f-next-results",
+      "full_native_gate": false,
+      "integrated": false,
+      "focused": {
+        "passed": 8,
+        "seconds": 51.203704051004024,
+        "receipt_sha256": "2b948013070a2a00e9fad57782687e1020e9280bf8baa8d213ecd03007c90fc7"
+      }
+    },
+    {
+      "candidate": "checkpoint-fast-67f-next-retry",
+      "mechanism": "Inline original visited check and outline unchanged first-checkpoint allocation/journal/publication body into cold helper.",
+      "selection": "Mixed, variable controls; unselected",
+      "native_source_digest": "0d4508567e39d4d68a7eac4aa319ded5f0bc04a1e62fdb5c61abb132303799c3",
+      "production_digest": "44b9f7d93b2ffab0500c468bbd236f9bd2167a51ae409ce5b8026f2a9c881f9b",
+      "snapshot": "ee0b24b8a5d0722c99a956b2e3d2363c7038dc00d8c02cc7fb20f455a10c9eb9",
+      "artifact_sha256": "8366cb174cb0831d847e84314c350ed97fdcf73c2f61a7f90c2aea08e99c91de",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": 2.7405397948412125,
+        "social-golfer-32x8x10-v1": -1.4056815129502742
+      },
+      "controls_sha256": "7e19c17155edcdfe38b9d6d2fe346de824f4c04526256fbf81473f48bdc61b74",
+      "actual_receipt_sha256": "81455d8015b434d277a71218829421dbb38c41e1376f4c5880e1df2af5639341",
+      "proof_directory": "work/real_world-goal/checkpoint-fast-67f-next-retry-results",
+      "full_native_gate": false,
+      "integrated": false
+    },
+    {
+      "candidate": "static-join-reads-67f-next",
+      "mechanism": "Graph-only buffered join reads use compile-time numeric mapper; original public/batch and install/index/owner phases remain.",
+      "selection": "Flat Sailing and slower Golfer; unselected",
+      "native_source_digest": "11bb65b997ee54ad083b1a2671aa42fe8acf2472fede22e293c53315faa70dce",
+      "production_digest": "be8ebd206f704e5c5044665ee9bc0bef20018e4e8977135a6787d7bd3bef21b2",
+      "snapshot": "5971fd4f1694dcbab14055f1061e146996b793e40096ed0d8390b03c737c7884",
+      "artifact_sha256": "53d34109beb0611381e3bdce6d8bb3ebf4cfd030ff2453748f3338dea205380c",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": -0.165176470859707,
+        "social-golfer-32x8x10-v1": -1.6540441935331884
+      },
+      "controls_sha256": "f4668d4fc4180b273bba165154203eaef5b13235fb2be60cd3ec7c57816ec102",
+      "actual_receipt_sha256": "f9c52552e7cc18b0b70bc25ea73f9764dcfe09ee90696e4d19ad4cde70a95968",
+      "proof_directory": "work/real_world-goal/static-join-reads-67f-next-results",
+      "full_native_gate": false,
+      "integrated": false,
+      "focused": {
+        "passed": 58,
+        "seconds": 55.83876562200021,
+        "receipt_sha256": "85fe2031390dfa34731416393855cb2c79cd857c2d0633de81177b32044879f5"
+      }
+    },
+    {
+      "candidate": "sparse-score-entry-67f-next",
+      "mechanism": "Borrow std HashMap Entry across original late checked publication, avoiding repeated sparse score hashing; original every-write history remains.",
+      "selection": "Slower overall; unselected",
+      "native_source_digest": "bbcb94d17e4b9b8f93f2a74d2afa446b5e9b134455ea58af0ca0f5f0b733ad4e",
+      "production_digest": "f38205e8640e78bd8dcc94da7ecde5143c72144e4ac854fde9ed22ca68230e96",
+      "snapshot": "51aa59f7f042049d2b64e73a4fdc216cb6b6b61077c4e58615f33fa3e13c0391",
+      "artifact_sha256": "ed56d1473efbdf7a26ddc8a0945e7520c3105e10177d9d28151ae1291061c779",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": -0.6482837533227426,
+        "social-golfer-32x8x10-v1": -3.1062177970757165
+      },
+      "controls_sha256": "ac706d2431b892f206c02d7252f9ce16b45209512c48e6160bb0ae5f8cec4f55",
+      "actual_receipt_sha256": "3372fbfe4d28e988ca2a0cf47d3c591050de60566e6142b9ff542187ef56f87b",
+      "proof_directory": "work/real_world-goal/sparse-score-entry-67f-next-results",
+      "full_native_gate": false,
+      "integrated": false,
+      "focused": {
+        "passed": 43,
+        "seconds": 90.66685086500365,
+        "receipt_sha256": "b68d3c4d704c108813fd8e6c6e38f66da6d033b4976b1d0fbd58182269a09018"
+      }
+    },
+    {
+      "candidate": "prepared-score-cells-67f-next",
+      "mechanism": "Add borrowing of existing dense score cells/occupancy/frame across original late checks; missing pages and nonjournaled writes retain original allocation/pruning.",
+      "selection": "Slower both; unselected",
+      "native_source_digest": "7f296661a1b90ab55c8d0af1686c2c4b9a3f6c85056d4b53277d09c9223545ef",
+      "production_digest": "c39506ed24caec794f527a80430adc473890c66d7b086bb4c53e742613a7cd6e",
+      "snapshot": "8e600c6ebf5c703e89e5f9360fb31e5361c9622c89693ed3515a131a7ff6413d",
+      "artifact_sha256": "05b6547724f0677116c167d39f125940b7b7138b8830f44226085fba6cb25e38",
+      "valid_outputs": 16,
+      "measured_gain_percent": {
+        "sailing-trip-v1": -3.4407733728174184,
+        "social-golfer-32x8x10-v1": -3.1965018391515776
+      },
+      "controls_sha256": "624775fbd6299437f2aab87dac71abc46dc77cd6d57f318a384cd9666346773c",
+      "actual_receipt_sha256": "c97c08df6e609c891cd9686d59ee458b2abc78411d815a4f9027eb407068151e",
+      "proof_directory": "work/real_world-goal/prepared-score-cells-67f-next-results",
+      "full_native_gate": false,
+      "integrated": false,
+      "focused": {
+        "passed": 43,
+        "seconds": 120.26423310799873,
+        "receipt_sha256": "637edd8e31200fb23468f39370eae6e88cdf473747162e176a2e3118bd24c035"
+      }
+    }
+  ],
+  "scope": "Actual same-machine serial rotating4x3s seed7 native pairs per case on runner-a CPU2,3; all96 outputs independently valid. Each source measured against fully gated67f/378/7f439 baseline, with no added/extrapolated gains. No source/model/settings/compiler/CPU/PGO/panic/batch policy changes. Broader transient prepared-entry carriers can increase code/stack costs; no causal attribution of regressions without compiled proof.",
+  "failures": "Initial checkpoint dispatch failed255 before any remote worker/build due Tailscale SSH policy. User authenticated a new persistent connection; only the preserved unchanged checkpoint prototype was then actually measured once. No performance run was restarted due observation timeouts.",
+  "verification_reuse": "No full native gates or runtime integrations for these rejected candidates. Existing main remains source-bound to prior successful8878 named/8884 Cargo/292 doctest/54tool gate; origin counts unchanged. Newly written candidate-only regressions earn no integrated or upstream credit.",
+  "next": "Original default current-source Java qualification is deliberately refreshed separately after multiple accepted changes since021a; it will replace the old report only after actual source/artifact/12output validation. Native diagnostic ratios never establish Java parity."
+}

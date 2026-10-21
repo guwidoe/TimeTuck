@@ -105,20 +105,31 @@ only a modest +0.629% Sailing/-0.257% Golfer signal. Focused tests passed,
 without new integrated test credit. The existing native gate was reused;
 no broad gate or Java qualifier was repeated.
 
-The latest original-protocol Java qualification is now **historical and stale**:
-paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
-valid, using the preceding fixed-bucket directory source. Its measured medians:
+The latest original-protocol Java qualification is **current** on the unchanged
+67f/378 source and original 7f439 artifact: paired seeds7/11/23 x10s on runner-a
+CPU2,3, all 12 assignments independently valid and revalidated after collection.
+Both actual Cargo release and Java builds ran; the resulting Rust artifact is
+byte-identical to the prior gated pilot. The unchanged native gate was reused.
+[Qualification evidence](../compat/observations/real_world-current-81e-qualification.json).
 
-| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Historical target |
+| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Current target |
 | --- | ---: | ---: | ---: | --- |
-| Golfer | 152,426 | 121,584 | 1.254x | met |
-| Sailing | 50,061 | 82,196 | 0.609x | below target |
+| Golfer | 180,326 | 122,886 | 1.467x | met |
+| Sailing | 59,759 | 81,835 | 0.730x | below target |
 
-**Neither current throughput target is proved on the new source.** The previous
-qualification met 1/2 targets; Sailing remains the outstanding performance goal.
-The Java report is retained byte-for-byte and visibly stale until a deliberate
-original-protocol refresh. Scores and feasibility remain separate, without an
-equal-score gate. Historical Sailing feasibility is 2/3 Rust and 0/3 Java.
+**One of two current throughput targets is met.** Sailing needs about 36.9%
+more native throughput at the measured Java rate. Scores/feasibility remain
+separate, without an equal-score gate: Sailing is feasible 2/3 Rust and 0/3 Java;
+Golfer is3/3 for both. The earlier021a report remains preserved byte-for-byte as
+historical evidence; native relative gains were never added to its Java ratios.
+This deliberate refresh follows multiple accepted changes, not every increment.
+
+A later [performance investigation](../compat/observations/real_world-performance-investigation-67f.json)
+selected no runtime changes. Accounting scopes and static join reads were flat
+for Sailing; copied touch marks and prepared score entries were slower. The
+checkpoint fast path was mixed and variable. All 96 native outputs independently
+validate across six candidates. Their focused tests add no integrated test credit,
+and no rejected candidate received a full gate. Do not retry them unchanged.
 
 Exact primitive graph equality joins also retain the preceding fixed outer
 bucket directory. Members/key cloning, canonical input owners and callback/error

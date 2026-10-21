@@ -19,7 +19,7 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Neither current parity target is proved. Preserve original same-machine serial
+Golfer meets current parity; Sailing does not. Preserve original same-machine serial
 rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
 validations. Scores/feasibility remain separate. Model, fixtures, declarations,
 runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
@@ -62,24 +62,56 @@ All16 outputs per trial independently validate. Focused controls and corrected
 cfg-only failures remain recorded; none of these standalone sources was broadly
 gated or integrated. Do not retry unchanged.
 
-Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
-all12 valid on old021a. Neither current target is proved. Defer the original
-qualifier until materially closer to Sailing parity. No extrapolated ratio.
-The goal is active and incomplete. No new agents; local+runner-a, runner-c parked.
-All build/test/performance jobs in this batch are terminal and collected.
+The original Java comparison is now **fresh** on this exact source/artifact:
+G1.467427x (Rust180,326/Java122,886eval/s),
+S0.730242x (Rust59,759/Java81,835eval/s).
+One of two targets is met; Sailing needs about 36.9% more native throughput
+at the measured Java rate. All 12 original seeds7/11/23x10s serial rotating outputs
+independently validate, including after collection. Sailing feasible Rust2/3,
+Java0/3; Golfer3/3 both. Raw quality remains separate, no equal-score gate.
+Genuine default Cargo release/javac commands ran; output7f439 is byte-identical
+to the original pilot, and the native gate was reused without repetition.
+Current report SHA866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25;
+old021a/b14a is preserved byte-for-byte in the proof directory, never relabeled.
+Proof: `compat/observations/real_world-current-81e-qualification.json` and
+`work/real_world-goal/current-81e-java-qualification/`.
 
-Next: `pilot-v23-artifact-{dispatch,remote}.py` binds the genuinely gated67f/378/
-7f439 artifact and final receipt a5a9e871; v22 remains historical forbeeb.
+This deliberate refresh supersedes the earlier deferral after multiple accepted
+source changes. Do not refresh every increment or extrapolate native relative
+gains into Java ratios. The performance objective remains incomplete.
+No new agents; local+runner-a, runner-c parked. All verification/performance jobs are
+terminal and collected. The authenticated reusable SSH Master socket is
+`work/real_world-goal/ssh-control/runner-a`; check it before opening new connections.
+The earlier live auth succeeded after disabling authentication-wait keepalives.
+
+Six rejected trials are recorded in
+`compat/observations/real_world-performance-investigation-67f.json`: accounting
+scopes (-.096%S/+.297%G), copied touch marks(-.562%S/-3.830%G), checkpoint
+fast path(+2.741%S/-1.406%G, variable), static join reads(-.165%S/-1.654%G),
+sparse score entries(-.648%S/-3.106%G), dense+sparse prepared cells(-3.441%S/
+-3.197%G). All 96 outputs valid; focused219/8/none/58/43/43 respectively.
+New prototype-only regressions earn no integrated/native/upstream credit.
+No broad gates on these candidates; do not retry unchanged or redesign prepared
+score entries without compiled evidence of a distinct removable cost.
+
+Next: `pilot-v24-artifact-{dispatch,remote}.py` retains the genuinely gated67f/378/
+7f439 baseline and binds the fresh original Java report (still native diagnostics
+only). v23 remains historical for its earlier trials. Reuse the prior native
+gate and backend rendering proof; commit/reset warrants no repeat checks.
+One potential next lead is forwarding an existing private Shared numeric member
+owner through a consuming acceptance filter, retaining apply_row and existing
+compact action, with all producer-retention/public/custom/batch fallbacks. This
+is READ-ONLY and unimplemented: first audit owner/callback/retraction/forcedShared
+contracts. It is distinct from the rejected member payload arena, not a speed claim.
+
 The previous-source hardware profile at
 `work/real_world-goal/current-compact-inverse-hardware-profile/` is actualbeeb/498
 on runner-a: two valid10s seed7 CPU2,3 runs, zero lost samples, no rebuild.
 Hardware counters:2.24 instructions/cycle, .73% branch misses,3.42% LLC misses,
 100% counter residency. Propagation13.11%, enqueue5.14%, group apply/edits,
 membership and terminal remain substantial. This is not a profile of67f, and
-enclosing samples are not removable costs. Reuse this recording; avoid closed
-ownership/layout/queue experiments and unsupported model/policy shortcuts.
-Backend report/freshness checked; unchanged UI rendering proof reused.
-Commit/reset alone warrants no repeat checks.
+enclosing samples are not removable costs. Reuse it; avoid closed ownership,
+layout, queue and generic prepared-score variants.
 
 The preceding compact inverse batch is historical:
 `compat/observations/real_world-compact-group-inverse.json` records actual

@@ -1,0 +1,176 @@
+{
+  "kind": "real_world-current-source-qualification",
+  "generated_at": "2026-10-21T08:51:30.602729+00:00",
+  "native_source_digest": "67f1e924b5406df437eb9a03b5537bef5db2846ec9848c1b29eac82f93b4a48a",
+  "input_sha256": "378cf318b4e58607548dad932fc3853354bdb35bc640c9e74afb3c4ed8f610d9",
+  "artifact_sha256": "7f4391ca35a578542970f7b4a2cde7196e7262b03ee8e18c3b3f1d1bd2342da1",
+  "source_snapshot": "68a462401ced5e36a040d58d0492b49a7bb7a58106add56301ec3897d2cc63bd",
+  "qualified_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+  "receipt_sha256": "ff37ce7c55c43ad7a528f14f3ad37202927e9ec8b555ad8fac3750b7ec8aae19",
+  "source_and_gate_binding_sha256": "b5d3a870250f218af10acbd523fb0b7c5291e44df23a0298ee1b5bc17e9d6896",
+  "genuine_artifact_build_binding_sha256": "c4a5e71cabe5231839ec511ba71c105be79e423908fd52ff985f44c672b17a5d",
+  "full_native_gate_receipt_sha256": "a5a9e87165375501065704a316cd23c6f1e1cba1bc4a4ccb119510581783c3ab",
+  "native_gate_reused": true,
+  "recorded_native_tests_passed": 8878,
+  "cargo_test_executions": 8884,
+  "doctests_passed": 292,
+  "tooling_jobs": 54,
+  "valid_outputs": 12,
+  "independently_revalidated_after_collection": true,
+  "configuration": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "host": "runner-a",
+  "current_throughput_targets_met": 1,
+  "summaries": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 122885.98144029513,
+          "scores": [
+            [
+              0,
+              20500
+            ],
+            [
+              0,
+              15000
+            ],
+            [
+              0,
+              16100
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.045197878
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 180326.16460423142,
+          "scores": [
+            [
+              0,
+              13900
+            ],
+            [
+              0,
+              18300
+            ],
+            [
+              0,
+              13900
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.000109382
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 1.4674266542912704,
+      "throughput_target_met": true,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    },
+    {
+      "case": "sailing-trip-v1",
+      "runtimes": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 81834.67241982988,
+          "scores": [
+            [
+              -12,
+              81900
+            ],
+            [
+              -5,
+              69700
+            ],
+            [
+              -8,
+              90000
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.049664326
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 59759.13837336114,
+          "scores": [
+            [
+              0,
+              94500
+            ],
+            [
+              0,
+              85400
+            ],
+            [
+              -1,
+              194700
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.001023346
+        }
+      },
+      "rust_over_java_streams_evaluations_per_second": 0.7302422873618117,
+      "throughput_target_met": false,
+      "quality_equal_gated": false,
+      "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+    }
+  ],
+  "upstream_method_credit": 0,
+  "integrated_native_test_credit": 0,
+  "policy": "Deliberate original-protocol refresh after multiple accepted source changes since021a. Same-machine serial rotating seeds7/11/23x10s onrunner-a CPU2,3, actual pinnedJava/Rust builds, all12independently valid. Exact original7f439 artifact and unchangedRust67f match the genuine prior full native gate; no native gate repeated. Raw scores/feasibility separate with no equal-score gate. No model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy change, no source/timing relabel and no accumulation of diagnostic gains.",
+  "historical_report": {
+    "sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+    "proof_path": "work/real_world-goal/current-81e-java-qualification/historical-021a-report.json",
+    "status": "Historical021a only, preserved byte-for-byte and replaced by actual current measurements."
+  },
+  "proof_directory": "work/real_world-goal/current-81e-java-qualification/",
+  "remaining_goal": "Sailing original throughput ratio remains below1. Golfer passes; objective incomplete. Use measured absolute current gap, avoid closed compiler/ownership/queue/prepared-score repeats."
+}
