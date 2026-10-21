@@ -1,0 +1,168 @@
+{
+  "kind": "real_world-count-states",
+  "status": "selected;modest native Sailing gain,Golfer flat;original Java qualification running",
+  "native_source_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+  "input_sha256": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+  "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+  "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+  "mechanism": "Represent private integer frequencies as explicit empty/one/two/tree states,removing stored inline length and replacing inline binary searches with direct comparisons. Preserve all i64 keys,usize multiplicities,tree hysteresis,persistent snapshots,equality,public Debug,checked insertion,wrapping sums and full summaries. Counts40bytes/collector56bytes versus prior48/64.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/count-states-next-results/real_world-count-states-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66156.47166806713,
+            65529.352013856536,
+            65492.86036471432,
+            65904.4931707162
+          ],
+          "trial": [
+            65378.15477430146,
+            67318.0458765528,
+            66760.76190414863,
+            66498.81815976951
+          ]
+        },
+        "medians": {
+          "baseline": 65716.92259228637,
+          "trial": 66629.79003195907
+        },
+        "gain_pct": 1.3890903646480934
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194889.12228994016,
+            192923.03979792906,
+            194759.859840192,
+            197557.022769355
+          ],
+          "trial": [
+            197579.56937775546,
+            193989.91815741255,
+            193116.5901385123,
+            196187.758744227
+          ]
+        },
+        "medians": {
+          "baseline": 194824.49106506607,
+          "trial": 195088.83845081978
+        },
+        "gain_pct": 0.13568488453816752
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 18,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "--nocapture",
+      "int_collector_counts::",
+      "stream::group_inverse_count_tests",
+      "stream::owned_collector_box_tests"
+    ],
+    "proof_directory": "work/real_world-goal/count-states-focused1",
+    "receipt_sha256": "d4da80ff944936b24f10f36bda1ea159d07a1468a26dee3dd352243888b588fb",
+    "log_sha256": "2487bd5e16c6ded58beba0ce492dc3b02ce0b1e396ae3da0c1d8b71d420d4184",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "7d3d00ddb00f3f0bd03c0af863ec7c50d01a14057cdde35f5dfb7a42fb02654f",
+  "receipts": {
+    "receipt.json": "76608490e9e6cee6982dbb9e020944837a0e5b430456fad9e53fac9ec3de3aee",
+    "build-receipt.json": "5146e599bfe2a20b97c8ead4bbe77f92f262e7d611a18f799d0c7c540d2330c5",
+    "controls.json": "660bbc7e710b3fdbbc20c76a809fac4019105a19bfca1eea32bae98a02486721",
+    "baseline-binding.json": "9f3025ccd01b4e729fcb49c3f672b4a551326a3e262cf7ac1e2f8c0b34eba835"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
+    "production_digest": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
+    "artifact_sha256": "1f5e46800ea99ce450adeb9d38df1b5abfd1b58d35a7f1ebeb7288cc22ead095",
+    "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "focused_verification": {
+    "full_native_gate": false,
+    "native_source_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "actual_current_source_tests_passed": 22,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "--nocapture",
+          "int_collector_counts::",
+          "stream::group_inverse_count_tests",
+          "stream::owned_collector_box_tests"
+        ],
+        "tests_passed": 18,
+        "exit_code": 0,
+        "seconds": 81.27810335700633,
+        "proof_directory": "work/real_world-goal/count-states-focused1",
+        "log_sha256": "2487bd5e16c6ded58beba0ce492dc3b02ce0b1e396ae3da0c1d8b71d420d4184",
+        "receipt_sha256": "d4da80ff944936b24f10f36bda1ea159d07a1468a26dee3dd352243888b588fb"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 27.19656737698824,
+        "proof_directory": "work/real_world-goal/count-states-application1",
+        "log_sha256": "26536a024997ec608fb792c87727b60594d7166fc28e3430ce2802b7a30355e0",
+        "receipt_sha256": "41cac939339df97b467454cceb2cdf09bc8ac0653aadbeb80d41f279ada6086d"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 20.70002093698713,
+        "proof_directory": "work/real_world-goal/count-states-clippy1",
+        "log_sha256": "fd635c8654c0b53fc65f3b11942711e81d781c654c7949d7f004e093f6c0c409",
+        "receipt_sha256": "2b14cd1d9e3383934c78b2021e5c75c244181d8d202ebbdaf3b6eb75f4dd7308"
+      }
+    ],
+    "policy": "22 actual same-source focused/application passes and lib/example Clippy. No repeated tests or full suite."
+  },
+  "new_original_native_tests": 1,
+  "current_source_tests_credited": 22,
+  "tradeoffs": "On the measured64-bit target private counts shrink48to40bytes and IntCollector64to56bytes. More enum cases replace the former inline length;larger collectors retain the existing persistent tree. No arbitrary-scale memory or universal throughput claim."
+}

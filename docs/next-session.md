@@ -25,29 +25,28 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-The selected runtime stores scores alone in private contribution pages,hash rows
-and every-write undo. Complete numeric storage positions retain the identity;
-cold ordered views reconstruct all7 supported numeric shapes without narrowing.
-Views allocate/cache complete typed pairs until next write,so observed peak memory
-can increase. Public/custom rows and original terminal input clone/callback/check
-phases are unchanged. Prepared IDs must match their original mapped positions,
-as every production caller guarantees.
+The selected runtime now uses explicit empty/one/two/tree integer frequency
+states. This removes the inline length and uses direct comparisons for small
+sets;counts shrink48to40 bytes and IntCollector64to56 on the measured64-bit
+platform. Arbitrary signed values,multiplicities,tree hysteresis,persistent
+snapshots,checked insertion,full summaries and existing Debug output remain.
+Four rotating native pairs measured **Sailing +1.389% (3/4 faster),Golfer +.136%
+(2/4 faster,flat)**. All16 full outputs independently validate. Actual18 focused
+checks,4 RealWorld application cases and lib/example Clippy pass on9848e7c1/
+productiondf9b08e0/artifact1d5b9518. Original regression1 earns no upstream credit;
+no full suite or repeated checks. Exact source is integrated. Original Java
+qualification is live at count-states-current-java-qualification/session53313;
+preserve that job until terminal. Prior317eca04 is historical/source-stale,
+not relabeled;it proved1/2 targets,Golfer1.611318x/Sailing.887283x.
+[Evidence](../compat/observations/real_world-count-states.json).
 
-Four rotating native pairs measured **Sailing +0.904% (4/4 faster),Golfer -1.373%
-(0/4 faster)**. The tradeoff favors the remaining Sailing target;all16 full outputs
-independently validate including initial states. Actual36 focused checks,4 external
-application cases and lib/example Clippy pass on817b1386/prod47fc4cef;artifact1f5e4680.
-No full suite,new upstream credit or unchanged validation repeats. Fresh original
-Java/Rust3seed10s matrix317eca04 is current:all12 full outputs independently valid,
-**Golfer1.611318x/Sailing0.887283x Java;1/2 targets met**. Sailing needs12.703607%
-more Rust throughput. This is essentially unchanged versus the preceding .886679
-ratio;do not claim material gap closure from the short native controls. Rust2/3
-versus Java0/3 Sailing runs are feasible;quality remains separate. Old3ea8613a is
-preserved historical. All current measurements are terminal and collected.
-[Evidence](../compat/observations/real_world-score-only-rows.json).
-Use prepared `v35-master-dispatch.py` / `v35-artifact-remote.py` for the next
-changed candidate;they bind current817b/47fc/1f5e and actual Java317eca04.
-Do not repeat completed tests or this matrix on an unchanged source.
+The preceding score-only private contribution storage remains in the selected
+runtime. Cold complete ID/score views reconstruct all7 numeric shapes and may
+increase peak memory;original terminal Clone/callback/check phases remain.
+Its original qualification317eca04 and40 actual checks remain bound to817b1386/
+47fc4cef/1f5e4680. Do not repeat them or add the new native gain to Java ratios.
+Prepared v35 controls bind that preceding baseline only;update the next helper
+from actual9848/df9b/1d5b receipts and the new Java qualification after collection.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and

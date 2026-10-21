@@ -9,10 +9,7 @@ fn inverse_collector_count_overflow_precedes_mutation_and_undo_publication() {
     rows.insert(
         0usize,
         IntCollector {
-            values: IntCollectorCounts::Inline {
-                entries: [(7, usize::MAX), (0, 0)],
-                len: 1,
-            },
+            values: IntCollectorCounts::One((7, usize::MAX)),
             count: usize::MAX,
             sum: 7i64.wrapping_mul(usize::MAX as i64),
         },
@@ -70,10 +67,7 @@ fn group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_pha
         rows.insert(
             usize::MAX,
             IntCollector {
-                values: IntCollectorCounts::Inline {
-                    entries: [(7, usize::MAX), (0, 0)],
-                    len: 1,
-                },
+                values: IntCollectorCounts::One((7, usize::MAX)),
                 count: usize::MAX,
                 sum: 7i64.wrapping_mul(usize::MAX as i64),
             },

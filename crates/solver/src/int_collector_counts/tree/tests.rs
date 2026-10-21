@@ -164,10 +164,7 @@ fn missing_and_equal_replacements_preserve_the_exact_root() {
 
 #[test]
 fn promotion_copies_large_counts_once_and_demotion_keeps_multiplicities() {
-    let mut counts = IntCollectorCounts::Inline {
-        entries: [(1, usize::MAX - 2), (2, 1)],
-        len: 2,
-    };
+    let mut counts = IntCollectorCounts::Two([(1, usize::MAX - 2), (2, 1)]);
     let saved = counts.clone();
     counts.increment(3);
     let IntCollectorCounts::Tree(tree) = &counts else {
@@ -178,11 +175,10 @@ fn promotion_copies_large_counts_once_and_demotion_keeps_multiplicities() {
     assert_eq!(counts, saved);
     assert!(matches!(counts, IntCollectorCounts::Tree(_)));
     assert!(counts.remove(2));
-    let IntCollectorCounts::Inline { entries, len } = counts else {
+    let IntCollectorCounts::One(entry) = counts else {
         panic!("expected demotion")
     };
-    assert_eq!(len, 1);
-    assert_eq!(entries[0], (1, usize::MAX - 2));
+    assert_eq!(entry, (1, usize::MAX - 2));
 }
 
 #[test]
@@ -387,10 +383,7 @@ fn fused_multiset_histories_preserve_avl_counts_and_all_saved_snapshots() {
 
 #[test]
 fn fused_replacement_keeps_inline_hysteresis_and_near_limit_frequency_totals() {
-    let mut counts = IntCollectorCounts::Inline {
-        entries: [(1, usize::MAX - 3), (2, 1)],
-        len: 2,
-    };
+    let mut counts = IntCollectorCounts::Two([(1, usize::MAX - 3), (2, 1)]);
     counts.increment(3); // Total is usize::MAX - 1, leaving room for a fourth class.
     let saved = counts.clone();
     assert!(counts.replace(3, 1));
@@ -400,11 +393,10 @@ fn fused_replacement_keeps_inline_hysteresis_and_near_limit_frequency_totals() {
     };
     assert_eq!(rows(tree), [(1, usize::MAX - 2), (2, 1)]);
     assert!(counts.replace(2, 1)); // Two-class fallback demotes at one class.
-    let IntCollectorCounts::Inline { entries, len } = counts else {
+    let IntCollectorCounts::One(entry) = counts else {
         panic!("expected demotion")
     };
-    assert_eq!(len, 1);
-    assert_eq!(entries[0], (1, usize::MAX - 1));
+    assert_eq!(entry, (1, usize::MAX - 1));
     let IntCollectorCounts::Tree(tree) = saved else {
         unreachable!()
     };

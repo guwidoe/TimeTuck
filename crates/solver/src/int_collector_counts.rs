@@ -1,119 +1,146 @@
 //! Allocation-free small frequency sets, persistent trees for larger collectors.
 mod tree;
 use tree::CountsTree;
-const INLINE_VALUES: usize = 2;
-#[derive(Clone, Debug)]
+#[derive(Clone, Default)]
 pub(crate) enum IntCollectorCounts {
-    Inline {
-        entries: [(i64, usize); INLINE_VALUES],
-        len: usize,
-    },
+    #[default]
+    Empty,
+    One((i64, usize)),
+    Two([(i64, usize); 2]),
     Tree(CountsTree),
+}
+impl std::fmt::Debug for IntCollectorCounts {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(values) = self.inline_values() {
+            let mut entries = [(0, 0); 2];
+            entries[..values.len()].copy_from_slice(values);
+            f.debug_struct("Inline")
+                .field("entries", &entries)
+                .field("len", &values.len())
+                .finish()
+        } else if let Self::Tree(tree) = self {
+            f.debug_tuple("Tree").field(tree).finish()
+        } else {
+            unreachable!()
+        }
+    }
 }
 impl PartialEq for IntCollectorCounts {
     fn eq(&self, other: &Self) -> bool {
-        match (self, other) {
-            (
-                Self::Inline {
-                    entries: a,
-                    len: an,
-                },
-                Self::Inline {
-                    entries: b,
-                    len: bn,
-                },
-            ) => a[..*an] == b[..*bn],
-            (Self::Tree(a), Self::Tree(b)) => a == b,
-            (Self::Inline { entries, len }, Self::Tree(tree))
-            | (Self::Tree(tree), Self::Inline { entries, len }) => {
-                *len == tree.len()
-                    && entries[..*len]
-                        .iter()
-                        .zip(tree.iter())
-                        .all(|(&(value, count), (key, n))| value == key && count == n)
+        match (self.inline_values(), other.inline_values()) {
+            (Some(a), Some(b)) => a == b,
+            (None, None) => match (self, other) {
+                (Self::Tree(a), Self::Tree(b)) => a == b,
+                _ => unreachable!(),
+            },
+            (Some(entries), None) | (None, Some(entries)) => {
+                let tree = if let Self::Tree(tree) = self {
+                    tree
+                } else if let Self::Tree(tree) = other {
+                    tree
+                } else {
+                    unreachable!()
+                };
+                entries.len() == tree.len() && entries.iter().copied().eq(tree.iter())
             }
         }
     }
 }
 impl Eq for IntCollectorCounts {}
-impl Default for IntCollectorCounts {
-    fn default() -> Self {
-        Self::Inline {
-            entries: [(0, 0); INLINE_VALUES],
-            len: 0,
+impl IntCollectorCounts {
+    fn inline_values(&self) -> Option<&[(i64, usize)]> {
+        match self {
+            Self::Empty => Some(&[]),
+            Self::One(value) => Some(std::slice::from_ref(value)),
+            Self::Two(values) => Some(values),
+            Self::Tree(_) => None,
         }
     }
-}
-impl IntCollectorCounts {
     pub(crate) fn frequency(&self, value: i64) -> Option<usize> {
         match self {
-            Self::Inline { entries, len } => entries[..*len]
-                .binary_search_by_key(&value, |entry| entry.0)
-                .ok()
-                .map(|index| entries[index].1),
+            Self::Empty => None,
+            Self::One((key, n)) => (*key == value).then_some(*n),
+            Self::Two([a, b]) => {
+                if a.0 == value {
+                    Some(a.1)
+                } else if b.0 == value {
+                    Some(b.1)
+                } else {
+                    None
+                }
+            }
             Self::Tree(tree) => tree.get(value),
         }
     }
     pub(crate) fn contains(&self, value: i64) -> bool {
-        match self {
-            Self::Inline { entries, len } => entries[..*len]
-                .binary_search_by_key(&value, |e| e.0)
-                .is_ok(),
-            Self::Tree(tree) => tree.get(value).is_some(),
-        }
+        self.frequency(value).is_some()
     }
     pub(crate) fn increment(&mut self, value: i64) {
         match self {
-            Self::Inline { entries, len } => {
-                match entries[..*len].binary_search_by_key(&value, |e| e.0) {
-                    Ok(i) => entries[i].1 += 1,
-                    Err(i) if *len < INLINE_VALUES => {
-                        entries.copy_within(i..*len, i + 1);
-                        entries[i] = (value, 1);
-                        *len += 1;
-                    }
-                    Err(_) => {
-                        let mut tree = CountsTree::new();
-                        for &(key, count) in &entries[..*len] {
-                            tree.insert_count(key, count);
-                        }
-                        tree.increment(value);
-                        *self = Self::Tree(tree);
-                    }
+            Self::Empty => *self = Self::One((value, 1)),
+            Self::One((key, n)) if *key == value => *n += 1,
+            Self::One(old) => {
+                *self = Self::Two(if value < old.0 {
+                    [(value, 1), *old]
+                } else {
+                    [*old, (value, 1)]
+                });
+            }
+            Self::Two([a, b]) if a.0 == value => a.1 += 1,
+            Self::Two([a, b]) if b.0 == value => b.1 += 1,
+            Self::Two(entries) => {
+                let mut tree = CountsTree::new();
+                for &(key, n) in entries.iter() {
+                    tree.insert_count(key, n);
                 }
-            }
-            Self::Tree(tree) => {
                 tree.increment(value);
+                *self = Self::Tree(tree);
             }
+            Self::Tree(tree) => tree.increment(value),
         }
     }
     pub(crate) fn remove(&mut self, value: i64) -> bool {
         match self {
-            Self::Inline { entries, len } => {
-                let Ok(i) = entries[..*len].binary_search_by_key(&value, |e| e.0) else {
+            Self::Empty => return false,
+            Self::One((key, n)) => {
+                if *key != value {
                     return false;
-                };
-                if entries[i].1 > 1 {
-                    entries[i].1 -= 1;
+                }
+                if *n > 1 {
+                    *n -= 1;
                 } else {
-                    entries.copy_within(i + 1..*len, i);
-                    *len -= 1;
-                    entries[*len] = (0, 0);
+                    *self = Self::Empty;
+                }
+            }
+            Self::Two([a, b]) => {
+                if a.0 == value {
+                    if a.1 > 1 {
+                        a.1 -= 1;
+                    } else {
+                        *self = Self::One(*b);
+                    }
+                } else if b.0 == value {
+                    if b.1 > 1 {
+                        b.1 -= 1;
+                    } else {
+                        *self = Self::One(*a);
+                    }
+                } else {
+                    return false;
                 }
             }
             Self::Tree(tree) => {
                 if !tree.remove(value) {
                     return false;
                 }
-                // A lower demotion threshold avoids rebuilding a tree on
-                // every alternation around the inline threshold.
-                if tree.len() <= INLINE_VALUES / 2 {
-                    let mut entries = [(0, 0); INLINE_VALUES];
-                    let len = tree.len();
-                    if let Some(key) = tree.min() {
-                        entries[0] = (key, tree.get(key).expect("present sole frequency"));
-                    }
-                    *self = Self::Inline { entries, len };
+                // Preserve the original lower demotion threshold.
+                if tree.len() <= 1 {
+                    *self = match tree.min() {
+                        Some(key) => {
+                            Self::One((key, tree.get(key).expect("present sole frequency")))
+                        }
+                        None => Self::Empty,
+                    };
                 }
             }
         }
@@ -123,10 +150,8 @@ impl IntCollectorCounts {
         if old == new {
             return self.contains(old);
         }
-        // Keep the ordinary inline demotion when removing one class would
-        // cross its threshold. Larger trees retain their representation.
         if let Self::Tree(tree) = self
-            && tree.len() > INLINE_VALUES / 2 + 1
+            && tree.len() > 2
         {
             return tree.replace_one(old, new);
         }
@@ -138,20 +163,28 @@ impl IntCollectorCounts {
     }
     pub(crate) fn len(&self) -> usize {
         match self {
-            Self::Inline { len, .. } => *len,
-            Self::Tree(tree) => tree.len(),
+            Self::Empty => 0,
+            Self::One(_) => 1,
+            Self::Two(_) => 2,
+            Self::Tree(t) => t.len(),
         }
     }
     pub(crate) fn min(&self) -> Option<i64> {
         match self {
-            Self::Inline { entries, len } => entries[..*len].first().map(|e| e.0),
-            Self::Tree(tree) => tree.min(),
+            Self::Empty => None,
+            Self::One(a) => Some(a.0),
+            Self::Two([a, _]) => Some(a.0),
+            Self::Tree(t) => t.min(),
         }
     }
     pub(crate) fn max(&self) -> Option<i64> {
         match self {
-            Self::Inline { entries, len } => entries[..*len].last().map(|e| e.0),
-            Self::Tree(tree) => tree.max(),
+            Self::Empty => None,
+            Self::One(a) => Some(a.0),
+            Self::Two([_, b]) => Some(b.0),
+            Self::Tree(t) => t.max(),
         }
     }
 }
+#[cfg(test)]
+mod state_tests;
