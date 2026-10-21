@@ -1,17 +1,17 @@
-#![allow(clippy::vec_box, reason = "Pool retains retired box allocations")]
+mod arena;
 
 use super::super::directory::PageDirectory;
 use super::*;
 
 struct OwnedEntry<K> {
     key: Arc<K>,
-    value: Box<IntCollector>,
+    value: usize,
 }
 impl<K> Clone for OwnedEntry<K> {
     fn clone(&self) -> Self {
         Self {
             key: self.key.clone(),
-            value: self.value.clone(),
+            value: self.value,
         }
     }
 }
@@ -40,14 +40,16 @@ enum OwnedUndo<K> {
     Row(usize, Option<OwnedEntry<K>>),
 }
 impl<K> OwnedUndo<K> {
-    fn packed(&self) -> usize {
+    fn position(&self, wide: &[Position], arena: &arena::Arena) -> Position {
         match self {
-            Self::Scalar(p, _) | Self::Row(p, _) => *p,
+            Self::Scalar(slot, _) => arena.position(*slot),
+            Self::Row(packed, _) => InverseFrame::decode(wide, *packed),
         }
     }
     fn rebase(&mut self, offset: usize) {
-        let (Self::Scalar(p, _) | Self::Row(p, _)) = self;
-        if *p & WIDE_POSITION != 0 {
+        if let Self::Row(p, _) = self
+            && *p & WIDE_POSITION != 0
+        {
             let index = (*p & !WIDE_POSITION)
                 .checked_add(offset)
                 .expect("inverse address index");
@@ -92,7 +94,7 @@ pub(super) struct Owned<K> {
     spare: Vec<OwnedFrame<K>>,
     empty: Vec<PageKey>,
     keys: pool::Pool<K>,
-    values: Vec<Box<IntCollector>>,
+    values: arena::Arena,
 }
 impl<K> Clone for Owned<K> {
     fn clone(&self) -> Self {
@@ -104,7 +106,11 @@ impl<K> Clone for Owned<K> {
             spare: Vec::new(),
             empty: Vec::new(),
             keys: self.keys.empty_clone(),
-            values: Vec::new(),
+            values: self.values.clone_live(
+                self.pages
+                    .values()
+                    .flat_map(|p| p.cells.iter().flatten().map(|e| e.value)),
+            ),
         }
     }
 }
@@ -118,7 +124,7 @@ impl<K> Owned<K> {
             spare: Vec::new(),
             empty: Vec::new(),
             keys: pool::Pool::new(),
-            values: Vec::new(),
+            values: arena::Arena::default(),
         }
     }
     fn entry(&self, pos: Position) -> Option<&OwnedEntry<K>> {
@@ -150,24 +156,9 @@ impl<K> Owned<K> {
         old
     }
     fn retire(&mut self, entry: Option<OwnedEntry<K>>) {
-        if let Some(OwnedEntry { key, mut value }) = entry {
+        if let Some(OwnedEntry { key, value }) = entry {
             self.keys.retire(key);
-            if self.values.len() < 64
-                && (std::mem::size_of::<IntCollector>() + std::mem::size_of::<usize>()) * 64
-                    <= 32 * 1024
-            {
-                *value = IntCollector::default();
-                self.values.push(value);
-            }
-        }
-    }
-    fn value(&mut self, value: IntCollector) -> Box<IntCollector> {
-        match self.values.pop() {
-            Some(mut owner) => {
-                *owner = value;
-                owner
-            }
-            None => Box::new(value),
+            self.values.retire(value);
         }
     }
     fn record_set(&mut self, pos: Position, next: Option<OwnedEntry<K>>) {
@@ -199,11 +190,11 @@ impl<K> Owned<K> {
         self.pages
             .values()
             .flat_map(|page| page.cells.iter().flatten())
-            .map(|e| (e.key.as_ref(), e.value.as_ref()))
+            .map(|e| (e.key.as_ref(), self.values.get(e.value)))
     }
     pub(super) fn get_key_value(&self, key: &K) -> Option<(&K, &IntCollector)> {
         self.entry((self.map)(key))
-            .map(|e| (e.key.as_ref(), e.value.as_ref()))
+            .map(|e| (e.key.as_ref(), self.values.get(e.value)))
     }
     pub(super) fn get(&self, key: &K) -> Option<&IntCollector> {
         self.get_key_value(key).map(|(_, v)| v)
@@ -214,7 +205,7 @@ impl<K> Owned<K> {
             .entry(pos)
             .map(|e| e.key.clone())
             .unwrap_or_else(|| self.keys.take(key));
-        let value = self.value(value);
+        let value = self.values.insert(pos, value);
         self.record_set(
             pos,
             Some(OwnedEntry {
@@ -234,6 +225,7 @@ impl<K> Owned<K> {
     pub(super) fn clear(&mut self) {
         if self.frames.is_empty() {
             self.pages.clear();
+            self.values = arena::Arena::default();
             self.empty.clear();
             self.len = 0;
         } else {
@@ -284,18 +276,14 @@ impl<K> Owned<K> {
         assert_eq!(self.frames.len(), token + 1, "owned group journal order");
         let mut frame = self.frames.pop().unwrap();
         for edit in frame.edits.drain(..).rev() {
-            let pos = InverseFrame::decode(&frame.wide, edit.packed());
             match edit {
-                OwnedUndo::Row(_, old) => {
+                OwnedUndo::Row(packed, old) => {
+                    let pos = InverseFrame::decode(&frame.wide, packed);
                     let retired = self.set(pos, old);
                     self.retire(retired);
                 }
-                OwnedUndo::Scalar(_, edit) => {
-                    let collector = self.pages.get_mut(&pos.page).unwrap().cells[pos.cell]
-                        .as_mut()
-                        .unwrap()
-                        .value
-                        .as_mut();
+                OwnedUndo::Scalar(slot, edit) => {
+                    let collector = self.values.get_mut(slot);
                     match edit {
                         ScalarEdit::Insert(v) => {
                             assert!(collector.remove(v), "inverse group occurrence")
@@ -316,11 +304,7 @@ impl<K> Owned<K> {
         assert!(token < self.frames.len(), "active owned group journal");
         let mut positions: Vec<_> = self.frames[token..]
             .iter()
-            .flat_map(|f| {
-                f.edits
-                    .iter()
-                    .map(|e| InverseFrame::decode(&f.wide, e.packed()))
-            })
+            .flat_map(|f| f.edits.iter().map(|e| e.position(&f.wide, &self.values)))
             .collect();
         positions.sort_unstable();
         positions.dedup();
@@ -332,7 +316,7 @@ impl<K> Owned<K> {
                         pos,
                         self.entry(pos).map(|e| Entry {
                             key: e.key.clone(),
-                            value: Arc::new(e.value.as_ref().clone()),
+                            value: Arc::new(self.values.get(e.value).clone()),
                         }),
                     )
                 })
@@ -343,20 +327,18 @@ impl<K> Owned<K> {
         match capture {
             RowsCapture::Delta(delta) => {
                 for (pos, entry) in delta.entries {
-                    self.record_set(
-                        pos,
-                        entry.map(|e| OwnedEntry {
-                            key: e.key,
-                            value: Self::value_from_shared(e.value),
-                        }),
-                    );
+                    let entry = entry.map(|e| OwnedEntry {
+                        key: e.key,
+                        value: self.values.insert(pos, Self::value_from_shared(e.value)),
+                    });
+                    self.record_set(pos, entry);
                 }
             }
             RowsCapture::Full(rows) => self.install_shared(rows),
         }
     }
-    fn value_from_shared(value: Arc<IntCollector>) -> Box<IntCollector> {
-        Box::new(Arc::try_unwrap(value).unwrap_or_else(|v| v.as_ref().clone()))
+    fn value_from_shared(value: Arc<IntCollector>) -> IntCollector {
+        Arc::try_unwrap(value).unwrap_or_else(|v| v.as_ref().clone())
     }
     pub(super) fn install(&mut self, snapshot: Self) {
         if self.frames.is_empty() {
@@ -368,7 +350,13 @@ impl<K> Owned<K> {
         positions.sort_unstable();
         positions.dedup();
         for pos in positions {
-            self.record_set(pos, snapshot.entry(pos).cloned());
+            let entry = snapshot.entry(pos).map(|e| OwnedEntry {
+                key: e.key.clone(),
+                value: self
+                    .values
+                    .insert(pos, snapshot.values.get(e.value).clone()),
+            });
+            self.record_set(pos, entry);
         }
     }
     pub(super) fn install_shared(&mut self, rows: PrimitiveRows<K, IntCollector>) {
@@ -389,7 +377,10 @@ impl<K> Owned<K> {
             .into_iter()
             .map(|p| {
                 let row = self.entry(p).unwrap();
-                (row.key.clone(), Arc::new(row.value.as_ref().clone()))
+                (
+                    row.key.clone(),
+                    Arc::new(self.values.get(row.value).clone()),
+                )
             })
             .collect()
     }
@@ -397,19 +388,17 @@ impl<K> Owned<K> {
     pub(super) fn journal_snapshot(&self, token: usize) -> Self {
         assert!(token < self.frames.len(), "active owned journal");
         let mut saved = self.clone();
+        // Historical row tokens may refer to values absent from the current page set.
+        saved.values = self.values.clone();
         for frame in self.frames[token..].iter().rev() {
             for edit in frame.edits.iter().rev() {
-                let pos = InverseFrame::decode(&frame.wide, edit.packed());
                 match edit {
-                    OwnedUndo::Row(_, old) => {
+                    OwnedUndo::Row(packed, old) => {
+                        let pos = InverseFrame::decode(&frame.wide, *packed);
                         saved.set(pos, old.clone());
                     }
-                    OwnedUndo::Scalar(_, edit) => {
-                        let c = saved.pages.get_mut(&pos.page).unwrap().cells[pos.cell]
-                            .as_mut()
-                            .unwrap()
-                            .value
-                            .as_mut();
+                    OwnedUndo::Scalar(slot, edit) => {
+                        let c = saved.values.get_mut(*slot);
                         match *edit {
                             ScalarEdit::Insert(v) => assert!(c.remove(v)),
                             ScalarEdit::Remove(v) => c.insert(v),
@@ -419,6 +408,12 @@ impl<K> Owned<K> {
                 }
             }
         }
+        saved.values.retain_live(
+            saved
+                .pages
+                .values()
+                .flat_map(|p| p.cells.iter().flatten().map(|e| e.value)),
+        );
         saved.cleanup();
         saved
     }
@@ -426,18 +421,18 @@ impl<K> Owned<K> {
     fn scalar<P: LookupPolicy<K>>(&mut self, key: &K, edit: ScalarEdit) -> Option<IntSummary> {
         let pos = P::locate(self.map, key);
         let row = self.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
-        let count = row.value.summary().count;
+        let slot = row.value;
+        let count = self.values.get(slot).summary().count;
         if count == 0 || (count == 1 && !matches!(edit, ScalarEdit::Insert(_))) {
             return None;
         }
         if matches!(edit, ScalarEdit::Insert(_)) {
             count.checked_add(1).expect("collector count overflow");
         }
-        let packed = self.frames.last_mut().map(|frame| {
+        if let Some(frame) = self.frames.last_mut() {
             frame.edits.reserve(1);
-            frame.encode(pos)
-        });
-        let collector = row.value.as_mut();
+        }
+        let collector = self.values.get_mut(slot);
         match edit {
             ScalarEdit::Insert(v) => collector.insert(v),
             ScalarEdit::Remove(v) => assert!(collector.remove(v), "input occurrence"),
@@ -447,7 +442,7 @@ impl<K> Owned<K> {
         }
         let summary = collector.summary();
         if let Some(frame) = self.frames.last_mut() {
-            frame.edits.push(OwnedUndo::Scalar(packed.unwrap(), edit));
+            frame.edits.push(OwnedUndo::Scalar(slot, edit));
         }
         Some(summary)
     }

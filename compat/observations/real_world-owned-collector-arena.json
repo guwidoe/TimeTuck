@@ -1,0 +1,208 @@
+{
+  "kind": "real_world-owned-collector-arena",
+  "generated_at": "2026-10-21T17:08:47.721529+00:00",
+  "status": "selected;native throughput gain;current Java qualification pending",
+  "native_source_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
+  "input_sha256": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+  "source_snapshot": "446c54129e2371f087ba899bd8ff6c20b3b4d891e514d67d80a620ef5c0e3b1e",
+  "artifact_sha256": "84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7",
+  "mechanism": "Consumed-only integer values move from individually boxed collectors into a contiguous reusable slot arena. Page entries retain canonical Arc keys and slot indices. One ordered journal keeps scalar slot tokens and structural row positions;scalar rollback accesses its slot directly,no page lookup or per-scalar position packing. Slot reuse waits for structural journal retirement. Each value retains a compact address or complete boxed wide Position for cold captures. Full snapshots copy live values only,delta captures/install and nested journals preserve full states. Public/shared/custom routes unchanged.",
+  "tradeoffs": "Private value allocation addresses change and may move on arena growth. High-water slot capacity is retained;full snapshot cloning scans arena slots. Position metadata adds space. No universal speed/memory claim.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-collector-arena-next-results/real_world-owned-collector-arena-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62678.639616956985,
+            62594.14354050608,
+            64788.969622338125,
+            64423.38643140503
+          ],
+          "trial": [
+            62274.988598309166,
+            63819.635127398346,
+            64489.60123766503,
+            65711.58001464048
+          ]
+        },
+        "medians": {
+          "baseline": 63551.01302418101,
+          "trial": 64154.61818253169
+        },
+        "gain_pct": 0.9497962811717997
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            186793.2829758086,
+            188664.0222342436,
+            188714.56269515783,
+            187412.52833304243
+          ],
+          "trial": [
+            193244.16620342783,
+            194972.37938345943,
+            193911.60699286626,
+            192254.6604025732
+          ]
+        },
+        "medians": {
+          "baseline": 188038.27528364302,
+          "trial": 193577.88659814704
+        },
+        "gain_pct": 2.946001980792423
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "owned_collector_arena_growth",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 1,
+      "seconds": 58.7180774010194,
+      "proof_directory": "work/real_world-goal/owned-collector-arena-growth-focused1",
+      "log_sha256": "6168ab19fe4610b2c0b2dfef890cab542d22308d9068ef1e44885cc60d99a40d",
+      "receipt_sha256": "1337fbc1af4527eece34f19a6897bff916b0525c4a6f7430cf54650216c70073"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--test",
+        "real_world_application_regression",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 17.68890341799124,
+      "proof_directory": "work/real_world-goal/owned-collector-arena-final-results/real_world-owned-collector-arena-final",
+      "log_sha256": "68a9fe2e2d784ec5f89f3a3d74aa2884ed1ee558b8a3ee8914e28339600e0194",
+      "receipt_sha256": "36f2329099321d3195914dd3c0ffe9be6566c5b2e48f23868c59625b1cf8c95e"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--lib",
+        "--example",
+        "real_world_benchmark",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "seconds": 15.78700117598055,
+      "log_sha256": "c62b7eb5f2bd7194266904e0a68bd56bfafba18a40c64ecf8c61ecc2e9136aa4",
+      "receipt_sha256": "16edd101cb5df590f951face5c8ed2aaac3a3eac1737c7d8fce1e6a87cbac2a4",
+      "proof_directory": "work/real_world-goal/owned-collector-arena-final-results/real_world-owned-collector-arena-final"
+    }
+  ],
+  "receipts": {
+    "receipt.json": "4ab024835be2a2296c5594f3d509b3db34e5423668266fccf14e70ca34507e18",
+    "build-receipt.json": "34cc0fe4edd495d916967d309fc4a429781e511f6becce9b9d00673eb420ce3d",
+    "controls.json": "f4c0a186326724e3470ef1d98d98aed6f777d7eb181708b6af63c278858afee5",
+    "baseline-binding.json": "ea4f7c6ad690d0830bc49b5aa82dac8d020fcb13a7dadea8e224bd5dfc9c7b96"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "Selected after original16valid controlsS+.9498%(2/4),G+2.946%(4/4) and one justified longer artifact-only follow-upS+1.183317/G+3.640929,all4pairs fasterboth,16 independently validated outputs. Helper initial ordering-only check failed;8 actualGolfer runs retained unchanged,four completeSailing pairs run once in continuation. One orphan validSbaseline preserved/excluded;failure receipt not rewritten. Final actual release byte-identical.17 scoped passes across2sources (12pre-growth+5final),finalClippy. No repeated successful tests/fullsuite/upstreamcredit. OriginalJava5725 historical/stale;next actual defaultmatrix pending,no extrapolation.",
+  "final_equivalence": {
+    "only_change": "One original regression appended in an existing cfg(test)-only module;all other crate files and production digest identical.",
+    "pilot_rust_digest": "1b4e97e5b711ef7899e37e3bba8c49b71acec09e63b1e690ff101584ec5c4395",
+    "pilot_production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+    "final_rust_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
+    "final_production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+    "pilot_artifact_sha256": "84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7",
+    "final_artifact_sha256": "84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7",
+    "byte_identical": true,
+    "pilot_build_receipt_sha256": "34cc0fe4edd495d916967d309fc4a429781e511f6becce9b9d00673eb420ce3d"
+  },
+  "pre_growth_checks": {
+    "native_source_digest": "1b4e97e5b711ef7899e37e3bba8c49b71acec09e63b1e690ff101584ec5c4395",
+    "production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+    "tests_passed": 12,
+    "seconds": 155.85726842001895,
+    "log_sha256": "3bd61dca77e71765743617b40452480cd69a1aa2b417738680c4a7da661bec84",
+    "receipt_sha256": "4eaa4f24a6f9706b97c538bb10fa609d23ed994f5ed88511b1bba487529eeeeb",
+    "scope": "Original12 focused passes on actual1b4 runtime source;only cfg(test) growth regression appended later. Not relabeled as final-source executions."
+  },
+  "long_native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-collector-arena-long-completed-results/real_world-owned-collector-arena-long-completed/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65336.08697676783,
+            64232.996337021454,
+            65940.12211188253,
+            65810.79719070642
+          ],
+          "trial": [
+            66690.11536554122,
+            65549.69153689052,
+            66056.9749064963,
+            66641.79283018292
+          ]
+        },
+        "medians": {
+          "baseline": 65573.44208373713,
+          "trial": 66349.38386833962
+        },
+        "gain_pct": 1.1833171478349502
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            188871.35892388553,
+            188440.3056661392,
+            187767.08980784199,
+            189829.9223898345
+          ],
+          "trial": [
+            195039.9104728513,
+            193592.56991982844,
+            196399.78343271336,
+            196009.40310339798
+          ]
+        },
+        "medians": {
+          "baseline": 188655.83229501237,
+          "trial": 195524.65678812464
+        },
+        "gain_pct": 3.640928779965358
+      }
+    }
+  },
+  "long_pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "current_source_tests_credited": 5,
+  "new_native_tests_integrated": 1,
+  "long_control_receipts": {
+    "owned-collector-arena-long-completed-results/real_world-owned-collector-arena-long-completed/receipt.json": "d6cf2bf2cfd9e956934259c090c8aa2ed401a51cd4aca6d5d0b7d29b55132baf",
+    "owned-collector-arena-long-completed-results/real_world-owned-collector-arena-long-completed/controls.json": "7aa62e9f2295e14f65ef2b822dfaf353dbbf8761a45bf7f1e045b61b0e7135d4",
+    "owned-collector-arena-long-completed-results/real_world-owned-collector-arena-long-completed/partial-original-receipt.json": "6b10d7180a09f461dfeca081a278151bad0f110e667f743fc8662826a15438f2",
+    "owned-collector-arena-final-results/real_world-owned-collector-arena-final/receipt.json": "b4b116a3d32f58dfd57343c797e501068d58d45c26655ecb4c389b88ccf83a0a",
+    "owned-collector-arena-final-results/real_world-owned-collector-arena-final/build-receipt.json": "451f3444c9ed9518f8ddca95c36d2c00043305aa4cb9b59ae577f2403f8a00f6",
+    "owned-collector-arena-final-results/real_world-owned-collector-arena-final/equivalence.json": "232b5d7e63b4d418208f67061ab39ff8d5b7a2897e972618ea9f1ebd3733b9a2"
+  }
+}

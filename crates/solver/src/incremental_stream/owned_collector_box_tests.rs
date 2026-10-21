@@ -141,3 +141,83 @@ fn owned_collector_box_history_matches_independent_groups_and_shared_events() {
         }
     }
 }
+
+#[test]
+fn owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups() {
+    let mut node = GroupNode::<usize, Key>::new();
+    assert!(node.bind_primitive_group_keys());
+    assert!(node.bind_primitive_inputs());
+    node.enable_consumed_collectors();
+    let key = |i: usize| {
+        if i % 19 == 0 {
+            (usize::MAX, i, usize::MAX - i, 15)
+        } else {
+            (i / 16, i % 16, i * 3, i * 7)
+        }
+    };
+    let value = |i: usize| [i64::MIN, i64::MAX, 0, -7, 7][i % 5];
+    let mut rows = Inputs::new();
+    for i in 0..257 {
+        let row = (key(i), value(i));
+        node.apply(TupleChange::put(i, row));
+        rows.insert(i, row);
+    }
+    check(&node, &rows);
+    let baseline = rows.clone();
+    let baseline_full = node.checkpoint();
+    let outer = node.begin_journal_checkpoint();
+    for i in (0..257).step_by(2) {
+        node.apply(TupleChange::retract(i));
+        rows.remove(&i);
+    }
+    for i in 257..1027 {
+        let row = (key(i), value(i));
+        node.apply(TupleChange::put(i, row));
+        rows.insert(i, row);
+    }
+    check(&node, &rows);
+    let captured_rows = rows.clone();
+    let full = node.checkpoint();
+    let full_again = node.checkpoint();
+    let delta = node.capture_checkpoint(outer.as_ref());
+    let inner = node.begin_journal_checkpoint();
+    node.clear();
+    for i in 1100..1500 {
+        node.apply(TupleChange::put(i, (key(i), value(i))));
+    }
+    node.restore_checkpoint(inner);
+    check(&node, &captured_rows);
+    node.restore_checkpoint(full);
+    check(&node, &captured_rows);
+    node.restore_checkpoint(outer);
+    check(&node, &baseline);
+    let install = node.begin_journal_checkpoint();
+    node.restore_checkpoint(delta);
+    check(&node, &captured_rows);
+    node.restore_checkpoint(install);
+    check(&node, &baseline);
+    // No open frame: full state replaces the arena and its local slot namespace.
+    node.restore_checkpoint(full_again);
+    check(&node, &captured_rows);
+    for i in 257..1027 {
+        node.apply(TupleChange::retract(i));
+    }
+    for i in 1600..2200 {
+        node.apply(TupleChange::put(i, (key(i), value(i))));
+    }
+    node.clear();
+    assert_eq!(node.groups().count(), 0);
+    node.restore_checkpoint(baseline_full);
+    check(&node, &baseline);
+    // Reuse retired slots after all journal references have gone away.
+    for i in 0..257 {
+        node.apply(TupleChange::retract(i));
+    }
+    rows.clear();
+    for i in 2500..3000 {
+        let row = (key(i), value(i));
+        node.apply(TupleChange::put(i, row));
+        rows.insert(i, row);
+    }
+    check(&node, &rows);
+}

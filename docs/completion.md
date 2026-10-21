@@ -25,7 +25,36 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current selected batch writes complete numeric group summaries directly
+The current selected collector backend stores consumed integer values in a
+reusable contiguous arena. Pages retain canonical Arc keys and slot indices;
+ordered scalar undo reaches the slot directly, while structural undo retains
+retired slots until the corresponding frame finishes. Cold captures retain full
+positions, full snapshots copy only live values, and public/custom/shared paths
+retain their prior contract. Private value addresses can move on growth and
+high-water arena capacity remains allocated; snapshot copies scan slot capacity.
+
+The longer native control measured **Sailing +1.183% / Golfer +3.641%**, all four
+pairs faster on both, all16 outputs independently validated. It reused eight
+completed Golfer outputs after an ordering-only diagnostic validation error and
+then ran four complete Sailing pairs. The orphan Sailing baseline remains
+preserved/excluded. Original3s controls and the failed helper receipt remain
+unchanged. These are native gains, not an extrapolated Java comparison.
+
+Selected native source is
+`d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba`,
+production `465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37`,
+artifact `84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7`.
+17 scoped tests pass across two sources:12 earlier checks and5 final-source
+passes (new independent growth/retirement/full+delta regression plus4 application
+cases). Actual final lib/example Clippy passes and the release is byte-identical
+to the measured runtime;only a cfg(test) regression was appended. Current focused
+log credits5 actual final-source passes;earlier12 remain source-bound. No full
+suite or upstream-method credit. The original default3seed10s Java/Rust matrix
+is now refreshing on the selected source. Until collected,Java5725 remains
+historical/stale and no current-source target is qualified.
+[Evidence](../compat/observations/real_world-owned-collector-arena.json).
+
+The preceding selected batch writes complete numeric group summaries directly
 into existing stable arena slots and reuses one empty checkpoint carrier per
 group node. It retains full IDs/payloads, scalar FIFO/fanout, callbacks, arithmetic
 checks and nested/full/current rollback. Public/custom paths keep their contracts.

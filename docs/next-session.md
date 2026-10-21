@@ -31,7 +31,36 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-The current selected batch writes complete numeric group summaries directly
+The current selected collector backend stores consumed integer values in a
+reusable contiguous arena. Pages retain canonical Arc keys and slot indices;
+ordered scalar undo reaches the slot directly, while structural undo retains
+retired slots until the corresponding frame finishes. Cold captures retain full
+positions, full snapshots copy only live values, and public/custom/shared paths
+retain their prior contract. Private value addresses can move on growth and
+high-water arena capacity remains allocated; snapshot copies scan slot capacity.
+
+The longer native control measured **Sailing +1.183% / Golfer +3.641%**, all four
+pairs faster on both, all16 outputs independently validated. It reused eight
+completed Golfer outputs after an ordering-only diagnostic validation error and
+then ran four complete Sailing pairs. The orphan Sailing baseline remains
+preserved/excluded. Original3s controls and the failed helper receipt remain
+unchanged. These are native gains, not an extrapolated Java comparison.
+
+Selected native source is
+`d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba`,
+production `465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37`,
+artifact `84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7`.
+17 scoped tests pass across two sources:12 earlier checks and5 final-source
+passes (new independent growth/retirement/full+delta regression plus4 application
+cases). Actual final lib/example Clippy passes and the release is byte-identical
+to the measured runtime;only a cfg(test) regression was appended. Current focused
+log credits5 actual final-source passes;earlier12 remain source-bound. No full
+suite or upstream-method credit. The original default3seed10s Java/Rust matrix
+is now refreshing on the selected source. Until collected,Java5725 remains
+historical/stale and no current-source target is qualified.
+[Evidence](../compat/observations/real_world-owned-collector-arena.json).
+
+The preceding selected batch writes complete numeric group summaries directly
 into existing stable arena slots and reuses one empty checkpoint carrier per
 group node. It retains full IDs/payloads, scalar FIFO/fanout, callbacks, arithmetic
 checks and nested/full/current rollback. Public/custom paths keep their contracts.
@@ -66,15 +95,15 @@ Sailing-1.846%/Golfer-1.269%,every pair slowerboth. No further checks or integra
 Do not retry either queue representation unchanged. Proofs:
 `compat/observations/real_world-directional-queue.json` and
 `compat/observations/real_world-packed-receiver-queue.json`.
-A distinct consumed collector value arena is now under implementation in ignored
-`owned-collector-arena-next-prototype`:pages retain canonical Arc keys and arena
-indices;ordered scalar undo records reach stable slots directly,structural undo
-retains retired slots until commit/rollback. Full snapshots copy only live cells;
-wide positions retain complete addresses. This changes private value allocation
-identities and retains high-water slot capacity. Check original live handles in
-ignored active state;no restart on timeout. No pass/speed/integration credit yet.
-Main selectedruntime remainsfc93b33/0b4fcc/55e146/5a1911.
-Separate README/docs edits appeared from another writer;leave them untouched.
+The consumed collector arena described above is now selected. A separate split
+arena prototype68799/959e keeps cold address metadata in a parallel Vec to reduce
+hot value stride;its actual lib/example compile check passes. It is unmeasured,
+unintegrated and has no test/speed credit. Do not add component gains. Before
+another incremental pilot,bind genuine selectedd466/465509/84e98d source,release,
+equivalence and focused evidence;v32 is historical0b4fcc/55e146/5a1911.
+Actual originalJava refresh88437 is live;preserve it across observation timeouts.
+No new subagents;local+runner-a,EFSparked. Other documentation/UI writer changes
+are unrelated:preserve them and commit only explicitly selected own paths.
 
 
 The preceding consumed-graph collector backend owns each mutable integer
