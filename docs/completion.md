@@ -19,7 +19,34 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The selected publisher optimization outlines only the existing Triple join
+The selected consumed-graph collector backend owns each mutable integer
+collector in a box and records scalar and structural undo in one ordered journal.
+Canonical keys retain their Arc owners; full and delta observations copy collector
+values. Exact builtin I/K and empty ownership-consumed graph activation keep the
+public/custom/shared collector contract on the original path. The native page
+directory now accepts a page type; routing and arbitrary-key fallback are unchanged.
+Private value allocation identities differ, and copied snapshots may cost more.
+
+Four rotating native 3s pairs measured **Sailing +2.059% / Golfer +2.379%**, every
+pair faster on both workloads; all16 full outputs independently validated. These
+are native controls, not Java parity. Final source is
+`3c4c5374f41eceedb9b7493c2519a77961f1718720ecf32a4af1bd3690b0e335`,
+production `6d8ea76460b246a9cce512136d8889e2edaf9e43238f1d786ea8ab9812f8d27a`.
+The genuine final release is byte-identical to measured artifact
+`93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e`.
+The only post-pilot edit is an explicit Clippy exemption for the retired-box pool.
+Original receipts, sources and timings are preserved without rekeying.
+
+Actual11 final-source directory/group-entry checks and lib/example Clippy pass.
+The2 new independent history/overflow cases and4 external application cases pass
+on pre-lint source49a390/c41fc8; they remain bound to that source and were not
+repeated or credited as final-source executions. Current focused log credits11
+passes, not a full gate. No upstream-method credit;2 native regressions added.
+Original Java report5725 remains byte-identical and stale: neither current-source
+target is yet qualified. Goal active/incomplete; do not add native gains to old
+ratios. [Source and evidence](../compat/observations/real_world-owned-collector-box.json).
+
+The preceding selected publisher optimization outlines only the existing Triple join
 publication loop and makes direction constant per call. Same original scratch
 Vec/full rows, Event construction, scalar FIFO/fanout, guards, carrier cleanup and
 shared/member/public/custom routes. Actual rotating native controls measured

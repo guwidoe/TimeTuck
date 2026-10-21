@@ -139,7 +139,7 @@ enum PreparedKind<'a, K, V> {
 // other mutable fields are borrowed separately; no page or row owner changes
 // until commit, and commit never repeats the directory lookup.
 struct PreparedPage<'a, K, V> {
-    entry: directory::Entry<'a, K, V>,
+    entry: directory::Entry<'a, Page<K, V>>,
     pos: Position,
     found: bool,
     len: &'a mut usize,
@@ -820,7 +820,7 @@ pub(crate) struct Iter<'a, K, V> {
 enum IterKind<'a, K, V> {
     Tree(crate::snapshot_map::Iter<'a, K, V>),
     Paged {
-        pages: directory::Values<'a, K, V>,
+        pages: directory::Values<'a, Page<K, V>>,
         cells: std::slice::Iter<'a, Option<Entry<K, V>>>,
     },
 }

@@ -4,8 +4,11 @@ use std::collections::{BTreeMap, btree_map};
 
 // Pages are private containers. Snapshots copy their canonical Arc row owners,
 // while ordinary journaled writes need no page ownership/refcount operation.
+type PageOwner<P> = Box<P>;
+pub(super) type Directory<K, V> = PageDirectory<Page<K, V>>;
+#[cfg(test)]
 type Owner<K, V> = Box<Page<K, V>>;
-type Row<K, V> = Vec<Option<Owner<K, V>>>;
+type Row<P> = Vec<Option<PageOwner<P>>>;
 const ROWS: usize = 4096;
 const COLUMNS: usize = 64;
 // These power-of-two bounds let the complete routing condition use one
@@ -55,12 +58,12 @@ fn direct_key(p: usize, q: usize) -> PageKey {
         ])
     }
 }
-pub(super) struct Directory<K, V> {
-    dense: Vec<Row<K, V>>,
+pub(super) struct PageDirectory<P> {
+    dense: Vec<Row<P>>,
     dense_len: usize,
-    tree: BTreeMap<PageKey, Owner<K, V>>,
+    tree: BTreeMap<PageKey, PageOwner<P>>,
 }
-impl<K, V> Clone for Directory<K, V> {
+impl<P: Clone> Clone for PageDirectory<P> {
     fn clone(&self) -> Self {
         Self {
             dense: self.dense.clone(),
@@ -69,12 +72,12 @@ impl<K, V> Clone for Directory<K, V> {
         }
     }
 }
-impl<K, V> Drop for Directory<K, V> {
+impl<P> Drop for PageDirectory<P> {
     fn drop(&mut self) {
         self.clear();
     }
 }
-impl<K, V> Directory<K, V> {
+impl<P> PageDirectory<P> {
     pub(super) fn new() -> Self {
         Self {
             dense: Vec::new(),
@@ -83,21 +86,21 @@ impl<K, V> Directory<K, V> {
         }
     }
     #[inline(always)]
-    pub(super) fn get(&self, key: &PageKey) -> Option<&Owner<K, V>> {
+    pub(super) fn get(&self, key: &PageKey) -> Option<&PageOwner<P>> {
         match direct(*key) {
             Some((p, q)) => self.dense.get(p)?.get(q)?.as_ref(),
             None => self.tree.get(key),
         }
     }
     #[inline(always)]
-    pub(super) fn get_mut(&mut self, key: &PageKey) -> Option<&mut Owner<K, V>> {
+    pub(super) fn get_mut(&mut self, key: &PageKey) -> Option<&mut PageOwner<P>> {
         match direct(*key) {
             Some((p, q)) => self.dense.get_mut(p)?.get_mut(q)?.as_mut(),
             None => self.tree.get_mut(key),
         }
     }
     #[inline(always)]
-    pub(super) fn entry(&mut self, key: PageKey) -> Entry<'_, K, V> {
+    pub(super) fn entry(&mut self, key: PageKey) -> Entry<'_, P> {
         match direct(key) {
             Some((p, q)) => Entry::Dense {
                 rows: &mut self.dense,
@@ -108,10 +111,10 @@ impl<K, V> Directory<K, V> {
             None => Entry::Tree(self.tree.entry(key)),
         }
     }
-    pub(super) fn remove(&mut self, key: &PageKey) -> Option<Owner<K, V>> {
+    pub(super) fn remove(&mut self, key: &PageKey) -> Option<PageOwner<P>> {
         self.entry(*key).remove()
     }
-    pub(super) fn iter(&self) -> Iter<'_, K, V> {
+    pub(super) fn iter(&self) -> Iter<'_, P> {
         Iter {
             dense: DenseIter {
                 rows: &self.dense,
@@ -122,13 +125,13 @@ impl<K, V> Directory<K, V> {
             tree: self.tree.iter(),
         }
     }
-    pub(super) fn keys(&self) -> Keys<'_, K, V> {
+    pub(super) fn keys(&self) -> Keys<'_, P> {
         Keys(self.iter())
     }
-    pub(super) fn values(&self) -> Values<'_, K, V> {
+    pub(super) fn values(&self) -> Values<'_, P> {
         Values(self.iter())
     }
-    pub(super) fn retain(&mut self, mut keep: impl FnMut(&PageKey, &mut Owner<K, V>) -> bool) {
+    pub(super) fn retain(&mut self, mut keep: impl FnMut(&PageKey, &mut PageOwner<P>) -> bool) {
         let keys: Vec<_> = self.keys().collect();
         for key in keys {
             if !keep(&key, self.get_mut(&key).expect("directory key")) {
@@ -176,18 +179,18 @@ impl<K, V> Directory<K, V> {
     }
 }
 
-pub(super) enum Entry<'a, K, V> {
+pub(super) enum Entry<'a, P> {
     Dense {
-        rows: &'a mut Vec<Row<K, V>>,
+        rows: &'a mut Vec<Row<P>>,
         count: &'a mut usize,
         p: usize,
         q: usize,
     },
-    Tree(btree_map::Entry<'a, PageKey, Owner<K, V>>),
+    Tree(btree_map::Entry<'a, PageKey, PageOwner<P>>),
 }
-impl<'a, K, V> Entry<'a, K, V> {
+impl<'a, P> Entry<'a, P> {
     #[inline(always)]
-    pub(super) fn get(&self) -> Option<&Owner<K, V>> {
+    pub(super) fn get(&self) -> Option<&PageOwner<P>> {
         match self {
             Self::Dense { rows, p, q, .. } => rows.get(*p)?.get(*q)?.as_ref(),
             Self::Tree(btree_map::Entry::Occupied(entry)) => Some(entry.get()),
@@ -195,7 +198,7 @@ impl<'a, K, V> Entry<'a, K, V> {
         }
     }
     #[inline(always)]
-    pub(super) fn get_mut(&mut self) -> Option<&mut Owner<K, V>> {
+    pub(super) fn get_mut(&mut self) -> Option<&mut PageOwner<P>> {
         match self {
             Self::Dense { rows, p, q, .. } => rows.get_mut(*p)?.get_mut(*q)?.as_mut(),
             Self::Tree(btree_map::Entry::Occupied(entry)) => Some(entry.get_mut()),
@@ -204,8 +207,8 @@ impl<'a, K, V> Entry<'a, K, V> {
     }
     pub(super) fn or_insert_with(
         self,
-        create: impl FnOnce() -> Owner<K, V>,
-    ) -> &'a mut Owner<K, V> {
+        create: impl FnOnce() -> PageOwner<P>,
+    ) -> &'a mut PageOwner<P> {
         match self {
             Self::Tree(entry) => entry.or_insert_with(create),
             Self::Dense { rows, count, p, q } => {
@@ -226,7 +229,7 @@ impl<'a, K, V> Entry<'a, K, V> {
             }
         }
     }
-    pub(super) fn remove(self) -> Option<Owner<K, V>> {
+    pub(super) fn remove(self) -> Option<PageOwner<P>> {
         match self {
             Self::Tree(btree_map::Entry::Occupied(entry)) => Some(entry.remove()),
             Self::Tree(btree_map::Entry::Vacant(_)) => None,
@@ -246,13 +249,13 @@ impl<'a, K, V> Entry<'a, K, V> {
     }
 }
 
-struct DenseIter<'a, K, V> {
-    rows: &'a [Row<K, V>],
+struct DenseIter<'a, P> {
+    rows: &'a [Row<P>],
     front: usize,
     back: usize,
     remaining: usize,
 }
-impl<K, V> Clone for DenseIter<'_, K, V> {
+impl<P> Clone for DenseIter<'_, P> {
     fn clone(&self) -> Self {
         Self {
             rows: self.rows,
@@ -262,8 +265,8 @@ impl<K, V> Clone for DenseIter<'_, K, V> {
         }
     }
 }
-impl<'a, K, V> Iterator for DenseIter<'a, K, V> {
-    type Item = (PageKey, &'a Owner<K, V>);
+impl<'a, P> Iterator for DenseIter<'a, P> {
+    type Item = (PageKey, &'a PageOwner<P>);
     fn next(&mut self) -> Option<Self::Item> {
         while self.front < self.back {
             let p = self.front / COLUMNS;
@@ -285,7 +288,7 @@ impl<'a, K, V> Iterator for DenseIter<'a, K, V> {
         (self.remaining, Some(self.remaining))
     }
 }
-impl<K, V> DoubleEndedIterator for DenseIter<'_, K, V> {
+impl<P> DoubleEndedIterator for DenseIter<'_, P> {
     fn next_back(&mut self) -> Option<Self::Item> {
         while self.front < self.back {
             let p = (self.back - 1) / COLUMNS;
@@ -304,14 +307,14 @@ impl<K, V> DoubleEndedIterator for DenseIter<'_, K, V> {
         None
     }
 }
-impl<K, V> ExactSizeIterator for DenseIter<'_, K, V> {}
-impl<K, V> std::iter::FusedIterator for DenseIter<'_, K, V> {}
-pub(super) struct Iter<'a, K, V> {
-    dense: DenseIter<'a, K, V>,
-    tree: btree_map::Iter<'a, PageKey, Owner<K, V>>,
+impl<P> ExactSizeIterator for DenseIter<'_, P> {}
+impl<P> std::iter::FusedIterator for DenseIter<'_, P> {}
+pub(super) struct Iter<'a, P> {
+    dense: DenseIter<'a, P>,
+    tree: btree_map::Iter<'a, PageKey, PageOwner<P>>,
 }
-impl<'a, K, V> Iterator for Iter<'a, K, V> {
-    type Item = (PageKey, &'a Owner<K, V>);
+impl<'a, P> Iterator for Iter<'a, P> {
+    type Item = (PageKey, &'a PageOwner<P>);
     fn next(&mut self) -> Option<Self::Item> {
         if self.dense.len() == 0 {
             return self.tree.next().map(|(key, value)| (*key, value));
@@ -332,7 +335,7 @@ impl<'a, K, V> Iterator for Iter<'a, K, V> {
         (len, Some(len))
     }
 }
-impl<K, V> DoubleEndedIterator for Iter<'_, K, V> {
+impl<P> DoubleEndedIterator for Iter<'_, P> {
     fn next_back(&mut self) -> Option<Self::Item> {
         if self.dense.len() == 0 {
             return self.tree.next_back().map(|(key, value)| (*key, value));
@@ -349,10 +352,10 @@ impl<K, V> DoubleEndedIterator for Iter<'_, K, V> {
         }
     }
 }
-impl<K, V> ExactSizeIterator for Iter<'_, K, V> {}
-impl<K, V> std::iter::FusedIterator for Iter<'_, K, V> {}
-pub(super) struct Keys<'a, K, V>(Iter<'a, K, V>);
-impl<K, V> Iterator for Keys<'_, K, V> {
+impl<P> ExactSizeIterator for Iter<'_, P> {}
+impl<P> std::iter::FusedIterator for Iter<'_, P> {}
+pub(super) struct Keys<'a, P>(Iter<'a, P>);
+impl<P> Iterator for Keys<'_, P> {
     type Item = PageKey;
     fn next(&mut self) -> Option<Self::Item> {
         self.0.next().map(|(key, _)| key)
@@ -361,15 +364,15 @@ impl<K, V> Iterator for Keys<'_, K, V> {
         self.0.size_hint()
     }
 }
-impl<K, V> DoubleEndedIterator for Keys<'_, K, V> {
+impl<P> DoubleEndedIterator for Keys<'_, P> {
     fn next_back(&mut self) -> Option<Self::Item> {
         self.0.next_back().map(|(key, _)| key)
     }
 }
-impl<K, V> ExactSizeIterator for Keys<'_, K, V> {}
-pub(super) struct Values<'a, K, V>(Iter<'a, K, V>);
-impl<'a, K, V> Iterator for Values<'a, K, V> {
-    type Item = &'a Owner<K, V>;
+impl<P> ExactSizeIterator for Keys<'_, P> {}
+pub(super) struct Values<'a, P>(Iter<'a, P>);
+impl<'a, P> Iterator for Values<'a, P> {
+    type Item = &'a PageOwner<P>;
     fn next(&mut self) -> Option<Self::Item> {
         self.0.next().map(|(_, value)| value)
     }
@@ -377,12 +380,12 @@ impl<'a, K, V> Iterator for Values<'a, K, V> {
         self.0.size_hint()
     }
 }
-impl<K, V> DoubleEndedIterator for Values<'_, K, V> {
+impl<P> DoubleEndedIterator for Values<'_, P> {
     fn next_back(&mut self) -> Option<Self::Item> {
         self.0.next_back().map(|(_, value)| value)
     }
 }
-impl<K, V> ExactSizeIterator for Values<'_, K, V> {}
+impl<P> ExactSizeIterator for Values<'_, P> {}
 
 #[cfg(test)]
 mod tests;

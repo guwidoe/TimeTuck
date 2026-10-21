@@ -655,6 +655,13 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         bound
     }
 
+    pub(crate) fn enable_consumed_collectors(&mut self)
+    where
+        K: 'static,
+    {
+        self.groups.enable_consumed_owned();
+    }
+
     // Expanded occurrences have their own ID coordinates. Exact primitive ID
     // storage remains valid without a declared Cartesian or ordinal universe.
     pub(crate) fn bind_primitive_inputs(&mut self) -> bool
@@ -916,3 +923,6 @@ mod group_inverse_tests;
 mod consuming_join_rows_tests;
 #[cfg(test)]
 mod join_equality_visit_tests;
+
+#[cfg(test)]
+mod owned_collector_box_tests;

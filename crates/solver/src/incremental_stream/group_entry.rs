@@ -20,6 +20,9 @@ pub(super) fn apply<K: Ord + Clone, P: LookupPolicy<K>>(
     same_group: bool,
 ) -> (Option<IntSummary>, Option<IntSummary>) {
     debug_assert!(groups.is_primitive());
+    if let Some(output) = groups.apply_owned::<P>(old, new, new_key, same_group) {
+        return output;
+    }
     if same_group {
         let (key, old) = old.expect("existing input");
         let new = new.expect("replacement input").1;

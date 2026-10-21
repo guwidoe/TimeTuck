@@ -1180,6 +1180,11 @@ impl<
     F: Fn(&T) -> (K, i64),
 > Node<S> for GroupState<I, T, K, F>
 {
+    fn enable_consuming_storage(&mut self) {
+        if live_commit_key::<I>() && live_commit_key::<K>() {
+            self.node.enable_consumed_collectors();
+        }
+    }
     fn group_summary_kind(&self) -> Option<group_summary_lane::Kind> {
         live_commit_key::<I>()
             .then(group_summary_lane::kind::<K>)

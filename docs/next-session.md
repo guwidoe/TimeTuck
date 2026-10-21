@@ -31,7 +31,42 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-Selected batch: outline the existing Triple join publisher loop and make direction
+The selected consumed-graph collector backend owns each mutable integer
+collector in a box and records scalar and structural undo in one ordered journal.
+Canonical keys retain their Arc owners; full and delta observations copy collector
+values. Exact builtin I/K and empty ownership-consumed graph activation keep the
+public/custom/shared collector contract on the original path. The native page
+directory now accepts a page type; routing and arbitrary-key fallback are unchanged.
+Private value allocation identities differ, and copied snapshots may cost more.
+
+Four rotating native 3s pairs measured **Sailing +2.059% / Golfer +2.379%**, every
+pair faster on both workloads; all16 full outputs independently validated. These
+are native controls, not Java parity. Final source is
+`3c4c5374f41eceedb9b7493c2519a77961f1718720ecf32a4af1bd3690b0e335`,
+production `6d8ea76460b246a9cce512136d8889e2edaf9e43238f1d786ea8ab9812f8d27a`.
+The genuine final release is byte-identical to measured artifact
+`93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e`.
+The only post-pilot edit is an explicit Clippy exemption for the retired-box pool.
+Original receipts, sources and timings are preserved without rekeying.
+
+Actual11 final-source directory/group-entry checks and lib/example Clippy pass.
+The2 new independent history/overflow cases and4 external application cases pass
+on pre-lint source49a390/c41fc8; they remain bound to that source and were not
+repeated or credited as final-source executions. Current focused log credits11
+passes, not a full gate. No upstream-method credit;2 native regressions added.
+Original Java report5725 remains byte-identical and stale: neither current-source
+target is yet qualified. Goal active/incomplete; do not add native gains to old
+ratios. [Source and evidence](../compat/observations/real_world-owned-collector-box.json).
+
+All new build/verification jobs are terminal and collected. Source integration
+reuses their actual evidence. Existing Java5725 remains historical; no full suite,
+new timing or repeated successful check is needed for commit. v31 pilot helpers
+now bind genuine3c4/6d8/939 release/equivalence,11 final checks/Clippy and original
+raw controls. They are syntax checked,not yet dispatched. v30 remains historical
+3fd/e40;usev31 for the next incremental candidate. A fresh profile can now inspect the changed ownership backend;
+the older flat-map profile still describes its preceding runtime.
+
+Preceding selected batch: outline the existing Triple join publisher loop and make direction
 constant per call. Same original scratch Vec, complete rows, Event construction,
 scalar queue/FIFO/fanout, guards, trim/abandon, forced-shared tests and ordinary
 shared/member/public/custom routes. No new graph field/vtable entry or event

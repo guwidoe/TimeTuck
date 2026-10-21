@@ -1,0 +1,143 @@
+{
+  "kind": "real_world-owned-collector-box",
+  "generated_at": "2026-10-21T16:00:30.722960+00:00",
+  "status": "selected;modest native throughput gain;current Java parity unqualified",
+  "native_source_digest": "3c4c5374f41eceedb9b7493c2519a77961f1718720ecf32a4af1bd3690b0e335",
+  "input_sha256": "6d8ea76460b246a9cce512136d8889e2edaf9e43238f1d786ea8ab9812f8d27a",
+  "source_snapshot": "243063ded064f05a2730d82f0132326a492239ca2ad8e364a99848c9eed8ec19",
+  "artifact_sha256": "93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e",
+  "mechanism": "Only empty privately consumed graphs with exact builtin input/group identities:Box<IntCollector> values,canonical Arc keys,bounded key/box pools,and one compact ordered scalar/structural undo journal. Every mapping callback,forward integer multiset edit,summary,FIFO,poison/input-publication phase remains. Full/delta snapshots copy values and share canonical keys;rollback moves original boxes. Existing page directory generalized only over page payload type,routing unchanged. Public/custom/nonconsumed graphs retain original Arc collector algorithm and shared/Weak behavior.",
+  "tradeoffs": "New consumed-only backend and unified undo representation;copied full value snapshots can cost more than shared snapshots. No universal memory/speed claim. Private collector allocation identities/lifetimes differ.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-collector-box-next-results/real_world-owned-collector-box-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62853.09428237133,
+            62812.04102171026,
+            63282.63288559628,
+            63095.23782824976
+          ],
+          "trial": [
+            64136.821144930436,
+            64447.52386160574,
+            64404.27705061353,
+            63951.8562239293
+          ]
+        },
+        "medians": {
+          "baseline": 62974.16605531055,
+          "trial": 64270.54909777198
+        },
+        "gain_pct": 2.0585950139027087
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            180814.106216058,
+            184205.04788868927,
+            184954.5560763915,
+            179406.7643037256
+          ],
+          "trial": [
+            186363.55759817737,
+            186707.40094977187,
+            187442.6092691987,
+            186995.7404422525
+          ]
+        },
+        "medians": {
+          "baseline": 182509.5770523736,
+          "trial": 186851.57069601218
+        },
+        "gain_pct": 2.3790497538617172
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::directory::tests",
+        "incremental_stream::group_entry::tests"
+      ],
+      "tests_passed": 11,
+      "seconds": 31.48608787500416,
+      "receipt_sha256": "5b8dd312db4296c048c46022bc537b35141d8223dd9dd19e79f74938405479b9",
+      "log_sha256": "b134d42178f99f3b5f4485970c69465b8ee96d4eb0347f3261053d004c099ffa",
+      "proof_directory": "work/real_world-goal/owned-collector-box-components1"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--lib",
+        "--example",
+        "real_world_benchmark",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "seconds": 19.24885488700238,
+      "receipt_sha256": "a922b5d209827b99cd54b77cad941b33bd6e43799e1e259ac52e673d607d2744",
+      "log_sha256": "b83c4ff7063240c8c8df6cd7c877350c9e9292e10a95f06f23790fda4b02e3c5",
+      "proof_directory": "work/real_world-goal/owned-collector-box-final-results/real_world-owned-collector-box-final"
+    }
+  ],
+  "pre_lint_checks": {
+    "native_source_digest": "49a390434c0b19b84950e71a51d1b1ce7f2e9515bdfed29f9a94fdcf76873b8c",
+    "production_digest": "c41fc8f118652b1e456416c2b5b23620d75a0a62c4ebf75118e4984e2b2e912a",
+    "new_original_tests_passed": 2,
+    "application_tests_passed": 4,
+    "focused_receipt_sha256": "1c005efbdf315fb918e2ba61347b63aceafa4f27060353f6d3ff688020b98d53",
+    "focused_log_sha256": "4be906b44e3d722d9eb048051a24fdca94b42628884c162c1704e299e3d616ba",
+    "application_receipt_sha256": "eeb15dc7abc55852b5b1af5e9e381f98263eb2bf502842b1e160386c81e79a17",
+    "application_log_sha256": "abcbc41ad8661c829aa2ad40764545897f36e3e5d929238e870b2c31c20bfc6c",
+    "scope": "Actual independent recomputation/nested clear/full+delta/clone/MAX history and overflow tests plus4 external RealWorld tests. Before lint-only exemption,not relabeled as final-source executions."
+  },
+  "final_equivalence": {
+    "only_change": "Module Clippy vec_box exemption replaces two header comments;all code lines and other crate files identical.",
+    "pilot_rust_digest": "49a390434c0b19b84950e71a51d1b1ce7f2e9515bdfed29f9a94fdcf76873b8c",
+    "pilot_production_digest": "c41fc8f118652b1e456416c2b5b23620d75a0a62c4ebf75118e4984e2b2e912a",
+    "final_rust_digest": "3c4c5374f41eceedb9b7493c2519a77961f1718720ecf32a4af1bd3690b0e335",
+    "final_production_digest": "6d8ea76460b246a9cce512136d8889e2edaf9e43238f1d786ea8ab9812f8d27a",
+    "pilot_artifact_sha256": "93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e",
+    "final_artifact_sha256": "93906595c63e90a53264f09f51829a1e226d017401b39b60fb24634e1e103e3e",
+    "byte_identical": true,
+    "pilot_build_receipt_sha256": "740a865b685b676cc671860d349f49a0ae226b22dc9ad99df548b20aea100f6b"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "new_native_tests_integrated": 2,
+  "current_source_tests_credited": 11,
+  "retained_java_report": {
+    "sha256": "5725a1cab0ce75f45cbd2b2801a02238690020f37b6eb8ead1a944459fe2adba",
+    "status": "historical/stale on preceding aee829/59be6/6d297;unchanged",
+    "current_source_targets_proven": 0,
+    "required_targets": 2,
+    "scores_feasibility_separate": true
+  },
+  "receipts": {
+    "owned-collector-box-final-results/real_world-owned-collector-box-final/receipt.json": "617001b1df410480846bdfdf80d11e1c7500789fc219f1c25894cf36e4622323",
+    "owned-collector-box-final-results/real_world-owned-collector-box-final/build-receipt.json": "3c3bc661c100aa0f3b48c0dcbfd47fc20fb63baa28649d4404df36fb4463ff59",
+    "owned-collector-box-final-results/real_world-owned-collector-box-final/equivalence.json": "d7cdd7fb52eaead39d5375d9c4ca39e5256b22474f83c2a7a0abd4685b108989",
+    "owned-collector-box-next-results/real_world-owned-collector-box-next/receipt.json": "78aca1bf85c16fc3fda925bd5e918a2a3373b83e5ac1c7af871593cecfdd2353",
+    "owned-collector-box-next-results/real_world-owned-collector-box-next/build-receipt.json": "740a865b685b676cc671860d349f49a0ae226b22dc9ad99df548b20aea100f6b",
+    "owned-collector-box-next-results/real_world-owned-collector-box-next/controls.json": "ba6d49ae83ba3fffc459112ac79ebf8f1054febdbaaca9a9b3fa4ba827da39e6"
+  },
+  "policy": "Native Sailing+2.0586%/Golfer+2.3790%,all4pairs faster both,16 independently valid full outputs. Genuine final release byte identity permits timing reuse without rekeying original receipts. Final11 component checks and lib/example Clippy pass. No full suite,repeated2history/4app/native timings or Java matrix. Goal active/incomplete;do not multiply native gain into stale Java ratios."
+}

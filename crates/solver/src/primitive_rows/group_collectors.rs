@@ -7,6 +7,7 @@
 //! snapshot cannot observe later edits or rollback through the mutable owner.
 use super::*;
 use crate::{IntCollector, IntSummary};
+mod owned;
 
 #[derive(Clone, Copy)]
 pub(crate) enum ScalarEdit {
@@ -84,6 +85,7 @@ pub(crate) struct GroupCollectors<K> {
     enabled: bool,
     inverses: Vec<InverseFrame>,
     spare: Vec<InverseFrame>,
+    owned: Option<Box<owned::Owned<K>>>,
 }
 impl<K> GroupCollectors<K> {
     pub(crate) fn new() -> Self {
@@ -92,6 +94,7 @@ impl<K> GroupCollectors<K> {
             enabled: false,
             inverses: Vec::new(),
             spare: Vec::new(),
+            owned: None,
         }
     }
     fn paged(&self) -> &Paged<K, IntCollector> {
@@ -145,13 +148,22 @@ impl<K> GroupCollectors<K> {
     pub(crate) fn is_primitive(&self) -> bool {
         self.rows.is_primitive()
     }
-    pub(crate) fn iter(&self) -> Iter<'_, K, IntCollector> {
-        self.rows.iter()
+    pub(crate) fn iter(&self) -> impl Iterator<Item = (&K, &IntCollector)> {
+        self.rows
+            .iter()
+            .chain(self.owned.iter().flat_map(|rows| rows.iter()))
     }
     pub(crate) fn clear(&mut self) {
+        if let Some(rows) = &mut self.owned {
+            rows.clear();
+            return;
+        }
         self.rows.clear();
     }
     pub(crate) fn begin_journal(&mut self) -> usize {
+        if let Some(rows) = &mut self.owned {
+            return rows.begin();
+        }
         let token = self.rows.begin_journal();
         if self.enabled {
             assert_eq!(token, self.inverses.len(), "group inverse journal order");
@@ -160,6 +172,10 @@ impl<K> GroupCollectors<K> {
         token
     }
     pub(crate) fn commit_journal(&mut self, token: usize) {
+        if let Some(rows) = &mut self.owned {
+            rows.commit(token);
+            return;
+        }
         if self.enabled {
             assert_eq!(
                 self.inverses.len(),
@@ -211,6 +227,10 @@ impl<K> GroupCollectors<K> {
         }
     }
     pub(crate) fn rollback_journal(&mut self, token: usize) {
+        if let Some(rows) = &mut self.owned {
+            rows.rollback(token);
+            return;
+        }
         if self.enabled {
             assert_eq!(
                 self.inverses.len(),
@@ -237,6 +257,9 @@ impl<K> GroupCollectors<K> {
         self.rows.rollback_journal(token);
     }
     pub(crate) fn capture_current(&self, token: usize) -> RowsCapture<K, IntCollector> {
+        if let Some(rows) = &self.owned {
+            return rows.capture(token);
+        }
         if !self.enabled {
             return self.rows.capture_current(token);
         }
@@ -265,19 +288,37 @@ impl<K> GroupCollectors<K> {
         })
     }
     pub(crate) fn install_capture(&mut self, capture: RowsCapture<K, IntCollector>) {
+        if let Some(rows) = &mut self.owned {
+            rows.install_capture(capture);
+            return;
+        }
         self.rows.install_capture(capture);
     }
     pub(crate) fn install_snapshot(&mut self, saved: Self) {
+        if let Some(rows) = &mut self.owned {
+            if let Some(owned) = saved.owned {
+                rows.install(*owned);
+            } else {
+                rows.install_shared(saved.rows);
+            }
+            return;
+        }
         self.rows.install_snapshot(saved.rows);
     }
     #[cfg(test)]
     pub(crate) fn journal_snapshot(&self, token: usize) -> Self {
+        if let Some(rows) = &self.owned {
+            let mut saved = self.clone();
+            saved.owned = Some(Box::new(rows.journal_snapshot(token)));
+            return saved;
+        }
         if !self.enabled {
             return Self {
                 rows: self.rows.journal_snapshot(token),
                 enabled: false,
                 inverses: Vec::new(),
                 spare: Vec::new(),
+                owned: None,
             };
         }
         assert!(token < self.inverses.len(), "active group inverse token");
@@ -311,6 +352,9 @@ impl<K> GroupCollectors<K> {
     }
     #[cfg(test)]
     pub(crate) fn shared_entries(&self) -> Vec<(Arc<K>, Arc<IntCollector>)> {
+        if let Some(rows) = &self.owned {
+            return rows.shared_entries();
+        }
         if !self.enabled {
             return self.rows.shared_entries();
         }
@@ -355,17 +399,42 @@ impl<K> Clone for GroupCollectors<K> {
             enabled: self.enabled,
             inverses: Vec::new(),
             spare: Vec::new(),
+            owned: self.owned.clone(),
         }
     }
 }
 impl<K: Ord> GroupCollectors<K> {
+    #[inline(always)]
+    pub(crate) fn apply_owned<P: LookupPolicy<K>>(
+        &mut self,
+        old: Option<&(K, i64)>,
+        new: Option<&(K, i64)>,
+        new_key: Option<&K>,
+        same: bool,
+    ) -> Option<(Option<IntSummary>, Option<IntSummary>)>
+    where
+        K: Clone,
+    {
+        self.owned
+            .as_mut()
+            .map(|rows| rows.apply::<P>(old, new, new_key, same))
+    }
     pub(crate) fn get(&self, key: &K) -> Option<&IntCollector> {
+        if let Some(rows) = &self.owned {
+            return rows.get(key);
+        }
         self.rows.get(key)
     }
     pub(crate) fn get_key_value(&self, key: &K) -> Option<(&K, &IntCollector)> {
+        if let Some(rows) = &self.owned {
+            return rows.get_key_value(key);
+        }
         self.rows.get_key_value(key)
     }
     pub(crate) fn contains_key(&self, key: &K) -> bool {
+        if let Some(rows) = &self.owned {
+            return rows.get(key).is_some();
+        }
         self.rows.contains_key(key)
     }
     #[inline]
@@ -377,13 +446,24 @@ impl<K: Ord> GroupCollectors<K> {
         self.rows.prepare_change_with_policy::<P, R>(key, inspect)
     }
     pub(crate) fn insert(&mut self, key: K, value: IntCollector) {
+        if let Some(rows) = &mut self.owned {
+            rows.insert(key, value);
+            return;
+        }
         self.rows.insert(key, value);
     }
     #[inline]
     pub(crate) fn insert_with_policy<P: LookupPolicy<K>>(&mut self, key: K, value: IntCollector) {
+        if let Some(rows) = &mut self.owned {
+            rows.insert(key, value);
+            return;
+        }
         self.rows.insert_with_policy::<P>(key, value);
     }
     pub(crate) fn remove(&mut self, key: &K) -> bool {
+        if let Some(rows) = &mut self.owned {
+            return rows.remove(key);
+        }
         self.rows.remove(key)
     }
     #[cfg(test)]
@@ -454,6 +534,15 @@ impl<K: 'static> GroupCollectors<K> {
             self.enabled = true;
         }
         bound
+    }
+    pub(crate) fn enable_consumed_owned(&mut self) {
+        if self.owned.is_none()
+            && self.rows.is_primitive()
+            && self.rows.is_empty()
+            && self.inverses.is_empty()
+        {
+            self.owned = Some(Box::new(owned::Owned::new(self.paged().map)));
+        }
     }
     pub(crate) fn enable_int_collector_pool(&mut self) -> bool {
         self.rows.enable_int_collector_pool()

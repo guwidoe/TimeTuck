@@ -355,3 +355,6 @@ impl std::error::Error for StreamScoreError {}
 
 #[cfg(test)]
 mod group_inverse_count_tests;
+
+#[cfg(test)]
+mod owned_collector_box_tests;
