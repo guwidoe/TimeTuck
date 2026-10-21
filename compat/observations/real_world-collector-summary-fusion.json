@@ -1,0 +1,94 @@
+{
+  "kind": "real_world-collector-summary-fusion",
+  "generated_at": "2026-10-21T16:51:57.048063+00:00",
+  "status": "closed;not integrated;small mixed Sailing signal",
+  "native_source_digest": "aeb6009d1e517dab8e749a0726a4106b2a329cc5ca0ce0921b1a420f54a29de5",
+  "input_sha256": "36622a3590f81e1c25467b89d881062dc7255d7eb5efbb0876d7daa257e20837",
+  "source_snapshot": "b5ae845e4e324437e64c49def9726fec667ff92b3515d6f514af6ae3addd0cde",
+  "artifact_sha256": "8f443f2b2517f95f5dc3ec3783445ecf8f7ebab2c0d6aba83851659a39394cea",
+  "mechanism": "Read distinct count and both extrema through one IntCollectorCounts representation match instead of three separate getters. Existing inline2/tree representation,full wrapping summary,frequency changes,ownership and callbacks unchanged. Superseded unused getters removed.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/collector-summary-fusion-next-results/real_world-collector-summary-fusion-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64688.749112248806,
+            64676.05636896714,
+            64142.20182183848,
+            63919.372890618586
+          ],
+          "trial": [
+            64872.273151976915,
+            65081.01603267765,
+            63436.660276836934,
+            64356.220157474636
+          ]
+        },
+        "medians": {
+          "baseline": 64409.12909540281,
+          "trial": 64614.24665472578
+        },
+        "gain_pct": 0.3184603831844157
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            187880.69338246124,
+            185413.2821677649,
+            187130.2856486796,
+            188454.8637406794
+          ],
+          "trial": [
+            188751.639633937,
+            189016.6357178633,
+            188382.7859640186,
+            190662.13483614338
+          ]
+        },
+        "medians": {
+          "baseline": 187505.4895155704,
+          "trial": 188884.13767590016
+        },
+        "gain_pct": 0.7352574924027966
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "real_integer_collectors_preserve_captures",
+        "shared_frequency_roots_remain_independent",
+        "stream::group_inverse_count_tests",
+        "owned_collector_box"
+      ],
+      "tests_passed": 7,
+      "seconds": 62.61814905999927,
+      "source_digest": "aeb6009d1e517dab8e749a0726a4106b2a329cc5ca0ce0921b1a420f54a29de5",
+      "log_sha256": "fd9819af1f2c220d1b56d0201e84c9e54fabecfe3f1dbe9c301901f047df2346",
+      "receipt_sha256": "7882b936b55016cd75e63b3ce1956986b2a4a222ab5b6b4ad12edc71dc3ef48c",
+      "scope": "Actual7 focused collector capture/clone/thread/overflow/transition regressions. Custom runner also copied an unrelated cached release artifact because argv length matched the build case;that copied file is not a release from this test execution and is ignored. Only runner-a actual build above binds measured runtime."
+    }
+  ],
+  "receipts": {
+    "receipt.json": "501f88034242749ccc6b4d81b92cfcb2cc42e29515f3e858f08e2cc791e9d52f",
+    "build-receipt.json": "4920928d1abd6b497952cf264da7d0cc3547b59a984d9eaaac1fd371b4eb3165",
+    "controls.json": "0d4adef37dd5c2b0964c75d7e47be0ac9c8db1f8008a94f275712db4b03c881b",
+    "baseline-binding.json": "ea4f7c6ad690d0830bc49b5aa82dac8d020fcb13a7dadea8e224bd5dfc9c7b96"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "NativeS+.31846%(3/4faster),G+.73526%(4/4),16valid. Close without integration:small mixed Sailing signal. No retry/app/Clippy/fullsuite/Java/current-main test credit. v32 baselinebinding succeeded;goal incomplete."
+}

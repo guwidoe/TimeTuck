@@ -53,6 +53,15 @@ No repeated successful checks/timings, full suite or upstream-method credit.
 Original Java5725 remains historical/stale; neither current-source target is
 qualified. Goal remains active. [Evidence](../compat/observations/real_world-summary-carrier-reuse.json).
 
+The fused collector-summary lookupaeb600/36622 is closed,not integrated:
+7 focused regressions pass;16 outputs valid;Sailing+.318%(3/4faster),Golfer+.735%
+(4/4). Small mixed Sailing signal,no retry/app/Clippy/full/Java. Proof in
+`compat/observations/real_world-collector-summary-fusion.json`. v32 baselinebinding
+succeeded. A separate directional queue prototype now stores direction in the
+variant discriminant:32B queued cell versus40B,full node/index/Rc fields,no range
+restriction or event coalescing. Actual job handle in ignored active state;do not
+restart just because observation times out. The chosen currentmain remainsfc93b33.
+
 The preceding consumed-graph collector backend owns each mutable integer
 collector in a box and records scalar and structural undo in one ordered journal.
 Canonical keys retain their Arc owners; full and delta observations copy collector
