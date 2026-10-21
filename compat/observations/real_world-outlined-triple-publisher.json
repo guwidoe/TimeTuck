@@ -1,0 +1,138 @@
+{
+  "kind": "real_world-outlined-triple-publisher",
+  "generated_at": "2026-10-21T13:10:44.487958+00:00",
+  "status": "selected modest Sailing gain with small Golfer tradeoff;current Java parity unqualified",
+  "native_source_digest": "3fd07b3a6a8475be19697a2fa1d41a62a4f04d5e9aa67d4422bf48c80786ed98",
+  "input_sha256": "e40ef237bbf32c86815e670362aad49f6ed5b10a288f9e68907e8d21b438e526",
+  "source_snapshot": "3718d0698909b5ea9ed8615bd80d034ddcfd38cb6523315e507704b8616c783a",
+  "artifact_sha256": "30da62d1dff19e9717d0c24f0d1e9870cd2cc1a6428a0cad57cd52b5a2e57700",
+  "mechanism": "Only existing private Triple join publisher: hoist immutable left/right orientation into const-generic helper and outline that loop from generic propagation. Same original scratch Vec and complete rows, Event construction, scalar FIFO/queue/fanout, evaluation guards, trim/abandon and forced-shared controls. Original shared-producer for_each, member publication and public/custom/fallback paths unchanged. No new runtime field, vtable method, event grouping, pointer cast, unsafe, fixture/model/settings/compiler change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/outlined-triple-publisher-flatmap-next-results/real_world-outlined-triple-publisher-flatmap-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62138.93209116998,
+            61743.73716411933,
+            62589.68068583529,
+            62227.22906776282
+          ],
+          "trial": [
+            62264.3359399703,
+            62967.51344307226,
+            62641.16958659415,
+            62769.84602632182
+          ]
+        },
+        "medians": {
+          "baseline": 62183.080579466405,
+          "trial": 62705.50780645799
+        },
+        "gain_pct": 0.8401436888028524
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            185617.254174004,
+            179204.10186909905,
+            185199.19938715795,
+            185160.57340251716
+          ],
+          "trial": [
+            185122.88696160665,
+            184659.6302891596,
+            184418.9715282397,
+            183642.56657239364
+          ]
+        },
+        "medians": {
+          "baseline": 185179.88639483755,
+          "trial": 184539.30090869963
+        },
+        "gain_pct": -0.3459260606586967
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "limits": "Native median Sailing+.84014% (all4 pairs faster),Golfer-.34593% (1/4 faster). Modest workload-specific result. No universal gain,causal claim about every sampled copy,added component gains or extrapolated Java ratio. A fresh default Java matrix is deferred until materially closer to the remaining Sailing target.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "stream_graph::join_output::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 7,
+      "seconds": 97.95285977399908,
+      "receipt_sha256": "773d471a596ce23f2a0ad98db8388b4a60ada1d2651dbfe28bdfc33a09093d96",
+      "log_sha256": "a6767030d9d1de5b2f5e4e4b5f5053a209a23e81fab83cdb61d7ef138fdab76e",
+      "proof_directory": "work/real_world-goal/outlined-triple-publisher-flatmap-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--test",
+        "real_world_application_regression",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 67.0313217859948,
+      "receipt_sha256": "502c642ccccbc57214c30ae6150cc593228b0217846bce98758a4962df14eadb",
+      "log_sha256": "0add85d0da7a64b6dab5121d232b26cfc9887d174a7b3a854b2e8f2aa4ab81cd",
+      "proof_directory": "work/real_world-goal/outlined-triple-publisher-flatmap-application1"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--lib",
+        "--example",
+        "real_world_benchmark",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "tests_passed": null,
+      "seconds": 60.716311186988605,
+      "receipt_sha256": "caa97f4c46094a7b0020be619a76cb01f125124c5e3ccf5451e5c1f88832d051",
+      "log_sha256": "9a0e8b9342cd06d195569932f66db0d40a670ec6c2afac39f84c4e7d0edca5f9",
+      "proof_directory": "work/real_world-goal/outlined-triple-publisher-flatmap-clippy1"
+    }
+  ],
+  "tests_passed": 11,
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "new_native_tests_integrated": 0,
+  "retained_java_report": {
+    "sha256": "5725a1cab0ce75f45cbd2b2801a02238690020f37b6eb8ead1a944459fe2adba",
+    "status": "unchanged historical source aee829/59be6/6d297;stale on selected3fd/e40 source",
+    "historical_golfer_rust_over_java": 1.5284327987555946,
+    "historical_sailing_rust_over_java": 0.8515569311051224,
+    "current_source_targets_proven": 0,
+    "required_targets": 2,
+    "scores_feasibility_separate": true
+  },
+  "receipts": {
+    "receipt.json": "87636f06113e8b40996de548b23c9eb1f701342db73098f6c96d6a70a6955c84",
+    "build-receipt.json": "fc8d562948eaee58734e9594485e9fb01b04abd4cfd52cc3d17292903e517dc4",
+    "controls.json": "75472a445c8cd83bf80b1b38c38e07a653e0cc7b688e7c9ea0e5f4eead16ef29",
+    "baseline-binding.json": "cda1bae73a739d0c10b6193f6763d6bf5dc89c20b93f0d94953e3079d9066b2e"
+  },
+  "compiled_evidence_basis": "Fresh selected6d297 profile and annotation in work/real_world-goal/selected-flatmap-sailing-profile;diagnostic only,full sampled output independently valid. Actual new publisher Cargo release and all16 new outputs bound to selected source.",
+  "policy": "Reuse actual11 focused tests/Clippy after exact source integration;no full suite,repeated7carrier tests,new Java matrix or browser retest. Preserve previous21 focused log/source,never rekey. Local+runner-a,runner-c parked,no new agents. Goal active/incomplete.",
+  "proof_directory": "work/real_world-goal/outlined-triple-publisher-flatmap-next-results"
+}

@@ -19,7 +19,9 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Current original matrix proves 1/2 targets: Golfer meets parity; Sailing is below.
+The latest original matrix proves 1/2 targets on previous source aee829:
+Golfer meets parity and Sailing is below. It is historical/stale on the new
+selected source; neither current-source target has been qualified yet.
 Preserve original same-machine serial
 rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
 validations. Scores/feasibility remain separate. Model, fixtures, declarations,
@@ -29,7 +31,40 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-Selected batch: direct flat-map output. Whole ownership-consumed exact numeric
+Selected batch: outline the existing Triple join publisher loop and make direction
+constant per call. Same original scratch Vec, complete rows, Event construction,
+scalar queue/FIFO/fanout, guards, trim/abandon, forced-shared tests and ordinary
+shared/member/public/custom routes. No new graph field/vtable entry or event
+grouping. Native source
+`3fd07b3a6a8475be19697a2fa1d41a62a4f04d5e9aa67d4422bf48c80786ed98`;
+production `e40ef237bbf32c86815e670362aad49f6ed5b10a288f9e68907e8d21b438e526`;
+snapshot `3718d0698909b5ea9ed8615bd80d034ddcfd38cb6523315e507704b8616c783a`;
+artifact `30da62d1dff19e9717d0c24f0d1e9870cd2cc1a6428a0cad57cd52b5a2e57700`.
+
+Four actual rotating3s seed7 native pairs measured **Sailing +.84014%** (all4
+faster), **Golfer -.34593%** (1/4 faster), all16 outputs independently valid.
+This is a modest Sailing gain with a small Golfer tradeoff, not a universal gain
+or extrapolated Java parity. Exact source passes 7 existing carrier +4 external
+application tests and lib/example Clippy. **No full suite or new upstream-method
+credit.** Current focused log credits only those 11 genuine source-bound passes;
+previous21 log/metadata preserved unchanged. No repeated successful carrier tests,
+release build, native timings, original Java matrix or browser check for commit.
+OriginalJava report5725 remains byte-identical and historical/stale: it proves
+G1.528433x/S.851557x on previous aee829, not this source. Neither current-source
+throughput target is qualified; do not multiply native gains into old ratios.
+Defer the original12-run qualifier until materially closer to Sailing parity.
+Proof: `compat/observations/real_world-outlined-triple-publisher.json` and
+`work/real_world-goal/outlined-triple-publisher-flatmap-next-results/`.
+
+The optional all-None counter-table companion was measured as a whole combined
+source70ffa/8949 and rejected: 21 relevant tests/16 valid outputs, Sailing-6.099%
+(1/4 faster),Golfer-1.234% (0/4). No app/Clippy/Java or integration on that source.
+Original real counters/owners were preserved; this result gives no isolated
+counter-only speed estimate. Close it unchanged; no current-main test credit.
+Proof: `compat/observations/real_world-optional-counters-outlined-publisher.json`.
+All batch jobs are terminal and collected. Goal remains active/incomplete.
+
+Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
 eliminating the intermediate Vec<TupleChange>. Original mapper/iterator
 collection and length-cache preparation remain. Full owned Event erasure finishes
@@ -59,7 +94,7 @@ larger Sailing ratio change is mostly lower Java throughput, not an attributable
 optimization gain. Scores/feasibility stay separate (Sailing Rust2/3,Java0/3;
 Golfer3/3 each), no equal-score gate. Same original configuration/toolchain/Java
 classes and dependencies, actual Cargo release/javac, byte-identical measured
-candidate artifact. Genuine report5725a1 is current; previous16b0 bytes and focused
+candidate artifact. Genuine report5725a1 was current on that source and is now historical; previous16b0 bytes and focused
 logs preserved in proof. No unchanged checks or qualifier repeat for commit/reset.
 Proof: `compat/observations/real_world-direct-flatmap-output.json` and
 `work/real_world-goal/standard-flatmap-current-java-qualification/`.
@@ -129,21 +164,14 @@ panic/errors and retry; all16 native outputs validate. Sailing -3.181%/Golfer
 -4.342%, all4 pairs slower each. No integration or further checks/qualification.
 Proof: `compat/observations/real_world-consecutive-filter-dispatch.json`.
 
-The next isolated candidate outlines only the existing Triple join publisher
-loop, with compile-time direction. Original scratch Vec, full fields, scalar
-Event/queue/FIFO, guards, trim/abandon, and shared/member/fallback routes remain.
-Current-cycle assembly identifies extra stack row copies in that publication
-loop. Prototype `work/real_world-goal/outlined-triple-publisher-flatmap-next-prototype/`;
-existing7 carrier tests and native controls are active. No gain/integration claim
-until collecting the original handles in the state ledger.
-
 Do not reopen closed static mapped reads, concrete-key callbacks, member-owner
 pools, buffer handoffs, indexed-row variants, duplicated contiguous-bucket
-registry, undo-packing or staged filter-run source unchanged.
+registry, undo-packing, staged filter-run or optional counter-table source unchanged.
 
-Existing v29 helpers bind actual selected aee829/59be6/6d297, its 21 focused tests,
-Clippy and original Java report5725. They built/measured the rejected contiguous
-member candidate. Historical v28 remains unchanged for ec026. No full suite,
+Future v30 helpers bind actual selected3fd/e40/30da, its11 focused tests,
+Clippy and16 valid native outputs. They syntax-check and remain unrun. Java5725
+is explicitly historical/stale and zero current-source targets are proven.
+Historical v29 stays bound to aee829/59be6/6d297, v28 to ec026. No full suite,
 unchanged qualifier, repeated browser check or runner-c probe. Goal active/incomplete.
 
 The following deferred-totals baseline is historical. Its runtime,

@@ -107,28 +107,8 @@ impl<'node> JoinOutput<'node> {
         }
         let right = self.right();
         match self.rows.as_mut().expect("live output carrier") {
-            Rows::TripleLeft(rows) | Rows::TripleRight(rows) => {
-                for mut change in rows.drain(..) {
-                    if right {
-                        change.id = (change.id.1, change.id.0);
-                        change.value = change.value.map(|(r, l)| (l, r));
-                    }
-                    match Event::new(change) {
-                        Event::Pair(row) => {
-                            if !edges.is_empty() {
-                                let index = arena.len();
-                                arena.push(Event::Pair(row));
-                                for &edge in edges {
-                                    pending
-                                        .push_back((edge, event_queue::QueuedEvent::Inline(index)));
-                                }
-                            }
-                        }
-                        // Preserve the original test-only force-shared route.
-                        output => event_queue::enqueue(edges, output, pending, arena, false),
-                    }
-                }
-            }
+            Rows::TripleLeft(rows) => publish_triples::<false>(rows, edges, pending, arena),
+            Rows::TripleRight(rows) => publish_triples::<true>(rows, edges, pending, arena),
             Rows::MemberLeft(rows) | Rows::MemberRight(rows) => {
                 for mut change in rows.drain(..) {
                     if right {
@@ -141,6 +121,36 @@ impl<'node> JoinOutput<'node> {
             }
         }
         self.finish();
+    }
+}
+// Hoist immutable direction out of the per-row loop and keep this numeric
+// publication loop outside the generic propagation frame. Original scratch Vec,
+// full fields, scalar queue/FIFO/fanout and carrier finish/abandon stay intact.
+// The shared-producer route above retains the original for_each path.
+#[inline(never)]
+fn publish_triples<const RIGHT: bool>(
+    rows: &mut Vec<Change>,
+    edges: &[Edge],
+    pending: &mut VecDeque<(Edge, event_queue::QueuedEvent)>,
+    arena: &mut Vec<Event>,
+) {
+    for mut change in rows.drain(..) {
+        if RIGHT {
+            change.id = (change.id.1, change.id.0);
+            change.value = change.value.map(|(r, l)| (l, r));
+        }
+        match Event::new(change) {
+            Event::Pair(row) => {
+                if !edges.is_empty() {
+                    let index = arena.len();
+                    arena.push(Event::Pair(row));
+                    for &edge in edges {
+                        pending.push_back((edge, event_queue::QueuedEvent::Inline(index)));
+                    }
+                }
+            }
+            output => event_queue::enqueue(edges, output, pending, arena, false),
+        }
     }
 }
 impl Drop for JoinOutput<'_> {

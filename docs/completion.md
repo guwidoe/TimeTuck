@@ -19,14 +19,29 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current selected optimization removes an intermediate flat-map tuple vector
+The selected publisher optimization outlines only the existing Triple join
+publication loop and makes direction constant per call. Same original scratch
+Vec/full rows, Event construction, scalar FIFO/fanout, guards, carrier cleanup and
+shared/member/public/custom routes. Actual rotating native controls measured
+**Sailing +0.840% (all four pairs faster), Golfer -0.346% (one of four)**,
+all 16 outputs valid.
+It is a modest Sailing improvement with a small measured Golfer tradeoff.
+Actual 7 carrier +4 external application tests and lib/example Clippy pass on
+that exact source; current evidence credits 11 named focused passes. No full
+suite or new adapted-method credit. Previous focused results remain historical.
+The latest original Java report5725 remains unchanged and stale on this source.
+It proved Golfer 1.528433x/Sailing 0.851557x on previous aee829; neither current-source
+target is yet qualified. No extrapolation or repeated matrix; the goal remains
+incomplete. [Source and evidence](../compat/observations/real_world-outlined-triple-publisher.json).
+
+The preceding selected optimization removes an intermediate flat-map tuple vector
 only in whole ownership-consumed exact numeric graphs. Original mapper/iterator
 collection and length-cache preparation remain; all full owned Event erasure
 completes before cache publication. Public/custom/retaining paths stay ordinary.
 Three original regressions cover full fields/IDs, zero presence, output order,
 owner reuse, callbacks/work, captures/nesting, panic/overflow and retry.
 Actual 15 flat_map +2 tally +4 external application tests and lib/example Clippy
-pass on the exact measured source. Current verification credits 21 named passes;
+pass on the exact measured source. That source’s verification credits 21 named passes;
 previous229 focused tests remain historical. **No full suite ran.**
 
 Four native rotating3s pairs measured +1.569% Sailing/+1.127% Golfer medians, with
@@ -38,7 +53,8 @@ baseline. Rust absolute throughput is nearly unchanged against the previous
 matrix; most Sailing ratio uplift comes from lower Java throughput. Do not claim
 that ratio shift as this optimization's gain. Original configuration, toolchain,
 Java dependencies/classes remain; scores/feasibility stay separate, no equal-score
-gate. Genuine report5725a1 is current; old16b0 bytes remain preserved. Goal incomplete.
+gate. Genuine report5725a1 was current on that source and is now historical/stale.
+Old16b0 bytes remain preserved. Goal incomplete.
 [Source, checks and measurements](../compat/observations/real_world-direct-flatmap-output.json).
 
 Previous direct group publication eliminated a two-row staging buffer and

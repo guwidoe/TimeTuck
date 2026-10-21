@@ -1,0 +1,114 @@
+{
+  "kind": "real_world-optional-counters-outlined-publisher",
+  "generated_at": "2026-10-21T13:10:44.490958+00:00",
+  "status": "closed;whole-source combination regressed;not integrated",
+  "native_source_digest": "70ffa069e62663ae44c0a025b11288f664273ce2600a7dd9cfb9fa9a544dac03",
+  "input_sha256": "8949e92a54867769c8548d457310d49a4785fc436d68174da789ca0d5f47aff2",
+  "source_snapshot": "15a6b1cde8216d2a08d1880dce50b55287b0136260141633de619cf9b0868ae8",
+  "artifact_sha256": "22d3a584b163aa03db3f4a92eee05389dce535ef8f491b1e51a6bac140d75cb6",
+  "mechanism": "Retained outlined Triple publisher plus optional auxiliary counter table:original node counter accessors still invoked once,retain actual Rc owners/slots/values when any present;omit only table whose every slot is None. Original guard boundaries/callback counting,full events,model and settings remain. Safe Index wrapper retained private call-site semantics for validated node IDs.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "evaluation_counters::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "receipt_sha256": "690eeaf1986f355a088c7b1b04fd26611b3c339d7504cf528017ee423e28a3c3",
+      "proof_directory": "work/real_world-goal/optional-counters-outlined-flatmap-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "fixed_links::shared_inputs::fused_score::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 12,
+      "receipt_sha256": "d7e76d06122ab54dfcb7084b8716e2dc80f6054b2ea59f8eed1dcfffa6ba80a7",
+      "proof_directory": "work/real_world-goal/optional-counters-outlined-flatmap-real-counters1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "stream_graph::join_output::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 7,
+      "receipt_sha256": "471cfe7070464bb12b961fdf382b8aa2114e368395ac04a4e87fbdc817f5305f",
+      "proof_directory": "work/real_world-goal/optional-counters-outlined-flatmap-carrier1"
+    }
+  ],
+  "tests_passed": 21,
+  "full_native_gate": false,
+  "new_original_tests": 2,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/optional-counters-outlined-flatmap-next-results/real_world-optional-counters-outlined-flatmap-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63080.07421429914,
+            60642.58866256108,
+            61051.54208795299,
+            54363.688538573835
+          ],
+          "trial": [
+            61824.09827752341,
+            61411.94666767045,
+            52860.22985973984,
+            51133.729286729205
+          ]
+        },
+        "medians": {
+          "baseline": 60847.065375257036,
+          "trial": 57136.08826370514
+        },
+        "gain_pct": -6.098859638777143
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184739.65173261106,
+            184585.10008590206,
+            183835.32644986568,
+            184670.01915759497
+          ],
+          "trial": [
+            180924.9182785059,
+            183774.05616289697,
+            179251.35194029007,
+            184032.70809449768
+          ]
+        },
+        "medians": {
+          "baseline": 184627.5596217485,
+          "trial": 182349.48722070144
+        },
+        "gain_pct": -1.2338745124044426
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "limits": "Sailing-6.09886% (1/4 faster),Golfer-1.23387% (0/4 faster). Absolute Sailing baseline and trial rates drifted downward;no unverified causal attribution. Whole combined source was measured,not incremental counter-only gain.",
+  "policy": "Close unchanged combination;no further app,Clippy,full suite or Java matrix. No current-main test or parity credit. Original source/logs/receipts preserved. Do not add/subtract separate-run component gains.",
+  "proof_directory": "work/real_world-goal/optional-counters-outlined-flatmap-next-results"
+}
