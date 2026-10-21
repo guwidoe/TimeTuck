@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-consecutive-filter-dispatch",
+  "generated_at": "2026-10-21T13:00:53.573601+00:00",
+  "status": "closed;both workloads materially regressed;not integrated",
+  "native_source_digest": "55bd39f5cace7d4a089ac87a8679de7e481f0e3b2b78d119a4ba6d663bf3fb33",
+  "input_sha256": "80bb0cb70375ac89005e61cd4b4c3279b5cdbc532cc65edbd6fcaab8f63e9689",
+  "source_snapshot": "4ebe91dfaacf95606cdd1c55b6c7867af40aae9ad8e5afa5ffa1f06c10177c45",
+  "artifact_sha256": "c73c23efd5175c387034ad42d0087e2fe8b8a877b5eb1515f6e9307b0254536c",
+  "mechanism": "At most16 already consecutive inputs for one whole-consumed exact numeric filter share one virtual dispatch. Every original predicate, cache update and evaluation guard still runs in FIFO order. Full decisions and private inputs are staged; output routing follows the run, before any consumer can execute. Original arena indices and numeric Rc owners preserved in fanout, full-ID retractions. Public/custom/retaining/activity/wide routes remain scalar. Scratch adds8B optional lazy Box to workspace and bounded reusable input/decision Vecs. No unsafe,fixture/model/configuration or Event/queue size change.",
+  "phase_limit": "Private numeric input lifetimes and routing publication move within the run. Numeric owners have no user Clone/Drop hooks and producer-retention metadata excludes owner observers; no downstream callback can occur between original adjacent queued inputs. This is an actual dispatch grouping implementation experiment, not a claim of identical private allocation/owner phases. It was rejected.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "forward_run::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "seconds": 191.42795249598566,
+      "receipt_sha256": "221b978a82b492c9c6b4556cd71c03509dc286660e0fa3ccd70a07e30b9870e9",
+      "proof_directory": "work/real_world-goal/filter-run-flatmap-focused1"
+    }
+  ],
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/filter-run-flatmap-next-results/real_world-filter-run-flatmap-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62452.53165888854,
+            61577.77488239597,
+            63152.85058647375,
+            61196.50304263023
+          ],
+          "trial": [
+            59938.424267384566,
+            60146.57998761155,
+            60686.37563494494,
+            59281.92065934343
+          ]
+        },
+        "medians": {
+          "baseline": 62015.15327064226,
+          "trial": 60042.50212749805
+        },
+        "gain_pct": -3.1809179516743225
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184269.31871148327,
+            185042.6793219467,
+            185257.16044124265,
+            184349.45092430612
+          ],
+          "trial": [
+            177123.4116253536,
+            174993.1225059944,
+            178480.8909060497,
+            176230.86767247863
+          ]
+        },
+        "medians": {
+          "baseline": 184696.0651231264,
+          "trial": 176677.1396489161
+        },
+        "gain_pct": -4.34168723024203
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "receipts": {
+    "receipt.json": "dbf21832ea2636cb5c3c62c7e9d9addc3509fe6a293f788378e1bcc856c8137f",
+    "build-receipt.json": "92becc5c28c7c071419bddbf16a99483d6140fc468f82b54d61cf314daead058",
+    "controls.json": "670fecff0e29b56c77e561f1d9e1469175135dc72222eaef5b2c26406284aff0",
+    "baseline-binding.json": "cda1bae73a739d0c10b6193f6763d6bf5dc89c20b93f0d94953e3079d9066b2e"
+  },
+  "policy": "Close unchanged staged filter run. Main1ce3ea5 runtime/currentJava5725/current21 focused tests untouched. Candidate tests/16 valid controls earn no current-main or Java-parity credit. No further application,Clippy,full suite or Java checks on slower source. All candidate handles terminal and collected.",
+  "proof_directory": "work/real_world-goal/filter-run-flatmap-next-results"
+}

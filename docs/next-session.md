@@ -121,18 +121,25 @@ review caught missing side-vector cleanup before spare reuse; separate corrected
 source adds cleanup/regression and is the only measured version. Preserve both.
 Proof: `compat/observations/real_world-compact-numeric-undo.json`.
 
-Next candidate in progress: consecutive exact numeric filter inputs share one
-dispatch while retaining each predicate, cache update and guard, in FIFO order.
-Only private output routing is staged to the end of that consecutive run; no
-downstream callback could run between these already queued inputs. Public,
-retaining, activity and wide fallback remain scalar. No fixture/model/settings
-change. Prototype `work/real_world-goal/filter-run-flatmap-next-prototype/`;
-actual focused tests and native controls are still active. Do not assume a gain
-or integrate before collecting the original handles in the state ledger.
+Consecutive numeric filter dispatch was also implemented and rejected. Each
+original predicate/cache update/guard still runs in FIFO order, but private
+numeric input lifetimes and routing publication move to the run boundary. Two
+original regressions preserve full callback traces, work, fanout owners, captures,
+panic/errors and retry; all16 native outputs validate. Sailing -3.181%/Golfer
+-4.342%, all4 pairs slower each. No integration or further checks/qualification.
+Proof: `compat/observations/real_world-consecutive-filter-dispatch.json`.
+
+The next isolated candidate outlines only the existing Triple join publisher
+loop, with compile-time direction. Original scratch Vec, full fields, scalar
+Event/queue/FIFO, guards, trim/abandon, and shared/member/fallback routes remain.
+Current-cycle assembly identifies extra stack row copies in that publication
+loop. Prototype `work/real_world-goal/outlined-triple-publisher-flatmap-next-prototype/`;
+existing7 carrier tests and native controls are active. No gain/integration claim
+until collecting the original handles in the state ledger.
 
 Do not reopen closed static mapped reads, concrete-key callbacks, member-owner
 pools, buffer handoffs, indexed-row variants, duplicated contiguous-bucket
-registry or undo-packing source unchanged.
+registry, undo-packing or staged filter-run source unchanged.
 
 Existing v29 helpers bind actual selected aee829/59be6/6d297, its 21 focused tests,
 Clippy and original Java report5725. They built/measured the rejected contiguous
