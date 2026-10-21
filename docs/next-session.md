@@ -26,51 +26,52 @@ validations. Scores/feasibility remain separate. Model, fixtures, declarations,
 runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
 runner-c parked. No new subagents. A commit/context reset warrants no repeat checks.
 
-Selected batch: two Rust files, one original native regression. The private row
-page directory extends its existing direct region for bounded four-coordinate
-PageKeys. Encoded indices preserve key order after the original 2D region; larger
-keys keep the ordered fallback. Directory/Entry/Page layouts, canonical Arcs and
-the original mutation/journal bodies remain. Complete key decoding preserves
-forward/reverse iteration and sorted clear/drop. Extra sparse metadata and full
-snapshot copies are memory tradeoffs. Existing wide accepted-membership pages,
-bucket bit inverses and private score hashing are unchanged.
+Selected batch: two private compiler-inline attributes. The unchanged primitive
+group-entry helper and unchanged scalar inverse-edit callee are both requested
+inline, exposing concrete edit variants and summary-return work to the caller
+optimizer. Every body, canonical owner, callback/error/overflow phase, emission,
+capture, nesting and rollback remains. No new test or upstream credit. Prior wide
+page directories, membership pages, bit inverses and score hashing remain.
 
-Native `0031880b24221b0f12124a5710b8767fc2c08ff580bb1af3a879958e92628689`;
-production `1aa4d4a3344d5a71800382866074663111ba7e4c7ea7f531a9d4114be14cf4f7`;
-final snapshot `ba29e51d7a69fb846bf79ce414b3d6f97f209583c92df779b431ef15d19c4f75`;
-actual measured artifact `4b3f85546976a9084188c4377ced8226c74d89e5e1de81e195c82efa4f986ea0`.
+Native `0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2`;
+production `ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846`;
+final snapshot `6ffbf83fb9a124c28af4c114a947e232ef9a5e29cce7121b4fb806fc7e921e6a`;
+measured/final artifact `78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2`.
 Actual Clippy, all-target no-run prebuild and one normal jobs 4
 `bash scripts/check.sh`: **8,874 named /8,880 Cargo executions /292 doctests
 /54 tooling jobs**. Only genuine aggregate Rust log/metadata promoted; no job-cache
-transplants. Upstream: 4,412 passed, 0 pending, 443 excluded; external: 4;
+transplants. Upstream: 4,412 passed /0 pending /443 excluded; external: 4;
 native regressions: 4,458. Observation:
-`compat/observations/real_world-wide-row-directory.json`. Proof:
-`work/real_world-goal/wide-row-directory-989a-next-final-results/`.
+`compat/observations/real_world-group-edit-inlining.json`. Proof:
+`work/real_world-goal/group-edit-003188-next-final-results/`.
 Backend report/freshness checked; unchanged rendering proof reused.
 
-Actual native controls against verified912/989a/b439/bf2619: **+3.375% Sailing**,
-Golfer essentially flat (+.268%); 16 independently valid rotating3s seed7 outputs.
-54 focused storage tests passed on original pilot4d7b/1aa4. Final003188 changes
-only one cfg(test) checked-multiply/unwrap-or-MAX expression to equivalent
-saturating_mul. No assertion or production byte changed; actual full final gate
-and a real byte-identical final release build prove the reuse. Original pilot
-receipts retain their original native digest. Collector inline undo preimages
-were discarded after flat Sailing (+.229%) and regressive Golfer (-.643%); seven
-focused controls passed but no broad gate or integration was spent. Do not repeat
-closed ownership, layout, queue, summary-probe or storage trials without a distinct
-mechanism. Trial state: `work/real_world-goal/active-performance-state.json`.
+Actual native controls against fully verified1972/003188/1aa4/4b3f:
+**+2.672% Sailing /+1.376% Golfer**, every paired trial faster, all 16 independently
+valid rotating 3s seed 7 outputs. Exact same frozen source and actual release
+artifact used for controls/final verification. Caller-only inline was separately
+modest (+.744% S /+1.012% G), not additive. Inlining may increase code/compile cost;
+no universal speed or memory claim. No repeated timing or Java qualifier.
 
-Original Java reportb14a remains unchanged and stale: historical G1.253663/S.609042,
-all 12 valid, Sailing feasible Rust2/3 Java0/3 on old021a. Defer the qualifier until
+Inline fanout packets, prepared singleton rebirth, equal-group summary views,
+compact owned score undo, adjacent summary total caching and compact membership
+undo were discarded after flat/regressive native controls. Focused controls and
+failures stay recorded; no broad gates were spent on those candidates. Do not
+retry unchanged. Trial ledger:
+`work/real_world-goal/active-performance-state.json`.
+
+Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
+all 12valid, Sailing feasible Rust 2/3 Java 0/3 on old021a. Defer the qualifier until
 materially closer to Sailing parity. No current Java target credit or multiplying
 native gains into historical ratios. The goal is incomplete.
 
-The exact current release artifact has one local Sailing10s seed7 diagnostic at
-`work/real_world-goal/current-wide-directory-profile/`, with independent output
-validation and zero lost samples. It uses the actual final release binding and
-source; no rebuild or Java timing credit. Reuse this recording. Previous989a
-profile is historical. Finish integration/commit before implementing another
-candidate; no full gate, profile or benchmark repeat for the commit alone.
+The preceding003188 wide-directory profile is source-bound historical evidence at
+`work/real_world-goal/current-wide-directory-profile/`: valid local Sailing 10s
+seed7, zero lost samples. It is not a profile of this compiler-inlining artifact.
+No new profile was needed for this batch. The previous wide-directory full gate
+and controls remain in `compat/observations/real_world-wide-row-directory.json`.
+Finish integration/commit before another candidate; no full gate or benchmark
+repeat for the commit alone.
 
 ## Previous verified typed-output source — 2026-10-21
 

@@ -1,0 +1,199 @@
+{
+  "kind": "real_world-group-edit-inlining-observation",
+  "generated_at": "2026-10-21T05:40:01.208062+00:00",
+  "upstream_method_credit": 0,
+  "native_source_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+  "input_sha256": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+  "source_snapshot": "6ffbf83fb9a124c28af4c114a947e232ef9a5e29cce7121b4fb806fc7e921e6a",
+  "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+  "host": "runner-a",
+  "changes": [
+    "Request compiler inlining for the unchanged primitive group-entry helper and its unchanged scalar inverse-edit callee. Concrete caller edit variants and existing summary-return operations become available to the caller optimizer. Only two private inline attributes change; no implementation body, model, callback or test assertion changes."
+  ],
+  "correctness": {
+    "recorded_native_tests_passed": 8874,
+    "cargo_test_invocations_passed": 8880,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "command": "bash scripts/check.sh",
+    "integrated_gate": "passed",
+    "new_native_regressions": 0,
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "6ffbf83fb9a124c28af4c114a947e232ef9a5e29cce7121b4fb806fc7e921e6a",
+      "rust_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+      "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 20.754850161989452,
+          "log_sha256": "4dbe386779a19e737244e7379d3305e8bcc9d64f10fa43bf3f355bde3afd87a8"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 88.70044503902318,
+          "log_sha256": "279b132b76bc67f85fc7ba7a42ea4e6de7d28c73d8057ec497341f642cf9cbc9"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 281.179676321015,
+          "log_sha256": "a539aa8e367f78c084a5ad2989f4bd117abd95231cdb6538319adb1f5ffcb30f"
+        }
+      ],
+      "seconds": 491.10377496900037,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. No Java qualifier rerun: prior Java evidence remains stale. Actual separately recorded native controls bind the unchanged source and measured artifact; no Java parity credit. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "1972cbe6c68e4bcad1b0859cae27479ef882eba9",
+      "source_snapshot": "6ffbf83fb9a124c28af4c114a947e232ef9a5e29cce7121b4fb806fc7e921e6a",
+      "rust_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+      "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+      "changed_files": [
+        "crates/solver/src/primitive_rows/group_collectors.rs",
+        "crates/solver/src/incremental_stream/group_entry.rs"
+      ],
+      "native_recorded_tests": 8874,
+      "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+      "final_receipt_sha256": "80a1fa4dfe690301592dbb809615cb7ce73664cdafe24a59ab949a932174e095",
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json"
+      ],
+      "previous_java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+      "policy": "Exact frozen Rust after actual full native gate. No per-job metadata transplant. Native controls are diagnostic only. Prior Java report retained unchanged and stale; no Java parity claim."
+    },
+    "preserved_contract": "All original edits, canonical owners, callback/error/overflow phases, emissions, captures, nesting and rollback bodies remain byte-identical. Original test names and origins remain unchanged."
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "source_snapshot": "e67cb17796e1065b1463774e0846d9c4e4c89fa13205093a733c8a856f5b959a",
+    "native_source_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+    "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+    "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+    "baseline_binding": {
+      "rust_digest": "0031880b24221b0f12124a5710b8767fc2c08ff580bb1af3a879958e92628689",
+      "production_digest": "1aa4d4a3344d5a71800382866074663111ba7e4c7ea7f531a9d4114be14cf4f7",
+      "artifact_sha256": "4b3f85546976a9084188c4377ced8226c74d89e5e1de81e195c82efa4f986ea0",
+      "source_snapshot": "ba29e51d7a69fb846bf79ce414b3d6f97f209583c92df779b431ef15d19c4f75",
+      "final_receipt_sha256": "a4314d7287a240726a422eb95715d7ed93b8e2cbdecc130d0606d2b876038482",
+      "native_pilot_binding_sha256": "d82de520ea2c9b1cec80f8c731ede6d81a70b31bad329156b6adeb8a3fcbea5e",
+      "qualification": "actual full native gate and native diagnostic artifact; Java qualification deferred, no parity credit"
+    },
+    "medians_and_gains": {
+      "sailing-trip-v1": {
+        "medians": {
+          "baseline": 57032.89950559565,
+          "trial": 58557.01634773608
+        },
+        "gain_pct": 2.67234676012027,
+        "every_paired_trial_faster": true
+      },
+      "social-golfer-32x8x10-v1": {
+        "medians": {
+          "baseline": 171550.7746032079,
+          "trial": 173911.8026510992
+        },
+        "gain_pct": 1.376285273763589,
+        "every_paired_trial_faster": true
+      }
+    },
+    "controls_sha256": "67580f5ab886bab3731535c61d05f0df5e1b81d917f3462ace0e3be898c21b66",
+    "proof_directory": "work/real_world-goal/group-edit-inline-003188-next-results",
+    "policy": "Four rotating three-second seed7 native pairs per case, runner-a CPU2,3; all16 outputs independently validated. Actual same unchanged Rust source and artifact used for final native gate. No Java timing credit or addition/multiplication into earlier gains."
+  },
+  "java_qualification": {
+    "status": "deferred; previous original report unchanged and stale",
+    "previous_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+    "historical_targets_met": 1,
+    "current_targets_proven": 0,
+    "historical_golfer_ratio": 1.2536632592888863,
+    "historical_sailing_ratio": 0.6090416988263235,
+    "policy": "Success requires both original same-machine Java/Rust throughput targets, rotating seeds7/11/23 x10s CPU2,3, all12 independently valid. Scores/feasibility separate, no equal-score gate."
+  },
+  "actual_final_release_binding": {
+    "command": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--example",
+      "real_world_benchmark"
+    ],
+    "exit_code": 0,
+    "seconds": 97.0078546339937,
+    "rust_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+    "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+    "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+    "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc",
+    "test_only_changes": [],
+    "policy": "Original native pilot receipts remain unchanged. Actual full native gate and release artifact use identical frozen Rust; no repeated measurements or source relabeling."
+  },
+  "unselected_current_round_trials": [
+    {
+      "mechanism": "Inline fanout packets",
+      "golfer_gain_pct": -0.3683603,
+      "sailing_gain_pct": -0.5646294
+    },
+    {
+      "mechanism": "Prepared singleton rebirth locator",
+      "golfer_gain_pct": 1.0838864,
+      "sailing_gain_pct": 0.0636439
+    },
+    {
+      "mechanism": "Equal-group summary view",
+      "golfer_gain_pct": -0.0263689,
+      "sailing_gain_pct": -0.0050831
+    },
+    {
+      "mechanism": "Compact owned score undo",
+      "golfer_gain_pct": -0.5926613,
+      "sailing_gain_pct": 0.6917235
+    },
+    {
+      "mechanism": "Adjacent summary total cache",
+      "golfer_gain_pct": -2.2934701,
+      "sailing_gain_pct": -0.1281537
+    },
+    {
+      "mechanism": "Compact membership undo",
+      "golfer_gain_pct": -1.0250375,
+      "sailing_gain_pct": -0.6364345
+    }
+  ],
+  "policy": "Negative/flat native trials are absent. The earlier caller-only inline trial was modest (+1.012%G/+.744%S) and is not additive to the actual selected caller/callee comparison. No broad gate repeated on unselected trials. Existing wide directories, membership pages, bit inverses and score hashing remain unchanged. Model, fixtures, declarations, runner, compiler, CPU, PGO, panic and batch policy unchanged. Inlining can increase code size and compile cost; these workload results are not a universal speed or memory claim.",
+  "profile_evidence": "Existing current-wide-directory-profile remains source-bound historical evidence for the preceding003188 artifact, not a profile of this inlining artifact. No unchanged or new-source profile rerun required for this batch.",
+  "original_inventory": "4412 adapted passes/0pending/443excluded; four external application regressions and4458 native regressions unchanged; zero new upstream credit.",
+  "proof_directory": "work/real_world-goal/group-edit-003188-next-final-results/"
+}

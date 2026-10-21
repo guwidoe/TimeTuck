@@ -11,7 +11,7 @@ use crate::primitive_rows::{
     group_collectors::{GroupCollectors, ScalarEdit},
 };
 
-#[inline]
+#[inline(always)]
 pub(super) fn apply<K: Ord + Clone, P: LookupPolicy<K>>(
     groups: &mut GroupCollectors<K>,
     old: Option<&(K, i64)>,

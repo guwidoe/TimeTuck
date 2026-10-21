@@ -312,6 +312,7 @@ impl<K: Ord> GroupCollectors<K> {
     pub(crate) fn try_edit(&mut self, key: &K, edit: ScalarEdit) -> Option<IntSummary> {
         self.try_edit_with_policy::<Stored>(key, edit)
     }
+    #[inline(always)]
     pub(crate) fn try_edit_with_policy<P: LookupPolicy<K>>(
         &mut self,
         key: &K,

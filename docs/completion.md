@@ -20,34 +20,35 @@ about every problem size, search trace or finite-budget optimum.
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
 The current native verification contains **8,874 recorded Rust tests and
-292 doctests** (8,880 Cargo test executions). The extended page-directory batch
-passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Source-bound evidence](../compat/observations/real_world-wide-row-directory.json)
-records the actual gate, release artifact and native controls. The live report
+292 doctests** (8,880 Cargo test executions). The group-edit inlining batch passes
+`bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
+[Source-bound evidence](../compat/observations/real_world-group-edit-inlining.json)
+records the actual native gate, release artifact and controls. The live report
 remains the authority for freshness and readiness.
 
-The four external RealWorld application regressions remain separate from the
-upstream inventory. Frozen fixtures, model, declarations, settings and runner
-remain unchanged. Private primitive row pages add direct lookup for bounded
-four-coordinate page keys in a disjoint ordered index range. The existing entry
-and page containers retain canonical key/value owners and their layout. Larger
-full-width keys keep the ordered tree fallback. Sorted iteration in both directions,
-clear/drop order, prepared updates, captures and nested rollback remain.
+Two private compiler-inline attributes request inlining of the unchanged
+primitive group-entry helper and its unchanged scalar inverse-edit callee. Their
+bodies, edits, canonical owners, callbacks, overflow/error phases, emissions,
+captures, nesting and rollback remain unchanged. Original tests and origins stay
+intact: 4,412 upstream adaptations, 4 external RealWorld regressions and 4,458
+native regressions. No new upstream-method or native-test credit is claimed.
 
-Additional sparse directory metadata and its full-snapshot copies are memory
-tradeoffs. One new original regression checks all storage tiers, full coordinates,
-canonical owners and nested saved installs. All 54 focused primitive-row controls
-passed before the final gate. The previous
-[accepted-membership lookup](../compat/observations/real_world-wide-membership-pages.json)
+Four rotating native three-second controls measured **+2.672% Sailing** and
+**+1.376% Golfer**, with every pair faster and all 16 outputs independently valid.
+The actual final gate and release artifact bind that same unchanged frozen Rust.
+This is a modest workload-specific improvement; inlining can increase code size
+and compile cost. These gains are not added to earlier gains and establish no
+Java parity. Flat/regressive fanout, singleton-rebirth, equal-group view, score
+undo, adjacent-total cache and membership-undo trials were not integrated or
+broadly gated.
+
+The preceding [wide primitive page directory](../compat/observations/real_world-wide-row-directory.json),
+[accepted-membership pages](../compat/observations/real_world-wide-membership-pages.json)
 and [bit inverses/score hashing](../compat/observations/real_world-bucket-bit-inverses.json)
-remain unchanged. No new upstream-method credit is earned.
-
-Four rotating native three-second controls measured **+3.375% Sailing**; Golfer
-was essentially flat (**+0.268%**). All sixteen outputs independently validate.
-A final real release build is byte-identical to the measured artifact after an
-equivalent cfg(test) arithmetic expression was made idiomatic. Original timing
-receipts retain their actual source identities. These gains are not added to
-previous gains and do not establish Java parity.
+remain. Complete arbitrary-key fallback, sorted iteration/drop, canonical owners
+and full/current/nested installs remain covered. Their sparse metadata, retained
+capacity and full-snapshot copies are memory tradeoffs, not memory-reduction claims.
+Public fixtures, model, declarations, settings and runner remain unchanged.
 
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
