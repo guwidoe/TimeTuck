@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-inverse-derived-empty-collectors",
+  "generated_at": "2026-10-21T13:37:09.093633+00:00",
+  "status": "closed;leaner transient-empty collector source also regressed;not integrated",
+  "native_source_digest": "af824dc5547574a848acd59ec01246664607b689ce2ce8e2035bfe9189845ad1",
+  "input_sha256": "177f5499ce9014840b601dd9291efec5acad85d2dbd57404a553545b935ec93b",
+  "source_snapshot": "7e6ba16a4a24d4ef78701a2257841140ea1e0d524db74e4e239f3a291a5aa2bf",
+  "artifact_sha256": "c28ef566f7c0fb04cf75f058f95fee35257c20614b478ec77745b8542715b018",
+  "mechanism": "Only consumed numeric groups:retain private raw zero collector during active trial,logical reads hide it and empty output is retraction. Derive outermost commit cleanup from existing scalar Remove inverse addresses;remove prior full-position side vector and frame floors. Full/delta ownership observers normalize raw zeros to absence while preserving all active full keys,values and dirty copies. Test-only historical replay temporarily restores zero owners before inverse replay,then normalizes. Original callbacks,per-edit arithmetic,work,nesting,public/custom/retained routes and shared/weak fallback remain. No persistent tombstone cache,coordinate bounds,unsafe,event or model changes.",
+  "phase_change": "Private numeric empty key/collector retirement can move to outer commit;actual full/delta observations remain logical states. No claim of identical internal Arc/allocation lifetime in this opt-in consumed mode.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "transient_empty",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 166.5090700930159,
+      "receipt_sha256": "7a51e4d08dd4877625e8ec3449ccb7333c1b53f89648b744c7e3d51d1c70f80e",
+      "proof_directory": "work/real_world-goal/inverse-derived-empty-groups-outlined-focused1"
+    }
+  ],
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/inverse-derived-empty-groups-outlined-next-results/real_world-inverse-derived-empty-groups-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63010.33860979524,
+            62634.888945289465,
+            63111.86749764757,
+            62189.375033600474
+          ],
+          "trial": [
+            61804.04418408618,
+            61352.55934397857,
+            60932.342992230544,
+            61721.48805407785
+          ]
+        },
+        "medians": {
+          "baseline": 62822.613777542356,
+          "trial": 61537.023699028214
+        },
+        "gain_pct": -2.0463810739656196
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            185506.69213191944,
+            184375.195158775,
+            177810.51252628778,
+            183631.54308647147
+          ],
+          "trial": [
+            181663.20902402108,
+            181798.67395154253,
+            182391.62336341536,
+            181205.49644995228
+          ]
+        },
+        "medians": {
+          "baseline": 184003.36912262323,
+          "trial": 181730.94148778182
+        },
+        "gain_pct": -1.2349924056700434
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "receipts": {
+    "receipt.json": "1c507335f1edfb21e5cf4384bfd5a3212998e669e33e03a0c1e7894ac41edda0",
+    "build-receipt.json": "5fe6dbbb10cf0e19917d4ed569064a17a8a49bb5cdc2c60316bf8a3015ccb51b",
+    "controls.json": "ceaf377a115581bf5902b62981e0ca757e9094cbf424358e5502291751e4c8ed",
+    "baseline-binding.json": "dd3cfe004f8f3b038a27f0cde6114742abad4773f9daf12fe2c54540f9410e1f"
+  },
+  "policy": "Close both transient-empty designs unchanged;this genuine whole source independently measured,not improvement inferred from side-list delta. No app,Clippy,full suite,Java qualifier,integration or current-main test credit. All handles terminal/collected. Main daa8a18 remains exact source3fd/e40/30da with11 focused tests/Clippy;Java5725 historical/stale.",
+  "proof_directory": "work/real_world-goal/inverse-derived-empty-groups-outlined-next-results"
+}

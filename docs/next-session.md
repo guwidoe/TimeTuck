@@ -64,6 +64,29 @@ counter-only speed estimate. Close it unchanged; no current-main test credit.
 Proof: `compat/observations/real_world-optional-counters-outlined-publisher.json`.
 All batch jobs are terminal and collected. Goal remains active/incomplete.
 
+Two later transient-empty collector designs are closed without integration.
+Both allow existing scalar inverses to remove the last occurrence inside a
+consumed numeric trial, retain a private zero collector, emit the original
+retraction and prune at outermost commit. The side-position-list version passed
+16 focused tests and 16 output validations but measured Sailing -1.549% and
+Golfer -1.450%. The leaner version derives cleanup from original inverse records
+and normalizes full/delta observations; its 4 original regressions and 16 outputs
+pass, but Sailing -2.046% and Golfer -1.235%. No app, Clippy, full suite, Java
+qualification or main credit on either source. Preserve both; do not repeat.
+Proofs: `compat/observations/real_world-transient-empty-collector-side-list.json`
+and `compat/observations/real_world-inverse-derived-empty-collectors.json`.
+
+Next candidate is private graph input-address specialization, distinct from the
+closed join-row/static-key experiments. Graph group calls resolve already
+certified input numeric fixed/pair/unbounded maps through the concrete ID type;
+standalone/borrowed GroupNode keeps stored-function lookup and the shared apply
+body. No new container, bounds, cache, runtime flag or vtable. Original inspect,
+clone, bounds-error/publication and capture/history phases remain. Prototype
+`work/real_world-goal/static-group-inputs-outlined-next-prototype/`; original
+focused tests and native controls are active in the state ledger. No speed claim
+before collecting them. Initial rustfmt module-doc placement was fixed before
+the frozen build; no measurement credit attached to that preparation error.
+
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
 eliminating the intermediate Vec<TupleChange>. Original mapper/iterator

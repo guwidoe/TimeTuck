@@ -1,0 +1,123 @@
+{
+  "kind": "real_world-transient-empty-collector-side-list",
+  "generated_at": "2026-10-21T13:28:35.722117+00:00",
+  "status": "closed;first private transient-empty implementation regressed;not integrated",
+  "native_source_digest": "d64289292754aa6fee3bdce341bf2970e114cd43026bed361a00e34c31ff80f6",
+  "input_sha256": "bb2d167e7915e0c7f430163c686335397577bc51f7bd6756367f9eab96204b24",
+  "source_snapshot": "c3c81b742317a863f84430b4d9b2665c70067f0344bddf1c2dff9f51de9f8df4",
+  "artifact_sha256": "a09c1fc33cc475e328e7070f8a72d849a42f96d95a752cb43adad6d1276ddf86",
+  "mechanism": "Only whole ownership-consumed primitive groups may use existing per-edit scalar inverse for last-value removal and count-one replacement. Raw empty collector stays within active trial;logical get/iteration hide it and original empty summary emits retraction. Exact full keys/values,callbacks,arithmetic,work and all updates retained. Dedicated full-position list tracks zeros with nested frame floors;outermost commit prunes through existing canonical pools,rollback truncates list. Full snapshots may retain raw zeros privately and installs track/prune them. Original shared/weak collector ownership still falls back. No persistent tombstone cache,coordinate restriction,unsafe or public/custom/retained/batched route activation.",
+  "phase_change": "Private numeric group key/collector retirement can move to outer commit;no user owner observers exist at the consumed boundary. Public operator key representatives and ordinary owner lifetimes remain original.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "transient_empty",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 4,
+      "seconds": 225.58552682900336,
+      "receipt_sha256": "98152fa1b9b75dbd1da95f6b1b715f5f0d067fcdd4e6efc5a9a4ff27678ed3e4",
+      "proof_directory": "work/real_world-goal/transient-empty-groups-outlined-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "primitive_rows::group_collectors::tests::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 7,
+      "seconds": 0.23799062200123444,
+      "receipt_sha256": "d18a31edfe26535f803254ea23c8d51cbd1288883201821ffd4eb7144b7c2c25",
+      "proof_directory": "work/real_world-goal/transient-empty-groups-outlined-collector-controls1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "incremental_stream::group_entry::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 5,
+      "seconds": 0.1733694060239941,
+      "receipt_sha256": "2411126a799d7a49629383966e6070d7f7fefc2d97dc5d394e207316bd36fe6f",
+      "proof_directory": "work/real_world-goal/transient-empty-groups-outlined-entry-controls1"
+    }
+  ],
+  "tests_passed": 16,
+  "full_native_gate": false,
+  "new_original_tests": 4,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/transient-empty-groups-outlined-next-results/real_world-transient-empty-groups-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63006.06875553923,
+            62751.12136946361,
+            61651.39833604787,
+            62303.54204708899
+          ],
+          "trial": [
+            61394.51733817247,
+            61528.833725522025,
+            61725.063506622704,
+            61588.31093380458
+          ]
+        },
+        "medians": {
+          "baseline": 62527.331708276295,
+          "trial": 61558.57232966331
+        },
+        "gain_pct": -1.549337469145129
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184579.6825670175,
+            185447.17154198023,
+            185630.67754287666,
+            185714.3016804052
+          ],
+          "trial": [
+            183499.07330029758,
+            180864.09858612687,
+            183054.6028336161,
+            182643.05906695675
+          ]
+        },
+        "medians": {
+          "baseline": 185538.92454242846,
+          "trial": 182848.8309502864
+        },
+        "gain_pct": -1.449880987925467
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "receipts": {
+    "receipt.json": "bc81c77993a1a6f7b4d9c336db0ce2b782e27f30bb9ba423302c22defde17b78",
+    "build-receipt.json": "9a552086c32ea49998a7aa7a9656af6441a80261dfd1a15dbeee449dd3b156c4",
+    "controls.json": "98366ced472be535fe82616d7a8c1f40ad6f74eccd9d3614d47ace1b418b5208",
+    "baseline-binding.json": "dd3cfe004f8f3b038a27f0cde6114742abad4773f9daf12fe2c54540f9410e1f"
+  },
+  "policy": "Close this side-list source unchanged. No application/Clippy/full suite/Java or current-main credit on slower source. Original frozen prototype/results/receipts preserved. Separate inverse-derived cleanup refinement was independently measured and also rejected;see real_world-inverse-derived-empty-collectors.json. Never infer gains by subtracting side-list cost. Main daa8a18 unchanged.",
+  "proof_directory": "work/real_world-goal/transient-empty-groups-outlined-next-results"
+}
