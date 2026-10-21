@@ -1,0 +1,177 @@
+{
+  "kind": "real_world-independent-hash-word",
+  "status": "selected;modest native gain,Sailing+1.317%/Golfer+.231%;original Javaeeee is historical/source-stale,not extrapolated",
+  "native_source_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+  "input_sha256": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+  "source_snapshot": "892d83466115da166348ab1e3ecccc536168ec28f163072aac9b11e32cce656a",
+  "artifact_sha256": "af77f9f3fdf4001b977530b8c63d37c10563d3148ddbf95497fd03e4f8ca57d1",
+  "mechanism": "Multiply each full input word before XORing it into the rotated private Position hash accumulator; independent input products shorten the multiply dependency chain. Full Position equality, final avalanche, callback order, scoring and rollback remain unchanged.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/independent-hash-word-next-results/real_world-independent-hash-word-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65778.98139819558,
+            66974.9736122153,
+            65463.01834775867,
+            65373.23896515884
+          ],
+          "trial": [
+            65815.02509817558,
+            66446.78891847908,
+            66524.20157441232,
+            66609.59151925509
+          ]
+        },
+        "medians": {
+          "baseline": 65620.99987297712,
+          "trial": 66485.4952464457
+        },
+        "gain_pct": 1.3174065849986816
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196418.56251255935,
+            197006.54448955014,
+            193615.20127425052,
+            197868.75752264724
+          ],
+          "trial": [
+            197271.07531398424,
+            197064.75843359437,
+            196683.95611830146,
+            197443.93468408432
+          ]
+        },
+        "medians": {
+          "baseline": 196712.55350105476,
+          "trial": 197167.9168737893
+        },
+        "gain_pct": 0.2314866868585952
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "focused_tests": {
+    "passed": 37,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/independent-hash-word-focused1",
+    "receipt_sha256": "2cafb68af7ebe758e0bcc4d8172f7775ff5f79726f4848ddb1a9f033b429a935",
+    "log_sha256": "5264325fa403185a3a7a1a6f5fa1489785956558cd903c27379b6744c8aba6c8",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "6e87489fb34f6d6b90d48185f72c14ec1ff51e962cc9ecbb7f77ea02e34fabb6",
+  "receipts": {
+    "receipt.json": "a8c3a4d6da20f547389db39868374ad50e3db75f4f74975aa23adf4190e1a680",
+    "build-receipt.json": "c497b7d630bf1faafcdf2c0386984636ea92b24c4550e14fd963418beba0e21e",
+    "controls.json": "902db12787153b0419d25e462042f5d2bb6c1dcdfa1019a214511fb6ada9b595",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "focused_verification": {
+    "full_native_gate": false,
+    "native_source_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+    "production_digest": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+    "actual_current_source_tests_passed": 41,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::consumed_scores::",
+          "stream_graph::consuming::",
+          "stream_graph::terminal_prepared_tests",
+          "stream_graph::terminal_primitive_tests",
+          "stream_graph::group_summary_lane::tests"
+        ],
+        "tests_passed": 37,
+        "exit_code": 0,
+        "seconds": 241.11747966901748,
+        "proof_directory": "work/real_world-goal/independent-hash-word-focused1",
+        "log_sha256": "5264325fa403185a3a7a1a6f5fa1489785956558cd903c27379b6744c8aba6c8",
+        "receipt_sha256": "2cafb68af7ebe758e0bcc4d8172f7775ff5f79726f4848ddb1a9f033b429a935"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 12.273907991999295,
+        "proof_directory": "work/real_world-goal/independent-hash-word-application1",
+        "log_sha256": "da10042cc538d86a048b8052c4f645617b6562be40fc219dcbc5b15954fa869f",
+        "receipt_sha256": "39d8195dc6390ea3c35370f6dc07d26d4a546c545ddbf20bb678bccc52ed5781"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 11.415898258972447,
+        "proof_directory": "work/real_world-goal/independent-hash-word-clippy1",
+        "log_sha256": "e68181258e95e21702b02b7b9504fd29a170a2a6abe5256d45e4ddc2823ef6e2",
+        "receipt_sha256": "d7cf9ec07d8d3c2bd9e56647c66658c84006d097e49d7300c930df9e5d187f66"
+      }
+    ],
+    "policy": "41 actual same-source focused/application passes and lib/example Clippy;exact frozen source integrated. No repeated successful checks or full suite."
+  },
+  "current_source_tests_credited": 41,
+  "new_original_native_tests": 1,
+  "tradeoffs": "Private hash distribution and bucket order change. Complete Position equality remains authoritative,cold rows stay sorted. The observed gain is small and does not establish universal performance or Java parity.",
+  "selected_artifact_profile": {
+    "directory": "work/real_world-goal/selected-hash-word-sailing-profile",
+    "independent_validation_sha256": "16f2edc108d29b13ab32fe1dd44ab59737be379a611794f96f6848b5dc0e3a33",
+    "source_bound": true,
+    "no_build_or_test_rerun": true,
+    "purpose": "One10s499Hz cycle profile guides next change;not comparative timing or Java parity."
+  }
+}

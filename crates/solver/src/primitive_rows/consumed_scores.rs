@@ -37,7 +37,9 @@ impl BuildHasher for PositionState {
 impl PositionHasher {
     #[inline]
     fn word(&mut self, value: u64) {
-        self.0 = (self.0.rotate_left(7) ^ value).wrapping_mul(0x517c_c1b7_2722_0a95);
+        // Multiply each input independently of the accumulating state,so later
+        // word multiplies need not wait for the preceding word's product.
+        self.0 = self.0.rotate_left(7) ^ value.wrapping_mul(0x517c_c1b7_2722_0a95);
     }
 }
 impl Hasher for PositionHasher {
@@ -616,5 +618,51 @@ mod score_only_tests {
             std::mem::size_of::<Cells<SimpleScore>>(),
             16 * std::mem::size_of::<Option<SimpleScore>>()
         );
+    }
+}
+
+#[cfg(test)]
+mod hash_word_tests {
+    use super::*;
+    use std::collections::HashSet;
+    #[test]
+    fn numeric_position_hash_keeps_structured_prefixes_and_wide_coordinates_distributed() {
+        let builder = PositionState::default();
+        let mut hashes = HashSet::new();
+        let mut buckets = [0u16; 8192];
+        let mut keys = 0;
+        for a in 0..6 {
+            for b in 0..10 {
+                for c in 0..12 {
+                    for d in 0..8 {
+                        let pos = Position {
+                            page: PageKey([a, b, c, d / 16]),
+                            cell: d % 16,
+                        };
+                        let hash = builder.hash_one(pos);
+                        hashes.insert(hash);
+                        buckets[(hash as usize) % 8192] += 1;
+                        keys += 1;
+                    }
+                }
+            }
+        }
+        assert!(hashes.len() * 100 >= keys * 99);
+        assert!(buckets.into_iter().max().unwrap() < 16);
+        let mut wide = HashSet::new();
+        for i in 0..4 {
+            for value in [0, 1, 32767, 32768, usize::MAX] {
+                for cell in [0, 1, 15] {
+                    let mut page = [7; 4];
+                    page[i] = value;
+                    let pos = Position {
+                        page: PageKey(page),
+                        cell,
+                    };
+                    wide.insert(builder.hash_one(pos));
+                }
+            }
+        }
+        assert_eq!(wide.len(), 60);
     }
 }

@@ -1,0 +1,97 @@
+{
+  "kind": "real_world-sparse-score-slots",
+  "status": "Closed unintegrated: Sailing +0.367% (3/4 faster), Golfer -0.250% (1/4 faster), effectively flat mixed native controls. Extra metadata and cache complexity do not justify selection. No unchanged retries, application/Clippy/Java or full suite.",
+  "native_source_digest": "4786bf2b825748c3caa381f7907f8cfbca70c9a942f68ff0285f0a2f1f46d722",
+  "input_sha256": "25aa5e46af939b136f724936444439fa6d5a2d277ca9a4205640074f0f18acb4",
+  "source_snapshot": "a666b60da5b9cd42a63014666d6f40b6d26a48822f5b8c21091df91fbd8789ef",
+  "artifact_sha256": "f72553dcf83edc24a91b964dcc6465c576de3e889469a119fac3cc200e98cc3d",
+  "mechanism": "Use stable sparse score slots with separate hot score and full Position arrays, known prepared indices, 40-byte every-write undo, bounded inactive mappings and full-position cold captures. Preserve complete scores, FIFO, callbacks, nested snapshots and rollback. Prior38 checks remain bound to the earlier AoS layout;2 actual final-source slot regressions are credited.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/sparse-score-soa-next-results/real_world-sparse-score-soa-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66166.2519151235,
+            66015.79791397376,
+            65907.33360714835,
+            65343.38903825147
+          ],
+          "trial": [
+            65767.64195727302,
+            66639.83487218288,
+            66749.26317464477,
+            65509.78017067733
+          ]
+        },
+        "medians": {
+          "baseline": 65961.56576056106,
+          "trial": 66203.73841472795
+        },
+        "gain_pct": 0.3671420642832768
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195475.91636200558,
+            197730.68659099762,
+            197050.88326677136,
+            195682.6860782062
+          ],
+          "trial": [
+            193449.59649594,
+            195276.8397883477,
+            196474.34313993272,
+            198256.42885494203
+          ]
+        },
+        "medians": {
+          "baseline": 196366.78467248878,
+          "trial": 195875.59146414022
+        },
+        "gain_pct": -0.2501406789176652
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 2,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::slot_tests"
+    ],
+    "proof_directory": "work/real_world-goal/sparse-score-soa-focused1",
+    "receipt_sha256": "973ce93abf0ec6a6b78aff5099e74b7b5a17e2bc8c7d7211a133f845ffc17eec",
+    "log_sha256": "aaf5dff086f9bc9e2c72dda410ef8ebf7bbcc567a470504aa0ac1f0478357be6",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "481f0f6756e06ff51e222db8448da73a3f0788f336d0a55ff5b924372012ab13",
+  "receipts": {
+    "receipt.json": "774dcfdffbf28a3681f98a7ce0d1acbaf6be2818c5906b86df511e19f0b312d3",
+    "build-receipt.json": "6db4a927f498fec71c5747979b0ed0cf53e7d5d57bfeb89b53a9d48037a06346",
+    "controls.json": "a65aa2f448a7ce9f18f1594483ab46f7d0ba1a698622d3f49971b3673a31d0c7",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios."
+}

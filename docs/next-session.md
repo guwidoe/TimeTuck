@@ -25,66 +25,54 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-The selected runtime now uses explicit empty/one/two/tree integer frequency
-states. This removes the inline length and uses direct comparisons for small
-sets;counts shrink48to40 bytes and IntCollector64to56 on the measured64-bit
-platform. Arbitrary signed values,multiplicities,tree hysteresis,persistent
-snapshots,checked insertion,full summaries and existing Debug output remain.
-Four rotating native pairs measured **Sailing +1.389% (3/4 faster),Golfer +.136%
-(2/4 faster,flat)**. All16 full outputs independently validate. Actual18 focused
-checks,4 RealWorld application cases and lib/example Clippy pass on9848e7c1/
-productiondf9b08e0/artifact1d5b9518. Original regression1 earns no upstream credit;
-no full suite or repeated checks. Exact source is integrated. Original Java
-qualificationeeee0130 is current:all12 outputs independently valid,
-**Golfer1.655665x/Sailing0.896646x Java;1/2 targets**.
-Sailing needs11.526746% more Rust throughput. Actual Sailing medians
-Rust67585/Java75375 evaluations/s versus prior66641/75107:modest improvement.
-Rust2/3 versus Java0/3 Sailing runs are feasible;quality stays separate.
-Prior317eca04 remains historical/source-stale. Selected measurements are terminal/collected.
-[Evidence](../compat/observations/real_world-count-states.json).
+The selected runtime changes private numeric score-position hashing:each input
+word is multiplied before XOR into the rotated accumulator,shortening the
+multiply dependency chain. Full Position equality,final avalanche,cold sorting,
+callbacks,scoring and rollback remain. Four rotating native3s pairs measured
+**Sailing +1.317% / Golfer +.231%,3/4 pairs faster on both**;all16 full outputs
+independently validate. Actual37 focused+4 application checks and lib/example
+Clippy pass on **9ad89661/production2962a3bf/artifactaf77f9f3**. The exact frozen
+source is integrated. New original hash-distribution regression earns no upstream
+method credit. No full suite or repeated checks. OriginalJavaeeee is historical/
+source-stale;it last proved Golfer1.655665x/Sailing.896646x on preceding9848,
+**1/2 targets then**. Do not add native gains to those ratios or qualify current
+Java performance from them. [Evidence](../compat/observations/real_world-independent-hash-word.json).
 
-The preceding score-only private contribution storage remains in the selected
-runtime. Cold complete ID/score views reconstruct all7 numeric shapes and may
-increase peak memory;original terminal Clone/callback/check phases remain.
-Its original qualification317eca04 and40 actual checks remain bound to817b1386/
-47fc4cef/1f5e4680. Do not repeat them or add the new native gain to Java ratios.
-Prepared v36 controls bind current9848/df9b/1d5b,22 actual checks/Clippy and
-originalJavaeeee0130. v35 is historical. Do not repeat completed checks or this
-matrix on unchanged inputs;v36 is prepared only,no unchanged job dispatched.
+A single fresh10s Sailing499Hz cycle profile of the selected measured artifact
+finished0 on runner-a in selected-hash-word-sailing-profile/session65265. Its
+full output independently validates,zero samples lost,no release rebuild. Hot
+symbols remain propagation10.37%,group summary9.09%,membership filter6.29%,
+terminal scoring5.13%. These samples guide diagnosis,not causal speed claims;
+the previous817b profile stays historical. runner-a authenticated master is working;runner-c parked,no new agents.
+Hash dispatch65760 originally failed before upload;authenticated inspection
+proved no job/snapshot/lock before exact frozen recovery15566 finished0/157s.
+Failed transport and all raw source-bound evidence remain preserved.
 
-The next three trials are closed without runtime changes:input-presence pages
-20 actual checks/16 valid outputs,S+.515%(2/4 faster)/G-1.681%;replacement preflight
-19/16,S-.796%/G+.296%;dense-page first-preimage masks38/16,S-2.674%/G-2.476%,all
-pairs slower both. Each source/failure boundary and independent output validation
-is in its separate observation. No retry,app/Clippy/Java/full checks for these.
-Sparse-depth score undo also closed:38 checks/16 valid outputs,S+.144%(fixed
-median essentially flat)/G-.975%. Do not retry either journal mechanism unchanged.
-Independent-input hash-word multiplication passes37 actual checks on9ad89661/
-2962a3bf,log5264325f. runner-a dispatch65760 ended255 after SSH check timed out;
-no remote outcome is known. Live recovery/master connection92899 awaits the
-already-requested Tailscale SSH authentication. Inspect snapshot892d8346 and
-worker/receipts before any restart. Preserve failed transport/prototype evidence;
-never restart because observing failed. No runtime selected or speedup claimed.
-All selected9848/df9b/1d5b/Javaeeee evidence and dashboard remain current.
+The preceding compact integer frequency states remain selected:empty/one/two/
+tree shrinks counts48to40B and IntCollector64to56B on measured64-bit. Arbitrary
+signed values,full multiplicities,tree hysteresis,persistent snapshots,checked
+insertion,full summaries and Debug remain. Its nativeS+1.389%/G+.136%,18focused+
+4app+Clippy and originalJavaeeee are bound to9848/df9b/1d5b,not relabeled.
+The prior score-only row storage and its317eca04 Java report remain historical.
 
-A new sparse stable-slot contribution kernel is prepared,not integrated or timed.
-AoS source6f4c5b97/6a1c3d8c passes38 scoped checks. Final parallel-array layout
-4786bf2b/25aa5e46 changes only slots.rs and passes2 fresh mixed-history/growth/
-retirement/cross-namespace snapshot checks. Prior38 retain their source identity.
-Known prepared slots avoid a second map probe;every-write slot undo is40B versus
-72B for measuredHardSoft,and hot score cells32B versus72B combinedmetadata cells.
-Full positions/score fields,FIFO/callback/Clone/checks remain;private inactive
-mapping cache is bounded8192 between transactions. Larger memory/cold scans and
-an extra indexed load are tradeoffs,so no speedup claim. AoS is not to be timed.
-Final frozen snapshot a666b60d/sourcearchive c48c0fc8 is ready in
-sparse-score-soa-next-results;no SSH/build/timing happened for it. Shared source
-and actual final2 tests are separate in real_world-sparse-score-slots-development.
-First SoA generator failed before writes/helper creation,zero builds/tests;fixed
-before final source froze,receipt preserved. After current SSH92899 auth,inspect
-original hash job first;use prepared dispatch-frozen-v36.py with a unique logstem
-for the two existing capsules only when no job/worker/lock remains unresolved.
-It refuses existing jobs;collect-pilot-v8.py reads the new explicit log path.
-Do not repeat completed tests or rebuild AoS. No main runtime/dashboard change.
+The following trials are closed unintegrated;do not retry unchanged or spend
+application/Clippy/Java/full checks on them. Input-presence pages20 actual checks/
+16 independent outputs,S+.515%(2/4)/G-1.681%;replacement preflight19/16,S-.796%/
+G+.296%;dense-page first-preimage masks38/16,S-2.674%/G-2.476%,allpairs slower.
+Sparse-depth undo38/16,S+.144%(medianflat)/G-.975%. Sparse stable score slots with
+parallel hot/cold arrays also proved flat/mixed:**S+.367%(3/4)/G-.250%(1/4)**,
+all16 outputs valid. Its earlier AoS38 checks retain their source6f4c/6a1c;
+2 actual final layout checks bind4786/25aa/artifactf72553dc;no main runtime selection.
+Keep frozen a666b60d and sourcearchivec48c0fc8,original preparation failure
+(zero builds/tests),prior tests and terminal156.9s dispatch60327 unchanged.
+[Slots evidence](../compat/observations/real_world-sparse-score-slots.json).
+
+Prepared v36 controls bind preceding9848/df9b/1d5b,22actual checks and historical
+Javaeeee. Update later controls from actual9ad8/2962/af77 receipts and41 checks;
+never silently relabel old binding/current-Java claims. No pending build/timing
+job. Backend report refresh9749 promotes actual41 checks;
+reuse unchanged UI rendering evidence. Goal incomplete;fresh original3seed10s
+Java/Rust proof is still required before claiming current parity on both cases.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
