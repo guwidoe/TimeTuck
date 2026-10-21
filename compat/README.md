@@ -1,5 +1,9 @@
 # Compatibility assets
 
+For project origin and migration expectations, start with the
+[Timefold compatibility overview](../docs/timefold-compatibility.md). For timing
+claims and reproduction, read [performance](../docs/performance.md).
+
 `upstream.json` records the exact Community reference; the submodule pins the same
 commit. `provenance.json` records adapted test methods and fixtures, including
 their source paths, licenses and modifications. The generated dashboard reports

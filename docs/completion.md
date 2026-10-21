@@ -1,5 +1,11 @@
 # Native completion evidence and compatibility boundaries
 
+For a newcomer-facing summary, read [Timefold compatibility](timefold-compatibility.md)
+and [performance](performance.md). This page retains original acceptance and
+subsequent development evidence; a successful historical cohort does not qualify
+all later source revisions. The [private publication review](public-release-preparation.md)
+records documentation preparation separately from solver verification.
+
 The original target is native Rust planning and optimization behavior, using
 pinned Timefold Community tests and public APIs as specifications. Java API/ABI,
 reflection, framework integration and Enterprise were excluded in the initial

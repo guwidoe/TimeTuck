@@ -56,12 +56,16 @@ The browser receipt binds actual app/HTML/CSS/font bytes and desktop/mobile chec
 the separate live `native_completion_digest` changes when those inputs or policy
 records change, without rekeying Rust execution or measurements.
 
-Runtime qualification plus the final k-opt adaptations demonstrate 7/7 native
-requirements, 109/109 measured time/quality targets and 18/18 current jobs. Source inventory is
-4412/4855 with 0 pending and 443 excluded; strict index 95.809%. Native readiness
-is bounded by the original contracts and measured inputs. It is not universal
+A retained runtime qualification plus the final k-opt adaptations demonstrated
+7/7 native requirements, 109/109 measured time/quality targets and 18/18 current
+jobs at that captured source. Its source inventory was 4412/4855 with 0 pending
+and 443 excluded; strict index 95.809%. These are historical cohort results;
+consult the generated report's freshness checks and the
+[implementation handoff](next-session.md) for later sources. Native readiness is
+bounded by the original contracts and measured inputs. It is not universal
 Timefold/JVM equivalence, arbitrary-scale performance or an estimate of remaining
-engineering effort. See [completion evidence](completion.md).
+engineering effort. See [completion evidence](completion.md) and the
+[performance overview](performance.md).
 
 ## Test origins and additional applications
 

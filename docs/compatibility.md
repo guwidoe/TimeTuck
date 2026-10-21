@@ -1,5 +1,12 @@
 # Compatibility testing
 
+Start with the [Timefold compatibility overview](timefold-compatibility.md) for
+project origin, migration expectations, and the scope of behavioral compatibility.
+This page retains detailed implementation evidence and historical investigations;
+its entries describe their captured inputs and sources. Current verification
+comes from source-bound execution records, not the presence of an adaptation.
+See the [documentation index](README.md) for a shorter path through the contracts.
+
 ## Native nonsequential k-opt test adaptations
 
 The two `KOptListMoveIteratorTest.testNonsequentialKOptOnSameEntity` and

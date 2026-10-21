@@ -2,6 +2,13 @@
 
 ## Project identity
 
+TimeTuck began with the idea of rewriting Timefold Solver Community in Rust,
+with native deployment and performance as motivations. Production Rust is
+independently implemented against Community tests and public API specifications;
+adapted test and fixture material retains its own attribution. The
+[compatibility overview](timefold-compatibility.md) explains why this origin does
+not imply Java drop-in compatibility or general performance superiority.
+
 The project name is **Timetuck**; the repository and Rust crate use `timetuck`.
 The user selected it on 2026-10-01. It is wordplay on folding/tucking time, not
 an official Timefold port. The name has not received formal trademark clearance.
@@ -37,7 +44,7 @@ Original implementation and a formal clean-room process are different claims.
 This scaffold requires original production code but does not establish a legally
 reviewed clean-room organization or guarantee freedom from third-party claims.
 
-## References (checked 2026-10-01)
+## References (checked 2026-10-21)
 
 - https://timefold.ai/license
 - https://timefold.ai/trademarks
