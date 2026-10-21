@@ -1,0 +1,89 @@
+{
+  "kind": "real_world-equal-contribution-total",
+  "generated_at": "2026-10-21T17:43:25.602908+00:00",
+  "status": "closed;not integrated;Sailing regression",
+  "native_source_digest": "556741fb8774d5e65d31f93e784b860c76638a1e8a1157b8bec646c7ce56e260",
+  "input_sha256": "ee74a1d8e4f2f509b641a6cf37e8d548c5d6dab8c3aa94eba6bdd3143034d183",
+  "source_snapshot": "c23ca7cadb913d3c303f0501ff18dc26b71f5c07754b5e397141c34705dcd276",
+  "artifact_sha256": "351443137acd7b3509ccd69113a1b848d9f97e1c276a9703734db72f4376a53d",
+  "mechanism": "Only consumed exact fixed builtin scores:when originalOptioncontribution equality saysunchanged,purewide/modularold-newcancel. Return clonedtotal withstructural0 matching bothoriginalarithmetic modes. All callbackevaluation,structural rejection,score/ID/payloadclones,presence distinction,store/undo/publication remain;ordinary/custom paths unchanged. This is an actual arithmetic identity optimization,not retained forwardwideadjustment.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/equal-contribution-total-next-results/real_world-equal-contribution-total-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65862.83605710641,
+            65744.21162938092,
+            65544.37287477513,
+            65295.36026201994
+          ],
+          "trial": [
+            64840.80709256816,
+            65090.5333242288,
+            65498.188051584846,
+            65196.76312362386
+          ]
+        },
+        "medians": {
+          "baseline": 65644.29225207803,
+          "trial": 65143.64822392633
+        },
+        "gain_pct": -0.7626619329357598
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194916.9104567164,
+            194237.90159844366,
+            196159.63187371087,
+            191439.0103322774
+          ],
+          "trial": [
+            190309.26284846698,
+            190617.05155604848,
+            191647.23882337392,
+            192687.88214303917
+          ]
+        },
+        "medians": {
+          "baseline": 194577.40602758003,
+          "trial": 191132.14518971118
+        },
+        "gain_pct": -1.770637664570629
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "checks": [
+    {
+      "kind": "post-completion-evidence-recovery",
+      "wrapper_exit_code": 143,
+      "cargo_exit_code": null,
+      "cargo_exit_code_observed": false,
+      "test_harness_summary": "16 passed;0 failed;676filtered;0.05s",
+      "raw_test_passes": 16,
+      "native_source_digest": "7e61b885e6dbf34248c22434a8c53975244579c534e763110f78f7f5d6d2bc92",
+      "production_digest": "ee74a1d8e4f2f509b641a6cf37e8d548c5d6dab8c3aa94eba6bdd3143034d183",
+      "source_manifest_sha256": "b9c80ab2d53f4e1f4498be7b8f877985b8595940ccb28944206c17463332a32d",
+      "log_sha256": "c253c9b7c78a4fd1ad10ad6fa640163a1120b9f6c7ed19b051b5e27da1a69c5e",
+      "source_unchanged_after": true,
+      "scope": "Actual completed Cargo test log and original frozen source map inspected after wrapper exited143 before final receipt. No process remains. Preserve missing command-exit observation;not a successful wrapper receipt and no tests rerun or rekeyed."
+    }
+  ],
+  "test_scope": "Rawtest-ready7e61/ee74log shows16passed,includingnewbuiltinsMAX/MIN/zero,structuralreset,absencereplays versusretainedTerminal inchecked/wrapping modes. Wrapper143terminated aftercomplete test summary before finalreceipt;Cargo exit unobserved,notreportedzero. Originalsource map recheckedunchanged;recoveryreceipt explicit. No rerun,source rekey,completewrappergate or current-maincredit. Test-readynative differsfrommeasureddraft onlycfgtest byvaluecallback captures.",
+  "receipts": {
+    "receipt.json": "ed7f3c466c5f81dd0bf3f6f04816f13c5728ed6c82440c148bc5c1f22c8136c7",
+    "build-receipt.json": "9d3363923326c6387d05593ea9f9f47668b436a5eb2bc313dcf82197e8d4cc84",
+    "controls.json": "4844b98c08c981e2f9ac73b9f1de9185ca8b03ce2a822f26416b6be66b58f97a",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "16 independently valid outputs,Sailing-.76266%(0/4faster),Golfer-1.77064%(1/4faster). Close unchanged,nointegration/retry/app/Clippy/Java/fullsuite. Mainselectedd466/465509/84e98d andoriginalJava4795 (1/2targets)unchanged. Preserve incompletewrapperstatus despite raw16passes."
+}

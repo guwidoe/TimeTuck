@@ -114,15 +114,19 @@ Fresh selected-arena Sailing profile is collected:994cyclesamples,zeroLost,
 one fulloutput independently valid including initialstate. Immutable84e98d,
 d466/465509,snapshot446c;no build,Java or timinggain claim. New profile confirms
 propagation74.17%inclusive and terminalapply_change remains a useful target.
-A distinct consumed-builtin equal-contribution total identity is now under
-measurement:exact builtin scores let old==new cancel without wide/modular
-adjustment,while clearing structural state exactly as both arithmetic modes do.
-Callback evaluation/structural rejection/score,ID,payload clones and presence-aware
-store/undo remain. Test-ready draft adds explicit by-value callback captures and
-an extreme-level/structural-reset/presence regression;no production edit relative
-to measured draft. See live handles in ignored active state;no source rekey.
-Mainruntime763da12/currentJava4795 unchanged,1/2targets. Local+runner-a,EFSparked;
-no new subagents. Preserve unrelated writer changes.
+Consumed-builtin equal-contribution total identity556741/ee74a1 is closed:
+16valid outputs,Sailing-.763%(all4slower),Golfer-1.771%(1/4faster). Test-ready
+7e61sameproduction hasraw16passed including builtinextremes/structuralreset/
+presence,but wrapper143terminated before finalreceipt. Cargoexit unobserved;
+explicit post-completion source/log recovery preserves that limitation. No
+rerun,rekey,completewrappergate,app/Clippy/Java/fullsuite or integration. Proof:
+`compat/observations/real_world-equal-contribution-total.json`.
+Next candidate changes only two inline(always) attributes in owned group-input
+set/replace;entire methodbodies unchanged. Actual native build/16controls are
+running;no unchangedunit tests repeated. Native result decides whether to do
+scoped application/Clippy integration checks. Read actual livehandles inignored
+state;preserve them across timeouts. Mainruntime763da12/currentJava4795 unchanged,
+1/2targets. Local+runner-a,EFSparked,no newsubagents;preserveotherwriterchanges.
 
 
 The preceding consumed-graph collector backend owns each mutable integer
