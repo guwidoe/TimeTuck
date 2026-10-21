@@ -1,0 +1,66 @@
+{
+  "kind": "real_world-uniform-thin-collector",
+  "generated_at": "2026-10-21T14:11:40.184779+00:00",
+  "status": "closed without integration;no Sailing improvement",
+  "native_source_digest": "342c4ac86570234dd43046d7128d70a016de6e341f37157eab5e2571cc928e2d",
+  "input_sha256": "e7aa276e9ec62de117e04d78ddfe70acb97970e547203828ab2718a634cea48c",
+  "source_snapshot": "2269c817d046cf654c8184199a67d459ece9cd7a3307935bd0f05ce9e00ac541",
+  "artifact_sha256": "efc8ded7dd2a72c342e65abfb8ec4be675d5b154c2bf2decead897ed183b13d4",
+  "mechanism": "IntCollector stores uniform arbitrary signed value,total count and wrapping sum inline;optional boxed original IntCollectorCounts handles mixed values. Uniform frequency reuses total count. General promotion/demotion,logical Eq/Debug,count overflow,full extrema,duplicate captures and scalar edits preserved. Public standalone and graph use same methods;no model,callback,FIFO,guard or batch change. This is a smaller whole-collector layout,not the rejected frequency-set cardinality enum.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/uniform-collector-outlined-next-results/real_world-uniform-collector-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            54538.64699795017,
+            53611.57768026653,
+            53327.28321438033,
+            52535.21444240586
+          ],
+          "trial": [
+            53758.52662595917,
+            54033.24280326243,
+            52859.910236194104,
+            52962.83060963512
+          ]
+        },
+        "medians": {
+          "baseline": 53469.43044732343,
+          "trial": 53360.67861779715
+        },
+        "gain_pct": -0.20339066381755977
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            173510.6059417422,
+            170925.105677108,
+            172723.26749990348,
+            175378.08174389074
+          ],
+          "trial": [
+            176639.2761959133,
+            174484.27303944968,
+            176345.93650205067,
+            174063.85456062402
+          ]
+        },
+        "medians": {
+          "baseline": 173116.93672082282,
+          "trial": 175415.10477075016
+        },
+        "gain_pct": 1.327523518760887
+      }
+    }
+  },
+  "receipts": {
+    "receipt.json": "307fdbf9b6d966fb28d73e981fae978ed79361784832a70fcfd143a47a8f2b27",
+    "build-receipt.json": "537266803928c9b57d7faf67f701068fe12106c63370f77d494241431f5f49c1",
+    "controls.json": "a059df5835590ddc9431e670dc688ee6c9d04d259c95a3536192a7649857fce0"
+  },
+  "focused_tests": "Not run:benchmark-first candidate showed no Sailing benefit;no test credit. Actual release build and16 complete independently validated benchmark outputs only.",
+  "policy": "Sailing -.203%,2/4 pairs faster;Golfer +1.328%,3/4 faster. Preserve measured source unchanged. No application,Clippy,full suite,Java qualification or current-main credit. No unchanged retry or inferred isolated gain. Selected daa8a18 remains."
+}

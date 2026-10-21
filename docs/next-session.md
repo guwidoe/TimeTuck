@@ -86,6 +86,22 @@ benefit does not establish a Sailing gain; no third unchanged run, app/Clippy,
 full suite, Java qualification or current-main credit. All jobs collected.
 Proof: `compat/observations/real_world-static-group-input-lookup.json`.
 
+Two collector representation experiments are closed without integration. Binary
+0/1 frequency storage regressed Sailing -1.255% and Golfer -.859%; all16 outputs
+valid. Its local test build was interrupted and authoritatively stopped before a
+result: no pass credit or restart. A separate thin uniform-value IntCollector
+with general boxed frequency fallback measured Sailing -.203%/Golfer +1.328%,
+all16 outputs valid. Benchmark-first rejection avoided further tests on that
+source. No application/Clippy/full suite/Java run or main credit on either.
+Proofs: `compat/observations/real_world-binary-frequency-counts.json` and
+`compat/observations/real_world-uniform-thin-collector.json`.
+
+Next isolated trial changes only primitive group_entry's inline(always) hint to
+inline(never), preserving its body and all phases. This consolidates its generated
+code across callers; distinct from the earlier explicit-match closure trial.
+Source frozen in `work/real_world-goal/outlined-group-entry-next-prototype/`;
+original v30 native controls active. No speed claim before collection.
+
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
 eliminating the intermediate Vec<TupleChange>. Original mapper/iterator

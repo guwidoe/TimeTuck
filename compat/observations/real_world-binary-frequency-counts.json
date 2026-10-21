@@ -1,0 +1,71 @@
+{
+  "kind": "real_world-binary-value-frequency-counts",
+  "generated_at": "2026-10-21T14:04:51.115396+00:00",
+  "status": "closed;regressive;not integrated",
+  "native_source_digest": "4f3b7ab996d388f6fc8c22312762a1bc5a4d53591f7008c461a2bdeaf6268810",
+  "input_sha256": "aadbef4adb2096091497e8cad951ec693380f727b15be7ae398d47e7ce99afb7",
+  "source_snapshot": "6628015860c387c46e7a9f86a0bf32f8d2344e1b58bfbb4d7262ea60460f6fac",
+  "artifact_sha256": "de74991f9e5f3b7522161fd495cb233018053b3f27d2ce6c078f31e844372174",
+  "mechanism": "Default Binary([usize;2]) frequency representation for values 0/1;original inline/tree promotion for arbitrary signed values. Full logical equality/debug,count preflight,wrapping sums,keys,events,history and callbacks retained. Separate value-domain hypothesis from earlier cardinality variants.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/binary-counts-outlined-next-results/real_world-binary-counts-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            53609.74451182215,
+            53988.95642023794,
+            52999.59172247315,
+            53942.31286199028
+          ],
+          "trial": [
+            53566.24262327797,
+            53045.32181859265,
+            52938.00617546824,
+            53157.103084817936
+          ]
+        },
+        "medians": {
+          "baseline": 53776.02868690621,
+          "trial": 53101.212451705294
+        },
+        "gain_pct": -1.2548643915857416
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            175831.1865681029,
+            172736.56773217555,
+            170306.32196141075,
+            174441.9452111524
+          ],
+          "trial": [
+            172371.26020149584,
+            171826.01552898047,
+            171545.61783362023,
+            172924.61731010815
+          ]
+        },
+        "medians": {
+          "baseline": 173589.25647166398,
+          "trial": 172098.63786523815
+        },
+        "gain_pct": -0.8587044133512634
+      }
+    }
+  },
+  "receipts": {
+    "receipt.json": "3f81746eb348b30dde5eba0df05345e5db2bcc37c607a7952cb3cefd1084d726",
+    "build-receipt.json": "e1796f8b178b5aff18681b360242a8745342e3e1eee21367c7408da0463d472d",
+    "controls.json": "45db2202eb1cb7b63f72cff9ece836abfc7c0fc08d06c7296f0f070e50c16c50"
+  },
+  "focused_tests": {
+    "status": "interrupted during local compilation;no result or pass credit",
+    "proof_directory": "work/real_world-goal/binary-counts-outlined-focused1",
+    "log_sha256": "ba121e1ff15a7b3dc7c3d313d8d2462e66b8d1183476887395bcc9de1bcb1262",
+    "observation": "Original exec handle missing after turn interruption;no rustc/cargo/helper process remained. Log contains compiling line only. No failed assertion observed. Candidate already slower;do not restart its unfinished tests."
+  },
+  "policy": "All16 complete native benchmark outputs independently valid;Sailing -1.255%,all4 pairs slower;Golfer -.859%,1/4 faster. No application,Clippy,full suite or Java qualification;no current-main credit. Preserve frozen source and actual receipts;close unchanged."
+}
