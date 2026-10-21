@@ -1,0 +1,381 @@
+{
+  "kind": "real_world-compact-group-inverse-observation",
+  "generated_at": "2026-10-21T07:12:31.343829+00:00",
+  "upstream_method_credit": 0,
+  "native_source_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+  "input_sha256": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+  "source_snapshot": "23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05",
+  "artifact_sha256": "498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465",
+  "host": "runner-a",
+  "changes": [
+    "Compress only private GroupCollectors inverse addresses: four bounded numeric page coordinates and the final cell fit in one usize. Full-width fallback positions remain exact in a per-frame side vector; nested commit rebases only side indices. Original row directories, collector edits, per-edit ordering, normal-history offsets, canonical owners and dirty-observer copies remain.",
+    "The inverse record is48B rather than80B on64-bit. A frame gains one24B vector; uncommon full-width positions use additional side storage and encode/decode work. This is not a universal memory or performance claim."
+  ],
+  "correctness": {
+    "recorded_native_tests_passed": 8875,
+    "cargo_test_invocations_passed": 8881,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "command": "bash scripts/check.sh",
+    "integrated_gate": "passed",
+    "new_native_regressions": 1,
+    "new_test_names": [
+      "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers"
+    ],
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05",
+      "rust_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+      "production_digest": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 43.86239383101929,
+          "log_sha256": "de763422d37f3858e58a866bda6cf7c839318331bb4e33ec4a74ffe92090a058"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 443.6894806729979,
+          "log_sha256": "f968a7c2264de7d1528776c0b0ba6c3818ca9dfcc485cd0de0886b5cf4e24b66"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 283.1843120660051,
+          "log_sha256": "0b79dced1847a15c8ffe626506a55f7e8981f655910a4b69313bfe24b7f669f3"
+        }
+      ],
+      "seconds": 775.0365161089867,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. No Java qualifier rerun: prior Java evidence remains stale. Actual separately recorded native controls bind the unchanged source and measured artifact; no Java parity credit. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "8df31cea65df72e87b93e8bf58840c083e7ef0e4",
+      "source_snapshot": "23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05",
+      "rust_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+      "production_digest": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+      "changed_files": [
+        "crates/solver/src/primitive_rows/group_collectors.rs",
+        "crates/solver/src/primitive_rows/group_collectors/tests.rs"
+      ],
+      "native_recorded_tests": 8875,
+      "artifact_sha256": "498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465",
+      "final_receipt_sha256": "a351a5c4cb0dd683fda2cf0fb76e0fa8a5ac1f31c3d5ec44da07eb6588b89ebf",
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json"
+      ],
+      "previous_java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+      "policy": "Exact frozen Rust after actual full native gate. No per-job metadata transplant. Native controls are diagnostic only. Prior Java report retained unchanged and stale; no Java parity claim."
+    },
+    "preserved_contract": "No dropped/coalesced logical edit. Same IntCollector operations, error/overflow and cache invalidation phases, original interleaving with ordinary row undo, full/current/nested captures and canonical Arc/Weak contracts. One original regression covers compact limits, each overflowing coordinate and usizeMAX, nested rebasing, saved versions and owner identity. Existing103 focused group tests passed on the same frozen source."
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "source_snapshot": "a14bdab1769b1c3d8fbd907a56462a909edcd14b24ec555c56b4680b66729343",
+    "native_source_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+    "production_digest": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+    "artifact_sha256": "498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465",
+    "baseline_binding": {
+      "rust_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+      "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+      "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+      "source_snapshot": "6ffbf83fb9a124c28af4c114a947e232ef9a5e29cce7121b4fb806fc7e921e6a",
+      "final_receipt_sha256": "80a1fa4dfe690301592dbb809615cb7ce73664cdafe24a59ab949a932174e095",
+      "native_pilot_binding_sha256": "4d18ffbf7ce6d84398afaeb0681fca33eb2291b5e42486bb8954fa3f581a7b27",
+      "qualification": "actual full native gate and native diagnostic artifact; Java qualification deferred, no parity credit"
+    },
+    "rates_medians_and_gains": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            58732.83033804313,
+            57978.935035179464,
+            57980.2104720829,
+            58014.46276623722
+          ],
+          "trial": [
+            59241.032357444004,
+            58558.1392591368,
+            59075.22530287043,
+            57887.60196951024
+          ]
+        },
+        "medians": {
+          "baseline": 57997.336619160065,
+          "trial": 58816.68228100361
+        },
+        "gain_pct": 1.4127298072733607
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            176098.8286969973,
+            175341.54425690815,
+            174022.59960076172,
+            174035.31339383128
+          ],
+          "trial": [
+            175154.33073603423,
+            174100.87623381297,
+            175308.54202900614,
+            174844.77241626216
+          ]
+        },
+        "medians": {
+          "baseline": 174688.42882536972,
+          "trial": 174999.5515761482
+        },
+        "gain_pct": 0.17810152216177766
+      }
+    },
+    "controls_sha256": "1874f8efe27b3fa4e33996eae448a78025eac93104fd4c44c4688713587d2502",
+    "proof_directory": "work/real_world-goal/compact-group-inverse-014945-next-results",
+    "policy": "Four actual serial rotating3s seed7 native pairs per case, runner-a CPU2,3, all16 outputs independently valid. Same frozen Rust and actual release artifact used for final gate. Gains are not added to other candidates or historical Java ratios."
+  },
+  "artifact_reuse": {
+    "binding": {
+      "rust_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+      "production_digest": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+      "changed_crate_paths": [],
+      "crate_source_identical": true,
+      "pilot_source_snapshot": "a14bdab1769b1c3d8fbd907a56462a909edcd14b24ec555c56b4680b66729343",
+      "final_source_snapshot": "23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05",
+      "policy": "Reuse the original genuine pilot release build after exact crate source manifest comparison. No second release command or timings are claimed; original build and control receipts retain original hashes."
+    },
+    "original_build_receipt": {
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--example",
+        "real_world_benchmark"
+      ],
+      "exit_code": 0,
+      "seconds": 96.86426408900297,
+      "rust_digest": "beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c",
+      "production_digest": "6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa",
+      "artifact_sha256": "498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465",
+      "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465",
+      "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+      "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+      "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc"
+    },
+    "original_build_receipt_sha256": "f26dc75a9f98a84519339350fca84a7c824a3f2cb014f5951763a669653ddd9c",
+    "original_pilot_receipt_sha256": "07b107b1ed499329df106bfe43586bdd4105c6992469816a96a9befe515bec47",
+    "policy": "Final gate source has identical crate bytes to the actual measured pilot. The genuine original release artifact and build receipt are reused; no second release build, substituted source hash, metadata transplant or repeated timing is claimed."
+  },
+  "unselected_trials": [
+    {
+      "candidate": "consuming-drain",
+      "native_source_digest": "f756062c5b374a511f35d93afff3ac580842ec7162a74dfdd4a523b777603313",
+      "production_digest": "b6545d26ad628b74b55c4c3cf6330f602be8eac4e6efe6ddb54b1d367d265675",
+      "snapshot": "75872d4da78700a48ecda9d1ec207b00d13e2b3cbb24bd7199ea679c4bc422d9",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              57366.15312883425,
+              56744.61034412779,
+              58321.225279817256,
+              57770.28393485237
+            ],
+            "trial": [
+              58725.67160106446,
+              58303.480051651626,
+              58145.40717573108,
+              58073.600170174876
+            ]
+          },
+          "medians": {
+            "baseline": 57568.21853184331,
+            "trial": 58224.44361369136
+          },
+          "gain_pct": 1.139908613786722
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              175573.25623797099,
+              175728.46007816444,
+              175799.28212343247,
+              174476.96819072656
+            ],
+            "trial": [
+              173506.3841766988,
+              176262.00847993247,
+              172759.60687064438,
+              175555.79303798042
+            ]
+          },
+          "medians": {
+            "baseline": 175650.8581580677,
+            "trial": 174531.0886073396
+          },
+          "gain_pct": -0.6374973412998863
+        }
+      },
+      "receipt_sha256": "81158642be4409b08773b1531682a5223b52b6e0152d48889b43304751bcf885",
+      "controls_sha256": "45a7fd38aacc957559bec594247cc509449dbb46234739f72c5639303a8b01a9",
+      "proof_directory": "work/real_world-goal/consuming-drain-014945-next-results",
+      "broad_gate": false,
+      "selected": false
+    },
+    {
+      "candidate": "consuming-drain-split",
+      "native_source_digest": "05234b82624bcd3e18bfd37639d6e78a3fa32e808947bb0150f3172381edc1b1",
+      "production_digest": "018340388cabd099185f02369f168a0953596cb916c55a82dc822a6d21bca24d",
+      "snapshot": "ca3d23b1c18a654c0b847ed0bafcebc81f11162dde3164d7e92199a9e114ae6f",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              57965.11093801627,
+              57167.36584933941,
+              58336.39866401323,
+              57948.0940526165
+            ],
+            "trial": [
+              57468.613828696354,
+              55459.66283814045,
+              57532.09319324411,
+              56989.433112665654
+            ]
+          },
+          "medians": {
+            "baseline": 57956.60249531639,
+            "trial": 57229.023470681
+          },
+          "gain_pct": -1.2553859151667512
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              176351.5118523594,
+              175121.67806745396,
+              175442.4782915053,
+              175883.46023282924
+            ],
+            "trial": [
+              174777.12842062977,
+              173542.5533250523,
+              174651.09529672668,
+              173923.66452338643
+            ]
+          },
+          "medians": {
+            "baseline": 175662.9692621673,
+            "trial": 174287.37991005654
+          },
+          "gain_pct": -0.7830844246164093
+        }
+      },
+      "receipt_sha256": "87d229cc7a4a29a808bc4fbf6a142c1cf8abca9d2aab988c0240e71b01562134",
+      "controls_sha256": "19816202277371f17d5391857efa40fae0ccb9949dceda8b215025c565f7b8b8",
+      "proof_directory": "work/real_world-goal/consuming-drain-split-014945-next-results",
+      "broad_gate": false,
+      "selected": false
+    },
+    {
+      "candidate": "compact-summary-mode",
+      "native_source_digest": "115b2c0f529c686d899cc4b1b6a3717b7f1a31adf39cee064902dab1d9bf652f",
+      "production_digest": "143dd0e93ef521abe69c487ba2a28fde0ede68d87d683a3843217f61654d2d82",
+      "snapshot": "a162fbfc4f52f20867241c4bc565bb6214e9c8a130291982b7cbd58099dfadd5",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              58548.90834924398,
+              57817.245680002015,
+              58649.254747961786,
+              57173.77957004086
+            ],
+            "trial": [
+              57252.21612023183,
+              57327.219493578414,
+              57375.0114394372,
+              57737.74685090299
+            ]
+          },
+          "medians": {
+            "baseline": 58183.077014623,
+            "trial": 57351.11546650781
+          },
+          "gain_pct": -1.429902973172248
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              174131.61560564718,
+              172605.8257745415,
+              172759.41355926832,
+              175554.64022697695
+            ],
+            "trial": [
+              169314.78251750328,
+              168974.55603407856,
+              169325.90488828567,
+              167835.3227340457
+            ]
+          },
+          "medians": {
+            "baseline": 173445.51458245775,
+            "trial": 169144.66927579092
+          },
+          "gain_pct": -2.4796520780721365
+        }
+      },
+      "receipt_sha256": "af1e762804a087ca41ffa25785904d3353597b2cf74d75c9864f93e69ff67ebd",
+      "controls_sha256": "9a4a975403bd4ed5f5f06c2ba99c4be404d2712d2a336041bad0ebbe85ebd082",
+      "proof_directory": "work/real_world-goal/compact-summary-mode-014945-next-results",
+      "broad_gate": false,
+      "selected": false
+    }
+  ],
+  "java_qualification": {
+    "status": "deferred; previous original report unchanged and stale",
+    "previous_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+    "historical_targets_met": 1,
+    "current_targets_proven": 0,
+    "historical_golfer_ratio": 1.2536632592888863,
+    "historical_sailing_ratio": 0.6090416988263235,
+    "policy": "Completion still needs both original same-machine serial rotating Java/Rust targets, seeds7/11/23 x10s, CPU2,3, all12 independently valid. Scores/feasibility remain separate, no equal-score gate. Defer refresh until materially closer to Sailing parity."
+  },
+  "policy": "Public fixtures/model/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy unchanged. Consuming-loop specialization, outlined fallback and the combined packed-summary/loop/inverse candidate are absent. Their actual source-bound outcomes remain recorded; no broad gate was spent on them. Existing production optimizations remain. No new subagents; runner-c parked.",
+  "original_inventory": "4412 adapted passes/0pending/443excluded;4 external application regressions;4459 native regressions. New test is original native only, no upstream-method credit.",
+  "proof_directory": "work/real_world-goal/compact-group-inverse-014945-next-final-results/"
+}

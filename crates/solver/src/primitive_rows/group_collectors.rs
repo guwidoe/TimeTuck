@@ -16,7 +16,7 @@ pub(crate) enum ScalarEdit {
 }
 #[derive(Clone, Copy)]
 struct Inverse {
-    pos: Position,
+    pos: usize,
     // Number of ordinary map edits preceding this scalar edit in its frame.
     normal: usize,
     edit: ScalarEdit,
@@ -24,11 +24,66 @@ struct Inverse {
     // Numeric address identity is never dereferenced and preserves Send/Sync.
     owner: usize,
 }
+// Compact only the private inverse address. Public row positions, directory
+// routing, canonical owners and ordinary map undo retain their full shape.
+const WIDE_POSITION: usize = 1usize << (usize::BITS - 1);
+const POSITION_BITS: usize = (usize::BITS as usize - 5) / 4;
+const POSITION_MASK: usize = (1usize << POSITION_BITS) - 1;
+#[derive(Default)]
+struct InverseFrame {
+    edits: Vec<Inverse>,
+    wide: Vec<Position>,
+}
+impl std::ops::Deref for InverseFrame {
+    type Target = [Inverse];
+    fn deref(&self) -> &Self::Target {
+        &self.edits
+    }
+}
+impl InverseFrame {
+    #[inline]
+    fn encode(&mut self, pos: Position) -> usize {
+        debug_assert!(pos.cell < CELLS);
+        if pos.page.0.iter().all(|&part| part <= POSITION_MASK) {
+            let mut packed = 0;
+            for part in pos.page.0 {
+                packed = (packed << POSITION_BITS) | part;
+            }
+            (packed << 4) | pos.cell
+        } else {
+            let index = self.wide.len();
+            assert!(index < WIDE_POSITION, "inverse address index");
+            self.wide.push(pos);
+            WIDE_POSITION | index
+        }
+    }
+    #[inline]
+    fn decode(wide: &[Position], packed: usize) -> Position {
+        if packed & WIDE_POSITION != 0 {
+            return wide[packed & !WIDE_POSITION];
+        }
+        let cell = packed & (CELLS - 1);
+        let mut rest = packed >> 4;
+        let mut parts = [0; 4];
+        for part in parts.iter_mut().rev() {
+            *part = rest & POSITION_MASK;
+            rest >>= POSITION_BITS;
+        }
+        Position {
+            page: PageKey(parts),
+            cell,
+        }
+    }
+    fn clear(&mut self) {
+        self.edits.clear();
+        self.wide.clear();
+    }
+}
 pub(crate) struct GroupCollectors<K> {
     rows: PrimitiveRows<K, IntCollector>,
     enabled: bool,
-    inverses: Vec<Vec<Inverse>>,
-    spare: Vec<Vec<Inverse>>,
+    inverses: Vec<InverseFrame>,
+    spare: Vec<InverseFrame>,
 }
 impl<K> GroupCollectors<K> {
     pub(crate) fn new() -> Self {
@@ -55,8 +110,11 @@ impl<K> GroupCollectors<K> {
         let mut owners: Vec<_> = self
             .inverses
             .iter()
-            .flatten()
-            .map(|edit| (edit.pos, edit.owner))
+            .flat_map(|frame| {
+                frame
+                    .iter()
+                    .map(|edit| (InverseFrame::decode(&frame.wide, edit.pos), edit.owner))
+            })
             .collect();
         owners.sort_unstable();
         owners.dedup();
@@ -113,9 +171,16 @@ impl<K> GroupCollectors<K> {
                 .map_or(0, |parent| self.paged().frames[parent].len());
             let mut frame = self.inverses.pop().unwrap();
             if let Some(parent) = self.inverses.last_mut() {
-                for mut inverse in frame.drain(..) {
+                let wide_offset = parent.wide.len();
+                parent.wide.append(&mut frame.wide);
+                for mut inverse in frame.edits.drain(..) {
                     inverse.normal += offset;
-                    parent.push(inverse);
+                    if inverse.pos & WIDE_POSITION != 0 {
+                        let index = (inverse.pos & !WIDE_POSITION) + wide_offset;
+                        assert!(index < WIDE_POSITION, "inverse address index");
+                        inverse.pos = WIDE_POSITION | index;
+                    }
+                    parent.edits.push(inverse);
                 }
             }
             frame.clear();
@@ -123,12 +188,12 @@ impl<K> GroupCollectors<K> {
         }
         self.rows.commit_journal(token);
     }
-    fn undo_scalar(rows: &mut Paged<K, IntCollector>, inverse: Inverse) {
+    fn undo_scalar(rows: &mut Paged<K, IntCollector>, inverse: Inverse, pos: Position) {
         let row = rows
             .pages
-            .get_mut(&inverse.pos.page)
+            .get_mut(&pos.page)
             .expect("inverse group page")
-            .cells[inverse.pos.cell]
+            .cells[pos.cell]
             .as_mut()
             .expect("inverse group cell");
         // Snapshot adapters copy dirty values. make_mut is also needed by the
@@ -155,13 +220,18 @@ impl<K> GroupCollectors<K> {
             let mut frame = self.inverses.pop().unwrap();
             let rows = self.paged_mut();
             rows.cache.take();
-            for inverse in frame.drain(..).rev() {
+            for inverse in frame.edits.drain(..).rev() {
                 while rows.frames[token].len() > inverse.normal {
                     let undo = rows.frames[token].pop().unwrap();
                     rows.apply_undo(undo);
                 }
-                Self::undo_scalar(rows, inverse);
+                Self::undo_scalar(
+                    rows,
+                    inverse,
+                    InverseFrame::decode(&frame.wide, inverse.pos),
+                );
             }
+            frame.clear();
             self.spare.push(frame);
         }
         self.rows.rollback_journal(token);
@@ -178,7 +248,11 @@ impl<K> GroupCollectors<K> {
             .map(|undo| match undo {
                 Undo::Value(pos, _) | Undo::Entry(pos, _) => *pos,
             })
-            .chain(self.inverses[token..].iter().flatten().map(|edit| edit.pos))
+            .chain(self.inverses[token..].iter().flat_map(|frame| {
+                frame
+                    .iter()
+                    .map(|edit| InverseFrame::decode(&frame.wide, edit.pos))
+            }))
             .collect();
         positions.sort_unstable();
         positions.dedup();
@@ -219,7 +293,11 @@ impl<K> GroupCollectors<K> {
                         Undo::Entry(pos, entry) => Undo::Entry(*pos, entry.clone()),
                     });
                 }
-                Self::undo_scalar(saved.paged_mut(), *inverse);
+                Self::undo_scalar(
+                    saved.paged_mut(),
+                    *inverse,
+                    InverseFrame::decode(&self.inverses[depth].wide, inverse.pos),
+                );
             }
             for undo in normal[..remaining].iter().rev() {
                 saved.paged_mut().apply_undo(match undo {
@@ -339,7 +417,8 @@ impl<K: Ord> GroupCollectors<K> {
         // Reserve before scalar mutation. These checked library operations call
         // no user code, and the inverse publication itself then cannot allocate.
         let frame = self.inverses.last_mut().unwrap();
-        frame.reserve(1);
+        frame.edits.reserve(1);
+        let pos = frame.encode(pos);
         rows.cache.take();
         match edit {
             ScalarEdit::Insert(value) => collector.insert(value),
@@ -349,7 +428,7 @@ impl<K: Ord> GroupCollectors<K> {
             }
         }
         let summary = collector.summary();
-        frame.push(Inverse {
+        frame.edits.push(Inverse {
             pos,
             normal: rows.frames.last().unwrap().len(),
             edit,

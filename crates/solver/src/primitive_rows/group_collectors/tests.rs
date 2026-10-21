@@ -218,3 +218,75 @@ fn inverse_collector_snapshots_preserve_actual_key_weak_lifetimes() {
         "a key Weak prevents pool retention"
     );
 }
+
+#[test]
+fn compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers() {
+    #[cfg(target_pointer_width = "64")]
+    assert_eq!(std::mem::size_of::<Inverse>(), 48);
+    let mask = POSITION_MASK;
+    let keys = [
+        (0, 0, 0, 0),
+        (mask, mask, mask, mask * CELLS + CELLS - 1),
+        (mask + 1, 0, 0, 1),
+        (0, mask + 1, 0, 2),
+        (0, 0, mask + 1, 3),
+        (0, 0, 0, (mask + 1) * CELLS),
+        (usize::MAX, usize::MAX, usize::MAX, usize::MAX),
+    ];
+    let mut rows = GroupCollectors::new();
+    assert!(rows.bind_primitive());
+    assert!(rows.enable_int_collector_pool());
+    for key in keys {
+        rows.insert(key, [1, 2].into_iter().collect());
+    }
+    let observe = |rows: &GroupCollectors<(usize, usize, usize, usize)>| {
+        rows.iter()
+            .map(|(key, value)| (*key, value.clone()))
+            .collect::<Vec<_>>()
+    };
+    let baseline = observe(&rows);
+    let key_owner = rows.get_key_value(&keys[6]).unwrap().0 as *const _;
+    let original = rows.get(&keys[6]).unwrap() as *const _;
+    let outer = rows.begin_journal();
+    for key in keys {
+        rows.try_edit(&key, ScalarEdit::Insert(3)).unwrap();
+    }
+    let inner = rows.begin_journal();
+    for key in keys {
+        rows.try_edit(&key, ScalarEdit::Replace(1, 4)).unwrap();
+    }
+    let deepest = rows.begin_journal();
+    for key in keys {
+        rows.try_edit(&key, ScalarEdit::Remove(2)).unwrap();
+    }
+    rows.commit_journal(deepest);
+    rows.commit_journal(inner);
+    assert_eq!(rows.inverses[outer].len(), keys.len() * 3);
+    for key in keys {
+        assert_eq!(rows.get(&key).unwrap().summary().sum, 7);
+    }
+    let expected = observe(&rows);
+    let snapshot = rows.clone();
+    let capture = rows.capture_current(outer);
+    assert_eq!(
+        rows.get_key_value(&keys[6]).unwrap().0 as *const _,
+        key_owner
+    );
+    assert_eq!(
+        snapshot.get_key_value(&keys[6]).unwrap().0 as *const _,
+        key_owner
+    );
+    assert_ne!(snapshot.get(&keys[6]).unwrap() as *const _, original);
+    assert_eq!(observe(&rows.journal_snapshot(outer)), baseline);
+    rows.rollback_journal(outer);
+    assert_eq!(observe(&rows), baseline);
+    assert_eq!(rows.get(&keys[6]).unwrap() as *const _, original);
+    assert_eq!(observe(&snapshot), expected);
+    let trial = rows.begin_journal();
+    rows.install_capture(capture);
+    assert_eq!(observe(&rows), expected);
+    rows.rollback_journal(trial);
+    assert_eq!(observe(&rows), baseline);
+    rows.install_snapshot(snapshot);
+    assert_eq!(observe(&rows), expected);
+}

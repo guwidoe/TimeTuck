@@ -26,6 +26,59 @@ validations. Scores/feasibility remain separate. Model, fixtures, declarations,
 runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
 runner-c parked. No new subagents. A commit/context reset warrants no repeat checks.
 
+Selected batch: compact private collector inverse addresses. Every scalar edit,
+normal-history offset and canonical owner remains recorded. Small complete page
+coordinates and cell fit in one usize; full-width coordinates use a per-frame
+side vector whose indices rebase on nested commit. Public row storage and
+IntCollector operations remain unchanged. Inverse records are 48B rather than 80B
+on 64-bit; frames gain 24B and uncommon keys need side storage. No universal memory
+or speed claim. One original regression adds no upstream-method credit.
+
+Native `beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c`;
+production `6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa`;
+final snapshot `23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05`;
+actual measured artifact `498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465`.
+One actual Clippy/all-target no-run prebuild/normal jobs4 `bash scripts/check.sh`
+passes **8,875 named /8,881 Cargo executions /292 doctests /54 tooling jobs**.
+Only genuine aggregate Rust log/metadata promoted; no job-cache transplants.
+Origins: 4,412 upstream adapted /4 external application /4,459 native regressions.
+Original inventory: 4,412 passed /0 pending /443 excluded, unchanged.
+
+Actual native diagnostic: **+1.413% Sailing /+0.178% Golfer**, Golfer effectively
+flat, three of four Sailing pairs faster, all 16 outputs independently valid.
+Original four rotating 3s seed7 controls per case, runner-a CPU2,3; same frozen Rust
+and actual artifact as the final gate. The genuine pilot release build/log were
+reused after exact crate-manifest comparison; no second release command, source
+relabel or repeated timing. Prior gains are not added. Proof:
+`compat/observations/real_world-compact-group-inverse.json` and
+`work/real_world-goal/compact-group-inverse-014945-next-final-results/`.
+
+Const consuming-loop specialization had a modest standalone signal; its outlined
+fallback was slower. The measured combination of the loop, packed summaries and
+compact inverse addresses was slower on both cases. These loop/queue changes are
+absent. Their exact sources, focused controls and 16 valid outputs per candidate
+remain recorded; no broad gate was spent on them. Do not retry unchanged.
+
+Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
+all 12 valid on old021a. Neither current parity target is proved; goal active and
+incomplete. Defer the original Java qualifier until materially closer to Sailing
+parity. Same model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/
+batch policy. No new agents; local + runner-a, runner-c parked. Selected verification jobs are terminal.
+Backend HTTP/report and all three freshness digests match. Reuse unchanged
+verification, including after this commit/context reset.
+
+Next: `pilot-v22-artifact-{dispatch,remote}.py` now binds the actual beeb/6f8/498db
+full gate a351a5c4; v21 remains historical for014945. The next isolated candidate
+omits duplicated numeric IDs from private consuming score rows and reconstructs
+them from complete positions only for cold views. All42 focused consuming tests
+pass on native083a4f9 /production206ee44. Its actual runner-a native pilot is running:
+`work/real_world-goal/implicit-score-ids-beeb-fixed-next-results/`, session62416.
+Collect this run; do not restart it. No speed claim or integration yet. The earlier
+61d521 cfg-caller compile failure remains preserved; the fixed source changes
+only two private test call sites to receive owned IDs without weakening assertions.
+
+## Previous verified group-edit inlining — 2026-10-21
+
 Selected batch: two private compiler-inline attributes. The unchanged primitive
 group-entry helper and unchanged scalar inverse-edit callee are both requested
 inline, exposing concrete edit variants and summary-return work to the caller
@@ -65,7 +118,7 @@ all 12 valid, Sailing feasible Rust 2/3 Java 0/3 on old021a. Defer the qualifier
 materially closer to Sailing parity. No current Java target credit or multiplying
 native gains into historical ratios. The goal is incomplete.
 
-The current014945/ff8cd5/78ea0d release artifact has one local Sailing10s
+The previous014945/ff8cd5/78ea0d release artifact has one local Sailing10s
 seed7 CPU2,3 profile at `work/real_world-goal/current-group-edit-profile/`.
 The output independently validates (0/94400), zero samples were lost, and the
 actual gated artifact was reused without a build. This recording replaces the

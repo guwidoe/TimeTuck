@@ -19,19 +19,37 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,874 recorded Rust tests and
-292 doctests** (8,880 Cargo test executions). The group-edit inlining batch passes
+The current native verification contains **8,875 recorded Rust tests and
+292 doctests** (8,881 Cargo test executions). The compact group-inverse batch passes
 `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Source-bound evidence](../compat/observations/real_world-group-edit-inlining.json)
+[Source-bound evidence](../compat/observations/real_world-compact-group-inverse.json)
 records the actual native gate, release artifact and controls. The live report
 remains the authority for freshness and readiness.
+
+Private collector inverse addresses now pack small complete numeric positions
+into one usize, with exact full-width fallback entries and nested index rebasing.
+Every scalar edit, normal-history offset, canonical owner and dirty-observer copy
+remains. Records shrink 80B to 48B on 64-bit, but frames gain 24B and uncommon keys
+require side storage; this is not a universal memory claim. One new original
+native regression covers full coordinates, nested commits/captures and ownership.
+Origins are 4,412 upstream adaptations /4 external RealWorld /4,459 native tests.
+
+Four actual rotating 3s seed7 native controls measured **+1.413% Sailing** and
+**+0.178% Golfer** (effectively flat), all 16 outputs independently valid. The
+unchanged frozen Rust passes the final native gate. Exact crate manifests bind
+the genuine original pilot release build and artifact; no second release build
+or repeated measurement was needed. No Java parity or added historical gains.
+Const-loop/outlined-fallback and combined summary/loop/address trials were not
+integrated. Only aggregate genuine Rust verification was promoted.
+
+The preceding group-edit inlining remains as historical evidence below.
 
 Two private compiler-inline attributes request inlining of the unchanged
 primitive group-entry helper and its unchanged scalar inverse-edit callee. Their
 bodies, edits, canonical owners, callbacks, overflow/error phases, emissions,
 captures, nesting and rollback remain unchanged. Original tests and origins stay
-intact: 4,412 upstream adaptations, 4 external RealWorld regressions and 4,458
-native regressions. No new upstream-method or native-test credit is claimed.
+intact in that batch: 4,412 upstream adaptations, 4 external RealWorld regressions
+and 4,458 native regressions. That batch added no upstream or native-test credit.
 
 Four rotating native three-second controls measured **+2.672% Sailing** and
 **+1.376% Golfer**, with every pair faster and all 16 outputs independently valid.
