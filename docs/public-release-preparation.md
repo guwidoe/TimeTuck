@@ -106,6 +106,12 @@ this dated audit is not a perpetual publication clearance.
 
 ## Review references
 
+Subsequent dashboard preparation is recorded in [GitHub Pages hosting](github-pages.md):
+the reviewed public snapshot anonymizes application identities and omits raw
+execution details. GitHub rejected activation for the private repository's current
+plan; the owner chose to defer hosting. The README's Pages link is explicitly a
+planned destination. The source repository remains private.
+
 - [GitHub visibility consequences](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility):
   Actions history and logs become public with the repository.
 - [Gitleaks](https://github.com/gitleaks/gitleaks): secret-scanning tool and release source.

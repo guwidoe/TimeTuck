@@ -1,5 +1,9 @@
 # Local progress dashboard
 
+For the hosted, anonymized report snapshot and its deployment workflow, see
+[GitHub Pages hosting](github-pages.md). The local report remains the full evidence
+view; public exports remove application identities and execution details.
+
 Generate results and serve the visual overview:
 
 ```sh

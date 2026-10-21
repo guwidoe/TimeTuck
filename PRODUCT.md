@@ -29,8 +29,8 @@ A separate strict comparison index retains its explicit feature, behavior, perfo
 and freshness weights. Neither view estimates remaining engineering effort or time.
 
 
-Additional application regressions are tracked separately by origin. The RealWorld
-public scenarios have their own correctness checks and same-machine Java/Rust
+Additional application regressions are tracked separately by origin. The anonymized
+real-world use cases have their own correctness checks and same-machine Java/Rust
 throughput comparisons. They add no upstream method credit and do not change the
 original 109 timing targets. Their performance gaps remain visible even when the
 original native readiness targets are met.
@@ -44,6 +44,8 @@ reference remains pinned and unmodified. No invented measurements.
 
 ## Implementation assumptions
 
-Use a local static web page with generated JSON, without a framework or hosting
-service. This is an implementation choice for this session, not a user brand or
-stack preference. The page refreshes its report while open.
+Use a static page without a framework. The local dashboard reads full generated
+JSON and checks live source freshness. GitHub Pages serves an explicitly reviewed
+public snapshot with generic application labels and no raw logs or local source
+paths. Public snapshots keep original evidence dates and statuses and identify
+their export separately; they do not establish live readiness.

@@ -1,0 +1,49 @@
+name: Publish performance dashboard
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'dashboard/**'
+      - 'scripts/build_dashboard_site.py'
+      - '.github/workflows/pages.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: vars.PUBLISH_DASHBOARD == 'true'
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Check publication boundaries
+        run: python3 -m unittest discover -s scripts -p test_build_dashboard_site.py
+      - name: Build approved public snapshot
+        run: python3 scripts/build_dashboard_site.py --output work/pages
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: work/pages
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -82,7 +82,12 @@ application, or that more score evaluations produce better solutions.
 Measurements record their source, inputs, machine, configuration, and date.
 Historical results remain historical when the solver changes. Start with
 [performance and reproducibility](docs/performance.md) before quoting a number;
-the [local dashboard](docs/dashboard.md) exposes detailed results and freshness.
+the [performance dashboard on GitHub Pages](https://guwidoe.github.io/TimeTuck/)
+is the planned public snapshot location (prepared; hosting deferred while the
+repository remains private on its current GitHub plan).
+Its application section uses anonymized “Real-world use cases” labels. The
+[local dashboard](docs/dashboard.md) retains detailed evidence and live freshness
+checks; see [hosting and snapshot updates](docs/github-pages.md).
 
 ## Documentation and contributions
 

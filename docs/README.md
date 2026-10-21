@@ -44,6 +44,7 @@ These references specify behavior, error handling, limits, and executable eviden
 - [Completion evidence](completion.md): original native acceptance requirements and
   subsequent source-specific qualification records.
 - [Dashboard](dashboard.md): generating reports and interpreting their freshness.
+- [GitHub Pages](github-pages.md): hosting the anonymized public snapshot and updating it.
 - [Compatibility assets](../compat/README.md), [legal and provenance](legal-and-provenance.md),
   and [third-party notices](../THIRD_PARTY_NOTICES.md): sources and attribution.
 - [Test layout](test-layout.md): focused targets and generated integration shards.

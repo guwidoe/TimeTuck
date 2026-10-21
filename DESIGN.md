@@ -223,7 +223,7 @@ keeps its existing geometry, formula and percentages.
 The test-origin table separates mapped upstream adaptations, additional native
 regressions and declared external application checks. Counts are recorded native
 identities, while the Community coverage region retains its source-method unit.
-RealWorld follows in the same open section with individual test results, fixture
+Real-world use cases follow in the same open section with individual test results, fixture
 status and a separate throughput table. Existing mint/amber result labels convey
 met/open targets. Horizontal table overflow stays inside keyboard-focusable
 regions on narrow screens. The native overview explicitly refers to original

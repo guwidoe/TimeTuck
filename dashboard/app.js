@@ -131,16 +131,18 @@ function render() {
     $("inventory-note").textContent =
         `${n(s.total)} annotated methods in ${n(report.inventory.source_files)} Java test-source files at ${report.reference.commit.slice(0, 12)}. ${report.inventory.limitations}`;
     $("updated").textContent =
-        `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
+        report.publication?.kind === "public-snapshot"
+            ? `Published snapshot · evidence from ${timestamp(report.generated_at)}`
+            : `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
     $("content").hidden = false;
     restoreFocus(focused);
 }
 function renderAdditionalTests() {
     const origins = report.test_origins;
-    const rows = $("test-origin-rows"), tests = $("real_world-test-list");
-    const timingRows = $("real_world-benchmark-rows");
+    const rows = $("test-origin-rows"), tests = $("real-world-test-list");
+    const timingRows = $("real-world-benchmark-rows");
     rows.replaceChildren(); tests.replaceChildren(); timingRows.replaceChildren();
-    $("real_world-table-wrap").hidden = true;
+    $("real-world-table-wrap").hidden = true;
     const labels = {upstream_adapted: "Upstream Timefold adaptations", native_regression: "Additional native regressions", external_application: "External application tests"};
     for (const category of origins?.categories || []) {
         const row = node("tr"), counts = category.counts || {};
@@ -152,25 +154,25 @@ function renderAdditionalTests() {
     $("test-origin-note").textContent = origins
         ? "Counts are recorded native test identities, not expanded JUnit invocations. Only mapped upstream adaptations contribute to Community method coverage. Additional native checks may reuse attributed fixtures."
         : "Test-origin accounting is unavailable. Regenerate the verification report.";
-    const suite = origins?.external_suites?.find(item => item.id === "real_world");
-    $("real_world-tests").textContent = suite
+    const suite = origins?.external_suites?.find(item => item.origin === "external_application");
+    $("real-world-tests").textContent = suite
         ? `${n(suite.counts.passed)} / ${n(suite.counts.total)} recorded application checks pass · ${n(suite.missing_test_count)} expected checks unverified · fixtures ${suite.fixture_status}${fresh ? "" : " · last saved verification"}`
         : "Application test verification is unavailable.";
-    for (const test of suite?.expected_tests || []) {
+    for (const [index, test] of (suite?.expected_tests || []).entries()) {
         const item = node("li");
-        item.append(node("code", "", test.local_test), node("span", test.status === "passed" ? "completion-met" : "completion-open", names[test.status] || test.status));
-        item.title = test.local_path;
+        item.append(node("code", "", test.label || `Application check ${index + 1}`), node("span", test.status === "passed" ? "completion-met" : "completion-open", names[test.status] || test.status));
+        item.title = "Recorded application check";
         tests.append(item);
     }
-    $("real_world-origin").textContent = suite
-        ? `Origin: RealWorld public scenarios${suite.source_repository?.commit ? ` at ${suite.source_repository.commit.slice(0, 12)}` : ""} and its application model. Fixture validation: ${suite.fixture_status}. Upstream method credit: 0. Exact source identities and hashes are retained in the report.`
+    $("real-world-origin").textContent = suite
+        ? `Origin: two anonymized real-world application workloads. Fixture validation: ${suite.fixture_status}. Upstream method credit: 0. The local evidence ledger retains exact source attribution; public snapshots omit application identities.`
         : "No declared application origin was loaded.";
-    const benchmark = report.application_benchmarks?.real_world;
-    const status = $("real_world-benchmark-status"), note = $("real_world-benchmark-note");
+    const benchmark = Object.values(report.application_benchmarks || {}).find(item => item?.origin === "external_application");
+    const status = $("real-world-benchmark-status"), note = $("real-world-benchmark-note");
     status.className = "application-status";
     if (!benchmark || benchmark.status === "not_measured") {
         status.textContent = "Application performance has not been measured yet.";
-        note.textContent = "The original benchmark results do not establish parity for these RealWorld workloads.";
+        note.textContent = "The original benchmark results do not establish parity for these real-world use cases.";
         return;
     }
     if (benchmark.status === "invalid") {
@@ -186,9 +188,9 @@ function renderAdditionalTests() {
     status.textContent = `${current ? "Current" : "Previous"} application result · ${met} / ${measured.length} measured workloads meet Java streams throughput${benchmark.qualified ? " · full comparison protocol" : " · diagnostic or incomplete protocol"}`;
     if (!current || met < measured.length || !benchmark.valid) status.classList.add("completion-open");
     const speed = runtime => Number.isFinite(runtime?.median_evaluations_per_second) ? n(Math.round(runtime.median_evaluations_per_second)) : "—";
-    for (const summary of summaries) {
+    for (const [index, summary] of summaries.entries()) {
         const runtimes = summary.runtimes || {}, row = node("tr");
-        const name = {"social-golfer-32x8x10-v1": "Golfer · 32 people, 10 sessions", "sailing-trip-v1": "Sailing · 115 people, 5 sessions"}[summary.case] || summary.case;
+        const name = summary.label || `Use case ${String.fromCharCode(65 + index)}`;
         const ratio = summary.rust_over_java_streams_evaluations_per_second;
         row.append(node("th", "", name), node("td", "", speed(runtimes["rust-streams"])), node("td", "", speed(runtimes["java-streams"])), node("td", "", speed(runtimes["java-incremental"])), node("td", summary.throughput_target_met ? "completion-met" : "completion-open", Number.isFinite(ratio) ? `${ratio.toFixed(2)}×` : "—"));
         row.firstChild.scope = "row";
@@ -196,7 +198,7 @@ function renderAdditionalTests() {
         if (rust && java) row.firstChild.append(node("small", "application-quality", `Feasible solves: Rust ${rust.feasible_runs} / ${rust.runs} · Java ${java.feasible_runs} / ${java.runs}`));
         timingRows.append(row);
     }
-    $("real_world-table-wrap").hidden = summaries.length === 0;
+    $("real-world-table-wrap").hidden = summaries.length === 0;
     const config = benchmark.configuration || {};
     const seeds = Array.isArray(config.seeds) ? config.seeds.join(", ") : "see report";
     note.textContent = `${benchmark.valid ? "Independent score checks passed." : "Some score or runtime checks failed; inspect raw results."} Seeds ${seeds}; ${config.seconds ?? "see report"} seconds per run. Measured ${timestamp(benchmark.generated_at)}. Java incremental scoring is a separate hand-written comparator; throughput does not imply equal solution quality.`;
@@ -518,7 +520,7 @@ function renderBenchmarks(kind = "score") {
                         const times = [...controls.samples].sort((a, b) => a - b);
                         const middle = Math.floor(times.length / 2);
                         const median = times.length % 2 ? times[middle] : (times[middle - 1] + times[middle]) / 2;
-                        b.append(node("p", "range", `Eq-only registry control · ${median.toFixed(3)} ms median. Same graph, full search output and physical scoring calls; full observations retained in the report.`));
+                        b.append(node("p", "range", `Eq-only registry control · ${median.toFixed(3)} ms median. Same graph, full search output and physical scoring calls; full observations retained in the local evidence.`));
                     }
                 }
                 if (w.native_backend === "stream") {
@@ -530,8 +532,8 @@ function renderBenchmarks(kind = "score") {
                           ? "Stream graph · owner links. Full match payloads retained; match IDs, batch publication and physical scoring calls differ from ordinary joins."
                           : "Stream graph · ordinary joins."));
                     for (const [key, label, detail] of [
-                        ["ordinary_stream_controls", "Ordinary-join control", "Same final assignment, score and logical search work; full observations retained in the report."],
-                        ["owner_link_controls", "Owner-link v1 control", "Same full search output and physical scoring calls; full observations retained in the report."],
+                        ["ordinary_stream_controls", "Ordinary-join control", "Same final assignment, score and logical search work; full observations retained in the local evidence."],
+                        ["owner_link_controls", "Owner-link v1 control", "Same full search output and physical scoring calls; full observations retained in the local evidence."],
                     ]) {
                         const controls = w[key];
                         if (!linked || !controls?.samples?.length) continue;
@@ -693,8 +695,8 @@ function renderDifferential() {
         box.append(p, node("p", "note", `${detail} Seed ${d.seed}. Original checks; no additional upstream coverage credit.`));
         if (d.status === "stale" || !fresh)
             box.append(node("p", "note", "Previous result: measured sources have changed; rerun the oracle."));
-        if (d.failures?.length)
-            box.append(node("p", "note", `${n(d.failures.length)} discrepancies are recorded in the downloadable report.`));
+        if (d.failures_count || d.failures?.length)
+            box.append(node("p", "note", `${n(d.failures_count ?? d.failures.length)} discrepancies are recorded; full observations remain in the local evidence.`));
     }
     for (const [key, label] of [
         ["repair_performance", " original repair cases return valid, non-regressing solutions."],
@@ -765,13 +767,14 @@ async function reload() {
             throw new Error(
                 "Unrecognized report format. Regenerate the report with the current scripts.",
             );
-        fresh = true;
-        completionFresh = true;
+        const published = data.publication?.kind === "public-snapshot";
+        fresh = published ? data.publication.verification_fresh === true : true;
+        completionFresh = published ? data.publication.completion_fresh === true : true;
         completionLive = false;
         nativeFresh = false;
         try {
-            const state = await fetch("api/freshness", { cache: "no-store" });
-            if (state.ok) {
+            const state = published ? null : await fetch("api/freshness", { cache: "no-store" });
+            if (state?.ok) {
                 const snapshot = await state.json();
                 completionLive = typeof snapshot.completion_digest === "string" && typeof snapshot.verification_digest === "string";
                 fresh = snapshot.verification_digest === data.verification_digest;
@@ -813,8 +816,11 @@ async function reload() {
             renderDifferential();
         }
         $("updated").textContent =
-            `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
+            report.publication?.kind === "public-snapshot"
+            ? `Published snapshot · evidence from ${timestamp(report.generated_at)}`
+            : `Report updated ${timestamp(report.generated_at)} · reloads every 15s`;
         const warnings = [];
+        if (published) warnings.push("Published evidence snapshot. Freshness was checked at export; this site cannot verify later source changes. Raw logs and application identities are omitted.");
         if (!fresh)
             warnings.push(
                 "Source files changed since verification. Coverage shown is the last saved result. Run bash scripts/check.sh to refresh it.",

@@ -13,7 +13,7 @@
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141d22'/%3E%3Cpath d='M7 9h18v5h-6v11h-6V14H7z' fill='%2385e3bd'/%3E%3C/svg%3E"
         />
         <link rel="stylesheet" href="styles.css?v=9ceaa162245c" />
-        <script src="app.js?v=4e92989599e6" defer></script>
+        <script src="app.js?v=16cca1ccd463" defer></script>
     </head>
     <body>
         <header class="masthead">
@@ -193,20 +193,20 @@
                         <tbody id="test-origin-rows"></tbody>
                     </table></div>
                     <p id="test-origin-note" class="scope-note"></p>
-                    <h3 id="real_world-heading">RealWorld application workloads</h3>
-                    <p class="application-intro">Public golfer and sailing scenarios from RealWorld. These additional tests earn no upstream Timefold method credit.</p>
-                    <p id="real_world-tests" class="scope-note" role="status"></p>
-                    <p id="real_world-benchmark-status" class="application-status" role="status"></p>
-                    <div id="real_world-table-wrap" class="application-table-wrap" tabindex="0" role="region" aria-labelledby="real_world-heading" hidden><table class="application-table">
+                    <h3 id="real-world-heading">Real-world use cases</h3>
+                    <p class="application-intro">Two anonymized application workloads with independent score checks. These additional tests earn no upstream Timefold method credit.</p>
+                    <p id="real-world-tests" class="scope-note" role="status"></p>
+                    <p id="real-world-benchmark-status" class="application-status" role="status"></p>
+                    <div id="real-world-table-wrap" class="application-table-wrap" tabindex="0" role="region" aria-labelledby="real-world-heading" hidden><table class="application-table">
                         <caption>Median candidate evaluations per second; higher is faster.</caption>
                         <thead><tr><th scope="col">Workload</th><th scope="col">Rust streams</th><th scope="col">Java streams</th><th scope="col">Java incremental</th><th scope="col">Rust / Java streams</th></tr></thead>
-                        <tbody id="real_world-benchmark-rows"></tbody>
+                        <tbody id="real-world-benchmark-rows"></tbody>
                     </table></div>
-                    <p id="real_world-benchmark-note" class="scope-note"></p>
+                    <p id="real-world-benchmark-note" class="scope-note"></p>
                     <details class="application-details"><summary>Application test results, source and scoring limits</summary>
-                        <p id="real_world-origin" class="scope-note"></p><ul id="real_world-test-list"></ul>
-                        <p>Throughput is separate from solution quality. These models lack whole keep-together moves, and the runtimes use different random generators and hard-score annealing behavior. Sailing can remain infeasible. Passing score checks does not establish Java performance parity.</p>
-                        <p>The full report retains raw outcomes, scores, commands, seeds, source hashes and fixture provenance. Application workloads are outside the original 109 timing targets and strict comparison index.</p>
+                        <p id="real-world-origin" class="scope-note"></p><ul id="real-world-test-list"></ul>
+                        <p>Throughput is separate from solution quality. These models lack whole keep-together moves, and the runtimes use different random generators and hard-score annealing behavior. The larger use case can remain infeasible. Passing score checks does not establish Java performance parity.</p>
+                        <p>The published snapshot retains numeric outcomes, scores, seeds and evidence hashes. Raw logs, commands, local paths and application identities are omitted; the local report retains the original provenance. Application workloads are outside the original 109 timing targets and strict comparison index.</p>
                     </details>
                 </section>
                 <section class="performance" aria-labelledby="aggregate-performance-heading">
@@ -750,7 +750,7 @@
                         <a
                             href="data/report.json"
                             download="timetuck-report.json"
-                            >Download the full JSON report</a
+                            >Download the report snapshot</a
                         >
                     </div>
                 </details>
