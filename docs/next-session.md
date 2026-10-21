@@ -41,6 +41,28 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
+Current clean source now isolates lazy owned-group input page allocation in a
+cold non-inlined helper. Exact64-cell contents,allocation trigger,IDs,callbacks,
+guards,rollback and policies remain. Native controls Sailing+1.902%/Golfer+1.221%,
+all4 pairs faster on both,16 full outputs independently valid. Actual16 scoped
+checks+4 application cases and lib/example Clippy pass on4830c0a1/b01b54ef;
+measured artifactdd55ac40,snapshot8fcc3a2b,is integrated exactly. Static checks
+find all three group-summary stack reservations unchanged;do not claim that
+this removes the total caller frame or proves the cause of the speedup.
+Fresh clean-source default Java/Rust report29f02ea6 is current:original serial
+rotating3seeds10s/CPUs2,3,Cargo+javac,12 independent full-output validations,
+byte-identical native artifact. Golfer1.674400x/Sailing.956213x Java,1/2 targets.
+Sailing Rust70970/Java74220 evaluations/s,needing4.5793% more Rust throughput.
+Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Prior source/
+class hashes remain historical,not rekeyed across the private cutover.
+[Selected evidence](../compat/observations/real_world-group-page-outline.json).
+Clean backend report uses the20 actual same-source passes,not a full gate.
+The clean dashboard serves localhost:8766;original8765 server and working
+directory remain untouched. No pending build/test/benchmark jobs after collection.
+
+The following original-label selected checkpoints are preserved historical
+records;their source/class identities do not qualify the clean checkout.
+
 The selected runtime now copies captured numeric pair-join payloads and uses
 paged private equality buckets with sorted full-ID vectors. Whole consumed empty
 graph activation and exact builtin I/K/T certificates protect shared/custom/
@@ -184,7 +206,7 @@ changed bucket update. A single actual clean-baseline9ac5 Sailing cycle profile
 captured4990 samples with2 lost. Native solve0 and independently valid;worker1
 failed its zero-loss gate. Raw failure/data remain;no repeat or timing claim.
 Assembly shows the largest group summary frame reserves0x2fb8 stack bytes;
-a lazy owned-input page allocation outline is isolated under ignored work.
+the selected lazy owned-input page allocation outline is recorded above.
 [Partial diagnostic](../compat/observations/real_world-clean-baseline-cycle-profile.json).
 Old9ad8 cycles/miss captures remain source-bound. Do
 not repeat closed dense/presence/ordered-visitor experiments unchanged.

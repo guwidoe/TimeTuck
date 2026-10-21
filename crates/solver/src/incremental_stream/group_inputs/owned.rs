@@ -5,6 +5,14 @@
 use super::*;
 const PAGE_SIZE: usize = 64;
 type Page<V> = [Option<V>; PAGE_SIZE];
+// Allocate a missing page without reserving its full temporary array in every
+// hot update's stack frame. Initialization and allocation remain lazy.
+#[cold]
+#[inline(never)]
+fn empty_page<V>() -> Box<Page<V>> {
+    Box::new(std::array::from_fn(|_| None))
+}
+
 type SharedPage<V> = [Option<Arc<V>>; PAGE_SIZE];
 type PairIndex<I> = fn(&I, usize, usize) -> Option<usize>;
 type Undo<V> = Vec<(usize, Option<V>)>;
@@ -171,7 +179,7 @@ impl<I, V> Rows<I, V> {
                 if page.is_none() && value.is_none() {
                     return None;
                 }
-                let page = page.get_or_insert_with(|| Box::new(std::array::from_fn(|_| None)));
+                let page = page.get_or_insert_with(empty_page);
                 std::mem::replace(&mut page[index % PAGE_SIZE], value)
             }
         }
