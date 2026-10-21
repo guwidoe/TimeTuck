@@ -19,37 +19,49 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,858 recorded Rust tests and
-292 doctests** (8,864 Cargo test executions). The fixed-bucket directory batch
+The current native verification contains **8,866 recorded Rust tests and
+292 doctests** (8,872 Cargo test executions). The typed-output storage batch
 passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Actual source-bound evidence](../compat/observations/real_world-fixed-bucket-directory.json)
-records the selected bucket optimization and three additional native regressions.
+[Actual source-bound evidence](../compat/observations/real_world-typed-output-storage.json)
+records the selected optimization and eight additional native regressions.
 The live report remains the authority for evidence freshness and readiness.
 
 The four additional RealWorld application regressions remain separate from the
 original upstream inventory. Frozen public cases, model, settings and runner are
-unchanged. Exact primitive graph equality joins now use the existing primitive
-row directory for their fixed outer bucket map. Members/key cloning, matching,
-canonical input owners and callback/error phases remain. Ordered/custom/borrowed
-and Drop paths keep the tree backend. Three original controls cover owner/capture
-restores, both-side binding order and projection panics, and generic fallbacks.
+unchanged. Eligible consuming Pair/Quad Group summaries now retain complete typed
+rows in stable boxed chunks, avoiding per-summary Rc allocations. Exact fixed
+joins publish their completed typed scratch directly, avoiding an intermediate
+erased vector. Original callback/poison/publication phases, FIFO order, full
+summaries, scoring and rollback remain. Public/custom/retaining, unsupported and
+batch paths retain their existing representations. Eight native regressions cover
+ownership, captures, ordering, errors, panic recovery and fallback boundaries.
+Typed chunks retain private peak capacity; no total-memory reduction is claimed.
 
-Four rotating native three-second controls measured **+18.470% Golfer /+5.587%
-Sailing** against the preceding verified membership/group-addressing binary.
-All sixteen outputs independently validate. The original default Java qualifier
-was then actually rerun on the final source: paired seeds7/11/23 x10s on runner-a
-CPU2,3, all twelve assignments independently valid. Current measured medians:
+Four rotating native three-second controls of the **combined** change measured
+**+3.081% Golfer /+4.076% Sailing** against the preceding qualified Rust binary.
+All sixteen outputs independently validate. These diagnostic gains do not
+establish Java parity and are not added to separate component measurements.
 
-| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Throughput target |
+The latest original-protocol Java qualification is now **historical and stale**:
+paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
+valid, using the preceding fixed-bucket directory source. Its measured medians:
+
+| Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Historical target |
 | --- | ---: | ---: | ---: | --- |
 | Golfer | 152,426 | 121,584 | 1.254x | met |
 | Sailing | 50,061 | 82,196 | 0.609x | below target |
 
-**1/2 current throughput targets are met:** Golfer meets parity, Sailing remains below parity. Scores and feasibility
-remain separate, without an equal-score gate. Sailing feasibility is
-2/3 Rust and 0/3 Java. The live report retains actual scores,
-work counts, source/artifact bindings and measurement timestamps. Short native
-controls are diagnostic evidence, and are never multiplied into Java ratios.
+**Neither current throughput target is proved on the new source.** The previous
+qualification met 1/2 targets; Sailing remains the outstanding performance goal.
+The Java report is retained byte-for-byte and visibly stale until a deliberate
+original-protocol refresh. Scores and feasibility remain separate, without an
+equal-score gate. Historical Sailing feasibility is 2/3 Rust and 0/3 Java.
+
+Exact primitive graph equality joins also retain the preceding fixed outer
+bucket directory. Members/key cloning, canonical input owners and callback/error
+phases remain. Ordered/custom/borrowed and Drop paths keep the tree backend.
+The earlier directory controls and qualification remain recorded under their
+[original source](../compat/observations/real_world-fixed-bucket-directory.json).
 
 Paged bucket journals can retain intermediate private member/key owners until
 frame end; the earlier AVL journal could discard some at structural promotion.

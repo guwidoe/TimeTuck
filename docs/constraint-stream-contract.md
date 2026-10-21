@@ -2920,3 +2920,30 @@ bucket owners, including installs of pre-activation Tree snapshots. Intermediate
 private bucket owners can live until frame end instead of earlier AVL promotion;
 no public API exposes those owners. Full page snapshots/per-write undo have memory
 tradeoffs. See the [bucket-directory observation](../compat/observations/real_world-fixed-bucket-directory.json).
+
+## Private typed output storage
+
+Under the existing ownership-consuming builtin score gates, exact Pair/Quad Group
+summaries may use full typed rows in stable 64-row boxed chunks. Every outgoing
+edge must be an exact nonretaining terminal, with a nonempty left-edge cohort and
+no shared producer. Certification follows consuming-storage activation. Public,
+custom, retaining, batch and unsupported paths retain original events.
+
+The original common Group finish callback stages both raw outputs only after
+input edits, old/new output preparation and poison reset, before remaining local
+drops. Publication follows completion of common apply. Key enrichment, full
+summary fields, old/new FIFO, edge fanout and callback phases remain. Terminal
+receivers share the original apply body; checkpoint, put evaluation count, old
+score, guarded apply, success-only new score, wide checked/wrapping adjustment and
+replay retain their ordering. Chunks survive directory growth; active indices are
+not reused until workspace clear. Peak capacity and private old exact NoDrop rows
+remain until overwrite. Event stays72B; no total-memory reduction is claimed.
+
+An exact builtin fixed usize-ID Triple/Triple join may return a borrowed carrier
+over its complete staged typed Vec after input/guard borrows end. Publication
+drains directly into original Events, retaining order and right-side normalization.
+Successful scratch retains bounded capacity; unwind clears/releases it. Public,
+custom, unbounded, partially bound and batch paths keep original Outputs. There
+are no new public lifetime bounds. Eight native regressions and actual combined
+measurements are recorded in the
+[typed-output observation](../compat/observations/real_world-typed-output-storage.json).

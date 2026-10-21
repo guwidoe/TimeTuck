@@ -20,7 +20,73 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Current original-protocol proof meets **1/2 targets**: Golfer meets parity, Sailing remains below parity.
+Neither current target is proved after this source change. The previous qualified
+source met Golfer parity and remained below Sailing parity. Preserve model,
+fixtures, app declarations, runner, settings, seeds7/11/23 x10s and CPU2,3 pairing.
+Scores/feasibility stay separate; no equal-score gate or compiler/CPU/PGO/panic/
+batch-policy changes. Local + runner-a; runner-c remains parked. No new subagents.
+
+Selected typed-output storage batch: twelve Rust files, eight original native
+regressions. Exact consuming Pair/Quad Group summaries stage both original outputs
+at the existing common apply finish callback, after input edits, output preparation
+and poison reset, before remaining local drops. They publish after common apply
+returns into stable 64-row boxed typed chunks; original full fields, key enrichment
+and old/new FIFO remain. Whole outgoing cohorts must be nonempty exact nonretaining
+terminals with left edges and no shared producer, certified after consuming-storage
+activation. Terminal receivers share the original apply body and score/guard order.
+Exact builtin fixed usize-ID Triple/Triple joins return a lifetime-bound carrier
+over their completed typed Vec, draining into original events after guard release.
+Successful bounded scratch capacity is reused; unwind releases it. Public/custom/
+retaining/batch/unsupported paths retain original representations and lifetimes.
+Event remains72B, queued24B and edge/queued40B. Group rows remain88/120B; private
+peak chunk capacity and old NoDrop rows persist until overwrite. No memory claim.
+
+Native `076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e`;
+production `b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2`;
+final snapshot `22cdd2d7f3437cdc55aa65d6091aad10ec1d9161e11f0ec2a96c95240aeb13b5`;
+measured artifact `570309bde160f41f2f10eed336e65f2de31a3ca24f426fc12184d870a1f992ee`.
+Actual unchanged-source Clippy, all-target no-run prebuild and normal jobs4
+`bash scripts/check.sh` pass: **8,866 named native /8,872 Cargo executions
+/292 doctests /54 tooling jobs**. Eight new tests cover full-range metadata,
+stable chunk growth/reuse, complete staging/FIFO/fanout, abandoned carriers,
+real graph callbacks/owners, full/current/nested rollback, errors/panic retries,
+input-borrow independence, shared-owner promotion and fallback boundaries.
+Only genuine aggregate Rust log/metadata promoted, no per-job cache transplants.
+Observation: `compat/observations/real_world-typed-output-storage.json`.
+Proof: `work/real_world-goal/summary-carriers-2ed-next-final-results/`. Backend HTTP report/freshness checked; unchanged
+UI proof reused. Upstream4412passes/0pending/443excluded and external4 unchanged.
+
+Actual combined native controls against qualifieda7cbb: **+3.081%G/+4.076%S**,
+four rotating3s seed7 controls per case, all16 independently valid. Individual
+Group-only +2.922%G/+2.446%S and Join-only +.772%G/+.795%S are historical,
+not additive. Original combined Clippy failed ptr_arg/test type complexity; a
+new frozen source uses a lifetime-bound dyn Any constructor with original Vec
+storage and test aliases. No assertion weakened. The actual corrected source
+was measured and fully gated; original failure remains recorded.
+
+Default Java qualification deferred until materially closer to Sailing parity.
+Previous report SHA `b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a`
+is unchanged/stale: historical G1.253663/S.609042, all12valid, Sailing feasible
+Rust2/3 Java0/3. No current parity credit and no multiplication of native gains
+into those ratios. Final success still requires both targets on current source
+under the original Java protocol. Do not rerun full gates or qualifiers for a
+commit/context reset alone. Ignored state: `work/real_world-goal/active-performance-state.json`.
+
+The selected artifact already has one local Sailing10s seed7 profile at
+`work/real_world-goal/current-typed-output-profile/`: actual570309 binary,
+independently valid0/91600, 1991 samples, zero lost. It was recorded while the
+native gate ran, and source/artifact identity is joined to the later successful
+gate in the observation. No rebuild or repeat profile is needed for this source.
+Read-only decode: `work/real_world-goal/typed-output-profile-audit/`.
+Largest sampled queue-copy cluster follows generic Node apply at vtable0x128,
+not the new summary receiver at0x120. Do not infer a summary-hook result change
+would remove that cost or repeat the old generic emit-sink experiment unchanged.
+Propagation self12.91% is an enclosing sampled region, not a removable-cost bound.
+
+## Previous qualified fixed-bucket source and completed trials
+
+Reach Java streams evaluations/s on both frozen public RealWorld workloads.
+Historical original-protocol proof met **1/2 targets**: Golfer met parity, Sailing remained below parity. This source is superseded by the typed-output batch above.
 Preserve the model/fixtures/runner/settings, seeds7/11/23, ten-second limits and
 CPU2,3 pairing. Scores/feasibility stay separate; no equal-score gate or compiler,
 PGO, panic or batch-policy changes. Local + runner-a; runner-c remains parked. Only
@@ -47,7 +113,7 @@ per-job cache records transplanted. Proof: `work/real_world-goal/bucket-storage-
 Observation: `compat/observations/real_world-fixed-bucket-directory.json`.
 Dashboard backend data/freshness updated; unchanged UI proof reused.
 
-Current original-protocol Java medians, all12 independently valid:
+Historical original-protocol Java medians, all12 independently valid:
 
 | Workload | Rust evaluations/s | Java evaluations/s | Rust/Java | Throughput target |
 | --- | ---: | ---: | ---: | --- |
@@ -75,8 +141,8 @@ attribution of timing. Original failed test compilations remain recorded.
 Do not retry unchanged or integrate their unselected tests.
 
 Read-only audits ruled out direct owned collector rows as an old regressive
-experiment; a scalar+Birth/Death lifecycle backend remains a distinct unimplemented
-idea with no demonstrated payoff. Fixed-slot index calls and owned-input static
+experiment; a scalar+Birth/Death lifecycle backend was subsequently measured and rejected,
+as recorded below. Fixed-slot index calls and owned-input static
 indexing are distinct but occupy narrow sampled regions; no prototype. Generic
 sink/alternate queues/leveled emit overlap earlier failed work. State retains all
 source-bound receipts and stop decisions; do not repeat these audits unchanged.
@@ -100,12 +166,9 @@ batch, with no integration or Java credit. Proof directories use the prefixes
 `group-owned-lifecycle-2ed-next` and `join-output-carrier-2ed-next` under the goal
 work directory. Each keeps its own frozen source, actual builds and raw outputs.
 
-The next distinct prototype targets wide Group summary event allocations using
-stable boxed typed chunks and borrowed receiver views. Existing Event size and
-FIFO/callback/owner behavior must remain. Current ELF confirms Pair summary Rc
-allocations of104B and Quad of136B; enclosing Group time is not removable cost.
-This mechanism differs from older widened Event, Rc pooling and compact stack
-summary decoding trials. No speedup is established until its own controls finish.
+The wide Group summary and borrowed Join carrier candidates were subsequently
+combined, measured afresh, and selected as the typed-output batch above. Individual
+measurements remain historical; no separate gain is added to the combined result.
 
 ## Additional RealWorld application coverage — 2026-10-20
 

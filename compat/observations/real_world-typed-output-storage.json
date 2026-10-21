@@ -1,0 +1,229 @@
+{
+  "kind": "real_world-typed-output-storage-observation",
+  "generated_at": "2026-10-21T01:51:32.245684+00:00",
+  "upstream_method_credit": 0,
+  "input_sha256": "b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2",
+  "native_source_digest": "076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e",
+  "source_snapshot": "22cdd2d7f3437cdc55aa65d6091aad10ec1d9161e11f0ec2a96c95240aeb13b5",
+  "host": "runner-a",
+  "artifact_sha256": "570309bde160f41f2f10eed336e65f2de31a3ca24f426fc12184d870a1f992ee",
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8866,
+    "cargo_test_invocations_passed": 8872,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 8,
+    "test_names": [
+      "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+      "stream_graph::join_output::tests::join_output_carrier_fixed_both_sides_order_and_current_nested_full_restore_match_original",
+      "stream_graph::join_output::tests::join_output_carrier_end_input_borrow_arena_growth_promotion_and_panic_release",
+      "stream_graph::join_output::tests::join_output_carrier_actual_consumed_graph_bfs_replay_captures_errors_and_panics_match_cold_and_wide",
+      "stream_graph::join_output::tests::join_output_carrier_scope_rejects_unbounded_partial_custom_clone_and_public_graph"
+    ],
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "22cdd2d7f3437cdc55aa65d6091aad10ec1d9161e11f0ec2a96c95240aeb13b5",
+      "rust_digest": "076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e",
+      "production_digest": "b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 44.23899777699262,
+          "log_sha256": "ccdd41e00a28c24fadfc23b834f17afbaaa676c7a18a0726d003e7e272b42b40"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 532.0255613090121,
+          "log_sha256": "9c76ea4e9fdd7ecfcceec6886cb2d108952147c9fce20c98d3a3b5b78d7bdbd4"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 281.7139742540021,
+          "log_sha256": "ea7345a1b25bf7d6242b10354bc7dd0e69640133e11e97a7069d149b6d12d0fa"
+        }
+      ],
+      "seconds": 861.6301714990113,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. No Java qualifier rerun: prior Java evidence remains stale. Actual separately recorded native controls bind the unchanged source and measured artifact; no Java parity credit. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "9da1428346416e99697c155f1415d23ad2ec4b3e",
+      "source_snapshot": "22cdd2d7f3437cdc55aa65d6091aad10ec1d9161e11f0ec2a96c95240aeb13b5",
+      "rust_digest": "076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e",
+      "production_digest": "b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2",
+      "changed_files": [
+        "crates/solver/src/incremental_stream.rs",
+        "crates/solver/src/stream_graph.rs",
+        "crates/solver/src/stream_graph/bound_universes.rs",
+        "crates/solver/src/stream_graph/group_summary_lane.rs",
+        "crates/solver/src/stream_graph/owned_group_input_tests.rs",
+        "crates/solver/src/stream_graph/event_queue.rs",
+        "crates/solver/src/stream_graph/consuming.rs",
+        "crates/solver/src/stream_graph/join_output.rs",
+        "crates/solver/src/stream_graph/concrete_mapping_tests.rs",
+        "crates/solver/src/stream_graph/grouped_batch.rs",
+        "crates/solver/src/stream_graph/join_output/tests.rs",
+        "crates/solver/src/stream_graph/group_summary_lane/tests.rs"
+      ],
+      "native_recorded_tests": 8866,
+      "artifact_sha256": "570309bde160f41f2f10eed336e65f2de31a3ca24f426fc12184d870a1f992ee",
+      "final_receipt_sha256": "f8c2319da7c8d9c5a3c0a910a0d959e16bc9eaa394d004603f874f390fd7554f",
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json"
+      ],
+      "previous_java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+      "policy": "Exact frozen Rust after actual full native gate. No per-job metadata transplant. Native controls are diagnostic only. Prior Java report retained unchanged and stale; no Java parity claim."
+    }
+  },
+  "changes": [
+    "Eligible consuming builtin Pair/Quad Group summaries use full typed rows in stable 64-row boxed chunks instead of per-row Rc allocations. The original common Group apply finish callback stages both outputs only after input edits, output preparation and poison reset, before its remaining local drops. Publication occurs after the complete common apply returns. Full summary fields, key enrichment, old/new FIFO and event/edge order remain.",
+    "Every outgoing Group edge must be an exact certified nonretaining terminal, with a nonempty left-edge cohort and no shared producer. Readiness refresh follows all consuming-storage activation. Retaining/public/custom/batch, unsupported receivers and shared producers retain original events. Summary receivers share the original Terminal apply body; checkpoint, put evaluation count, old score, guarded apply, success-only new score, checked/wrapping adjustment and replay keep their order.",
+    "Exact builtin fixed usize-ID Triple/Triple joins expose a borrowed carrier over the complete staged typed Vec after the input borrow and application guard end. FIFO publication drains into original Events without an intermediate erased Vec. Successful bounded scratch retains capacity; unwind clears/releases it. Public/custom/unbounded/partial/batch paths retain original Outputs.",
+    "Eight original native regressions cover full-range metadata/layout, stable chunks and reuse, complete staging/FIFO/fanout, abandoned carriers, real graph callbacks and canonical owners, full/current/nested captures and rollback, error/panic retries, input-lifetime independence, arena growth/shared-owner promotion, both-side join order and public/custom/borrowed fallbacks. No upstream-method credit."
+  ],
+  "layouts": {
+    "event_bytes": 72,
+    "queued_event_bytes": 24,
+    "edge_queued_event_bytes": 40,
+    "pair_summary_row_bytes": 88,
+    "quad_summary_row_bytes": 120,
+    "chunk_rows": 64
+  },
+  "diagnostic_controls": [
+    {
+      "selection": "selected combined candidate; faster in both frozen native controls",
+      "qualified": false,
+      "native_source_digest": "076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e",
+      "production_digest": "b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2",
+      "source_snapshot": "6663b799ed9ee1ac049e0084891a2047ea3cd90ac9fcd9a0a4de918a5d834b0e",
+      "baseline_binding": {
+        "rust_digest": "47f4f43290299a097b4ce18813e6145e952a7eaaa78fbb55e2773bae644777bf",
+        "production_digest": "021a4cd324ecd8c8f29204bfa4de9733c8eb5fed1b16b9b6e8f6a9dee26a4b57",
+        "artifact_sha256": "a7cbb8e0ba724e46f5bf76e28f50bbf89c6e025a9b7af6398ba23efa9f608d0b",
+        "source_snapshot": "4816cd6ae95ab2172b070b2403a899faa54c9bbbb5a924d083394c557bac2be2",
+        "final_receipt_sha256": "9d0ff06ef0378256825c89c63b01bce26f1a97252c360d87cb2e8f4304cb592e",
+        "qualified_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+        "qualification": "actual full native gate and original Java qualified baseline artifact; these candidate controls remain diagnostic only, no Java parity credit"
+      },
+      "artifact_sha256": "570309bde160f41f2f10eed336e65f2de31a3ca24f426fc12184d870a1f992ee",
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 48982.94279006467,
+            "trial": 50979.693638548066
+          },
+          "gain_pct": 4.076420759449362
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 148209.10535446787,
+            "trial": 152775.41601284573
+          },
+          "gain_pct": 3.080991985921999
+        }
+      },
+      "proof_directory": "work/real_world-goal/group-summary-join-carriers-2ed-fixed-next-results",
+      "controls_sha256": "aa553e336a088bbbb24cf2f38f52c09d4f2c64ffe085379da10eb834f80ea0a3"
+    }
+  ],
+  "pilot_policy": "Four rotating three-second seed7 native controls per case on runner-a CPU2,3 against the actual full-gate and Java-qualified a7cbb baseline. All16 assignments independently valid. Combined candidate and final native gate have identical Rust bytes and bind the same measured artifact. Individual trial gains are not added. No Java parity credit.",
+  "java_qualification": {
+    "status": "deferred; previous source report retained unchanged and stale",
+    "previous_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+    "historical_golfer_ratio": 1.2536632592888863,
+    "historical_sailing_ratio": 0.6090416988263235,
+    "historical_targets_met": 1,
+    "current_parity_targets_proven": 0,
+    "policy": "Success requires current original same-machine serial rotating Java/Rust pairs, seeds7/11/23 x10s, CPU2,3, all12 independently valid, both throughput targets met. Scores and feasibility remain separate. Short native controls do not establish current Java ratios."
+  },
+  "separate_trials": [
+    {
+      "name": "Group summary typed lane alone",
+      "golfer_gain_pct": 2.92184546,
+      "sailing_gain_pct": 2.44630906,
+      "selection": "combined and measured afresh; no additive claim"
+    },
+    {
+      "name": "borrowed Join carrier alone",
+      "golfer_gain_pct": 0.7715373,
+      "sailing_gain_pct": 0.7951128,
+      "selection": "combined and measured afresh; no standalone broad gate"
+    },
+    {
+      "name": "scalar inverse folding",
+      "golfer_gain_pct": -0.9341991,
+      "sailing_gain_pct": -2.3783742,
+      "selection": "rejected; no source/tests integrated or broad gate"
+    },
+    {
+      "name": "membership first-word preimages",
+      "golfer_gain_pct": -0.24531,
+      "sailing_gain_pct": -1.4444637,
+      "selection": "rejected; no source/tests integrated or broad gate"
+    },
+    {
+      "name": "owned scalar/Birth/Death collector lifecycle",
+      "golfer_gain_pct": 2.0115696,
+      "sailing_gain_pct": -0.0790112,
+      "selection": "rejected; remaining target flat; no source/tests integrated or broad gate"
+    }
+  ],
+  "initial_combined_clippy": {
+    "exit_code": 101,
+    "seconds": 34.60297,
+    "issues": "Vec pointer argument lint and test type-complexity aliases",
+    "resolution": "New source uses lifetime-bound dyn Any constructor, still downcasting the required Vec; test aliases only. Actual final source measured and fully gated; no weakened assertions."
+  },
+  "tradeoffs": [
+    "Typed summary chunks retain private peak capacity and old exact NoDrop rows until overwrite; active slots are not reused until workspace clear. Stable boxes survive directory growth. Full rows remain 88/120 bytes and Event stays72 bytes. No universal memory reduction claim.",
+    "Join scratch retains only bounded successful capacity (64KiB policy); errors and unwind retain original rollback and release behavior. Metadata fields/readiness add private graph state.",
+    "No public API/lifetime-bound, model, fixture, app declaration, runner, compiler, CPU target, PGO, panic or batch-policy change. Results are bounded native controls on two frozen workloads."
+  ],
+  "proof_directory": "work/real_world-goal/summary-carriers-2ed-next-final-results/",
+  "original_inventory": "4412 adapted passes/0pending/443excluded; four external RealWorld tests unchanged; eight additional native regressions, zero upstream-method credit.",
+  "profile_evidence": {
+    "directory": "work/real_world-goal/current-typed-output-profile",
+    "receipt_sha256": "53155193dddca4715d9d4013c83d6112bdfea864993f1c669ae313c408165ee6",
+    "recorded_while_native_gate_running": true,
+    "subsequent_final_receipt_sha256": "f8c2319da7c8d9c5a3c0a910a0d959e16bc9eaa394d004603f874f390fd7554f",
+    "source_and_artifact_match_final_gate": true,
+    "scope": "One local Sailing10s seed7 CPU diagnostic of actual measured artifact; independently valid0/91600, 1991 samples and zero lost. No rebuild, native speed comparison or Java parity credit. Existing recording decoded under work/real_world-goal/typed-output-profile-audit; queue self samples are not removable-cost percentages."
+  }
+}

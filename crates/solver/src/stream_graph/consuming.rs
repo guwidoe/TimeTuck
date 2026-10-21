@@ -71,6 +71,18 @@ impl<S: AdditiveScore + 'static> StreamGraph<'_, S> {
         if let Some(source) = self.nodes[planning].consuming_source(count) {
             self.nodes[planning] = source;
         }
+        self.group_summary_lanes = self
+            .group_summary_candidates
+            .iter()
+            .enumerate()
+            .map(|(id, candidate)| {
+                candidate.filter(|&kind| {
+                    self.edges[id]
+                        .iter()
+                        .all(|edge| self.nodes[edge.node].group_summary_ready(kind))
+                })
+            })
+            .collect();
         self.consuming_search = true;
         true
     }

@@ -3,6 +3,8 @@ use super::*;
 
 pub(super) enum QueuedEvent {
     Inline(usize),
+    PairSummary(usize),
+    QuadSummary(usize),
     Shared(Rc<dyn Any>),
 }
 fn enqueue(
@@ -101,6 +103,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             .drain_arena_nodes_into(
                 &mut workspace.arena_pending,
                 &mut workspace.arena,
+                &mut workspace.summary_arena,
                 &mut workspace.changes,
             )
             .and_then(|()| {
@@ -126,6 +129,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         &mut self,
         pending: &mut VecDeque<(Edge, QueuedEvent)>,
         arena: &mut Vec<Event>,
+        summary_arena: &mut group_summary_lane::Lanes,
         changes: &mut Vec<(S, S)>,
     ) -> Result<(), GraphError> {
         let arithmetic = NodeArithmetic {
@@ -137,12 +141,52 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             },
         };
         while let Some((edge, queued)) = pending.pop_front() {
+            let summary = match &queued {
+                QueuedEvent::PairSummary(index) => Some(summary_arena.pair(*index)),
+                QueuedEvent::QuadSummary(index) => Some(summary_arena.quad(*index)),
+                _ => None,
+            };
+            if let Some(summary) = summary {
+                // Only certified consuming terminals enter this lane. Preserve
+                // callback count, old probe, apply guard and success-only new
+                // probe phases, with the same final wide score adjustment.
+                let id = edge.node;
+                debug_assert!(self.graph.consuming_search && self.graph.active.is_none());
+                self.checkpoint(id);
+                self.score_evaluations += u128::from(summary.is_put());
+                let old = self.graph.nodes[id].score();
+                let outputs = {
+                    let _count = ScoreEvaluationDelta::new(
+                        self.graph.score_evaluation_counters[id].as_ref(),
+                        &mut self.score_evaluations,
+                    );
+                    self.graph.nodes[id].apply_borrowed_summary(summary, arithmetic)
+                }?;
+                let new = self.graph.nodes[id].score();
+                if old != new {
+                    changes.push((old, new));
+                }
+                outputs.for_each(|output| {
+                    enqueue(
+                        &self.graph.edges[id],
+                        output,
+                        pending,
+                        arena,
+                        self.graph.shared_event_producers[id],
+                    )
+                });
+                continue;
+            }
+
             // Keep custom owners local until the original loop's release phase.
             // Inline borrows end after apply, before output publication can grow
             // the arena. No reference into the arena survives that preparation.
             let shared;
             let event = match queued {
                 QueuedEvent::Inline(index) => &arena[index],
+                QueuedEvent::PairSummary(_) | QueuedEvent::QuadSummary(_) => {
+                    unreachable!("summary handled above")
+                }
                 QueuedEvent::Shared(owner) => {
                     shared = Event::Shared(owner);
                     &shared
@@ -161,6 +205,39 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 .as_ref()
                 .is_some_and(|nodes| !nodes[id])
             {
+                if self.graph.consuming_search
+                    && let Some(kind) = self.graph.group_summary_lanes[id]
+                {
+                    let edges = &self.graph.edges[id];
+                    let output = {
+                        let _count = ScoreEvaluationDelta::new(
+                            self.graph.score_evaluation_counters[id].as_ref(),
+                            &mut self.score_evaluations,
+                        );
+                        self.graph.nodes[id].apply_group_summary(event)
+                    };
+                    debug_assert_eq!(output.kind(), kind);
+                    output.publish(edges, pending, summary_arena);
+                    continue;
+                }
+                if self.graph.consuming_search && self.graph.join_output_nodes[id] {
+                    let edges = &self.graph.edges[id];
+                    let shared_producer = self.graph.shared_event_producers[id];
+                    let outputs = {
+                        let _count = ScoreEvaluationDelta::new(
+                            self.graph.score_evaluation_counters[id].as_ref(),
+                            &mut self.score_evaluations,
+                        );
+                        self.graph.nodes[id].apply_join_output(edge.right, event)
+                    }?;
+                    // The typed apply and evaluation guard have completed. The
+                    // carrier borrows the node, not event/arena; enqueue can grow
+                    // that same arena while preserving the original scalar FIFO.
+                    outputs.for_each(|output| {
+                        enqueue(edges, output, pending, arena, shared_producer);
+                    });
+                    continue;
+                }
                 let outputs = {
                     let _count = ScoreEvaluationDelta::new(
                         self.graph.score_evaluation_counters[id].as_ref(),

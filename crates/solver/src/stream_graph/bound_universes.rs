@@ -22,6 +22,7 @@ impl<S: AdditiveScore> StreamGraph<'_, S> {
                         node.bind_fixed_pair_input(edge.right, left, right);
                     }
                 }
+                self.join_output_nodes[edge.node] = node.has_join_output();
                 let output = if node.joins_input_ids() {
                     join_inputs[edge.node][usize::from(edge.right)] = Some(universe);
                     match join_inputs[edge.node] {

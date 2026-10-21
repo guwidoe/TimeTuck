@@ -94,6 +94,8 @@ use std::{
 
 mod event;
 mod event_queue;
+mod group_summary_lane;
+mod join_output;
 use event::Event;
 mod outputs;
 use outputs::Outputs;
@@ -335,6 +337,40 @@ trait Node<S: AdditiveScore> {
         true
     }
     fn restore(&mut self, checkpoint: Box<dyn Any>);
+    fn has_join_output(&self) -> bool {
+        false
+    }
+    // The result borrows ONLY the node, never the input event. Scalar routing
+    // can therefore end its arena input borrow before appending any outputs.
+    fn apply_join_output<'node>(
+        &'node mut self,
+        _right: bool,
+        _event: &Event,
+    ) -> Result<join_output::JoinOutput<'node>, GraphError> {
+        unreachable!("only certified fixed joins publish typed output")
+    }
+    fn group_summary_kind(&self) -> Option<group_summary_lane::Kind> {
+        None
+    }
+    fn accepts_group_summary(&self, _kind: group_summary_lane::Kind) -> bool {
+        false
+    }
+    fn group_summary_ready(&self, _kind: group_summary_lane::Kind) -> bool {
+        false
+    }
+    fn apply_group_summary<'node>(
+        &'node mut self,
+        _event: &Event,
+    ) -> group_summary_lane::GroupOutput<'node> {
+        unreachable!("certified Group producer")
+    }
+    fn apply_borrowed_summary(
+        &mut self,
+        _summary: group_summary_lane::SummaryRef<'_>,
+        _arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        unreachable!("certified summary terminal")
+    }
     fn apply(
         &mut self,
         side: bool,
@@ -757,6 +793,29 @@ impl<
     S: AdditiveScore,
 > Node<S> for Join<'_, I, J, L, R, K>
 {
+    fn has_join_output(&self) -> bool {
+        self.3 && self.0.has_fixed_output_rows() && join_output::supports::<I, J, L, R>()
+    }
+    fn apply_join_output<'node>(
+        &'node mut self,
+        right: bool,
+        event: &Event,
+    ) -> Result<join_output::JoinOutput<'node>, GraphError> {
+        debug_assert!(<Self as Node<S>>::has_join_output(self));
+        if right {
+            // Clone the input before removing the empty scratch buffer, exactly
+            // as in apply. All projection/row clones/cache writes finish here.
+            let change = typed::<J, R>(event).clone();
+            let buffer = std::mem::take(&mut self.2);
+            self.2 = self.0.apply_right_buffered(change, buffer);
+            Ok(join_output::JoinOutput::new(&mut self.2, true))
+        } else {
+            let change = typed::<I, L>(event).clone();
+            let buffer = std::mem::take(&mut self.1);
+            self.1 = self.0.apply_left_buffered(change, buffer);
+            Ok(join_output::JoinOutput::new(&mut self.1, false))
+        }
+    }
     fn enable_consuming_storage(&mut self) {
         // The graph-wide private retention preflight runs before initial rows.
         // Unsupported/unbounded joins keep their original shared payloads.
@@ -1062,6 +1121,7 @@ struct GroupState<I, T, K, F> {
     node: GroupNode<I, K>,
     mapping: F,
     marker: PhantomData<fn() -> T>,
+    summary_staging: [Option<TupleChange<K, IntSummary>>; 2],
 }
 impl<
     I: Ord + Clone + 'static,
@@ -1071,6 +1131,31 @@ impl<
     F: Fn(&T) -> (K, i64),
 > Node<S> for GroupState<I, T, K, F>
 {
+    fn group_summary_kind(&self) -> Option<group_summary_lane::Kind> {
+        live_commit_key::<I>()
+            .then(group_summary_lane::kind::<K>)
+            .flatten()
+    }
+    fn apply_group_summary<'node>(
+        &'node mut self,
+        event: &Event,
+    ) -> group_summary_lane::GroupOutput<'node> {
+        let change = typed::<I, T>(event);
+        let mapped = TupleChange {
+            id: change.id.clone(),
+            value: change.value.as_ref().map(|v| (self.mapping)(v)),
+        };
+        let pending = &mut self.summary_staging;
+        debug_assert!(pending.iter().all(Option::is_none));
+        self.node
+            .apply_inline_with_policy::<crate::primitive_rows::Exact, _>(mapped, |old, new| {
+                *pending = [old, new]
+            });
+        // The common apply, including its remaining local owner destruction,
+        // has completed. Publication only borrows these already-staged outputs.
+        group_summary_lane::GroupOutput::new(pending)
+    }
+
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
         self.node.capture_checkpoint(original)
     }
@@ -1446,13 +1531,41 @@ impl<
     fn score(&self) -> S {
         self.total.clone()
     }
+    fn accepts_group_summary(&self, kind: group_summary_lane::Kind) -> bool {
+        group_summary_lane::accepts::<I, T>(kind)
+    }
+    fn group_summary_ready(&self, kind: group_summary_lane::Kind) -> bool {
+        self.consumed.is_some() && group_summary_lane::accepts::<I, T>(kind)
+    }
+    fn apply_borrowed_summary(
+        &mut self,
+        summary: group_summary_lane::SummaryRef<'_>,
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        self.apply_change(summary.typed(), arithmetic)
+    }
     fn apply(
         &mut self,
         _: bool,
         event: &Event,
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        let change = typed::<I, T>(event);
+        self.apply_change(typed::<I, T>(event), arithmetic)
+    }
+}
+
+impl<
+    I: Ord + Clone + 'static,
+    T: Clone + 'static,
+    S: AdditiveScore + 'static,
+    E: TerminalEvaluator<T, S>,
+> TerminalState<I, T, S, E>
+{
+    fn apply_change(
+        &mut self,
+        change: &TupleChange<I, T>,
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
         let contribution = change
             .value
             .as_ref()
@@ -2361,6 +2474,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             node,
             mapping,
             marker: PhantomData,
+            summary_staging: [None, None],
         });
         self.live_commit_nodes[out.node] = live_commit;
         self.consuming_nodes[out.node] = live_commit_key::<I>()
@@ -2680,6 +2794,20 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
                 self.nodes[edge.node].retains_input_event() || shared_event_producers[edge.node]
             });
         }
+        let group_summary_candidates = self
+            .nodes
+            .iter()
+            .enumerate()
+            .map(|(id, node)| {
+                node.group_summary_kind().filter(|&kind| {
+                    !shared_event_producers[id]
+                        && !self.edges[id].is_empty()
+                        && self.edges[id].iter().all(|edge| {
+                            !edge.right && self.nodes[edge.node].accepts_group_summary(kind)
+                        })
+                })
+            })
+            .collect();
         let pruned_edges = self.prune_disabled_constraints();
         let mut observed: Vec<_> = self
             .nodes
@@ -2725,6 +2853,13 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let mut graph = StreamGraph {
             consuming_eligible,
             consuming_search: false,
+            join_output_nodes: self
+                .nodes
+                .iter()
+                .map(|node| node.has_join_output())
+                .collect(),
+            group_summary_candidates,
+            group_summary_lanes: vec![None; self.nodes.len()],
             shared_event_producers,
             supports_live_commit,
             score_probe_nodes,
@@ -2759,6 +2894,7 @@ struct PropagationWorkspace<S> {
     pending: VecDeque<(Edge, Event)>,
     arena_pending: VecDeque<(Edge, event_queue::QueuedEvent)>,
     arena: Vec<Event>,
+    summary_arena: group_summary_lane::Lanes,
     changes: Vec<(S, S)>,
 }
 impl<S> Default for PropagationWorkspace<S> {
@@ -2768,6 +2904,7 @@ impl<S> Default for PropagationWorkspace<S> {
             pending: VecDeque::new(),
             arena_pending: VecDeque::new(),
             arena: Vec::new(),
+            summary_arena: group_summary_lane::Lanes::default(),
             changes: Vec::new(),
         }
     }
@@ -2778,6 +2915,7 @@ impl<S> PropagationWorkspace<S> {
         self.pending.clear();
         self.arena_pending.clear();
         self.arena.clear();
+        self.summary_arena.clear();
         self.changes.clear();
     }
 }
@@ -2791,6 +2929,9 @@ struct TransactionWorkspace {
 pub struct StreamGraph<'a, S: AdditiveScore> {
     consuming_eligible: bool,
     consuming_search: bool,
+    join_output_nodes: Vec<bool>,
+    group_summary_candidates: Vec<Option<group_summary_lane::Kind>>,
+    group_summary_lanes: Vec<Option<group_summary_lane::Kind>>,
     shared_event_producers: Vec<bool>,
     supports_live_commit: bool,
     // None preserves the original probe/ownership path for all custom scores.

@@ -198,6 +198,7 @@ fn group<
         node,
         mapping: Box::new(mapping),
         marker: PhantomData,
+        summary_staging: [None, None],
     });
     b.live_commit_nodes[out.node] = live;
     b.connect(input.node, out.node, false);

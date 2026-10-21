@@ -32,6 +32,7 @@ fn collect<'a, I: Ord + Clone + 'static, T: Clone + 'static, K: Ord + Clone + 's
         node,
         mapping: Box::new(mapping),
         marker: PhantomData,
+        summary_staging: [None, None],
     });
     b.connect(input.node, out.node, false);
     out

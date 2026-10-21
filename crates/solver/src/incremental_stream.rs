@@ -442,6 +442,15 @@ pub struct JoinNode<'a, I, J, L, R, K> {
 impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
     JoinNode<'a, I, J, L, R, K>
 {
+    // Private graph routing may borrow staged output only after both direct
+    // occurrence namespaces have actually been bound. No unbounded/public path
+    // changes its event representation or buffer ownership.
+    pub(crate) fn has_fixed_output_rows(&self) -> bool {
+        self.primitive_graph_journals
+            && self.left.fixed_rows.is_some()
+            && self.right.fixed_rows.is_some()
+    }
+
     pub(crate) fn clear(&mut self) {
         self.left.clear_rows();
         self.left.index.clear();
