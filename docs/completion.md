@@ -50,6 +50,15 @@ and full/current/nested installs remain covered. Their sparse metadata, retained
 capacity and full-snapshot copies are memory tradeoffs, not memory-reduction claims.
 Public fixtures, model, declarations, settings and runner remain unchanged.
 
+The subsequent [performance investigation](../compat/observations/real_world-performance-investigation-014945.json)
+retains the same verified production build. Seven dispatch, collector and
+member-row candidates were rejected after flat/mixed/regressive native controls;
+the selective member-row candidate also failed an unwind check. A current-artifact
+profile and a separate instrumented incidence check are recorded. The latter
+observed no equal projections in 13.29 million group updates on its two seed7
+cases, so the proposed shortcut was not implemented. These diagnostics add no
+native-test credit, upstream credit or Java qualification.
+
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
 valid, using the preceding fixed-bucket directory source. Its measured medians:

@@ -61,17 +61,61 @@ retry unchanged. Trial ledger:
 `work/real_world-goal/active-performance-state.json`.
 
 Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
-all 12valid, Sailing feasible Rust 2/3 Java 0/3 on old021a. Defer the qualifier until
+all 12 valid, Sailing feasible Rust 2/3 Java 0/3 on old021a. Defer the qualifier until
 materially closer to Sailing parity. No current Java target credit or multiplying
 native gains into historical ratios. The goal is incomplete.
 
-The preceding003188 wide-directory profile is source-bound historical evidence at
-`work/real_world-goal/current-wide-directory-profile/`: valid local Sailing 10s
-seed7, zero lost samples. It is not a profile of this compiler-inlining artifact.
-No new profile was needed for this batch. The previous wide-directory full gate
-and controls remain in `compat/observations/real_world-wide-row-directory.json`.
-Finish integration/commit before another candidate; no full gate or benchmark
-repeat for the commit alone.
+The current014945/ff8cd5/78ea0d release artifact has one local Sailing10s
+seed7 CPU2,3 profile at `work/real_world-goal/current-group-edit-profile/`.
+The output independently validates (0/94400), zero samples were lost, and the
+actual gated artifact was reused without a build. This recording replaces the
+old003188 wide-directory profile for current diagnosis. Reuse it. The current
+native gate and report still apply; no new runtime source was selected below.
+
+## Latest performance investigation — 2026-10-21
+
+Seven additional native trials were measured and discarded; do not retry them
+unchanged. Borrowed terminal totals were flat for Sailing; paired and consecutive
+terminal dispatch were slower. Singleton retirement was mixed (+1.541%S/-1.232%G),
+and the removal-only version was flat for Sailing. A full member-row arena was
+flat for Sailing and slower for Golfer; selective queue/boxed workspace routing
+was slower on both and failed an unwind/cleanup check. Its producer also needs
+lazy arena allocation after an unwound workspace before any future use. None is
+integrated, and no full native gate was spent on these rejected candidates.
+
+The original member arena passed219 focused graph tests after a cfg-only Vec API
+correction. The selective variant passed2/failed1 and is not qualified. Original
+Run-name and collector capture-API compile failures remain recorded; corrected
+run dispatch218 and retirement103 focused controls passed with the same respective
+production bytes. No failed test, candidate test or diagnostic earns integrated
+native/upstream credit. Proof and actual source/artifact keys:
+`compat/observations/real_world-performance-investigation-014945.json`.
+
+An instrumented seed7 x3s incidence diagnostic found **zero equal group
+projections in13,291,499 updates** across Golfer and Sailing, including initial
+population; both outputs independently validate. This is occurrence evidence,
+not speed or universal-input proof. Do not implement the old proposed equal-
+projection shortcut for these workloads: it has no demonstrated runtime scope.
+Its proof is `work/real_world-goal/group-projection-density-014945-results/`.
+
+Current profile: propagation12.29%self, group apply4.93%+2.11%, inlined group
+edit closures4.43%+1.76%+1.16%+1.11%, membership4.58%+1.31%, enqueue4.23%,
+terminal apply3.58%, join apply3.32%; enclosing shares are not removable costs.
+One unimplemented lead is compact slot-aware inverse tokens for inline frequency
+edits, rather than larger whole-collector before-images. Keep the existing record
+size, every edit, original normal-history boundaries, canonical owners and dirty
+observations; use generic inverses when tree promotion/demotion changes the
+representation. Return the slot from the original forward mutation; another
+search would cancel the proposed saving. No code, tests or performance claim
+exists for this lead. Avoid all closed ownership/layout/queue retries.
+
+Use `pilot-v21-artifact-{dispatch,remote}.py` for actual native comparisons against
+current014945/ff8cd5/78ea0d and full gate80a1fa4. No Java qualifier was refreshed.
+No new agents; local+runner-a, runner-c parked. All investigation jobs are terminal.
+The goal remains incomplete. A commit/reset warrants no repeat checks. For an
+identical frozen pilot and final Rust source, reuse the genuine release build
+receipt directly; a second release build is needed only for changed relevant
+source or an unresolved binding concern. Never relabel old measurements.
 
 ## Previous verified typed-output source — 2026-10-21
 

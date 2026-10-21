@@ -1,0 +1,314 @@
+{
+  "kind": "real_world-performance-investigation",
+  "generated_at": "2026-10-21T06:18:29.646066+00:00",
+  "native_source_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+  "input_sha256": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+  "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+  "runtime_changes_integrated": 0,
+  "new_upstream_method_credit": 0,
+  "new_native_test_credit": 0,
+  "current_native_gate": "Existing unchanged d2a740b full native gate remains current:8874 named,8880 Cargo executions,292 doctests,54 tooling jobs. No broad checks repeated on rejected sources or unchanged main.",
+  "current_profile": {
+    "directory": "work/real_world-goal/current-group-edit-profile",
+    "receipt_sha256": "aa9c5b414302dd942f2d70db35925f0967d0e66463a52e8e620bd4c4df35ba52",
+    "receipt": {
+      "exit_code": 0,
+      "command": [
+        "/home/developer/repos/lab/TimeTuck/work/round220-mixed-profile/bundle/perf",
+        "record",
+        "-e",
+        "task-clock:u",
+        "-F",
+        "199",
+        "-g",
+        "--call-graph",
+        "dwarf,16384",
+        "-o",
+        "/home/developer/repos/lab/TimeTuck/work/real_world-goal/current-group-edit-profile/sailing.perf.data",
+        "--",
+        "taskset",
+        "-c",
+        "2,3",
+        "/home/developer/repos/lab/TimeTuck/work/real_world-goal/group-edit-003188-next-final-results/work/real_world-group-edit-003188-next-final/real_world_benchmark",
+        "/home/developer/repos/lab/TimeTuck/tests/application/real_world/sailing-trip-v1/problem.json",
+        "10",
+        "7",
+        "/home/developer/repos/lab/TimeTuck/work/real_world-goal/current-group-edit-profile/sailing-output.json"
+      ],
+      "seconds": 10.048349217016948,
+      "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+      "native_source_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+      "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+      "output_sha256": "f184b5866a3e101b9a95eae4721a03ba355aec28024b45aaa4f968d8daf1df09",
+      "data_sha256": "7ed60dcbee00ee24e3e05447d3ceacf3e6847484baa85d59844f0f636f725df2",
+      "validation": {
+        "score": [
+          0,
+          94400
+        ],
+        "feasible": true,
+        "structural_errors": [],
+        "pin_violations": [],
+        "breakdown": {
+          "capacity_penalty": 0,
+          "hard_pair_penalty": 0,
+          "unique_contacts": 2633,
+          "repeat_penalty_units": 109,
+          "soft_pair_penalty": 54500,
+          "balance_penalty": 103500
+        },
+        "reported_score": [
+          0,
+          94400
+        ],
+        "score_matches": true,
+        "valid": true
+      },
+      "actual_final_gate_receipt_sha256": "80a1fa4dfe690301592dbb809615cb7ce73664cdafe24a59ab949a932174e095",
+      "actual_release_binding": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--example",
+          "real_world_benchmark"
+        ],
+        "exit_code": 0,
+        "seconds": 97.0078546339937,
+        "rust_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+        "production_digest": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+        "artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+        "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc",
+        "test_only_changes": [],
+        "policy": "Original native pilot receipts remain unchanged. Actual full native gate and release artifact use identical frozen Rust; no repeated measurements or source relabeling."
+      },
+      "scope": "One local Sailing10s seed7 diagnostic of actual fully gated final source and byte-identical measured artifact. Exact committed014945 source has an actual passing full native gate and measured release binding. Profile refreshed to locate a distinct bottleneck after unsuccessful terminal-dispatch experiments. No rebuild or Java timing/parity credit."
+    },
+    "lost_samples": 0,
+    "policy": "New10s seed7 local CPU2,3 diagnostic of actual fully gated014945 artifact78ea0d, reused without build. Refreshed after dispatch experiments to guide a distinct next optimization; no throughput/Java credit."
+  },
+  "projection_density": {
+    "proof_directory": "work/real_world-goal/group-projection-density-014945-results",
+    "receipt_sha256": "df5848b25bb75a261e8289a2967a8b215dd8f6f51b992a0f03b270827a18a57a",
+    "instrumented_native": "596016f8ffe55dcab1116df2785f8eb069a1c7846ad420f65d82c07789360636",
+    "instrumented_production": "0d01101c93e0160acf1a3bd31af9fe01bc3fec81437ae7b01dc89909aae24fe4",
+    "artifact_sha256": "9b967c36042fd0ca6b4458e96455e716f2e9f95f39041a657b9d5c919996a470",
+    "observed_cases": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "equal_projections": 0,
+        "total_group_updates": 7603888,
+        "independently_valid": true
+      },
+      {
+        "case": "sailing-trip-v1",
+        "equal_projections": 0,
+        "total_group_updates": 5687611,
+        "independently_valid": true
+      }
+    ],
+    "policy": "Observed seed7 x3s instrumented public cases only, including initialization. No universal frequency or speed claim. Zero equal projections in13,291,499 actual group edits rules out implementing the proposed equal-projection shortcut for this investigation. Model/declarations/settings unchanged."
+  },
+  "trials": [
+    {
+      "name": "borrowed-terminal-total-014945-next",
+      "selected": false,
+      "native_source_digest": "ef8cbc717a67e7fb3282cb5ad04330e686563b5d21fe6d72bd2ac36bdf7f5687",
+      "production_digest": "694ffb10511d876370a0889ae1f7c134210b538df519b20f88cfa669c47b97ba",
+      "snapshot": "c17a5f321a970e635eb0bcfeb74938fc0371cd432d06f16b5a420269d781ffb6",
+      "artifact_sha256": "8ab5a9070a15bdd97cb65001a3629ae264c547e21bbc17b725a2bc94b5ed69a0",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58388.96707624406,
+            "trial": 58470.8895166754
+          },
+          "gain_pct": 0.1403046577692857
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 173542.9155170769,
+            "trial": 175565.95203796786
+          },
+          "gain_pct": 1.1657269412947535
+        }
+      },
+      "proof_directory": "work/real_world-goal/borrowed-terminal-total-014945-next-results",
+      "limits": "216 focused graph tests passed; flat Sailing. Borrowed success total without caching or new metadata.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "terminal-pair-dispatch-014945-next",
+      "selected": false,
+      "native_source_digest": "c153a971de18f7edff493a87d8f2d1f6592c3767156a1a3300b45cce14d00016",
+      "production_digest": "fb8fa0d68900c953c8e11b3b65fe9d1f2f10c75e3feb1b7df7ceb8aa331678e7",
+      "snapshot": "fca022789aca082909d274e1f195adc451b4da36f671ae7f16b5023a142093fb",
+      "artifact_sha256": "790f5120582197a32b7ddbb1311308da74dc3dbe0f77386e9cb7b9e98e0f7a3f",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58185.51588772597,
+            "trial": 57990.71511636369
+          },
+          "gain_pct": -0.33479254826607185
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 174171.6385039643,
+            "trial": 172493.84270917787
+          },
+          "gain_pct": -0.9633002302772864
+        }
+      },
+      "proof_directory": "work/real_world-goal/terminal-pair-dispatch-014945-next-results",
+      "limits": "217 focused graph tests passed; negative both. Every logical event/guard/callback kept within paired dispatch.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "terminal-run-dispatch-014945-next",
+      "selected": false,
+      "native_source_digest": "71e74fd8c5f24a012e20c854f65762e0db402aacbc750defb26d9e2b3280a54d",
+      "production_digest": "41e0fcefbc0001e0dd80e77b5555df9c7190929179f63980bda9ded424f00b83",
+      "snapshot": "2231930c9b16ace41bcad01fbadcd50578e7f0de90b766a88547ed06e62ebcd1",
+      "artifact_sha256": "82b17371c961dcb6ba0cc12233cc9a670164c66f50d3ca1e13041b0abacebd16",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58292.55161714944,
+            "trial": 57784.768859425014
+          },
+          "gain_pct": -0.8710937223325055
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 175269.9258092856,
+            "trial": 170762.60644301435
+          },
+          "gain_pct": -2.5716444766318625
+        }
+      },
+      "proof_directory": "work/real_world-goal/terminal-run-dispatch-014945-next-results",
+      "limits": "Original cfg-test Run name collision caused compile failure. Separate fixed source218 graph tests passed with identical production; original controls negative both. No final source or timing rekey.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "singleton-collector-retirement-014945-next",
+      "selected": false,
+      "native_source_digest": "b9296435adf12c72779cff5841896e447dcbfde7780b45f7f48cb888dc1d93aa",
+      "production_digest": "3e21fb750678a962a771f6c491504b56a5588b1ea23f53d9a0e58e680ac8add8",
+      "snapshot": "4641c84978f28ebfd3f1d3cc7663da7df4994c4ee4cd906d627a069d8b6c6a78",
+      "artifact_sha256": "2da36016a689d99a345a25f531884250c4b07ceabc36007eb55689ca8524f103",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 57435.69759357945,
+            "trial": 58320.99458828059
+          },
+          "gain_pct": 1.5413706663155669
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 174758.93035390807,
+            "trial": 172606.08695640857
+          },
+          "gain_pct": -1.2318932103439484
+        }
+      },
+      "proof_directory": "work/real_world-goal/singleton-collector-retirement-014945-next-results",
+      "limits": "Original capture API test call and first attempted correction failed compilation. Actual fixed2 capture_current source103 group tests passed, same production. Mixed performance; not selected.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "singleton-remove-only-014945-next",
+      "selected": false,
+      "native_source_digest": "e7ff2297317077071cb078dba698344752e233629b72f307a7dd4b8733d6181e",
+      "production_digest": "e549ab8afb98462315587404eafadc1a6489e8e93ae99585764840340a0d91db",
+      "snapshot": "a996a7815a2beb360752b8d88f3d9c8d9c7c33661d373f6a211d6726a12165b5",
+      "artifact_sha256": "415046c483729ff01e5aba426aea2e35ec44f715599eb533807a4484b058719d",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58118.45963534193,
+            "trial": 58011.34617807892
+          },
+          "gain_pct": -0.1843019548953717
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 174551.1255507912,
+            "trial": 176406.76613727116
+          },
+          "gain_pct": 1.0630928793065708
+        }
+      },
+      "proof_directory": "work/real_world-goal/singleton-remove-only-014945-next-results",
+      "limits": "Same-group body restored to verified baseline; only last-capture removal optimized. Flat Sailing. Original canonical owners/journals retained; no separate focused or broad gate claimed.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "member-row-lane-014945-next",
+      "selected": false,
+      "native_source_digest": "f7f8c61426dfa25987f699f7e1bd18841dbf2eec221454460b9ced14b23e3c71",
+      "production_digest": "f616939efb9014686ac9255daf989fd61628d25be0753b5ef58ca00822e78ce7",
+      "snapshot": "3d8f7861f2c6c5ffd7301aab2898bab27a102ebb89ca4457b9f6507b50ead581",
+      "artifact_sha256": "9910109a04da2ca097f17edb5d15b7f9462fa95fe75c1e7e6c6782eb3d030fb0",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58097.92552714991,
+            "trial": 58173.44371358735
+          },
+          "gain_pct": 0.1299843079632046
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 174872.5403973104,
+            "trial": 171901.3398295017
+          },
+          "gain_pct": -1.6990663949057572
+        }
+      },
+      "proof_directory": "work/real_world-goal/member-row-lane-014945-next-results",
+      "limits": "Original test mistakenly collected an existing Vec, so did not compile. Separate cfg-only corrected source219 graph tests passed. Full104B numeric member arena, original72B Event/24B queued/40B cell, whole-cohort checks and original filter/terminal bodies. Flat Sailing/regressive Golfer.",
+      "full_native_gate_run": false
+    },
+    {
+      "name": "member-row-selective-014945-next",
+      "selected": false,
+      "native_source_digest": "ada99b5b3891aeab9d908e1c80dc99cc31d539ad5c61faa7d842c12077da5f4b",
+      "production_digest": "e9d4ab5412d81d8c1f6bb0e7818cb2aeab23c767c6326fcd8a888521606d7fd4",
+      "snapshot": "2c5ead9d188f821d1f70153a20eeda4ff2ffb9e999966afcb58a3471b8eb75a5",
+      "artifact_sha256": "fd3b423e995511a72b8fd00fefccb8e16b86d7b94da11407fd5daa17bc27e2c0",
+      "independently_valid_outputs": 16,
+      "native_diagnostics": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 58166.239800112424,
+            "trial": 57230.41521164971
+          },
+          "gain_pct": -1.6088792943787622
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 174575.69406459492,
+            "trial": 169423.12522483472
+          },
+          "gain_pct": -2.9514812284542336
+        }
+      },
+      "proof_directory": "work/real_world-goal/member-row-selective-014945-next-results",
+      "limits": "Combined special-event match and optional boxed workspace. Actual focused2 passed/1 failed: optional member workspace is None after projection panic. The reference cleanup assertion assumed Some; producer publication also lacks lazy reallocation after unwind, so retry safety requires correction before any future use. Not repaired: measurements regressive both. No integrated defect or native pass claimed.",
+      "full_native_gate_run": false
+    }
+  ],
+  "java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+  "java_status": "Original report remains unchanged, historical/stale; no current-source Java target proved. Both original same-machine rotating Java/Rust3seeds10s CPU2,3 targets remain the objective; all12 outputs must independently validate, scores/feasibility separate. No multiplication or addition of native diagnostic gains into historical ratios.",
+  "next_investigation": "Use current014945 profile; do not retry closed event/queue/collector ownership/count-accessor/whole-preimage mechanisms unchanged. One unimplemented lead is compact slot-aware inverses for inline frequency edits, keeping existing record size and generic tree fallback. Obtain the slot from original forward mutation rather than doing another lookup; retain every edit, canonical owners, capture/install chronology and dirty observer policy. No implementation, test or speed claim for this lead."
+}
