@@ -105,9 +105,34 @@ collected. No full suite or Java qualification on the rejected backend. Preserve
 both prototypes and receipts; do not repeat unchanged variants.
 Proof: `compat/observations/real_world-contiguous-member-buckets.json`.
 
-The next hypothesis must address a different measured Sailing cost. Do not reopen
-closed static mapped reads, concrete-key callbacks, member-owner pools, buffer
-handoffs, indexed-row variants or this duplicated contiguous-bucket registry.
+The next current-source profile is `work/real_world-goal/selected-flatmap-sailing-profile/`:
+one 10s seed7 CPU2,3 cycle sample of selected6d297, 994 samples, zero lost and a
+locally independently valid full output. It is diagnostic only. Contribution
+updates/restore, group edits and scalar propagation remain substantial.
+
+A distinct numeric undo-packing candidate was then measured and rejected:
+collector inverses 48 to40 bytes by packing their operation into alignment bits
+of an identity-only integer, and contribution undo positions minus32 bytes with
+full-width fallback/rebasing. Every preimage, full ID/score and logical edit
+remains. Actual 29 directly relevant tests and 16 output validations pass, but
+Sailing -.401%/Golfer -.520%, all4 pairs slower in each. No integration,
+application/Clippy/full-suite/Java run. Initial5-test diagnostic passed but static
+review caught missing side-vector cleanup before spare reuse; separate corrected
+source adds cleanup/regression and is the only measured version. Preserve both.
+Proof: `compat/observations/real_world-compact-numeric-undo.json`.
+
+Next candidate in progress: consecutive exact numeric filter inputs share one
+dispatch while retaining each predicate, cache update and guard, in FIFO order.
+Only private output routing is staged to the end of that consecutive run; no
+downstream callback could run between these already queued inputs. Public,
+retaining, activity and wide fallback remain scalar. No fixture/model/settings
+change. Prototype `work/real_world-goal/filter-run-flatmap-next-prototype/`;
+actual focused tests and native controls are still active. Do not assume a gain
+or integrate before collecting the original handles in the state ledger.
+
+Do not reopen closed static mapped reads, concrete-key callbacks, member-owner
+pools, buffer handoffs, indexed-row variants, duplicated contiguous-bucket
+registry or undo-packing source unchanged.
 
 Existing v29 helpers bind actual selected aee829/59be6/6d297, its 21 focused tests,
 Clippy and original Java report5725. They built/measured the rejected contiguous

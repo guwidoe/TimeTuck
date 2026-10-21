@@ -1,0 +1,136 @@
+{
+  "kind": "real_world-compact-numeric-undo",
+  "generated_at": "2026-10-21T12:54:36.092472+00:00",
+  "status": "closed;both native workloads regressed;not integrated",
+  "native_source_digest": "bde366d23ad0858dff4de8876c7a952777e400495f21faba99bf18e00b2c5543",
+  "input_sha256": "32a7499c6d9e6a7de41819eb07778529e59c68262d66cf4ed1e8fcdb5b1283cc",
+  "source_snapshot": "790043b15dfc15cdd0dce32f58e9de88dc13dbf46a12b25f18f6a902fdf3d570",
+  "artifact_sha256": "ee4d2483d59147cff42c7ee265d0f0b0069daf02b3d247a389c3250de3ed958b",
+  "mechanism": "Compress consumed-score undo positions from five usize words to one with exact per-frame wide-coordinate side entries and nested index rebasing. Keep full original score/ID/preimage and every edit. Pack collector inverse operation tag into two guaranteed zero alignment bits of the identity-only owner integer (never dereferenced); preserve both full signed i64 values, full owner/normal offset and existing compact/full positions. Collector records48 to40 bytes, score undo address minus32 bytes on64-bit. Every public/cache/observer/rollback/callback/arithmetic/work/score phase otherwise unchanged.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "primitive_rows::consumed_scores::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 6,
+      "seconds": 82.00226928299526,
+      "receipt_sha256": "cc15a538f1bfece12477b1b784e802c405630d803f2f6823eb220f745297fe06",
+      "proof_directory": "work/real_world-goal/compact-numeric-undo-fixed-flatmap-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "primitive_rows::group_collectors::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 8,
+      "seconds": 0.14299435500288382,
+      "receipt_sha256": "692ce19d1e17f066e9654e210233b342ea52b467235ae3be3919dcdfa846650e",
+      "proof_directory": "work/real_world-goal/compact-numeric-undo-fixed-flatmap-group1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "stream_graph::consuming::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 15,
+      "seconds": 0.29900648701004684,
+      "receipt_sha256": "55bca1ee80f460b312215317132a7c7f228f4b953e03c50b309183e50204c344",
+      "proof_directory": "work/real_world-goal/compact-numeric-undo-fixed-flatmap-consuming1"
+    }
+  ],
+  "tests_passed": 29,
+  "full_native_gate": false,
+  "new_original_native_controls": 3,
+  "upstream_method_credit": 0,
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/compact-numeric-undo-fixed-flatmap-next-results/real_world-compact-numeric-undo-fixed-flatmap-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63190.451741426514,
+            61930.90797934654,
+            62610.31211078465,
+            62520.4975066448
+          ],
+          "trial": [
+            62817.8281613702,
+            60618.703220872834,
+            62379.03149125583,
+            62250.42604072416
+          ]
+        },
+        "medians": {
+          "baseline": 62565.404808714724,
+          "trial": 62314.728765989996
+        },
+        "gain_pct": -0.40066238441377466
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            185550.28911767938,
+            184769.83146773383,
+            185102.9674200698,
+            184422.1219962645
+          ],
+          "trial": [
+            183650.36446746462,
+            183650.28983886936,
+            184305.80256566172,
+            184297.4649955371
+          ]
+        },
+        "medians": {
+          "baseline": 184936.3994439018,
+          "trial": 183973.91473150084
+        },
+        "gain_pct": -0.520440927418897
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "initial_diagnostic": {
+    "source": "ff85fa8ed4b321be7545dff224b5f419706b13f6db5274a137fb68b390e0061f",
+    "production": "75d693315df4bfd5d336aca8f886944d3ef01b7b1e1ccf341704630765b43279",
+    "status": "Five contribution tests passed;static audit found uncleared wide-position side entries during rollback frame recycling. Original prototype/log/receipt preserved;no release timing on initial source. Corrected source adds cleanup and regression;separately tested/measured.",
+    "proof_directory": "work/real_world-goal/compact-numeric-undo-flatmap-focused1"
+  },
+  "profile_basis": {
+    "directory": "work/real_world-goal/selected-flatmap-sailing-profile",
+    "selected_source": "aee829a5a1faaf0d6c5918a69f742c4dd4a33ac37e8953b935a36309816f6d27",
+    "selected_artifact": "6d29717bc078561672f138fa1dc102b685c037ceeb1c634c02bf5d8468d005ab",
+    "receipt_sha256": "5123fda1ea32e4126c69250d8d5703cdc209dfd988a274b86ac12fc105c5e0f6",
+    "collection_sha256": "4bf507ca637aabca51fa01761508cb0fc3add94f4229b67a2867ebfc4bc9709d",
+    "scope": "One same-host10s seed7 CPU2,3 cycle profile;994 samples,zero lost,full output independently valid. Diagnostic only,no qualification or throughput improvement credit."
+  },
+  "receipts": {
+    "receipt.json": "bb124fa3c15c545e89827dfe7e2e8bcddb84a06eba9b8de8b56394969bca1755",
+    "build-receipt.json": "b8c13b1a3ca5c5c55b7873f4cfced75fde207d68bdd3f40209c5af7d30aa2807",
+    "controls.json": "e588e3551cb1a5fb487d4aba4d689b3d0b0bb2d4992b1ba5b37d754f19d098dc",
+    "baseline-binding.json": "cda1bae73a739d0c10b6193f6763d6bf5dc89c20b93f0d94953e3079d9066b2e"
+  },
+  "policy": "Close unchanged packing variant. Selected main1ce3ea5 runtime/performance/current21 named tests remain unchanged. Rejected checks add no current-main credit. No application,Clippy,full suite or Java qualification on this slower source. All original jobs terminal and collected.",
+  "proof_directory": "work/real_world-goal/compact-numeric-undo-fixed-flatmap-next-results"
+}
