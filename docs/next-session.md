@@ -173,11 +173,20 @@ ee57023e/240fe653/artifact9ac5a00c;trial1160506e/968fdfa5/artifact26697955.
 Initial layout failure and preparation-only metadata mismatch remain preserved.
 No app/Clippy/Java/full suite or unchanged retry.
 [Evidence](../compat/observations/real_world-inline-pair-members.json).
-A distinct slice-view follow-up is isolated under ignored work;it converts one
-complete bucket view rather than calling a typed projection per member.
+The slice-view follow-up is also closed unintegrated:actual12 same-source
+checks on31240915/e032fe5a and16 independent full outputs;Sailing+.022%(2/4)/
+Golfer-.197%(1/4),flat/mixed. Its recorded baseline build and binary are reused;
+all runtime comparisons are fresh. No app/Clippy/Java/full suite or unchanged
+retry. Neither variant changes production;do not repeat them unchanged.
+[Slice-view evidence](../compat/observations/real_world-inline-pair-slice-view.json).
 The selected numeric member clone still allocates a full ID vector on each
-changed bucket update. Profile current6701 if
-needed,without rebuilding;old9ad8 cycles/miss captures remain source-bound. Do
+changed bucket update. A single actual clean-baseline9ac5 Sailing cycle profile
+captured4990 samples with2 lost. Native solve0 and independently valid;worker1
+failed its zero-loss gate. Raw failure/data remain;no repeat or timing claim.
+Assembly shows the largest group summary frame reserves0x2fb8 stack bytes;
+a lazy owned-input page allocation outline is isolated under ignored work.
+[Partial diagnostic](../compat/observations/real_world-clean-baseline-cycle-profile.json).
+Old9ad8 cycles/miss captures remain source-bound. Do
 not repeat closed dense/presence/ordered-visitor experiments unchanged.
 
 The next five trials are closed and unintegrated. Continuation-based filters

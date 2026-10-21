@@ -1,0 +1,107 @@
+{
+  "kind": "real_world-inline-pair-slice-view",
+  "status": "Closed unintegrated: Sailing +0.022% (2/4 faster), Golfer -0.197% (1/4 faster); flat/mixed native controls.",
+  "native_source_digest": "3124091522f1b46d06f0bcb5534481b513d3041cc433a6c9916123f5c4d7759b",
+  "input_sha256": "e032fe5a5a9bd5dff1fb713da8e2ca46b62da92b0b243a983e9104b9dc872aa7",
+  "source_snapshot": "aac2c2aa3cd81fb69c1c5a227161208a2307762fbbd61260640acc428f6520fc",
+  "artifact_sha256": "64dfcaf9541790f121b7416ffddd74f09a527512809fbb1ea7b9cc78f0e6713f",
+  "mechanism": "Retain the isolated inline pair storage but convert complete Empty/One/Two/Vec owners to a typed ID slice once per bucket, eliminating one indirect typed projection per emitted member. All conversions use safe Any downcasts after exact pair activation certification.",
+  "tradeoffs": "Still enlarges member records by 24 bytes on the measured 64-bit target. Allocation reduction and per-bucket conversion do not yield a useful measured gain; neither inline variant is integrated.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/inline-pair-members-slice-next-results/clean-inline-members-slice-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69213.46355528705,
+            69247.34197223114,
+            69165.95363346858,
+            69142.17664164152
+          ],
+          "trial": [
+            68965.60976887746,
+            69194.75455183718,
+            69325.0285774921,
+            69215.0945956244
+          ]
+        },
+        "medians": {
+          "baseline": 69189.70859437782,
+          "trial": 69204.9245737308
+        },
+        "gain_pct": 0.02199168006642438
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            193697.2767675234,
+            194057.46038565444,
+            193898.67119032724,
+            193808.58991009445
+          ],
+          "trial": [
+            193944.36328853638,
+            193408.17700341766,
+            190550.44665547012,
+            193533.65725693948
+          ]
+        },
+        "medians": {
+          "baseline": 193853.63055021083,
+          "trial": 193470.91713017857
+        },
+        "gain_pct": -0.19742391150787686
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "comparison_baseline": {
+    "rust_digest": "ee57023eb899e5d4eafd47ba71e9fa7117116136cc973755a76c36f243ab1a01",
+    "production_digest": "240fe6532e7ca0db01b4029c7cdddac6fcb98f52ed67f0e6fc8c256940870b9c",
+    "snapshot": "8c1467880a99def65c3012b7de8dec9739ba18cd7f5f745d7397cedf23b58795",
+    "artifact_sha256": "9ac5a00cc9ec209b3da6bde54a4f8da86d8580644f6f8be23fafe60241bab6ac"
+  },
+  "baseline_reuse": {
+    "receipt_sha256": "51d358168e6f3e9a49674d40f953019b9cf9e9d078e4a85ad11372e673f73d52",
+    "reuse_receipt_sha256": "719ef49d4f7ac60de667254b98812b545ff0a05b642142f44db77df9c609c78a",
+    "policy": "Reuse the actual clean baseline build receipt and binary; all rotating runtime comparisons are fresh. No baseline rebuild or rekeying."
+  },
+  "focused_tests": {
+    "actual_same_source_passes": 12,
+    "rust_digest": "3124091522f1b46d06f0bcb5534481b513d3041cc433a6c9916123f5c4d7759b",
+    "production_digest": "e032fe5a5a9bd5dff1fb713da8e2ca46b62da92b0b243a983e9104b9dc872aa7",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::join_members_index::tests::numeric_join_index",
+      "incremental_stream::join_members_index::tests::inline_numeric_members_borrow",
+      "incremental_stream::consuming_join_rows_tests::pair_payload_tests",
+      "incremental_stream::join_equality_visit_tests"
+    ],
+    "receipt_sha256": "2e0575b0f56e16947e269867871f28d23e5295ab19cafeccec5627a63dda3ce7",
+    "log_sha256": "d8c89ada59918a918c4286277c82ae92ad5c5ce301f58537254c3e73ef672aac",
+    "binding_sha256": "7a2261dd1d1528864107f4ae37afa24b0f892dd6a84eb760c45c71bb1f28250d",
+    "policy": "Only directly changed numeric-member, copied-pair payload, equality traversal and rollback checks; no full suite."
+  },
+  "independent_validation_sha256": "46dff39df29db1db44531e3eb3fe17c46e8ea1bbc160d1f98a551f99465de0a4",
+  "receipts": {
+    "receipt.json": "7ff8fe6df236381f7232b2ab3e006e6c153b29713eddecf7db0ab64a5ca51d4c",
+    "build-receipt.json": "a4bdce2ef51c5686d344b825a757ca4630730c5b9e85aeabfff8bc90ce28b85f",
+    "controls.json": "aed942d71ae037ac35f66c1ba916b67686e489f582772d6c69e76574edfb1760"
+  },
+  "source_archive_sha256": "3c5386b0bf15293c66f1a8a551ce7531a915e11f388939352b97429d9fd0b8a2",
+  "previous_trial": "real_world-inline-pair-members.json",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Four rotating three-second serial native pairs per workload on runner-a, CPUs2,3 seed7. All16 full outputs independently validated locally, including scores, structure, pins, exact initial schedule and score. Original sources and failures retained. No application/Clippy/Java/full suite or unchanged retry. Native gains do not qualify Java."
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "real_world-clean-baseline-cycle-profile",
+  "status": "Partial diagnostic: native solve exits0 and validates independently; profile worker exits1 because its zero-loss gate found2 lost samples. Raw evidence and failure retained; no retry.",
+  "native_source_digest": "ee57023eb899e5d4eafd47ba71e9fa7117116136cc973755a76c36f243ab1a01",
+  "input_sha256": "240fe6532e7ca0db01b4029c7cdddac6fcb98f52ed67f0e6fc8c256940870b9c",
+  "source_snapshot": "8c1467880a99def65c3012b7de8dec9739ba18cd7f5f745d7397cedf23b58795",
+  "artifact_sha256": "9ac5a00cc9ec209b3da6bde54a4f8da86d8580644f6f8be23fafe60241bab6ac",
+  "release_receipt_sha256": "51d358168e6f3e9a49674d40f953019b9cf9e9d078e4a85ad11372e673f73d52",
+  "sampling": {
+    "seconds": 10,
+    "seed": 7,
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "event": "cycles:u",
+    "frequency_hz": 499,
+    "call_graph": "dwarf,16384",
+    "recorded_samples": 4990,
+    "lost_samples": 2
+  },
+  "sample_percentages": {
+    "event_queue_propagation": 9.78,
+    "group_summary_largest_instantiation": 9.11,
+    "membership_filter_largest_instantiation": 7.23,
+    "terminal_change_largest_instantiation": 5.54
+  },
+  "assembly_observation": "The largest group summary instantiation reserves 0x1000+0x1000+0xfb8 bytes of stack after its register saves; the two first pages are probed on entry. This is a static frame observation, not precise causal sample attribution.",
+  "next_target": "Isolate lazy group input page allocation so its large temporary array need not contribute to hot update stack frames; do not repeat closed inline member variants.",
+  "independent_validation_sha256": "0585661fdd88bea2ac38a103d8ce38badf15d56b5b8e768d1a0a3a26933f98ac",
+  "receipt_sha256": "fb9ed24179ff83867f5b90a20396fe27278dd7d6d0799e77cb47e27bdacd3b45",
+  "data_sha256": "020bf713c7b4bb4f683ab44c0c0045cdc0cfef8a24d164677d0ded0448af5732",
+  "flat_sha256": "da0e5838b3124a259d8d7fcbd887f54d8abdcd6d059e77cfb39d063c7b0a49ff",
+  "annotation_sha256": "b89ed88861d4c9b6a611d397b720db74b6a32a9af4588fba9b4cdca05d30a35c",
+  "upstream_method_credit": 0,
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "One actual same-machine capture of the built clean baseline. No release rebuild or new correctness suite. Native output independently checks scores, structure, pins and exact initial schedule/score. Sampling has loss and possible skid; counts guide broad diagnosis only. Do not infer Java parity or speedup."
+}
