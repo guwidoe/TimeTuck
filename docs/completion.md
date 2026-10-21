@@ -1,5 +1,9 @@
 # Native completion evidence and compatibility boundaries
 
+> Release preparation: application paths and source labels were anonymized.
+> The source-bound results below remain historical; they do not qualify the
+> renamed source. See [history preparation](public-history.md).
+
 For a newcomer-facing summary, read [Timefold compatibility](timefold-compatibility.md)
 and [performance](performance.md). This page retains original acceptance and
 subsequent development evidence; a successful historical cohort does not qualify

@@ -12,6 +12,7 @@ from prepare_public_history import Redactor, audit, prepare
 POLICY = {'schema_version': 1,
           'literal_replacements': [['PrivateProduct', 'RealWorld'], ['privateproduct', 'real_world']],
           'forbidden_patterns': {'product': 'privateproduct', 'email': 'owner@example.test'},
+          'excluded_ref_prefixes': ['refs/editor-private/'],
           'email_replacements': {'owner@example.test': 'owner@users.noreply.github.com'}}
 
 
@@ -30,6 +31,13 @@ class PublicHistoryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             Redactor({**POLICY, 'literal_replacements': []}).rewrite(b'PrivateProduct')
 
+    def test_literal_anchors_preserve_case_insensitive_rule_matches(self):
+        plain = Redactor(POLICY)
+        fast = Redactor({**POLICY, 'required_literal_anchors': {'product': ['privateproduct']}})
+        for data in [b'public content', b'PRIVATEPRODUCT', b'owner@example.test',
+                     b'privateproduct owner@example.test']:
+            self.assertEqual(fast.findings(data), plain.findings(data))
+
     def test_filters_all_refs_objects_and_messages_without_modifying_source(self):
         tool = os.environ.get('PUBLIC_HISTORY_FILTER_TOOL')
         self.assertTrue(tool, 'Set PUBLIC_HISTORY_FILTER_TOOL to the pinned local filter tool.')
@@ -47,6 +55,7 @@ class PublicHistoryTests(unittest.TestCase):
             git('commit', '-m', 'feat(privateproduct): add a workload')
             git('branch', 'privateproduct-history')
             git('tag', '-a', 'privateproduct-v1', '-m', 'PrivateProduct release note')
+            git('update-ref', 'refs/editor-private/snapshot', git('write-tree').decode().strip())
             (source / 'privateproduct.txt').write_text('Copyright (c) 2026 Original Author.\npublic current content\n')
             git('add', '.')
             git('commit', '-m', 'docs: update current content')
@@ -60,6 +69,8 @@ class PublicHistoryTests(unittest.TestCase):
             self.assertFalse(receipt['audit']['findings'])
             self.assertEqual(receipt['audit']['objects']['commit'], 2)
             self.assertEqual(receipt['audit']['refs'], 3)
+            self.assertEqual(receipt['excluded_private_refs'], ['refs/editor-private/snapshot'])
+            self.assertIn(b'refs/editor-private/snapshot', git('for-each-ref', '--format=%(refname)'))
             self.assertFalse(audit(target, policy)['findings'])
             public_refs = subprocess.check_output(['git', '-C', str(target), 'for-each-ref', '--format=%(refname)'])
             self.assertIn(b'real_world-history', public_refs)

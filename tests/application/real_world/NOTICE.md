@@ -1,4 +1,4 @@
-# RealWorld application workload provenance
+# Real-world application workload provenance
 
 These are extra, application-origin workloads and original native regression tests.
 They are separate from adapted upstream Timefold tests and earn **zero upstream
@@ -35,3 +35,8 @@ These bundled files are licensed under the repository's [Apache License
 adaptations only; it does not license the rest of the originating private
 application. Original source hashes, modifications and fixture distribution
 notices remain recorded. Application material earns no Timefold method credit.
+
+Private source paths and session identifiers in the provenance records are
+stable public aliases. Source hashes identify the original private bytes; they
+are not checksums of renamed files. See [history preparation](../../../docs/public-history.md)
+and the [redaction record](../../../compat/public-redaction.json).

@@ -50,8 +50,6 @@ pub mod finishing_collector_regression;
 pub mod gather_neighborhood;
 #[path = "../grouped_mixed_exact_cases.rs"]
 pub mod grouped_mixed_exact_cases;
-#[path = "../real_world_application_regression.rs"]
-pub mod real_world_application_regression;
 #[path = "../inconsistent_shadow_cases.rs"]
 pub mod inconsistent_shadow_cases;
 #[path = "../initial_activity_regression.rs"]

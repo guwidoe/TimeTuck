@@ -26,5 +26,8 @@
   "excluded_sources": [
     "Restricted internal sailing-trip parent fixture",
     "Timefold production source"
-  ]
+  ],
+  "license": "Apache-2.0",
+  "copyright": "Copyright (c) 2022-2026 Guido Witt-D\u00f6rring.",
+  "public_provenance_note": "Private source paths and session identifiers are stable aliases. Original source checksums remain unchanged. The owner authorized Apache-2.0 for these bundled files and approved public snapshots on 2026-10-21; the rest of the private application is outside this grant. See tests/application/real_world/NOTICE.md."
 }

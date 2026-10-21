@@ -20,13 +20,20 @@ class Redactor:
                       for a, b in policy.get('regex_replacements', [])]
         self.forbidden = [(name, re.compile(pattern.encode(), re.I))
                           for name, pattern in policy['forbidden_patterns'].items()]
+        self.anchors = {name: [text.lower().encode() for text in values]
+                        for name, values in policy.get('required_literal_anchors', {}).items()}
         self.emails = {a.encode(): b.encode() for a, b in policy.get('email_replacements', {}).items()}
         self.scoped = [(item['contains'].encode(),
                         [(a.encode(), b.encode()) for a, b in item['literal_replacements']])
                        for item in policy.get('scoped_replacements', [])]
 
     def findings(self, data):
-        return [name for name, pattern in self.forbidden if pattern.search(data)]
+        # An optional policy optimization: at least one anchor must occur in
+        # every match of its associated regex. Unannotated rules always run.
+        lower = data.lower() if self.anchors else b''
+        return [name for name, pattern in self.forbidden
+                if (name not in self.anchors or any(text in lower for text in self.anchors[name]))
+                and pattern.search(data)]
 
     def rewrite(self, data):
         if not self.findings(data):
@@ -74,6 +81,15 @@ def audit(repo, policy_path):
             if len(data) != size or process.stdout.read(1) != b'\n':
                 raise ValueError('Truncated Git object stream.')
             counts[kind.decode()] += 1
+            if kind == b'tree':
+                # Tree entries contain binary object IDs; only their names are
+                # disclosure text. Random ID bytes are not private metadata.
+                names = []
+                while data:
+                    entry, rest = data.split(b'\0', 1)
+                    names.append(entry.split(b' ', 1)[1])
+                    data = rest[20:]
+                data = b'\n'.join(names)
             findings.extend({'kind': kind.decode(), 'object': oid.decode(), 'rule': rule}
                             for rule in rules.findings(data))
     finally:
@@ -102,7 +118,14 @@ def prepare(source, destination, policy_path, filter_tool, receipts):
     subprocess.run(['git', 'clone', '--mirror', str(bundle), str(destination)], check=True)
     captured = git(destination, 'rev-parse', 'HEAD').decode().strip()
     refs = git(destination, 'for-each-ref', '--format=%(objectname) %(refname)').decode().splitlines()
-    names = [rules.rewrite(line.split(' ', 1)[1].encode()) for line in refs]
+    excluded = [line.split(' ', 1)[1] for line in refs
+                if any(line.split(' ', 1)[1].startswith(prefix)
+                       for prefix in json.loads(policy_path.read_text()).get('excluded_ref_prefixes', []))]
+    for name in excluded:
+        # Private editor snapshots remain recoverable in the original bundle.
+        subprocess.run(['git', '-C', str(destination), 'update-ref', '-d', name], check=True)
+    names = [rules.rewrite(line.split(' ', 1)[1].encode()) for line in refs
+             if line.split(' ', 1)[1] not in excluded]
     if len(names) != len(set(names)):
         raise ValueError('Redaction would collide Git reference names.')
     # All private rules live outside the repository; no product identity is
@@ -123,6 +146,7 @@ def prepare(source, destination, policy_path, filter_tool, receipts):
         raise ValueError('Sanitized mirror audit found forbidden data; do not publish it.')
     # A bundle is a captured source state, never evidence of a solver execution.
     receipt = {'source_head_at_capture': captured, 'source_refs': refs,
+               'excluded_private_refs': excluded,
                'source_head_after_filter': git(source, 'rev-parse', 'HEAD').decode().strip(),
                'backup_sha256': hashlib.sha256(bundle.read_bytes()).hexdigest(),
                'filter_sha256': hashlib.sha256(filter_tool.read_bytes()).hexdigest(),

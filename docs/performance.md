@@ -10,7 +10,7 @@ workloads. It does not establish an application-independent speed advantage.
 | Evidence | Interpretation |
 | --- | --- |
 | Original native acceptance cohort | A retained qualification reached the project's 109 measured time/quality targets across 18 comparison jobs. This is a bounded historical acceptance result, not a universal speed claim. |
-| Additional RealWorld applications | Two approved public workloads exercise actual Community streams and the native model. Selected arena revision d466 has a fresh original qualification: Golfer 1.603× Java evaluations/s, Sailing 0.874×, one of two targets met. All twelve outputs validate; scores and feasibility remain separate. |
+| Additional real-world applications | Two approved public workloads exercise actual Community streams and the native model. Historical arena revision d466 recorded an original qualification: Golfer 1.603× Java evaluations/s, Sailing 0.874×, one of two targets met. All twelve outputs validate; scores and feasibility remain separate. |
 | Native optimization experiments | Paired native controls measure changes against a particular native baseline. These gains cannot be added to old Java/Rust ratios or treated as fresh Java comparisons. |
 | Score and collector microbenchmarks | Operation-specific costs under defined inputs; they do not measure complete solver speed or final solution quality. |
 
@@ -60,7 +60,7 @@ The differential run checks the named score arithmetic cases; the benchmark
 measures its own score-operation workloads. To investigate a different area, use
 the corresponding runner from [dashboard comparison documentation](dashboard.md).
 
-For additional RealWorld workloads, follow the [application benchmark guide](../benchmarks/real_world/README.md),
+For additional real-world workloads, follow the [application benchmark guide](../benchmarks/real_world/README.md),
 including its pinned dependency setup and default matrix. A short diagnostic run
 does not qualify the complete matrix. The handwritten Java incremental scorer is
 a separate comparator from the actual Community streams engine.

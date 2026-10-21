@@ -1,5 +1,9 @@
 # TimeTuck implementation handoff
 
+> Release preparation: application paths and source labels were anonymized.
+> The source-bound results below remain historical; they do not qualify the
+> renamed source. See [history preparation](public-history.md).
+
 ## Objective and boundaries
 
 Build an independent Rust constraint optimization solver using pinned Timefold

@@ -112,6 +112,8 @@ pub mod platform_deployment_regression;
 pub mod range_tree_cases;
 #[path = "../reachable_values_regression.rs"]
 pub mod reachable_values_regression;
+#[path = "../real_world_application_regression.rs"]
+pub mod real_world_application_regression;
 #[path = "../schema_transition_cases.rs"]
 pub mod schema_transition_cases;
 #[path = "../score_boundaries.rs"]

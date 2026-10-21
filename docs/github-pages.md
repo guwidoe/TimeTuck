@@ -28,7 +28,9 @@ turn historical evidence into current evidence.
 
 The local dashboard continues to read `dashboard/data/report.json` and query its
 local freshness endpoint. Original records, fixtures, and attribution remain in
-the repository; anonymization happens at the public presentation boundary.
+the repository under neutral application aliases. The public projection further
+reduces execution details. Repository history is separately anonymized as described
+in [history preparation](public-history.md).
 
 ## Build or preview the approved snapshot
 
@@ -112,3 +114,7 @@ screenshots are retained locally in ignored `work/pages-verification/`.
 
 The Pages workflow and static files are prepared locally. No source branch was
 pushed, no separate public repository was created, and no site was published.
+
+History anonymization clears the saved snapshot freshness flags without changing
+its original export date, evidence digests, counts, scores or measured ratios.
+A static snapshot does not qualify the renamed source.

@@ -53,7 +53,8 @@
           "local_path": "benchmarks/real_world/prep.py",
           "kind": "copied_and_adapted_application_code"
         },
-        "benchmark_local_provenance": "benchmarks/real_world/origin.json"
+        "benchmark_local_provenance": "benchmarks/real_world/origin.json",
+        "public_provenance_note": "Original source digests are retained; paths and session identifiers are anonymized aliases. See compat/public-redaction.json and tests/application/real_world/NOTICE.md."
       },
       "fixtures": [
         {
@@ -93,7 +94,9 @@
           ]
         }
       ],
-      "scope_note": "Additional external application evidence, separate from the original Community source-method inventory and original 18 comparison jobs. Exact public manifest copies retain original attribution and distribution metadata. No private parent problem is copied or read. Raw file SHA-256 values below differ from any canonicalized problem hashes recorded inside the original manifests."
+      "scope_note": "Additional external application evidence, separate from the original Community source-method inventory and original 18 comparison jobs. Exact public manifest copies retain original attribution and distribution metadata. No private parent problem is copied or read. Raw file SHA-256 values below differ from any canonicalized problem hashes recorded inside the original manifests.",
+      "license": "Apache-2.0",
+      "copyright": "Copyright (c) 2022-2026 Guido Witt-D\u00f6rring."
     }
   ]
 }
