@@ -386,12 +386,19 @@ credit. The separate epoch-stamped u64-word alternative4176/48db/9b749 is also c
 Sailing-.721%/Golfer-1.548%. No further checks or retry. The simpler consecutive-
 word variant7446/7108 passes16 output validations but Sailing+.137%/Golfer+.893%
 is flat/mixed;benchmark-first rejection avoided Rust tests. Both preserved and
-unintegrated. Main3fd/e40 stays selected,goal incomplete. A separate collector
-prepared-entry implementation now removes duplicate inverse-fallback lookup;
-current jobs are recorded in ignored active state.
+unintegrated. Main3fd/e40 stays selected,goal incomplete.
+
+The collector prepared-entry experimentcf12/47986 is closed too: one lookup
+serves inverse or cloned replacement, but returning the large prepared entry
+measured Sailing-5.809%/Golfer-5.814%,all4 slower each,16 outputs valid. No Rust
+tests/app/Clippy/full suite/Java or integration. Earlier Result-interface source
+passed a lib/example check;not a frozen-source test claim. A separate refinement
+keeps the entry and entire fallback inside the operation,returning only summary;
+current native job is recorded in ignored active state.
 Proofs: `compat/observations/real_world-membership-first-preimage.json`,
-`compat/observations/real_world-membership-epoch.json` and
-`compat/observations/real_world-membership-consecutive.json`.
+`compat/observations/real_world-membership-epoch.json`,
+`compat/observations/real_world-membership-consecutive.json` and
+`compat/observations/real_world-group-prepared-edit.json`.
 
 ## Previous verified group-edit inlining — 2026-10-21
 

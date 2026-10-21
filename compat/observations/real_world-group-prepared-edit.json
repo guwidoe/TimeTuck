@@ -1,0 +1,78 @@
+{
+  "kind": "real_world-group-prepared-edit",
+  "generated_at": "2026-10-21T15:39:01.120474+00:00",
+  "status": "closed;regressive;not integrated",
+  "native_source_digest": "cf12e5b38a87c3c57910e3ff69b08daabe30d067e95a31a4c2947d097de28177",
+  "input_sha256": "47986cbbe916ecc66a43c944e2b7578e7d0074061cce6780fa51a8f55e4afeeb",
+  "source_snapshot": "c982e80b35b8a693a5b521ec452898b009a17d5cf2a5a3bb18fbb1ee0db8b539",
+  "artifact_sha256": "4ecf4b95548912f48f1e5afedbcfb4156502cec01f5410396b08d941e1024fbd",
+  "mechanism": "One prepared primitive directory entry attempts original scalar inverse;failure returns large enum containing held entry and cloned collector for original replacement logic. Original scalar reserve/encode/mutate/journal,shared/Weak fallback,canonical singleton removal/reinsertion remain. Old scalar helper cfg(test) retained.",
+  "checks": [],
+  "premeasurement_check": {
+    "source": "09e11fcbdb0260482f8e41270277806c2032030eda820611fe38ba501e20929b",
+    "production": "71013962b92b60b91e18095dc62de89aec9c03aa65a89535553c883d96064274",
+    "receipt_sha256": "07e75881fa417682809930f769d098ef8628e97976717f0959cc98df3e34d7af",
+    "scope": "Actual lib/example cargo check passes49.814s;earlier Result-based interface,old helper warning. Checked files preserved. Frozen measuredcf12 source changes return to EditPreparation enum and old helper cfg(test);actual release build is separate genuine receipt. No Rust tests on either source."
+  },
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/group-prepared-edit-next-results/real_world-group-prepared-edit-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            62457.08235373723,
+            61443.71760382747,
+            62808.39664879898,
+            63271.71633310896
+          ],
+          "trial": [
+            59016.42342764336,
+            58972.423148255366,
+            59452.620604847965,
+            58637.18674585858
+          ]
+        },
+        "medians": {
+          "baseline": 62632.73950126811,
+          "trial": 58994.423287949365
+        },
+        "gain_pct": -5.808968667648773
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184744.89453464933,
+            184391.5229869761,
+            185078.54581069245,
+            184719.4503645767
+          ],
+          "trial": [
+            174210.84292424883,
+            174270.28017133177,
+            172199.45358299074,
+            173771.53121775365
+          ]
+        },
+        "medians": {
+          "baseline": 184732.17244961302,
+          "trial": 173991.18707100124
+        },
+        "gain_pct": -5.8143555809378356
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "receipts": {
+    "receipt.json": "b6f64377088f26f8ffe27702923df365e509c577b7cd0d971b5985fd1e41da68",
+    "build-receipt.json": "f467d61557375ff53cecd309ee7a01b1999aa4542e088cd1a7a59aca1e57dc0f",
+    "controls.json": "41e1412a781b088af5454d7aad296aaec364f98644a574ae2d37f03c044abbfa"
+  },
+  "policy": "Sailing-5.809%/Golfer-5.814%,all4 slower each,16 outputs independently valid. Close unchanged;no app/Clippy/full suite/Java qualifier or current-main credit. Separate held-entry refinement eliminates large returned PreparedChange/collector enum;not an unchanged retry.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}
