@@ -1,0 +1,81 @@
+{
+  "kind": "real_world-copied-pair-join-payloads",
+  "status": "Retained unintegrated component:modest Sailing gain,original private activation expectation needs update before selection. No final-source tests/app/Clippy/Java/full suite run. Test-only expectation update prepared separately;production identical.",
+  "native_source_digest": "a482f9949610d62d0bc4e1f508d667e112fa20ee7f2e2abf17b513a7131379c5",
+  "input_sha256": "8aa700a02a182150c55c6a923e0ecd6c07eb330f44620e876ae36dc1ef8bc167",
+  "source_snapshot": "5f483d34d3d0e2943c9ecf021545b26c14039c2280f0e85278ec3c72010c0a07",
+  "artifact_sha256": "e25f40516178c440c0f904ad269522ff35b7ca1f31977753a5ae4a4e8aff829e",
+  "mechanism": "Privately owned whole-consumed numeric pair-ID joins reuse existing exact numeric cell journal for copied builtin captured payloads. Shared/custom/borrowed routes retain shared owners;index remains original. Full/current/nested snapshots and cross-activation full installs copy numeric values;no production field added to raw cells. Undo entries larger,private peak pages retained.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/copied-pair-join-payloads-next-results/real_world-copied-pair-join-payloads-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65878.35505256387,
+            67143.64988865364,
+            67498.5975983778,
+            67483.24810316852
+          ],
+          "trial": [
+            67415.51075153315,
+            67654.24506972522,
+            67767.72420332089,
+            68049.62822517137
+          ]
+        },
+        "medians": {
+          "baseline": 67313.44899591108,
+          "trial": 67710.98463652306
+        },
+        "gain_pct": 0.5905738697717489
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195423.65661896375,
+            197190.4431705982,
+            193139.30729745483,
+            197315.68004591786
+          ],
+          "trial": [
+            195894.88937094747,
+            197044.34541834885,
+            196339.53512812682,
+            199267.9675013136
+          ]
+        },
+        "medians": {
+          "baseline": 196307.04989478097,
+          "trial": 196691.94027323782
+        },
+        "gain_pct": 0.19606548958031045
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "focused_tests": {
+    "passed": 50,
+    "failed": 1,
+    "source_digest": "a482f9949610d62d0bc4e1f508d667e112fa20ee7f2e2abf17b513a7131379c5",
+    "log_sha256": "02f90bd7e7c1dd23dc641e09f04b197a066c710a94d0c50f886b652b87c2f243",
+    "receipt_sha256": "d2b11cde8c91e0c3d0bf98f5264924f582c59fd1bbc094cf11093519db1ad98c",
+    "failure": "Old original private assertion expected pair activation to remain unsupported;all3 new pair-value semantic cases passed. Test expectation update prepared but no rerun on tiny standalone component."
+  },
+  "prior_compile_failure": {
+    "source_digest": "2dd166a67ff3305db02610baf7c5073cc2c6cff01b28c33cfcc641a9cb8cd5b0",
+    "directory": "work/real_world-goal/copied-pair-join-payloads-focused1",
+    "tests_executed": 0,
+    "cause": "Bool/unit wrapper remove arm mismatch;explicitly discard Shared bool before freezing measured source."
+  },
+  "independent_validation_sha256": "a829e6d1ab986db9995b3bc7a81214c7c73f1e5f9645777f51a24d1174df8487",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Raw receipts/failures/frozen sources retained.50 successful checks remain bound to their actual source;no all-pass or main/current-source credit. No unchanged native retries or extrapolated Java gain."
+}

@@ -11,6 +11,11 @@
       "candidate_sha256": "e05471022ac0e5460037250fa2006f21418d5f9029abb2255ead2cd6fbc596eb"
     },
     {
+      "path": "AGENTS.md",
+      "original_sha256": "2daccd8ad116e88c052176fd1adaef86425242bb273eae122738fea145a760d9",
+      "candidate_sha256": "5837361d92387527a463e7b9605446a96124e9a8aae375a7f80be7a16181d939"
+    },
+    {
       "path": "THIRD_PARTY_NOTICES.md",
       "original_sha256": "8b7bf34b627de1ce47658246250bcfb49c94d7bcae4960a5c88b9b445ebaf628",
       "candidate_sha256": "cd0a3f605e3f3a4ee03cdbff7979cb2d6d0b5718cd677c689763d661f879c416"
@@ -618,12 +623,32 @@
     {
       "path": "crates/solver/src/incremental_stream.rs",
       "original_sha256": "c44a5e506833d1cba67ad5b244fb37db68852ba62129de8481a203908c5eef0f",
-      "candidate_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c"
+      "candidate_sha256": "4857bc9fcb98f4c723023317613783283ead32b3c7a68a51cfe57d73b426ec55"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream/consuming_join_rows_tests.rs",
+      "original_sha256": "9d26ae6287dec9ddb6103e2795fba099f1f7d9b83618d38ace0c23a09d2b1414",
+      "candidate_sha256": "4fe1bdac9cb4e6bf8a934f4e03d7bc54dea06143ad8fb3f318a4316975cb1d3b"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream/join_bound.rs",
+      "original_sha256": "db7c98ea139f3b203c2c6570dd5509726c60be9a50819eefd6aa7baf326cfd25",
+      "candidate_sha256": "e280e310a9d0a024a525aad689d54711c9149a3e88d12e7c9b2e22dccebb7ae4"
     },
     {
       "path": "crates/solver/src/incremental_stream/join_equality_visit_tests.rs",
       "original_sha256": "a54216aa319ae7f090d0b530ae62fb0af4b856b3bb10a539fa58499a513be590",
       "candidate_sha256": "d70d783c0de251b36a74d0c126018677773aa0ae90c2530b3bc2983ae5d2f7dc"
+    },
+    {
+      "path": "crates/solver/src/incremental_stream/join_journal.rs",
+      "original_sha256": "08ca9b1b770c17d954ee49e990205789ce9c8da3816a1d6c968bf2db859ab58c",
+      "candidate_sha256": "9d3d734ccffc5a220c66cc5641b94ad8383bc05dabbf48fc1331f100d08fb36d"
+    },
+    {
+      "path": "crates/solver/src/primitive_rows/consumed_scores.rs",
+      "original_sha256": "242beb05e2f4a380fa8a08865d2a3ac5799274413736e978ac76fd6654c43ec5",
+      "candidate_sha256": "9064f68ec5bb1b1049cee9b334bd0b5d26df618606a3c9eea601df179595bdde"
     },
     {
       "path": "crates/solver/tests/real_world_application_regression.rs",
@@ -698,7 +723,7 @@
     {
       "path": "docs/next-session.md",
       "original_sha256": "2336c60bdea5bf4b9044e0833a568cbac92dc45b232ffad68eb10cfadf1c2415",
-      "candidate_sha256": "c435f25176ff863810af154ed47d2e6d1e3da659e54eae26fa5b8218fde98436"
+      "candidate_sha256": "958c47be193a3d0b2100e7179230cfd8311501e182b92d73c33561e68a95f605"
     },
     {
       "path": "docs/performance.md",
@@ -827,7 +852,7 @@
     {
       "path": "crates/solver/src/incremental_stream.rs",
       "source_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c",
-      "candidate_sha256": "b80b04d1adb33c5be7a8f91fdc1873ba2d20e35cd1ebbb8c9ba5a54e9e76034c"
+      "candidate_sha256": "4857bc9fcb98f4c723023317613783283ead32b3c7a68a51cfe57d73b426ec55"
     },
     {
       "path": "crates/solver/src/incremental_stream/join_equality_visit_tests.rs",
@@ -837,7 +862,67 @@
     {
       "path": "docs/next-session.md",
       "source_sha256": "c1b615266c03dcb00acf627ae0816bcdf5388a8efefa781b4183c4517d4218e6",
-      "candidate_sha256": "c435f25176ff863810af154ed47d2e6d1e3da659e54eae26fa5b8218fde98436"
+      "candidate_sha256": "958c47be193a3d0b2100e7179230cfd8311501e182b92d73c33561e68a95f605"
+    }
+  ],
+  "continuation_integrations": [
+    {
+      "source_commit": "b5af4931a72055e6a4113dd75ae96a881a4a34b5",
+      "clean_base_commit": "d5519e483995fcd713f37f0d7c9af5763dda5f89",
+      "native_library_files_identical": 726,
+      "evidence_policy": "Original test logs, measurement identities and timestamps retained. Four renamed application regressions pass separately; old results are not rekeyed.",
+      "files": [
+        {
+          "path": "compat/observations/real_world-copied-pair-join-payloads.json",
+          "original_sha256": "bee369d2d0a73bcdaeed45041e73e58831d8199d9d396e09feb332547b6c3401",
+          "candidate_sha256": "9a0ff6ff9d3ccb3792304c4ae69445ffaf769ea6a98b59f644d602fd29a46021"
+        },
+        {
+          "path": "compat/observations/real_world-numeric-pair-join-index.json",
+          "original_sha256": "b1b5227aa83390cf24a71a38175a1099108acdba07fd4fba554de41c6bcacb4b",
+          "candidate_sha256": "099252377b4e5c768f2368788615e9fee0c9144eea41e7c01f29e2df62175bdf"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream.rs",
+          "original_sha256": "4857bc9fcb98f4c723023317613783283ead32b3c7a68a51cfe57d73b426ec55",
+          "candidate_sha256": "4857bc9fcb98f4c723023317613783283ead32b3c7a68a51cfe57d73b426ec55"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream/consuming_join_rows_tests.rs",
+          "original_sha256": "4fe1bdac9cb4e6bf8a934f4e03d7bc54dea06143ad8fb3f318a4316975cb1d3b",
+          "candidate_sha256": "4fe1bdac9cb4e6bf8a934f4e03d7bc54dea06143ad8fb3f318a4316975cb1d3b"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream/join_bound.rs",
+          "original_sha256": "e280e310a9d0a024a525aad689d54711c9149a3e88d12e7c9b2e22dccebb7ae4",
+          "candidate_sha256": "e280e310a9d0a024a525aad689d54711c9149a3e88d12e7c9b2e22dccebb7ae4"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream/join_journal.rs",
+          "original_sha256": "9d3d734ccffc5a220c66cc5641b94ad8383bc05dabbf48fc1331f100d08fb36d",
+          "candidate_sha256": "9d3d734ccffc5a220c66cc5641b94ad8383bc05dabbf48fc1331f100d08fb36d"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream/join_members_index.rs",
+          "original_sha256": "76f44b4804632c1801953f751113431d5b280b726f7b2b0e60b337c3c9e13d59",
+          "candidate_sha256": "76f44b4804632c1801953f751113431d5b280b726f7b2b0e60b337c3c9e13d59"
+        },
+        {
+          "path": "crates/solver/src/incremental_stream/join_payloads.rs",
+          "original_sha256": "22fcd67fd93455188477eba9a7e671a38c29ace6c8d94fa6239afa551395cf6d",
+          "candidate_sha256": "22fcd67fd93455188477eba9a7e671a38c29ace6c8d94fa6239afa551395cf6d"
+        },
+        {
+          "path": "crates/solver/src/primitive_rows/consumed_scores.rs",
+          "original_sha256": "9064f68ec5bb1b1049cee9b334bd0b5d26df618606a3c9eea601df179595bdde",
+          "candidate_sha256": "9064f68ec5bb1b1049cee9b334bd0b5d26df618606a3c9eea601df179595bdde"
+        },
+        {
+          "path": "docs/next-session.md",
+          "original_sha256": "53ef3ff88cc48aea0062e4c9de412865964114d67f82f662daa6c9f44e59f622",
+          "candidate_sha256": "958c47be193a3d0b2100e7179230cfd8311501e182b92d73c33561e68a95f605"
+        }
+      ]
     }
   ]
 }

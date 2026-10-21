@@ -162,6 +162,23 @@ impl<I: Clone + 'static, S: Clone + 'static> Rows<I, S> {
             empty: Vec::new(),
         })
     }
+    // Private join activation supplies the existing exact-builtin payload
+    // certificate. Numeric IDs remain certified by mapper; ordinary score
+    // construction above retains its original narrower score certificate.
+    pub(crate) fn new_captured(copy: fn(&S) -> S) -> Option<Self> {
+        Some(Self {
+            dense: Vec::new(),
+            sparse: Sparse::default(),
+            map: mapper::<I>()?,
+            restore_id: original_id::<I>,
+            observed: OnceLock::new(),
+            copy_score: copy,
+            len: 0,
+            frames: Vec::new(),
+            spare: Vec::new(),
+            empty: Vec::new(),
+        })
+    }
 }
 impl<I, S> Rows<I, S> {
     fn copy(&self, entry: &S) -> S {
@@ -274,6 +291,44 @@ impl<I, S> Rows<I, S> {
         positions.extend(self.sparse.keys().copied());
         positions.sort_unstable();
         positions
+    }
+    pub(crate) fn get_captured(&self, id: &I) -> Option<&S> {
+        self.get_at((self.map)(id))
+    }
+    pub(crate) fn insert_captured(&mut self, id: I, value: S) {
+        self.replace((self.map)(&id), Some(value));
+        drop(id);
+    }
+    pub(crate) fn remove_captured(&mut self, id: &I) {
+        self.replace((self.map)(id), None);
+    }
+    pub(crate) fn shared_captured_entries(&self) -> Vec<(std::sync::Arc<I>, std::sync::Arc<S>)> {
+        self.positions()
+            .into_iter()
+            .map(|pos| {
+                (
+                    std::sync::Arc::new((self.restore_id)(pos)),
+                    std::sync::Arc::new(self.copy(self.get_at(pos).unwrap())),
+                )
+            })
+            .collect()
+    }
+    pub(crate) fn install_shared_captured_entries(
+        &mut self,
+        entries: Vec<(std::sync::Arc<I>, std::sync::Arc<S>)>,
+    ) {
+        let mut saved: std::collections::BTreeMap<_, _> = entries
+            .iter()
+            .map(|(id, v)| ((self.map)(id), self.copy(v)))
+            .collect();
+        let touched: BTreeSet<_> = self
+            .positions()
+            .into_iter()
+            .chain(saved.keys().copied())
+            .collect();
+        for pos in touched {
+            self.replace(pos, saved.remove(&pos));
+        }
     }
     pub(crate) fn len(&self) -> usize {
         self.len

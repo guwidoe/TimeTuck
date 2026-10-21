@@ -5,7 +5,7 @@ use std::any::{Any, TypeId};
 
 enum SideSaved<I, V> {
     Fixed(usize),
-    Map(crate::primitive_rows::PrimitiveRows<I, V>),
+    Map(super::join_payloads::Rows<I, V>),
 }
 struct BoundCheckpoint<I, J, L, R, K> {
     left: SideSaved<I, (K, L)>,
@@ -17,11 +17,11 @@ struct BoundCheckpoint<I, J, L, R, K> {
 }
 enum CapturedRows<I, V> {
     Fixed(join_fixed_rows::Capture<V>),
-    Map(crate::primitive_rows::PrimitiveRows<I, V>),
+    Map(super::join_payloads::Rows<I, V>),
 }
 enum CapturedIndex<I, K> {
     Fixed(join_fixed_index::Capture<K>),
-    Map(SnapshotMap<K, SnapshotMap<I, ()>>),
+    Map(super::join_members_index::Index<K, I>),
 }
 struct CapturedSide<I, T, K> {
     rows: CapturedRows<I, (K, T)>,
@@ -175,14 +175,16 @@ impl<
     K: Ord + Clone + 'static,
 > JoinNode<'_, I, J, L, R, K>
 {
-    // Only whole-graph ownership-consuming search activation calls this while
-    // empty. Public/retained and unbounded side payloads keep original owners.
-    // The index and its canonical I owners are independent of copied payloads.
+    // Empty whole-graph activation only; exact primitive IDs/payloads have no
+    // observable Clone/Drop. Existing usize fixed rows retain their old path.
     pub(crate) fn enable_consuming_rows(&mut self) -> bool {
+        let fixed = TypeId::of::<I>() == TypeId::of::<usize>()
+            && TypeId::of::<J>() == TypeId::of::<usize>();
+        let pairs = TypeId::of::<I>() == TypeId::of::<(usize, usize)>()
+            && TypeId::of::<J>() == TypeId::of::<(usize, usize)>();
         if !self.primitive_graph_journals
             || self.is_poisoned()
-            || TypeId::of::<I>() != TypeId::of::<usize>()
-            || TypeId::of::<J>() != TypeId::of::<usize>()
+            || (!fixed && !pairs)
             || !self.left.rows.is_empty()
             || !self.right.rows.is_empty()
             || self.left.fixed_rows.is_some()
@@ -196,8 +198,17 @@ impl<
         let Some(right) = join_fixed_rows::copied::certify::<K, R>() else {
             return false;
         };
-        self.left.consuming_copy = Some(left);
-        self.right.consuming_copy = Some(right);
+        if pairs {
+            assert!(self.left.rows.enable_copied(left));
+            assert!(self.right.rows.enable_copied(right));
+            if self.comparison == JoinComparison::Equal {
+                assert!(self.left.index.enable_numeric(Clone::clone));
+                assert!(self.right.index.enable_numeric(Clone::clone));
+            }
+        } else {
+            self.left.consuming_copy = Some(left);
+            self.right.consuming_copy = Some(right);
+        }
         true
     }
     pub(crate) fn bind_fixed_input(&mut self, right: bool, count: usize) -> bool {

@@ -1,5 +1,15 @@
 # Timetuck project instructions
 
+## Active checkout after the private cutover
+
+Continue development in the clean checkout whose `origin` is
+`https://github.com/guwidoe/TimeTuck.git`. Check the working directory and remote
+when starting or resuming a session; use that checkout explicitly for tool calls.
+The preserved original checkout points to a private read-only archive. Transfer
+later original work as reviewed anonymized patches, never by merging its history.
+Keep the repository private and dashboard publication disabled until authorized.
+See `docs/agent-continuation.md` for the migrated work and private evidence.
+
 ## Goal and boundaries
 
 Build an independent Rust constraint optimization solver from scratch. Use the

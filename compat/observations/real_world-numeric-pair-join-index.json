@@ -1,0 +1,295 @@
+{
+  "kind": "real_world-numeric-pair-join-index",
+  "status": "Selected/integrated finalf412/3702/artifact6701. Genuine final release byte-identical to measured runtime. Current originalJavaaac7470e all12fulloutputs independently valid,Golfer1.605450x/Sailing.941532x,1/2targets.4 final app passes/Clippy;52 earlier-source checks body-equivalent and not relabeled. Goal incomplete.",
+  "native_source_digest": "d62bfdc4a424eb22d4ac9ced320f123a2722671b7fc6d54dce5e51e22eb34f5f",
+  "input_sha256": "764fd94e5c34ace1de9ed6f38109e32384718705b24c55dc1081c3b428134ea3",
+  "source_snapshot": "895b213520f8023aee5b6ddf5326bb76b0e42bca810009682ccc597885f3bd13",
+  "artifact_sha256": "6701e5e7cf918bbfc947f2c5e76ec5656abc8750f464903c8e264bf4e51de844",
+  "mechanism": "Empty whole ownership-consumed exact numeric pair-ID joins copy captured builtin payloads through existing full-width numeric row journals. Private equality buckets use primitive outer pages and sorted complete-ID vectors,avoiding inner persistent-tree mutation copies. Original callback/Clone/Drop/projection/output/poison/guard/FIFO/score phases remain;shared/custom/ordered/fixed routes retain original logical contracts. No model or benchmark policy change.",
+  "tradeoffs": "Private numeric index representative addresses may move;complete sorted IDs remain. Captures copy numeric payloads and share immutable member vectors through existing Arc entries. Larger copied undo entries and retained private page capacity trade memory for fewer per-update allocations. Generic indexes now wrap their original SnapshotMap members;no universal performance/memory claim.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/numeric-pair-join-index-next-results/real_world-numeric-pair-join-index-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66586.46508482829,
+            67010.10509638974,
+            67541.02237869572,
+            65365.45428243453
+          ],
+          "trial": [
+            69241.95176214409,
+            69324.7490550139,
+            68954.84217863147,
+            69913.69839633537
+          ]
+        },
+        "medians": {
+          "baseline": 66798.28509060902,
+          "trial": 69283.35040857899
+        },
+        "gain_pct": 3.720253169073251
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            188495.39982294056,
+            192538.4474673763,
+            198357.5904183291,
+            197683.1150528676
+          ],
+          "trial": [
+            191026.2175653026,
+            194457.0497469969,
+            197515.3694613419,
+            195901.8500269073
+          ]
+        },
+        "medians": {
+          "baseline": 195110.78126012196,
+          "trial": 195179.44988695212
+        },
+        "gain_pct": 0.03519468600692299
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "independent_validation_sha256": "abecefb242e748c509273f21f2950503af7aaa3b79c0388b96b9c91ba60dcb26",
+  "final_source": {
+    "native_source_digest": "f412c2965eebb8dbc5da7c28479efc5ae549ea68297b05a98d1475eb4dd187bc",
+    "production_digest": "3702314c9b96325cd8d22e9d5723a683937968e397f691673b582d547592c956",
+    "source_snapshot": "db7d552016f3eca068aac1956e124d97466cb8c628361818b25fbe22ab022900",
+    "verification": {
+      "full_native_gate": false,
+      "native_source_digest": "f412c2965eebb8dbc5da7c28479efc5ae549ea68297b05a98d1475eb4dd187bc",
+      "production_digest": "3702314c9b96325cd8d22e9d5723a683937968e397f691673b582d547592c956",
+      "actual_current_source_tests_passed": 4,
+      "checks": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--test",
+            "real_world_application_regression",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 4,
+          "exit_code": 0,
+          "seconds": 33.963003663986456,
+          "proof_directory": "work/real_world-goal/numeric-pair-join-index-application1",
+          "log_sha256": "238d1f9c67768d7d236e20751c977febb53e69bc46c1940b26110cacc3cb5e80",
+          "receipt_sha256": "c49455995eb9a256efb471338d85aab1aeb45272b833246730ea3f1c4c5ce85b"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--lib",
+            "--example",
+            "real_world_benchmark",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "tests_passed": 0,
+          "exit_code": 0,
+          "seconds": 30.87786118700751,
+          "proof_directory": "work/real_world-goal/numeric-pair-join-index-clippy2",
+          "log_sha256": "c74ac36f74ced18b1cd742eabbc219d4ac32ee19ff7f69814f163e68a25a7462",
+          "receipt_sha256": "23d9265a51cd426732eda4e939d7504812a38a5d4ccfae0ba1c95e57ef94c20d"
+        }
+      ],
+      "prior_source_verification": {
+        "tests_passed": 52,
+        "native_source_digest": "257560b443d93bf668ef28184db5373e213b37790fe61745d189535bbda4a8c9",
+        "production_digest": "9ca6c74840747d878f07e48507ee9bb20bff518dd4eec3be3b0d15dfa4fb480d",
+        "proof_directory": "work/real_world-goal/numeric-pair-join-index-focused1",
+        "log_sha256": "6e1490f79417d132356b76474c5c440176918815ba924b077f15c39559dc7b0b",
+        "receipt_sha256": "1b09f439c160d98e3b9f266877451f0729825b50cc9e335429448730741eef33",
+        "reuse": "Strict all-crate comparison proves only unused mut qualifier removal and named equivalent return-type alias. Function types,bodies,operations,tests otherwise identical. Successful earlier checks retain their actual source identity;not relabeled as final-source passes."
+      },
+      "policy": "4 actual final-source application passes+Clippy;52 earlier-source body-equivalent semantic checks reused without repetition/rekey. Actual final Cargo+javac and original12output protocol still required."
+    },
+    "artifact_identity": {
+      "measured_source_digest": "d62bfdc4a424eb22d4ac9ced320f123a2722671b7fc6d54dce5e51e22eb34f5f",
+      "measured_production_digest": "764fd94e5c34ace1de9ed6f38109e32384718705b24c55dc1081c3b428134ea3",
+      "measured_artifact_sha256": "6701e5e7cf918bbfc947f2c5e76ec5656abc8750f464903c8e264bf4e51de844",
+      "final_source_digest": "f412c2965eebb8dbc5da7c28479efc5ae549ea68297b05a98d1475eb4dd187bc",
+      "final_production_digest": "3702314c9b96325cd8d22e9d5723a683937968e397f691673b582d547592c956",
+      "final_artifact_sha256": "6701e5e7cf918bbfc947f2c5e76ec5656abc8750f464903c8e264bf4e51de844",
+      "byte_identical_to_measured": true,
+      "policy": "Actual final Cargo+javac source binding;native controls retain original source. Final original Java/Rust timings are genuine regardless of native artifact identity."
+    },
+    "artifact_sha256": "6701e5e7cf918bbfc947f2c5e76ec5656abc8750f464903c8e264bf4e51de844"
+  },
+  "semantic_reuse_proof": {
+    "source": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/numeric-pair-join-index-body-reuse.json",
+    "sha256": "5e68e128dd3b25f97906cbd9c2546bd793632fddba24f16bb1fbd24a783e0362",
+    "checks": "Preparation strictly compared all crate bytes:only unused mut binding removal and equivalent named return-type alias.52 successful checks retain earlier source257560b4 identity;not credited as final-source passes."
+  },
+  "development_failures": [
+    {
+      "status": "generator terminal1,zero builds/tests",
+      "path": "work/real_world-goal/copied-pair-join-preparation-failure.json"
+    },
+    {
+      "status": "compile terminal101,zero tests;bool/unit wrapper arm fixed",
+      "path": "work/real_world-goal/copied-pair-join-payloads-focused1"
+    },
+    {
+      "status": "50passed/1failed stale original private pair activation expectation;updated for expanded activation before combined52pass source",
+      "path": "work/real_world-goal/copied-pair-join-payloads-focused2"
+    },
+    {
+      "status": "Clippy type_complexity failed;named alias only,all function bodies/source locations retained",
+      "path": "work/real_world-goal/numeric-pair-join-index-clippy1"
+    }
+  ],
+  "receipts": {
+    "receipt.json": "414f4f198dce4d0af2c6049571bda2e05400fdbce4ab8cf34981301bcd9665df",
+    "build-receipt.json": "b3e1e193e18a6c819b1833947845940136baea360ebb44ad28be16078cf06726",
+    "controls.json": "b051809415ee747fb67faa6d7ce046eb252e635654929e2b5502c9ee49c0e24f",
+    "baseline-binding.json": "8cedfa1649b20f18cbf369cd0d5b2c4750d241bdb4fa67b6b0eee045a6ac4a4f"
+  },
+  "comparison_baseline": {
+    "rust_digest": "e29320c0bb882dafec4f6b085473aae1fd2a3e37895f75deb0ba850d8ece5dd2",
+    "production_digest": "bb97be0d7a3810d1fd283db03d02bba370f168b84f29bfbcb7600f35138aa452",
+    "artifact_sha256": "3da1f03dc03cdb2e8c865d0635c9b7dc71bda0ca414699661523c93fcfa055f6",
+    "source_snapshot": "f168d3e497d99efe6f75ba084e5ccc7bc863436727d6cc223b58ca55a63a6b93",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "3954caba70846e1acd3003999451d090ab217b3a0c4a6e888a439d67ab7ca22f"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": true,
+  "upstream_method_credit": 0,
+  "new_original_native_tests": 4,
+  "policy": "No successful unit check or native timing repeated after qualifier/alias cleanup. Source identities preserved;4 actual final app checks/Clippy separate from52 earlier-source passes. Actual original Java protocol must qualify current final performance;no gain multiplication.",
+  "default_java_qualification": {
+    "proof_directory": "work/real_world-goal/numeric-pair-join-current-java-qualification",
+    "qualified_report_sha256": "aac7470ebfcb1fad697f368cb4961f0bed362c83eb2734da562f0dfc9f151fd0",
+    "independent_validation_sha256": "d6bb127400a1802d111d316d74bd5fdd9cbe90bacd2e7ddb335a66bb6664b5d8",
+    "source_snapshot": "db7d552016f3eca068aac1956e124d97466cb8c628361818b25fbe22ab022900",
+    "current_throughput_targets_met": 1,
+    "required_targets": 2,
+    "valid_outputs": 12,
+    "same_original_configuration": true,
+    "same_original_toolchain": true,
+    "same_original_Java_dependency_and_class_checksums": true,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 122594.56230270422,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                20500
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.04115332
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 196819.4390249262,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000105512
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.6054499916476697,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75021.61674498259,
+            "scores": [
+              [
+                -14,
+                81200
+              ],
+              [
+                -5,
+                69300
+              ],
+              [
+                -14,
+                90000
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.051073168
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 70635.24158907287,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196900
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000815232
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9415318498024361,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "remaining_sailing_rust_throughput_gain_pct": 6.209896161221984,
+    "prior_report_sha256": "3954caba70846e1acd3003999451d090ab217b3a0c4a6e888a439d67ab7ca22f",
+    "policy": "Original same-host serial rotating3seeds10s CPU2,3 with actual final Cargo+javac build/source binding and12 independent full-output validations. Native gains not extrapolated;quality stays separate."
+  }
+}

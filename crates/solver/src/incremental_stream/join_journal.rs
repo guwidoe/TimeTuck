@@ -9,10 +9,10 @@ struct Checkpoint {
     right_poisoned: bool,
 }
 struct Capture<I, J, L, R, K> {
-    left: crate::primitive_rows::RowsCapture<I, (K, L)>,
-    right: crate::primitive_rows::RowsCapture<J, (K, R)>,
-    left_index: SnapshotMap<K, SnapshotMap<I, ()>>,
-    right_index: SnapshotMap<K, SnapshotMap<J, ()>>,
+    left: super::join_payloads::Capture<I, (K, L)>,
+    right: super::join_payloads::Capture<J, (K, R)>,
+    left_index: super::join_members_index::Index<K, I>,
+    right_index: super::join_members_index::Index<K, J>,
     left_poisoned: bool,
     right_poisoned: bool,
 }

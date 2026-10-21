@@ -10,6 +10,12 @@
 > patches; do not merge the original history. Publication and Pages remain
 > deferred. See the [cutover handoff](public-history.md#private-hosted-history-cutover--2026-10-22).
 
+> Agent continuation moved here from private checkpoint `b5af493` on 2026-10-22.
+> All 726 native library files match that checkpoint; four application regressions
+> pass on the renamed source. Original test and timing receipts retain their
+> source identities. See [continuation instructions](agent-continuation.md) before
+> starting another experiment; the original checkout is preserved as an archive.
+
 ## Objective and boundaries
 
 Build an independent Rust constraint optimization solver using pinned Timefold
@@ -35,7 +41,40 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-The selected runtime now visits an unbounded equality join's original exact
+The selected runtime now copies captured numeric pair-join payloads and uses
+paged private equality buckets with sorted full-ID vectors. Whole consumed empty
+graph activation and exact builtin I/K/T certificates protect shared/custom/
+borrowed routes;fixed usize joins keep their old backend. No model/fixture/
+callback/FIFO/score/guard/panic/batch/CPU/compiler policy changed. Private numeric
+index representative addresses may move;full values/order remain. Copied undo
+records grow and private pages retain peak capacity. Original sorted/member/
+owner/bounds/full/current/nested/batch/error controls remain.
+
+Native controls **Sailing+3.720%(4/4)/Golfer+.035%(2/4,flat)**,all16 outputs
+independently valid,on measured d62bfdc4/764fd94e/artifact6701e5e7. Final selected
+source **f412c296/3702314c**,snapshot db7d5520,is integrated. Actual4 final app
+passes+Clippy pass. Earlier52 scoped checks bind257560b4/9ca6c748;strict full-crate
+comparison proves only unused-mut qualifier and named return-type alias changed.
+Their operations/bodies/tests are unchanged,so no successful tests repeated or
+source identities rekeyed. Fresh original default Java/Rust **aac7470e** is current:
+all12 full outputs independently validate,original configuration/toolchain/Java
+classes+dependencies unchanged. Actual final Cargo release is **byte-identical to
+measured6701e5e7**. **Golfer1.605450x/Sailing.941532x Java;1/2 targets**. Sailing
+medians Rust70635/Java75022 evaluations/s;Rust needs **6.2099%** more throughput,
+versus preceding9.5805%. Rust2/3 versus Java0/3 Sailing runs feasible;quality stays
+separate. Source/archive/build/failure boundaries remain immutable.
+[Evidence](../compat/observations/real_world-numeric-pair-join-index.json).
+
+Initial copied-payload component was modest S+.591%/G+.196%,16valid outputs,
+50passes/1 stale private pair-activation expectation. That expectation was updated
+for expanded eligibility before combined52passes. Initial compile bool/unit error
+executed0tests;generator assertion before formatting/freeze executed0builds/tests;
+Clippy return-type complexity was fixed by a named alias at module end. All raw
+failed sources/logs/capsules remain. Standalone final-source retry/app/Clippy/Java
+was avoided;52 semantic checks cover the changed combined implementation instead.
+[Component](../compat/observations/real_world-copied-pair-join-payloads.json).
+
+The preceding selected runtime visits an unbounded equality join's original exact
 bucket directly. It removes the fixed/equality/range composite iterator while
 retaining one lookup,full reservation,canonical ID refs,ID/payload Clone/Drop/
 projection and poison/error phases. Fixed-index and ordered routes remain.
@@ -44,7 +83,7 @@ Four rotating native pairs measured **Sailing+.820%(4/4 faster)/Golfer-.155%
 checks+4 application cases and lib/example Clippy pass on **e29320c0/production
 bb97be0d/artifact3da1f03d**. Exact frozen source is integrated. Three original
 native tests add no upstream credit. No full suite or repeated successful checks.
-Fresh original default Java/Rust qualification **3954caba** is current:all12
+Preceding original Java/Rust qualification **3954caba** is historical:all12
 outputs independently validate,original policy/toolchain/dependency/class
 checksums retained. **Golfer1.685278x/Sailing.912571x Java,1/2 targets.** Actual
 Sailing medians Rust68410/Java74964 evaluations/s;Rust needs **9.5805%** more
@@ -119,14 +158,18 @@ fixed and rustfmt completed before final snapshot7e1253ea. Exact capsule,actual
 final checks and controls in small-pair-inputs-next-results;dispatch58857 terminal0.
 [Evidence](../compat/observations/real_world-small-pair-inputs.json).
 
-Prepared v37 native controls still bind preceding9ad8/2962/af77,41checks and
-its16 valid native outputs. Later controls must use actual e293/bb97/3da1 receipts,
-45 checks and current originalJava3954caba;never rekey old bindings. All owned
-build/test/profile/timing/qualification jobs are terminal and collected. Dashboard
-PID24571 serves8765;backend refresh95562 finished with current45 checks and fresh
-Java3954,HTTP200/all3 freshness hashes matched. UI rendering unchanged. Goal remains incomplete:1/2 throughput targets.
-Do not repeat completed checks or original qualification on unchanged inputs.
-No new agents,runner-c parked.
+Prepared v38 controls bind preceding e293/bb97/3da1,45checks+Clippy and original
+Java3954. Later controls must use actual selectedf412/3702/6701,selected snapshot
+db7d5520,4actualfinalapp+Clippy/52body-equivalent earlier checks and currentJavaaac7;
+never rekey old binders. Native measured sourceD62 and finalf412 share the actual
+6701release bytes;use the recorded artifact bridge. All owned jobs terminal and
+collected. Dashboard PID24571 serves8765;backend refresh16741 completed with final4check log/currentJavaaac7,
+HTTP200 andall3 freshness hashes matched. Keep concurrent docs/release work and
+commits intact. Goal incomplete:1/2 throughput targets. No new agents,runner-c parked.
+The selected numeric member clone still allocates a full ID vector on each
+changed bucket update;this is a possible next target. Profile current6701 if
+needed,without rebuilding;old9ad8 cycles/miss captures remain source-bound. Do
+not repeat closed dense/presence/ordered-visitor experiments unchanged.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and

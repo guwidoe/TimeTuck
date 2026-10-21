@@ -204,11 +204,11 @@ impl JoinComparison {
 
 #[derive(Clone)]
 struct JoinSide<I, T, K> {
-    rows: crate::primitive_rows::PrimitiveRows<I, (K, T)>,
+    rows: join_payloads::Rows<I, (K, T)>,
     fixed_rows: Option<Box<join_fixed_rows::FixedRows<I, (K, T)>>>,
     consuming_copy: Option<join_fixed_rows::copied::Copier<(K, T)>>,
     fixed_index: Option<Box<join_fixed_index::FixedIndex<I, K>>>,
-    index: SnapshotMap<K, SnapshotMap<I, ()>>,
+    index: join_members_index::Index<K, I>,
     #[cfg(test)]
     disable_tree_visit: bool,
     poisoned: bool,
@@ -217,11 +217,11 @@ struct JoinSide<I, T, K> {
 impl<I, T, K> JoinSide<I, T, K> {
     fn new() -> Self {
         Self {
-            rows: crate::primitive_rows::PrimitiveRows::new(),
+            rows: join_payloads::Rows::new(),
             fixed_rows: None,
             consuming_copy: None,
             fixed_index: None,
-            index: SnapshotMap::new(),
+            index: join_members_index::Index::new(),
             #[cfg(test)]
             disable_tree_visit: false,
             poisoned: false,
@@ -279,14 +279,12 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
         &self,
         key: &K,
         output: &mut Vec<O>,
-        mut emit: impl FnMut(&mut Vec<O>, &I),
+        emit: impl FnMut(&mut Vec<O>, &I),
     ) {
         let ids = self.index.get(key);
-        output.reserve(ids.map_or(0, SnapshotMap::len));
+        output.reserve(ids.map_or(0, join_members_index::Members::len));
         if let Some(ids) = ids {
-            for id in ids.keys() {
-                emit(output, id);
-            }
+            ids.for_each(output, emit);
         }
     }
     fn matching_ids<'b>(
@@ -325,9 +323,10 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
                 }
             }
         };
-        let count = fixed
-            .as_ref()
-            .map_or_else(|| exact.map_or(0, SnapshotMap::len), |(count, _)| *count);
+        let count = fixed.as_ref().map_or_else(
+            || exact.map_or(0, join_members_index::Members::len),
+            |(count, _)| *count,
+        );
         (
             count,
             fixed.into_iter().flat_map(|(_, ids)| ids).chain(
@@ -452,7 +451,11 @@ impl<I: Ord + Clone, T: Clone, K: Ord + Clone> JoinSide<I, T, K> {
             if let Some(index) = &mut self.fixed_index {
                 index.insert(&new_key, &id);
             } else {
-                let mut ids = self.index.get(&new_key).cloned().unwrap_or_default();
+                let mut ids = self
+                    .index
+                    .get(&new_key)
+                    .cloned()
+                    .unwrap_or_else(|| self.index.empty_members());
                 ids.insert(id.clone(), ());
                 self.index.insert(new_key.clone(), ids);
             }
@@ -957,6 +960,8 @@ mod join_bound;
 mod join_fixed_index;
 mod join_fixed_rows;
 mod join_journal;
+mod join_members_index;
+mod join_payloads;
 
 #[cfg(test)]
 mod group_inverse_tests;

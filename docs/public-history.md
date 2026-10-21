@@ -95,6 +95,10 @@ Immediately after an authorized publication, enable and verify the selected
 [Pages workflow](github-pages.md) only when hosting is authorized. No hosted
 repository, site, package or release was made public by this cutover.
 
+The active solver agent's later private checkpoint was subsequently transferred
+as an anonymized patch, with original source and evidence preserved. Continue
+development in the clean checkout; see [the agent handoff](agent-continuation.md).
+
 ## Retained archive limitations
 
 Two provenance records refer to historical diagnostics whose original bytes are
