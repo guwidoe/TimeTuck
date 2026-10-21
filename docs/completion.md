@@ -19,12 +19,26 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,881 recorded Rust tests and
-292 doctests** (8,887 Cargo test executions). The private shared-filter-forwarding
-batch passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling
-jobs. [Source-bound evidence](../compat/observations/real_world-shared-filter-forwarding.json)
-records actual checks, artifact identity and native controls. Origins are 4,412
-upstream adaptations /4 external RealWorld /4,465 native regressions.
+The current selected optimization defers graph-total score probes until each
+propagation finishes, while retaining every terminal event, callback, accounting
+and arithmetic check. It measured **+1.147% Sailing /+1.241% Golfer** in rotating
+native controls; all 16 outputs independently validated. These are modest native
+measurements, not new Java parity. Public/custom-score/probe-None paths remain.
+[Source-bound evidence](../compat/observations/real_world-deferred-terminal-totals.json).
+
+Following the latest user testing policy, current verification is **224 passing
+graph-focused Cargo tests and lib/RealWorld example Clippy**, with no full-suite
+rerun. Two original native regressions add no upstream-method credit. The raw
+concurrent diagnostic log leaves 217 named passes parseable; the actual 224-pass
+Cargo summary and all original receipts remain. The dashboard credits only the
+217 current named results. The earlier full-suite evidence is preserved for its
+previous source, rather than relabeled. Upstream4412 adaptations remain declared
+with 0 pending; current unverified methods are not newly failed or unimplemented.
+
+The previous source had **8,881 recorded Rust tests and 292 doctests** (8,887 Cargo
+executions), plus 54 tooling jobs. Its shared-filter-forwarding gate and artifact
+remain [historical source-bound evidence](../compat/observations/real_world-shared-filter-forwarding.json).
+The following describes that previous selected batch.
 
 Closed consuming acceptance filters now reuse private immutable Shared owners
 for exact numeric member rows. Full-ID retractions, original predicate/clone/
@@ -53,7 +67,7 @@ The preceding typed-join-publication batch remains as historical evidence below.
 
 Exact Triple joins now publish full rows directly into the original event arena;
 exact numeric member joins publish one original shared Rc owner per full row.
-The existing bool route and16B borrowed carrier avoid intermediate Vec<Event>
+The existing bool route and 16B borrowed carrier avoid intermediate Vec<Event>
 and by-value dispatch without new vtable methods or global routing metadata.
 Three original regressions cover full-width fields, direction/FIFO/fanout,
 ownership, captures, errors/overflow and retry. Public/custom/unsupported/batch

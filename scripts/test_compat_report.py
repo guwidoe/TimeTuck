@@ -98,6 +98,8 @@ class CapturedResultTests(unittest.TestCase):
                     self.assertIs(runs[0]['full_native_gate'], expected)
                     self.assertEqual(runs[0]['native_source_digest'], 'a')
                     self.assertEqual(runs[0]['log_sha256'], metadata['log_sha256'])
+                    if isinstance(command, list):
+                        self.assertEqual(runs[0]['command'], command)
             metadata['exit_code'] = 101
             path.with_suffix('.log.json').write_text(json.dumps(metadata))
             self.assertFalse(read_test_run(path, 'a')[1][0]['full_native_gate'])

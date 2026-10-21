@@ -1,0 +1,108 @@
+{
+  "kind": "real_world-inline-directory-row-investigation",
+  "generated_at": "2026-10-21T10:05:42.286114+00:00",
+  "status": "rejected; no runtime integration",
+  "authoritative_runtime": "28f0ba7; native05a618/prod62daa shared filter forwarding remains unchanged",
+  "candidate": {
+    "native_source_digest": "3d3f471829cf07f5a77770e361dbea3ad88c7ec54b186bec7884af52f64450f0",
+    "production_digest": "257a992f5e2a72a919b11b5c9297ed712bbf0eb3d9862e04fc3e68fbbb2737d0",
+    "snapshot": "461e3cecd197cf6d2d56c93db8dc2bd1297693f3f0b338969a94e7c9640c7591",
+    "artifact_sha256": "e5fb8007f2af9e6c5a839de5b1a2c4d98dfb1e37b96d2e2aaced48f0c27866ea",
+    "mechanism": "Directory inner prefix rows become Small inline4 page owners or Large original grown vector. Low columns remove a heap-pointer read; page boxes, canonical Arc key/value owners, arbitrary-width routing, row edits, normal/scalar undo and snapshot semantics remain. Promotion moves boxes. Allocation-free sorted clear uses an owned array/vector iterator. Existing representation test changes map(Vec::len) to map(Row::len), retaining its exact64 logical-slot assertion.",
+    "tradeoff": "Small row removes inner vector allocation but enum metadata grows (40B versus original24B on64bit); no universal memory/speed benefit claimed.",
+    "prototype": "work/real_world-goal/inline-directory-row-05a-next-prototype"
+  },
+  "evidence": {
+    "profile": "work/real_world-goal/current-compact-inverse-hardware-profile/receipt.json",
+    "profile_receipt_sha256": "b79bac88f4d19ccfc3d1ec6a50faaab1058fdd259bc018b8715b3bcf44f578dc",
+    "scope": "Decoded the existing beeb/498 hardware samples into instruction-level group helper sites. Inner directory row/page/collector pointer loads have actual samples. This is prior-source evidence, not a new current-source recording or removable-cost estimate.",
+    "decoded_sites": "work/real_world-goal/compact-profile-instruction-audit/hot-group-sites.txt"
+  },
+  "focused_verification": {
+    "tests_passed": 48,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "primitive_rows::",
+      "--",
+      "--nocapture"
+    ],
+    "seconds": 113.67169266298879,
+    "receipt_sha256": "d23d90d97939ceebc80785c29c59d0d01c45216242f1dd9104fec59018ae9de1",
+    "scope": "Actual primitive row controls, including directory boundaries/hole growth/forward-reverse order, full-width routing, canonical ownership, sorted destruction, nested journals/captures and installs. No new upstream or integrated native-test credit.",
+    "warning": "The prototype emits private_interfaces for Row in an existing parent-visible directory entry field. Candidate is slower; no repair, Clippy or broad suite was run merely to finalize a rejected source."
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen workload, CPU2,3; all assignments independently valid.",
+    "baseline": {
+      "rust_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "source_snapshot": "4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388",
+      "final_receipt_sha256": "195d742b4041c06c6e53c1a275fe1f3a155b44e0ed3556fa3f46836f00e09b78",
+      "native_pilot_binding_sha256": "ff78daf5e8ab73c5becd1fc17ff0508717c0c33f421f7b7e9c4aacd83589bdaf",
+      "historical_java_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+      "current_java_throughput_targets_proven": 0,
+      "qualification": "Actual corrected native gate plus actual byte-identical release build; Java report is historical/stale. Diagnostic native controls earn no Java parity credit."
+    },
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            59057.2403623008,
+            60044.650724096944,
+            60336.23390386043,
+            59532.662024946294
+          ],
+          "trial": [
+            59476.406304076656,
+            59141.86057052294,
+            59205.37072542492,
+            59223.905337038086
+          ]
+        },
+        "medians": {
+          "baseline": 59788.65637452162,
+          "trial": 59214.6380312315
+        },
+        "gain_pct": -0.9600790151469751
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            176580.0411390074,
+            179212.4255957236,
+            177144.11628342824,
+            174688.11041877588
+          ],
+          "trial": [
+            171222.18440224708,
+            174363.28804189473,
+            172691.62435942196,
+            176070.39289434746
+          ]
+        },
+        "medians": {
+          "baseline": 176862.07871121782,
+          "trial": 173527.45620065834
+        },
+        "gain_pct": -1.88543668312543
+      }
+    },
+    "build_seconds": 103.22664223299944,
+    "receipt_sha256": "ec07c8a6e5f35dbfa7c14b37e43dedb564ad25c7503820a55fd6374ab47cf24d",
+    "controls_sha256": "11ea575bbc278b835fdee6effa83902007eebed4c558151d1b9636f7673b1c03",
+    "scope": "Sailing median-.960079%, Golfer-1.885437%; three of four pairs slower in each case. Rejected; do not repeat unchanged."
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "No main Rust edits, native aggregate promotion, full-suite rerun, Java qualifier refresh or changes to frozen fixtures/model/declarations/runner/compiler/settings/CPU/PGO/panic/batch policy. The selected shared-forwarding native source and full evidence stay current; Java866338 stays unchanged and stale. Local+runner-a, runner-c parked; no new agents.",
+  "proof_directory": "work/real_world-goal/inline-directory-row-05a-next-results/"
+}

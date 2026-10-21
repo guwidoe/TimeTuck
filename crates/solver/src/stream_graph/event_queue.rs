@@ -94,6 +94,13 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         // unwind this local owner immediately drops pending events and deltas;
         // transaction checkpoints retain sole ownership of graph rollback.
         let mut workspace = std::mem::take(&mut self.graph.propagation_workspace);
+        // Whole consumed graphs plus builtin score routing make total probes
+        // pure. Apply and check every terminal event in the original order;
+        // only its graph-total contribution can telescope across this drain.
+        workspace.deferred_totals.begin(
+            self.graph.consuming_search && self.graph.score_probe_nodes.is_some(),
+            self.graph.nodes.len(),
+        );
         // All callers provide a validated source: a source handle/batch entry,
         // or a row emitted by source_events during replay. Handle the root in
         // the original node-loop order, without allocating its singleton output
@@ -141,8 +148,12 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 &mut workspace.arena,
                 &mut workspace.summary_arena,
                 &mut workspace.changes,
+                &mut workspace.deferred_totals,
             )
             .and_then(|()| {
+                workspace
+                    .deferred_totals
+                    .append_changes(|id| self.graph.nodes[id].score(), &mut workspace.changes);
                 let totals = if self.replaying {
                     crate::ScoringArithmetic::Wrapping
                 } else {
@@ -167,6 +178,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
         arena: &mut Vec<Event>,
         summary_arena: &mut group_summary_lane::Lanes,
         changes: &mut Vec<(S, S)>,
+        deferred: &mut deferred_totals::Totals<S>,
     ) -> Result<(), GraphError> {
         let arithmetic = NodeArithmetic {
             impact: self.arithmetic,
@@ -190,6 +202,26 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 debug_assert!(self.graph.consuming_search && self.graph.active.is_none());
                 self.checkpoint(id);
                 self.score_evaluations += u128::from(summary.is_put());
+                if deferred.enabled() {
+                    deferred.record(id, || self.graph.nodes[id].score());
+                    let outputs = {
+                        let _count = ScoreEvaluationDelta::new(
+                            self.graph.score_evaluation_counters[id].as_ref(),
+                            &mut self.score_evaluations,
+                        );
+                        self.graph.nodes[id].apply_borrowed_summary(summary, arithmetic)
+                    }?;
+                    outputs.for_each(|output| {
+                        enqueue(
+                            &self.graph.edges[id],
+                            output,
+                            pending,
+                            arena,
+                            self.graph.shared_event_producers[id],
+                        )
+                    });
+                    continue;
+                }
                 let old = self.graph.nodes[id].score();
                 let outputs = {
                     let _count = ScoreEvaluationDelta::new(
@@ -318,6 +350,26 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 continue;
             }
             self.score_evaluations += u128::from(self.graph.nodes[id].evaluates_score(event));
+            if deferred.enabled() {
+                deferred.record(id, || self.graph.nodes[id].score());
+                let outputs = {
+                    let _count = ScoreEvaluationDelta::new(
+                        self.graph.score_evaluation_counters[id].as_ref(),
+                        &mut self.score_evaluations,
+                    );
+                    self.graph.nodes[id].apply(edge.right, event, arithmetic)
+                }?;
+                outputs.for_each(|output| {
+                    enqueue(
+                        &self.graph.edges[id],
+                        output,
+                        pending,
+                        arena,
+                        self.graph.shared_event_producers[id],
+                    )
+                });
+                continue;
+            }
             let old = self.graph.nodes[id].score();
             let outputs = {
                 let _count = ScoreEvaluationDelta::new(

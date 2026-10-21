@@ -1,0 +1,187 @@
+{
+  "kind": "real_world-deferred-terminal-totals",
+  "generated_at": "2026-10-21T10:16:15.903839+00:00",
+  "native_source_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+  "input_sha256": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+  "source_snapshot": "50fc4d70dd2867ecd52666eefda76a4832c7256024205ca4765ddfaecf36a2bc",
+  "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e",
+  "upstream_method_credit": 0,
+  "changes": [
+    "In whole ownership-consuming graphs with existing builtin score metadata, record each touched terminal total once per propagation drain and obtain its final total after every queued event succeeds. Collapse only graph-total differences; callback order/count, event applications, per-terminal checked arithmetic, evaluation guards, error/poison phases and final graph-wide overflow phase remain.",
+    "Public/custom-score/probe-None paths keep their original per-event probes and score Clone/Eq/Drop phases. No node-vtable additions, event batching, changed evaluation budget or frozen public model/fixture/declaration/runner/setting.",
+    "Drain-local seen flags and old totals add reusable workspace memory. Clear after success/error; unwind drops the local owner. Full/current/nested node captures are unchanged. This is not a persistent score cache or a universal speed/memory claim."
+  ],
+  "correctness": {
+    "current_focused_cargo_tests_passed": 224,
+    "current_parseable_named_tests_passed": 217,
+    "current_full_native_gate": false,
+    "focused_command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "stream_graph::",
+      "--",
+      "--nocapture"
+    ],
+    "focused_seconds": 126.39444691198878,
+    "focused_receipt_sha256": "e0ac392b0ac7a25d277cf18179e4a24c486763fb81304350c57bb801ca04c078",
+    "clippy_command": [
+      "/home/developer/.cargo/bin/cargo",
+      "clippy",
+      "--locked",
+      "--lib",
+      "--example",
+      "real_world_benchmark",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "clippy_seconds": 39.99034258699976,
+    "clippy_receipt_sha256": "591730dcb5f1a2838b652ea7543a2619f6c6e635feb20c354a7fd69e8db797cc",
+    "new_original_native_regressions": 2,
+    "contract": "Actual consumed join/filter/group with multiple terminals versus original probe-None and wide paths: callbacks/work/scores, full/current/nested captures, panic/structural/terminal overflow/rollback/retry; final graph overflow after both terminal callbacks, checked/wrapping/canceling totals. All224 graph tests passed.",
+    "named_output_limit": "Concurrent nocapture diagnostic output interleaves seven harness status lines. Original raw log/receipt and actual224-pass Cargo summary preserved; named report credits only217 parseable passes, no repaired/synthetic test log. Both new controls parse as passed.",
+    "policy": "Latest user policy requires directly relevant tests and prohibits full suites. Only actual current focused log/metadata promoted; previous full native05a618 log/metadata retained in proof, never relabeled or grafted. All4412 upstream adaptations remain declared with0pending, but have no current run credit from this focused original-native-only check."
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 baseline/trial native pairs per frozen case, CPU2,3. Three of four pairs faster in each case; all assignments independently valid.",
+    "baseline": {
+      "rust_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "source_snapshot": "4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388",
+      "final_receipt_sha256": "195d742b4041c06c6e53c1a275fe1f3a155b44e0ed3556fa3f46836f00e09b78",
+      "native_pilot_binding_sha256": "ff78daf5e8ab73c5becd1fc17ff0508717c0c33f421f7b7e9c4aacd83589bdaf",
+      "historical_java_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+      "current_java_throughput_targets_proven": 0,
+      "qualification": "Actual corrected native gate plus actual byte-identical release build; Java report is historical/stale. Diagnostic native controls earn no Java parity credit."
+    },
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            48549.171165461295,
+            47754.675151739764,
+            48556.715397204964,
+            48583.52415740547
+          ],
+          "trial": [
+            49814.51726815762,
+            49435.193467715624,
+            48339.89458005802,
+            48784.52875590586
+          ]
+        },
+        "medians": {
+          "baseline": 48552.94328133313,
+          "trial": 49109.861111810744
+        },
+        "gain_pct": 1.1470320702302805
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            178572.22735363935,
+            175962.38223654823,
+            178616.86304755253,
+            172699.16049933247
+          ],
+          "trial": [
+            180066.75438462416,
+            180603.79023967893,
+            177477.7537586632,
+            178866.39686285745
+          ]
+        },
+        "medians": {
+          "baseline": 177267.30479509378,
+          "trial": 179466.5756237408
+        },
+        "gain_pct": 1.2406522630832528
+      }
+    },
+    "build_seconds": 96.6808865990024,
+    "build_receipt_sha256": "8af4e2aac542180e2b1404db9ae4f3954bdf6a5284899104bf6d8ce2d01ae68b",
+    "pilot_receipt_sha256": "82f2c87fce38183f203dc4151496895d6069492a9e2b2ea1b0391916396b7ecb",
+    "controls_sha256": "742a3a23afe3513cf50b50e7543f90653953ccc8ddb99e9527962317725fbab9",
+    "scope": "Modest native signal: Sailing+1.147032%, Golfer+1.240652%. No Java parity credit and no adding earlier gains. Final3seed10s original Java/Rust qualification remains required."
+  },
+  "unselected_single_buffer_refinement": {
+    "native_source_digest": "36059e7a94c1d76839d52c666c2bf2d0c429f56bd67ed4b75d318dd1d795a8ab",
+    "production_digest": "725e65e5f04d8d140e1fe703b0a4fbf64c30650c70f3e01eee3ba119b041e248",
+    "snapshot": "6c9123769b25946bdc356716fc32edcd83b2c2fce09ac4b2f9bd5dbc048d1e84",
+    "artifact_sha256": "81a9d1856396eb350e186d63a53b0d2c7d30d3860b7d0d98d75e2d12d04bd150",
+    "mechanism": "Retain node/old/new score cells directly and pass their filtered references to the original final adjustment, eliminating the extra score-change vector copy. Generic fallback adjustment remains unchanged.",
+    "focused_cargo_tests_passed": 224,
+    "focused_seconds": 65.64415728198946,
+    "valid_outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            60281.12486171879,
+            60681.97793084501,
+            60277.51299116865,
+            57684.363065939644
+          ],
+          "trial": [
+            60633.208360543045,
+            60754.98788088745,
+            59181.96591315076,
+            60249.28528178142
+          ]
+        },
+        "medians": {
+          "baseline": 60279.318926443724,
+          "trial": 60441.24682116223
+        },
+        "gain_pct": 0.2686292705398774
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            179996.32113636011,
+            181076.97816437317,
+            180406.33464230012,
+            179535.3959780981
+          ],
+          "trial": [
+            179951.0956885035,
+            181826.02943927998,
+            179740.6181296127,
+            178041.52941686305
+          ]
+        },
+        "medians": {
+          "baseline": 180201.3278893301,
+          "trial": 179845.85690905811
+        },
+        "gain_pct": -0.1972632413065778
+      }
+    },
+    "scope": "Measured as a coherent alternative versus05a618, not incremental versus the selected version. Sailing+.268629% effectively flat, Golfer-.197263%; unselected. No full suite or Clippy rerun for this flat source. Frozen prototype/results preserved; no unchanged repeat.",
+    "proof_directory": "work/real_world-goal/deferred-total-cells-05a-next-results/"
+  },
+  "initial_test_only_correction": {
+    "original_native_digest": "bca333055e358fcb55805a0b4f04b41137b3ab525570068d75e7ca6ce9455443",
+    "production_digest": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+    "failure": "The new test tried extracting its borrowed trace before dropping the graph; Rust rejected the test with E0505 before execution. Fixed clone adds explicit drop(g) in that test only, then actual focused test/Clippy/build/native controls run on corrected ab916. Failed frozen source/receipt retained; no measurement relabeling."
+  },
+  "java_qualification": {
+    "status": "historical/stale",
+    "previous_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+    "current_targets_proven": 0,
+    "historical_targets_met": 1,
+    "policy": "Previous67f/378/7f439 Java report866338 remains byte-identical. No multiplying native gains into historical ratios or current target credit. Goal remains active and incomplete."
+  },
+  "proof_directory": "work/real_world-goal/deferred-terminal-totals-05a-fixed-results/",
+  "policy": "Exact tested/measured source integrated. OriginalCommunity pin/provenance/exclusions unchanged. Model/fixtures/declarations/runner/compiler/CPU/settings/PGO/panic/batch policy unchanged. Local+runner-a, runner-c parked, no new agents.",
+  "reporting_fix": {
+    "change": "Preserve an actual command array from focused-log metadata in report runs instead of incorrectly labeling it as the all-target assembler. Full-native-gate producer check unchanged.",
+    "verification": "Existing CapturedResultTests.test_focused_or_unknown_log_producer_cannot_claim_a_full_native_gate passes with an assertion that focused command arrays survive. Actual current focused receipt also re-read:217 named passes, full_gate false, original Cargo command.",
+    "scope": "Backend report metadata only; Rust and RealWorld production digests unchanged. No browser/rendering change."
+  }
+}

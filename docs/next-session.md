@@ -28,94 +28,85 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-Selected batch: private shared acceptance-event forwarding. Exact builtin
-numeric member IDs/payloads join the existing one-byte acceptance action. The
-original apply_row (input/output cloning, predicate, cache/bounds/journal and
-poison phases) and evaluation guard finish before publication. Accepted puts
-and accepted retractions reuse the original immutable private Rc owner; rejected
-replacements emit a full-ID retraction. Existing inline events keep their arena
-slots. Public/custom/batch/unsupported and retaining/transitive producer paths
-keep original fresh canonical owners. Retention metadata remains pre-pruning.
-No Node vtable, persistent metadata/workspace, Event/queue layout or payload arena
-was added. Event 72B/queued 24B on 64bit. Private owner lifetime/aliasing changes only
-inside this closed Copy route; no universal memory or speed claim.
+Selected batch: drain-local deferred terminal totals. Only whole ownership-
+consuming graphs with existing builtin-score metadata enter. Each terminal's
+starting total is captured on its first event; its final total is read after the
+queue succeeds. Every callback/event/guard/counter and terminal arithmetic check
+still executes in the original order. Final graph-wide arithmetic retains its
+original end-of-drain phase. Public/custom-score/probe-None fallback code remains.
+A reusable seen vector and old-total list add workspace memory; clear on success/
+error, local-owner drop on panic. No persistent score cache or event batching.
 
-Native `05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7`;
-production `62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230`;
-final snapshot `4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388`;
-measured/final artifact `ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0`.
-Actual final Clippy/all-target no-run prebuild/normal jobs4 `bash scripts/check.sh`
-passes **8,881 named /8,887 Cargo executions /292 doctests /54 tooling jobs**.
-Origins: 4,412 upstream adaptations /4 external application /4,465 native tests.
-Upstream inventory: 4,412 passed /0 pending /443 excluded. Only genuine aggregate Rust
-log/json promoted; no job-cache transplants. Three new original native tests earn
-no upstream-method credit. They cover full/MAX fields, actions, private Rc/Weak,
-FIFO/fanout/empty, actual callback/metrics/capture/nesting/panic/error/overflow/
-retry, public owner fallback and rejection of unknown consuming observers.
-
+Native `ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16`;
+production `1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5`;
+snapshot `50fc4d70dd2867ecd52666eefda76a4832c7256024205ca4765ddfaecf36a2bc`;
+artifact `0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e`.
 Actual four rotating 3s seed 7 native pairs per case on runner-a CPU2,3 measured
-**+3.083% Sailing /+.131% Golfer** (effectively flat), all 4 Sailing pairs faster
-and all 16 outputs independently valid. No native gain extrapolation into Java.
-Initial native6ebce failed test compilation because the new diagnostic Recorder
-omitted required clear. Corrected native05a618 adds only that required test-only
-method, same62daa production. All 222 graph tests pass. The final worker actually
-ran a Cargo release command after the full gate and verified byte-identical
-artifact to the measured pilot. Original pilot receipts keep their original
-native hash/timings; explicit cfg-only source binding plus genuine final build
-prove reuse without another native measurement. It is not an identical-crate
-manifest claim. Proof:
-`compat/observations/real_world-shared-filter-forwarding.json` and
-`work/real_world-goal/shared-filter-forward-67f-next-final-results/`.
+**+1.147% Sailing /+1.241% Golfer**, three of four pairs faster in each case;
+all 16 assignments independently valid. Modest workload-specific signal, no Java
+parity credit or additive claim. Proof:
+`compat/observations/real_world-deferred-terminal-totals.json` and
+`work/real_world-goal/deferred-terminal-totals-05a-fixed-results/`.
 
-The related owner-transfer variant (Option<Event> local holder, moving rather
-than cloning the owner) was measured independently as a coherent source versus
-67f: +.686%S/-.335%G, all 16valid and222 focused graph tests pass. It was not
-integrated or broadly gated. No unchanged repeat, no additive speedup claim.
+**Current verification is focused: 224 Cargo graph tests and lib/RealWorld
+example Clippy pass. No full suite ran.** Two new original regressions preserve
+callbacks/work/scores, full/current/nested captures, callback panic, structural/
+terminal/final-total overflow, checked/wrapping/canceling totals, rollback/retry.
+An initial cfg-only test borrow error was fixed before the genuine selected
+build/pilot. Original failed source/receipt preserved. Source is exactly frozen.
+Concurrent nocapture diagnostics interleave seven status lines: the original
+Cargo summary proves 224 passed, while the unchanged named-log reader recognizes
+217, including both new regressions. The raw log is not repaired or synthesized.
+Only those 217 named passes get current report credit. Full native05a618 evidence
+is preserved as `previous-full-rust-tests.log[.json]` in the proof, not relabeled.
+Declared 4,412 upstream adaptations,4 external cases and previous native controls
+remain; this focused run earns no current upstream-method verification, no new
+upstream adaptations.0pending/443excluded unchanged. Dashboard0 current upstream
+passes means4412 unverified for this source, **not new failures or a reopened
+implementation backlog**. Latest user forbids full suites; do not rerun for UI
+percentages. Preserve focused versus historical verification honestly.
 
-The previous original-protocol Java report 866338 remains unchanged and is now
-**historical/stale for the new source**: old 67f/378/7f439 measured G1.467427x,
-S.730242x, all 12 valid, previous target 1/2. Sailing feasible Rust2/3 Java0/3;
-Golfer 3/3 both; scores/feasibility remain separate, no equal-score gate. No
-current target credit from this previous-source report. Do not multiply native
-+3.083% into it. The goal remains incomplete. Defer another original qualifier
-until materially closer to Sailing parity; this increment reuses diagnostics.
+The previous Java report866338 remains byte-identical and stale: source67f/378/
+7f439 measured Golfer1.467427x and Sailing.730242x, all 12 outputs valid, previous
+1/2 targets met. **Neither current target is proved on this new source.** Keep
+scores/feasibility separate, no equal-score gate. Defer another original qualifier
+until materially closer to Sailing parity; do not extrapolate native gains.
 
-Next native helper: `pilot-v25-artifact-{dispatch,remote}.py` and
-`pilot-v25-master-dispatch.py` bind the actual corrected native gate and identical
-measured artifact; previous Java report remains explicitly stale. v24 stays
-historical for67f. All build/test/performance workers are terminal and collected.
-No new agents; local+runner-a, runner-c parked. Check the existing reusable SSH Master
-at `work/real_world-goal/ssh-control/runner-a` before opening a new connection.
-Authentication-wait keepalives caused earlier timeouts; disabling them preserved
-one live user check and enabled the reusable connection.
+Future native helpers: `pilot-v26-artifact-{dispatch,remote}.py` and
+`pilot-v26-master-dispatch.py`. Their actual baseline is current ab916/1b2a/0ea287
+release +16 validated native controls, with explicit local focused-only test/
+Clippy receipts; no full-gate claim. Helpers compile, unrun. v25 stays historical
+for05a618. All worker handles terminal and collected. Existing SSH Master socket
+`work/real_world-goal/ssh-control/runner-a` was reused; local+runner-a, runner-c parked,
+no new agents. Commit/reset alone warrants no repeated checks.
 
-The prior typed-join publication remains in
-`compat/observations/real_world-typed-join-publication.json`; its actual native
-+2.299%S/+2.319%G and original full gate are previous-source evidence. Its original
-Java qualification is preserved in
-`compat/observations/real_world-current-81e-qualification.json` and
-`work/real_world-goal/current-81e-java-qualification/`. The latter 866338 genuinely
-replaced the much older 021a/b14a report after many accepted changes; neither old
-report is relabeled current after this new Rust change.
+Closed this round: inline directory rows (private4 page columns in prefix row,
+higher columns keep originalVec) passed 48 relevant primitive-row tests but were
+slower: Sailing-.960% /Golfer-1.885%, all 16 valid. No runtime integration, full
+suite or Clippy repair of prototype-only visibility warning. Saved beeb/498
+hardware samples were decoded to instruction-level sites; no new profile run.
+Proof: `compat/observations/real_world-inline-directory-row-investigation.json`.
 
-Six other rejected 67f trials stay in
-`compat/observations/real_world-performance-investigation-67f.json`: accounting
-scopes, copied touch marks, checkpoint fast path, static join row reads and both
-prepared-score-entry versions. All 96 outputs valid, no integrated test credit,
-no broad gate on rejected sources. Do not retry these unchanged.
+The alternative deferred node/old/new single-buffer cells passed 224 graph tests
+and 16 valid native controls but were flat: Sailing+.269% /Golfer-.197%. This was
+measured as a whole source versus05a618, not incremental to the selected version.
+It is not integrated; no repeated unchanged measurements or added component gains.
+The selected deferred totals are distinct from earlier adjacent receiver caches
+and borrowed-post-total ABIs, which stayed closed.
 
-The concrete join-key projection lead is now CLOSED. Retaining concrete ZST
-callbacks through generic JoinNode/JoinSide removes the intended indirect key
-call in the actual ELF and reduces the first apply-buffered frame by 64B, but
-measured Sailing -1.392% /Golfer -1.705%. All 16 outputs validated; Sailing was
-slower in every pair. The 58 directly relevant join tests and lib/RealWorld
-example Clippy pass, including an original side-effect/callback/capture/unwind/
-error/retry regression. No full suite ran, no runtime or native-test credit was
-integrated. Capturing callbacks were explicitly excluded before measurement.
-Proof: `compat/observations/real_world-concrete-join-key-investigation.json`.
-Both frozen prototypes are preserved. Do not repeat unchanged or reintroduce
-this lead from an older handoff. Main runtime remains the selected 05a618/62daa
-filter forwarder above. All worker handles are terminal and collected.
+Historical selected filter forwarding remains in
+`compat/observations/real_world-shared-filter-forwarding.json`: +3.083%S/Gflat,
+8881 named/8887Cargo/292doc/54tool at05a618. Its complete native gate and selected
+runtime remain preserved. That older gate predates the latest no-full-suite
+user policy and is not current verification of the new source. Prior typed join
+publication, compact inverses and other accepted work remain unchanged.
+
+Concrete join-key specialization is CLOSED (-1.392%S/-1.705%G,16valid,58 relevant
+tests) in `compat/observations/real_world-concrete-join-key-investigation.json`.
+Do not restore it from older handoffs. Six67f trials stay closed in
+`compat/observations/real_world-performance-investigation-67f.json` (accounting,
+touch marks, checkpoint fast, static join reads, both prepared-score designs).
+No unchanged repeats of ownership/layout/queue/counts/preimage candidates.
 
 The previous-source hardware profile at
 `work/real_world-goal/current-compact-inverse-hardware-profile/` is actual beeb/498

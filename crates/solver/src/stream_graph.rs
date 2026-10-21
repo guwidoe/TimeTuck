@@ -2917,6 +2917,7 @@ struct PropagationWorkspace<S> {
     arena: Vec<Event>,
     summary_arena: group_summary_lane::Lanes,
     changes: Vec<(S, S)>,
+    deferred_totals: deferred_totals::Totals<S>,
 }
 impl<S> Default for PropagationWorkspace<S> {
     fn default() -> Self {
@@ -2927,6 +2928,7 @@ impl<S> Default for PropagationWorkspace<S> {
             arena: Vec::new(),
             summary_arena: group_summary_lane::Lanes::default(),
             changes: Vec::new(),
+            deferred_totals: deferred_totals::Totals::default(),
         }
     }
 }
@@ -2938,6 +2940,7 @@ impl<S> PropagationWorkspace<S> {
         self.arena.clear();
         self.summary_arena.clear();
         self.changes.clear();
+        self.deferred_totals.clear();
     }
 }
 
@@ -3600,3 +3603,5 @@ mod terminal_prepared_tests;
 
 #[cfg(test)]
 mod concrete_mapping_tests;
+
+mod deferred_totals;

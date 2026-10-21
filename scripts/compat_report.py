@@ -175,7 +175,9 @@ def read_test_run(test_output, verified_source):
     # this metadata command; unknown/legacy/focused producers fail closed.
     full_gate = (test_exit == 0 and
                  metadata.get('command') == 'per-target cargo test (matching successful targets reused)')
-    runs = [{'command': ['python3', 'scripts/run_rust_tests.py'], 'exit_code': test_exit, 'output': output,
+    command = metadata.get('command')
+    recorded_command = command if isinstance(command, list) else ['python3', 'scripts/run_rust_tests.py']
+    runs = [{'command': recorded_command, 'exit_code': test_exit, 'output': output,
              'full_native_gate': full_gate, 'native_source_digest': verified_source,
              'log_sha256': metadata['log_sha256']}]
     return results, runs
