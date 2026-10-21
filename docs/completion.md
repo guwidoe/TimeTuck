@@ -49,9 +49,12 @@ passes (new independent growth/retirement/full+delta regression plus4 applicatio
 cases). Actual final lib/example Clippy passes and the release is byte-identical
 to the measured runtime;only a cfg(test) regression was appended. Current focused
 log credits5 actual final-source passes;earlier12 remain source-bound. No full
-suite or upstream-method credit. The original default3seed10s Java/Rust matrix
-is now refreshing on the selected source. Until collected,Java5725 remains
-historical/stale and no current-source target is qualified.
+suite or upstream-method credit. The fresh original default3seed10s Java/Rust
+matrix now proves **Golfer1.603315x/Sailing.873827x**,all12 outputs independently
+valid,**1of2 targets met** on selectedd466/465509/84e98d. Sailing needs
+14.439% more Rust throughput on this actual comparison. Rust2/3 and Java0/3
+Sailing runs are feasible;quality remains separate. Report4795a7 is current,
+original5725 preserved historical. Goal remains active/incomplete.
 [Evidence](../compat/observations/real_world-owned-collector-arena.json).
 
 The preceding selected batch writes complete numeric group summaries directly

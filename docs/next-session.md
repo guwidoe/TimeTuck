@@ -55,9 +55,12 @@ passes (new independent growth/retirement/full+delta regression plus4 applicatio
 cases). Actual final lib/example Clippy passes and the release is byte-identical
 to the measured runtime;only a cfg(test) regression was appended. Current focused
 log credits5 actual final-source passes;earlier12 remain source-bound. No full
-suite or upstream-method credit. The original default3seed10s Java/Rust matrix
-is now refreshing on the selected source. Until collected,Java5725 remains
-historical/stale and no current-source target is qualified.
+suite or upstream-method credit. The fresh original default3seed10s Java/Rust
+matrix now proves **Golfer1.603315x/Sailing.873827x**,all12 outputs independently
+valid,**1of2 targets met** on selectedd466/465509/84e98d. Sailing needs
+14.439% more Rust throughput on this actual comparison. Rust2/3 and Java0/3
+Sailing runs are feasible;quality remains separate. Report4795a7 is current,
+original5725 preserved historical. Goal remains active/incomplete.
 [Evidence](../compat/observations/real_world-owned-collector-arena.json).
 
 The preceding selected batch writes complete numeric group summaries directly
@@ -98,10 +101,11 @@ Do not retry either queue representation unchanged. Proofs:
 The consumed collector arena described above is now selected. A separate split
 arena prototype68799/959e keeps cold address metadata in a parallel Vec to reduce
 hot value stride;its actual lib/example compile check passes. It is unmeasured,
-unintegrated and has no test/speed credit. Do not add component gains. Before
-another incremental pilot,bind genuine selectedd466/465509/84e98d source,release,
-equivalence and focused evidence;v32 is historical0b4fcc/55e146/5a1911.
-Actual originalJava refresh88437 is live;preserve it across observation timeouts.
+unintegrated and has no test/speed credit. Do not add component gains. v33 pilot helpers now bind genuine selectedd466/465509/84e98d release/equivalence,
+5 finaltests/Clippy plus12 earlier tests and actual originalJava4795 (1/2targets).
+The split arena now has actual native controls81895 and4 directly relevant local
+checks14097 in flight,not integrated. Source68799/959e. Preserve handles;do not
+repeat successful checks or restart on observation timeout.
 No new subagents;local+runner-a,EFSparked. Other documentation/UI writer changes
 are unrelated:preserve them and commit only explicitly selected own paths.
 

@@ -10,7 +10,7 @@ workloads. It does not establish an application-independent speed advantage.
 | Evidence | Interpretation |
 | --- | --- |
 | Original native acceptance cohort | A retained qualification reached the project's 109 measured time/quality targets across 18 comparison jobs. This is a bounded historical acceptance result, not a universal speed claim. |
-| Additional RealWorld applications | Two approved public workloads exercise actual Community streams and the native model. The implementation handoff records a previous qualification meeting one of the two throughput targets; later native changes require their own qualification. |
+| Additional RealWorld applications | Two approved public workloads exercise actual Community streams and the native model. Selected arena revision d466 has a fresh original qualification: Golfer 1.603× Java evaluations/s, Sailing 0.874×, one of two targets met. All twelve outputs validate; scores and feasibility remain separate. |
 | Native optimization experiments | Paired native controls measure changes against a particular native baseline. These gains cannot be added to old Java/Rust ratios or treated as fresh Java comparisons. |
 | Score and collector microbenchmarks | Operation-specific costs under defined inputs; they do not measure complete solver speed or final solution quality. |
 

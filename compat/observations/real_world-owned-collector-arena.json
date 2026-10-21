@@ -1,7 +1,7 @@
 {
   "kind": "real_world-owned-collector-arena",
   "generated_at": "2026-10-21T17:08:47.721529+00:00",
-  "status": "selected;native throughput gain;current Java qualification pending",
+  "status": "selected;current originalJava matrix1of2targetsmet",
   "native_source_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
   "input_sha256": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
   "source_snapshot": "446c54129e2371f087ba899bd8ff6c20b3b4d891e514d67d80a620ef5c0e3b1e",
@@ -121,7 +121,7 @@
   },
   "full_native_gate": false,
   "upstream_method_credit": 0,
-  "policy": "Selected after original16valid controlsS+.9498%(2/4),G+2.946%(4/4) and one justified longer artifact-only follow-upS+1.183317/G+3.640929,all4pairs fasterboth,16 independently validated outputs. Helper initial ordering-only check failed;8 actualGolfer runs retained unchanged,four completeSailing pairs run once in continuation. One orphan validSbaseline preserved/excluded;failure receipt not rewritten. Final actual release byte-identical.17 scoped passes across2sources (12pre-growth+5final),finalClippy. No repeated successful tests/fullsuite/upstreamcredit. OriginalJava5725 historical/stale;next actual defaultmatrix pending,no extrapolation.",
+  "policy": "Selected after original16valid controlsS+.9498%(2/4),G+2.946%(4/4) and one justified longer artifact-only follow-upS+1.183317/G+3.640929,all4pairs fasterboth,16 independently validated outputs. Helper initial ordering-only check failed;8 actualGolfer runs retained unchanged,four completeSailing pairs run once in continuation. One orphan validSbaseline preserved/excluded;failure receipt not rewritten. Final actual release byte-identical.17 scoped passes across2sources (12pre-growth+5final),finalClippy. No repeated successful tests/fullsuite/upstreamcredit. OriginalJava5725 preserved historical. Fresh actual originalmatrix4795 current onselectedd466/465509/84e98d:all12valid,G1.603315x/S.873827x,1of2targetsmet. Goal active;no extrapolation.",
   "final_equivalence": {
     "only_change": "One original regression appended in an existing cfg(test)-only module;all other crate files and production digest identical.",
     "pilot_rust_digest": "1b4e97e5b711ef7899e37e3bba8c49b71acec09e63b1e690ff101584ec5c4395",
@@ -204,5 +204,18 @@
     "owned-collector-arena-final-results/real_world-owned-collector-arena-final/receipt.json": "b4b116a3d32f58dfd57343c797e501068d58d45c26655ecb4c389b88ccf83a0a",
     "owned-collector-arena-final-results/real_world-owned-collector-arena-final/build-receipt.json": "451f3444c9ed9518f8ddca95c36d2c00043305aa4cb9b59ae577f2403f8a00f6",
     "owned-collector-arena-final-results/real_world-owned-collector-arena-final/equivalence.json": "232b5d7e63b4d418208f67061ab39ff8d5b7a2897e972618ea9f1ebd3733b9a2"
+  },
+  "current_java_qualification": {
+    "native_source_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
+    "production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+    "report_sha256": "4795a7c730f0c89877c27939100ed36e599895c214d7c77dfa5f907b97756feb",
+    "current_targets_met": 1,
+    "required_targets": 2,
+    "all12_outputs_independently_valid": true,
+    "rust_over_java": {
+      "social-golfer-32x8x10-v1": 1.6033154280036457,
+      "sailing-trip-v1": 0.8738274682339982
+    },
+    "proof": "real_world-collector-arena-current-java-qualification.json"
   }
 }
