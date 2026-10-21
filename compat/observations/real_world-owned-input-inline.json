@@ -1,0 +1,80 @@
+{
+  "kind": "real_world-owned-input-inline",
+  "generated_at": "2026-10-21T17:52:07.509649+00:00",
+  "status": "closed;not integrated;flat",
+  "native_source_digest": "5087d9e287460dd979637481f1a82589ebb75b8bf08284eccf0c1afe9197f48f",
+  "input_sha256": "30f1896d6ca61a96846044d0d431ad63a7fb1b9b27b90ebcf910581bb64dcd47",
+  "source_snapshot": "38a05f7bc127e32eedc69febd2956182799d3db0f7c195dc9fed0b58cf27b42e",
+  "artifact_sha256": "5d8ae0d1ff901e0a766a7574a869c22ad261680eb2e3829595ec11b24931376d",
+  "mechanism": "Only two inline(always) attributes on private owned group-input Rows.set and Rows.replace. Method bodies and allothercratefiles unchanged;request setter/replacement fusion withoutintermediate return-value copying. No model/settings/compiler/CPU/PGO/panic/batch change.",
+  "body_identity": {
+    "before_sha256": "1398b68310e481e4c45aea11fdfc6e1c291f5eab93c4142f97f3630213b861bc",
+    "after_sha256": "b410604e480dac5a4c522d4d175d83d75aef50dbff7bcfb5c6ac22b49ac4fd10",
+    "only_two_attributes": true,
+    "method_bodies_identical_after_attribute_removal": true
+  },
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-input-inline-next-results/real_world-owned-input-inline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64341.561485143495,
+            65942.84687297096,
+            64789.55509726993,
+            65473.96941839701
+          ],
+          "trial": [
+            64073.10757369995,
+            65131.369073984715,
+            65122.11416792903,
+            65236.81017077784
+          ]
+        },
+        "medians": {
+          "baseline": 65131.76225783347,
+          "trial": 65126.74162095688
+        },
+        "gain_pct": -0.007708430883102135
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194116.0717312075,
+            193834.458278191,
+            194933.3788333657,
+            191257.9474217269
+          ],
+          "trial": [
+            194785.17351193458,
+            194085.15831993622,
+            193293.48984433635,
+            194143.2976770663
+          ]
+        },
+        "medians": {
+          "baseline": 193975.26500469926,
+          "trial": 194114.22799850127
+        },
+        "gain_pct": 0.07163954321631749
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "checks": [],
+  "test_scope": "Actualrelease build and16complete solve outputs independently validated. Onlycompilerhints changed;unchanged unit functionality notrerun,notrekeyed orcreditedtoexperimental source.",
+  "receipts": {
+    "receipt.json": "e9b95465256b338bca3cafbca3e43d423378026215ce3ec28073f0dd3be41ad0",
+    "build-receipt.json": "b7bf9d88902d61519da2bfeec59722de491453c1fc26129a49b140886250bad0",
+    "controls.json": "afbbcca85013e2ae970879e7005c9269bc8c97f06c973627b04bd9bf83e9d519",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "16valid nativeoutputs,Sailing-.007708%(1/4faster),Golfer+.071640%(3/4faster):flat. Closewithoutintegration/retry/extraunit/app/Clippy/Java/fullsuite. Selectedruntime763da12 d466/465509/84e98d currentJava4795 remains1/2targets."
+}

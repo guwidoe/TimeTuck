@@ -121,12 +121,20 @@ presence,but wrapper143terminated before finalreceipt. Cargoexit unobserved;
 explicit post-completion source/log recovery preserves that limitation. No
 rerun,rekey,completewrappergate,app/Clippy/Java/fullsuite or integration. Proof:
 `compat/observations/real_world-equal-contribution-total.json`.
-Next candidate changes only two inline(always) attributes in owned group-input
-set/replace;entire methodbodies unchanged. Actual native build/16controls are
-running;no unchangedunit tests repeated. Native result decides whether to do
-scoped application/Clippy integration checks. Read actual livehandles inignored
-state;preserve them across timeouts. Mainruntime763da12/currentJava4795 unchanged,
-1/2targets. Local+runner-a,EFSparked,no newsubagents;preserveotherwriterchanges.
+Owned-inputset/replace inlining5087d9/30f189 is closed:16 validoutputs,
+Sailing-.0077%/Golfer+.0716%,flat. Only2attributes;methodbodyidentity asserted,
+unchangedunit functionality notrerun. No integration/retry/app/Clippy/Java/fullsuite.
+Proof: `compat/observations/real_world-owned-input-inline.json`.
+Next candidate is a branch-free single-score adjustment in ignored
+`single-score-adjust-next-prototype`:provided hidden AdditiveScore one-pair hook
+delegates to originalbatch hook bydefault;only3 fixedbuiltin integer families use
+a direct widenedone-pair implementation withfinali64checks/structural0. Only
+consumed terminal calls useScoringArithmetic.adjust_one;othercallersunchanged.
+Actual lib/example compile passes on c67279/332144. New native controls and17
+focused one-pair/extreme/custom-hook/operator-order/consuminggraph cases are live;
+no performance/integration claim yet. Preserveactualhandles inignoredstate across
+timeouts. Mainruntime763da12/currentJava4795 remainunchanged,1/2targets.
+Local+runner-a,EFSparked,no newsubagents;preserveotherwriterchanges.
 
 
 The preceding consumed-graph collector backend owns each mutable integer
