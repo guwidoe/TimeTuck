@@ -166,8 +166,17 @@ never rekey old binders. Native measured sourceD62 and finalf412 share the actua
 collected. Dashboard PID24571 serves8765;backend refresh16741 completed with final4check log/currentJavaaac7,
 HTTP200 andall3 freshness hashes matched. Keep concurrent docs/release work and
 commits intact. Goal incomplete:1/2 throughput targets. No new agents,runner-c parked.
+A clean-root inline pair-member trial is closed unintegrated:12 prior-source
+focused passes,726 identical library files and16 independent full outputs;
+Sailing+.321%(2/4)/Golfer-.601%(1/4),flat/mixed. Its fresh baseline is
+ee57023e/240fe653/artifact9ac5a00c;trial1160506e/968fdfa5/artifact26697955.
+Initial layout failure and preparation-only metadata mismatch remain preserved.
+No app/Clippy/Java/full suite or unchanged retry.
+[Evidence](../compat/observations/real_world-inline-pair-members.json).
+A distinct slice-view follow-up is isolated under ignored work;it converts one
+complete bucket view rather than calling a typed projection per member.
 The selected numeric member clone still allocates a full ID vector on each
-changed bucket update;this is a possible next target. Profile current6701 if
+changed bucket update. Profile current6701 if
 needed,without rebuilding;old9ad8 cycles/miss captures remain source-bound. Do
 not repeat closed dense/presence/ordered-visitor experiments unchanged.
 

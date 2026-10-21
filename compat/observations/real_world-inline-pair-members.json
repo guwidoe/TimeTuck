@@ -1,0 +1,113 @@
+{
+  "kind": "real_world-inline-pair-members",
+  "status": "Closed unintegrated: flat/mixed native controls, Sailing +0.321% (2/4 faster), Golfer -0.601% (1/4 faster).",
+  "native_source_digest": "1160506ea88d0641aecf8d61635b34ec3a05bb5a1c973f98dcaa85a3de10f001",
+  "input_sha256": "968fdfa5d8a021afcf5f75fd8ee0d9f8b8237b0035022c6f247e89c51710c11b",
+  "source_snapshot": "8e60f310b3a3cfdadc989800de38a87350bfb9be9524c1f8e9ff6b5089a42bb6",
+  "artifact_sha256": "26697955e140170c819d695c09e6502aa05f84bf3a1b372002f486258508889e",
+  "mechanism": "Keep zero, one or two full-width pair member IDs inline and promote larger buckets to sorted vectors. Move the cold ID copier into the enclosing index. Conversion to borrowed generic IDs still calls once per member.",
+  "tradeoffs": "Numeric member records add 24 bytes on the measured 64-bit target; larger records and typed conversion overhead offset allocation savings. No production change selected.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/inline-pair-members-clean-next-results/clean-inline-members-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69341.19827549729,
+            68975.82670132924,
+            69428.76563408259,
+            68971.6834250436
+          ],
+          "trial": [
+            70381.29614708848,
+            69676.41411846502,
+            69085.27088784991,
+            67618.14840471119
+          ]
+        },
+        "medians": {
+          "baseline": 69158.51248841325,
+          "trial": 69380.84250315747
+        },
+        "gain_pct": 0.32147888487548126
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195534.85317794245,
+            189665.08282874592,
+            195236.54365660792,
+            196357.12897167684
+          ],
+          "trial": [
+            188310.44106071506,
+            194412.27223371118,
+            194226.08839990225,
+            194196.6808671013
+          ]
+        },
+        "medians": {
+          "baseline": 195385.69841727518,
+          "trial": 194211.38463350176
+        },
+        "gain_pct": -0.6010234082053922
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "comparison_baseline": {
+    "rust_digest": "ee57023eb899e5d4eafd47ba71e9fa7117116136cc973755a76c36f243ab1a01",
+    "production_digest": "240fe6532e7ca0db01b4029c7cdddac6fcb98f52ed67f0e6fc8c256940870b9c",
+    "snapshot": "8c1467880a99def65c3012b7de8dec9739ba18cd7f5f745d7397cedf23b58795",
+    "artifact_sha256": "9ac5a00cc9ec209b3da6bde54a4f8da86d8580644f6f8be23fafe60241bab6ac"
+  },
+  "focused_tests": {
+    "actual_prior_source_passes": 12,
+    "rust_digest": "0c82244b6264c73b13376778dacdb5d20665f5ccaea680462959a67b358a36aa",
+    "production_digest": "2ef3a19e72f2dc2800bef8fb3484a3bbaaf3c7e7df15dde57a0534210b9bda3c",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::join_members_index::tests::numeric_join_index",
+      "incremental_stream::join_members_index::tests::inline_numeric_members_borrow",
+      "incremental_stream::consuming_join_rows_tests::pair_payload_tests",
+      "incremental_stream::join_equality_visit_tests"
+    ],
+    "proof_directory": "work/real_world-goal/inline-pair-members-codec2-focused1",
+    "receipt_sha256": "be3295760eb16efe8617576c30d4f140e26743cd1723eb5a0d67a503891fc7bf",
+    "log_sha256": "2a2436619f87a708598eb263db8b4cc312292c25225f97e760155a65036c10de",
+    "same_native_library_files": 726,
+    "binding_sha256": "deb38c7e8879d413342d3c07b0eb6ea2cfaee6c9b061fb474801d424d0cbdd41",
+    "policy": "All 726 native library files identical to the measured source. Original test-manifest ordering and non-library release metadata differ; test identities are retained, not relabeled."
+  },
+  "independent_validation_sha256": "c7e82fc20617ec43c710ff113b18c90b48c6db51eaada375de30428873a49032",
+  "receipts": {
+    "receipt.json": "5c1f76549d14b55921f38e9eeabd5f2a6ab6b76f28267d6152bffe12a2380315",
+    "build-receipt.json": "b31905e5da88618672f361b867216007bbdf1077e2ab95f2d7b024cf984904ad",
+    "baseline-build-receipt.json": "51d358168e6f3e9a49674d40f953019b9cf9e9d078e4a85ad11372e673f73d52",
+    "controls.json": "87cbed7195e33e12c22a362aa1e376dd1d3a3892c8c4ce0bee351077fcfc7689"
+  },
+  "source_archive_sha256": "2fe5bb967593a64669358bf120437c557697088432d3b99ed21bc0a038bf5ea7",
+  "development_failure": {
+    "status": "12 passed / 1 failed; terminal 101",
+    "cause": "Initial layout budget exposed the cost of storing three conversion pointers per bucket. The cold copier moved into the index; revised bound explicitly permits 24 bytes of measured growth.",
+    "rust_digest": "9d715cd2c16b07af8a8a64ed61aee807909d6c536055577fa1130552243cc0fb",
+    "log_sha256": "54a487459495c10a5c71731b2b1d61a9ffc7402f24e0e122bc7b86302bf54dc7",
+    "receipt_sha256": "431bd9de0498745412c76587e91b11c0fddde938d70c77f99fcfe3a7048279f8",
+    "policy": "Original failed prototype, raw warnings, receipts and logs remain unchanged."
+  },
+  "preparation_failure": "First capsule preparation caught additional copied release metadata/test target ordering before any remote dispatch. Archives retained; fresh clean-root prototype changes exactly one solver file.",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Fresh clean baseline and trial release builds on runner-a; four rotating three-second serial pairs per workload, CPUs 2,3 and seed 7. All16 full outputs independently recomputed locally, including structure, pins and exact initial schedule/score. No unchanged successful checks, application/Clippy/Java/full suite reruns or original proof rekeying. Native gains do not qualify Java parity."
+}
