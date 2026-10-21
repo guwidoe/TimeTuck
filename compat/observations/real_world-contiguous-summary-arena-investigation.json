@@ -1,0 +1,107 @@
+{
+  "kind": "real_world-contiguous-summary-arena-investigation",
+  "generated_at": "2026-10-21T10:47:46.952268+00:00",
+  "status": "unselected; Sailing effectively flat",
+  "native_source_digest": "76c461bde352bcc5d9412241d47ade56bf0af3a39e34fe1e249637806f27ee8f",
+  "input_sha256": "eee693895e03628a657cfe66c3c8acb838786ff769d4cb3cfc35c8cbe4cd60d9",
+  "source_snapshot": "0598740a7da73e6492ef81d4517e26087484d3ff4c31a7c9db55022493df88a9",
+  "artifact_sha256": "c28fd28369ebcfbb5b2760dd2d76a14d9152d78ae8e95f12620855e2b98ef20e",
+  "mechanism": "Replace private full-row summary chunks with a contiguous initialized-row Vec and active length. Queued indices stay stable; no borrowed row outlives its terminal call. Full88BPair/120BQuad rows, type checks, FIFO/fanout and existing scalar callbacks/guards/cache/error phases remain. No decode/compact data or wider Event/queue/vtable.",
+  "private_invariant_change": "Prototype permits private addresses to relocate during growth. Original native representation test explicitly renamed/adapted: same full/MAX/malformed contents and stable indices after growth; exact pointer/capacity reuse after clear/refill remains. No public owner/address contract, upstream adaptation or provenance changed.",
+  "focused": {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "stream_graph::",
+      "--",
+      "--color=never"
+    ],
+    "cargo_tests_passed": 224,
+    "seconds": 75.66136113399989,
+    "receipt_sha256": "101b930ed4ef4f840173202b091b93b1d002093ca0659d82f2516e1ad5e6e6ff",
+    "full_suite": false,
+    "scope": "Actual complete graph-focused filter on frozen candidate. Default captured test output avoids unrelated diagnostic/status interleaving; no old test rerun to repair logs."
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; independent full output validation.",
+    "baseline": {
+      "rust_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+      "production_digest": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+      "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e",
+      "source_snapshot": "50fc4d70dd2867ecd52666eefda76a4832c7256024205ca4765ddfaecf36a2bc",
+      "pilot_receipt_sha256": "82f2c87fce38183f203dc4151496895d6069492a9e2b2ea1b0391916396b7ecb",
+      "build_receipt_sha256": "8af4e2aac542180e2b1404db9ae4f3954bdf6a5284899104bf6d8ce2d01ae68b",
+      "local_verification": {
+        "scope": "224 Cargo graph-focused tests,217 parseable named passes, lib/example Clippy; full_native_gate false per latest user testing policy",
+        "rust_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+        "production_digest": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+        "focused_receipt_sha256": "e0ac392b0ac7a25d277cf18179e4a24c486763fb81304350c57bb801ca04c078",
+        "clippy_receipt_sha256": "591730dcb5f1a2838b652ea7543a2619f6c6e635feb20c354a7fd69e8db797cc",
+        "proof_directory": "work/real_world-goal/deferred-terminal-totals-05a-fixed-focused",
+        "full_native_gate": false
+      },
+      "historical_java_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+      "current_java_throughput_targets_proven": 0,
+      "qualification": "Actual current-source release build and16 validated native controls bind baseline; current local verification is focused only, no full-suite claim. Original Java report remains historical/stale. These native diagnostics earn no Java parity credit."
+    },
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            50720.45902547241,
+            49005.27216047044,
+            49534.475450910344,
+            57037.20503374218
+          ],
+          "trial": [
+            50292.249251696936,
+            50204.093735182105,
+            50003.92385307752,
+            49496.25001850199
+          ]
+        },
+        "medians": {
+          "baseline": 50127.46723819138,
+          "trial": 50104.00879412981
+        },
+        "gain_pct": -0.046797584944990867
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            169698.9512146634,
+            168435.78432762533,
+            165711.1792291184,
+            166030.20150596343
+          ],
+          "trial": [
+            168475.7352216034,
+            169342.04394633416,
+            168023.85121913961,
+            163940.895249897
+          ]
+        },
+        "medians": {
+          "baseline": 167232.99291679438,
+          "trial": 168249.7932203715
+        },
+        "gain_pct": 0.6080141758169955
+      }
+    },
+    "build_seconds": 106.14978440798586,
+    "receipt_sha256": "c1f12347e24758333e90a0bcfdc7dc9cf7d43b244a73cf71ae17ea2b11884380",
+    "controls_sha256": "442455732023d82de653614e8b78b3e87a3ff669176f5500fe3901dfb6cd61c9",
+    "scope": "Sailing-.046798% flat; Golfer+.608014% modest. Not integrated; do not repeat unchanged. No Java credit or summed gains."
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Main021e3eb/ab916/1b2a source and current focused evidence remain unchanged. No full suite, Clippy repair or Java qualifier rerun on this flat source. Model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy unchanged. Local+runner-a, runner-c parked; no new agents.",
+  "proof_directory": "work/real_world-goal/contiguous-summary-arena-ab916-next-results/"
+}

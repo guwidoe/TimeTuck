@@ -1,0 +1,283 @@
+{
+  "kind": "real_world-member-buffer-handoff-investigation",
+  "generated_at": "2026-10-21T11:09:15.139849+00:00",
+  "status": "closed; all three measured variants rejected, no main runtime integration",
+  "mechanism": "Move the entire original complete numeric join output Vec allocation to a drain-owned pool; retain (batch,row) indices through filter fanout and reuse empty bounded scratch buffers. Full IDs/payloads/orientation and original preparation, callbacks, guards, arithmetic and FIFO remain. Safe Rust; no per-row Rc or second full-row arena copy. Active buffers stay immutable until the drain completes, potentially increasing peak retention. Public/retaining/unsupported routes keep canonical owners.",
+  "variants": [
+    {
+      "name": "handoff",
+      "status": "rejected; no main runtime integration",
+      "native_source_digest": "805f605b28d6647db146dc76dce8260a98d2df2442867e1fc729d86637d19835",
+      "input_sha256": "85899be40b1bf9237fdf0f8dfb2ba573c7351eca9b356cb9e7bfa0f85260108d",
+      "source_snapshot": "4be687a09be3a7eefced0db4d47baf4dc5a0a390a0af3529003697fb4130e889",
+      "artifact_sha256": "e4ec0674491578568d5bd38bf7c3fad076542c7d15e41c1cbddce3f5b9a5db5c",
+      "focused": {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "stream_graph::",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 226,
+        "seconds": 93.6006818949827,
+        "receipt_sha256": "44b31431fce75a6b57eaf20842f3e54077f6b338068624f4cf19c17243ef783e",
+        "full_suite": false
+      },
+      "native_controls": {
+        "qualified": false,
+        "valid_outputs": 16,
+        "summary": {
+          "sailing-trip-v1": {
+            "rates": {
+              "baseline": [
+                60525.39868950764,
+                60654.8177936528,
+                60407.22248417117,
+                60847.987393401214
+              ],
+              "trial": [
+                59567.830466385516,
+                60703.72406411912,
+                59756.900414170894,
+                60644.8702095307
+              ]
+            },
+            "medians": {
+              "baseline": 60590.10824158022,
+              "trial": 60200.8853118508
+            },
+            "gain_pct": -0.6423869192930698
+          },
+          "social-golfer-32x8x10-v1": {
+            "rates": {
+              "baseline": [
+                181870.38680345728,
+                180150.44667224455,
+                181569.279664639,
+                179360.87835343485
+              ],
+              "trial": [
+                175126.41994479005,
+                177389.6606666657,
+                177094.98447813978,
+                176155.0642681878
+              ]
+            },
+            "medians": {
+              "baseline": 180859.86316844178,
+              "trial": 176625.0243731638
+            },
+            "gain_pct": -2.341502819414343
+          }
+        },
+        "receipt_sha256": "d5823289e5e912a38c9287e8d35684e79cd7c3671dd752b75a793e0092a844e1",
+        "controls_sha256": "5ecd07c2998572290016f2d005e1fd9c8f05107a84132a3298ffeae0cbe9e81b"
+      },
+      "proof_directory": "work/real_world-goal/member-batch-handoff-ab916-next-results",
+      "clippy": {
+        "command": [
+          "/home/developer/.cargo/bin/cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "seconds": 28.618096131976927,
+        "receipt_sha256": "d43cbad6c2653f3385152bd3e8d79c8ba7f19b364ee2c36637e1a2522449ce46",
+        "proof_directory": "work/real_world-goal/member-batch-handoff-ab916-focused1"
+      }
+    },
+    {
+      "name": "single-holder",
+      "status": "rejected; no main runtime integration",
+      "native_source_digest": "79549e98e66ea82b1b265a6b6a06021f3ecd0abe0982fcc55f17effdc46ff3c9",
+      "input_sha256": "2d7783edf874e1651991b3e791676e34f780a12e49754ebd6c3f8b7c52d7042b",
+      "source_snapshot": "7ffb997a7a7c96de04e9c7b20ab39235147a1c1ecc2ef3dde61801397b0b91f9",
+      "artifact_sha256": "d469122b2555b05ce2b6af991f3ca14c06b9a20364214b9e15f92a23fde08252",
+      "focused": {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "stream_graph::",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 226,
+        "seconds": 27.01018223099527,
+        "receipt_sha256": "dd9b1fc149943c37544f561238605dfbd5e85bdbca9f3c54c049285d5d960b5e",
+        "full_suite": false
+      },
+      "native_controls": {
+        "qualified": false,
+        "valid_outputs": 16,
+        "summary": {
+          "sailing-trip-v1": {
+            "rates": {
+              "baseline": [
+                59719.556198971244,
+                60080.215049866965,
+                60843.91400479111,
+                60746.388935740004
+              ],
+              "trial": [
+                60489.94310633282,
+                60436.145620300704,
+                60540.61368750419,
+                60282.360171721026
+              ]
+            },
+            "medians": {
+              "baseline": 60413.301992803485,
+              "trial": 60463.04436331676
+            },
+            "gain_pct": 0.08233678490079388
+          },
+          "social-golfer-32x8x10-v1": {
+            "rates": {
+              "baseline": [
+                178492.09643340783,
+                179906.13482013,
+                169846.7762865068,
+                178052.98810020782
+              ],
+              "trial": [
+                175905.36146358188,
+                176320.9796685621,
+                170282.13079459453,
+                175853.21317257304
+              ]
+            },
+            "medians": {
+              "baseline": 178272.5422668078,
+              "trial": 175879.28731807746
+            },
+            "gain_pct": -1.342469747892261
+          }
+        },
+        "receipt_sha256": "4004955bc9c8d6366d1eb476604cc117c97a3134364b0d70035774cfc2d73e8d",
+        "controls_sha256": "83dffb073555ce088efc9d78433c82666436832c0a67bec5ed443642f27da918"
+      },
+      "proof_directory": "work/real_world-goal/member-batch-single-holder-ab916-next-results"
+    },
+    {
+      "name": "direct-member-receiver",
+      "status": "rejected; both workloads slower",
+      "native_source_digest": "64d8e614a76d9cb46d718ee4d9304889aa96de39938b383cd7435909ba881b38",
+      "input_sha256": "1629f5651c58b0499ef22b17f545670240f4c465370c76e973d41140df067c1e",
+      "source_snapshot": "63cbaa17e53ef5a9c86364f02fe935576a241bd2df777ebff262fd5dcf9aa44c",
+      "artifact_sha256": "15caec64b56798a0ee8c9b2f348b47e183113feece8ed775c97f4b145df682f2",
+      "checks": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "stream_graph::",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 226,
+          "seconds": 90.67441228899406,
+          "receipt_sha256": "85bd21b299d0433c941f9afeada12b045c8fa6e48480f8deb153a2a3318b31f7",
+          "full_suite": false,
+          "proof_directory": "work/real_world-goal/member-batch-direct-ab916-focused2"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--test",
+            "real_world_application_regression",
+            "--",
+            "--color=never"
+          ],
+          "tests_passed": 4,
+          "seconds": 43.335196736006765,
+          "receipt_sha256": "d0377abdfe17c1158ac1582b78bcd8a7264379fa3b3b6f74df950fc429713a1a",
+          "full_suite": false,
+          "proof_directory": "work/real_world-goal/member-batch-direct-ab916-application1"
+        }
+      ],
+      "mechanism": "Fresh baseline clone retains original owned Event and all ordinary input signatures. Append one private Node receiver method; reuse existing summary Kind/candidate/ready metadata plus a temporary transitive receiver cohort to certify only complete numeric member filters and terminals. Outlined member input helper executes original filter/terminal bodies and guards. Active drain pool moves existing vectors, forwards indices and lazily reconstructs after panic. New fallback control rejects an unsupported transitive map. No new persistent route vector.",
+      "native_controls": {
+        "qualified": false,
+        "valid_outputs": 16,
+        "summary": {
+          "sailing-trip-v1": {
+            "rates": {
+              "baseline": [
+                59698.076848044766,
+                58680.36873265581,
+                58786.0931460269,
+                55702.45703106854
+              ],
+              "trial": [
+                59574.999578828516,
+                58899.75156117781,
+                57348.98208907484,
+                53490.23999227806
+              ]
+            },
+            "medians": {
+              "baseline": 58733.23093934135,
+              "trial": 58124.36682512632
+            },
+            "gain_pct": -1.0366603445396305
+          },
+          "social-golfer-32x8x10-v1": {
+            "rates": {
+              "baseline": [
+                170384.7824889022,
+                170984.8601917994,
+                169392.19365681018,
+                172840.19245430673
+              ],
+              "trial": [
+                161717.58975089074,
+                170734.03717066316,
+                160883.44623476692,
+                157822.245024587
+              ]
+            },
+            "medians": {
+              "baseline": 170684.82134035078,
+              "trial": 161300.51799282883
+            },
+            "gain_pct": -5.4980303894799025
+          }
+        },
+        "receipt_sha256": "b2725b589bec4dcebd3c596d510a671b16a4a99b30d31d0a6e0f9b29a7d93111",
+        "controls_sha256": "c59c3748c7db467b0bb71ba3507401cf97863c52257d35ed4e4a0cfab4b9ea90"
+      },
+      "proof_directory": "work/real_world-goal/member-batch-direct-ab916-next-results"
+    }
+  ],
+  "event_view_findings": "The first two variants use EventView with owned static outputs and one borrowed numeric row arm. Explicit typed input cannot escape the owned output. Single-holder reduces measured propagate_arena frame from original1704B to1688B (first1752B) but remains flat on Sailing and slower on Golfer. No repeated unchanged trial.",
+  "baseline": {
+    "native_source_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+    "input_sha256": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+    "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e"
+  },
+  "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; all16 independently validated outputs per variant. No Java comparison, qualification or extrapolated parity.",
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Focused checks only per latest user instruction; no full suites. Frozen model/fixtures/runner/settings/compiler/CPU/PGO/panic/batch policy. Local+runner-a, runner-c parked; no new agents. Historical Java report remains byte-identical/stale.",
+  "total_valid_native_control_outputs": 48,
+  "failures_preserved": "Initial EventView scaffold syntax/name failures remain in their frozen check1/check2 failed-source copies. Direct receiver first test build failed from an ambiguous test-only typed import; frozen5c567 source/log/receipt is preserved in member-batch-direct-ab916-focused1/failed-source. Explicit import fixes only the test; actual64d8 focused/application/pilot receipts bind the corrected source. No failed run is a pass.",
+  "close_reason": "Moving whole buffers avoided per-row Rc and second arena copies, but none of EventView, smaller single-holder frame or isolated direct receiver improved both workloads. Close these implementations; do not repeat unchanged. No Clippy/full-suite/Java qualifier spent on the rejected final candidate."
+}

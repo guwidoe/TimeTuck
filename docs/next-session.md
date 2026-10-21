@@ -75,7 +75,8 @@ until materially closer to Sailing parity; do not extrapolate native gains.
 Future native helpers: `pilot-v26-artifact-{dispatch,remote}.py` and
 `pilot-v26-master-dispatch.py`. Their actual baseline is current ab916/1b2a/0ea287
 release +16 validated native controls, with explicit local focused-only test/
-Clippy receipts; no full-gate claim. Helpers compile, unrun. v25 stays historical
+Clippy receipts; no full-gate claim. Helpers actually built and measured the closed
+contiguous-summary and all three member-buffer variants below. v25 stays historical
 for05a618. All worker handles terminal and collected. Existing SSH Master socket
 `work/real_world-goal/ssh-control/runner-a` was reused; local+runner-a, runner-c parked,
 no new agents. Commit/reset alone warrants no repeated checks.
@@ -86,6 +87,23 @@ slower: Sailing-.960% /Golfer-1.885%, all 16 valid. No runtime integration, full
 suite or Clippy repair of prototype-only visibility warning. Saved beeb/498
 hardware samples were decoded to instruction-level sites; no new profile run.
 Proof: `compat/observations/real_world-inline-directory-row-investigation.json`.
+
+Further closed experiments: contiguous full summary arena was flat on Sailing
+(-.047%) and modest on Golfer (+.608%); 224 graph tests/16 valid outputs. Whole
+member-buffer handoff avoided per-row Rc and full-row arena copies, but EventView
+measured -.642%S/-2.342%G; the smaller single-holder version was flatS/-1.342%G.
+The final direct receiver preserves original Event/input signatures, certifies
+transitive receivers via existing summary metadata and isolates member handling;
+it measured -1.037%S/-5.498%G. Each passed 226 graph tests/16 valid outputs; direct
+also passed 4 RealWorld application regressions. First EventView passed lib/example
+Clippy; it is not evidence for other sources. Initial scaffold/test import failures
+are preserved. All three are rejected, not integrated; no full suite or new Java
+comparison. Original Java866338 is byte-identical/stale. Proof:
+`compat/observations/real_world-contiguous-summary-arena-investigation.json` and
+`compat/observations/real_world-member-buffer-handoff-investigation.json`.
+Do not retry these buffer/representation/dispatch variants unchanged. Main still
+ab916 with its original 224/217 focused evidence; candidate passes earn no main
+credit. All local/runner-a sessions terminal/collected; authenticated master works.
 
 The alternative deferred node/old/new single-buffer cells passed 224 graph tests
 and 16 valid native controls but were flat: Sailing+.269% /Golfer-.197%. This was

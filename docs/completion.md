@@ -63,6 +63,15 @@ workloads regressed. All 16 outputs validated and 58 relevant join tests passed.
 The candidate was rejected; no runtime change, native-test credit, full-suite
 rerun or new Java qualification resulted.
 
+The subsequent [whole-buffer handoff investigation](../compat/observations/real_world-member-buffer-handoff-investigation.json)
+closed three safe-Rust variants without integration. All passed 226 graph tests and
+16 independent native output validations each; the isolated final receiver also
+passed 4 application regressions, but measured -1.037% Sailing/-5.498% Golfer.
+EventView and reduced-frame variants were flat/slower too. A contiguous full
+summary arena was separately flat on Sailing. These rejected candidate checks
+earn no current-main test or Java-parity credit; main source and frozen Java
+observations remain unchanged. No full suites ran.
+
 The preceding typed-join-publication batch remains as historical evidence below.
 
 Exact Triple joins now publish full rows directly into the original event arena;
