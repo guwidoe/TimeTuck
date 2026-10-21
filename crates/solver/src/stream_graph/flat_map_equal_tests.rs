@@ -52,7 +52,7 @@ fn run(optimized: bool) -> Run {
     } else {
         let mut node = FlatMapNode::<usize, (usize, i64), Row>::new(mapping);
         assert!(node.bind_primitive_inputs());
-        let out = builder.push(FlatMap(node));
+        let out = builder.push(FlatMap(node, false));
         builder.connect(source.0.node, out.node, false);
         out
     };

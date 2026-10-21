@@ -19,29 +19,33 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current selected optimization publishes full numeric group summaries
-directly from the existing finish continuation, removing the two-row per-node
-staging buffer. Same stable row chunks, queue/FIFO/fanout and logical callbacks,
-counts, arithmetic, capture and rollback; public/custom/retaining/batched paths
-remain. Pure numeric publication precedes library local drops and evaluation-guard
-completion, with downstream callbacks still after return. The old staged publisher
-is retained solely as a differential test reference.
+The current selected optimization removes an intermediate flat-map tuple vector
+only in whole ownership-consumed exact numeric graphs. Original mapper/iterator
+collection and length-cache preparation remain; all full owned Event erasure
+completes before cache publication. Public/custom/retaining paths stay ordinary.
+Three original regressions cover full fields/IDs, zero presence, output order,
+owner reuse, callbacks/work, captures/nesting, panic/overflow and retry.
+Actual 15 flat_map +2 tally +4 external application tests and lib/example Clippy
+pass on the exact measured source. Current verification credits 21 named passes;
+previous229 focused tests remain historical. **No full suite ran.**
 
-Actual rotating native controls measured **+2.536% Sailing /+2.315% Golfer**,
-every pair faster, all 16 outputs independently valid. These are bounded native
-controls; Java qualification is reported separately below. Exact source passes 225 graph
-checks, 4 external RealWorld application regressions and lib/example Clippy;
-current 229 named results come from the two genuine source-bound focused logs.
-**No full suite ran.** Previous focused/full evidence stays bound to its own
-sources. A new original-protocol Java comparison on the exact selected artifact
-now proves **Golfer 1.528353x /Sailing .783320x**, all 12 outputs independently valid.
-One of two RealWorld throughput targets is met; Sailing needs about 27.662% more
-Rust throughput on that measured baseline. Same configuration, toolchain outputs,
-Java classes/dependencies and original 3seeds10s rotating pairs CPU2,3. Scores and
-feasibility remain separate. Old866338 is preserved; genuine new report16b0 is
-current. No tests/full suite repeated. The performance goal remains incomplete.
-[Current Java qualification](../compat/observations/real_world-direct-group-java-qualification.json).
-[Selected source and receipts](../compat/observations/real_world-direct-group-publication.json).
+Four native rotating3s pairs measured +1.569% Sailing/+1.127% Golfer medians, with
+only2/4 pairs faster in each: modest mixed signal. All16 native outputs validated.
+The original same-machine rotating3seeds10s Java matrix on the selected artifact
+proves **Golfer1.528433x/Sailing.851557x**, all12 outputs independently validated,
+1/2 targets met. Sailing needs17.432% more Rust throughput on this measured
+baseline. Rust absolute throughput is nearly unchanged against the previous
+matrix; most Sailing ratio uplift comes from lower Java throughput. Do not claim
+that ratio shift as this optimization's gain. Original configuration, toolchain,
+Java dependencies/classes remain; scores/feasibility stay separate, no equal-score
+gate. Genuine report5725a1 is current; old16b0 bytes remain preserved. Goal incomplete.
+[Source, checks and measurements](../compat/observations/real_world-direct-flatmap-output.json).
+
+Previous direct group publication eliminated a two-row staging buffer and
+measured +2.536% Sailing/+2.315% Golfer in native controls. Its229 focused tests,
+Clippy and original Java report16b0 (G1.528353x/S.783320x) remain historical
+source-bound evidence. No gains are added across batches.
+[Previous qualification](../compat/observations/real_world-direct-group-java-qualification.json).
 
 The following describes the previous selected deferred-total baseline.
 

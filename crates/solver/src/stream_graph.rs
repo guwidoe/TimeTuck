@@ -404,6 +404,12 @@ trait Node<S: AdditiveScore> {
     fn matches(&self) -> Option<&dyn Any> {
         None
     }
+    #[cfg(test)]
+    fn direct_flatmap_enabled(&self) -> bool {
+        false
+    }
+    #[cfg(test)]
+    fn disable_direct_flatmap(&mut self) {}
 }
 fn typed<I: 'static, T: 'static>(event: &Event) -> &TupleChange<I, T> {
     event.downcast_ref().expect("builder enforces event types")
@@ -735,10 +741,24 @@ impl<L: Clone + 'static, R: Clone + 'static, T: Clone + 'static, S: AdditiveScor
     }
 }
 
-struct FlatMap<'a, I, T, U>(FlatMapNode<'a, I, T, U>);
+struct FlatMap<'a, I, T, U>(FlatMapNode<'a, I, T, U>, bool);
 impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore> Node<S>
     for FlatMap<'_, I, T, U>
 {
+    fn enable_consuming_storage(&mut self) {
+        self.1 = live_commit_key::<I>()
+            && consuming::payload::<T>()
+            && consuming::payload::<U>()
+            && self.0.direct_graph_ready();
+    }
+    #[cfg(test)]
+    fn direct_flatmap_enabled(&self) -> bool {
+        self.1
+    }
+    #[cfg(test)]
+    fn disable_direct_flatmap(&mut self) {
+        self.1 = false;
+    }
     fn clear(&mut self) {
         self.0.clear();
     }
@@ -764,7 +784,18 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, U: 'static, S: AdditiveScore>
         _arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
         let change = typed::<I, T>(event);
-        Ok(erase(self.0.apply(change.clone())))
+        if self.1 {
+            Ok(self.0.apply_graph_output(change.clone(), |id, tail, rows| {
+                erase(
+                    tail.map(|position| TupleChange::retract(((*id).clone(), position)))
+                        .chain(rows.enumerate().map(|(position, row)| {
+                            TupleChange::put(((*id).clone(), position), row)
+                        })),
+                )
+            }))
+        } else {
+            Ok(erase(self.0.apply(change.clone())))
+        }
     }
 }
 
@@ -2035,7 +2066,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             && live_commit_callback(&mapping);
         let mut node = FlatMapNode::<I, T, U>::new(mapping);
         node.bind_graph_inputs();
-        let out = self.push(FlatMap(node));
+        let out = self.push(FlatMap(node, false));
         self.live_commit_nodes[out.node] = live_commit;
         self.consuming_nodes[out.node] = live_commit_key::<I>()
             && live_commit_key::<(I, usize)>()
@@ -3613,3 +3644,6 @@ mod terminal_prepared_tests;
 mod concrete_mapping_tests;
 
 mod deferred_totals;
+
+#[cfg(test)]
+mod direct_flat_map_tests;

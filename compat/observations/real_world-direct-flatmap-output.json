@@ -1,0 +1,357 @@
+{
+  "kind": "real_world-direct-flatmap-output",
+  "generated_at": "2026-10-21T12:32:34.675875+00:00",
+  "status": "selected modest allocation optimization;1of2 throughput targets met",
+  "native_source_digest": "aee829a5a1faaf0d6c5918a69f742c4dd4a33ac37e8953b935a36309816f6d27",
+  "input_sha256": "59be6ab0e5ce028af5b31d9f31d7e855b3f519ba2a2fce4ce17d4f6a2e69d9f3",
+  "source_snapshot": "a32b7ed7a7a64f7c0ae9e61356a90aaa21702825bb47884b74662b10bd5c89e9",
+  "artifact_sha256": "6d29717bc078561672f138fa1dc102b685c037ceeb1c634c02bf5d8468d005ab",
+  "actual_report_sha256": "5725a1cab0ce75f45cbd2b2801a02238690020f37b6eb8ead1a944459fe2adba",
+  "changed_files": [
+    "crates/solver/src/flat_map_stream.rs",
+    "crates/solver/src/stream_graph.rs",
+    "crates/solver/src/flat_map_stream/direct_graph_tests.rs",
+    "crates/solver/src/stream_graph/flat_map_equal_tests.rs",
+    "crates/solver/src/stream_graph/direct_flat_map_tests.rs"
+  ],
+  "mechanism": "Only whole ownership-consumed graphs with exact numeric input IDs and builtin payloads: preserve original mapper/iterator Vec collection and length-cache preparation, then directly collect erased Events from standard tail.map.chain(rows.enumerate.map), eliminating intermediate Vec<TupleChange>. All owned Event erasure/allocation completes before cache publication. Original public/custom/retaining paths remain; zero length presence, full IDs/fields, retraction-before-put order, equal length cache omission, callbacks, arithmetic, work, capture and rollback preserved. Numeric erasure moves earlier within node apply, before original cache publication; no consumer callback runs before return. No unsafe or production vtable entry.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/standard-flatmap-ec026-next-results/real_world-standard-flatmap-ec026-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            51215.027534566194,
+            52261.91860772138,
+            53804.42064005942,
+            52669.43216840465
+          ],
+          "trial": [
+            53148.69856046896,
+            51959.23735381471,
+            53428.58832023764,
+            53915.084920554094
+          ]
+        },
+        "medians": {
+          "baseline": 52465.67538806301,
+          "trial": 53288.643440353306
+        },
+        "gain_pct": 1.568583738231144
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            172337.5097616493,
+            171343.89678751104,
+            169100.36324500898,
+            173378.60968493734
+          ],
+          "trial": [
+            183432.2270224031,
+            181840.27490028107,
+            165713.88905130693,
+            163582.90603420456
+          ]
+        },
+        "medians": {
+          "baseline": 171840.70327458018,
+          "trial": 173777.081975794
+        },
+        "gain_pct": 1.1268451911068622
+      }
+    }
+  },
+  "native_controls_limit": "16 independently valid outputs;four rotating3s seed7 pairs per case. Each case2/4 pairs faster; mixed controls, modest signal, no universal gain or extrapolated Java parity.",
+  "original_java_qualification": {
+    "current_throughput_targets_met": 1,
+    "required": 2,
+    "cases": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "rust_over_java": 1.5284327987555946,
+        "throughput_target_met": true,
+        "additional_rust_throughput_percent_needed": 0,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 121549.79458367007,
+            "scores": [
+              [
+                0,
+                19400
+              ],
+              [
+                0,
+                13900
+              ],
+              [
+                0,
+                19400
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.041411084
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 185780.69272368646,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.00010774
+          }
+        },
+        "rust_rate_change_vs_previous_matrix_percent": -0.44476802382114045,
+        "java_rate_change_vs_previous_matrix_percent": -0.44999668596944487
+      },
+      {
+        "case": "sailing-trip-v1",
+        "rust_over_java": 0.8515569311051224,
+        "throughput_target_met": false,
+        "additional_rust_throughput_percent_needed": 17.431960620910345,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 74417.31281148478,
+            "scores": [
+              [
+                -14,
+                82800
+              ],
+              [
+                -5,
+                67400
+              ],
+              [
+                -9,
+                76800
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.059019445
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 63370.57851883789,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                85900
+              ],
+              [
+                -1,
+                196200
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000870294
+          }
+        },
+        "rust_rate_change_vs_previous_matrix_percent": 0.2498854347729118,
+        "java_rate_change_vs_previous_matrix_percent": -7.783293753137932
+      }
+    ],
+    "protocol": {
+      "cases": [
+        "social-golfer-32x8x10-v1",
+        "sailing-trip-v1"
+      ],
+      "seeds": [
+        7,
+        11,
+        23
+      ],
+      "seconds": 10.0,
+      "java_modes": [
+        "streams"
+      ],
+      "cpu_affinity": [
+        2,
+        3
+      ],
+      "scale": 100,
+      "rust": {
+        "acceptor": "simulated_annealing",
+        "soft_temperature": 500,
+        "cooling_steps": 40000
+      },
+      "java": {
+        "acceptor": "simulated_annealing",
+        "temperature": "0hard/500soft",
+        "accepted_count_limit": 1,
+        "environment_mode": "NO_ASSERT",
+        "termination": "milliseconds spent",
+        "heap": "-Xmx1g"
+      },
+      "move_families": [
+        "capacity-filtered change",
+        "same-session swap"
+      ],
+      "initialization": "fixed first, max spare capacity, last group on ties",
+      "attribute_balance": "occupied groups only, retained application spike policy",
+      "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+    },
+    "valid_outputs": 12,
+    "same_original_configuration_toolchain_Java_dependencies_classes": true,
+    "scores_feasibility_separate": true,
+    "quality_equal_gated": false,
+    "interpretation": "Rust absolute rates nearly unchanged versus previous matrix. Larger Sailing ratio change is mostly lower measured Java throughput; do not attribute it to this optimization."
+  },
+  "verification": {
+    "tests_passed": 21,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "flat_map",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 15,
+        "receipt_sha256": "5d5f6086cd6f6a9500130b01b547a098065f67c399c851a9dfc5bfb2a5b7d910",
+        "proof_directory": "work/real_world-goal/standard-flatmap-ec026-focused2"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "stream_graph::event::tally_tests::",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 2,
+        "receipt_sha256": "dc15944d72530b5b86d0c75f0850f19d8a8ff4bc14cd419a79d2de09864143da",
+        "proof_directory": "work/real_world-goal/standard-flatmap-ec026-tally-focused1"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "receipt_sha256": "30a465ef7a0137bed4aa3ee4113449dfb2d89c97995812a37d857d16c71d9ee6",
+        "proof_directory": "work/real_world-goal/standard-flatmap-ec026-application1"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": null,
+        "receipt_sha256": "c082e07eabd20c1e04c6cb39f8c8030bf99202dad0499bdc497a317297288777",
+        "proof_directory": "work/real_world-goal/standard-flatmap-ec026-clippy1"
+      }
+    ],
+    "full_native_gate": false,
+    "new_original_native_regressions": 3,
+    "upstream_method_credit": 0,
+    "policy": "Actual focused tests and lib/example Clippy only; reuse these exact-source receipts without rerun after integration/commit. No full suite."
+  },
+  "unselected_custom_iterator": {
+    "source": "d5141ef48f1667575817644cfce8ae9dd726c80443f187e4709eb83e0723a72d",
+    "production": "fd559b74e936b2b2139a1eb646f23cb90086d9ee0dc5512299a3cbfae0697cfb",
+    "tests_passed": 17,
+    "summary": {
+      "qualified": false,
+      "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/direct-flatmap-ec026-next-results/real_world-direct-flatmap-ec026-next/controls.json",
+      "outputs": 16,
+      "summary": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              60921.6659786863,
+              60257.799661118166,
+              60797.80457872341,
+              60782.69083314467
+            ],
+            "trial": [
+              61136.34468435732,
+              61645.94369765447,
+              61060.55972051344,
+              60854.53925565865
+            ]
+          },
+          "medians": {
+            "baseline": 60790.24770593404,
+            "trial": 61098.45220243538
+          },
+          "gain_pct": 0.5069966123386171
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              175277.51359404947,
+              183071.53619455913,
+              184672.230162314,
+              184673.3795230186
+            ],
+            "trial": [
+              173061.83967452485,
+              181444.35161697154,
+              183414.5065922965,
+              183058.58489057163
+            ]
+          },
+          "medians": {
+            "baseline": 183871.88317843655,
+            "trial": 182251.4682537716
+          },
+          "gain_pct": -0.881273904772284
+        }
+      }
+    },
+    "policy": "Closed unchanged. No application/Clippy/Java on custom iterator; no current-main credit."
+  },
+  "preserved_failed_scaffold": {
+    "directory": "work/real_world-goal/standard-flatmap-ec026-focused1",
+    "source": "7606d81e48a57d663e6d6f940ccfacf8ebf7c44ba7de7a3f90aa9fc905e48f91",
+    "result": "Closure-arity compile failure;original failed source/log/receipt preserved. Corrected frozen source separately tested and measured."
+  },
+  "historical_report": {
+    "sha256": "16b0c0ada96e70b9454b1622aacb52549e5a853600af88f47eb3dcdc7274fdd1",
+    "path": "work/real_world-goal/standard-flatmap-current-java-qualification/historical-ec026-report.json",
+    "preserved_unchanged": true
+  },
+  "proof_directory": "work/real_world-goal/standard-flatmap-current-java-qualification",
+  "next": "Investigate remaining Sailing join cost; do not repeat unchanged flat-map variants, tests or matrix."
+}

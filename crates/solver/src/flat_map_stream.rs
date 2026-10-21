@@ -98,6 +98,44 @@ impl<'a, I: Ord + Clone, T, U> FlatMapNode<'a, I, T, U> {
         self.lengths = lengths;
         output
     }
+    pub(crate) fn direct_graph_ready(&self) -> bool {
+        self.omit_equal_lengths
+    }
+    // The whole consumed graph independently certifies exact numeric I/T/U.
+    // Use the SAME mapper/iterator collection, cache preparation and publication.
+    // The trusted adapter exhausts this plan into owned Events before any cache
+    // write. Only that pure erasure moves earlier; no user Drop/Clone hook or
+    // consumer callback can run inside it. Public/custom apply above is unchanged.
+    #[inline]
+    pub(crate) fn apply_graph_output<R>(
+        &mut self,
+        change: TupleChange<I, T>,
+        erase: impl FnOnce(&I, std::ops::Range<usize>, std::vec::IntoIter<U>) -> R,
+    ) -> R {
+        assert!(
+            self.omit_equal_lengths && self.lengths.is_primitive(),
+            "certified graph flat-map"
+        );
+        let rows = change.value.as_ref().map(|value| (self.mapping)(value));
+        let (prepared, old_length) = self.lengths.prepare_change(&change.id, |old| old.copied());
+        let new_length = rows.as_ref().map_or(0, Vec::len);
+        let output = erase(
+            &change.id,
+            new_length..old_length.unwrap_or(0),
+            rows.unwrap_or_default().into_iter(),
+        );
+        // Every output identity/erasure and its allocation preflight completes
+        // before publication, including when the trusted collection panics.
+        if change.value.is_some() {
+            if old_length != Some(new_length) {
+                prepared.insert(change.id, new_length);
+            }
+        } else {
+            prepared.remove();
+        }
+        output
+    }
+
     pub(crate) fn bind_primitive_inputs(&mut self) -> bool
     where
         I: 'static,
@@ -172,3 +210,6 @@ mod tests;
 
 #[cfg(test)]
 mod equal_length_tests;
+
+#[cfg(test)]
+mod direct_graph_tests;

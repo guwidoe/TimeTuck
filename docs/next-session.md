@@ -29,51 +29,53 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-Selected batch: direct group summary publication. Certified consumed numeric
-Pair/Quad groups publish original full outputs from the existing finish
-continuation, eliminating the two-row per-node staging array. Same stable chunks,
-full payloads, queue/FIFO/fanout and logical callbacks/work/arithmetic. Numeric
-publication now precedes remaining pure library local drops and evaluation-guard
-completion; no consumer callback runs before return/guard completion. Public,
-custom, retaining and batched paths keep ordinary publication. The staged
-publisher remains a test-only differential reference, not current runtime.
+Selected batch: direct flat-map output. Whole ownership-consumed exact numeric
+nodes collect the original erased Events from standard tail/row iterators,
+eliminating the intermediate Vec<TupleChange>. Original mapper/iterator
+collection and length-cache preparation remain. Full owned Event erasure finishes
+before cache publication; zero-length presence, full IDs/fields, output order,
+callbacks/work, capture and rollback remain. Public/custom/retaining paths keep
+ordinary staging. No unsafe, new production vtable entry or model change.
 
-Native `ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec`;
-production `218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d`;
-snapshot `e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886`;
-artifact `874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c`.
-Actual runner-a rotating3s seed7 native controls measured **+2.536% Sailing /
-+2.315% Golfer**, every 4 pairs faster in each; all 16 outputs independently valid.
-These native gains are not additive/extrapolated Java parity. Proof:
-`compat/observations/real_world-direct-group-publication.json` and
-`work/real_world-goal/direct-group-publish-ab916-next-results/`.
+Native `aee829a5a1faaf0d6c5918a69f742c4dd4a33ac37e8953b935a36309816f6d27`;
+production `59be6ab0e5ce028af5b31d9f31d7e855b3f519ba2a2fce4ce17d4f6a2e69d9f3`;
+snapshot `a32b7ed7a7a64f7c0ae9e61356a90aaa21702825bb47884b74662b10bd5c89e9`;
+artifact `6d29717bc078561672f138fa1dc102b685c037ceeb1c634c02bf5d8468d005ab`.
+Actual 15 flat_map +2 tally +4 external application tests and lib/example Clippy
+pass. Three original native regressions add no upstream method credit. Current
+log credits 21 named passes from those actual source-bound logs, assembled without
+rerunning tests. **No full suite ran.** Previous ec026 source's 229 focused tests
+are preserved unchanged, not relabeled.
 
-Actual 225 graph tests +4 RealWorld application regressions and lib/example
-Clippy pass on that exact source. One new original differential regression adds
-no upstream-method credit. **No full suite ran.** The focused assembler preserves
-both actual job logs byte-for-byte, after validating their unchanged source,
-commands, checksums and successful receipts; current log credits 229 named passes,
-including all 4 separately declared external cases. Previous actual ab916 focused
-log/metadata is preserved in this proof, not relabeled.
+Four rotating3s native pairs per case measured median +1.569% Sailing/+1.127%
+Golfer, but only 2/4 pairs faster in each: modest mixed signal, not a universal
+gain. All16 outputs independently valid. Original default same-machine serial
+rotating3seeds10s CPU2,3 Java/Rust qualification also completed, all12 outputs
+independently valid: Golfer185780.693/121549.795 = **1.528433x**;
+Sailing63370.579/74417.313 = **.851557x**. One of two targets met; Sailing needs
+17.432% additional Rust throughput on this measured baseline. Rust absolute rate
+is nearly unchanged versus previous matrix (+.250% Sailing/-.445% Golfer); the
+larger Sailing ratio change is mostly lower Java throughput, not an attributable
+optimization gain. Scores/feasibility stay separate (Sailing Rust2/3,Java0/3;
+Golfer3/3 each), no equal-score gate. Same original configuration/toolchain/Java
+classes and dependencies, actual Cargo release/javac, byte-identical measured
+candidate artifact. Genuine report5725a1 is current; previous16b0 bytes and focused
+logs preserved in proof. No unchanged checks or qualifier repeat for commit/reset.
+Proof: `compat/observations/real_world-direct-flatmap-output.json` and
+`work/real_world-goal/standard-flatmap-current-java-qualification/`.
 
-An actual original-protocol Java/Rust refresh now proves **1/2 current targets**:
-Golfer 186610.677/122099.237 eval/s = **1.528353x**; Sailing 63212.619/80698.298 =
-**.783320x**. Sailing needs about 27.662% more Rust throughput on this measured
-baseline. All 12 outputs independently valid; Rust Sailing feasible 2/3, Java 0/3;
-Golfer 3/3 each. Raw scores stay separate, no equal-score gate. Same original
-configuration, Java dependency/class bytes and toolchain outputs; identical
-selected874a native artifact. Actual Cargo release/javac builds, original serial
-rotating seeds7/11/23x10s CPU2,3; no Rust tests/full suite repeated. Report
-`16b0c0ada96e70b9454b1622aacb52549e5a853600af88f47eb3dcdc7274fdd1` is promoted
-byte-for-byte. Old866338 is preserved in the proof, not relabeled. First attempt
-had no jars and performed zero builds/runs; failure archive preserved, then 19
-cached jars restored with exact original checksums. Proof:
-`compat/observations/real_world-direct-group-java-qualification.json` and
-`work/real_world-goal/direct-group-current-java-qualification-retry1/`.
-No unchanged qualifier repeat. Sailing is the remaining throughput target.
-Original 4412 adaptations/0pending/443excluded remain; current unverified does not
-mean reopened implementation. Goal active/incomplete; do not rerun resolved checks
-for a commit/reset. Local+runner-a; runner-c parked, no new agents.
+The custom OutputRows iterator variant is closed unselected:17 relevant tests,
+16 valid controls, Sailing+.507%/Golfer-.881%; no application/Clippy/Java on it.
+A malformed intermediate standard-iterator scaffold failed closure-arity compile;
+original failed source/log/receipt preserved, corrected source separately frozen
+and verified. All current worker handles are terminal and collected.
+
+Prior direct group publication ec026/218/874a remains integrated as the preceding
+runtime change. Its historical controls were +2.536% Sailing/+2.315% Golfer,
+225 graph+4 app tests/Clippy and actual originalJava16b0 (G1.528353,S.783320).
+Those results remain source-bound historical evidence; gains are not additive.
+[Publication evidence](../compat/observations/real_world-direct-group-publication.json)
+and [historical qualification](../compat/observations/real_world-direct-group-java-qualification.json).
 
 Closed owner-cache trial: bounded per-side individual Rc reuse requires strong
 and Weak uniqueness, preserving original Event/queue/carrier widths. Actual
@@ -91,19 +93,19 @@ join/publisher tests and 16 valid outputs. Not integrated. Close this combinatio
 and the unchanged standalone indexed candidate; never add component gains or
 repeat these timings. Proof:
 `compat/observations/real_world-group-publication-indexed-row-combination.json`.
-Next investigate a different Sailing cost. FlatMapNode already caches only lengths
-and omits equal graph-length writes; do not reimplement that. Its apply still
-allocates an intermediate Vec<TupleChange> before the adapter erases outputs.
-A private whole-consumed exact primitive path could omit that vector while
-retaining the original public/custom staging and all mapper/iterator/error
-phases. No prototype is implemented yet; only this source audit is complete.
+Next investigate a larger Sailing join cost. Member equality joins use Pair IDs,
+Quad payloads and Pair keys. Matching index enumeration then repeatedly looks up
+full rows in PrimitiveRows; keys remain unchanged for many group moves, so index
+update shortcuts alone will not help. A private consumed numeric contiguous
+bucket-row backend is only a hypothesis, not implemented. Preserve full-ID sorted
+emission, original callbacks, original output staging, every capture/journal/
+rollback/clear and public/custom paths. Do not reopen closed static mapped reads,
+concrete-key callbacks, member-owner pools, buffer handoffs or indexed-row variant.
 
-Future diagnostics: `pilot-v28-artifact-{remote,dispatch}.py` and
-`pilot-v28-master-dispatch.py` embed actual ec026/218/874a release/16 native outputs,
-genuine 225+4 focused/Clippy receipts with full_native_gate false, and actual
-current 16b0 Java qualification 1of2 targets. Helpers syntax-check, unrun. v27 stays
-immutable for the completed combined pilot; v26 for ab916 controls. Do not
-rebuild, retest or requalify the unchanged selected baseline for commit/reset.
+Existing v28 helpers remain bound to historical ec026/218/874a and actual229
+focused tests/Clippy/current-at-that-sourceJava16b0. Do not relabel them for new
+source. Build any future helper from actual aee829 receipts. No full suite,
+unchanged qualifier, repeated browser check or runner-c probe. Goal active/incomplete.
 
 The following deferred-totals baseline is historical. Its runtime,
 focused evidence and native observations remain preserved for their own source.
