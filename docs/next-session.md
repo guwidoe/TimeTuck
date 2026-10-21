@@ -104,13 +104,18 @@ scopes, copied touch marks, checkpoint fast path, static join row reads and both
 prepared-score-entry versions. All 96 outputs valid, no integrated test credit,
 no broad gate on rejected sources. Do not retry these unchanged.
 
-Read-only next lead: joining key projections still execute one indirect callback
-in the actual candidate ELF. A supposed extra Box dispatch is ALREADY optimized
-out: caller loads the underlying Fn data/vtable pair directly. Do not implement
-a mere Box dereference rewrite. Keeping concrete zero-sized projection callback
-types through an idiomatic generic join core could expose their bodies, but is
-UNIMPLEMENTED and needs a distinct scope/drop/callback/public fallback audit.
-Do not repeat the rejected static row-mapper experiment under a new name.
+The concrete join-key projection lead is now CLOSED. Retaining concrete ZST
+callbacks through generic JoinNode/JoinSide removes the intended indirect key
+call in the actual ELF and reduces the first apply-buffered frame by 64B, but
+measured Sailing -1.392% /Golfer -1.705%. All 16 outputs validated; Sailing was
+slower in every pair. The 58 directly relevant join tests and lib/RealWorld
+example Clippy pass, including an original side-effect/callback/capture/unwind/
+error/retry regression. No full suite ran, no runtime or native-test credit was
+integrated. Capturing callbacks were explicitly excluded before measurement.
+Proof: `compat/observations/real_world-concrete-join-key-investigation.json`.
+Both frozen prototypes are preserved. Do not repeat unchanged or reintroduce
+this lead from an older handoff. Main runtime remains the selected 05a618/62daa
+filter forwarder above. All worker handles are terminal and collected.
 
 The previous-source hardware profile at
 `work/real_world-goal/current-compact-inverse-hardware-profile/` is actual beeb/498

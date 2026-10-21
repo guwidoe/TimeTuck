@@ -43,6 +43,12 @@ unchanged, with no repeated native measurement or metadata rekeying. The separat
 owner-transfer variant was modest and is not integrated. No native gains are
 added to historical Java ratios.
 
+A subsequent [concrete join-key investigation](../compat/observations/real_world-concrete-join-key-investigation.json)
+removed the intended indirect projection call in the compiled binary, but both
+workloads regressed. All 16 outputs validated and 58 relevant join tests passed.
+The candidate was rejected; no runtime change, native-test credit, full-suite
+rerun or new Java qualification resulted.
+
 The preceding typed-join-publication batch remains as historical evidence below.
 
 Exact Triple joins now publish full rows directly into the original event arena;

@@ -1,0 +1,122 @@
+{
+  "kind": "real_world-concrete-join-key-investigation",
+  "generated_at": "2026-10-21T09:48:28.893918+00:00",
+  "status": "rejected; no runtime integration",
+  "authoritative_runtime": "28f0ba7; native05a618/prod62daa; selected private shared filter forwarding remains unchanged",
+  "candidate": {
+    "native_source_digest": "9e3ee2b39550a73005cbe68f6813bc0c740195e08347a42e5e34c985a84b7174",
+    "production_digest": "e1442f99b85d32bc5dc3773813eb3e3c057fbc59f0604b1c0787aaecdc58ebce",
+    "snapshot": "02a0d0eea882662e2eedc1bb86889a8acd4fea613e78adc26f916609ddd03a99",
+    "artifact_sha256": "b67924135594ab24c7df1f226da09509b10a868800614740dccced63ce092588",
+    "mechanism": "Preserve concrete zero-sized NoDrop projection callback types in ordinary primitive equality joins; generic JoinNode uses boxed defaults and the original shared state/apply/journal/checkpoint bodies. Projection type reaches JoinSide.apply_buffered so the compiler sees the actual body. Capturing callbacks, custom IDs/keys, ordered joins, batch joins and public standalone constructors retain boxed callbacks. No callback purity assumption, removed logical call, changed clone/cache/poison/error phase, or unsafe reconstruction.",
+    "prototype": "work/real_world-goal/concrete-join-keys-05a-zst-prototype"
+  },
+  "focused_verification": {
+    "tests_passed": 58,
+    "new_unintegrated_test": "stream_graph::concrete_join_key_tests::concrete_join_keys_preserve_side_effects_callback_order_capture_unwind_and_retry",
+    "contract": "ZST function-item callbacks with real thread-local side effects versus borrowed non-ZST function-pointer fallback: exact callbacks/scores/work, ordinary and consumed graphs, wide queue, nested/full/current captures, both projection panics, score panic, structural/overflow errors, rollback and successful retry. Existing relevant join tests also pass.",
+    "receipt_sha256": "0d06f0ecca24a487f25912056a26868dce57cbc6932c64ca4cd61c80a5bf03e0",
+    "seconds": 77.96559737602365,
+    "clippy_command": [
+      "/home/developer/.cargo/bin/cargo",
+      "clippy",
+      "--locked",
+      "--lib",
+      "--example",
+      "real_world_benchmark",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "clippy_seconds": 30.940042746980907,
+    "clippy_receipt_sha256": "80a0516bb822fdb3978c2b6e069623ad85380790b527e202c902f1dfda42f113",
+    "full_suite_run": false
+  },
+  "diagnostic_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "runner-a, four rotating 3s seed7 native baseline/trial pairs per frozen workload, CPU2,3; all outputs independently validated.",
+    "baseline": {
+      "rust_digest": "05a6185c1932a2c107b7c710e0ddd9f96d29e1ed455e1aa2e8525b5c131bddd7",
+      "production_digest": "62daa2dc195ad06d79890438ece7031982cd4956ca423a360743e3fd89dd7230",
+      "artifact_sha256": "ee50630f00e37eaca7579c3b0b61f8fc19da3fc3402b746a28d7db52e80a40e0",
+      "source_snapshot": "4f5f131fb4490c447bbca6be93d42ffd28b2f071576a1fad560f2659e0131388",
+      "final_receipt_sha256": "195d742b4041c06c6e53c1a275fe1f3a155b44e0ed3556fa3f46836f00e09b78",
+      "native_pilot_binding_sha256": "ff78daf5e8ab73c5becd1fc17ff0508717c0c33f421f7b7e9c4aacd83589bdaf",
+      "historical_java_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+      "current_java_throughput_targets_proven": 0,
+      "qualification": "Actual corrected native gate plus actual byte-identical release build; Java report is historical/stale. Diagnostic native controls earn no Java parity credit."
+    },
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            59387.38127277415,
+            55805.751740560365,
+            58808.827082478754,
+            59697.702058606286
+          ],
+          "trial": [
+            57956.032963463214,
+            54576.543969304235,
+            58595.030218592394,
+            59610.228284740646
+          ]
+        },
+        "medians": {
+          "baseline": 59098.104177626454,
+          "trial": 58275.5315910278
+        },
+        "gain_pct": -1.3918764367234382
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            180183.21299568715,
+            178320.26858149256,
+            179620.43826809624,
+            177787.56801972087
+          ],
+          "trial": [
+            173556.3101877789,
+            175162.9517400517,
+            176673.5931494007,
+            178207.52391271992
+          ]
+        },
+        "medians": {
+          "baseline": 178970.3534247944,
+          "trial": 175918.2724447262
+        },
+        "gain_pct": -1.7053556198908137
+      }
+    },
+    "build_seconds": 100.12454473500839,
+    "receipt_sha256": "56e64e418b953ece07db949500fc4d6279a043dd2c5868b4c477f8fdbd07ab7a",
+    "controls_sha256": "ccb27d548ed354c9468c64df66d5cb2de94000def3a195a60c8693b76dc3fac4",
+    "scope": "Sailing regressed in every pair; median -1.391876%. Golfer median -1.705356%. No Java parity credit. Candidate rejected; do not repeat unchanged."
+  },
+  "compiled_evidence": {
+    "baseline_elf_bytes": 3010144,
+    "trial_elf_bytes": 3008280,
+    "baseline_first_apply_buffered_stack_bytes": 2968,
+    "trial_first_apply_buffered_stack_bytes": 2904,
+    "finding": "Actual first join apply_buffered prologue replaces the indirect key projection with direct scalar/vector loads and reduces its frame by64B. Remaining indirect row-index mapper call is separate (earlier static-join-read experiment rejected). The intended compiler effect happened, but end-to-end performance worsened.",
+    "baseline_excerpt": "work/real_world-goal/concrete-join-keys-05a-zst-results/baseline-projection-prologue.asm",
+    "trial_excerpt": "work/real_world-goal/concrete-join-keys-05a-zst-results/projection-prologue.asm"
+  },
+  "initial_broader_probe": {
+    "status": "focused-only, not integrated or performance measured",
+    "native_source_digest": "5a5e49e05ef5ff9c02265ab480fc1cfd254394e6514a154ae30f90a01d62dd1e",
+    "tests_passed": 57,
+    "seconds": 114.44956953500514,
+    "note": "Initial condition used the existing NoDrop gate, which also admits capturing callbacks. Narrowed to explicit zero-size checks before the actual pilot and added the side-effect regression. Both frozen prototypes and original receipts are preserved."
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "No main Rust changes, native aggregate promotion, full-suite rerun, Java qualifier refresh, or change to frozen model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy. Existing main-source native verification retained. Previous Java866338 report stays byte-identical and stale. Local+runner-a, runner-c parked; no new agents.",
+  "proof_directory": "work/real_world-goal/concrete-join-keys-05a-zst-results/"
+}
