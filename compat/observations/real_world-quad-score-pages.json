@@ -1,0 +1,101 @@
+{
+  "kind": "real_world-quad-score-pages",
+  "generated_at": "2026-10-21T17:28:18.827786+00:00",
+  "status": "closed;not integrated;Sailing regression",
+  "native_source_digest": "91c414d0f3765e94b901cebee520aeac952779ba4e6b1133ce8dcb615d56ea51",
+  "input_sha256": "20bab1216c81c7d775601dcf175ad7cf48a23044f38ead2c4ffdf1e539dce6cb",
+  "source_snapshot": "dc3734fcafcbe76330a07abe274e5c8348e46c3005185390be32f326c42f38fa",
+  "artifact_sha256": "b827bd94204cdff137d5399f33bfa0401b9f9bff623a0ad5e57f455f32819e3b",
+  "mechanism": "Only exact flat four-usize IDs use bounded dense score pages with physical cells across adjacent third coordinates. Full IDs/scores/positions retained;large Quad coordinates retain original sparse hash fallback,otherIDtypes retain old routing. Inverse physical decoding preserves full position sort/capture/clone/restore. Empty pages record physical(row,column). Private Rows/Clone/Prepared requirestaticI,already imposed by constructor builtin mapper gate;no publicborrowed API change.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::consumed_scores::",
+        "stream_graph::consuming::",
+        "stream_graph::group_summary_lane::tests"
+      ],
+      "tests_passed": 26,
+      "seconds": 146.90412441801163,
+      "native_source_digest": "91c414d0f3765e94b901cebee520aeac952779ba4e6b1133ce8dcb615d56ea51",
+      "log_sha256": "d4a2f2ddd10a61b2b663fdcbb3dd4b63deb9781c723b2e5a60250ef20aeda08e",
+      "receipt_sha256": "f44f3478d680cfed10b3bbf4a49db1f711de53a3a2a32dcf773d52c4854eb613",
+      "scope": "5 score-row cases including new independent BTreeMap Quad collision/bounds/MAX/zero/current+full/nested/capture/replay/prune oracle plus15 consumed-terminal/graph and6summary-lane controls. Actual frozenfixedsource,zero upstream/main credit."
+    }
+  ],
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/quad-score-pages-fixed-results/real_world-quad-score-pages-fixed/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64917.79181025123,
+            66040.97094193613,
+            65372.52237517858,
+            65511.453062734116
+          ],
+          "trial": [
+            63741.87098749345,
+            63212.793802390275,
+            64810.14173032781,
+            65184.57761343879
+          ]
+        },
+        "medians": {
+          "baseline": 65441.98771895635,
+          "trial": 64276.00635891063
+        },
+        "gain_pct": -1.7817022384055359
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            187523.24672428277,
+            195235.6385060136,
+            186302.01823074342,
+            194856.07221802082
+          ],
+          "trial": [
+            194024.79482709753,
+            190171.73764467935,
+            192915.26642123575,
+            192587.8997140806
+          ]
+        },
+        "medians": {
+          "baseline": 191189.6594711518,
+          "trial": 192751.58306765818
+        },
+        "gain_pct": 0.8169498292045718
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "initial_draft": {
+    "native_source_digest": "26a4b7feaf9716671bb389a2295a0e6f27015a7d2a8451beab0e988265e67b7f",
+    "production_digest": "d4599356b7b2aa3521d7420700756f96d6c9878898d3717f2657123882159799",
+    "compile_passed": true,
+    "runtime_tests_run": false,
+    "performance_run": false,
+    "scope": "Review identified eager then_some arithmetic couldoverflow on out-of-range Quad IDs in debug. Preserved fixedsource guards bounds before arithmetic and adds actualMAX fallback regression. No measurement/pass rekey."
+  },
+  "receipts": {
+    "receipt.json": "63675068866746e75448023c9659327f1ce7b9b2aaf11786604b7309edda5d7e",
+    "build-receipt.json": "379580efa715dac1636594fc501976ff96934d4a4e81bd1d72cb3651a6e923c5",
+    "controls.json": "b0bb30e5cdba15f9ae4d9d553112c29770e47dc7d87cfe9877268876214a98b9",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "26focusedpasses/16valid outputs. Sailing-1.78170%(0/4faster),Golfer+.81695%(2/4faster;variablebaseline). Sailingall4negative,closewithoutretry/app/Clippy/Java/fullsuite/integration. Main currentJava4795 selectedd466/465509/84e98d unchanged,1/2targets."
+}

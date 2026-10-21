@@ -104,10 +104,16 @@ Sailing-.949%(all4 slower),Golfer+.828%(all4 faster). No integration/retry/app/
 Clippy/Java/fullsuite. v33 binding succeeded on its first dispatch and retains
 selectedd466/465509/84e98d plus originalJava4795 (1/2targets). Proof:
 `compat/observations/real_world-owned-collector-split-arena.json`.
-A distinct bounded Quad score-page layout is being prepared in ignored work:
-reorder physical page axes to fill cells across adjacent third coordinates,
-retaining full IDs/positions and hash fallback for larger coordinates. Other ID
-types retain original routing. It is not measured/integrated;see live handles.
+Bounded Quad score-page reordering91c414/20bab1 is also closed:26 actual focused
+passes/16valid outputs,Sailing-1.782%(all4 slower),Golfer+.817%(2/4,variable).
+Initial eager then_some draft26a compilepassed butwas fixed before any timing/test
+because out-of-range debug arithmeticcouldoverflow. No receipt rekey,retry,app,
+Clippy,Java,fullsuite or integration. Proof:
+`compat/observations/real_world-quad-score-pages.json`.
+A fresh selected-arena Sailing cycle profile is now running against immutable
+84e98d,d466/465509,snapshot446c. No build/Java/timinggain claim. Read actual live
+handles in ignored active state;do not restart on observation timeouts. Main
+runtime763da12 and currentoriginalJava4795 remain unchanged (1/2targets).
 No new subagents;local+runner-a,EFSparked. Preserve unrelated writer changes.
 
 
