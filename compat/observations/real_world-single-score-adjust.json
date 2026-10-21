@@ -1,0 +1,93 @@
+{
+  "kind": "real_world-single-score-adjust",
+  "generated_at": "2026-10-21T17:58:37.293690+00:00",
+  "status": "closed;not integrated;flat Sailing",
+  "native_source_digest": "c67279ec252a4fbb9add1978cac86ab1247b7e7ffc32d7e4578b9b4ce59c0f77",
+  "input_sha256": "3321448ee2e70fc76ade88c6f28acf5677e1287c7f2e47cc1fb6d3a627d83092",
+  "source_snapshot": "62f668e2d77d83c6b5926a96f390c1a3c7667a17882ae8b8acc97c9245254f88",
+  "artifact_sha256": "8dee860bcc4b053dd1a64d6403c56f28e6d77d20f32295e45a6a7604423ef7b3",
+  "mechanism": "Provided hidden AdditiveScore.checked_adjust_one defaults tooriginalone-element batch hook. Only3fixedinteger families usebranchfreei128single-pairdelta+total/finali64bounds andstructural0. ScoringArithmetic.adjust_one retainschecked/wrappingpolicy/customhook/operatororder;onlyconsumedterminalcallsite changes. No equality shortcut,model/settings/CPU/compiler/PGO/panic/batch flags or othercallsitechanges.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/single-score-adjust-next-results/real_world-single-score-adjust-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64963.14638695979,
+            64075.086319671886,
+            64045.679193795615,
+            63841.22441124187
+          ],
+          "trial": [
+            62720.88048202116,
+            64749.75342353599,
+            65052.18743562976,
+            63532.536791144405
+          ]
+        },
+        "medians": {
+          "baseline": 64060.38275673375,
+          "trial": 64141.1451073402
+        },
+        "gain_pct": 0.12607222612630586
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            193174.31095313464,
+            185166.04546476144,
+            194408.18702988827,
+            193805.44932325056
+          ],
+          "trial": [
+            193683.38293211308,
+            188340.4379680206,
+            192424.09653831448,
+            191638.71551799495
+          ]
+        },
+        "medians": {
+          "baseline": 193489.88013819262,
+          "trial": 192031.4060281547
+        },
+        "gain_pct": -0.7537728117854248
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "scoring_arithmetic::single_adjust_tests",
+        "stream_graph::consuming::"
+      ],
+      "tests_passed": 17,
+      "seconds": 134.97740863700164,
+      "native_source_digest": "c67279ec252a4fbb9add1978cac86ab1247b7e7ffc32d7e4578b9b4ce59c0f77",
+      "log_sha256": "f01c958ddf6a154d400dc8e752b77a94d4a4266650dc466225f71c42e49d30b8",
+      "receipt_sha256": "0d9850e2a45b73a1fb30cc3633a7a8edb2b2952c40bf1934ec849aa12fd41199",
+      "cargo_exit_receipt_sha256": "a796da312168e9c1439ef63a27fbed6d492882b83cb11ba751d06ecaf662b150",
+      "scope": "Actual17focusedcases:2newone-pairversusoriginalbatch cross-products overallbuiltinlevels/MAX/MIN/zero/structuralflags andcustomcheckedhook/wrappingoperatororder plus15existingconsuminggraph/callback/error/overflow/capture/rollback/ownershipcontrols. DurableCargoexit0andnormalfinalwrapperreceipt0;no oldmissingexit relabel."
+    }
+  ],
+  "receipts": {
+    "receipt.json": "79ad115df6085ad92446810ad5c10e1b8202a2c345c2ef0144d92e0cb6e26371",
+    "build-receipt.json": "2ddcebfdabd53900cead3f3f7fa8969441e85c8072d696ad02ac5958b6e1e964",
+    "controls.json": "cc1820b0f32e244e477f5876c40f7ac3d1a15d31043bb99b2183cd3792eb5fc6",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "17actualfocusedpasses,16independentlyvalidnativeoutputs. Sailing+.12607%(2/4faster),Golfer-.75377%(2/4faster):flat/mixedS,closewithoutintegration/retry/app/Clippy/Java/fullsuite. Do not addunusedAPIhooktomain. Selected763da12d466/465509/84e98d originalJava4795remainscurrent1/2targets;goalactiveincomplete."
+}

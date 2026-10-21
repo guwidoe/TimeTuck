@@ -125,16 +125,27 @@ Owned-inputset/replace inlining5087d9/30f189 is closed:16 validoutputs,
 Sailing-.0077%/Golfer+.0716%,flat. Only2attributes;methodbodyidentity asserted,
 unchangedunit functionality notrerun. No integration/retry/app/Clippy/Java/fullsuite.
 Proof: `compat/observations/real_world-owned-input-inline.json`.
-Next candidate is a branch-free single-score adjustment in ignored
-`single-score-adjust-next-prototype`:provided hidden AdditiveScore one-pair hook
-delegates to originalbatch hook bydefault;only3 fixedbuiltin integer families use
-a direct widenedone-pair implementation withfinali64checks/structural0. Only
-consumed terminal calls useScoringArithmetic.adjust_one;othercallersunchanged.
-Actual lib/example compile passes on c67279/332144. New native controls and17
-focused one-pair/extreme/custom-hook/operator-order/consuminggraph cases are live;
-no performance/integration claim yet. Preserveactualhandles inignoredstate across
-timeouts. Mainruntime763da12/currentJava4795 remainunchanged,1/2targets.
-Local+runner-a,EFSparked,no newsubagents;preserveotherwriterchanges.
+Branch-free single-score adjustmentc67279/332144 is closed:17 actualfocused
+passes/16valid outputs,Sailing+.126%(2/4faster),Golfer-.754%(2/4faster). New
+providedhook/defaultcustomdelegation,builtinwide1-pairimplementation andcaller
+were notintegrated becauseSailingwasflat. Cargoexit0andfinalreceipt0areboth
+captured;earlier equal-totalwrapper143remainsseparate. No retry/app/Clippy/Java/
+fullsuite/newupstreamcredit. Proof:
+`compat/observations/real_world-single-score-adjust.json`.
+All currentbuild/test/profile jobs are terminal andcollected. Mainruntime763da12
+is d466/465509/84e98d,actual originalJava4795 stillcurrent:all12valid,
+Golfer1.603315x/Sailing.873827x,1/2targets,14.439%extraRustSthroughputneeded.
+DashboardHTTP/freshness verifiedcurrent;do notrerununchangedtests/timings onturn/
+commit/contextreset. v33helpers bindgenuinecurrentarena+Java proof. Local+runner-a,
+EFSparked,no newsubagents;preserveotherwriterchanges.
+
+Next worthwhile implementation direction:compact consumed collector pages to
+8-byte optionalnonzero slotindices,and move canonicalArc keys into their arena
+cells. This would preservekeyowners/rollbackwhilehalving pagecells andmaking the
+orderedOwnedUndo enumfreeofArcdropfields. It is a plan,notimplemented ormeasured;
+keep public/custom paths andcanonicalkeyobserver contract unchanged. Existing
+selectedprofile locatesGroupState/Owned kernels asremaininghot work. Do not retry
+closedgetter/closure/scorepage/identity/inlining/layout trials unchanged.
 
 
 The preceding consumed-graph collector backend owns each mutable integer
