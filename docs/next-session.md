@@ -13,8 +13,7 @@ Record complete adapted tests/fixtures in `compat/provenance.json`. Partial,
 original, skipped or empty tests earn no upstream-method credit. Crates remain
 unpublished. Conventional Commits, never amend/rebase/push. The current user direction is to finish integrating completed work, then close
 compatibility gaps so the pending backlog shrinks. Keep performance important,
-commit occasionally and reuse unchanged verification. Use up to three concurrent GPT-6.1 Sol implementation agents and distribute
-builds/tests across available machines. Use local and runner-a; runner-c remains parked
+commit occasionally and reuse unchanged verification. Do not create new subagents. Distribute builds/tests across available machines. Use local and runner-a; runner-c remains parked
 after its actual SSH timeout. Preserve live runs across observation timeouts.
 
 ## Active RealWorld throughput goal — 2026-10-21
@@ -26,56 +25,66 @@ validations. Scores/feasibility remain separate. Model, fixtures, declarations,
 runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
 runner-c parked. No new subagents. A commit/context reset warrants no repeat checks.
 
-Selected batch: compact private collector inverse addresses. Every scalar edit,
-normal-history offset and canonical owner remains recorded. Small complete page
-coordinates and cell fit in one usize; full-width coordinates use a per-frame
-side vector whose indices rebase on nested commit. Public row storage and
-IntCollector operations remain unchanged. Inverse records are 48B rather than 80B
-on 64-bit; frames gain 24B and uncommon keys need side storage. No universal memory
-or speed claim. One original regression adds no upstream-method credit.
+Selected batch: typed join publication through the original bool route and
+16B borrowed-output carrier. Exact Triple rows go directly into the original
+Event arena; exact numeric member rows publish one original shared Rc owner per
+complete row. This removes intermediate Vec<Event>/by-value dispatch while
+preserving input cloning, callback/cache/error phases, full fields, FIFO, fanout,
+owner lifetime, captures and rollback. Four type/direction tags and Option encode
+completion; no new routing metadata, virtual methods or member arena.
+Public/custom/unsupported/batch paths retain their handling. Three original
+native regressions add no upstream-method credit.
 
-Native `beeb0006ea20a7e2afaaba4f4652d3f81b4aa3708302350d29c9fe227417705c`;
-production `6f8df69d44d05e44a9ad731d4f5a952a518337014aea2e3af1061ada9a5f30aa`;
-final snapshot `23be2ea910004688e240f7c808b707fc914f216ea61d95ab2bbd3c96a420bd05`;
-actual measured artifact `498db3bf50c7c277c3d03c49b992f571fa4a1af7cc89dcdf2c22749dfaa34465`.
+Native `67f1e924b5406df437eb9a03b5537bef5db2846ec9848c1b29eac82f93b4a48a`;
+production `378cf318b4e58607548dad932fc3853354bdb35bc640c9e74afb3c4ed8f610d9`;
+final snapshot `68a462401ced5e36a040d58d0492b49a7bb7a58106add56301ec3897d2cc63bd`;
+actual measured artifact `7f4391ca35a578542970f7b4a2cde7196e7262b03ee8e18c3b3f1d1bd2342da1`.
 One actual Clippy/all-target no-run prebuild/normal jobs4 `bash scripts/check.sh`
-passes **8,875 named /8,881 Cargo executions /292 doctests /54 tooling jobs**.
+passes **8,878 named /8,884 Cargo executions /292 doctests /54 tooling jobs**.
 Only genuine aggregate Rust log/metadata promoted; no job-cache transplants.
-Origins: 4,412 upstream adapted /4 external application /4,459 native regressions.
+Origins: 4,412 upstream adapted /4 external application /4,462 native regressions.
 Original inventory: 4,412 passed /0 pending /443 excluded, unchanged.
 
-Actual native diagnostic: **+1.413% Sailing /+0.178% Golfer**, Golfer effectively
-flat, three of four Sailing pairs faster, all 16 outputs independently valid.
-Original four rotating 3s seed7 controls per case, runner-a CPU2,3; same frozen Rust
-and actual artifact as the final gate. The genuine pilot release build/log were
-reused after exact crate-manifest comparison; no second release command, source
-relabel or repeated timing. Prior gains are not added. Proof:
-`compat/observations/real_world-compact-group-inverse.json` and
-`work/real_world-goal/compact-group-inverse-014945-next-final-results/`.
+Actual coherent native diagnostic versus the preceding beeb source:
+**+2.299% Sailing /+2.319% Golfer**, all four Sailing pairs and three of four
+Golfer pairs faster, all16 outputs independently valid. Four rotating3s seed7
+pairs per case on runner-a CPU2,3. Exact crate manifests bind the genuine pilot
+release build/artifact to the final gate; no second release build or repeated
+measurement. These gains establish no Java parity and are not added to earlier
+gains. Proof: `compat/observations/real_world-typed-join-publication.json` and
+`work/real_world-goal/unified-join-publication-beeb-next-final-results/`.
 
-Const consuming-loop specialization had a modest standalone signal; its outlined
-fallback was slower. The measured combination of the loop, packed summaries and
-compact inverse addresses was slower on both cases. These loop/queue changes are
-absent. Their exact sources, focused controls and 16 valid outputs per candidate
-remain recorded; no broad gate was spent on them. Do not retry unchanged.
+Implicit score IDs regressed; a separate member carrier regressed. Standalone
+direct Triple publication was modest and is superseded by the actually measured
+unified design. Canonical packed routing metadata was flat for Sailing
+(+.457%S/+2.442%G for the whole combined source versusbeeb, not versus67f).
+All16 outputs per trial independently validate. Focused controls and corrected
+cfg-only failures remain recorded; none of these standalone sources was broadly
+gated or integrated. Do not retry unchanged.
 
 Original Java reportb14a remains unchanged/stale: historical G1.253663/S.609042,
-all 12 valid on old021a. Neither current parity target is proved; goal active and
-incomplete. Defer the original Java qualifier until materially closer to Sailing
-parity. Same model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/
-batch policy. No new agents; local + runner-a, runner-c parked. Selected verification jobs are terminal.
-Backend HTTP/report and all three freshness digests match. Reuse unchanged
-verification, including after this commit/context reset.
+all12 valid on old021a. Neither current target is proved. Defer the original
+qualifier until materially closer to Sailing parity. No extrapolated ratio.
+The goal is active and incomplete. No new agents; local+runner-a, runner-c parked.
+All build/test/performance jobs in this batch are terminal and collected.
 
-Next: `pilot-v22-artifact-{dispatch,remote}.py` now binds the actual beeb/6f8/498db
-full gate a351a5c4; v21 remains historical for014945. The next isolated candidate
-omits duplicated numeric IDs from private consuming score rows and reconstructs
-them from complete positions only for cold views. All42 focused consuming tests
-pass on native083a4f9 /production206ee44. Its actual runner-a native pilot is running:
-`work/real_world-goal/implicit-score-ids-beeb-fixed-next-results/`, session62416.
-Collect this run; do not restart it. No speed claim or integration yet. The earlier
-61d521 cfg-caller compile failure remains preserved; the fixed source changes
-only two private test call sites to receive owned IDs without weakening assertions.
+Next: `pilot-v23-artifact-{dispatch,remote}.py` binds the genuinely gated67f/378/
+7f439 artifact and final receipt a5a9e871; v22 remains historical forbeeb.
+The previous-source hardware profile at
+`work/real_world-goal/current-compact-inverse-hardware-profile/` is actualbeeb/498
+on runner-a: two valid10s seed7 CPU2,3 runs, zero lost samples, no rebuild.
+Hardware counters:2.24 instructions/cycle, .73% branch misses,3.42% LLC misses,
+100% counter residency. Propagation13.11%, enqueue5.14%, group apply/edits,
+membership and terminal remain substantial. This is not a profile of67f, and
+enclosing samples are not removable costs. Reuse this recording; avoid closed
+ownership/layout/queue experiments and unsupported model/policy shortcuts.
+Backend report/freshness checked; unchanged UI rendering proof reused.
+Commit/reset alone warrants no repeat checks.
+
+The preceding compact inverse batch is historical:
+`compat/observations/real_world-compact-group-inverse.json` records actual
++1.413%S/+.178%G against014945,16 valid outputs and the original full gate.
+No gains are added to the current native result or historical Java ratios.
 
 ## Previous verified group-edit inlining — 2026-10-21
 

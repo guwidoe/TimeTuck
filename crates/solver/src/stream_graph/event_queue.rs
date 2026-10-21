@@ -7,7 +7,7 @@ pub(super) enum QueuedEvent {
     QuadSummary(usize),
     Shared(Rc<dyn Any>),
 }
-fn enqueue(
+pub(super) fn enqueue(
     edges: &[Edge],
     output: Event,
     pending: &mut VecDeque<(Edge, QueuedEvent)>,
@@ -15,16 +15,11 @@ fn enqueue(
     shared: bool,
 ) {
     let output = if shared { output.promote() } else { output };
-    let Some((last, prefix)) = edges.split_last() else {
+    if edges.is_empty() {
         return;
-    };
+    }
     match output {
-        Event::Shared(owner) => {
-            for &edge in prefix {
-                pending.push_back((edge, QueuedEvent::Shared(owner.clone())));
-            }
-            pending.push_back((*last, QueuedEvent::Shared(owner)));
-        }
+        Event::Shared(owner) => enqueue_shared(edges, owner, pending),
         inline @ (Event::Pair(_)
         | Event::Triple(_)
         | Event::Planning(_)
@@ -36,6 +31,21 @@ fn enqueue(
                 pending.push_back((edge, QueuedEvent::Inline(index)));
             }
         }
+    }
+}
+
+// Known shared producers avoid materializing an intermediate Event wrapper.
+#[inline(always)]
+pub(super) fn enqueue_shared(
+    edges: &[Edge],
+    owner: Rc<dyn Any>,
+    pending: &mut VecDeque<(Edge, QueuedEvent)>,
+) {
+    if let Some((last, prefix)) = edges.split_last() {
+        for &edge in prefix {
+            pending.push_back((edge, QueuedEvent::Shared(owner.clone())));
+        }
+        pending.push_back((*last, QueuedEvent::Shared(owner)));
     }
 }
 
@@ -267,9 +277,7 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                     // The typed apply and evaluation guard have completed. The
                     // carrier borrows the node, not event/arena; enqueue can grow
                     // that same arena while preserving the original scalar FIFO.
-                    outputs.for_each(|output| {
-                        enqueue(edges, output, pending, arena, shared_producer);
-                    });
+                    outputs.publish(edges, pending, arena, shared_producer);
                     continue;
                 }
                 let outputs = {

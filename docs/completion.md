@@ -19,12 +19,32 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,875 recorded Rust tests and
-292 doctests** (8,881 Cargo test executions). The compact group-inverse batch passes
-`bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Source-bound evidence](../compat/observations/real_world-compact-group-inverse.json)
+The current native verification contains **8,878 recorded Rust tests and
+292 doctests** (8,884 Cargo test executions). The typed join-publication batch
+passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
+[Source-bound evidence](../compat/observations/real_world-typed-join-publication.json)
 records the actual native gate, release artifact and controls. The live report
-remains the authority for freshness and readiness.
+remains the authority for freshness and readiness. Origins are4,412 upstream
+adaptations /4 external RealWorld /4,462 native regressions.
+
+Exact Triple joins now publish full rows directly into the original event arena;
+exact numeric member joins publish one original shared Rc owner per full row.
+The existing bool route and16B borrowed carrier avoid intermediate Vec<Event>
+and by-value dispatch without new vtable methods or global routing metadata.
+Three original regressions cover full-width fields, direction/FIFO/fanout,
+ownership, captures, errors/overflow and retry. Public/custom/unsupported/batch
+handling remains. Broader publisher code may increase code/compile cost; no
+universal speed or memory claim.
+
+Actual rotating3s seed7 native controls measured **+2.299% Sailing /+2.319%
+Golfer** versus the precedingbeeb source; all16 outputs independently validate.
+The coherent source was actually measured. Exact matching crate manifests bind
+the genuine pilot build/artifact to the final native gate, without another
+release build. No component gains are added and no Java parity is established.
+Packed-routing and implicit-score-ID experiments are not integrated; their
+source-bound focused tests and timings remain in the observation.
+
+The preceding compact group-inverse batch remains as historical evidence below.
 
 Private collector inverse addresses now pack small complete numeric positions
 into one usize, with exact full-width fallback entries and nested index rebasing.

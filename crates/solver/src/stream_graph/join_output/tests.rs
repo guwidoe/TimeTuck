@@ -408,3 +408,100 @@ fn join_output_carrier_scope_rejects_unbounded_partial_custom_clone_and_public_g
         &restored.shared_entries()[0].1
     ));
 }
+
+#[test]
+fn typed_join_publication_keeps_full_rows_fanout_right_order_and_shared_fallback() {
+    fn snapshot(
+        pending: &VecDeque<(Edge, event_queue::QueuedEvent)>,
+        arena: &[Event],
+    ) -> Vec<(usize, bool, Change, bool)> {
+        pending
+            .iter()
+            .map(|(edge, queued)| {
+                let (row, shared) = match queued {
+                    event_queue::QueuedEvent::Inline(index) => (
+                        typed::<(usize, usize), (Triple, Triple)>(&arena[*index]),
+                        false,
+                    ),
+                    event_queue::QueuedEvent::Shared(owner) => {
+                        (owner.downcast_ref::<Change>().unwrap(), true)
+                    }
+                    _ => panic!("not a join output"),
+                };
+                (edge.node, edge.right, row.clone(), shared)
+            })
+            .collect()
+    }
+    for right in [false, true] {
+        for shared in [false, true] {
+            for forced in [false, true] {
+                for receivers in [0usize, 1, 3] {
+                    event::with_forced_shared(forced, || {
+                        let original: Vec<Change> = vec![
+                            TupleChange::put(
+                                (usize::MAX, 7),
+                                ((0, usize::MAX, 3), (4, 5, usize::MAX)),
+                            ),
+                            TupleChange::retract((7, usize::MAX)),
+                            TupleChange::put((1, 2), ((9, 8, 7), (6, 5, 4))),
+                        ];
+                        let edges: Vec<_> = (0..receivers)
+                            .map(|node| Edge {
+                                node,
+                                right: node % 2 != 0,
+                            })
+                            .collect();
+                        let mut old_rows = original.clone();
+                        let mut new_rows = original.clone();
+                        let mut old_pending = VecDeque::new();
+                        let mut new_pending = VecDeque::new();
+                        let mut old_arena = Vec::new();
+                        let mut new_arena = Vec::new();
+                        let prefix = [Edge {
+                            node: usize::MAX,
+                            right: true,
+                        }];
+                        let initial = Event::new(Change::retract((31usize, 41usize)));
+                        event_queue::enqueue(
+                            &prefix,
+                            initial.clone(),
+                            &mut old_pending,
+                            &mut old_arena,
+                            false,
+                        );
+                        event_queue::enqueue(
+                            &prefix,
+                            initial,
+                            &mut new_pending,
+                            &mut new_arena,
+                            false,
+                        );
+                        JoinOutput::new(&mut old_rows, right).for_each(|event| {
+                            event_queue::enqueue(
+                                &edges,
+                                event,
+                                &mut old_pending,
+                                &mut old_arena,
+                                shared,
+                            )
+                        });
+                        JoinOutput::new(&mut new_rows, right).publish(
+                            &edges,
+                            &mut new_pending,
+                            &mut new_arena,
+                            shared,
+                        );
+                        assert_eq!(
+                            snapshot(&new_pending, &new_arena),
+                            snapshot(&old_pending, &old_arena)
+                        );
+                        assert_eq!(new_arena.len(), old_arena.len());
+                        assert_eq!(new_pending.len(), 1 + original.len() * receivers);
+                        assert!(new_rows.is_empty() && old_rows.is_empty());
+                        assert_eq!(new_rows.capacity(), old_rows.capacity());
+                    });
+                }
+            }
+        }
+    }
+}

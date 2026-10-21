@@ -800,7 +800,9 @@ impl<
 > Node<S> for Join<'_, I, J, L, R, K>
 {
     fn has_join_output(&self) -> bool {
-        self.3 && self.0.has_fixed_output_rows() && join_output::supports::<I, J, L, R>()
+        self.3
+            && ((self.0.has_fixed_output_rows() && join_output::supports::<I, J, L, R>())
+                || join_output::supports_member::<I, J, L, R>())
     }
     fn apply_join_output<'node>(
         &'node mut self,
@@ -814,12 +816,20 @@ impl<
             let change = typed::<J, R>(event).clone();
             let buffer = std::mem::take(&mut self.2);
             self.2 = self.0.apply_right_buffered(change, buffer);
-            Ok(join_output::JoinOutput::new(&mut self.2, true))
+            if join_output::supports_member::<I, J, L, R>() {
+                Ok(join_output::JoinOutput::new_member(&mut self.2, true))
+            } else {
+                Ok(join_output::JoinOutput::new(&mut self.2, true))
+            }
         } else {
             let change = typed::<I, L>(event).clone();
             let buffer = std::mem::take(&mut self.1);
             self.1 = self.0.apply_left_buffered(change, buffer);
-            Ok(join_output::JoinOutput::new(&mut self.1, false))
+            if join_output::supports_member::<I, J, L, R>() {
+                Ok(join_output::JoinOutput::new_member(&mut self.1, false))
+            } else {
+                Ok(join_output::JoinOutput::new(&mut self.1, false))
+            }
         }
     }
     fn enable_consuming_storage(&mut self) {
