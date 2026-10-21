@@ -1,0 +1,109 @@
+{
+  "kind": "real_world-small-pair-inputs",
+  "status": "Closed unintegrated: Sailing +0.251% (3/4 faster), Golfer -0.502% (1/4 faster), effectively flat mixed native controls.21 actual final-source focused checks and16 independent valid outputs. No application/Clippy/Java/full suite or unchanged retry.",
+  "native_source_digest": "49476823bd201f2899e0e98f53eb9c5716e7e74984b6d6713adbfd7cd8e28d3f",
+  "input_sha256": "240d601e6698ec234ff10dc9fb420d76892053a07a897a5b7e6c3b99a27b0fe3",
+  "source_snapshot": "7e1253eadd941ae054fef052cf1d2181f68ab32388e000f6ff1c94fcf91d19db",
+  "artifact_sha256": "026494fe16c26b5a01f492270a35dc1d485857cb7056a06376385c36305947c1",
+  "mechanism": "Use contiguous initialized Option cells for privately owned captured pair-input universes with at most16384 cells;retain Pair dimensions,index validation,ordered every-write journals,full/current snapshots and large sparse lazy pages. Numeric captured values remain full width,all mapping/output/callback/guard/FIFO phases unchanged. Additional memory/initialization cost is bounded per node.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/small-pair-inputs-next-results/real_world-small-pair-inputs-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65759.74797324583,
+            66209.25127941719,
+            66597.25963763014,
+            66783.61311781357
+          ],
+          "trial": [
+            67380.94165964649,
+            66323.53285390606,
+            64355.88610875804,
+            66816.91049776
+          ]
+        },
+        "medians": {
+          "baseline": 66403.25545852366,
+          "trial": 66570.22167583303
+        },
+        "gain_pct": 0.25144281881428476
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197517.4493996298,
+            197834.69499014292,
+            196556.1280563706,
+            197552.34735885193
+          ],
+          "trial": [
+            196758.11853528742,
+            198895.31549036942,
+            191927.75976998013,
+            196328.63986826857
+          ]
+        },
+        "medians": {
+          "baseline": 197534.89837924088,
+          "trial": 196543.37920177798
+        },
+        "gain_pct": -0.501946332318115
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 21,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_inputs::owned::small_pair_tests",
+      "incremental_stream::group_inputs::pool_tests",
+      "incremental_stream::group_inputs::paged::pool_tests",
+      "stream_graph::owned_group_input_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/small-pair-inputs-focused2",
+    "receipt_sha256": "846fccd2c101f7aa93858b44d985ff263a80bd655a050b6d8e1acfb42c3ea97f",
+    "log_sha256": "ab0a2c5ebf9cc7283d6f2794b565fab71bb69062cf28d1b9ceda8e1e16c07f2b",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "4386bfd57ffbf46ab2ad1187986ce4889eff964280799c12c9061896e5021a7a",
+  "receipts": {
+    "receipt.json": "d079f222c78d02c85c8d97a0209d431486826dc599483be79fb10abbdb3b59b8",
+    "build-receipt.json": "2a3d91f5a429da9644b73cc46acfd1f6e805d8223a09acd431631324b7cdf049",
+    "controls.json": "b0075ae3ef040bc3914aa0b7dac583215306b29732a05975ef5d90a3ee93b82e",
+    "baseline-binding.json": "559dd3b0fae040cd6a0dd564c0e9583067e0e1c3d94029ce7ab4dc391adcbaae"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9ad8966168a8c5a068ffb7b1829a69766b53097dd6f1a5e7befb55546251366e",
+    "production_digest": "2962a3bf213abe4ef287617739a4d1c094b626096f719826e07bdb7c3b77c5db",
+    "artifact_sha256": "af77f9f3fdf4001b977530b8c63d37c10563d3148ddbf95497fd03e4f8ca57d1",
+    "source_snapshot": "892d83466115da166348ab1e3ecccc536168ec28f163072aac9b11e32cce656a"
+  },
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Frozen comparison baseline and its Java evidence are carried separately;diagnostic gains do not qualify Java or add to old ratios.",
+  "development_failure": {
+    "status": "terminal101;zero executed tests",
+    "cause": "Extra closing generic bracket in new cfg(test) helper. Fixed before final freeze;all21 final-source checks then passed.",
+    "source_digest": "1f9693e355a2697bbd4c6d0471ad8aa60169f6ebe2161678b91f032119a3b74b",
+    "log_sha256": "c60dd26c0401e2b5ae6e57102a966ea2f227254dd15b33972f4db8b1e30f2c39",
+    "receipt_sha256": "a915b08d407c55770fd49cc0591d14a3ecfd2bee78503a81d04929d55086668e",
+    "preserved_failed_module": "work/real_world-goal/small-pair-inputs-focused1/failed-parser-source.rs"
+  },
+  "tradeoffs": "Eager small pair initialization may reserve previously absent rows;large universes retain lazy pages. This candidate failed to show a useful Sailing throughput gain and is not integrated."
+}

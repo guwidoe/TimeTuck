@@ -67,12 +67,25 @@ Keep frozen a666b60d and sourcearchivec48c0fc8,original preparation failure
 (zero builds/tests),prior tests and terminal156.9s dispatch60327 unchanged.
 [Slots evidence](../compat/observations/real_world-sparse-score-slots.json).
 
-Prepared v36 controls bind preceding9848/df9b/1d5b,22actual checks and historical
-Javaeeee. Update later controls from actual9ad8/2962/af77 receipts and41 checks;
-never silently relabel old binding/current-Java claims. No pending build/timing
-job. Backend report refresh9749 promotes actual41 checks;
-reuse unchanged UI rendering evidence. Goal incomplete;fresh original3seed10s
-Java/Rust proof is still required before claiming current parity on both cases.
+A further bounded-pair input trial is closed unintegrated. Contiguous initialized
+cells for private pair universes up to16384 remove the optional-page lookup;
+large inputs retain lazy pages. Final21 scoped checks pass on49476823/240d601e,
+all16 native outputs independently validate,**S+.251%(3/4)/G-.502%(1/4)** versus
+selected9ad8/2962/af77. Flat/mixed result does not justify extra initialization/
+memory;no app/Clippy/Java/full suite or retry. First cfg(test) helper had one extra
+generic bracket,terminal101/zero executed tests;failed source/log retained,syntax
+fixed and rustfmt completed before final snapshot7e1253ea. Exact capsule,actual
+final checks and controls in small-pair-inputs-next-results;dispatch58857 terminal0.
+[Evidence](../compat/observations/real_world-small-pair-inputs.json).
+
+Prepared v37 controls bind actual selected9ad8/2962/af77,41 same-source checks+
+Clippy,16 independently valid original native outputs. HistoricalJavaeeee remains
+explicitly source-stale;no current-Java credit or extrapolated gain. v36 binds the
+preceding9848/df9b/1d5b only. All owned build/test/measurement/profile jobs are
+terminal and collected. Dashboard server PID24571 serves8765;backend report9749
+finished with41 actual current-source checks and HTTP200,all3 freshness hashes
+matched. UI rendering unchanged. Goal incomplete;fresh original3seed10s Java/Rust
+proof is still required before claiming current parity on both cases.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
