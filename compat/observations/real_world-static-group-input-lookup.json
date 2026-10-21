@@ -1,0 +1,165 @@
+{
+  "kind": "real_world-static-group-input-lookup",
+  "generated_at": "2026-10-21T13:49:54.592261+00:00",
+  "status": "closed without integration;no established Sailing gain",
+  "native_source_digest": "e5ba3ced1a07a00191dcfc3d1bdc003f0ceca1ed9bb06fb5eb525b7b903a83b8",
+  "input_sha256": "257f17c4c81207df4c0b9c61f43fcea2107c1552cbf57d9c9b186ea60846a467",
+  "source_snapshot": "c5311cc95f9785f05993de0b66645dcc9de27e2043a2e110d1146a8b589a975f",
+  "artifact_sha256": "c65337160d7a85d278bc838c3721aaa02544f8724cca835a8689fbf4d556009c",
+  "mechanism": "Graph-only numeric GroupInputs lookup uses statically resolved original fixed/pair/unbounded address mapping. Public borrowed GroupNode retains stored function pointers. Shared prepare/apply body,containers,bounds,inspect,clone,callbacks,publication,history and FIFO unchanged. No runtime field,vtable,batching or model change. Distinct from closed join-row/static-key experiments.",
+  "tests_passed": 14,
+  "new_original_tests": 2,
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "static_group_input_lookup",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "seconds": 96.62262007399113,
+      "receipt_sha256": "19d3de32059835e135a4e3cc0dc13acb65ec42a2f88bc62b9560ea633e55f7d3",
+      "proof_directory": "work/real_world-goal/static-group-inputs-outlined-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "incremental_stream::group_inputs::owned_tests::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 7,
+      "seconds": 0.13273103098617867,
+      "receipt_sha256": "2a0fcc064ee4e6f27b278a3b3640bca1c2e9a4ee1d2528a1818f4b9635e234fa",
+      "proof_directory": "work/real_world-goal/static-group-inputs-outlined-owned-controls1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "incremental_stream::group_entry::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 5,
+      "seconds": 0.15285285699064843,
+      "receipt_sha256": "a54fa2cc9cb6fc7d9c5d5abde3861a72e983046230b3e00f4191c21d4c9bc4d9",
+      "proof_directory": "work/real_world-goal/static-group-inputs-outlined-entry-controls1"
+    }
+  ],
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/static-group-inputs-outlined-next-results/real_world-static-group-inputs-outlined-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            36273.17448552323,
+            49249.7207893707,
+            51203.38650157627,
+            46828.600896680204
+          ],
+          "trial": [
+            39696.325765903886,
+            50050.52493947216,
+            50269.38669204086,
+            46387.9240586126
+          ]
+        },
+        "medians": {
+          "baseline": 48039.16084302546,
+          "trial": 48219.22449904238
+        },
+        "gain_pct": 0.3748268139098121
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            148290.1458474513,
+            138517.56165756163,
+            141776.6408450693,
+            138507.19324135268
+          ],
+          "trial": [
+            164843.05534051836,
+            164515.58205255412,
+            136988.51473539823,
+            133084.83751120052
+          ]
+        },
+        "medians": {
+          "baseline": 140147.10125131547,
+          "trial": 150752.04839397618
+        },
+        "gain_pct": 7.56701141013516
+      }
+    }
+  },
+  "timing_only_retry": {
+    "reason": "Original timings showed substantial unchanged-baseline drift;one retry with CPU telemetry using the same already-built artifacts. No builds or tests repeated.",
+    "proof_directory": "work/real_world-goal/static-group-inputs-telemetry-controls",
+    "valid_outputs": 16,
+    "summary": {
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            159562.68448829165,
+            165639.51673606364,
+            161333.3856557528,
+            161662.5753675923
+          ],
+          "trial": [
+            155895.8460833285,
+            169430.1333920306,
+            166337.82627010896,
+            171512.89880222187
+          ]
+        },
+        "medians": {
+          "baseline": 161497.98051167256,
+          "trial": 167883.97983106977
+        },
+        "gain_pct": 3.9542285910724617,
+        "pairs_faster": 3
+      },
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            48298.87112592656,
+            47841.18882228213,
+            44919.934979962156,
+            46976.48690302912
+          ],
+          "trial": [
+            48901.98184277599,
+            45264.90804406857,
+            44972.91461157982,
+            48342.3102604294
+          ]
+        },
+        "medians": {
+          "baseline": 47408.83786265562,
+          "trial": 46803.60915224899
+        },
+        "gain_pct": -1.2766157908362885,
+        "pairs_faster": 3
+      }
+    },
+    "telemetry": "Raw per-run CPU activity,frequency,pressure,load and temperature retained. Additional activity on target CPUs observed;no causal thermal or load attribution established. No governor,power,affinity or unrelated process changes.",
+    "receipt_sha256": "30f91bc716338a9c69fd3e1efac8c2ca43ed9d922e591b1f3f003cfea7233811",
+    "controls_sha256": "ead04ac8d5737d41a7e44e890b101dd05d6c3d4f52259317d34f65ede2f2c639"
+  },
+  "policy": "Preserve both runs and original fixed median-of-rates statistic. Golfer possible benefit is not an established Sailing improvement:original Sailing +0.375%,retry -1.277%. Do not repeat unchanged source or select favorable pairs/statistics. No app,Clippy,full suite,Java qualification or current-main credit. Selected runtime daa8a18 unchanged."
+}

@@ -76,16 +76,15 @@ qualification or main credit on either source. Preserve both; do not repeat.
 Proofs: `compat/observations/real_world-transient-empty-collector-side-list.json`
 and `compat/observations/real_world-inverse-derived-empty-collectors.json`.
 
-Next candidate is private graph input-address specialization, distinct from the
-closed join-row/static-key experiments. Graph group calls resolve already
-certified input numeric fixed/pair/unbounded maps through the concrete ID type;
-standalone/borrowed GroupNode keeps stored-function lookup and the shared apply
-body. No new container, bounds, cache, runtime flag or vtable. Original inspect,
-clone, bounds-error/publication and capture/history phases remain. Prototype
-`work/real_world-goal/static-group-inputs-outlined-next-prototype/`; original
-focused tests and native controls are active in the state ledger. No speed claim
-before collecting them. Initial rustfmt module-doc placement was fixed before
-the frozen build; no measurement credit attached to that preparation error.
+Private graph input-address specialization is closed without integration. Exact
+source passed 2 original lookup/bounds tests plus 7 owned-input and 5 group-entry
+controls. First 16-output native run had substantial baseline drift: Sailing
++.375%, Golfer +7.567%. One timing-only retry reused the same built artifacts,
+recorded CPU activity and validated another 16 outputs: Sailing -1.277%, Golfer
++3.954%. Preserve both and the fixed median-of-rates statistic. Possible Golfer
+benefit does not establish a Sailing gain; no third unchanged run, app/Clippy,
+full suite, Java qualification or current-main credit. All jobs collected.
+Proof: `compat/observations/real_world-static-group-input-lookup.json`.
 
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
