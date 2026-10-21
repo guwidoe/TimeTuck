@@ -57,10 +57,16 @@ The fused collector-summary lookupaeb600/36622 is closed,not integrated:
 7 focused regressions pass;16 outputs valid;Sailing+.318%(3/4faster),Golfer+.735%
 (4/4). Small mixed Sailing signal,no retry/app/Clippy/full/Java. Proof in
 `compat/observations/real_world-collector-summary-fusion.json`. v32 baselinebinding
-succeeded. A separate directional queue prototype now stores direction in the
-variant discriminant:32B queued cell versus40B,full node/index/Rc fields,no range
-restriction or event coalescing. Actual job handle in ignored active state;do not
-restart just because observation times out. The chosen currentmain remainsfc93b33.
+succeeded. The direction-in-tag queue7c9/dfe830 is closed:16valid outputs,
+Sailing-2.386%/Golfer-4.100%,all4pairs slowerboth. Corrected cfg(test) sourceb4a395
+passes23 focused cases;first4de compilefailure retained,zero executed. No
+integration,app/Clippy/finalreleasebridge/full/Java/retry. A distinct packedreceiver
+prototype6d5a922/149f1e now packs node+side into oneusize,keeping the original
+payload variants plus boxed escape for full-width synthetic node IDs. It retains
+32Bcells/FIFO/fullpayloads/Rc phases. Actual runner-a job29112 is live;local
+focused checks are next. Preserve live handles in ignored active state;no restart
+on observation timeout. Main selectedruntime remainsfc93b33/0b4fcc/55e146/5a1911.
+Proof: `compat/observations/real_world-directional-queue.json`.
 
 The preceding consumed-graph collector backend owns each mutable integer
 collector in a box and records scalar and structural undo in one ordered journal.

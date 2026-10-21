@@ -1,0 +1,97 @@
+{
+  "kind": "real_world-directional-queue",
+  "generated_at": "2026-10-21T16:56:06.259850+00:00",
+  "status": "closed;not integrated;every native pair slower",
+  "native_source_digest": "7c9deb1160764276c5d51c2571b9d768052f9a904a1daf9fef8cae30626b6a01",
+  "input_sha256": "dfe830f871ab0f8c614c5db57ae490068d6b365d906c2a2a9b4e7c70204f0419",
+  "source_snapshot": "8c31acc841786cfaa9ee6d5b9e9af13b9975d78a929c9cfd298dc4e3cc641a5b",
+  "artifact_sha256": "9fd7037766a0eea0bd29a37f3f5c8f83c3fbf021985c38ae3de50bc9e5926736",
+  "mechanism": "Store direction in eight queue-cell variants,each retaining full usize node/index or original Rc fat pointer. Reusable Pending wrapper converts original Edge/QueuedEvent at enqueue/dequeue;cell32B vs40B. Full MAX routes retained,logical event count,FIFO,fanout,callbacks,guards and ownership unchanged. No model/settings/compiler change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/directional-queue-next-results/real_world-directional-queue-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64211.55380735714,
+            64316.27902839013,
+            63962.30633729213,
+            63681.15725008972
+          ],
+          "trial": [
+            61997.9442884058,
+            63284.27109528819,
+            62263.74968286828,
+            62852.19446892917
+          ]
+        },
+        "medians": {
+          "baseline": 64086.930072324634,
+          "trial": 62557.972075898724
+        },
+        "gain_pct": -2.385756338617595
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            188107.01633121129,
+            189027.64545764265,
+            188986.93306224165,
+            189778.9960977862
+          ],
+          "trial": [
+            180831.3389570753,
+            181686.4469945267,
+            186427.85148584252,
+            177382.9093521435
+          ]
+        },
+        "medians": {
+          "baseline": 189007.28925994213,
+          "trial": 181258.892975801
+        },
+        "gain_pct": -4.099522465234006
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "checks": [
+    {
+      "native_source_digest": "b4a3951a5534be0455f92e019c33f9d60f65bc1b71df41b2f09edba1740eecaf",
+      "production_digest": "dfe830f871ab0f8c614c5db57ae490068d6b365d906c2a2a9b4e7c70204f0419",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "stream_graph::event_queue::tests",
+        "stream_graph::group_summary_lane::tests",
+        "stream_graph::join_output::",
+        "stream_graph::propagation_workspace_tests",
+        "stream_graph::membership_filter::shared_forward_tests"
+      ],
+      "tests_passed": 23,
+      "seconds": 162.0458122229902,
+      "log_sha256": "7cb49f3e3258e5bfef922f3636ef2c4ba45b3bf22bbd76e4ed95b9450da93df4",
+      "receipt_sha256": "c82c172410be5a8cde5da70e0ca4e21835d87405309385b4f4091c7508bdd1b2",
+      "scope": "Actual corrected cfg(test) sourceb4a395,not benchmark source7c9;productiondigest identical. Full MAX queue routes/allkinds/Rcownership/FIFO/growth,summary/join,full/current/nestedgraph/rollback/overflow/error/retry controls. No main credit or final artifact identity bridge."
+    }
+  ],
+  "test_scope": "Original4de testcompile failed withzero executions. Actual corrected b4a395 passes23 relevant cases. Changes from nativepilot include only cfg(test) constructors/borrowed view assertions;not relabeled as benchmark source. No final binary bridge/app/Clippy/full/Java on rejected source.",
+  "receipts": {
+    "receipt.json": "71b43c9273e13e22084df2c7e93d9a4bd814cc6a8ac4802cd27a248cae372a1e",
+    "build-receipt.json": "6954a7efadbef2f88d43307864b434d6503be3984538bea6d3f9009be6da4e58",
+    "controls.json": "0d24c895d58d2c0d7e600f675a502cb0073f37f658caf45c2fb1f812f86aa6ce",
+    "baseline-binding.json": "ea4f7c6ad690d0830bc49b5aa82dac8d020fcb13a7dadea8e224bd5dfc9c7b96"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "All16 outputs independently valid;Sailing-2.38576%,Golfer-4.09952%,all4pairs slowerboth. Reject,no integration or timingretry. All jobs terminal and collected. Main selectedfc93b33 remains0b4fcc/55e146/5a1911;Java5725 unchanged/stale."
+}
