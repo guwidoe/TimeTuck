@@ -1,0 +1,195 @@
+{
+  "kind": "real_world-inline-forwarding-and-rows-observation",
+  "generated_at": "2026-10-21T02:27:30.701097+00:00",
+  "upstream_method_credit": 0,
+  "input_sha256": "7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494",
+  "native_source_digest": "382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b",
+  "source_snapshot": "3160622b25e054953780167441b632e4760c0ec5a0d87644f615c970db64884e",
+  "host": "runner-a",
+  "artifact_sha256": "c7d2339c90943dd16b835a0a1d96a1ce259b31309121d07849285b1a66a9048b",
+  "correctness": {
+    "integrated_gate": "passed",
+    "command": "bash scripts/check.sh",
+    "recorded_native_tests_passed": 8871,
+    "cargo_test_invocations_passed": 8877,
+    "doctests_passed": 292,
+    "tooling_jobs_passed_or_reused": 54,
+    "new_native_regressions": 5,
+    "test_names": [
+      "stream_graph::event::tally_tests::inline_tallies_full_numeric_fields_event_width_clone_and_promoted_fanout_owners",
+      "stream_graph::event::tally_tests::inline_tallies_actual_flatmap_group_callbacks_captures_and_rollback_match_shared_and_wide",
+      "stream_graph::membership_filter::inline_forward_tests::inline_forward_actions_match_original_all_copy_shapes_acceptance_transitions_and_full_range_ids",
+      "stream_graph::membership_filter::inline_forward_tests::inline_forward_consumed_graph_fifo_fanout_captures_nested_rollback_errors_and_shared_fallback_match_original",
+      "stream_graph::membership_filter::inline_forward_tests::inline_forward_public_graph_keeps_retained_canonical_match_owners"
+    ],
+    "full_receipt": {
+      "host": "runner-a",
+      "source_snapshot": "3160622b25e054953780167441b632e4760c0ec5a0d87644f615c970db64884e",
+      "rust_digest": "382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b",
+      "production_digest": "7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494",
+      "source_unchanged": true,
+      "exit_code": 0,
+      "checks": [
+        {
+          "name": "preflight",
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "-j",
+            "4",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 44.20264776999829,
+          "log_sha256": "c218c351f6abcfe0ec7c2749a54fd7f990a9faa8d567fcebf0a17ca64d0ca5ca"
+        },
+        {
+          "name": "prebuild",
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--no-run",
+            "-j",
+            "8"
+          ],
+          "exit_code": 0,
+          "seconds": 549.1761175520078,
+          "log_sha256": "2a69133b656f100f04d20bb93803b70fb5fd30e38e4bb67c25b160889b2ba208"
+        },
+        {
+          "name": "fullgate",
+          "command": [
+            "bash",
+            "scripts/check.sh"
+          ],
+          "exit_code": 0,
+          "seconds": 283.9204376800044,
+          "log_sha256": "929785eea56bd3603ac220d3cea6407388f568c45d5811e85e29945510811dde"
+        }
+      ],
+      "seconds": 880.908706599992,
+      "policy": "All commands actually executed on unchanged frozen source. Clippy preflight, genuine Cargo all-target no-run prebuild at command jobs8, then standard gate at unchanged normal jobs4 environment; ordinary Cargo/compiler and successful verification reuse, no transplanted job records. No Java qualifier rerun: prior Java evidence remains stale. Actual separately recorded native controls bind the unchanged source and measured artifact; no Java parity credit. Total duration includes preflight/prebuild."
+    },
+    "integration_receipt": {
+      "base_commit": "6c6ef4f9e378c3ddc6500a7ea05cd5296df049fd",
+      "source_snapshot": "3160622b25e054953780167441b632e4760c0ec5a0d87644f615c970db64884e",
+      "rust_digest": "382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b",
+      "production_digest": "7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494",
+      "changed_files": [
+        "crates/solver/src/stream_graph.rs",
+        "crates/solver/src/stream_graph/membership_filter.rs",
+        "crates/solver/src/stream_graph/event.rs",
+        "crates/solver/src/stream_graph/event_queue.rs",
+        "crates/solver/src/stream_graph/event/tally_tests.rs",
+        "crates/solver/src/stream_graph/membership_filter/inline_forward_tests.rs"
+      ],
+      "native_recorded_tests": 8871,
+      "artifact_sha256": "c7d2339c90943dd16b835a0a1d96a1ce259b31309121d07849285b1a66a9048b",
+      "final_receipt_sha256": "3de9cb04bdbd8913ae6c203423eeb03514a08c52b6b12857c3b40ae968864d69",
+      "promoted_evidence": [
+        "work/rust-tests.log",
+        "work/rust-tests.log.json"
+      ],
+      "previous_java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+      "policy": "Exact frozen Rust after actual full native gate. No per-job metadata transplant. Native controls are diagnostic only. Prior Java report retained unchanged and stale; no Java parity claim."
+    }
+  },
+  "changes": [
+    "Private consuming scalar membership filters on exact existing inline Copy shapes return a compact None/Same/Retract decision. The original apply_row algorithm is unchanged, including predicate calls, tuple output preparation, bounds/poison/journal phases and callbacks. Classification follows complete apply. Same forwards the immutable existing arena index in original FIFO/fanout order; a rejected replacement put emits the original full-ID retraction.",
+    "Fast forwarding requires an inline input and no shared producer. Namespace completeness is irrelevant to safe slot aliasing; both fixed and open acceptance caches retain their existing algorithm. Public, custom, shared-owner, retained and batch paths preserve original routing and ownership. No borrowed arena reference survives possible growth.",
+    "Exact Pair-ID primitive Quad4 and Tally5 FlatMap rows now fit inline in the existing72B Event. Full usize/i64 fields, clone, typed views and producer-before-fanout promotion remain. QueuedEvent stays24B and edge/queued40B. Wider summaries/QuadPair and custom shapes keep their previous representations; no old104B Event widening.",
+    "Five original regressions cover all three forwarded shapes, acceptance/rejection/retraction transitions, complete numeric row fields, event width and canonical promoted fanout owners, real consumed graph FIFO/callbacks/work counts, nested/full/current captures and rollback, predicate/score panic and arithmetic errors, shared/wide/public retained-owner fallbacks, and actual FlatMap/group scoring. No upstream method credit."
+  ],
+  "diagnostic_controls": [
+    {
+      "qualified": false,
+      "source_snapshot": "ba01276400814a38a967b13587ded8ae5ed79326ac9de1e139adf217f57f2057",
+      "native_source_digest": "382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b",
+      "production_digest": "7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494",
+      "artifact_sha256": "c7d2339c90943dd16b835a0a1d96a1ce259b31309121d07849285b1a66a9048b",
+      "baseline_binding": {
+        "rust_digest": "076517ff1ae9cd82fe187a2e02dcb7a997e7221998b5ef5b9b33c98b19c1726e",
+        "production_digest": "b280f04d7d4fea2ec6455ea071c17bc27f7755acdbf4126f09e438dd7bee95b2",
+        "artifact_sha256": "570309bde160f41f2f10eed336e65f2de31a3ca24f426fc12184d870a1f992ee",
+        "source_snapshot": "22cdd2d7f3437cdc55aa65d6091aad10ec1d9161e11f0ec2a96c95240aeb13b5",
+        "final_receipt_sha256": "f8c2319da7c8d9c5a3c0a910a0d959e16bc9eaa394d004603f874f390fd7554f",
+        "native_pilot_binding_sha256": "5f9577509f7df0655f2ebdb7bb7cb9a3756f8b86282b8012526b571ea7ab7fb9",
+        "qualification": "actual full native gate and native diagnostic artifact; Java qualification deferred, no parity credit"
+      },
+      "valid_outputs": 16,
+      "medians_and_gains": {
+        "sailing-trip-v1": {
+          "medians": {
+            "baseline": 50758.34477128036,
+            "trial": 53144.0126448858
+          },
+          "gain_pct": 4.700050571694914
+        },
+        "social-golfer-32x8x10-v1": {
+          "medians": {
+            "baseline": 152765.8725928539,
+            "trial": 163445.35542186923
+          },
+          "gain_pct": 6.990751695882946
+        }
+      },
+      "controls_sha256": "2b34955ada2ef37fcc4c6be0c6e5b18ace23bc3d975d327e1ea98fb35b84de77",
+      "proof_directory": "work/real_world-goal/filter-tallies-6c6-fixed-next-results"
+    }
+  ],
+  "pilot_policy": "Actual combined four rotating three-second seed7 native controls per case, runner-a CPU2,3, against full-gate-verified6c6/570309 artifact. All16 assignments independently valid. Final native gate and combined controls have identical Rust bytes and measured artifact. Individual trial gains are not added or multiplied into Java ratios.",
+  "separate_trials": [
+    {
+      "name": "Copy filter arena-slot forwarding",
+      "golfer_gain_pct": 5.29267338452728,
+      "sailing_gain_pct": 3.5738233893182203,
+      "focused_regressions_passed": 3,
+      "scope": "Actual pilotfad7 and CFG-fixture-corrected focusedfe8 share productione868; complete source review in inline-filter-copy-6c6-next-evidence."
+    },
+    {
+      "name": "Inline Quad4/Tally5 rows",
+      "golfer_gain_pct": 0.10880830628583471,
+      "sailing_gain_pct": 0.9564111818459065,
+      "focused_regressions_passed": 2,
+      "scope": "Small standalone result; integrated only through separately measured combined candidate."
+    },
+    {
+      "name": "Earlier unnecessarily bound-only forwarding gate",
+      "golfer_gain_pct": 1.052516691555927,
+      "sailing_gain_pct": -0.2653370230958574,
+      "selection": "unselected; activation assertions failed because rejecting filters can retain Open bounds. No source/tests integrated from this version."
+    }
+  ],
+  "java_qualification": {
+    "status": "deferred; previous original report unchanged and stale",
+    "previous_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+    "historical_golfer_ratio": 1.2536632592888863,
+    "historical_sailing_ratio": 0.6090416988263235,
+    "historical_targets_met": 1,
+    "current_targets_proven": 0,
+    "policy": "Success needs current same-machine serial rotating Java/Rust pairs, seeds7/11/23 x10s, CPU2,3, all12 independently valid, both throughput targets met. Scores and feasibility remain separate. These native controls do not prove Java parity."
+  },
+  "tradeoffs": [
+    "Exact inline rows retain private arena capacity after peak use; immutable slot aliases reduce duplicated event entries for accepted filters, without a universal memory claim. Complete numeric fields and existing public retained-owner guarantees remain.",
+    "Additional exact event variants and private routing metadata can change code/cache behavior. Gains are bounded to the measured workloads; model, fixtures, declarations, runner, compiler/CPU/PGO/panic/batch policies are unchanged."
+  ],
+  "development_checks": "Original new test fixture import/dereference/visibility errors, excessive bound gate activation failures and accidental i32 max fixture are preserved with their actual failures. Corrections changed the proper gate or explicit fixture types without weakening assertions. Initial combined Clippy found one test-result type complexity; final frozen source adds a CFG-test alias and actually passes all-target Clippy and the full gate.",
+  "proof_directory": "work/real_world-goal/filter-tallies-6c6-next-final-results/",
+  "original_inventory": "4412 adapted passes/0pending/443excluded; four external RealWorld tests unchanged; five additional native regressions, zero upstream credit.",
+  "profile_evidence": {
+    "directory": "work/real_world-goal/current-filter-tallies-profile",
+    "receipt_sha256": "9a46a6ccc421b88e84214dd5fbfce41a05567c2aad1ff81f4723abf0ee753da7",
+    "recorded_while_native_gate_running": true,
+    "subsequent_final_receipt_sha256": "3de9cb04bdbd8913ae6c203423eeb03514a08c52b6b12857c3b40ae968864d69",
+    "source_and_artifact_match_final_gate": true,
+    "scope": "Single local Sailing10s seed7 profile of actual measured artifact, independently valid0/91600 and zero lost samples. No rebuild or Java timing/parity credit. Reuse this recording for the next performance investigation."
+  }
+}

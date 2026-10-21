@@ -2,6 +2,8 @@
 use super::{Any, Rc, TupleChange};
 
 type Triple = (usize, usize, usize);
+type Quad = (usize, usize, usize, usize);
+type Tally = (usize, usize, usize, usize, i64);
 type Planning = (usize, Option<usize>);
 
 // Keep the largest inline row to a pair of triples. Wider group summaries and
@@ -10,6 +12,8 @@ pub(super) enum Event {
     Pair(TupleChange<(usize, usize), (Triple, Triple)>),
     Triple(TupleChange<usize, Triple>),
     Planning(TupleChange<usize, Planning>),
+    Quad(TupleChange<(usize, usize), Quad>),
+    Tally(TupleChange<(usize, usize), Tally>),
     Shared(Rc<dyn Any>),
 }
 impl Event {
@@ -38,7 +42,29 @@ impl Event {
                 value: row.value,
             });
         }
+        if let Some(row) = erased.downcast_ref::<TupleChange<(usize, usize), Quad>>() {
+            return Self::Quad(TupleChange {
+                id: row.id,
+                value: row.value,
+            });
+        }
+        if let Some(row) = erased.downcast_ref::<TupleChange<(usize, usize), Tally>>() {
+            return Self::Tally(TupleChange {
+                id: row.id,
+                value: row.value,
+            });
+        }
         Self::Shared(Rc::new(value))
+    }
+    pub(super) fn inline_retraction(&self) -> Self {
+        match self {
+            Self::Pair(row) => Self::Pair(TupleChange::retract(row.id)),
+            Self::Triple(row) => Self::Triple(TupleChange::retract(row.id)),
+            Self::Planning(row) => Self::Planning(TupleChange::retract(row.id)),
+            Self::Quad(row) => Self::Quad(TupleChange::retract(row.id)),
+            Self::Tally(row) => Self::Tally(TupleChange::retract(row.id)),
+            Self::Shared(_) => unreachable!("only private inline filter inputs"),
+        }
     }
     // Promotion belongs to the producer, before cloning any fanout owners.
     pub(super) fn promote(self) -> Self {
@@ -46,6 +72,8 @@ impl Event {
             Self::Pair(row) => Rc::new(row),
             Self::Triple(row) => Rc::new(row),
             Self::Planning(row) => Rc::new(row),
+            Self::Quad(row) => Rc::new(row),
+            Self::Tally(row) => Rc::new(row),
             Self::Shared(row) => return Self::Shared(row),
         };
         Self::Shared(owner)
@@ -66,6 +94,8 @@ impl Event {
             Self::Pair(row) => (row as &dyn Any).downcast_ref::<T>(),
             Self::Triple(row) => (row as &dyn Any).downcast_ref::<T>(),
             Self::Planning(row) => (row as &dyn Any).downcast_ref::<T>(),
+            Self::Quad(row) => (row as &dyn Any).downcast_ref::<T>(),
+            Self::Tally(row) => (row as &dyn Any).downcast_ref::<T>(),
             Self::Shared(row) => row.as_ref().downcast_ref::<T>(),
         }
     }
@@ -95,6 +125,14 @@ impl Clone for Event {
                 id: row.id,
                 value: row.value,
             }),
+            Self::Quad(row) => Self::Quad(TupleChange {
+                id: row.id,
+                value: row.value,
+            }),
+            Self::Tally(row) => Self::Tally(TupleChange {
+                id: row.id,
+                value: row.value,
+            }),
             Self::Shared(row) => Self::Shared(row.clone()),
         }
     }
@@ -104,11 +142,14 @@ impl Clone for Event {
 mod tests;
 
 #[cfg(test)]
+mod tally_tests;
+
+#[cfg(test)]
 thread_local! {
     static FORCE_SHARED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
 #[cfg(test)]
-fn with_forced_shared<T>(shared: bool, operation: impl FnOnce() -> T) -> T {
+pub(super) fn with_forced_shared<T>(shared: bool, operation: impl FnOnce() -> T) -> T {
     struct Restore(bool);
     impl Drop for Restore {
         fn drop(&mut self) {

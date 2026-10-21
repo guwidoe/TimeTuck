@@ -2947,3 +2947,22 @@ custom, unbounded, partially bound and batch paths keep original Outputs. There
 are no new public lifetime bounds. Eight native regressions and actual combined
 measurements are recorded in the
 [typed-output observation](../compat/observations/real_world-typed-output-storage.json).
+
+## Private inline filter forwarding and primitive rows
+
+In ownership-consuming scalar execution, membership filters on the existing exact
+inline Copy shapes can return a compact None/Same/Retract action after their
+unchanged apply_row completes. Accepted inputs and accepted input retractions reuse
+an immutable arena index. Rejected replacement puts produce the original full-ID
+retraction. Predicate/output preparation, bounds/poison/journal phases, evaluation
+guards and FIFO/fanout stay intact. Inline input and a nonshared producer are required;
+public, custom, shared-owner and batch paths retain original routing. Fixed and Open
+acceptance caches keep their existing validation and storage semantics. No arena
+reference survives growth; only indices are queued.
+
+Exact Pair-ID primitive Quad4/Tally5 rows now fit inline in the72B Event. Full numeric
+fields, producer-before-fanout promotion, canonical shared owners and typed views
+remain. Wider/custom shapes retain their previous representations. Private peak arena
+capacity can remain; no universal memory claim. Five original native controls and
+combined source-bound measurements are in the
+[inline-event observation](../compat/observations/real_world-inline-event-forwarding.json).

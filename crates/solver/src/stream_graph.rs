@@ -337,6 +337,12 @@ trait Node<S: AdditiveScore> {
         true
     }
     fn restore(&mut self, checkpoint: Box<dyn Any>);
+    fn has_inline_forward(&self) -> bool {
+        false
+    }
+    fn apply_inline_forward(&mut self, _event: &Event) -> membership_filter::InlineForward {
+        unreachable!("certified exact inline membership filter")
+    }
     fn has_join_output(&self) -> bool {
         false
     }
@@ -2853,6 +2859,11 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
         let mut graph = StreamGraph {
             consuming_eligible,
             consuming_search: false,
+            inline_forward_nodes: self
+                .nodes
+                .iter()
+                .map(|node| node.has_inline_forward())
+                .collect(),
             join_output_nodes: self
                 .nodes
                 .iter()
@@ -2930,6 +2941,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     consuming_eligible: bool,
     consuming_search: bool,
     join_output_nodes: Vec<bool>,
+    inline_forward_nodes: Vec<bool>,
     group_summary_candidates: Vec<Option<group_summary_lane::Kind>>,
     group_summary_lanes: Vec<Option<group_summary_lane::Kind>>,
     shared_event_producers: Vec<bool>,

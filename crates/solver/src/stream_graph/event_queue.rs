@@ -25,7 +25,11 @@ fn enqueue(
             }
             pending.push_back((*last, QueuedEvent::Shared(owner)));
         }
-        inline @ (Event::Pair(_) | Event::Triple(_) | Event::Planning(_)) => {
+        inline @ (Event::Pair(_)
+        | Event::Triple(_)
+        | Event::Planning(_)
+        | Event::Quad(_)
+        | Event::Tally(_)) => {
             let index = arena.len();
             arena.push(inline);
             for &edge in edges {
@@ -181,6 +185,10 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
             // Keep custom owners local until the original loop's release phase.
             // Inline borrows end after apply, before output publication can grow
             // the arena. No reference into the arena survives that preparation.
+            let inline_index = match &queued {
+                QueuedEvent::Inline(index) => Some(*index),
+                _ => None,
+            };
             let shared;
             let event = match queued {
                 QueuedEvent::Inline(index) => &arena[index],
@@ -205,6 +213,32 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                 .as_ref()
                 .is_some_and(|nodes| !nodes[id])
             {
+                if self.graph.consuming_search
+                    && self.graph.inline_forward_nodes[id]
+                    && !self.graph.shared_event_producers[id]
+                    && let Some(index) = inline_index
+                {
+                    let action = {
+                        let _count = ScoreEvaluationDelta::new(
+                            self.graph.score_evaluation_counters[id].as_ref(),
+                            &mut self.score_evaluations,
+                        );
+                        self.graph.nodes[id].apply_inline_forward(event)
+                    };
+                    match action {
+                        membership_filter::InlineForward::None => {}
+                        membership_filter::InlineForward::Same => {
+                            for &next in &self.graph.edges[id] {
+                                pending.push_back((next, QueuedEvent::Inline(index)));
+                            }
+                        }
+                        membership_filter::InlineForward::Retract => {
+                            let output = event.inline_retraction();
+                            enqueue(&self.graph.edges[id], output, pending, arena, false);
+                        }
+                    }
+                    continue;
+                }
                 if self.graph.consuming_search
                     && let Some(kind) = self.graph.group_summary_lanes[id]
                 {

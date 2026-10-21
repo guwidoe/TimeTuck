@@ -7,6 +7,23 @@ use std::any::TypeId;
 #[cfg(test)]
 mod tests;
 
+// Exact Copy rows only. Same reuses the producer's existing private arena cell;
+// Retract is needed when a previously accepted put becomes rejected.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(super) enum InlineForward {
+    None,
+    Same,
+    Retract,
+}
+fn inline_shape<I: 'static, T: 'static>() -> bool {
+    type Triple = (usize, usize, usize);
+    (TypeId::of::<I>() == TypeId::of::<usize>()
+        && (TypeId::of::<T>() == TypeId::of::<Triple>()
+            || TypeId::of::<T>() == TypeId::of::<(usize, Option<usize>)>()))
+        || (TypeId::of::<I>() == TypeId::of::<(usize, usize)>()
+            && TypeId::of::<T>() == TypeId::of::<(Triple, Triple)>())
+}
+
 enum Bounds<I> {
     Open,
     Fixed {
@@ -144,6 +161,22 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, F: Fn(&T) -> bool>
 impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore, F: Fn(&T) -> bool> Node<S>
     for MembershipFilter<'_, I, T, F>
 {
+    fn has_inline_forward(&self) -> bool {
+        inline_shape::<I, T>()
+    }
+    fn apply_inline_forward(&mut self, event: &Event) -> InlineForward {
+        debug_assert!(inline_shape::<I, T>());
+        // Share the unchanged original algorithm, including output preparation,
+        // poison/bounds/journal order and all predicate calls. Only exact Copy
+        // tuple output representation is reduced after complete apply returns.
+        match self.apply_row(event) {
+            None => InlineForward::None,
+            Some(row) if row.value.is_some() || typed::<I, T>(event).value.is_none() => {
+                InlineForward::Same
+            }
+            Some(_) => InlineForward::Retract,
+        }
+    }
     fn preserves_input_ids(&self) -> bool {
         true
     }
@@ -234,3 +267,6 @@ impl<I: Ord + Clone + 'static, T: Clone + 'static, S: AdditiveScore, F: Fn(&T) -
 
 #[cfg(test)]
 mod concrete_callback_tests;
+
+#[cfg(test)]
+mod inline_forward_tests;

@@ -20,6 +20,63 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
+Neither current parity target is proved. Original protocol remains same-machine
+serial rotating pairs, seeds7/11/23 x10s, CPU2,3, all12 independently valid.
+Scores/feasibility stay separate. No model, fixture, declaration, runner, compiler,
+CPU/PGO/panic/batch-policy changes. Local + runner-a; runner-c parked. No new subagents.
+
+Selected inline-event batch: six Rust files, five additional original native tests.
+Exact Copy membership filters in private consuming scalar Inline queues return a
+small None/Same/Retract action. Original apply_row remains unchanged: predicate,
+output preparation, bounds, poison, journal and callback phases are preserved.
+Classification follows complete apply. Same forwards the existing immutable arena
+index in original edge/FIFO order. A rejected replacement put emits the original
+full-ID retraction. Shared producers, shared inputs, public/custom/batch paths keep
+original routing. Namespace completeness is not needed for safe slot aliasing;
+fixed and Open acceptance caches retain their original algorithm and validation.
+Exact Pair-ID primitive Quad4 and Tally5 rows fit the existing72B Event, with full
+usize/i64 fields and canonical promotion before retained fanout. QueuedEvent24B,
+edge/queued40B. This differs from the old regressive104B Event variant.
+
+Native `382cd78f3a17f91e8fed00cabbab9908e2e946b825b2f814ad15561ecd2b175b`;
+production `7f8dbe9a247a8e2b9e1d05116e6a50a71ebac37bf2b19b36cafb005a0bbb3494`;
+final snapshot `3160622b25e054953780167441b632e4760c0ec5a0d87644f615c970db64884e`;
+actual measured artifact `c7d2339c90943dd16b835a0a1d96a1ce259b31309121d07849285b1a66a9048b`.
+Actual Clippy, all-target no-run prebuild and normal jobs4 `bash scripts/check.sh`
+pass on the unchanged final source: **8,871 named native /8,877 Cargo executions
+/292 doctests /54 tooling jobs**. Only genuine aggregate Rust log/metadata promoted,
+no per-job cache transplants. Upstream4412passes/0pending/443excluded and external4
+unchanged; native regressions4455. Observation:
+`compat/observations/real_world-inline-event-forwarding.json`.
+Proof: `work/real_world-goal/filter-tallies-6c6-next-final-results/`. Verify report data/freshness; unchanged UI proof reused.
+
+Actual combined native controls against verified6c6/570309:
+**+6.991% Golfer /+4.700% Sailing**, all16 independently valid, rotating3s seed7.
+Separate forwarding +5.293%G/+3.574%S and inline rows +.109%G/+.956%S are historical
+component controls, not additive. Five focused controls passed on their respective
+sources. Combined all-target Clippy initially found one test-result type needing
+an alias; fixed source was actually measured and fully gated. Original fixture
+import/type/visibility and excessive fixed-bound activation failures remain
+recorded; no assertions were weakened. Bound-only variant was flat Sailing and
+unselected. Do not repeat it or reinterpret its failed activation checks as passes.
+
+Original Java reportb14a remains byte-for-byte unchanged and visibly stale:
+historical G1.253663/S.609042, all12valid, Sailing feasible Rust2/3 Java0/3. It met
+1/2 targets on old021a source. Defer qualifier until materially closer to Sailing
+parity; do not multiply short native gains into Java ratios. Final success still
+requires both targets on current original-protocol evidence.
+
+The selected artifact already has one local Sailing10s seed7 profile at
+`work/real_world-goal/current-filter-tallies-profile/`, independently valid0/91600,
+zero lost samples. It was recorded while the final gate ran and matches the later
+successful gate's source/artifact. Reuse it without rebuild or repeat recording.
+The preceding570309 profile and typed-output audit are historical after this change.
+Ignored authoritative handoff: `work/real_world-goal/active-performance-state.json`.
+Reuse successful unchanged verification; a commit/context reset alone requires no rerun.
+
+## Previous verified typed-output source — 2026-10-21
+
+Reach Java streams evaluations/s on both frozen public RealWorld workloads.
 Neither current target is proved after this source change. The previous qualified
 source met Golfer parity and remained below Sailing parity. Preserve model,
 fixtures, app declarations, runner, settings, seeds7/11/23 x10s and CPU2,3 pairing.
