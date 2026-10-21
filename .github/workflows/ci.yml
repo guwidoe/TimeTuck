@@ -13,6 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Rust components
         run: rustup toolchain install stable --profile minimal --component clippy --component rustfmt
+      - name: Install pinned history test tool
+        run: |
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/newren/git-filter-repo/6f79afc8c90c592a3052e6cc53c2ca8907515bca/git-filter-repo \
+            --output "$RUNNER_TEMP/git-filter-repo"
+          echo "67447413e273fc76809289111748870b6f6072f08b17efe94863a92d810b7d94  $RUNNER_TEMP/git-filter-repo" | sha256sum --check
+          echo "PUBLIC_HISTORY_FILTER_TOOL=$RUNNER_TEMP/git-filter-repo" >> "$GITHUB_ENV"
       - name: Check workspace
         run: bash scripts/check.sh
 
