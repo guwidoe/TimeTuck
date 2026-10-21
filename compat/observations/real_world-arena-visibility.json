@@ -1,0 +1,95 @@
+{
+  "kind": "real_world-arena-visibility",
+  "status": "closed;unintegrated;Sailing flat/slower",
+  "native_source_digest": "0fcf6520bdb0d767e0a5b4594d7ccc17c0297594a0c7023dba44d8b27f129cbf",
+  "input_sha256": "dfa65a7d205dd555bc5e757db51c8ab00e4384946d412b3f746f4c062f596071",
+  "source_snapshot": "2441b88cab782b9b4b98cc6c3b91b4953c62133e9c746a674f8ddbedb029ccb0",
+  "artifact_sha256": "8909d64c21f30e61269797f30697feecbe0793393c731e4c165bef2f60aa0ac0",
+  "mechanism": "Move private cached-empty visibility into existing arena Address enum;page entries hold plain slot indexes and scalar undo restores visibility byslot,removing zero-transition rollback page lookup. Full raw values,explicit-empty presence,wide/MAX addresses,clone/retirement,nested/full/delta/capture semantics unchanged. Normal Address/entry layouts remain16B;wide cold boxed address gainsbool. All callbacks,arithmetic,FIFO,model and public routes unchanged.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/arena-visibility-next-results/real_world-arena-visibility-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66319.32044906283,
+            66402.0680791875,
+            66010.61160694598,
+            64980.58627593843
+          ],
+          "trial": [
+            65870.39212604344,
+            65824.3013747589,
+            66953.73554390128,
+            66171.41176223304
+          ]
+        },
+        "medians": {
+          "baseline": 66164.9660280044,
+          "trial": 66020.90194413824
+        },
+        "gain_pct": -0.2177346902969557
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            199111.5944014208,
+            198181.37724079585,
+            196426.60651038468,
+            200343.54903295127
+          ],
+          "trial": [
+            191584.02227732874,
+            202197.87535566397,
+            198631.78844509638,
+            199939.5851057499
+          ]
+        },
+        "medians": {
+          "baseline": 198646.48582110833,
+          "trial": 199285.68677542312
+        },
+        "gain_pct": 0.32177813348805984
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 18,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::group_collectors::owned::cached_empty_tests",
+      "primitive_rows::group_collectors::owned::arena::visibility_tests",
+      "incremental_stream::group_entry::tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/arena-visibility-focused1",
+    "receipt_sha256": "85db9b85879017b25cb7583462898d7fa683a1c2ebc00dea296fe0a7cc329313",
+    "log_sha256": "4c6f27e6c0029d393f701c5bcaae3a6daa28b7e6ad20012fb5efd06e10c06141",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "eaf6827257479a2410715d5fb317fb83b9dbfe1ec8b835983df491aae9d390be",
+  "receipts": {
+    "receipt.json": "07f26b7c3f7ff8af1205abb66b46ad6358db000bbafc9d503726db8068672a62",
+    "build-receipt.json": "48f32c7f68a18d892901f6ad864ccda0bd8e3b7739db85abf50012a3a8002322",
+    "controls.json": "0deffd490ada8f6ef427d29ef04d4a009d1785e23c2121521fc8e00df9f2a2f1",
+    "baseline-binding.json": "7aac79e457d8d7228f990244bd049d29a4c2a24d01899450ef0dabdf24c739e3"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Current selected6f9ede18/1c87ec2f/12e2dd51 and originalJava3ea8613a remain unchanged;1of2 targets,Sailingneeds12.780373% moreRust. Diagnostic gains do not qualify Java or add to old ratios."
+}

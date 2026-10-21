@@ -1,0 +1,95 @@
+{
+  "kind": "real_world-flat-owned-undo",
+  "status": "closed;unintegrated;both workloads slower",
+  "native_source_digest": "346e86264a8a726281a23d8bd56afec169dba4e0fb9be92946fc42e0e8edf044",
+  "input_sha256": "28210d2b7f19c25f0eb6fe49571587e6547dfdf4675fda76366c045e7b174f2b",
+  "source_snapshot": "6b51dca6590c265ef6a371d7ab69c17d3168717c0b4c17377c3292ddc203ef1e",
+  "artifact_sha256": "facf390db0c1188a948c94bac0353ef6e74b732938e8fcbbbab0d54ea42666e3",
+  "mechanism": "Flatten owned scalar undo into direct insert/remove/replace variants alongside structural row undo,removing the nested ScalarEdit tag. Records40to32B on64-bit;both signed values,full slot visibility tag,normal/wide row positions,canonical owners and every original journal event remain. Forward collector logic and inverse helper unchanged;no packing,model,compiler or public API change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/flat-owned-undo-next-results/real_world-flat-owned-undo-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64918.95217592881,
+            66180.78227059467,
+            64561.11408362462,
+            66360.82802497945
+          ],
+          "trial": [
+            65382.99309852327,
+            64779.47902789234,
+            65105.85288088114,
+            64958.379841036054
+          ]
+        },
+        "medians": {
+          "baseline": 65549.86722326174,
+          "trial": 65032.11636095859
+        },
+        "gain_pct": -0.7898579878730994
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197207.25860133622,
+            198069.01676352086,
+            198651.67346976305,
+            198411.34132450479
+          ],
+          "trial": [
+            194435.59431934514,
+            196801.27838353766,
+            196206.89401927852,
+            197290.45563430586
+          ]
+        },
+        "medians": {
+          "baseline": 198240.17904401282,
+          "trial": 196504.0862014081
+        },
+        "gain_pct": -0.8757522571745113
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 18,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::group_collectors::owned::cached_empty_tests",
+      "primitive_rows::group_collectors::owned::flat_undo_tests",
+      "incremental_stream::group_entry::tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/flat-owned-undo-focused1",
+    "receipt_sha256": "2dd8661e178ab7e9c83a2d64c757f0044023a9a720a2c1bc681d2669ef877175",
+    "log_sha256": "e8816a3156fcef130b22933d79ca35c41cd6e8190daffcabd5442c98ad50106d",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "3148275daa3057e3aa9634eb671557dc45a515944e6117fbffe87fca47939673",
+  "receipts": {
+    "receipt.json": "52949067e4db3d63c310ff6372688e5c1d0e903b6bec70478bd911ce416776f1",
+    "build-receipt.json": "96741f2f051fd965adc4038d1b0331f600cba5e29c8c026f67bf1759ac4d02fb",
+    "controls.json": "b5c2e1b23e136bae289cfe81a802c934db1793b14e80eecc69f6428c16cde6ea",
+    "baseline-binding.json": "7aac79e457d8d7228f990244bd049d29a4c2a24d01899450ef0dabdf24c739e3"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Actual source-bound focused checks and16 independently validated native outputs. No unchanged retries,current-main test promotion or full suite. Current selected6f9ede18/1c87ec2f/12e2dd51 and originalJava3ea8613a remain unchanged;1of2 targets,Sailingneeds12.780373% moreRust. Diagnostic gains do not qualify Java or add to old ratios."
+}
