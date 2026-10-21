@@ -98,16 +98,17 @@ Sailing-1.846%/Golfer-1.269%,every pair slowerboth. No further checks or integra
 Do not retry either queue representation unchanged. Proofs:
 `compat/observations/real_world-directional-queue.json` and
 `compat/observations/real_world-packed-receiver-queue.json`.
-The consumed collector arena described above is now selected. A separate split
-arena prototype68799/959e keeps cold address metadata in a parallel Vec to reduce
-hot value stride;its actual lib/example compile check passes. It is unmeasured,
-unintegrated and has no test/speed credit. Do not add component gains. v33 pilot helpers now bind genuine selectedd466/465509/84e98d release/equivalence,
-5 finaltests/Clippy plus12 earlier tests and actual originalJava4795 (1/2targets).
-The split arena now has actual native controls81895 and4 directly relevant local
-checks14097 in flight,not integrated. Source68799/959e. Preserve handles;do not
-repeat successful checks or restart on observation timeout.
-No new subagents;local+runner-a,EFSparked. Other documentation/UI writer changes
-are unrelated:preserve them and commit only explicitly selected own paths.
+The consumed collector arena described above is now selected. Split address/value
+arena68799/959e is closed:4 actual directly relevant tests and16 valid outputs,
+Sailing-.949%(all4 slower),Golfer+.828%(all4 faster). No integration/retry/app/
+Clippy/Java/fullsuite. v33 binding succeeded on its first dispatch and retains
+selectedd466/465509/84e98d plus originalJava4795 (1/2targets). Proof:
+`compat/observations/real_world-owned-collector-split-arena.json`.
+A distinct bounded Quad score-page layout is being prepared in ignored work:
+reorder physical page axes to fill cells across adjacent third coordinates,
+retaining full IDs/positions and hash fallback for larger coordinates. Other ID
+types retain original routing. It is not measured/integrated;see live handles.
+No new subagents;local+runner-a,EFSparked. Preserve unrelated writer changes.
 
 
 The preceding consumed-graph collector backend owns each mutable integer

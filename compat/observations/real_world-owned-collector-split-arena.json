@@ -1,0 +1,93 @@
+{
+  "kind": "real_world-owned-collector-split-arena",
+  "generated_at": "2026-10-21T17:23:05.297427+00:00",
+  "status": "closed;not integrated;Sailing regression",
+  "native_source_digest": "68799e417e6945f0fe3035cbe9f4793b0ab6a0c4982b3dbb605e0aa345f8d678",
+  "input_sha256": "959e6985116972ea508f93167d65bf97d34190e84958cbdbc37c991e99be8eec",
+  "source_snapshot": "f416fbe71740ac77df6094270b93961eb1a7d0c258788cb74b6e61d6a8ccdd5a",
+  "artifact_sha256": "79bca166ea1eefb0a4e57457b0636d06dad2f4628f0abc73c18ccffab0df2bad",
+  "mechanism": "Selected value arena retains its exact slot ownership/undo/capture protocol;move cold full/compact address metadata to a parallel Vec,leaving the hot value array with only Option<IntCollector>. Same canonicalkeys,fullpositions,freelist,snapshotlivefilter,callbacks,arithmetic,journals and emitted full summaries. Value addresses/private layout differ.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-collector-split-arena-next-results/real_world-owned-collector-split-arena-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65279.205084531575,
+            65911.61789798064,
+            65368.90121234033,
+            64002.82545090761
+          ],
+          "trial": [
+            64841.65074374668,
+            65560.36286376858,
+            64566.48814987383,
+            63157.95366160017
+          ]
+        },
+        "medians": {
+          "baseline": 65324.05314843595,
+          "trial": 64704.06944681026
+        },
+        "gain_pct": -0.9490894574727404
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195154.40612292592,
+            192773.4113903455,
+            195213.77352655085,
+            194230.61858905823
+          ],
+          "trial": [
+            196698.4975410683,
+            195951.0047690493,
+            196199.96932572828,
+            196410.364366255
+          ]
+        },
+        "medians": {
+          "baseline": 194692.51235599208,
+          "trial": 196305.16684599163
+        },
+        "gain_pct": 0.8283084287550091
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "owned_collector_box",
+        "owned_collector_arena_growth",
+        "incremental_stream::group_batch::carrier_tests"
+      ],
+      "tests_passed": 4,
+      "seconds": 111.29658284600009,
+      "native_source_digest": "68799e417e6945f0fe3035cbe9f4793b0ab6a0c4982b3dbb605e0aa345f8d678",
+      "log_sha256": "49eab841d70df4031413b5b50aef5b99b7dbddee93bd8a60d03906fbfbefff5b",
+      "receipt_sha256": "4ce026dfee58f62d87a43a9e923453e5704c9af349ed7f437baa19954c5e2da2",
+      "scope": "Only directly relevant consumed owned history/count-overflow,growth/retirement/full+delta/nesting/slotreuse andcarrier integration. Original other12 library checks not repeated."
+    }
+  ],
+  "receipts": {
+    "receipt.json": "f4c62e1e5a4bc2296d107607e94fc25ea57e5246126f15710879b7c4aa00e1c5",
+    "build-receipt.json": "83775619194b6cc81b9ff27b106f4505a791af7778005f16dc459c4be29764af",
+    "controls.json": "e0d45620b1e4f4397061dec53970df02088794ded4caf0a368f75cd539ed8c04",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "16valid outputs,Sailing-.94909%(0/4faster),Golfer+.82831%(4/4faster). Reject Sailing regression;no integration/retry/app/Clippy/Java/fullsuite. Firstv33 binding succeeded:baseline currentd466/465509/84e98d andactualoriginalJava4795 1/2targets. Preserve selected763da12 runtime."
+}
