@@ -377,6 +377,15 @@ closed ownership/layout/queue/prepared-score experiments.
 Backend HTTP/data/freshness checked; unchanged UI rendering proof reused.
 Commit/reset alone warrants no repeated checks.
 
+Word first-preimage hashing17a81/32cca/bfe567 is closed. Its8-slot exact-key
+hint cache coalesces only private membership word histories;all forward updates
+remain. Actual2 focused checks and16 independent outputs pass,but Sailing-1.486%
+and Golfer-1.288%,all4 pairs slower each. No more checks,unchanged retry or main
+credit. The separate epoch-stamped u64-word alternative is being tested in
+`work/real_world-goal/membership-epoch-next-prototype`;its focused/native jobs
+are recorded in the ignored active state. Main3fd/e40 stays selected,goal incomplete.
+Proof: `compat/observations/real_world-membership-first-preimage.json`.
+
 ## Previous verified group-edit inlining — 2026-10-21
 
 Selected batch: two private compiler-inline attributes. The unchanged primitive

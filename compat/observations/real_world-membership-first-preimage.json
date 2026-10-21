@@ -1,0 +1,90 @@
+{
+  "kind": "real_world-membership-first-preimage",
+  "generated_at": "2026-10-21T15:27:20.180303+00:00",
+  "status": "closed;regressive;not integrated",
+  "native_source_digest": "17a81dd22fb775fb8f9b3d976c6a7aa6e2bf73a452a5f049f8411791c90b0366",
+  "input_sha256": "32cca399b4dfc4fffc2017e60b1e7fcf0654c4c36fa2573e41c187a8d74a1c80",
+  "source_snapshot": "9cd0a68a605d969c59c5696756020535ff4a1b3bcb6a5699ed9a9d2cbbe73239",
+  "artifact_sha256": "bfe567ed85ae4736b57f328ccf84910694aa83f46f57610fa06cda93f6c74f2a",
+  "mechanism": "Keep u16 words; eight exact-key-validated cached journal indexes per frame coalesce repeated word changes to their first preimage. Every forward membership/length/predicate/publication operation remains. Collisions and stale hints retain extra records; nested frames keep independent histories. Rollback restores raw words and saved length. Captures retain original logical words.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "first_preimage",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 2,
+      "seconds": 143.4015135600057,
+      "receipt_sha256": "fbe05db6ebbedf2de85db5ecc5530f663f17c07aac2bbd324b759b15855558b7",
+      "log_sha256": "a25bc3aa4e7070c30aca0f5205ff421fe48154ef5e31f371a535a36293d67de0",
+      "proof_directory": "work/real_world-goal/membership-first-preimage-focused1"
+    }
+  ],
+  "test_scope": "Independent BTreeSet oracle after every edit across hot/wide/MAX keys, nested commits/rollback, current/full capture, clear/install; repeated-word coalescing, nested independence, actual hash collision and spare-frame reuse.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/membership-first-preimage-next-results/real_world-membership-first-preimage-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            61546.712543239744,
+            62612.02303157663,
+            63047.40542531621,
+            62276.3652959656
+          ],
+          "trial": [
+            60813.72079479817,
+            61502.3315374964,
+            61530.68171901519,
+            61830.44551751319
+          ]
+        },
+        "medians": {
+          "baseline": 62444.19416377111,
+          "trial": 61516.5066282558
+        },
+        "gain_pct": -1.4856265629472176
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            183902.79990100412,
+            183645.66304508084,
+            182296.5629523804,
+            185788.2442767091
+          ],
+          "trial": [
+            181888.6727599998,
+            181536.74763236256,
+            181277.68452717466,
+            181116.70812630415
+          ]
+        },
+        "medians": {
+          "baseline": 183774.23147304248,
+          "trial": 181407.2160797686
+        },
+        "gain_pct": -1.2880017912745734
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "receipts": {
+    "receipt.json": "ed6b8eb3b96860865c33eb0a82f365275b9fe347a43eae908324fc07aa3c34f4",
+    "build-receipt.json": "b7dd018d2796e462efc34ef10e46cd15bcd4a0fd8d2b37dc024c65857a1673db",
+    "controls.json": "7845077df5ccf29a3eb3ba23976ec3e07a3177e8b52f57121500e3a7c71c3f5e"
+  },
+  "policy": "Sailing-1.486%/Golfer-1.288%,all4 pairs slower each,16 full outputs independently valid. Close unchanged;no app/Clippy/full suite/Java qualification or main credit. Epoch-stamped variant is separate source and experiment.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}
