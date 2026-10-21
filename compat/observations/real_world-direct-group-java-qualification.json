@@ -1,0 +1,189 @@
+{
+  "kind": "real_world-current-source-qualification",
+  "generated_at": "2026-10-21T11:55:06.324337+00:00",
+  "status": "current genuine qualification;1of2 throughput targets met, Sailing remains below parity",
+  "native_source_digest": "ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec",
+  "input_sha256": "218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d",
+  "source_snapshot": "e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886",
+  "artifact_sha256": "874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c",
+  "actual_report_sha256": "16b0c0ada96e70b9454b1622aacb52549e5a853600af88f47eb3dcdc7274fdd1",
+  "current_throughput_targets_met": 1,
+  "required_throughput_targets": 2,
+  "cases": [
+    {
+      "case": "social-golfer-32x8x10-v1",
+      "rust_evaluations_per_second": 186610.67734555554,
+      "java_evaluations_per_second": 122099.23710423309,
+      "rust_over_java": 1.5283525251369967,
+      "throughput_target_met": true,
+      "additional_rust_throughput_percent_needed": 0,
+      "scores_and_feasibility": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 122099.23710423309,
+          "scores": [
+            [
+              0,
+              17200
+            ],
+            [
+              0,
+              19400
+            ],
+            [
+              0,
+              16100
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.043381711
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 186610.67734555554,
+          "scores": [
+            [
+              0,
+              16100
+            ],
+            [
+              0,
+              18300
+            ],
+            [
+              0,
+              13900
+            ]
+          ],
+          "feasible_runs": 3,
+          "median_elapsed_seconds": 10.000106445
+        }
+      }
+    },
+    {
+      "case": "sailing-trip-v1",
+      "rust_evaluations_per_second": 63212.619390043736,
+      "java_evaluations_per_second": 80698.29843225075,
+      "rust_over_java": 0.7833203502191945,
+      "throughput_target_met": false,
+      "additional_rust_throughput_percent_needed": 27.661690356974965,
+      "scores_and_feasibility": {
+        "java-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 80698.29843225075,
+          "scores": [
+            [
+              -12,
+              81300
+            ],
+            [
+              -5,
+              67800
+            ],
+            [
+              -9,
+              90200
+            ]
+          ],
+          "feasible_runs": 0,
+          "median_elapsed_seconds": 10.055880545
+        },
+        "rust-streams": {
+          "runs": 3,
+          "valid_runs": 3,
+          "median_evaluations_per_second": 63212.619390043736,
+          "scores": [
+            [
+              0,
+              94500
+            ],
+            [
+              0,
+              85900
+            ],
+            [
+              -1,
+              196200
+            ]
+          ],
+          "feasible_runs": 2,
+          "median_elapsed_seconds": 10.000867012
+        }
+      }
+    }
+  ],
+  "original_protocol": {
+    "cases": [
+      "social-golfer-32x8x10-v1",
+      "sailing-trip-v1"
+    ],
+    "seeds": [
+      7,
+      11,
+      23
+    ],
+    "seconds": 10.0,
+    "java_modes": [
+      "streams"
+    ],
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "scale": 100,
+    "rust": {
+      "acceptor": "simulated_annealing",
+      "soft_temperature": 500,
+      "cooling_steps": 40000
+    },
+    "java": {
+      "acceptor": "simulated_annealing",
+      "temperature": "0hard/500soft",
+      "accepted_count_limit": 1,
+      "environment_mode": "NO_ASSERT",
+      "termination": "milliseconds spent",
+      "heap": "-Xmx1g"
+    },
+    "move_families": [
+      "capacity-filtered change",
+      "same-session swap"
+    ],
+    "initialization": "fixed first, max spare capacity, last group on ties",
+    "attribute_balance": "occupied groups only, retained application spike policy",
+    "pairing": "same-machine serial pairs, rotating runtime order by seed index"
+  },
+  "independent_valid_outputs": 12,
+  "same_original_Java_classes_dependencies_and_toolchain_outputs": true,
+  "same_as_selected_native_artifact": true,
+  "actual_checks_reused": {
+    "focused_tests": 229,
+    "graph": 225,
+    "external_RealWorld": 4,
+    "lib_example_Clippy": "passed",
+    "full_native_gate": false,
+    "scope": "Actual unchanged source-bound focused tests/Clippy reused; no Rust tests or full suite rerun for qualification. No old test results relabeled."
+  },
+  "fidelity": "Same original model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy and same-machine serial rotating Java/Rust seeds7/11/23x10s CPU2,3. Actual Cargo release and javac commands succeeded, compiled Rust byte-identical to selected measured artifact. Every full output independently revalidated locally; initial schedule/score, full scoring/structure/pins and file checksums retained. Scores/feasibility separate, no equal-score gate. No extrapolation from native gains.",
+  "retained_failure": {
+    "proof_directory": "work/real_world-goal/direct-group-current-java-qualification/failed/",
+    "result": "First attempt failed before any builds or timed runs because the dependency directory was missing. Zero qualification credit. All files/receipt/archive preserved.",
+    "repair": "Restored19 cached pinned jars after exact SHA256 match to the original866338 artifact set; no dependency upgrade or solver/source/runner modification.",
+    "repair_log_sha256": "f108b0202faa5111b645fa4c913a5c2812963c1f547a08ff4517f14132fb8c5d"
+  },
+  "historical_report": {
+    "sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+    "proof_path": "work/real_world-goal/direct-group-current-java-qualification-retry1/historical-67f-report.json",
+    "preserved_unchanged": true
+  },
+  "receipts": {
+    "qualification": "71bf0361e11e1f9a6186e207ba51b44d7a9388196b3b095bbe2cfbfaa55a86a9",
+    "actual_build_binding": "b6193d580be7917c7309209b5cbcb1e0e1ba1deac989fb95cf23dde5c9d735fc",
+    "source_and_focused_binding": "a6326b778db69a143e08e045c80554d5ff475df3d195f390c9e337f4f8d01749",
+    "collection": "f6e9fbd8608c590d2792c633ae2b89e7b7564f24538689eb3d2386e71ae4f496"
+  },
+  "policy": "Main0079619 selectedec026 runtime unchanged. Goal active/incomplete: Golfer1.528353x, Sailing.783320x, about27.662% additional Rust Sailing throughput required on this observed baseline. This is measured throughput, not remaining engineering effort. Local+runner-a, runner-c parked; no new agents. No repeated native timings, browser or full suites.",
+  "proof_directory": "work/real_world-goal/direct-group-current-java-qualification-retry1"
+}

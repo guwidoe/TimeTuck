@@ -19,7 +19,8 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-Current parity on the new source is unproved. Preserve original same-machine serial
+Current original matrix proves 1/2 targets: Golfer meets parity; Sailing is below.
+Preserve original same-machine serial
 rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
 validations. Scores/feasibility remain separate. Model, fixtures, declarations,
 runner, compiler, CPU, PGO, panic and batch settings stay unchanged. Local + runner-a;
@@ -43,7 +44,7 @@ snapshot `e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886`;
 artifact `874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c`.
 Actual runner-a rotating3s seed7 native controls measured **+2.536% Sailing /
 +2.315% Golfer**, every 4 pairs faster in each; all 16 outputs independently valid.
-No Java qualification or additive/extrapolated gain. Proof:
+These native gains are not additive/extrapolated Java parity. Proof:
 `compat/observations/real_world-direct-group-publication.json` and
 `work/real_world-goal/direct-group-publish-ab916-next-results/`.
 
@@ -53,8 +54,23 @@ no upstream-method credit. **No full suite ran.** The focused assembler preserve
 both actual job logs byte-for-byte, after validating their unchanged source,
 commands, checksums and successful receipts; current log credits 229 named passes,
 including all 4 separately declared external cases. Previous actual ab916 focused
-log/metadata is preserved in this proof, not relabeled. Original Java866338 remains
-byte-identical/stale: historical G1.467427x/S.730242x,12 valid; current 0 targets proven.
+log/metadata is preserved in this proof, not relabeled.
+
+An actual original-protocol Java/Rust refresh now proves **1/2 current targets**:
+Golfer 186610.677/122099.237 eval/s = **1.528353x**; Sailing 63212.619/80698.298 =
+**.783320x**. Sailing needs about 27.662% more Rust throughput on this measured
+baseline. All 12 outputs independently valid; Rust Sailing feasible 2/3, Java 0/3;
+Golfer 3/3 each. Raw scores stay separate, no equal-score gate. Same original
+configuration, Java dependency/class bytes and toolchain outputs; identical
+selected874a native artifact. Actual Cargo release/javac builds, original serial
+rotating seeds7/11/23x10s CPU2,3; no Rust tests/full suite repeated. Report
+`16b0c0ada96e70b9454b1622aacb52549e5a853600af88f47eb3dcdc7274fdd1` is promoted
+byte-for-byte. Old866338 is preserved in the proof, not relabeled. First attempt
+had no jars and performed zero builds/runs; failure archive preserved, then 19
+cached jars restored with exact original checksums. Proof:
+`compat/observations/real_world-direct-group-java-qualification.json` and
+`work/real_world-goal/direct-group-current-java-qualification-retry1/`.
+No unchanged qualifier repeat. Sailing is the remaining throughput target.
 Original 4412 adaptations/0pending/443excluded remain; current unverified does not
 mean reopened implementation. Goal active/incomplete; do not rerun resolved checks
 for a commit/reset. Local+runner-a; runner-c parked, no new agents.
@@ -69,15 +85,25 @@ instead of remapping its ID. 30 relevant join tests/16 valid outputs; Sailing
 +1.484% every 4 pairs, Golfer-1.378% every 4. Not integrated. This differs from old
 static mapper specialization. Immutable source/proof is in
 `compat/observations/real_world-indexed-join-row-visit-investigation.json`.
-A combined direct-group + indexed-row candidate may be measured next as a whole;
-never add their separate gains or rerun either unchanged trial. Use only relevant
-join/graph-publisher/application checks for new integration, not a full suite.
+The actual combined direct-group + indexed-row source208da/f5b05 was then measured
+against selectedec026: Sailing+.484%/Golfer-.318% effectively flat, 37 relevant
+join/publisher tests and 16 valid outputs. Not integrated. Close this combination
+and the unchanged standalone indexed candidate; never add component gains or
+repeat these timings. Proof:
+`compat/observations/real_world-group-publication-indexed-row-combination.json`.
+Next investigate a different Sailing cost. FlatMapNode already caches only lengths
+and omits equal graph-length writes; do not reimplement that. Its apply still
+allocates an intermediate Vec<TupleChange> before the adapter erases outputs.
+A private whole-consumed exact primitive path could omit that vector while
+retaining the original public/custom staging and all mapper/iterator/error
+phases. No prototype is implemented yet; only this source audit is complete.
 
-Future diagnostics: `pilot-v27-artifact-{remote,dispatch}.py` and
-`pilot-v27-master-dispatch.py` embed this actual ec026/218/874a release and 16-output
-baseline, plus genuine 225+4 focused/Clippy receipts with full_native_gate false.
-Helpers syntax-check, unrun. v26 stays immutable for ab916 controls. Do not
-rebuild or reverify the unchanged selected baseline for commit/reset.
+Future diagnostics: `pilot-v28-artifact-{remote,dispatch}.py` and
+`pilot-v28-master-dispatch.py` embed actual ec026/218/874a release/16 native outputs,
+genuine 225+4 focused/Clippy receipts with full_native_gate false, and actual
+current 16b0 Java qualification 1of2 targets. Helpers syntax-check, unrun. v27 stays
+immutable for the completed combined pilot; v26 for ab916 controls. Do not
+rebuild, retest or requalify the unchanged selected baseline for commit/reset.
 
 The following deferred-totals baseline is historical. Its runtime,
 focused evidence and native observations remain preserved for their own source.

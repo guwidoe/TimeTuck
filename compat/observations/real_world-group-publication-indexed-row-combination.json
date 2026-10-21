@@ -1,0 +1,164 @@
+{
+  "kind": "real_world-group-publication-indexed-row-combination",
+  "generated_at": "2026-10-21T11:46:10.171417+00:00",
+  "status": "closed; effectively flat relative to selected direct group publication; no integration",
+  "native_source_digest": "208da9ca60bca00ea3025d17a4365d32a53c80328fd33bdc34864a832fd22d48",
+  "input_sha256": "f5b05cde220b4bb15758ea6eff84d08087baa011b10cca48ceeb52abec02069d",
+  "source_snapshot": "65ca1c6e693dc051716a2192081a5e5d64ecce978915d7eee3fe11f943e5d94b",
+  "artifact_sha256": "5261e9d63345a3e7281c16bf2891fd0a2cff9ee5d7601b4464c3a1013c8d304c",
+  "mechanism": "Combine selected direct group summary publication with four byte-verified files from retained indexed-row visit candidate. Fixed equality puts reuse the matched bitposition in paired FixedRows instead of remapping its canonical input ID. All full fields, reservations, clone/poison/cache phases, owners and fallback routes remain; group publication stays unchanged. This exact whole source was measured, never inferred from separate gains.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "incremental_stream::join_",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 30,
+      "seconds": 44.863620338990586,
+      "receipt_sha256": "a07786e8921af834019e02f9f4ad796646c01c0d5e62d6519d7833af77818feb",
+      "proof_directory": "work/real_world-goal/group-publish-indexed-ec026-join-focused1"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "stream_graph::join_output::",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 7,
+      "seconds": 0.3954901809920557,
+      "receipt_sha256": "e43bc33b0b2e7b1b432905ad134ddcbd794e683e31706009d5e8dbab1d234166",
+      "proof_directory": "work/real_world-goal/group-publish-indexed-ec026-publisher-focused1"
+    }
+  ],
+  "full_native_gate": false,
+  "native_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; all16 independently valid.",
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            61560.79533776351,
+            62137.925874576635,
+            61802.300598687565,
+            62408.68656137125
+          ],
+          "trial": [
+            62066.20214768661,
+            61303.20941302533,
+            62655.79927202875,
+            62473.45131993585
+          ]
+        },
+        "medians": {
+          "baseline": 61970.113236632096,
+          "trial": 62269.82673381123
+        },
+        "gain_pct": 0.4836420034197486
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            184212.09050839406,
+            182824.32759875583,
+            184243.01750639288,
+            183208.2292840243
+          ],
+          "trial": [
+            183173.43992007515,
+            183079.01824172869,
+            185609.49321173615,
+            182464.766152086
+          ]
+        },
+        "medians": {
+          "baseline": 183710.1598962092,
+          "trial": 183126.22908090192
+        },
+        "gain_pct": -0.3178543939198475
+      }
+    },
+    "receipt_sha256": "31a18203e0c3d840275307ef9912ee317ac87e2d13c053f1c5b63bffc2b2e96d",
+    "build_receipt_sha256": "c90ba21a0854b6ac530468013629c17dc9abbc65323f16e35770464ba0213239",
+    "controls_sha256": "1edbaabf259fb2eb2e0638eb4fbe54c42b2fb4bd7bdebfc8c579863b6ded64c5"
+  },
+  "baseline": {
+    "rust_digest": "ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec",
+    "production_digest": "218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d",
+    "artifact_sha256": "874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c",
+    "source_snapshot": "e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886",
+    "pilot_receipt_sha256": "eee55a2304eb04bfab5b24da887252fcd341cfd4ac9aad043497bb2657d025ea",
+    "build_receipt_sha256": "0f86cbf6caeaaf0f556a3f2b6192edfe67b07c42c4c23bbcb3d7c69ef942184c",
+    "local_verification": {
+      "scope": "225 graph tests +4 RealWorld application regressions,229 parseable named passes, lib/example Clippy; full_native_gate false per latest user policy",
+      "rust_digest": "ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec",
+      "production_digest": "218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d",
+      "proofs": {
+        "graph": {
+          "receipt_sha256": "b01634edd0ba954854c92b86f5d04d5f366f791a5fcce6aa5ea540602291cd67",
+          "proof_directory": "work/real_world-goal/direct-group-publish-ab916-focused1",
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "stream_graph::",
+            "--",
+            "--color=never"
+          ]
+        },
+        "application": {
+          "receipt_sha256": "ee2325c8f0737975b2b59a615c1fddf2a6380f709ece5c8d13896b5cb0fd4596",
+          "proof_directory": "work/real_world-goal/direct-group-publish-ab916-application1",
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--test",
+            "real_world_application_regression",
+            "--",
+            "--color=never"
+          ]
+        },
+        "clippy": {
+          "receipt_sha256": "b38d04bb1b29d821314bd4f064772d6e66648b0ba6138823e8890ebd5929db1f",
+          "proof_directory": "work/real_world-goal/direct-group-publish-ab916-clippy1",
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--lib",
+            "--example",
+            "real_world_benchmark",
+            "--",
+            "-D",
+            "warnings"
+          ]
+        }
+      },
+      "aggregate_metadata_sha256": "6230dc01a10db9a227e9b9ba7086a0eb76ab8525d88f8aeebed26ec6c740d59b",
+      "full_native_gate": false
+    },
+    "historical_java_report_sha256": "866338c26313117e3a062ffe9484561fd4006a352a24d93e0d28b22df9487f25",
+    "current_java_throughput_targets_proven": 0,
+    "qualification": "Actual current-source release build and16 validated native controls bind baseline; current local verification is focused only, no full-suite claim. Original Java report remains historical/stale. These native diagnostics earn no Java parity credit."
+  },
+  "decision": "Sailing+.483642% mixed pairs; Golfer-.317854% mixed pairs. No convincing additional gain. Preserve selectedec026/218/874a and its229 focused passes/Clippy. Close combined and unchanged standalone indexed-row timing attempts; do not add prior2.536%/1.484% gains. No Clippy,4 application tests, full suite or Java qualifier on this flat combined source. First current Java matrix instead targets selectedec026 source.",
+  "credit": {
+    "upstream_methods": 0,
+    "new_integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy unchanged. Local+runner-a, runner-c parked; no new agents. Original Java866338 remains unchanged pending genuine current-source qualification.",
+  "proof_directory": "work/real_world-goal/group-publish-indexed-ec026-next-results"
+}
