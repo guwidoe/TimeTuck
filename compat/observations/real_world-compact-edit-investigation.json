@@ -1,0 +1,473 @@
+{
+  "kind": "real_world-compact-edit-performance-investigation",
+  "generated_at": "2026-10-21T06:44:12.414194+00:00",
+  "native_source_digest": "0149456570a1866a3f10f64e744d668bc07897e603a53ea5d5d2cfcbd1ba76e2",
+  "input_sha256": "ff8cd55e7fba18690680d9560eb45e53778c7dcfb31414ccb329cc7bceb6d846",
+  "current_artifact_sha256": "78ea0deac0536545c518faa1dea6b21ac3d2db9dec9935662397071abd35d9e2",
+  "runtime_changes_integrated": 0,
+  "new_native_test_credit": 0,
+  "new_upstream_method_credit": 0,
+  "protocol": "Actual same-machine serial rotating native pairs, four3s seed7 runs per case, CPU2,3; all16 outputs independently validated. Workloads/model/fixtures/declarations/compiler/PGO/panic/batch policy unchanged. Diagnostics only, no original Java qualification or additive gain claim.",
+  "current_native_gate": "Existing unchanged d2a740b gate remains current:8874 named,8880 Cargo executions,292 doctests,54 tooling jobs. Rejected candidates received no broad gate.",
+  "reused_current_profile": "work/real_world-goal/current-group-edit-profile/receipt.json",
+  "trials": [
+    {
+      "candidate": "slot_inverses",
+      "mechanism": "Original public insert/remove/count methods unchanged. Graph-only recorded insert/remove capture a compact slot code from their original single frequency search. Undo edits constant inline slots directly; generic scalar undo handles Tree retention after promotion. Every logical edit, canonical Arc/Weak guard, dirty observer copy and original normal-history boundary retained. New IntCollectorUndo max payload matches ScalarEdit; test verifies80B frame record on64-bit. No full preimage, dedup, memory layout ownership or model/policy changes.",
+      "selection": "terminal0/unselected flat;105 focused controls pass88.4598s, actual unchanged frozen source",
+      "native_source_digest": "85c00efb484d74359f5b46bbef74c1d74421ef0460498a2dfc29a28a96a2d5c9",
+      "production_digest": "1c3f4a64635ed3cb7da3001f4e60bc50ceecc07ee18df6ccfd3bf30e4ab30009",
+      "snapshot": "2fa40c8470100fe13db17fccfa3e243903c22633b1d9dce05900ef8757ab9343",
+      "artifact_sha256": "258d5943518ea50df352fa5c0807f084d57b8a16e5953996d4699954b889b260",
+      "source_manifest_sha256": "e38205231413acf702d3546a924124746b4635813cc8c60253ece10ea03ddd4a",
+      "worker_receipt": {
+        "exit_code": 0,
+        "source_unchanged": true,
+        "snapshot": "2fa40c8470100fe13db17fccfa3e243903c22633b1d9dce05900ef8757ab9343",
+        "rust_digest": "85c00efb484d74359f5b46bbef74c1d74421ef0460498a2dfc29a28a96a2d5c9",
+        "production_digest": "1c3f4a64635ed3cb7da3001f4e60bc50ceecc07ee18df6ccfd3bf30e4ab30009",
+        "seconds": 147.36420908701257,
+        "control_runs": 16,
+        "host": "runner-a"
+      },
+      "worker_receipt_sha256": "f4ea4ca0aa824068bec757c40261eff4a2d90bfae821d32f276cfc37ae7fae59",
+      "build_receipt": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--example",
+          "real_world_benchmark"
+        ],
+        "exit_code": 0,
+        "seconds": 96.51599936399725,
+        "rust_digest": "85c00efb484d74359f5b46bbef74c1d74421ef0460498a2dfc29a28a96a2d5c9",
+        "production_digest": "1c3f4a64635ed3cb7da3001f4e60bc50ceecc07ee18df6ccfd3bf30e4ab30009",
+        "artifact_sha256": "258d5943518ea50df352fa5c0807f084d57b8a16e5953996d4699954b889b260",
+        "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/258d5943518ea50df352fa5c0807f084d57b8a16e5953996d4699954b889b260",
+        "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+        "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+        "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc"
+      },
+      "build_receipt_sha256": "973105e2ab1bd97b07596b15c7b206bf2bfcf380a6c0717908dadddf16047a7b",
+      "controls_sha256": "9f43760e98211fe0a98337ab9825f1042fe5c7deeb8df96f46a7c109e05c94d4",
+      "summary": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              58577.987419307916,
+              58004.859079511334,
+              58491.088958875065,
+              58454.045464288974
+            ],
+            "trial": [
+              58909.44182819834,
+              58144.84764927241,
+              58279.06168332687,
+              57978.8893673589
+            ]
+          },
+          "medians": {
+            "baseline": 58472.56721158202,
+            "trial": 58211.95466629964
+          },
+          "gain_pct": -0.4457005356706012
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              174807.5488103426,
+              175607.332214817,
+              174270.72020115197,
+              174597.54775259265
+            ],
+            "trial": [
+              175227.25505031017,
+              176159.3115832578,
+              174618.2790847731,
+              174401.2322024486
+            ]
+          },
+          "medians": {
+            "baseline": 174702.54828146764,
+            "trial": 174922.76706754163
+          },
+          "gain_pct": 0.12605356260699807
+        }
+      },
+      "independently_valid_outputs": 16,
+      "proof_directory": "work/real_world-goal/slot-inverses-014945-next-results",
+      "broad_native_gate_run": false,
+      "focused": {
+        "passed": 105,
+        "receipt": {
+          "exit_code": 0,
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "group",
+            "--",
+            "--nocapture"
+          ],
+          "seconds": 88.45977257197956,
+          "rust_digest": "85c00efb484d74359f5b46bbef74c1d74421ef0460498a2dfc29a28a96a2d5c9",
+          "production_digest": "1c3f4a64635ed3cb7da3001f4e60bc50ceecc07ee18df6ccfd3bf30e4ab30009",
+          "source_unchanged": true,
+          "build_checkout": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/local-native-source",
+          "mirrored_source_manifest_sha256": "0aab36f4301718141bc6d6c7aeb9e0188030b09722328b1d5970f0e34ef8d2c7",
+          "versions": {
+            "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+            "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)"
+          },
+          "environment": {
+            "CARGO_TARGET_DIR": "/home/developer/repos/lab/TimeTuck/target",
+            "CARGO_BUILD_JOBS": "4",
+            "CARGO_NET_OFFLINE": "true",
+            "RUSTFLAGS": null
+          },
+          "log_sha256": "07c26082df23980edc0a714458216da950ae7d2538caa3acf839ee3140d32709"
+        },
+        "receipt_sha256": "6377ddac0990b6d54922bec107f97b81a6ae80214aa030a8fae988bf6a0e8f7a"
+      }
+    },
+    {
+      "candidate": "packed_group_pairs",
+      "mechanism": "Producer certifies both full Group summary rows consecutive to exactly one terminal and queues one cell instead of2. Caller borrows a2-view array (one pointer) into concrete sequential terminal apply, preserving EACH old/eval/guard/commonapply/new delta. No consumer peek/pop probe, no VecDeque scan or optional second row. Multiple receivers and single emitted row retain original per-event FIFO representation. No new workspace/graph metadata; original Event72/queue24/cell40.",
+      "selection": "terminal0/unselected modest Sailing signal only; no broad gate/integration or unchanged retry; any future combination needs a distinct supported mechanism and actual combined controls",
+      "native_source_digest": "e6d5b6312b5300fe961d7a0578857bb72a8d0b41357b07cdc4ae9564e8b20a23",
+      "production_digest": "7c06b57c82608d102b570c78823f5014bcd10a7d1cc813b0f5bafbb366671a3c",
+      "snapshot": "95faa26d8170528f2b19f9b8f86f3279614271443e520b585c869b123d6185ac",
+      "artifact_sha256": "c3cbc2d947168e84e0df6a6624991b1e51de6a133e3a54745d115d0f54ba932e",
+      "source_manifest_sha256": "5ede99cf15c8669798b612479c40c497cdd017fcfec943635def1dd3705d6f8e",
+      "worker_receipt": {
+        "exit_code": 0,
+        "source_unchanged": true,
+        "snapshot": "95faa26d8170528f2b19f9b8f86f3279614271443e520b585c869b123d6185ac",
+        "rust_digest": "e6d5b6312b5300fe961d7a0578857bb72a8d0b41357b07cdc4ae9564e8b20a23",
+        "production_digest": "7c06b57c82608d102b570c78823f5014bcd10a7d1cc813b0f5bafbb366671a3c",
+        "seconds": 147.84576346402173,
+        "control_runs": 16,
+        "host": "runner-a"
+      },
+      "worker_receipt_sha256": "121905cddcb2acdbe8ce2cf24c1ecfa5f30779bd4ef7f978f0853396a7023133",
+      "build_receipt": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--example",
+          "real_world_benchmark"
+        ],
+        "exit_code": 0,
+        "seconds": 96.96338880600524,
+        "rust_digest": "e6d5b6312b5300fe961d7a0578857bb72a8d0b41357b07cdc4ae9564e8b20a23",
+        "production_digest": "7c06b57c82608d102b570c78823f5014bcd10a7d1cc813b0f5bafbb366671a3c",
+        "artifact_sha256": "c3cbc2d947168e84e0df6a6624991b1e51de6a133e3a54745d115d0f54ba932e",
+        "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/c3cbc2d947168e84e0df6a6624991b1e51de6a133e3a54745d115d0f54ba932e",
+        "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+        "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+        "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc"
+      },
+      "build_receipt_sha256": "30cae2f18d55c08ed8c6c81fd5e9b399ed16b9fa6262469390adcbb7e066c589",
+      "controls_sha256": "95381f2c806f4a714d982d06017dc8c845554cf9bb9f66e624582d2cd08fa848",
+      "summary": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              57471.37912256959,
+              58556.5392978771,
+              58086.79486110048,
+              58018.67110916569
+            ],
+            "trial": [
+              58325.80968844344,
+              58781.232642908384,
+              58155.79141054266,
+              58510.15006943578
+            ]
+          },
+          "medians": {
+            "baseline": 58052.73298513309,
+            "trial": 58417.979878939615
+          },
+          "gain_pct": 0.6291639945703587
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              172557.3787808255,
+              175723.28152693468,
+              175015.55647170622,
+              174010.88382096827
+            ],
+            "trial": [
+              174778.58620848143,
+              173399.15078424633,
+              165335.29944195267,
+              174729.21896730433
+            ]
+          },
+          "medians": {
+            "baseline": 174513.22014633723,
+            "trial": 174064.18487577533
+          },
+          "gain_pct": -0.2573073089737088
+        }
+      },
+      "independently_valid_outputs": 16,
+      "proof_directory": "work/real_world-goal/packed-group-pairs-014945-next-results",
+      "broad_native_gate_run": false,
+      "focused": {
+        "passed": 218,
+        "receipt": {
+          "exit_code": 0,
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "stream_graph",
+            "--",
+            "--nocapture"
+          ],
+          "seconds": 73.97374359398964,
+          "rust_digest": "e6d5b6312b5300fe961d7a0578857bb72a8d0b41357b07cdc4ae9564e8b20a23",
+          "production_digest": "7c06b57c82608d102b570c78823f5014bcd10a7d1cc813b0f5bafbb366671a3c",
+          "source_unchanged": true,
+          "build_checkout": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/local-native-source",
+          "mirrored_source_manifest_sha256": "f9e9fca10f090070931014175901c762c0813385fc8412e7b7d7d886a757a0f2",
+          "versions": {
+            "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+            "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)"
+          },
+          "environment": {
+            "CARGO_TARGET_DIR": "/home/developer/repos/lab/TimeTuck/target",
+            "CARGO_BUILD_JOBS": "4",
+            "CARGO_NET_OFFLINE": "true",
+            "RUSTFLAGS": null
+          },
+          "log_sha256": "f422186d8651f42f2e374a10c31c93cf430eed1d66086149cc8610b7c215c21b"
+        },
+        "receipt_sha256": "82e862a5646fff88df0a26b7a6e4b3b76429b1d4ec3c8b72b95c9c887fd79b33"
+      }
+    },
+    {
+      "candidate": "separate_drain",
+      "mechanism": "Private drain_arena_nodes_into inline(always) to inline(never), unchanged body. Separate root/workspace setup and hot draining; one extra direct call per source. No model/settings/layout/callback/rollback change. Current propagate symbol13036B; profile propagation12.29% self is not presumed removable cost. No prior separate drain entry found in ledger.",
+      "selection": "terminal0/unselected flat Sailing; no broad gate or integration",
+      "native_source_digest": "e68134810439e21dacdabe0c0a8bb098750e63c25623dafbef50dbe3676eea81",
+      "production_digest": "ad1480195bee010972bc7fd44d7c8f3dad98d027cd9a2f487823fb61a9d61630",
+      "snapshot": "7fc86251334f4ed7068b0f4114fbd3109e04e7beac9d303f2667bd0064745ad8",
+      "artifact_sha256": "a9bfedd69e08336af1f133144b1cacf31cf09195fa272b4cadc7b0211da7baee",
+      "source_manifest_sha256": "756e6fd3089d2862fafceead7cb2107212bc51552b50cdcdfe057cfae525d086",
+      "worker_receipt": {
+        "exit_code": 0,
+        "source_unchanged": true,
+        "snapshot": "7fc86251334f4ed7068b0f4114fbd3109e04e7beac9d303f2667bd0064745ad8",
+        "rust_digest": "e68134810439e21dacdabe0c0a8bb098750e63c25623dafbef50dbe3676eea81",
+        "production_digest": "ad1480195bee010972bc7fd44d7c8f3dad98d027cd9a2f487823fb61a9d61630",
+        "seconds": 147.54935501000728,
+        "control_runs": 16,
+        "host": "runner-a"
+      },
+      "worker_receipt_sha256": "4569df0e96a70260b72bb189a31320d7526a798c60d8909179ee234f7939edfe",
+      "build_receipt": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--example",
+          "real_world_benchmark"
+        ],
+        "exit_code": 0,
+        "seconds": 96.69194274401525,
+        "rust_digest": "e68134810439e21dacdabe0c0a8bb098750e63c25623dafbef50dbe3676eea81",
+        "production_digest": "ad1480195bee010972bc7fd44d7c8f3dad98d027cd9a2f487823fb61a9d61630",
+        "artifact_sha256": "a9bfedd69e08336af1f133144b1cacf31cf09195fa272b4cadc7b0211da7baee",
+        "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/a9bfedd69e08336af1f133144b1cacf31cf09195fa272b4cadc7b0211da7baee",
+        "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+        "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+        "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc"
+      },
+      "build_receipt_sha256": "ac27becc99628a9a01a93930ac4749673a7f72758c92af30bfb318aef03c95d0",
+      "controls_sha256": "73c6afb6147661841c4c764025a84e80a811a643afb42de1f143982e35ffcfef",
+      "summary": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              57945.730077254135,
+              58446.77782729891,
+              58378.809649283285,
+              57918.50513473551
+            ],
+            "trial": [
+              57744.27415024177,
+              58086.130749298034,
+              57594.41491635724,
+              58351.29723601842
+            ]
+          },
+          "medians": {
+            "baseline": 58162.26986326871,
+            "trial": 57915.2024497699
+          },
+          "gain_pct": -0.4247898406984918
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              175394.6431218563,
+              167364.72287589844,
+              175065.7293708103,
+              171293.17146435232
+            ],
+            "trial": [
+              175138.35091249133,
+              175764.87746484668,
+              171918.692279896,
+              177395.25422684735
+            ]
+          },
+          "medians": {
+            "baseline": 173179.4504175813,
+            "trial": 175451.61418866902
+          },
+          "gain_pct": 1.3120285147047994
+        }
+      },
+      "independently_valid_outputs": 16,
+      "proof_directory": "work/real_world-goal/separate-drain-014945-next-results",
+      "broad_native_gate_run": false
+    },
+    {
+      "candidate": "direct_group_match",
+      "mechanism": "Replace old.and_then/new.map closures in always-inline primitive group_entry with explicit match branches; unchanged original guards, edits, preparation/publication/drop phases and old/new order. Current artifact still emits separate group-entry closure calls despite outer hints. No API/layout/model/settings or new tests.",
+      "selection": "terminal0/unselected regressive Sailing; no broad gate or integration",
+      "native_source_digest": "ab6860fa1d0bf341608ae9387238348660dd2520a4ecf1ada16d4a77a8ee16f7",
+      "production_digest": "69243b176108128f078f32624446c15fa98d18e2ba19eed4a1f06407a972338d",
+      "snapshot": "aa3e0d0e79620120ef1cb5e1c1167b97bcde22ba36638b42045e3ce0a7799a8b",
+      "artifact_sha256": "392b41c54b12b0fb43b9dc50ae4316413eb037b4e6330055bfa68ded95a3a2dc",
+      "source_manifest_sha256": "7cf16f06ea105f91512dd4c9190c23ac4194c59725eeb637ffd3fbbb9e09bbce",
+      "worker_receipt": {
+        "exit_code": 0,
+        "source_unchanged": true,
+        "snapshot": "aa3e0d0e79620120ef1cb5e1c1167b97bcde22ba36638b42045e3ce0a7799a8b",
+        "rust_digest": "ab6860fa1d0bf341608ae9387238348660dd2520a4ecf1ada16d4a77a8ee16f7",
+        "production_digest": "69243b176108128f078f32624446c15fa98d18e2ba19eed4a1f06407a972338d",
+        "seconds": 180.4617491310055,
+        "control_runs": 16,
+        "host": "runner-a"
+      },
+      "worker_receipt_sha256": "7d827d5f8beafa829855475deafacd4d669369c3baa2a1712e8296a84f466409",
+      "build_receipt": {
+        "command": [
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--example",
+          "real_world_benchmark"
+        ],
+        "exit_code": 0,
+        "seconds": 96.80005980600254,
+        "rust_digest": "ab6860fa1d0bf341608ae9387238348660dd2520a4ecf1ada16d4a77a8ee16f7",
+        "production_digest": "69243b176108128f078f32624446c15fa98d18e2ba19eed4a1f06407a972338d",
+        "artifact_sha256": "392b41c54b12b0fb43b9dc50ae4316413eb037b4e6330055bfa68ded95a3a2dc",
+        "artifact_path": "/home/developer/.cache/timetuck-build/artifacts/392b41c54b12b0fb43b9dc50ae4316413eb037b4e6330055bfa68ded95a3a2dc",
+        "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+        "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+        "log_sha256": "714c763b52ae94e329b8497618bafacbeb638e8d08b1b81fc2d2eea3e34cbbfc"
+      },
+      "build_receipt_sha256": "b93e584271725d0fa7287fd8c332fac366becb6b4da490d49c8dda75afb2ddd9",
+      "controls_sha256": "25231942f19711824eafba92e7efbac6b6fb69d7d5410b2472f8deca8243f096",
+      "summary": {
+        "sailing-trip-v1": {
+          "rates": {
+            "baseline": [
+              57410.10935259067,
+              58157.79626866295,
+              57851.97511817501,
+              58135.938902907794
+            ],
+            "trial": [
+              57185.80272593826,
+              56629.3835036758,
+              57087.256896613566,
+              56761.41400824011
+            ]
+          },
+          "medians": {
+            "baseline": 57993.9570105414,
+            "trial": 56924.335452426836
+          },
+          "gain_pct": -1.844367263851554
+        },
+        "social-golfer-32x8x10-v1": {
+          "rates": {
+            "baseline": [
+              173632.61011311633,
+              175176.52208578182,
+              175306.77731063258,
+              174637.66223284858
+            ],
+            "trial": [
+              173593.7980968636,
+              174908.43709546098,
+              174988.78021908886,
+              174036.3607578145
+            ]
+          },
+          "medians": {
+            "baseline": 174907.0921593152,
+            "trial": 174472.39892663772
+          },
+          "gain_pct": -0.24852807699845547
+        }
+      },
+      "independently_valid_outputs": 16,
+      "proof_directory": "work/real_world-goal/direct-group-match-014945-next-results",
+      "broad_native_gate_run": false,
+      "focused": {
+        "passed": 102,
+        "receipt": {
+          "exit_code": 0,
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--lib",
+            "group",
+            "--",
+            "--nocapture"
+          ],
+          "seconds": 46.979870287002996,
+          "rust_digest": "ab6860fa1d0bf341608ae9387238348660dd2520a4ecf1ada16d4a77a8ee16f7",
+          "production_digest": "69243b176108128f078f32624446c15fa98d18e2ba19eed4a1f06407a972338d",
+          "source_unchanged": true,
+          "build_checkout": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/local-native-source",
+          "mirrored_source_manifest_sha256": "147e24a83f7be6eff9d52edb14e3722305c2b24a93a83531999338bef8835387",
+          "versions": {
+            "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+            "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)"
+          },
+          "environment": {
+            "CARGO_TARGET_DIR": "/home/developer/repos/lab/TimeTuck/target",
+            "CARGO_BUILD_JOBS": "4",
+            "CARGO_NET_OFFLINE": "true",
+            "RUSTFLAGS": null
+          },
+          "log_sha256": "33022ad081cda085bdc64e3cb15704af29d6fd257e03764158d27b73b2591876"
+        },
+        "receipt_sha256": "c062a671d974c4df954284987072727f245d30a831fc3dd26e9efdb97b9337e2"
+      }
+    }
+  ],
+  "original_java_report_sha256": "b14a66d1006038f200c7c8db63f53e3aadfde0cbdb1116cd2d1f146eae8e1b0a",
+  "current_java_targets_proven": 0,
+  "goal_status": "active/incomplete"
+}

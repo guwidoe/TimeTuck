@@ -59,6 +59,14 @@ observed no equal projections in 13.29 million group updates on its two seed7
 cases, so the proposed shortcut was not implemented. These diagnostics add no
 native-test credit, upstream credit or Java qualification.
 
+A further [compact-edit investigation](../compat/observations/real_world-compact-edit-investigation.json)
+measured four candidates with 64 independently valid outputs and selected no
+runtime changes. Slot-aware inverses and separate drain compilation were flat for
+Sailing; explicit group branches were slower. Producer-packed summary pairs had
+only a modest +0.629% Sailing/-0.257% Golfer signal. Focused tests passed,
+without new integrated test credit. The existing native gate was reused;
+no broad gate or Java qualifier was repeated.
+
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently
 valid, using the preceding fixed-bucket directory source. Its measured medians:

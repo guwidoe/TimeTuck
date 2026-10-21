@@ -101,13 +101,9 @@ Its proof is `work/real_world-goal/group-projection-density-014945-results/`.
 Current profile: propagation12.29%self, group apply4.93%+2.11%, inlined group
 edit closures4.43%+1.76%+1.16%+1.11%, membership4.58%+1.31%, enqueue4.23%,
 terminal apply3.58%, join apply3.32%; enclosing shares are not removable costs.
-One unimplemented lead is compact slot-aware inverse tokens for inline frequency
-edits, rather than larger whole-collector before-images. Keep the existing record
-size, every edit, original normal-history boundaries, canonical owners and dirty
-observations; use generic inverses when tree promotion/demotion changes the
-representation. Return the slot from the original forward mutation; another
-search would cancel the proposed saving. No code, tests or performance claim
-exists for this lead. Avoid all closed ownership/layout/queue retries.
+The compact slot-aware inverse lead has now been implemented and measured below;
+it is flat and unselected. Do not treat it as unimplemented or retry it unchanged.
+Avoid all closed ownership/layout/queue retries.
 
 Use `pilot-v21-artifact-{dispatch,remote}.py` for actual native comparisons against
 current014945/ff8cd5/78ea0d and full gate80a1fa4. No Java qualifier was refreshed.
@@ -116,6 +112,38 @@ The goal remains incomplete. A commit/reset warrants no repeat checks. For an
 identical frozen pilot and final Rust source, reuse the genuine release build
 receipt directly; a second release build is needed only for changed relevant
 source or an unresolved binding concern. Never relabel old measurements.
+
+## Latest compact-edit investigation — 2026-10-21
+
+Four further candidates were measured against the unchanged fully gated 014945
+artifact on runner-a. Each used four serial rotating 3s seed7 pairs per case on
+CPU2,3, with all 16 outputs independently valid. No runtime change was selected.
+These native diagnostics establish no Java parity and cannot be added to older gains.
+
+| Candidate | Sailing | Golfer | Result |
+| --- | ---: | ---: | --- |
+| Slot-aware collector inverse tokens, original record size | -0.446% | +0.126% | Flat; 105 focused group tests passed |
+| Producer-packed pair of full summaries, single receiver | +0.629% | -0.257% | Modest signal only; 218 graph tests passed |
+| Separate event drain from root setup, one compiler hint | -0.425% | +1.312% | Flat for Sailing; unchanged logic |
+| Explicit group branches replacing Option combinators | -1.844% | -0.249% | Slower; 102 focused group tests passed |
+
+Slot tokens reuse the position found by the original forward search, retain every
+edit and normal-history boundary, and use scalar inverses after tree promotion.
+The packed producer retains both complete rows and each original callback/check;
+multiple receivers keep original FIFO delivery. It differs from earlier consumer
+pair/run dispatch by removing one actual queue cell, push and pop. Its small
+Sailing gain does not justify standalone integration. The two compiler candidates
+retain the original algorithms. None changes fixtures, model, declarations,
+settings, compiler, target CPU, PGO, panic or batch policy. No unchanged retries.
+
+Proof: `compat/observations/real_world-compact-edit-investigation.json` and the
+source-bound raw receipts linked there. There are 64 valid outputs across these
+four diagnostics, but no new integrated test or upstream-method credit. The
+existing 8,874 named/8,880 Cargo/292 doctest/54 tooling native gate remains current; it was
+not repeated. The original Java report remains unchanged/stale. All local and
+remote jobs are terminal, runner-c parked, no new agents. Goal active/incomplete.
+Reuse the current artifact/profile; audit previous candidates before another
+runtime mechanism. This investigation produced no selected throughput gain.
 
 ## Previous verified typed-output source — 2026-10-21
 
