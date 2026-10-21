@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-compact-collector-pages",
+  "status": "closed;not integrated;regressive both cases",
+  "native_source_digest": "de918eb61df543e55bed576522e7d028ecb832044ed4029f2b88b6f67ee7bcdb",
+  "input_sha256": "e2cf8f62217f9e60ab8e370e27774eaf2e3e58c6dc496ddc9c037afb3b766505",
+  "source_snapshot": "ccf6342236277dfb1559e9ad2102a32515420715138967d7d83d9bba1b187010",
+  "artifact_sha256": "c65355bb043dc42a82d3261ef25db26046cb904b32a2cfb5841957790685f35e",
+  "mechanism": "Consumed-only collector page cells become optional nonzero arena indices (one usize); canonical Arc keys move into the indexed arena values. Ordered row/scalar undo no longer owns keys directly. Same logical keys, canonical Arc allocations, callbacks, whole summary fields, nested/full/delta captures, retirement and free-slot reuse; public/custom paths unchanged. No unsafe or model/settings/compiler changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/compact-collector-pages-next-results/real_world-compact-collector-pages-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65626.36498525263,
+            65530.14047098977,
+            65598.25864310392,
+            64780.77800089461
+          ],
+          "trial": [
+            64864.94205015378,
+            65052.43729476818,
+            64747.52238144664,
+            65193.283507522094
+          ]
+        },
+        "medians": {
+          "baseline": 65564.19955704684,
+          "trial": 64958.68967246098
+        },
+        "gain_pct": -0.9235373705111849
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            193619.73138288094,
+            190517.89213953615,
+            195677.74457386145,
+            194465.95556303268
+          ],
+          "trial": [
+            192610.00346238288,
+            186960.4093058041,
+            191778.7758619348,
+            191678.0507018655
+          ]
+        },
+        "medians": {
+          "baseline": 194042.8434729568,
+          "trial": 191728.41328190014
+        },
+        "gain_pct": -1.1927418448592353
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 5,
+    "receipt": "work/real_world-goal/compact-collector-pages-focused1/build-receipt.json",
+    "receipt_sha256": "fe214457ef313eeb92bc1691172584dbd1fd12e67a7661acc92680530a21ae01",
+    "log_sha256": "688f870fddac1c816106f20fb447f0d2066f08112e637caa34d6ae7eb58d4af8",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "compact_page_tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests"
+    ],
+    "source_unchanged": true,
+    "scope": "New non-Clone key canonical Arc owner/history/slot-width regression plus directly affected collector history, growth/retirement, overflow and carrier integration."
+  },
+  "receipts": {
+    "receipt.json": "82314f804527db57e1ab1d2f982d675e19dad37739c62c72440d1c8ecb14d401",
+    "build-receipt.json": "bef19084c90a1439c9236a68eddb307fbf4d40389af28a6e75383a93d80b1dad",
+    "controls.json": "17500432e8d41fad50eb16b4f9f17a2dd593d644cdf91336db40282edc5ca23c",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "All16 full native outputs independently valid. Sailing -.9235% (1/4 faster), Golfer -1.1927% (0/4). No retry, app/Clippy/full/Java checks, integration, upstream credit or main verification promotion. Actual current Java4795 stays bound to selected d466/465509/84e98d, one of two targets."
+}

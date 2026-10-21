@@ -19,9 +19,9 @@ after its actual SSH timeout. Preserve live runs across observation timeouts.
 ## Active RealWorld throughput goal — 2026-10-21
 
 Reach Java streams evaluations/s on both frozen public RealWorld workloads.
-The latest original matrix proves 1/2 targets on previous source aee829:
-Golfer meets parity and Sailing is below. It is historical/stale on the new
-selected source; neither current-source target has been qualified yet.
+The current original matrix on selected arena source d466/465509 proves
+Golfer1.603315x and Sailing.873827x: one of two targets met. Sailing still
+needs14.439% more Rust throughput; all12 outputs independently validate.
 Preserve original same-machine serial
 rotating Java/Rust pairs, seeds 7/11/23 x10s, CPU 2,3 and all 12 independent
 validations. Scores/feasibility remain separate. Model, fixtures, declarations,
@@ -139,13 +139,22 @@ DashboardHTTP/freshness verifiedcurrent;do notrerununchangedtests/timings onturn
 commit/contextreset. v33helpers bindgenuinecurrentarena+Java proof. Local+runner-a,
 EFSparked,no newsubagents;preserveotherwriterchanges.
 
-Next worthwhile implementation direction:compact consumed collector pages to
-8-byte optionalnonzero slotindices,and move canonicalArc keys into their arena
-cells. This would preservekeyowners/rollbackwhilehalving pagecells andmaking the
-orderedOwnedUndo enumfreeofArcdropfields. It is a plan,notimplemented ormeasured;
-keep public/custom paths andcanonicalkeyobserver contract unchanged. Existing
-selectedprofile locatesGroupState/Owned kernels asremaininghot work. Do not retry
-closedgetter/closure/scorepage/identity/inlining/layout trials unchanged.
+Compact collector pages were implemented and rejected:5 focused passes and
+16 valid native outputs, but Sailing -.924% / Golfer -1.193%. Moving canonical
+Arc keys into the arena halved page cells without improving throughput. The
+separate initialized-slot/liveness-flag variant also passed4 relevant tests and
+16 full outputs, but Sailing -.681% / Golfer +.474%; it is unselected. Sources,
+receipts and controls are preserved; no app/Clippy/Java/full suite or retry was
+run for either negative trial. See `compat/observations/real_world-compact-collector-pages.json`
+and `real_world-live-flag-collector-arena.json`. The old singleton retirement idea
+was found in014945 history: its queued remote build was cancelled before launch;
+already-started5 local tests completed and remain prototype-only evidence.
+
+Two distinct remaining kernel trials are in flight:unit-only return for summary
+terminals (31 relevant tests pass; remote native controls pending), and applying
+the already-selected static address policy throughout the newer owned collector
+fallback (local checks/remote controls pending). Consult ignored active state and
+actual session receipts before continuing; do not restart unresolved work.
 
 
 The preceding consumed-graph collector backend owns each mutable integer

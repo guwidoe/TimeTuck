@@ -1,0 +1,89 @@
+{
+  "kind": "real_world-live-flag-collector-arena",
+  "status": "closed;not integrated;Sailing regression",
+  "native_source_digest": "e215807a3183a67bd2e78acf7ca2c13f87835176d876ceb035038951c0584a64",
+  "input_sha256": "5ea486ed56835367d288fb55460633cc2f6b435b6c68ca5e424a74e0c0299fe9",
+  "source_snapshot": "79ea5acc5cc1b0028e7a8c11c1d4d4e543d494a40578c2c81248bbad1230eb9f",
+  "artifact_sha256": "11aca30eec5db5cd3990308677b7d72103db38a18151473b2c70ea8ba3a9bdb3",
+  "mechanism": "Consumed collector arena holds initialized Value slots plus separate liveness flags and free indices. Vacant values are canonical empty placeholders; access uses ordinary safe Vec indexing and a debug liveness assertion. Insert/retire/capture positions retain live assertions; full clones copy live collectors only. Same key Arc owners, scalar/row history, snapshot namespace and public/custom storage. Private layout changes; no unsafe, model/settings/compiler changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/live-bitmap-collector-arena-next-results/real_world-live-bitmap-collector-arena-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65273.35027781369,
+            65677.01918877667,
+            65396.51526069732,
+            65802.2706729433
+          ],
+          "trial": [
+            65384.512186805594,
+            65277.53553039284,
+            61974.84820641046,
+            64903.094224050044
+          ]
+        },
+        "medians": {
+          "baseline": 65536.76722473699,
+          "trial": 65090.31487722144
+        },
+        "gain_pct": -0.6812242446817551
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            191358.05232419586,
+            187841.67657697012,
+            195951.82374843114,
+            192283.59189292206
+          ],
+          "trial": [
+            187815.58021304753,
+            192786.42167184732,
+            193490.81856196927,
+            192674.02428663272
+          ]
+        },
+        "medians": {
+          "baseline": 191820.82210855896,
+          "trial": 192730.22297924
+        },
+        "gain_pct": 0.4740887150230133
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "focused_tests": {
+    "passed": 4,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests"
+    ],
+    "source_unchanged": true,
+    "receipt_sha256": "ab03576aba840844510f880573a0603a90b43ec650b3f92d2901623c51aeff81",
+    "log_sha256": "b5607832a1524f20f47e11f1840a889687f82dcde13cb2e4667ec926dfc0f9e9",
+    "proof_directory": "work/real_world-goal/live-bitmap-collector-arena-focused1"
+  },
+  "receipts": {
+    "receipt.json": "e704920283fc515b2f16031232d40bb23d0a35809ead2418746565dcc2fd3153",
+    "build-receipt.json": "65a9fa82815b30ccf466b3e3fef53252d5fa7a3d477a25e859041c17a5c9049b",
+    "controls.json": "fc997493752425a6858622cda4ea2173867296232d53cd323a0884d4d7d22704",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "policy": "16 valid native outputs. Sailing -.6812% (1/4 faster), Golfer +.4741% (2/4). Rejected without app/Clippy/Java/full/retry/integration or main verification promotion. Current original qualifier unchanged on d466/465509/84e98d."
+}
