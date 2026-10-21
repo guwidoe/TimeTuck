@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-direct-owned-group-kernel",
+  "status": "closed;not integrated;both workloads slower",
+  "native_source_digest": "623c4dcb7c20e2893b2428f8dfa29dbfbf2e4b877d585cca5c50e5a77c856e71",
+  "input_sha256": "2771c22a71b6c9d9a9bc73876f363a63f623c42efc7f3c5f9bf29a751a0c9fc2",
+  "source_snapshot": "df31165cd8402d4b7f8523c49df53df65dd299ba77b7d40842e63fa35d3cad5d",
+  "artifact_sha256": "609c44200689aa6f37dcf02da88bf18975abe73d6db04c5196db0be0bca320c5",
+  "mechanism": "Private consumed GroupState caches whether original input storage and collectors are owned;selects one const-specialized common apply algorithm. Owned input prepare and collector update bypass general variant dispatch;original bounded validation,callback phases,full summaries,FIFO,poisoning and ordered snapshot/history logic remain. Shared/unbounded/public paths retain general mode.",
+  "focused_tests": {
+    "passed": 24,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_owned_direct_tests",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_entry::tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/direct-owned-group-kernel-focused1",
+    "receipt_sha256": "6f036c9c05932050d17ea6d1e4ca918647e75ba54bb37c19b9642fe95cbd96e0",
+    "log_sha256": "768e760f3c4172b596fa4345380e779f2205011ba68261d93faa247ae239fd9e",
+    "source_unchanged": true
+  },
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/direct-owned-group-kernel-next-reconnected-results/real_world-direct-owned-group-kernel-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            65172.578677227815,
+            65811.91871972942,
+            64611.930540204856,
+            65843.6983285973
+          ],
+          "trial": [
+            63056.29936767845,
+            63305.10834014501,
+            63822.97389660195,
+            63971.069054361345
+          ]
+        },
+        "medians": {
+          "baseline": 65492.24869847862,
+          "trial": 63564.04111837348
+        },
+        "gain_pct": -2.944176781869956
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            192131.3742214724,
+            194802.0491490958,
+            193799.88624970437,
+            189607.48773785628
+          ],
+          "trial": [
+            184777.689970692,
+            186610.94540787625,
+            187474.3429031631,
+            189743.40293811884
+          ]
+        },
+        "medians": {
+          "baseline": 192965.63023558838,
+          "trial": 187042.64415551967
+        },
+        "gain_pct": -3.0694513177488947
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "collection_verification": {
+    "outputs": 16,
+    "initial_states_match": true,
+    "sha256": "be354120a556133ab56186c63066077142addb3caa154abfbb195442e9234934"
+  },
+  "receipts": {
+    "receipt.json": "c1380bf31f315640c0600be5746325b543cb331980a08f5e09c8b30c37ac4884",
+    "build-receipt.json": "15d4de0884d34768c87d29a90bb92445ee2f737e73405cf687aa637386442373",
+    "controls.json": "afdf018d82a52609326066026bf06b6c611633c5c6d7596a5fc6ba67613689a5",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "transport_recovery": "Original transport ended255 before upload. Read-only reachable-host inspection found no source snapshot,job outputs/archive or live worker/compiler. Exact original frozen archive dispatched once,completed0 in156.406s. Failed transport evidence preserved.",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "24 relevant passes and16 independently validated native outputs. Sailing-2.944%(0/4faster),Golfer-3.069%(1/4). No integration,unchanged retry,extra app/Clippy/Java/full checks or current-main promotion. Main d466/465509/84e98d and originalJava4795 remain current:1of2 targets."
+}

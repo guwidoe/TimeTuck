@@ -183,32 +183,22 @@ trial but no speedup follows. No extra app/Clippy/Java/full checks or integratio
 Separate original outlining draft had an import-path compile failure;zero cases
 ran and source/receipt are preserved. Do not repeat these mechanisms unchanged.
 
-A direct-owned group kernel has24 focused passes,including2 new independent
-fixed/pair-input/full-summary/capture/nested/bounds and readiness regressions.
-Its runner-a dispatch is UNRESOLVED:session99607,local dispatcher17183/SSH17198,
-frozen snapshotdf31165cd8402d4b7f8523c49df53df65dd299ba77b7d40842e63fa35d3cad5d.
-SSH stopped returning data;do not kill/restart its build or timings. One failed
-local collection attempt found no archive yet and did not rerun work. Only stalled
-read-only diagnostic channels18207/18208 were stopped. User asked to check wake
-state once;runner-c stays parked.
+The direct-owned group kernel is closed and unintegrated:24 focused passes and
+16 independently validated outputs,including exact initial states. runner-a measured
+Sailing -2.944% (0/4 faster) and Golfer -3.069% (1/4). The original transport ended255
+before upload;reachable-host inspection found no snapshot,outputs or worker. The
+exact archive then completed once in156.406s;failed transport evidence is preserved.
+No repeated tests,extra app/Clippy/Java/full checks or integration. See
+`compat/observations/real_world-direct-owned-group-kernel.json`.
 
-The larger current implementation is copied unbounded Group inputs. Its new
-private paged backend preserves full numeric IDs,packed small undo addresses plus
-complete wide-position fallback,nesting/full/delta/clear and copied captured values.
-Activation occurs only after initial commit and the original bounded-binding pass;
-existing Dense/Pair universes keep their validations. Actual frozen-model test
-proves0copied groups onGolfer/1onSailing,with equal initial scores/work and full
-recomputation. Public/custom paths remain ordinary;summary key owners stay Arc.
-
-Actual18 directly relevant tests PASS on packed-fixed source393ef479/prod5d4966e0.
-Two separate earlier sources had test-only accessor/trait-import compile failures,
-zero executions;their files/receipts remain unchanged. No pass rekey. Local actual
-baseline and candidate release builds are queued/running (sessions1066/35996),
-then same-host local rotating native pairs using `local-native-artifact-pairs.py`.
-These are local diagnostics,not a replacement for the original runner-a Java target
-qualification. Current prototype:`copied-unbounded-group-inputs-packed-fixed-prototype`.
-Consult ignored active state and live handles before continuing. No new subagents;
-no full suites,unchanged verification repeats,source key transplant or extrapolation.
+Copied unbounded Group inputs are closed and unintegrated. Actual18 focused
+checks pass on393ef479/prod5d4966e0. Both genuine local Rust1.92 releases passed;
+all16 local native outputs independently validate. Sailing +.610% (2/4 faster)
+is mixed and Golfer -3.520% (0/4 faster). No unchanged retry,extra app/Clippy/Java
+checks or full suite. The separate initial test-import compile failures remain
+preserved with zero executions. See
+`compat/observations/real_world-copied-unbounded-group-inputs.json`.
+Current selected runtime and original Java4795 remain unchanged:1/2 targets.
 
 
 

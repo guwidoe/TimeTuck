@@ -1,0 +1,94 @@
+{
+  "kind": "real_world-copied-unbounded-group-inputs",
+  "status": "closed;not integrated;Sailing mixed and Golfer slower",
+  "native_source_digest": "393ef479f348f637803d522e6aa0a35880837202fb2c7eb14136225515dfccb6",
+  "input_sha256": "5d4966e096176dc591dd7cf42d0d2e29e66eefa9414031a93dbdfeebcc4ee02b",
+  "artifact_sha256": "810783bd1b7ae0d814c60a8a3b94ffd838422f86a055858a2bbfd4627d23d152",
+  "mechanism": "After consuming initialization commits and original fixed-universe binding,copy remaining certified primitive captured inputs into private unbounded numeric pages. Full IDs,packed undo plus wide fallback,nesting,full/delta capture,clear and clone preserved. Existing bounded Dense/Pair input validation and public/custom paths retained. Actual frozen model regression proves only one Sailing group activates and no Golfer group activates. Canonical summary key ownership remains unchanged.",
+  "focused_tests": {
+    "passed": 18,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::copied_inputs::tests",
+      "stream_graph::copied_group_input_tests",
+      "stream_graph::owned_group_input_tests",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::owned_collector_box_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-focused1",
+    "receipt_sha256": "9699feacadbd197dccf66ef29e184d458c8893096c8a1438193c66089769144b",
+    "log_sha256": "2da3fcb63d75c392931f8d926f715d054cda4fb73bb40c1a40c66682138b4733",
+    "source_unchanged": true
+  },
+  "native_controls": {
+    "qualified": false,
+    "host": "runner-b",
+    "outputs": 16,
+    "source_controls": "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-local-controls1/controls.json",
+    "summary": {
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            170625.25932383194,
+            158261.61080450212,
+            164541.29499688954,
+            163989.81884108498
+          ],
+          "trial": [
+            157562.15525303868,
+            153278.0501457447,
+            159405.06221129684,
+            160592.84297358457
+          ]
+        },
+        "medians": {
+          "baseline": 164265.55691898725,
+          "trial": 158483.60873216775
+        },
+        "gain_pct": -3.5198786010088856,
+        "pairs_faster": 0
+      },
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            56160.54235796733,
+            50466.338806402346,
+            52814.37181262908,
+            55309.94508565051
+          ],
+          "trial": [
+            53210.25575739116,
+            55060.270449175914,
+            54633.15066366604,
+            54150.69941431463
+          ]
+        },
+        "medians": {
+          "baseline": 54062.158449139795,
+          "trial": 54391.92503899033
+        },
+        "gain_pct": 0.6099767366128495,
+        "pairs_faster": 2
+      }
+    },
+    "baseline_artifact_sha256": "ee48aae5100225ab7b554e9bf15fa95705f042fa7ceea25684d19af91e91b864",
+    "trial_artifact_sha256": "810783bd1b7ae0d814c60a8a3b94ffd838422f86a055858a2bbfd4627d23d152",
+    "policy": "Both artifacts genuinely built locally on identical Rust1.92 settings. Four rotating seed7 three-second pairs per case,CPUs2,3. All outputs independently validate score,structure,pins and exact normalized initial schedule. These are local native controls,not runner-a or Java target qualification."
+  },
+  "proof_sha256": {
+    "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-focused1/build-receipt.json": "9699feacadbd197dccf66ef29e184d458c8893096c8a1438193c66089769144b",
+    "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-focused1/cargo-exit.json": "dbee8cdb0baa494640c21ea0766487efc546b0f8d341b9df3940922bbf8cf2af",
+    "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-local-controls1/receipt.json": "1be5e7e61544a33e70ebe7df974ee0842f0e2cea33bafae5a97515d545b6442a",
+    "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-local-controls1/controls.json": "aeb569b8ba7124f0a038faadfd14f394940cbf2b1cc8a4835cff3b4c11964cc3",
+    "work/real_world-goal/local-selected-arena-baseline-build1/build-receipt.json": "a0e8a3e0bbce7dbc20531ec1e5ecc7ad29c6e13216e405978bd90d2a94bd6155",
+    "work/real_world-goal/copied-unbounded-group-inputs-packed-fixed-release1/build-receipt.json": "e22ca80767a3e9ba11d4a0ba1e7f5ef2103dae2e65ef4eae99464f3539ced07b"
+  },
+  "earlier_compile_failures": "Two separate drafts had test-only missing accessor/trait imports;zero tests ran on those drafts. Preserved unchanged,separate from final18 passes.",
+  "policy": "No integration,unchanged rerun,full suite,additional app/Clippy/Java checks,current-main promotion or upstream credit. Selected d466/465509 and original Java4795 remain unchanged/current. Goal active:1of2 targets;Sailing needs14.439% additional Rust throughput."
+}
