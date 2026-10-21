@@ -290,20 +290,33 @@ impl<K: Ord> GroupCollectors<K> {
     pub(crate) fn contains_key(&self, key: &K) -> bool {
         self.rows.contains_key(key)
     }
-    pub(crate) fn prepare_change<R>(
+    #[inline]
+    pub(crate) fn prepare_change_with_policy<P: LookupPolicy<K>, R>(
         &mut self,
         key: &K,
         inspect: impl FnOnce(Option<&IntCollector>) -> R,
     ) -> (PreparedChange<'_, K, IntCollector>, R) {
-        self.rows.prepare_change(key, inspect)
+        self.rows.prepare_change_with_policy::<P, R>(key, inspect)
     }
     pub(crate) fn insert(&mut self, key: K, value: IntCollector) {
         self.rows.insert(key, value);
     }
+    #[inline]
+    pub(crate) fn insert_with_policy<P: LookupPolicy<K>>(&mut self, key: K, value: IntCollector) {
+        self.rows.insert_with_policy::<P>(key, value);
+    }
     pub(crate) fn remove(&mut self, key: &K) -> bool {
         self.rows.remove(key)
     }
+    #[cfg(test)]
     pub(crate) fn try_edit(&mut self, key: &K, edit: ScalarEdit) -> Option<IntSummary> {
+        self.try_edit_with_policy::<Stored>(key, edit)
+    }
+    pub(crate) fn try_edit_with_policy<P: LookupPolicy<K>>(
+        &mut self,
+        key: &K,
+        edit: ScalarEdit,
+    ) -> Option<IntSummary> {
         if !self.enabled || self.inverses.is_empty() {
             return None;
         }
@@ -311,7 +324,7 @@ impl<K: Ord> GroupCollectors<K> {
             Storage::Paged(rows) => rows,
             _ => unreachable!(),
         };
-        let pos = (rows.map)(key);
+        let pos = P::locate(rows.map, key);
         let row = rows.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
         let count = row.value.summary().count;
         if count == 0 || (count == 1 && !matches!(edit, ScalarEdit::Insert(_))) {

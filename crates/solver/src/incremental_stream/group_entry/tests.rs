@@ -249,3 +249,110 @@ fn primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries
     assert_eq!(contents(&node), contents(&tree));
     assert!(!node.is_poisoned());
 }
+
+#[test]
+fn group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners() {
+    use crate::primitive_rows::{Exact, LookupPolicy, Stored};
+    use std::sync::Arc;
+    type Key = (usize, usize);
+    type Trace = Vec<(Vec<TupleChange<Key, IntSummary>>, Vec<(Key, IntSummary)>)>;
+    fn step<P: LookupPolicy<Key>>(
+        node: &mut GroupNode<usize, Key>,
+        change: TupleChange<usize, (Key, i64)>,
+        trace: &mut Trace,
+    ) {
+        let output = node.apply_inline_with_policy::<P, _>(change, |old, new| [old, new]);
+        trace.push((output.into_iter().flatten().collect(), contents(node)));
+    }
+    fn run<P: LookupPolicy<Key>>() -> Trace {
+        let mut node = GroupNode::<usize, Key>::new();
+        assert!(node.bind_primitive_group_keys());
+        let low = (0, 15);
+        let high = (usize::MAX, usize::MAX);
+        let mut trace = Vec::new();
+        for (id, key, value) in [(0, low, 1), (1, low, 2), (usize::MAX, high, 7)] {
+            step::<P>(&mut node, TupleChange::put(id, (key, value)), &mut trace);
+        }
+        let base = contents(&node);
+        let owners = node.groups.shared_entries();
+        let old = owners.iter().find(|(key, _)| **key == high).unwrap();
+        let old_key = Arc::downgrade(&old.0);
+        let old_value = Arc::downgrade(&old.1);
+        let full = node.checkpoint();
+        let outer = node.begin_journal_checkpoint();
+        step::<P>(&mut node, TupleChange::put(0, (low, 4)), &mut trace);
+        step::<P>(&mut node, TupleChange::put(0, (low, 5)), &mut trace);
+        step::<P>(
+            &mut node,
+            TupleChange::put(usize::MAX, (high, i64::MAX)),
+            &mut trace,
+        );
+        let current = node.groups.shared_entries();
+        let replacement = current.iter().find(|(key, _)| **key == high).unwrap();
+        assert!(
+            !Arc::ptr_eq(&old.0, &replacement.0),
+            "singleton physically reborn"
+        );
+        assert!(old_key.upgrade().is_some());
+        assert_eq!(old_value.upgrade().unwrap().summary().sum, 7);
+        let new_key = Arc::downgrade(&replacement.0);
+        drop(current);
+        let child = node.begin_journal_checkpoint();
+        step::<P>(&mut node, TupleChange::put(1, (high, i64::MIN)), &mut trace);
+        step::<P>(&mut node, TupleChange::retract(0), &mut trace);
+        let wanted = contents(&node);
+        let capture = node.capture_checkpoint(outer.as_ref());
+        node.commit_journal_checkpoint(child);
+        node.restore_checkpoint(outer);
+        assert_eq!(contents(&node), base);
+        assert!(std::ptr::eq(
+            node.groups().find(|(key, _)| **key == high).unwrap().0,
+            old.0.as_ref(),
+        ));
+        assert!(new_key.upgrade().is_some(), "capture retains candidate key");
+        let alternate = node.begin_journal_checkpoint();
+        step::<P>(
+            &mut node,
+            TupleChange::put(0, ((4096, 1024), -7)),
+            &mut trace,
+        );
+        node.restore_checkpoint(alternate);
+        let install = node.begin_journal_checkpoint();
+        node.restore_checkpoint(capture);
+        assert_eq!(contents(&node), wanted);
+        node.restore_checkpoint(install);
+        assert_eq!(contents(&node), base);
+        assert!(
+            new_key.upgrade().is_none(),
+            "retired Weak-observed key is not pooled"
+        );
+        node.restore_checkpoint(full);
+        assert_eq!(contents(&node), base);
+        trace
+    }
+    assert_eq!(run::<Exact>(), run::<Stored>());
+}
+
+#[test]
+fn group_static_mapper_keeps_actual_borrowed_public_ids_and_keys() {
+    // Neither borrow can satisfy 'static. This compiles only if public GroupNode
+    // entrypoints keep the shared Stored policy without adding static bounds.
+    fn run<'a>(ids: &'a [String], keys: &'a [String]) {
+        let mut node = GroupNode::<&'a str, &'a str>::new();
+        node.apply(TupleChange::put(ids[0].as_str(), (keys[0].as_str(), 3)));
+        node.apply(TupleChange::put(ids[1].as_str(), (keys[0].as_str(), 5)));
+        assert_eq!(node.groups().next().unwrap().1.sum, 8);
+        node.apply(TupleChange::put(ids[0].as_str(), (keys[1].as_str(), -7)));
+        node.apply(TupleChange::retract(ids[1].as_str()));
+        assert_eq!(
+            contents(&node),
+            vec![(
+                keys[1].as_str(),
+                [-7].into_iter().collect::<IntCollector>().summary()
+            )]
+        );
+    }
+    let ids = [String::from("left"), String::from("right")];
+    let keys = [String::from("first"), String::from("second")];
+    run(&ids, &keys);
+}

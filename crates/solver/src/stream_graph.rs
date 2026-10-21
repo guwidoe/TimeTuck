@@ -1113,7 +1113,12 @@ impl<
         // Only exact builtin identities/keys may erase before the common
         // body's remaining locals drop. No user owner/Clone/Drop phase moves.
         if live_commit_key::<I>() && live_commit_key::<K>() {
-            return Ok(self.node.apply_inline_with(mapped, group_outputs));
+            return Ok(self
+                .node
+                .apply_inline_with_policy::<crate::primitive_rows::Exact, _>(
+                    mapped,
+                    group_outputs,
+                ));
         }
         Ok(erase(
             self.node

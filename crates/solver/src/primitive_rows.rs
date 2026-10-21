@@ -25,7 +25,7 @@ const CELLS: usize = 16;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct PageKey([usize; 4]);
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct Position {
+pub(crate) struct Position {
     page: PageKey,
     cell: usize,
 }
@@ -36,6 +36,26 @@ fn position(parts: [usize; 4]) -> Position {
     }
 }
 type Mapper<K> = fn(&K) -> Position;
+
+// Lookup policy is a compile-time parameter of private graph apply helpers,
+// never stored in a row/node. Borrowed public operators retain Stored lookup.
+pub(crate) trait LookupPolicy<K> {
+    fn locate(map: fn(&K) -> Position, key: &K) -> Position;
+}
+pub(crate) struct Stored;
+pub(crate) struct Exact;
+impl<K> LookupPolicy<K> for Stored {
+    #[inline]
+    fn locate(map: fn(&K) -> Position, key: &K) -> Position {
+        map(key)
+    }
+}
+impl<K: 'static> LookupPolicy<K> for Exact {
+    #[inline]
+    fn locate(_map: fn(&K) -> Position, key: &K) -> Position {
+        mapper::<K>().expect("certified primitive group key")(key)
+    }
+}
 struct Entry<K, V> {
     key: Arc<K>,
     value: Arc<V>,
@@ -658,6 +678,14 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
         key: &K,
         inspect: impl FnOnce(Option<&V>) -> R,
     ) -> (PreparedChange<'_, K, V>, R) {
+        self.prepare_change_with_policy::<Stored, R>(key, inspect)
+    }
+    #[inline]
+    pub(crate) fn prepare_change_with_policy<P: LookupPolicy<K>, R>(
+        &mut self,
+        key: &K,
+        inspect: impl FnOnce(Option<&V>) -> R,
+    ) -> (PreparedChange<'_, K, V>, R) {
         match &mut self.storage {
             Storage::Tree(rows) => {
                 let (prepared, observed) = rows.prepare_change(key, inspect);
@@ -669,7 +697,7 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
                 )
             }
             Storage::Paged(rows) => {
-                let pos = (rows.map)(key);
+                let pos = P::locate(rows.map, key);
                 let (prepared, observed) = rows.prepare(pos, inspect);
                 (
                     PreparedChange {
@@ -681,10 +709,14 @@ impl<K: Ord, V> PrimitiveRows<K, V> {
         }
     }
     pub(crate) fn insert(&mut self, key: K, value: V) {
+        self.insert_with_policy::<Stored>(key, value);
+    }
+    #[inline]
+    pub(crate) fn insert_with_policy<P: LookupPolicy<K>>(&mut self, key: K, value: V) {
         match &mut self.storage {
             Storage::Tree(rows) => rows.insert(key, value),
             Storage::Paged(rows) => {
-                let pos = (rows.map)(&key);
+                let pos = P::locate(rows.map, &key);
                 rows.prepare(pos, |_| ()).0.insert(key, value);
             }
         }

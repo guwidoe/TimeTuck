@@ -6,10 +6,13 @@
 //! clones and poison boundaries stay in GroupNode's common path. Generic group
 //! keys keep its original lookup and publication sequence.
 use super::*;
-use crate::primitive_rows::group_collectors::{GroupCollectors, ScalarEdit};
+use crate::primitive_rows::{
+    LookupPolicy,
+    group_collectors::{GroupCollectors, ScalarEdit},
+};
 
 #[inline]
-pub(super) fn apply<K: Ord + Clone>(
+pub(super) fn apply<K: Ord + Clone, P: LookupPolicy<K>>(
     groups: &mut GroupCollectors<K>,
     old: Option<&(K, i64)>,
     new: Option<&(K, i64)>,
@@ -21,12 +24,13 @@ pub(super) fn apply<K: Ord + Clone>(
         let (key, old) = old.expect("existing input");
         let new = new.expect("replacement input").1;
         if *old != new
-            && let Some(summary) = groups.try_edit(key, ScalarEdit::Replace(*old, new))
+            && let Some(summary) =
+                groups.try_edit_with_policy::<P>(key, ScalarEdit::Replace(*old, new))
         {
             return (Some(summary), None);
         }
         let (prepared, mut collector) =
-            groups.prepare_change(key, |row| row.expect("input group").clone());
+            groups.prepare_change_with_policy::<P, _>(key, |row| row.expect("input group").clone());
         if collector.summary().count == 1 {
             assert!(collector.remove(*old), "input occurrence");
             // Preserve actual removal and reinsertion, including the new key
@@ -34,7 +38,7 @@ pub(super) fn apply<K: Ord + Clone>(
             prepared.remove();
             collector.insert(new);
             let summary = collector.summary();
-            groups.insert(new_key.unwrap().clone(), collector);
+            groups.insert_with_policy::<P>(new_key.unwrap().clone(), collector);
             return (Some(summary), None);
         }
         if *old != new {
@@ -48,11 +52,11 @@ pub(super) fn apply<K: Ord + Clone>(
         return (Some(collector.summary()), None);
     }
     let old_summary = old.and_then(|(key, value)| {
-        if let Some(summary) = groups.try_edit(key, ScalarEdit::Remove(*value)) {
+        if let Some(summary) = groups.try_edit_with_policy::<P>(key, ScalarEdit::Remove(*value)) {
             return Some(summary);
         }
         let (prepared, mut collector) =
-            groups.prepare_change(key, |row| row.expect("input group").clone());
+            groups.prepare_change_with_policy::<P, _>(key, |row| row.expect("input group").clone());
         assert!(collector.remove(*value), "input occurrence");
         let summary = collector.summary();
         if summary.count == 0 {
@@ -64,11 +68,11 @@ pub(super) fn apply<K: Ord + Clone>(
         }
     });
     let new_summary = new.map(|(key, value)| {
-        if let Some(summary) = groups.try_edit(key, ScalarEdit::Insert(*value)) {
+        if let Some(summary) = groups.try_edit_with_policy::<P>(key, ScalarEdit::Insert(*value)) {
             return summary;
         }
         let (prepared, mut collector) =
-            groups.prepare_change(key, |row| row.cloned().unwrap_or_default());
+            groups.prepare_change_with_policy::<P, _>(key, |row| row.cloned().unwrap_or_default());
         collector.insert(*value);
         let summary = collector.summary();
         prepared.insert(key.clone(), collector);

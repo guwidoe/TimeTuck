@@ -19,24 +19,26 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,852 recorded Rust tests and
-292 doctests** (8,858 Cargo test executions). The private membership-addressing batch
+The current native verification contains **8,855 recorded Rust tests and
+292 doctests** (8,861 Cargo test executions). The private group-addressing batch
 passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Actual source-bound evidence](../compat/observations/real_world-static-membership-addressing.json)
-records the unchanged test inventory and selected membership optimization.
+[Actual source-bound evidence](../compat/observations/real_world-static-group-addressing.json)
+records the selected group optimization and three additional native regressions.
 The live report remains the authority for evidence freshness and readiness.
 
 The four additional RealWorld application regressions remain separate from the
 original upstream inventory. Frozen public cases, model, settings and runner are
-unchanged. The selected change resolves membership IDs through their already
-certified concrete type at the original preparation phase. Layout, constructors,
-presence bits, journals, captures, bounds and callbacks retain their behavior.
-Four rotating native three-second controls measured **+2.048% Golfer /−0.018%
-Sailing** against the preceding full-native-gate-verified score-addressing binary.
+unchanged. The selected change resolves group row positions through a concrete
+mapper under the existing exact builtin graph gate. Shared algorithms retain the
+original lookup phases, owner checks, overflow/reserve/cache order, singleton key
+rebirth, publication and captures. Public borrowed/custom paths use the original
+stored mapper, with no new lifetime bound. Three additional native regressions
+cover captures/canonical owners, actual public borrows and inverse fallback.
+Four rotating native three-second controls measured **+1.816% Golfer /+2.881%
+Sailing** against the preceding full-native-gate-verified membership binary.
 All sixteen outputs independently validate. These diagnostic controls earn
-**no Java parity credit**. The preceding score-addressing change remains in place;
-its historical controls measured −0.017% Golfer /+2.462% Sailing on its own source.
-Separate sessions do not establish additive gains.
+**no Java parity credit**. Earlier score and membership addressing optimizations
+remain; separate sessions do not establish additive gains.
 
 The most recent full Java qualification is historical after this source change:
 Golfer **124,526 Rust /127,139 Java evaluations/s (0.979x)**; Sailing

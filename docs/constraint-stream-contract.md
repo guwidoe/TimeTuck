@@ -2900,3 +2900,13 @@ remain, as do presence bits, prepared writes, journals, full/current/nested capt
 and callbacks. The only test adaptation adds the matching bound to an existing
 helper, retaining every assertion and test identity. See the
 [membership-addressing observation](../compat/observations/real_world-static-membership-addressing.json).
+
+Eligible primitive graph Group nodes select an exact lookup policy through the
+existing exact-ID/key gate. It changes only paged position mapping in the shared
+algorithm. Public borrowed/custom paths retain stored mapping without new lifetime
+bounds. Failed inverse preflight retains its second lookup; count, strong/Weak
+owner checks, overflow, reserve, cache invalidation, edits and inverse publication
+retain their phases. Singleton key rebirth, callbacks, poison and all capture forms
+remain. Three original native controls check policy equivalence, actual borrowed
+public IDs/keys, and overflow/shared/Weak inverse fallback. See the
+[group-addressing observation](../compat/observations/real_world-static-group-addressing.json).

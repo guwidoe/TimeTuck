@@ -725,6 +725,16 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         change: TupleChange<I, (K, i64)>,
         finish: impl FnOnce(Option<TupleChange<K, IntSummary>>, Option<TupleChange<K, IntSummary>>) -> R,
     ) -> R {
+        self.apply_inline_with_policy::<crate::primitive_rows::Stored, R>(change, finish)
+    }
+
+    // Exact lookup is selected only by the private graph's existing primitive
+    // key gate. The public/borrowed operator shares this entire body via Stored.
+    pub(crate) fn apply_inline_with_policy<P: crate::primitive_rows::LookupPolicy<K>, R>(
+        &mut self,
+        change: TupleChange<I, (K, i64)>,
+        finish: impl FnOnce(Option<TupleChange<K, IntSummary>>, Option<TupleChange<K, IntSummary>>) -> R,
+    ) -> R {
         healthy(self.poisoned);
         let (input, old) = self.inputs.prepare_change(&change.id, |old| {
             old.map(|(key, value)| (key.clone(), *value))
@@ -734,7 +744,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         self.poisoned = true;
         let same_group = old_key.is_some() && old_key == new_key.as_ref();
         let summaries = if self.groups.is_primitive() {
-            Some(group_entry::apply(
+            Some(group_entry::apply::<K, P>(
                 &mut self.groups,
                 old.as_ref(),
                 change.value.as_ref(),
