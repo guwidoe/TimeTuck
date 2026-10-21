@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-inverse-pair-cancellation",
+  "generated_at": "2026-10-21T15:15:33.825980+00:00",
+  "status": "closed;regressive;not integrated",
+  "native_source_digest": "f6013a69420e03a367558933a60fad952e03540684e5d70542192b091a8222b5",
+  "input_sha256": "c50ee6b4c69d13c64d1d29c60f6dc9e0be31fdf5bb3841df221557a6099ab575",
+  "source_snapshot": "ac6893c22f15952064d1e1e3f2b80c59bb6cc93693e9d7d9e2b91392fc9a97b6",
+  "artifact_sha256": "db911d197208d1f796606ede89bb265e0e6a1e0c49ff4e060493f4a05b555f89",
+  "mechanism": "8-entry direct-mapped numeric owner hints per inverse frame;cancel exact opposing scalar inverse pairs only for same live owner,full position and ordinary-history count. Every forward mutation/count check/summary/callback/FIFO/guard remains original. Other-owner scalar interleaving permitted;normal-history barriers prevent crossing structural versions. Optional private edit holes omitted from dirty/capture/rollback/journal snapshots;tail holes trimmed. Nested append refreshes latest-owner hint. Stale/reused/colliding hints require full live-record verification and may only miss optimization. Original48B record on64-bit retained;128B hint allocation per recycled frame. Private rollback frequency-tree history may differ;logical values and canonical outer owners retained. No public API/trait-bound change.",
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "inverse_pair_cancel",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 3,
+      "seconds": 303.97246857199934,
+      "receipt_sha256": "ba5dfb318d32751cdc7099385acd86d699c13d8bc1663b51d599ae4363cef21c",
+      "log_sha256": "2781c72b4b2985c4cde21bd009a41554ecc2a47a1b58d4d88acc25d5854d1036",
+      "proof_directory": "work/real_world-goal/inverse-pair-cancellation-focused2"
+    }
+  ],
+  "test_scope": "Original3 regressions:actual adjacent inverse removal with wide key/full/current snapshots and spare reuse;synthetic exact/collision/stale/normal-position checks plus nested append/history barriers;actual bound GroupNode full forward emissions/captured installs/late bounds panic/recovery versus ordinary stored versions.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/inverse-pair-cancellation-next-results/real_world-inverse-pair-cancellation-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63370.04232414627,
+            62322.190588114056,
+            63213.65522095578,
+            62705.52011887129
+          ],
+          "trial": [
+            62041.41673867973,
+            60627.26719759889,
+            61943.28308129121,
+            61168.40019971573
+          ]
+        },
+        "medians": {
+          "baseline": 62959.58766991353,
+          "trial": 61555.841640503466
+        },
+        "gain_pct": -2.229598511301678
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            174334.60667951542,
+            178603.8155452137,
+            176687.1705861529,
+            177572.6210884
+          ],
+          "trial": [
+            174253.029916942,
+            173610.81071845788,
+            176767.93526890886,
+            181363.42450032223
+          ]
+        },
+        "medians": {
+          "baseline": 177129.89583727645,
+          "trial": 175510.48259292543
+        },
+        "gain_pct": -0.9142517905835201
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "receipts": {
+    "receipt.json": "6c2a356e7de9f1b58f50345a00e740a122419a341b63308ad545f01cc3bac8fe",
+    "build-receipt.json": "a232cc0f4e8af1e7d90c3f010242532f43d280d765192c03bd8514291e0746b1",
+    "controls.json": "e75043e87e05d1108f38ce00ffe1bc0aaf559b06fe6e4b054bd7f8a7810ede62"
+  },
+  "preparation_failure": "Initial unmeasured9c5 source test harness failed private sibling helper/field access (9 diagnostics,2 causes). Preserved failed test files/log/source map/receipt. Only test harness corrected before frozen measuredf601 source;no pass credit on9c5. Production digestc50 unchanged across harness correction.",
+  "policy": "Sailing-2.230%,all4slower;Golfer-.914%,2/4faster,all16 complete outputs independently valid. Close unchanged. No further app,Clippy,full suite,Java qualifier or current-main credit;no unchanged timing retry. Main daa8a18 stays selected;goal active/incomplete.",
+  "upstream_method_credit": 0,
+  "full_native_gate": false
+}

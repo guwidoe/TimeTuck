@@ -138,6 +138,25 @@ Both local-cell sources are closed unchanged;all jobs terminal/collected. No
 current-main test or throughput credit;3fd/e40 and originalJava5725 unchanged.
 Goal incomplete. Reuse current profile and avoid retrying these kernels unchanged.
 
+Exact inverse-pair cancellationf601/c50 is closed. An8-slot numeric owner hint
+matches only live owner/full position/normal-history boundary;opposing inverse
+pairs may cancel while every forward edit/summary/callback remains. Dirty/current
+capture/rollback/snapshot adapters skip canceled private holes;parent append
+refreshes hints,stale/colliding hints miss only. Actual3 original tests and16
+outputs pass,but Sailing-2.230%(all4slower)/Golfer-.914%(2/4faster). No app/Clippy/
+full suite/Java or main credit. Initial test-only visibility/helper errors were
+fixed before frozenf601;failed source/logs retained. Close unchanged.
+Proof: `compat/observations/real_world-inverse-pair-cancellation.json`.
+
+Next candidate is membership word first-preimage journaling,distinct from earlier
+compact membership record packing. Each forward bit/predicate/publication/length
+update remains. A small exact-key-validated frame hint can reuse an earlier word
+preimage;collisions retain extra records. Rollback restores raw words then the
+frame's saved original length,avoiding transient cross-word count overflow.
+Nested/current/full capture and explicit clear remain supported. Prototype
+`work/real_world-goal/membership-first-preimage-next-prototype/`;new focused checks
+and native controls active. No performance or source credit before collection.
+
 Previous selected batch: direct flat-map output. Whole ownership-consumed exact numeric
 nodes collect the original erased Events from standard tail/row iterators,
 eliminating the intermediate Vec<TupleChange>. Original mapper/iterator
