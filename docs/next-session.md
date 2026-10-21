@@ -60,6 +60,20 @@ Clean backend report uses the20 actual same-source passes,not a full gate.
 The clean dashboard serves localhost:8766;original8765 server and working
 directory remain untouched. No pending build/test/benchmark jobs after collection.
 
+A distinct borrowed filter-forwarding trial is closed unintegrated:15 actual
+scoped checks and16 independently valid outputs,onb73f55b0/568be0c3.
+Sailing-1.6045%(0/4 faster)/Golfer-.2535%(2/4),so no app/Clippy/Java/full
+suite or unchanged retry. It removes numeric copied tuples,not merely their
+return representation. Keep its source/artifact/receipts unchanged.
+[Closed trial](../compat/observations/real_world-borrowed-filter-forward.json).
+
+Holding node references through propagation is closed unintegrated for this
+goal:23 exact-source checks and16 independent valid outputs onf2ddb58a/fe1c61a3.
+Golfer+2.2176%(4/4),but Sailing-.4580%(2/4),so retain the measured Golfer result
+without replacing the selected Sailing runtime. No app/Clippy/Java/full suite
+or unchanged retry.
+[Routing trial](../compat/observations/real_world-held-node-routing.json).
+
 The following original-label selected checkpoints are preserved historical
 records;their source/class identities do not qualify the clean checkout.
 

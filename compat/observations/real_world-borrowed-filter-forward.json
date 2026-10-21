@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-borrowed-filter-forward",
+  "status": "Closed unintegrated: Sailing -1.6045%,all4 pairs slower;Golfer -.2535%,2/4 pairs faster.",
+  "native_source_digest": "b73f55b03d316e722a16ea6bffb8c5393fda55e455659ac336c26ea815863d4c",
+  "input_sha256": "568be0c3fe7eaf5674f8804a7f91d2b79d34f0549bdf8000773b520f770204c4",
+  "source_snapshot": "06fe06c6ce31b6069335dc6d3df727e9f5926b7e0f70e4b84f540d07b24aca48",
+  "artifact_sha256": "49dc6504ceaf50f33111146c46597e292cdf3f8b59b15b285e750395a1851d3d",
+  "mechanism": "On the existing closed consuming exact builtin numeric filter route,borrow the private incoming row for predicate evaluation and return None/Same/Retract directly without constructing full copied tuples. Ordinary/custom paths keep original apply_row. Distinct from prior unchanged-body continuation/outline trials.",
+  "tradeoffs": "Private callback argument uses the incoming numeric owner instead of a temporary copy;values and callback phases preserved. Code shape changes did not improve throughput. Candidate not integrated;no contract change selected.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/borrowed-filter-forward-next-results/clean-borrowed-filter-forward-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69014.89576810073,
+            70098.38778699908,
+            70067.84759118588,
+            69688.89859697554
+          ],
+          "trial": [
+            68827.41886821041,
+            68686.90890445153,
+            68223.56067246856,
+            69294.74635481696
+          ]
+        },
+        "medians": {
+          "baseline": 69878.37309408071,
+          "trial": 68757.16388633096
+        },
+        "gain_pct": -1.604515328712952
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196120.03074930623,
+            194547.54096533725,
+            195690.12383260636,
+            194825.77614712747
+          ],
+          "trial": [
+            194091.79630861184,
+            195696.04365570718,
+            189248.68458546358,
+            195434.19823845397
+          ]
+        },
+        "medians": {
+          "baseline": 195257.94998986693,
+          "trial": 194762.9972735329
+        },
+        "gain_pct": -0.2534865885664095
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "actual_tests_passed": 15,
+    "rust_digest": "b73f55b03d316e722a16ea6bffb8c5393fda55e455659ac336c26ea815863d4c",
+    "production_digest": "568be0c3fe7eaf5674f8804a7f91d2b79d34f0549bdf8000773b520f770204c4",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::membership_filter::"
+    ],
+    "receipt_sha256": "ee02135b615f6990aabf7b856c8326fcd021f4f44060132944bcdf008d6e8bef",
+    "log_sha256": "856f6ab6a91d3ac1d1938ab035dd2513c3cf9a14a7e8ad511dd815df20c4198a",
+    "full_native_gate": false,
+    "policy": "Exact-source focused filter checks, including all existing private forwarding/retention/fanout/capture/panic/overflow controls. No full suite."
+  },
+  "independent_validation_sha256": "43a433c0282c92553ab8e1aa6f7ba23def0436f84730def8c44343c24639bb19",
+  "comparison_baseline": {
+    "rust_digest": "4830c0a176c3fbc35298eb554a072322a826d23e7cce7e8a67ee9d5d1e5cf9d9",
+    "production_digest": "b01b54ef2672ecae22e15196909dd9b8cf1362fc3b8120417104eed95d851069",
+    "snapshot": "8fcc3a2bfbbd92652e93c276da6d19752fdf0dd96af6c1a23e206ecdfc4a92d7",
+    "artifact_sha256": "dd55ac40a3cca7a311e7a68200c95f9fd8b1296c8cbe046146029efe025c0d2e"
+  },
+  "receipts": {
+    "receipt.json": "80a5eafb819d77cf54ebb71ce0174af78c957fc02f61eb84161b52f5954ef825",
+    "build-receipt.json": "ac6d7e97d80d8c54721456d0c54a20a273cb3f4918742cb05d6a5629fbf67f73",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "ae1f0cf2e913752b20ba399381601c3ac51ad972bc6fe2d779ec1b61c6cadf5b"
+  },
+  "source_archive_sha256": "01b4b348f9ef7e4035f0d7922db36efb9a0e650af806807410637ac8b1481479",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "15 exact-source scoped checks and16 independently valid full outputs. No app/Clippy/Java/full suite or unchanged retry. Original measured controls do not qualify Java;selected4820/dd55/29f02ea6 remains unchanged."
+}

@@ -1,0 +1,97 @@
+{
+  "kind": "real_world-held-node-routing",
+  "status": "Closed unintegrated for this goal: Golfer+2.2176%,all4 pairs faster,but Sailing-.4580%,2/4 pairs faster;no Sailing gain.",
+  "native_source_digest": "f2ddb58ade65df2fbd2bf60bc22e93b1ef1f8f4997d56d910e1510bf491a7ad6",
+  "input_sha256": "fe1c61a31e7a7e1c56d9dc37856868443859dab0e6f2953d0baccc78869f6658",
+  "source_snapshot": "becae05f09af3e7025a638714f41ce88a5639e5a6b7e95e2cfc16eb9a61e4708",
+  "artifact_sha256": "60c8ff99ef18e98467f47c5b2ded53f94a32880b8c7aa9c069130be0227c9aeb",
+  "mechanism": "Hold the same mutable trait-object node reference after checkpoint through root delivery,borrowed-summary and ordinary scalar routing. Reuse its data/vtable pointer for score and apply calls,keeping every callback,guard,root/drop/FIFO/active-node/output phase. No event,row,policy or ownership change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/held-node-routing-next-results/clean-held-node-routing-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70490.34817583274,
+            69678.55279445686,
+            69134.21931521737,
+            70213.41024382447
+          ],
+          "trial": [
+            69340.2623027565,
+            69746.71932887884,
+            70343.43507482341,
+            69504.50776198435
+          ]
+        },
+        "medians": {
+          "baseline": 69945.98151914067,
+          "trial": 69625.6135454316
+        },
+        "gain_pct": -0.45802198603990263
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194110.1301189782,
+            194890.76824291432,
+            195956.38482751945,
+            194840.91802673595
+          ],
+          "trial": [
+            200931.86210915635,
+            199201.1753013338,
+            197669.81688425998,
+            199173.24339595824
+          ]
+        },
+        "medians": {
+          "baseline": 194865.84313482512,
+          "trial": 199187.20934864602
+        },
+        "gain_pct": 2.2176109185184423
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "focused_tests": {
+    "actual_tests_passed": 23,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::event_queue::tests",
+      "stream_graph::score_routing_tests",
+      "stream_graph::deferred_totals::tests",
+      "stream_graph::membership_filter::inline_forward_tests",
+      "stream_graph::membership_filter::shared_forward_tests",
+      "stream_graph::group_summary_lane::tests",
+      "stream_graph::source_forwarding_tests"
+    ],
+    "rust_digest": "f2ddb58ade65df2fbd2bf60bc22e93b1ef1f8f4997d56d910e1510bf491a7ad6",
+    "production_digest": "fe1c61a31e7a7e1c56d9dc37856868443859dab0e6f2953d0baccc78869f6658",
+    "receipt_sha256": "49a8de07576a89bb4e443ead7a1a99d07e2042514772d4c40e683f6820386ca7",
+    "log_sha256": "a11245df27b67bcc74128877ad6fd2e9574da3a0f9152e3c9bf54a1632227c91"
+  },
+  "independent_validation_sha256": "f6f10db88b6a3fe56d8c4965866dcd0d09f508cbf6126337edcb18aa0a8e661b",
+  "receipts": {
+    "receipt.json": "9066658bd76cec82e34bea62954a5920b9418b302251a2089c96842cbcb5ddd8",
+    "build-receipt.json": "b33c5cc5a0698663d9a2429ec2b15dac677a9d9f5f80bf3da94360334f83c9f0",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "e0fda107f88c686ff3825b8d79e49b6cb98c0957e5107b1a781593ee46e2bce0"
+  },
+  "source_archive_sha256": "e185f0add5091d84729170b5fa886e99a7f7a68588a90976704aa238a4f4cc18",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "23 actual exact-source relevant routing checks and16 independently valid full outputs. No app/Clippy/Java/full suite or unchanged retry. Preserve useful Golfer result,but selected Sailing runtime remains unchanged."
+}
