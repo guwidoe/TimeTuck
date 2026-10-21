@@ -166,15 +166,50 @@ Sailing -1.271% / Golfer -1.046%, allfour pairs slower each. It is closed and
 unintegrated; no app/Clippy/Java/full checks or API changes were added. See
 `compat/observations/real_world-compact-binary-owned-collectors.json`.
 
-All five current native trials and all local checks are terminal/collected.
-The duplicate singleton remote worker was deliberately cancelled before build;
-its original source archive and dispatch241 remain. Main runtime and actual Java
-report4795 remain unchanged/current,1of2 targets. No new native/upstream passes
-were promoted. Next investigate Java's actual runtime profile, using original
-Community adapter arguments and compiled-method diagnostics for symbolization,
-then compare with the existing selected Rust994-sample profile. No repeated Rust
-profile/default qualification or small layout retries are justified by this batch.
-Local+runner-a;runner-c parked,no subagents. Preserve frozen sources and every raw result.
+The five earlier native trials are terminal/collected. Current runtime/Java4795
+remain unchanged,1of2 targets. New original Java profile has1251samples(1044main),
+zero lost,original args/classes/dependencies and independently checked output.
+Two new hardware diagnostics validate both complete outputs;Rust IPC2.27 and
+3.70%LLC miss rate versus aggregate JVM2.12/22.85% do not establish component
+speed differences. Raw topdown categories fail slot closure and are not qualified
+as frontend/backend percentages. Existing Rust994-sample profile was reused.
+See `compat/observations/real_world-original-java-runtime-profile.json`.
+
+Three subsequent kernels are closed:closure inlining (bodies identical apart
+from2attrs),16 valid controls,S-.924%/G-2.475%;constant-mode propagation drain,
+28 direct passes+16valid,S-.412%/G+.221%;outlined shared/generic group fallbacks,
+15 direct passes+16valid,S-1.183%/G-1.941%. Group bodies shrink30% in the last
+trial but no speedup follows. No extra app/Clippy/Java/full checks or integration.
+Separate original outlining draft had an import-path compile failure;zero cases
+ran and source/receipt are preserved. Do not repeat these mechanisms unchanged.
+
+A direct-owned group kernel has24 focused passes,including2 new independent
+fixed/pair-input/full-summary/capture/nested/bounds and readiness regressions.
+Its runner-a dispatch is UNRESOLVED:session99607,local dispatcher17183/SSH17198,
+frozen snapshotdf31165cd8402d4b7f8523c49df53df65dd299ba77b7d40842e63fa35d3cad5d.
+SSH stopped returning data;do not kill/restart its build or timings. One failed
+local collection attempt found no archive yet and did not rerun work. Only stalled
+read-only diagnostic channels18207/18208 were stopped. User asked to check wake
+state once;runner-c stays parked.
+
+The larger current implementation is copied unbounded Group inputs. Its new
+private paged backend preserves full numeric IDs,packed small undo addresses plus
+complete wide-position fallback,nesting/full/delta/clear and copied captured values.
+Activation occurs only after initial commit and the original bounded-binding pass;
+existing Dense/Pair universes keep their validations. Actual frozen-model test
+proves0copied groups onGolfer/1onSailing,with equal initial scores/work and full
+recomputation. Public/custom paths remain ordinary;summary key owners stay Arc.
+
+Actual18 directly relevant tests PASS on packed-fixed source393ef479/prod5d4966e0.
+Two separate earlier sources had test-only accessor/trait-import compile failures,
+zero executions;their files/receipts remain unchanged. No pass rekey. Local actual
+baseline and candidate release builds are queued/running (sessions1066/35996),
+then same-host local rotating native pairs using `local-native-artifact-pairs.py`.
+These are local diagnostics,not a replacement for the original runner-a Java target
+qualification. Current prototype:`copied-unbounded-group-inputs-packed-fixed-prototype`.
+Consult ignored active state and live handles before continuing. No new subagents;
+no full suites,unchanged verification repeats,source key transplant or extrapolation.
+
 
 
 The preceding consumed-graph collector backend owns each mutable integer

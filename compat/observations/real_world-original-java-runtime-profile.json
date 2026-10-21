@@ -1,0 +1,131 @@
+{
+  "kind": "real_world-original-java-runtime-profile",
+  "status": "collected;diagnostic only;original selected runtime unchanged",
+  "original_qualification_sha256": "4795a7c730f0c89877c27939100ed36e599895c214d7c77dfa5f907b97756feb",
+  "selected_native_source_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
+  "selected_production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+  "java_cycle_profile": {
+    "proof_directory": "work/real_world-goal/java-sailing-original-4795-profile",
+    "receipt_sha256": "2a2e35b4328716fa8ffa9cb4e87eb58e13e0a7003733c8095069a17e1c5a754f",
+    "collection_sha256": "4bb4b0a3b8cb9eb5218bd4a53ffb80b4e0a82cd77ef2af95f04c8df94d5c50f5",
+    "samples": 1251,
+    "main_samples": 1044,
+    "lost_samples": 0,
+    "independent_output_valid": true,
+    "hotspots": "Compiled method names charge most main-thread samples to grouping, joins and propagation; JIT inline work is attributed to enclosing compiled method. No production implementation read/copied/translated.",
+    "top_main_leaf_samples": [
+      [
+        "void ai.timefold.solver.core.impl.bavet.AbstractBavetNodeNetwork.settleLayer(int)",
+        102
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.AbstractGroupNode.insert(ai.timefold.solver.core.impl.bavet.common.tuple.Tuple)",
+        80
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.AbstractJoinNode.insertOutTuple(ai.timefold.solver.core.impl.bavet.common.tuple.Tuple, ai.timefold.solver.core.impl.bavet.common.tuple.UniTuple)",
+        67
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.AbstractIndexedJoinNode.updateRight(ai.timefold.solver.core.impl.bavet.common.tuple.Tuple)",
+        61
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.AbstractIndexedJoinNode.updateLeft(ai.timefold.solver.core.impl.bavet.common.tuple.Tuple)",
+        57
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.DynamicPropagationQueue.propagateInsertOrUpdate(ai.timefold.solver.core.impl.bavet.common.AbstractPropagationMetadataCarrier, boolean)",
+        55
+      ],
+      [
+        "vtable chunks",
+        53
+      ],
+      [
+        "void ai.timefold.solver.core.impl.bavet.common.AbstractGroupNode.killOutTuple(ai.timefold.solver.core.impl.bavet.common.Group)",
+        51
+      ]
+    ]
+  },
+  "hardware_diagnostics": {
+    "proof_directory": "work/real_world-goal/sailing-original-hardware-counters",
+    "receipt_sha256": "c9bc6d3ca1579342a24cb77cbc14e4d4ae830d739dd8f4d642b357bbbd03eab2",
+    "collection_sha256": "a0522b1aa3a1b1b4ed24766ea5b0eedbc180483c470318ce3946f64451940265",
+    "derived": {
+      "rust": {
+        "raw_counts": {
+          "slots:u": 205778042950,
+          "topdown-retiring:u": 80960388777,
+          "topdown-bad-spec:u": 50032308481,
+          "topdown-fe-bound:u": 38537668056,
+          "topdown-be-bound:u": 46804417612,
+          "instructions:u": 94116734958,
+          "cycles:u": 41432341860,
+          "branches:u": 14776201607,
+          "branch-misses:u": 111584912,
+          "cache-references:u": 612264613,
+          "cache-misses:u": 22656878
+        },
+        "counter_running_percent": {
+          "slots:u": 100.0,
+          "topdown-retiring:u": 100.0,
+          "topdown-bad-spec:u": 100.0,
+          "topdown-fe-bound:u": 100.0,
+          "topdown-be-bound:u": 100.0,
+          "instructions:u": 100.0,
+          "cycles:u": 100.0,
+          "branches:u": 100.0,
+          "branch-misses:u": 100.0,
+          "cache-references:u": 100.0,
+          "cache-misses:u": 100.0
+        },
+        "instructions_per_cycle": 2.2715765204878045,
+        "branch_miss_percent": 0.7551664153468125,
+        "cache_miss_percent": 3.7005042458659947,
+        "topdown_component_sum_over_slots": 1.0513015860422246,
+        "topdown_attribution_qualified": false
+      },
+      "java": {
+        "raw_counts": {
+          "slots:u": 246923193995,
+          "topdown-retiring:u": 88256813134,
+          "topdown-bad-spec:u": 89914579578,
+          "topdown-fe-bound:u": 57624735616,
+          "topdown-be-bound:u": 47397033888,
+          "instructions:u": 105097045056,
+          "cycles:u": 49621540116,
+          "branches:u": 21840518949,
+          "branch-misses:u": 206834824,
+          "cache-references:u": 1060143783,
+          "cache-misses:u": 242257713
+        },
+        "counter_running_percent": {
+          "slots:u": 100.0,
+          "topdown-retiring:u": 100.0,
+          "topdown-bad-spec:u": 100.0,
+          "topdown-fe-bound:u": 100.0,
+          "topdown-be-bound:u": 100.0,
+          "instructions:u": 100.0,
+          "cycles:u": 100.0,
+          "branches:u": 100.0,
+          "branch-misses:u": 100.0,
+          "cache-references:u": 100.0,
+          "cache-misses:u": 100.0
+        },
+        "instructions_per_cycle": 2.1179722517744355,
+        "branch_miss_percent": 0.9470233948331628,
+        "cache_miss_percent": 22.85140156314061,
+        "topdown_component_sum_over_slots": 1.1468876521244677,
+        "topdown_attribution_qualified": false
+      }
+    },
+    "validated_outputs": 2,
+    "limit": "No timing/quality qualification or equivalent-work claim. All counters100% residence,but raw topdown components do not close to slot total(about105%Rust/115%Java),so do not normalize/use them as precise frontend/backend attribution. Java scope includes startup,JIT/GC threads and different search work. No repeated run to repair this diagnostic limitation."
+  },
+  "interpretation": "Raw Rust IPC2.27 and3.70% LLC miss rate,versus aggregate JVM2.12/22.85%,do not support a simple allocator/IPC advantage explanation for Java. Different traces and JVM compiler threads prevent component-speed inference. Native selected profile and actual disassembly identify large grouping functions with unused shared/generic fallback code;outline only those fallbacks as next distinct hypothesis. Do not read Java production code or infer algorithms for translation from profile symbols.",
+  "full_native_gate": false,
+  "new_tests": 0,
+  "qualification_run": false,
+  "target_status": "Original Java4795 remains current:1/2 targets,G1.603315/S.873827;no updated ratio or quality claim."
+}

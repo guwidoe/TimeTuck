@@ -1,0 +1,77 @@
+{
+  "kind": "real_world-owned-closure-inlining",
+  "status": "closed;not integrated;no Sailing gain",
+  "native_source_digest": "c244a0799f357b88a54b3043c6d8ec2a52deb0720829dd06abdc371f2cbbfadf",
+  "input_sha256": "f1521c2b1cba4942a77dc3207e92f0a6c93b117a9e190b8c20deb3ef9f274eea",
+  "source_snapshot": "0806578bc377051e967c24887fae0dabd666b49cc709192b0709687a5429d029",
+  "artifact_sha256": "b453cb3a015a1d8f54046fad8bee055355ea55b4092601a18c4da5b822d4e8bf",
+  "mechanism": "Only2 inline(always) annotations on the original and_then/map closures. Rustfmt adds legal closure-call trailing commas;all statement bodies equal after exact syntax-only normalization. Original scalar/storage/callback/error/owner phases and compiler/model settings unchanged.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-closure-inline-next-results/real_world-owned-closure-inline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64694.08965692545,
+            65657.88550613416,
+            64800.2263975655,
+            65713.59028635976
+          ],
+          "trial": [
+            64542.80478966942,
+            64215.03343184702,
+            65159.890139342846,
+            64709.99039663433
+          ]
+        },
+        "medians": {
+          "baseline": 65229.055951849834,
+          "trial": 64626.39759315188
+        },
+        "gain_pct": -0.9239109012137425
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194460.76976379176,
+            194033.3731942071,
+            194661.27819961368,
+            192860.10800868692
+          ],
+          "trial": [
+            184647.56203361828,
+            191396.48996738793,
+            188305.4010555204,
+            190573.0481706803
+          ]
+        },
+        "medians": {
+          "baseline": 194247.07147899942,
+          "trial": 189439.22461310035
+        },
+        "gain_pct": -2.4751193566482477
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "full_native_gate": false,
+  "qualification_run": false,
+  "receipts": {
+    "receipt.json": "f35cab7848cdbc4260dc1e398c3a0ae435f69537ca0c6e9ac39c60b9934bcd0a",
+    "build-receipt.json": "8faf63d9cf98a51f9c96fc5dd7b21ee976c92d8a40214ce7ca6ccc17547f14f2",
+    "controls.json": "dcc19fc0991e34029d8f89b983aa4923839af330e361582a45359bec6eb5a6a5",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "policy": "16 full native outputs independently valid;no unchanged retry,integration,current-main test promotion,app/Clippy/Java/full checks or upstream credit. Preserve all frozen sources/receipts and current original Java4795.",
+  "focused_tests": {
+    "executed": 0,
+    "reason": "Only two inline attributes changed. Exact normalized body equivalence plus genuine release and full output validation;unchanged functional tests not repeated."
+  },
+  "body_equivalence_sha256": "a573916dfa2e89a27810f768b231f852e8504492cd253bb2be645e5f9446b9ae",
+  "compiled_effect": "All4 original Owned.apply closure symbols disappear, but3 grouping bodies grow from36647to46445 bytes. Actual Sailing-.924%/Golfer-2.475%;annotation not integrated."
+}

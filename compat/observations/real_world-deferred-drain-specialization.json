@@ -1,0 +1,92 @@
+{
+  "kind": "real_world-deferred-drain-specialization",
+  "status": "closed;not integrated;no Sailing gain",
+  "native_source_digest": "abd074f7612159a388ae11758d0cd6d72c13bbd4e368d298cb693578781af09e",
+  "input_sha256": "1a089236fd87c48c3099aea84cb4a9226afb0ba11fba9037e51d524ece83ee8d",
+  "source_snapshot": "a94b46d9e03721caef00e05118fc316b6f033987c728e6e068bac257734e4e43",
+  "artifact_sha256": "74c2175bd3fef3a019e649d1d14953a237043aad70083c0636848d79bb6d7bcf",
+  "mechanism": "Select const deferred/nondeferred drain once before loop. Only the certified deferred path folds consuming flags and per-event deferred predicates;original FIFO,event/guard/accounting/score/error/callback phases unchanged. Both original paths remain.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/deferred-drain-specialization-next-results/real_world-deferred-drain-specialization-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64424.62914399202,
+            65582.66724513084,
+            65175.44401213616,
+            62528.29427393331
+          ],
+          "trial": [
+            64991.6457574388,
+            64145.47164840119,
+            64575.990235549376,
+            64490.16593335357
+          ]
+        },
+        "medians": {
+          "baseline": 64800.036578064086,
+          "trial": 64533.078084451474
+        },
+        "gain_pct": -0.41197275142123013
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            191196.5309291082,
+            194781.96045715112,
+            191291.09188758722,
+            195338.66239151257
+          ],
+          "trial": [
+            193541.94096559315,
+            193383.1364404543,
+            194289.715178002,
+            191779.28825838811
+          ]
+        },
+        "medians": {
+          "baseline": 193036.52617236917,
+          "trial": 193462.53870302375
+        },
+        "gain_pct": 0.2206901145092921
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "full_native_gate": false,
+  "qualification_run": false,
+  "receipts": {
+    "receipt.json": "21f00d5f692264bd241bd72829b76709d213c5320396e6e9741dde937bf9088d",
+    "build-receipt.json": "3b781c72588051548b8715638f3a1b3140301c9645f132756e7606634681c446",
+    "controls.json": "8c46f256e79f5277f2e923d90e7d5fba8508c5a6d6d59f2e72bba8922d7bf388",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "policy": "16 full native outputs independently valid;no unchanged retry,integration,current-main test promotion,app/Clippy/Java/full checks or upstream credit. Preserve all frozen sources/receipts and current original Java4795.",
+  "focused_tests": {
+    "passed": 28,
+    "proof_directory": "work/real_world-goal/deferred-drain-specialization-focused1",
+    "receipt_sha256": "8c3fc2dd99e68dd000735c25248b0e858370030816cc953784823ebc22593a70",
+    "log_sha256": "2cc91d476138f075cb4cf1f0e74c5fd8b3a24c5ff6153751ac08fa0ad7487fb0",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::event_queue::tests",
+      "stream_graph::deferred_totals::tests",
+      "stream_graph::propagation_workspace_tests",
+      "stream_graph::consuming::",
+      "stream_graph::score_routing_tests"
+    ],
+    "source_unchanged": true
+  },
+  "finding": "28 relevant tests,16 valid outputs;Sailing-.412%/Golfer+.221%,mixed and unselected."
+}

@@ -1,0 +1,94 @@
+{
+  "kind": "real_world-outlined-group-fallbacks",
+  "status": "closed;not integrated;no Sailing gain",
+  "native_source_digest": "1fdcfbced07f8c5079c453967a0e098a5078ce2e1fe82f917773164cafc5dd3d",
+  "input_sha256": "48544c9267ce25dfa7a885b21ee4f1df6e5058ccad8c62b46c8b3be7c506ad15",
+  "source_snapshot": "20a37da8d6d4365bfb164dce22b8ed43d2ee83c9085fa5d1396765738cd61a59",
+  "artifact_sha256": "419a0c25a72c684bdac15a188ac59034ab2dd146f2a03bb370cde1318d19b289",
+  "mechanism": "Extract whole original shared primitive and unbound generic group algorithms into never-inline helpers. Owned dispatch and common input publication/poison path retained. Body-equivalence proof checks exact statements after2 parameter substitutions.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/outlined-group-fallbacks-fixed-results/real_world-outlined-group-fallbacks-fixed/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64994.83452457894,
+            64831.50068996647,
+            65585.53480099552,
+            65805.61673029065
+          ],
+          "trial": [
+            64134.91813487751,
+            64976.26258614414,
+            64901.032944590974,
+            63767.97150716868
+          ]
+        },
+        "medians": {
+          "baseline": 65290.18466278723,
+          "trial": 64517.97553973424
+        },
+        "gain_pct": -1.1827338627411144
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194198.76132358555,
+            190385.31972780114,
+            194814.59741825587,
+            195863.09937694453
+          ],
+          "trial": [
+            190420.40970589762,
+            191044.00924195818,
+            188381.12024847482,
+            191524.72935267782
+          ]
+        },
+        "medians": {
+          "baseline": 194506.6793709207,
+          "trial": 190732.2094739279
+        },
+        "gain_pct": -1.9405348490860508
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "full_native_gate": false,
+  "qualification_run": false,
+  "receipts": {
+    "receipt.json": "39f19078c996bbb1a6e19e00befa27b811f2f120c933d31a336f76300e0bbdc9",
+    "build-receipt.json": "db8a75cbb8b4b487f9fa48e3616395c3f285152d1b058d1efaad5db409742ec1",
+    "controls.json": "e85dad0d8850fcbb8e80ccec91d3a1d9a3bf129eddee16a786ec069b713399d0",
+    "baseline-binding.json": "e20b83050c3b37bc3c1f73fd9f98405a2a6c75c0cba58dec8094b9f03fe5e525"
+  },
+  "policy": "16 full native outputs independently valid;no unchanged retry,integration,current-main test promotion,app/Clippy/Java/full checks or upstream credit. Preserve all frozen sources/receipts and current original Java4795.",
+  "focused_tests": {
+    "passed": 15,
+    "proof_directory": "work/real_world-goal/outlined-group-fallbacks-fixed-focused1",
+    "receipt_sha256": "b725c0f09cede49cee09e3ad40576af0306372ca4a0663c38ebf1bfb02373454",
+    "log_sha256": "47c125c03c035bd169447a51c06624747e71e306dd19e9e359da8e54b09dfbc2",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_entry::tests",
+      "owned_collector_box",
+      "owned_collector_arena_growth",
+      "incremental_stream::group_batch::carrier_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "source_unchanged": true
+  },
+  "extraction_proof_sha256": "ea42465975f861b442b9fc35e288646414678b500f2154c7b9db80d2b787d855",
+  "compiled_effect": "Three grouping bodies shrink36647to25357 bytes,but actual Sailing-1.183%/Golfer-1.941%;not integrated.",
+  "original_failure": "Separate original prototype failed E0433 missing qualified module path;zero cases executed. Fixed source/proofs separate,not rekeyed."
+}
