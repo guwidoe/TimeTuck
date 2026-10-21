@@ -15,11 +15,14 @@ edit, commit, generated report and experiment. The original checkout points to
 the private read-only archive; its source, local branches, worktrees, ignored
 evidence, build cache and live process directories remain preserved.
 
-The ignored `work/real_world-goal/` contains copied operational helpers with the
-clean root and neutral names. Its `MIGRATION.md` explains the private state and
+The ignored `work/real_world-goal/` contains neutral reference copies of the
+original helpers. Privacy substitutions leave placeholder home and SSH identities;
+create new operational helpers with the actual clean Git root and preserved
+private connection paths before running them. Keep reference copies unchanged.
+Its `MIGRATION.md` explains the private state and
 legacy references. Directory symlinks refer to preserved frozen evidence: treat
 them as read-only and create a new directory for each trial. A new local build
-snapshot must be prepared here. Review copied helpers' baseline guards before
+snapshot must be prepared here. Review helpers' baseline guards before
 using them; they intentionally retain original evidence identities. Java
 dependency bytes are copied, and the clean target uses the separate preparation
 cache. No raw private evidence or helper workspace belongs in a commit.
