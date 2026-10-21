@@ -81,10 +81,31 @@ indexing are distinct but occupy narrow sampled regions; no prototype. Generic
 sink/alternate queues/leveled emit overlap earlier failed work. State retains all
 source-bound receipts and stop decisions; do not repeat these audits unchanged.
 
-The preceding0bb8 local Sailing10s profile, seed7, valid0/87300 and zero lost samples
-is `work/real_world-goal/current-a31-profile/`. It becomes historical after this
-change; no Java timing credit. Ignored state:
-`work/real_world-goal/active-performance-state.json`, round_a31.
+The current a7cbb local Sailing10s profile, seed7, valid0/88300 and zero lost
+samples is `work/real_world-goal/current-2ed-profile/`. It samples the actual
+qualified binary without rebuilding and earns no Java timing credit. The older
+0bb8 profile remains historical. Ignored state:
+`work/real_world-goal/active-performance-state.json`, round_2ed.
+
+Four separate native trials against the actual qualified a7cbb baseline each
+completed sixteen independently valid rotating controls. Scalar inverse folding
+measured **−0.934%G/−2.378%S**; Membership first-word preimages
+**−0.245%G/−1.444%S**; owned scalar/Birth/Death collector lifecycle
+**+2.012%G/−0.079%S**. All three are unselected; their focused checks passed,
+but no source/tests were integrated and no broad gate is needed. Do not repeat.
+The borrowed fixed-Join output carrier measured **+0.772%G/+0.795%S** and passed
+four focused controls; retain it only as a modest candidate for a larger measured
+batch, with no integration or Java credit. Proof directories use the prefixes
+`group-inverse-fold-2ed-next`, `membership-preimage-2ed-next`,
+`group-owned-lifecycle-2ed-next` and `join-output-carrier-2ed-next` under the goal
+work directory. Each keeps its own frozen source, actual builds and raw outputs.
+
+The next distinct prototype targets wide Group summary event allocations using
+stable boxed typed chunks and borrowed receiver views. Existing Event size and
+FIFO/callback/owner behavior must remain. Current ELF confirms Pair summary Rc
+allocations of104B and Quad of136B; enclosing Group time is not removable cost.
+This mechanism differs from older widened Event, Rc pooling and compact stack
+summary decoding trials. No speedup is established until its own controls finish.
 
 ## Additional RealWorld application coverage — 2026-10-20
 
