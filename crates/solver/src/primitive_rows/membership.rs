@@ -4,6 +4,18 @@ use super::{CELLS, Mapper, PageKey, Position, mapper};
 use std::collections::{BTreeMap, btree_map};
 const ROWS: usize = 4096;
 const COLUMNS: usize = 64;
+// A second bounded direct tier handles four-coordinate numeric IDs. Prefixes
+// and word rows grow only on a nonzero publication; larger keys keep the tree.
+const WIDE_COORDINATES: usize = 1024;
+const WIDE_PREFIX_COLUMNS: usize = 16;
+const WIDE_WORD_COLUMNS: usize = 4;
+fn wide(PageKey([a, b, p, q]): PageKey) -> Option<(usize, usize)> {
+    (a < WIDE_COORDINATES
+        && b < WIDE_PREFIX_COLUMNS
+        && p < WIDE_COORDINATES
+        && q < WIDE_WORD_COLUMNS)
+        .then(|| (a * WIDE_PREFIX_COLUMNS + b, p * WIDE_WORD_COLUMNS + q))
+}
 fn hot(PageKey([a, b, p, q]): PageKey) -> Option<(usize, usize)> {
     ((a | b | (p & !(ROWS - 1)) | (q & !(COLUMNS - 1))) == 0).then_some((p, q))
 }
@@ -13,6 +25,7 @@ pub(crate) struct Capture {
 }
 pub(crate) struct Membership<I> {
     rows: Vec<Vec<u16>>,
+    wide: Vec<Vec<u16>>,
     tree: BTreeMap<PageKey, u16>,
     map: Mapper<I>,
     len: usize,
@@ -23,6 +36,7 @@ impl<I> Clone for Membership<I> {
     fn clone(&self) -> Self {
         Self {
             rows: self.rows.clone(),
+            wide: self.wide.clone(),
             tree: self.tree.clone(),
             map: self.map,
             len: self.len,
@@ -117,6 +131,7 @@ impl<I: 'static> Membership<I> {
     pub(crate) fn new() -> Option<Self> {
         Some(Self {
             rows: Vec::new(),
+            wide: Vec::new(),
             tree: BTreeMap::new(),
             map: mapper::<I>()?,
             len: 0,
@@ -133,7 +148,14 @@ impl<I> Membership<I> {
                 p,
                 q,
             },
-            None => Entry::Tree(self.tree.entry(key)),
+            None => match wide(key) {
+                Some((prefix, slot)) => Entry::Dense {
+                    rows: &mut self.wide,
+                    p: prefix,
+                    q: slot,
+                },
+                None => Entry::Tree(self.tree.entry(key)),
+            },
         }
     }
     fn page(&self, key: PageKey) -> u16 {
@@ -144,7 +166,15 @@ impl<I> Membership<I> {
                 .and_then(|row| row.get(q))
                 .copied()
                 .unwrap_or(0),
-            None => self.tree.get(&key).copied().unwrap_or(0),
+            None => match wide(key) {
+                Some((prefix, slot)) => self
+                    .wide
+                    .get(prefix)
+                    .and_then(|row| row.get(slot))
+                    .copied()
+                    .unwrap_or(0),
+                None => self.tree.get(&key).copied().unwrap_or(0),
+            },
         }
     }
     fn pages(&self) -> impl Iterator<Item = (PageKey, u16)> {
@@ -156,6 +186,19 @@ impl<I> Membership<I> {
                     (bits != 0).then_some((PageKey([0, 0, p, q]), bits))
                 })
             })
+            .chain(self.wide.iter().enumerate().flat_map(|(prefix, row)| {
+                row.iter().enumerate().filter_map(move |(slot, &bits)| {
+                    (bits != 0).then_some((
+                        PageKey([
+                            prefix / WIDE_PREFIX_COLUMNS,
+                            prefix % WIDE_PREFIX_COLUMNS,
+                            slot / WIDE_WORD_COLUMNS,
+                            slot % WIDE_WORD_COLUMNS,
+                        ]),
+                        bits,
+                    ))
+                })
+            }))
             .chain(self.tree.iter().map(|(key, bits)| (*key, *bits)))
     }
     pub(crate) fn prepare(&mut self, id: &I) -> (Prepared<'_>, bool)
@@ -172,7 +215,14 @@ impl<I> Membership<I> {
                 p,
                 q,
             },
-            None => Entry::Tree(self.tree.entry(pos.page)),
+            None => match wide(pos.page) {
+                Some((prefix, slot)) => Entry::Dense {
+                    rows: &mut self.wide,
+                    p: prefix,
+                    q: slot,
+                },
+                None => Entry::Tree(self.tree.entry(pos.page)),
+            },
         };
         let old = entry.get();
         let accepted = old & (1 << pos.cell) != 0;
@@ -202,6 +252,7 @@ impl<I> Membership<I> {
     pub(crate) fn clear(&mut self) {
         if self.frames.is_empty() {
             self.rows.clear();
+            self.wide.clear();
             self.tree.clear();
             self.len = 0;
         } else {
@@ -212,6 +263,7 @@ impl<I> Membership<I> {
             // An explicit reset releases retained direct rows too. Journals
             // already hold their previous bits for a later logical rollback.
             self.rows.clear();
+            self.wide.clear();
         }
     }
     pub(crate) fn begin(&mut self) -> usize {

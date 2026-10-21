@@ -19,34 +19,33 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current native verification contains **8,872 recorded Rust tests and
-292 doctests** (8,878 Cargo test executions). The bitmap-inverse batch
+The current native verification contains **8,873 recorded Rust tests and
+292 doctests** (8,879 Cargo test executions). The wide membership-page batch
 passes `bash scripts/check.sh`, formatting, all-target Clippy and 54 tooling jobs.
-[Actual source-bound evidence](../compat/observations/real_world-bucket-bit-inverses.json)
-records the selected optimization and one additional native regression.
-The live report remains the authority for evidence freshness and readiness.
+[Source-bound evidence](../compat/observations/real_world-wide-membership-pages.json)
+records its actual builds, controls and one additional native regression.
+The live report remains the authority for freshness and readiness.
 
-The four additional RealWorld application regressions remain separate from the
-original upstream inventory. Frozen public cases, model, settings and runner are
-unchanged. Private primitive equality-join buckets now retain one inverse per
-unshared surviving membership-bit edit. Shared/Weak owners and empty bucket
-retirement/rebirth retain ordinary replacement. Full/current/shared observations
-copy dirty values while retaining canonical key and input-ID Arcs, preserving
-snapshot independence through nested commit and rollback. Public/custom/ordered
-paths and every original projection, callback and output event remain.
+The four external RealWorld application regressions remain separate from the
+upstream inventory. Frozen fixtures, model, declarations, settings and runner are
+unchanged. Private accepted-ID membership adds direct bitmap lookup for bounded
+four-coordinate numeric identities. The existing two-coordinate tier takes
+precedence; arbitrary larger coordinates retain the original tree fallback.
+Preparation/no-op updates do not grow rows. Full/current captures, nested
+commit/rollback, full-width identity, callback order and every-change undo remain.
+Explicit clear releases the retained rows. Full snapshots copy their bits.
 
-Private consuming score positions use a numeric hasher with complete keys and Eq,
-a 16-byte builder state, and the original sorted observations/undo/zero/absence rules.
-One new native regression exercises actual bit inverses interleaved with structural
-edits and dirty full/current captures. Existing ownership and score-storage controls
-remain. Each edit retains metadata and dirty snapshots copy bitmap values; no total
-memory claim is made. Prior inline filter forwarding and typed output chunks remain
-as recorded in their [original observation](../compat/observations/real_world-inline-event-forwarding.json).
+The additional direct capacity is a memory tradeoff, especially for sparse high
+prefixes; this is not a memory reduction claim. One original regression covers
+all tier boundaries, no-op preparation, nested captures/install/clear/rollback and
+retained allocation reuse. It earns no upstream-method credit. The previous
+[bit inverses and score hashing](../compat/observations/real_world-bucket-bit-inverses.json)
+remain unchanged.
 
-Actual combined four rotating native three-second controls measured
-**+5.570% Golfer /+3.108% Sailing** against the preceding verified Rust binary.
-All sixteen outputs independently validate. Individual gains are not added, and
-these controls do not establish Java parity.
+Actual four rotating native three-second controls measured **+1.099% Golfer
+/+2.298% Sailing** against the preceding verified Rust binary. All sixteen
+outputs independently validate. These are short native controls; their gains
+are not added to earlier gains and do not establish Java parity.
 
 The latest original-protocol Java qualification is now **historical and stale**:
 paired seeds7/11/23 x10s on runner-a CPU2,3, all twelve assignments independently

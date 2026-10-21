@@ -187,3 +187,91 @@ fn membership_retained_hot_rows_reuse_bounded_storage_through_nested_trials_and_
     assert!(bits.pages().next().is_none());
     assert_eq!(bits.len, 0);
 }
+
+#[test]
+fn membership_wide_pages_preserve_full_coordinates_nested_captures_and_sparse_boundaries() {
+    type Id = ((usize, usize), (usize, usize));
+    let mut bits = Membership::<Id>::new().unwrap();
+    let high = ((1023, 15), (1023, 63));
+    for id in [
+        high,
+        ((1024, 0), (1, 0)),
+        ((1, 16), (1, 0)),
+        ((1, 0), (1024, 0)),
+        ((1, 0), (1, 64)),
+        ((usize::MAX, usize::MAX), (usize::MAX, usize::MAX)),
+    ] {
+        let (prepared, old) = bits.prepare(&id);
+        assert!(!old);
+        prepared.set(false);
+    }
+    assert!(bits.wide.is_empty());
+    assert!(bits.tree.is_empty());
+    let ids = [
+        ((0, 0), (0, 15)),
+        ((1, 0), (0, 0)),
+        ((1, 1), (1, 16)),
+        high,
+        ((1024, 0), (1, 0)),
+        ((1, 16), (1, 0)),
+        ((1, 0), (1024, 0)),
+        ((1, 0), (1, 64)),
+        ((usize::MAX, usize::MAX), (usize::MAX, usize::MAX)),
+    ];
+    for id in ids {
+        set(&mut bits, &id, true);
+    }
+    let expected: Vec<_> = ids.iter().map(|&((a, b), (c, d))| [a, b, c, d]).collect();
+    let mut sorted = expected.clone();
+    sorted.sort_unstable();
+    assert_eq!(contents(&bits), sorted);
+    assert_eq!(bits.len, ids.len());
+    assert_eq!(bits.tree.len(), 5);
+    assert_eq!(bits.wide[1023 * WIDE_PREFIX_COLUMNS + 15].len(), 4096);
+    let full = bits.clone();
+    let outer = bits.begin();
+    for id in ids {
+        set(&mut bits, &id, false);
+    }
+    let inner = bits.begin();
+    set(&mut bits, &((1, 1), (2, 63)), true);
+    set(&mut bits, &((1, 1), (2, 64)), true);
+    let candidate = contents(&bits);
+    let capture = bits.capture(outer);
+    bits.commit(inner);
+    bits.rollback(outer);
+    assert_eq!(contents(&bits), sorted);
+    let outer = bits.begin();
+    bits.install_capture(capture);
+    assert_eq!(contents(&bits), candidate);
+    bits.install(full.clone());
+    assert_eq!(contents(&bits), sorted);
+    bits.rollback(outer);
+    assert_eq!(contents(&bits), sorted);
+    let outer = bits.begin();
+    bits.clear();
+    assert!(bits.wide.is_empty());
+    assert!(bits.pages().next().is_none());
+    bits.rollback(outer);
+    assert_eq!(contents(&bits), sorted);
+    assert!(bits.wide.len() <= WIDE_COORDINATES * WIDE_PREFIX_COLUMNS);
+    assert!(
+        bits.wide
+            .iter()
+            .all(|r| r.len() <= WIDE_COORDINATES * WIDE_WORD_COLUMNS)
+    );
+    let allocation = bits.wide[1023 * WIDE_PREFIX_COLUMNS + 15].as_ptr();
+    for _ in 0..4 {
+        let token = bits.begin();
+        set(&mut bits, &high, false);
+        bits.rollback(token);
+        assert_eq!(
+            bits.wide[1023 * WIDE_PREFIX_COLUMNS + 15].as_ptr(),
+            allocation
+        );
+    }
+    bits.clear();
+    assert!(bits.wide.is_empty());
+    bits.install(full);
+    assert_eq!(contents(&bits), sorted);
+}

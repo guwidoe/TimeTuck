@@ -2901,6 +2901,17 @@ and callbacks. The only test adaptation adds the matching bound to an existing
 helper, retaining every assertion and test identity. See the
 [membership-addressing observation](../compat/observations/real_world-static-membership-addressing.json).
 
+Graph-private accepted membership also has a bounded four-coordinate direct
+bitmap tier. It admits first/third coordinates below 1024, second coordinates
+below 16 and final coordinates below 64, after the existing two-coordinate tier.
+Larger full-width IDs keep the ordered fallback. Prefix/word rows grow only when
+publishing nonzero bits; no-op preparation remains allocation-free. Every-change
+PageKey/bit undo, accepted counts, full/current/nested captures and callbacks are
+unchanged. Clear releases rows, including inside a journal; rollback reconstructs
+the previous bits. Capacity can remain after peak use, and full snapshots copy
+it. Sparse high prefixes can cost more memory. See the
+[wide membership-page observation](../compat/observations/real_world-wide-membership-pages.json).
+
 Eligible primitive graph Group nodes select an exact lookup policy through the
 existing exact-ID/key gate. It changes only paged position mapping in the shared
 algorithm. Public borrowed/custom paths retain stored mapping without new lifetime
