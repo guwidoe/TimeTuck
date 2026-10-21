@@ -486,10 +486,13 @@ Four rotating native pairs measured **Sailing +0.904% (4/4 faster),Golfer -1.373
 (0/4 faster)**. The tradeoff favors the remaining Sailing target;all16 full outputs
 independently validate including initial states. Actual36 focused checks,4 external
 application cases and lib/example Clippy pass on817b1386/prod47fc4cef;artifact1f5e4680.
-No full suite,new upstream credit or unchanged validation repeats. The genuine
-original Java/Rust3seed10s matrix is live on runner-a,local session24424:
-`work/real_world-goal/score-only-current-java-qualification`. Collect it before
-restarting. Earlier Java3ea8613a remains historical/stale;do not extrapolate native gains.
+No full suite,new upstream credit or unchanged validation repeats. Fresh original
+Java/Rust3seed10s matrix317eca04 is current:all12 full outputs independently valid,
+**Golfer1.611318x/Sailing0.887283x Java;1/2 targets met**. Sailing needs12.703607%
+more Rust throughput. This is essentially unchanged versus the preceding .886679
+ratio;do not claim material gap closure from the short native controls. Rust2/3
+versus Java0/3 Sailing runs are feasible;quality remains separate. Old3ea8613a is
+preserved historical. All current measurements are terminal and collected.
 [Evidence](../compat/observations/real_world-score-only-rows.json).
 
 Three other changes are closed and unintegrated:arena visibility18 passes/16valid

@@ -1,6 +1,6 @@
 {
   "kind": "real_world-score-only-rows",
-  "status": "selected;Sailing native gain with Golfer tradeoff;fresh Java qualification pending",
+  "status": "selected;current original Java matrix1of2targets;Sailing essentially unchanged",
   "native_source_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
   "input_sha256": "47fc4cef15cb49495114a9537421e8c203c11d612fe6db2087e6028868bf8e2c",
   "source_snapshot": "c53af8deb86d9eaa25e0ea01931ed132702e201bb7de55fcfeae453f0a0b4406",
@@ -87,9 +87,9 @@
     "baseline-binding.json": "7aac79e457d8d7228f990244bd049d29a4c2a24d01899450ef0dabdf24c739e3"
   },
   "full_native_gate": false,
-  "java_qualification_run": false,
+  "java_qualification_run": true,
   "upstream_method_credit": 0,
-  "policy": "Selected for remaining Sailing target after36 focused checks,4 application cases,lib/example Clippy and16 independently validated native outputs. Sailing+.9038%,all4pairs faster;Golfer-1.373%,all4slower. Exact source817b1386/47fc4cef/artifact1f5e4680 integrated. OriginalJava3ea8613a remains historical/stale;fresh original matrix next. No unchanged test repeats,full suite,upstream credit or extrapolation.",
+  "policy": "Selected after36focused+4application passes,lib/exampleClippy and16valid nativecontrols,S+.9038%(all4faster),G-1.373%(all4slower). Fresh actual original3seeds10s runner-a Java/Rust matrix independently validates12fulloutputs and all initialstates. G1.611318x/S.887283x,1of2targets;Sneeds12.703607% moreRust. This longer matrix is essentially unchanged for Sailing versus preceding .886679 ratio;no material gap closure claimed. Scores/feasibility separate,Rust2/3vsJava0/3 Sailing feasible. Source817b1386/47fc4cef/artifact1f5e4680 current. Old3ea8613a retainedhistorical. No unchanged retries,fullsuite,newupstreamcredit or extrapolated gains.",
   "focused_verification": {
     "full_native_gate": false,
     "native_source_digest": "817b1386715859011d3987379260a175a4d4b208b215ec6d28f392c1ae37e1f3",
@@ -158,5 +158,118 @@
   },
   "new_original_native_tests": 2,
   "current_source_tests_credited": 40,
-  "tradeoffs": "Cold observations allocate/cache complete typed ID-score pairs until next write;this can increase observed peak memory. Numeric ID copies in hot storage are removed;original terminal input clone phases remain. Valid prepared IDs must map to the prepared position,as all production callers guarantee. Unsupported/custom IDs retain ordinary storage."
+  "tradeoffs": "Cold observations allocate/cache complete typed ID-score pairs until next write;this can increase observed peak memory. Numeric ID copies in hot storage are removed;original terminal input clone phases remain. Valid prepared IDs must map to the prepared position,as all production callers guarantee. Unsupported/custom IDs retain ordinary storage.",
+  "current_original_java_qualification": {
+    "report_sha256": "317eca04c7165b9dbe8707843a39bef6368206d40482d5fe25306196e572c173",
+    "collection_verification_sha256": "a297a93d2e85f8e12ecc8278cf0b877a83b8e4846ceeae929b49cdefd427e2ce",
+    "proof_directory": "work/real_world-goal/score-only-current-java-qualification",
+    "independently_valid_outputs": 12,
+    "targets_met": 1,
+    "required_targets": 2,
+    "targets": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "rust_over_java": 1.6113181176657705,
+        "throughput_target_met": true,
+        "additional_rust_throughput_percent_needed": 0,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 123032.74821158357,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                19400
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.040999182
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 198244.89625953554,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000104141
+          }
+        }
+      },
+      {
+        "case": "sailing-trip-v1",
+        "rust_over_java": 0.8872830479226809,
+        "throughput_target_met": false,
+        "additional_rust_throughput_percent_needed": 12.703607077945822,
+        "scores_and_feasibility": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75106.81918624755,
+            "scores": [
+              [
+                -11,
+                82100
+              ],
+              [
+                -5,
+                65200
+              ],
+              [
+                -9,
+                70000
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.054717998
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 66641.00744735141,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196200
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000899229
+          }
+        }
+      }
+    ],
+    "same_original_configuration": true,
+    "same_original_Java_dependency_and_class_checksums": true,
+    "same_original_toolchain": true
+  }
 }
