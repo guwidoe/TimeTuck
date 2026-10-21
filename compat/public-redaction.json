@@ -633,12 +633,12 @@
     {
       "path": "docs/README.md",
       "original_sha256": "e519cd597a87f9e3b99e1f55271c8526cb36534d312f180092cebc03206283fb",
-      "candidate_sha256": "5a38b931d0d9f18d08e276d840840c4903c6d9d6e3ac835c89093d961f63bfdf"
+      "candidate_sha256": "62a9b2eaaf44a4169da2d08ba3efecd3339ed4cc300216e5acc44d7022a8c8a0"
     },
     {
       "path": "docs/archive/next-session-through-round23.md",
       "original_sha256": "ff51662cdd07d1543d660c206221816fbee3e1e13dc87f6ede049a481733bd87",
-      "candidate_sha256": "4096fc69dd8df923f620771e7018425054b25a755828bcdb7f6551a5715281f2"
+      "candidate_sha256": "2a6de19376329f958b7099679bd7c140efc21a0fcb64f00341d6483cfe916bb0"
     },
     {
       "path": "docs/compatibility.md",
@@ -693,7 +693,7 @@
     {
       "path": "docs/public-release-preparation.md",
       "original_sha256": "08b98de67fc775fbfe09b048e63eaf5792a9da575deb0390e3dfd5ca97e89d3d",
-      "candidate_sha256": "fef118fa4eef1ab8e1f8fc14d5aac949fec418c0cb69c946cab3355cac6e7f0b"
+      "candidate_sha256": "1b6935c382478c2149b9cd96bfe5bf694d240ee2947569dd6dc770b0830a78df"
     },
     {
       "path": "docs/roadmap.md",
@@ -728,7 +728,7 @@
     {
       "path": "scripts/prepare_public_history.py",
       "original_sha256": "c41fbcd45cd3deef6df033e77fc15e4ec11eeb58a4deaf47121820e481587fce",
-      "candidate_sha256": "bd6c03390552c5446fba7a7f9f8267cd8ff4a5fe1fcee6e826ec95e4cfa89772"
+      "candidate_sha256": "38be8abd9047594b33f39d8607364b174096ac9e3d38f13e02c69f2376d6e940"
     },
     {
       "path": "scripts/test_application_report.py",
@@ -748,7 +748,7 @@
     {
       "path": "scripts/test_prepare_public_history.py",
       "original_sha256": "edbcc531b5eeff7fbe642e6f46d2ba2d887fcb3e7b26974bfd462debb9471e0f",
-      "candidate_sha256": "a8406e362d1b5aaec24f7f7cede6e8cb0bb4ecfd7af2733019c759d6af7932f2"
+      "candidate_sha256": "b579d8bdc20aaae4a600117a97cca0ef321385da08ed7c3a02bc41387d238338"
     },
     {
       "path": "scripts/verify_checks.py",

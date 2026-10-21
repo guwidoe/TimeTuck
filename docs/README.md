@@ -49,6 +49,7 @@ These references specify behavior, error handling, limits, and executable eviden
   and [third-party notices](../THIRD_PARTY_NOTICES.md): sources and attribution.
 - [Test layout](test-layout.md): focused targets and generated integration shards.
 - [Public-release preparation](public-release-preparation.md): the private preparation review.
+- [History anonymization](public-history.md): attribution, private backups and the hosted cutover.
 - [Implementation handoff](next-session.md): detailed development state and retained
   experiments for maintainers; this is not the user guide or a release guarantee.
 

@@ -51,38 +51,83 @@ or third-party claim. Production-source authorship was not forensically audited.
 The native implementation boundary and attribution records remain the project's
 stated development policy.
 
-## Items to settle before publication
+## Anonymization follow-up — 2026-10-22
 
-1. **Private vulnerability reporting.** The GitHub reporting endpoint returned
-   HTTP 404 for this private repository, so an active public reporting route could
-   not be verified. Enable and verify GitHub private vulnerability reporting when
-   available, or supply another working private contact. [SECURITY.md](../SECURITY.md)
-   describes the current private collaboration route without inventing a contact.
-2. **Historical metadata disclosure.** Evidence contains local source paths,
-   machine names, and internal development context. Git history has one author
-   identity with a direct email address. The reviewed current tree had 51 files
-   containing local machine-path patterns. Decide whether those disclosures are
-   acceptable before making the existing history public. Deleting current lines
-   alone would not remove their historical copies. No history was rewritten and
-   no evidence hashes were relabeled during this pass.
-3. **Historical artifact availability.** Provenance references
-   `work/round138-kopt-seam-certificate.py` and
-   `work/AccessTokenCipherRecognition.java`, neither present in the audit checkout.
-   They are recorded diagnostic material, not redistributed files. Recover their
-   original bytes into an attributed archive if that historical investigation is
-   to be fully reproducible; otherwise keep the archival limitation explicit.
-   Other retained observations also reference ignored raw outputs that a clone
-   does not contain. Existing measurements were not regenerated.
-4. **Application licensing clarity.** The RealWorld manifests explicitly permit
-   public distribution of the two bundled snapshots. The original notices assert
-   no additional license for that application material; decide and document its
-   intended reuse terms before promoting it as a freely reusable benchmark dataset.
-   Preserve the manifests and their exact bytes.
-5. **Publication authorization and metadata.** The owner must explicitly authorize
-   a future visibility change. At that point, review the final tree/history/log
-   delta, update the temporary private-status wording, and choose repository
-   description/topics. A crate release additionally needs the decisions in the
-   [roadmap](roadmap.md#before-a-distributable-crate-release).
+The owner authorized repository and history anonymization while keeping the
+repository private, approved Apache-2.0 for the specifically bundled application
+files and public fixtures, and selected GitHub private vulnerability reporting
+for activation after publication. The application copyright remains
+Guido Witt-Dörring's; the rest of the originating private application is outside
+the grant. See the [application notice](../tests/application/real_world/NOTICE.md).
+
+A separate release candidate uses `real_world` throughout code, imports, Cargo
+targets, file paths, provenance, report keys, branch names and commit messages.
+Private source paths, session identifiers, direct author email, machine names
+and archived SSH destinations are anonymized. Required notices, author names,
+original source hashes and measured results are retained. The original private
+history and editor checkpoints remain in an ignored private backup; the active
+solver-development checkout has not been rewritten.
+
+The captured original source is `acfbaaad908a5e964dae3344083173d985544b04`.
+The initial filter covered 1,279 commits. Ninety private editor checkpoint refs
+were archived and excluded from the release mirror. The completed mirror audit
+covered **1,194 commits across 132 branch refs** and every stored Git object,
+including tree filenames and unreachable objects, with **zero forbidden-identity
+findings**. A final documentation commit and bundle check are recorded in the
+private preparation receipts. The public [redaction record](../compat/public-redaction.json)
+keeps neutral current paths and separate original/candidate checksums.
+
+Preparation verification:
+
+- **29 focused Python tests pass:** eight independent application scoring/conversion
+  checks, three application-report checks, eleven origin-accounting checks,
+  three publication-boundary checks, and four history-tool checks.
+- **Four Rust application regressions pass**, covering both workloads' full
+  scoring/rollback and deterministic bounded search. The renamed benchmark example
+  checks successfully, and the README example returns 243 evaluations and
+  `0hard/-3soft`. The renamed Java benchmark compiles against the pinned Community
+  artifacts. No full Rust suite, benchmark matrix or Java solver suite was run.
+- All 724 native production source files are byte-identical to the captured
+  source. The pin, provenance ledger, licenses, Cargo lockfile and dashboard UI
+  assets are unchanged. All existing copyright lines are retained. The previous
+  4,414-case/2,371-fixture attribution audit is reused because its inputs are
+  unchanged; this is not new upstream-method test credit.
+- The four approved application problem/manifest files retain their original
+  hashes. Historical branch versions match the same approved snapshots.
+- The static dashboard builds. Its evidence, counts, dates, ratios, scores and
+  original checksums are unchanged; snapshot freshness flags are cleared because
+  renamed paths change source fingerprints. Existing desktop/mobile UI evidence
+  remains applicable to the unchanged UI assets. No old timing is relabeled.
+- Gitleaks history findings match the 64 previously reviewed hash/fingerprint and
+  collector-key false positives. The final tree and publication-tail scans are
+  recorded in private receipts; no unresolved credential finding is accepted.
+
+Focused correctness evidence binds to application input SHA-256
+`4f1b37e056939c21db5aec3076f8e0f83f33ae21248448cff8787fa75ae0a5d9`.
+It does not refresh historical throughput qualifications. The two absent
+historical diagnostics and other ignored raw-output limitations remain explicitly
+recorded in [history preparation](public-history.md#retained-archive-limitations).
+
+## Publication steps still intentionally deferred
+
+1. Obtain the owner's explicit publication/cutover instruction. The hosted
+   repository remains private and retains its original refs and Actions history.
+   **Do not simply change its visibility.** Use the reviewed sanitized candidate
+   for a clean standalone GitHub repository; preserve the original privately.
+   A normal force-push is insufficient assurance about retained cached objects.
+   See the [hosted cutover](public-history.md#hosted-history-cutover-remains-a-publication-step).
+2. Review changes after the captured source and the hosted result before making
+   anything public. Prepared metadata: description “Experimental Rust constraint
+   optimization solver inspired by Timefold Community”; topics `rust`,
+   `constraint-programming`, `optimization`, `scheduling`, `local-search`.
+   Apply metadata and update private-status wording during the authorized cutover.
+3. Immediately after publication, enable and verify the chosen
+   [GitHub private vulnerability reporting route](../SECURITY.md). GitHub makes it
+   available for public repositories; it remains inactive during preparation.
+4. When hosting is authorized, activate GitHub Pages and set
+   `PUBLISH_DASHBOARD=true`. Hosting remains deferred by the owner's instruction;
+   the [Pages workflow and README link](github-pages.md) are prepared. Crates remain
+   unpublished and `publish = false`.
 
 Apache-2.0 project licensing and existing third-party notices remain in place.
 The [legal/provenance guide](legal-and-provenance.md) retains the naming and

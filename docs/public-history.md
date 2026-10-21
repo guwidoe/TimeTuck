@@ -11,8 +11,9 @@ This avoids rewriting another contributor's live work or losing diagnostic data.
 The application uses the neutral `real_world` name in paths, modules, scripts,
 Cargo targets, report keys, branch names and commit messages. Private source
 locations and session identifiers become aliases; development machines receive
-consistent runner aliases. Commit authors retain their names and use the owner's
-GitHub noreply address. Original source checksums and measurement dates, scores,
+consistent runner aliases, including archived SSH destinations. Commit authors
+retain their names and use the owner's GitHub noreply address. Original source
+checksums and measurement dates, scores,
 timings and input digests are retained as historical evidence.
 
 The application notice retains Guido Witt-Dörring's copyright and the owner's
@@ -61,9 +62,14 @@ Actions logs. **Do not make that existing repository public unchanged.** A norma
 push of a sanitized tip would leave old branch tips, logs, cached commits and
 other historical references exposed.
 
-Before publication, use a reviewed clean repository populated only from the
-sanitized candidate, or complete GitHub's supported history-removal procedure
-for the existing repository, including all refs and server-retained content.
+For this anonymization, the recommended cutover is a clean repository populated
+only from the sanitized candidate, with the original repository retained privately.
+GitHub's [history-removal documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+states that force-pushed commits can remain accessible in cached views and that
+Support does not remove non-sensitive data. A support purge cannot be assumed
+for application-name anonymization. Reusing the existing hosted repository would
+require a separately verified way to remove all retained content.
+
 Preserve the original private archive. Review Actions logs, artifacts, releases,
 issues, pull requests and repository metadata; remove or replace original hosted
 records that disclose private identities. Local filtering alone cannot certify
