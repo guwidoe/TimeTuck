@@ -67,6 +67,25 @@ worker/receipts before any restart. Preserve failed transport/prototype evidence
 never restart because observing failed. No runtime selected or speedup claimed.
 All selected9848/df9b/1d5b/Javaeeee evidence and dashboard remain current.
 
+A new sparse stable-slot contribution kernel is prepared,not integrated or timed.
+AoS source6f4c5b97/6a1c3d8c passes38 scoped checks. Final parallel-array layout
+4786bf2b/25aa5e46 changes only slots.rs and passes2 fresh mixed-history/growth/
+retirement/cross-namespace snapshot checks. Prior38 retain their source identity.
+Known prepared slots avoid a second map probe;every-write slot undo is40B versus
+72B for measuredHardSoft,and hot score cells32B versus72B combinedmetadata cells.
+Full positions/score fields,FIFO/callback/Clone/checks remain;private inactive
+mapping cache is bounded8192 between transactions. Larger memory/cold scans and
+an extra indexed load are tradeoffs,so no speedup claim. AoS is not to be timed.
+Final frozen snapshot a666b60d/sourcearchive c48c0fc8 is ready in
+sparse-score-soa-next-results;no SSH/build/timing happened for it. Shared source
+and actual final2 tests are separate in real_world-sparse-score-slots-development.
+First SoA generator failed before writes/helper creation,zero builds/tests;fixed
+before final source froze,receipt preserved. After current SSH92899 auth,inspect
+original hash job first;use prepared dispatch-frozen-v36.py with a unique logstem
+for the two existing capsules only when no job/worker/lock remains unresolved.
+It refuses existing jobs;collect-pilot-v8.py reads the new explicit log path.
+Do not repeat completed tests or rebuild AoS. No main runtime/dashboard change.
+
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and
 Golfer3.153%. Outlining that continuation also slowed both4.447%/2.209%; its

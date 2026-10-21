@@ -1,0 +1,79 @@
+{
+  "kind": "real_world-sparse-score-slots-development",
+  "status": "functional checks passed on two explicitly separate sources;unmeasured and unintegrated",
+  "native_source_digest": "4786bf2b825748c3caa381f7907f8cfbca70c9a942f68ff0285f0a2f1f46d722",
+  "input_sha256": "25aa5e46af939b136f724936444439fa6d5a2d277ca9a4205640074f0f18acb4",
+  "source_snapshot": "a666b60da5b9cd42a63014666d6f40b6d26a48822f5b8c21091df91fbd8789ef",
+  "source_changes": [
+    "crates/solver/src/primitive_rows/consumed_scores/slot_tests.rs",
+    "crates/solver/src/primitive_rows/consumed_scores/slots.rs",
+    "crates/solver/src/primitive_rows/consumed_scores/sparse_tests.rs",
+    "crates/solver/src/primitive_rows/consumed_scores.rs"
+  ],
+  "proposal_patch": "work/real_world-goal/sparse-score-soa-proposal.patch",
+  "proposal_patch_sha256": "28446858e1fdbcd62ba52c21b5e9122e5398e4fd6d666de7cb298f1d3e684742",
+  "mechanism": "Sparse contribution lookup maps each complete Position to a stable slot. Original exclusive prepare retains known scalar slot across late checks;present rows avoid the second hash-table probe and rollback restores byslot. Every-write sparse preimages retain slot+fulloldscore40bytes versus position+score72bytes for HardSoftScore on the measured64-bit target. Parallel score32byte cells and complete40byte position metadata preserve all coordinates. Inactive mappings are cached up to8192 between transactions;larger live sets remain supported and slot retirement waits for all active histories to finish. Dense/sparse histories are disjoint and inverse sequences commute onlyforclosedbuiltinNoDrop values;all forward callback/Clone/arithmetic/check/FIFO phases remain. Full/current/entry snapshots cross slot namespaces bycompletePosition.",
+  "checks": [
+    {
+      "proof_directory": "work/real_world-goal/sparse-score-slots-focused1",
+      "native_source_digest": "6f4c5b97e1e8f985e27805500933240ffde9dce79ada2a8a163b7f9c6a35a898",
+      "production_digest": "6a1c3d8ceaae0bb4d197a801ed2d6d51ace491fbc2ba95491dc496c512c380c3",
+      "actual_tests_passed_on_this_source": 38,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::consumed_scores::",
+        "stream_graph::consuming::",
+        "stream_graph::terminal_prepared_tests",
+        "stream_graph::terminal_primitive_tests",
+        "stream_graph::group_summary_lane::tests"
+      ],
+      "exit_code": 0,
+      "source_unchanged": true,
+      "receipt_sha256": "3406bc873bdeb334d400f61a95c52393d8781f37b375c412efa75e8962490fb1",
+      "log_sha256": "79f3791ddc89dbf528ac08c5d59a629d3280aa328658619cbdb26da218336f9a"
+    },
+    {
+      "proof_directory": "work/real_world-goal/sparse-score-soa-focused1",
+      "native_source_digest": "4786bf2b825748c3caa381f7907f8cfbca70c9a942f68ff0285f0a2f1f46d722",
+      "production_digest": "25aa5e46af939b136f724936444439fa6d5a2d277ca9a4205640074f0f18acb4",
+      "actual_tests_passed_on_this_source": 2,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::consumed_scores::slot_tests"
+      ],
+      "exit_code": 0,
+      "source_unchanged": true,
+      "receipt_sha256": "973ce93abf0ec6a6b78aff5099e74b7b5a17e2bc8c7d7211a133f845ffc17eec",
+      "log_sha256": "aaf5dff086f9bc9e2c72dda410ef8ebf7bbcc567a470504aa0ac1f0478357be6"
+    }
+  ],
+  "actual_current_source_tests_passed": 2,
+  "prior_source_shared_behavior_tests_passed": 38,
+  "prior_source_reuse_boundary": "Only slots.rs backing storage changed from AoS to parallel arrays;all other crate bytes are identical. Two finalsource mixed-history/growth/retirement/cross-namespace snapshot tests execute anew. Prior38 are not relabeled as finalsource executions.",
+  "layout_policy_sha256": "4fdb3942f95662435295091849a624a2cba426105ab646d886a0df45aff1a9fa",
+  "preparation_failure": "First SoA generator stopped on string-layout assertion before writing source;following missing-helper command exited2,zero builds/tests. Receipt in work/real_world-goal/sparse-score-soa-preparation-failure.json. Repaired before any source froze,originalAoS source and its outcomes retained.",
+  "tradeoffs": "Extra index-to-value load,parallel complete-position array and up to8192 cached inactive mappings can increase memory and cold snapshot work. Arena capacity stays at high-water mark. No memory or performance improvement claim before actual comparison.",
+  "native_controls_executed": 0,
+  "java_qualification_run": false,
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "selected_runtime_unchanged": {
+    "native_source_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "original_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a",
+    "targets_met": 1,
+    "required_targets": 2
+  },
+  "next_action": "Use existing authenticated runner-a master after its pending SSH check succeeds. Inspect original hash snapshot/worker/receipts before restarting;then measure frozenSoA capsule once against selected9848 using v36 controls. No AoS timing or repeated completed tests needed.",
+  "original_private_assertion_adaptations": "Original scalar every-write assertion remains4preimages,now in sparse slot frame. Original immediate physical sparse-row removal assertions become unchanged logical absence checks plus8192physical-cache bounds. These are original private storage controls,not upstream adaptations;all logical value/snapshot expectations remain.",
+  "dispatch_readiness": "Frozen capsule prepared only. dispatch-frozen-v36.py checks actual no-job/no-worker/idle-lock state before uploading existing archive and writes separate attempt logs;collect-pilot-v8.py accepts explicit log. Both syntax/probe syntax checked only,not executed. Use only after current recovery92899 authentication and original hash-job inspection."
+}
