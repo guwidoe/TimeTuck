@@ -32,7 +32,7 @@
 mod bound_universes;
 #[cfg(test)]
 mod candidate_capture_tests;
-mod checkpoint_box;
+pub(crate) mod checkpoint_box;
 mod consuming;
 mod consuming_source;
 use checkpoint_box::CheckpointBox;

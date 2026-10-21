@@ -1,8 +1,9 @@
 //! Prepare final integer groups once, then install under reversible map guards.
 use super::*;
+use crate::stream_graph::checkpoint_box::CheckpointBox;
 use std::collections::BTreeMap;
 
-struct GroupJournal {
+pub(super) struct GroupJournal {
     inputs: usize,
     groups: usize,
 }
@@ -96,17 +97,17 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
 
     pub(crate) fn begin_journal_checkpoint(&mut self) -> Box<dyn Any> {
         healthy(self.poisoned);
-        Box::new(GroupJournal {
+        self.checkpoint_box.begin(GroupJournal {
             inputs: self.inputs.begin_journal(),
             groups: self.groups.begin_journal(),
         })
     }
     pub(crate) fn commit_journal_checkpoint(&mut self, checkpoint: Box<dyn Any>) {
-        let saved = checkpoint
-            .downcast::<GroupJournal>()
-            .expect("group journal");
+        let (saved, empty) =
+            CheckpointBox::<GroupJournal>::unpack(checkpoint).expect("group journal");
         self.inputs.commit_journal(saved.inputs);
         self.groups.commit_journal(saved.groups);
+        self.checkpoint_box.recycle(empty);
     }
     pub(crate) fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any>
     where
@@ -119,7 +120,7 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
         if std::mem::needs_drop::<K>() {
             return self.checkpoint();
         }
-        if let Some(saved) = original.downcast_ref::<GroupJournal>() {
+        if let Some(saved) = CheckpointBox::<GroupJournal>::get(original) {
             Box::new(GroupCaptured {
                 inputs: self.inputs.capture_current(saved.inputs),
                 groups: self.groups.capture_current(saved.groups),
@@ -139,11 +140,12 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
                 self.groups.install_capture(saved.groups);
                 self.poisoned = false;
             }
-            Err(checkpoint) => match checkpoint.downcast::<GroupJournal>() {
-                Ok(saved) => {
+            Err(checkpoint) => match CheckpointBox::<GroupJournal>::unpack(checkpoint) {
+                Ok((saved, empty)) => {
                     self.inputs.rollback_journal(saved.inputs);
                     self.groups.rollback_journal(saved.groups);
                     self.poisoned = false;
+                    self.checkpoint_box.recycle(empty);
                 }
                 Err(snapshot) => self.restore(snapshot),
             },
@@ -160,5 +162,82 @@ impl<I: Ord + Clone + 'static, K: Ord + Clone> GroupNode<I, K> {
         } else {
             self.inputs.bind_fixed_extended(count)
         }
+    }
+}
+
+#[cfg(test)]
+mod carrier_tests {
+    use super::*;
+    fn contents<K: Ord + Clone>(node: &GroupNode<usize, K>) -> Vec<(K, usize, i64)> {
+        node.groups()
+            .map(|(k, s)| (k.clone(), s.count, s.sum))
+            .collect()
+    }
+    fn address(saved: &dyn Any) -> usize {
+        CheckpointBox::<GroupJournal>::get(saved).unwrap() as *const GroupJournal as usize
+    }
+    #[test]
+    fn group_checkpoint_carrier_reuse_keeps_nested_captures_full_saves_and_public_modes() {
+        for mode in 0..3 {
+            let mut node = GroupNode::<usize, usize>::new();
+            if mode > 0 {
+                assert!(node.bind_primitive_group_keys());
+                assert!(node.bind_primitive_inputs());
+            }
+            if mode == 2 {
+                node.enable_consumed_collectors();
+            }
+            node.apply(TupleChange::put(0, (0, 1)));
+            node.apply(TupleChange::put(1, (0, 2)));
+            let baseline = vec![(0, 2, 3)];
+            assert_eq!(contents(&node), baseline);
+            let outer = node.begin_journal_checkpoint();
+            let pointer = address(outer.as_ref());
+            node.apply(TupleChange::put(0, (1, 5)));
+            let full = node.checkpoint();
+            let inner = node.begin_journal_checkpoint();
+            assert_ne!(pointer, address(inner.as_ref()));
+            node.apply(TupleChange::retract(1));
+            let captured = node.capture_checkpoint(outer.as_ref());
+            assert_eq!(contents(&node), vec![(1, 1, 5)]);
+            node.commit_journal_checkpoint(inner);
+            node.restore_checkpoint(outer);
+            assert_eq!(contents(&node), baseline);
+            let restore = node.begin_journal_checkpoint();
+            assert_eq!(address(restore.as_ref()), pointer);
+            node.restore_checkpoint(full);
+            assert_eq!(contents(&node), vec![(0, 1, 2), (1, 1, 5)]);
+            node.restore_checkpoint(restore);
+            assert_eq!(contents(&node), baseline);
+            let restore = node.begin_journal_checkpoint();
+            assert_eq!(address(restore.as_ref()), pointer);
+            node.restore_checkpoint(captured);
+            assert_eq!(contents(&node), vec![(1, 1, 5)]);
+            node.restore_checkpoint(restore);
+            assert_eq!(contents(&node), baseline);
+            let committed = node.begin_journal_checkpoint();
+            assert_eq!(address(committed.as_ref()), pointer);
+            node.apply(TupleChange::put(1, (0, 3)));
+            node.commit_journal_checkpoint(committed);
+            assert_eq!(contents(&node), vec![(0, 2, 4)]);
+            let empty = node.begin_journal_checkpoint();
+            assert_eq!(address(empty.as_ref()), pointer);
+            node.restore_checkpoint(empty);
+            assert_eq!(contents(&node), vec![(0, 2, 4)]);
+        }
+        let mut node = GroupNode::<usize, String>::new();
+        node.apply(TupleChange::put(0, ("old".into(), 7)));
+        let outer = node.begin_journal_checkpoint();
+        let pointer = address(outer.as_ref());
+        node.apply(TupleChange::put(0, ("new".into(), 9)));
+        let captured = node.capture_checkpoint(outer.as_ref());
+        node.restore_checkpoint(outer);
+        assert_eq!(contents(&node), vec![("old".into(), 1, 7)]);
+        let restore = node.begin_journal_checkpoint();
+        assert_eq!(address(restore.as_ref()), pointer);
+        node.restore_checkpoint(captured);
+        assert_eq!(contents(&node), vec![("new".into(), 1, 9)]);
+        node.restore_checkpoint(restore);
+        assert_eq!(contents(&node), vec![("old".into(), 1, 7)]);
     }
 }

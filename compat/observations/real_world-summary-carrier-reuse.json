@@ -1,0 +1,161 @@
+{
+  "kind": "real_world-summary-carrier-reuse",
+  "generated_at": "2026-10-21T16:33:14.314315+00:00",
+  "status": "selected;modest native gain;current Java parity unqualified",
+  "native_source_digest": "0b4fcc680d1bd73933ddf6ece3e73322b42991d7577f097e1df293f063ee99a2",
+  "input_sha256": "55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6",
+  "source_snapshot": "0ab8b233c0b3cb955d747afd5bdc4f21bc5c6ae962abe7d3eca62a3ea4a3ad00",
+  "artifact_sha256": "5a19112f10ab4e74c11cb23116ee7a6b5a2e80c2c78ac7b72bdeae7ef60f655d",
+  "mechanism": "Retain direct slot writing and recycle one empty existing CheckpointBox<GroupJournal> per GroupNode. GroupJournal contains only input/group usize tokens. Begin,typed capture,commit and restore use same Option-carrier helper already used by terminals. Inputs/groups finish original commit/rollback before empty carrier recycling;full/delta snapshots unchanged and uncached. Helper visibility becomes crate-private;public GroupNode auto-traits retained by plain owned token fields. New nested/full/current/public/default/primitive/owned/String-key regression drafted.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/summary-carrier-reuse-next-results/real_world-summary-carrier-reuse-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64479.80406873189,
+            63880.41844789827,
+            63980.481717569186,
+            63401.980713267425
+          ],
+          "trial": [
+            64585.27457139388,
+            64061.10512818609,
+            64163.682044750625,
+            64463.603629084944
+          ]
+        },
+        "medians": {
+          "baseline": 63930.45008273373,
+          "trial": 64313.64283691779
+        },
+        "gain_pct": 0.5993900460393498
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            187812.1083010037,
+            182370.53754151752,
+            188272.92976695608,
+            187190.6263463635
+          ],
+          "trial": [
+            189141.12093743152,
+            186966.8245819137,
+            187933.56440118604,
+            188205.56037983196
+          ]
+        },
+        "medians": {
+          "baseline": 187501.3673236836,
+          "trial": 188069.562390509
+        },
+        "gain_pct": 0.3030351591220892
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "summary_slot_write_actual_publication",
+        "--",
+        "--color=never"
+      ],
+      "tests_passed": 1,
+      "seconds": 56.054156914993655,
+      "receipt_sha256": "9254ad99d21f8d8bf15aacec1e2c53457ad27a042d5ec93c23a4c4bbfdd91d74",
+      "log_sha256": "5db9e9cbaa5c29b4556ffc32c6895efc45f2cbe478e7a4f136d97e6bdd4a0d88",
+      "proof_directory": "work/real_world-goal/summary-carrier-reuse-failed-test-fixed1"
+    }
+  ],
+  "test_scope": "18 focused cases pass across original and corrected test sources,plus4 external app tests and lib/example Clippy. Original17 pass/1 failure log remains intact. Final test log creditsonly1actualcorrectedpass. No full suite or upstream credit.",
+  "receipts": {
+    "receipt.json": "50667cafcfa3b8b98989cd5602b1bf94ef8fa8e060c358aa0bdc4a8264ff6dc9",
+    "build-receipt.json": "1fbd52437dd68ad15f384f5dd0207e128a13f65ff2a0cb1128f00d06baeb37d9",
+    "controls.json": "ec1058bf6cf687aaf2836c48fa95994c021d020ca134aeeb188d9f31a5499f3c",
+    "baseline-binding.json": "c80627bd72f92d25662705c54d93df4197bb1bb4edd981fe1712928102f0c540"
+  },
+  "policy": "Selected whole batch Sailing+.59939%(4/4faster),Golfer+.30304%(3/4),16 independently valid outputs. Final actual release byte-identical;production digest unchanged after test-only literal correction. No component gains added/subtracted,no repeated successful checks/timings/Java. OriginalJava5725 historical/stale,0current-source targets qualified;goal incomplete.",
+  "final_equivalence": {
+    "only_change": "Two cfg(test) tuple literals explicitly use usize coordinates; all other crate files and production digest identical.",
+    "pilot_rust_digest": "32322d3b507c1343fe5bc590453bbae0dee4871be9a73a668bac0add40483529",
+    "pilot_production_digest": "55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6",
+    "final_rust_digest": "0b4fcc680d1bd73933ddf6ece3e73322b42991d7577f097e1df293f063ee99a2",
+    "final_production_digest": "55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6",
+    "pilot_artifact_sha256": "5a19112f10ab4e74c11cb23116ee7a6b5a2e80c2c78ac7b72bdeae7ef60f655d",
+    "final_artifact_sha256": "5a19112f10ab4e74c11cb23116ee7a6b5a2e80c2c78ac7b72bdeae7ef60f655d",
+    "byte_identical": true,
+    "pilot_build_receipt_sha256": "1fbd52437dd68ad15f384f5dd0207e128a13f65ff2a0cb1128f00d06baeb37d9"
+  },
+  "new_native_tests_integrated": 2,
+  "current_source_tests_credited": 1,
+  "full_native_gate": false,
+  "pre_test_fix_checks": {
+    "native_source_digest": "32322d3b507c1343fe5bc590453bbae0dee4871be9a73a668bac0add40483529",
+    "production_digest": "55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6",
+    "focused_named_passes": 17,
+    "focused_overall_exit_code": 101,
+    "focused_failed_tests": [
+      "summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts"
+    ],
+    "failure_reason": "New generic test tuple literals inferred i32 middle coordinates instead of required usize;production certification correctly rejected them. Corrected source explicitly types Quad and two literals.",
+    "focused_receipt_sha256": "c5996d8ffb20b039743778b4aab060853b08d15d15a3c14f5eb6da76b46e2774",
+    "focused_log_sha256": "a7a6dc76dcdaf17595575633568c1ff5c8b799a653e77360e45e1e47036aef85",
+    "application_tests_passed": 4,
+    "relevant_receipt": {
+      "exit_code": 0,
+      "snapshot": "a971a7e95819c5ee9b8fd0eb201c4283dc642c6ec6644c11dbc6618ad9cec26e",
+      "rust_digest": "32322d3b507c1343fe5bc590453bbae0dee4871be9a73a668bac0add40483529",
+      "production_digest": "55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6",
+      "source_unchanged": true,
+      "seconds": 19.86583629899542,
+      "runs": [
+        {
+          "label": "clippy",
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--lib",
+            "--example",
+            "real_world_benchmark",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "seconds": 9.164277538016904,
+          "log_sha256": "02b9651db55ca85c0a64212208321945c443011b625ec70594bba9a83a059af9"
+        },
+        {
+          "label": "application",
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--test",
+            "real_world_application_regression",
+            "--",
+            "--color=never"
+          ],
+          "exit_code": 0,
+          "seconds": 10.225490651006112,
+          "log_sha256": "259098b3eea5bb234db6f5b7ecdd65f98c749c9f6965f7430946c757ddcf0ac8"
+        }
+      ],
+      "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+    },
+    "relevant_receipt_sha256": "fdfbd5293e2202f5058f62aa46ac8fca92834100d00650752ef50f3e682f3a20",
+    "scope": "Actual source-bound passes,not relabeled as executions on final source. One failed test alone rerun after fix."
+  }
+}

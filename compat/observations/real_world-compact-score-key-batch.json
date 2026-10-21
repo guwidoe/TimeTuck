@@ -1,0 +1,73 @@
+{
+  "kind": "real_world-compact-score-key-batch",
+  "generated_at": "2026-10-21T16:44:41.607885+00:00",
+  "status": "closed;not integrated;Golfer regression",
+  "native_source_digest": "ae596f49f1b6ca6ade86edbe578e44e57273038dde3f6e97f69dc92b273f3c71",
+  "input_sha256": "ee838fd2133f7f3affc9926c2dffba547244b837362d732bcf38b235437869b2",
+  "source_snapshot": "a51f9e97089860f1b393dcf72316f6051f757243b6c73e64017afcdcc6158a53",
+  "artifact_sha256": "95ee4e8bd52c961a38a231fe3fd4e51e35222f94563a61e6cb49113b57d16a4e",
+  "mechanism": "Summary slot writer plus group checkpoint carrier reuse plus optional boxed sparse score table keyed by exact 64-bit packing of four 15-bit page coordinates and four cell bits. Full stored identities/scores/preimages retained;wide keys use original hash table;hot dense path unchanged. Whole combined source measured,not isolated score-table effect.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/compact-score-key-batch-next-results/real_world-compact-score-key-batch-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            63354.49333734963,
+            64536.800278125294,
+            64000.0818544165,
+            64519.279500301694
+          ],
+          "trial": [
+            64423.593094401054,
+            64555.215688584205,
+            63900.15731844848,
+            64975.34032464419
+          ]
+        },
+        "medians": {
+          "baseline": 64259.680677359094,
+          "trial": 64489.40439149263
+        },
+        "gain_pct": 0.35749277262511203
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            187783.54744433722,
+            189199.0891170148,
+            188244.26592238867,
+            184196.4974961737
+          ],
+          "trial": [
+            187138.39002254655,
+            188595.05569544443,
+            186431.883397859,
+            182779.93518262892
+          ]
+        },
+        "medians": {
+          "baseline": 188013.90668336296,
+          "trial": 186785.1367102028
+        },
+        "gain_pct": -0.6535527051355627
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "checks": [],
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "receipts": {
+    "receipt.json": "1e0f0388a5f60775927f566ec97bc648b726d2339824769bf30e2543b40a3018",
+    "build-receipt.json": "4b711759c10cef6ed0ea6db7305626bf74455c534bf310f9f2ad39391b3a0f1d",
+    "controls.json": "f3cae940e94bd00878fe0523e0a58b0c62f1e3f2cac5032cbec203af63f1f440",
+    "baseline-binding.json": "c80627bd72f92d25662705c54d93df4197bb1bb4edd981fe1712928102f0c540"
+  },
+  "policy": "16 independently validated full outputs. Sailing +.35749% (3/4 faster),Golfer -.65355% (0/4). Reject whole candidate;no isolated component gain,no tests/app/Clippy/Java/retry or current-main credit. Draft regressions remain unrun in preserved prototype."
+}

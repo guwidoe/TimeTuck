@@ -589,6 +589,7 @@ impl<'a, I: Ord + Clone, J: Ord + Clone, L: Clone, R: Clone, K: Ord + Clone>
 pub struct GroupNode<I, K> {
     inputs: group_inputs::GroupInputs<I, (K, i64)>,
     groups: crate::primitive_rows::group_collectors::GroupCollectors<K>,
+    checkpoint_box: crate::stream_graph::checkpoint_box::CheckpointBox<group_batch::GroupJournal>,
     equal_input_reuse: bool,
     owned_input_copy: Option<group_inputs::owned::Copier<(K, i64)>>,
     poisoned: bool,
@@ -636,6 +637,7 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         Self {
             inputs: group_inputs::GroupInputs::new(),
             groups: crate::primitive_rows::group_collectors::GroupCollectors::new(),
+            checkpoint_box: crate::stream_graph::checkpoint_box::CheckpointBox::new(),
             equal_input_reuse: false,
             owned_input_copy: None,
             poisoned: false,

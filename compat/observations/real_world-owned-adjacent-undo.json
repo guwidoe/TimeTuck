@@ -1,0 +1,72 @@
+{
+  "kind": "real_world-owned-adjacent-undo",
+  "generated_at": "2026-10-21T16:18:37.594264+00:00",
+  "status": "closed;Sailing regression;not integrated",
+  "native_source_digest": "6dca7fe493cfb08ba682166a90e60a17882dd4e127de3ec706c6230246527390",
+  "input_sha256": "b79e720b18010684f15125cc970749a2ca05ea6cec6369f3cfe5ad97c6fe3e86",
+  "source_snapshot": "b16cb55fbea0cfd2b1a224c0ad2a9d81d9d090f5245e79baa41115867e9b2026",
+  "artifact_sha256": "9923edbed6362cca8b54f2a0c3c5ad52bb7b713b920561c1c6c35299a1164855",
+  "mechanism": "Only adjacent scalar records in current private boxed-collector journal may cancel exact inverse values at identical full position. Row and other-key records are barriers. Compact positions compare directly;wide positions decode full coordinates. No owner hints or normal-history offsets. All forward edits,calls,summaries,overflow and rollback contracts retained. Canceled metadata has no user owners;unused wide-position slots remain private.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/owned-adjacent-undo-next-results/real_world-owned-adjacent-undo-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64400.58952440344,
+            64203.0707180557,
+            64362.99696438404,
+            64528.338122096204
+          ],
+          "trial": [
+            62938.671200556135,
+            63702.98745260522,
+            64343.216028387746,
+            63853.74379345168
+          ]
+        },
+        "medians": {
+          "baseline": 64381.79324439374,
+          "trial": 63778.365623028454
+        },
+        "gain_pct": -0.9372643894441812
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            189488.74882933902,
+            186670.43181202066,
+            189776.01341253467,
+            187987.65948955817
+          ],
+          "trial": [
+            188858.8508791828,
+            189756.07675922246,
+            190570.65751615344,
+            189176.34622188064
+          ]
+        },
+        "medians": {
+          "baseline": 188738.2041594486,
+          "trial": 189466.21149055153
+        },
+        "gain_pct": 0.38572335386211076
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "checks": [],
+  "test_scope": "No Rust tests/app/Clippy/full suite/Java on rejected source. Dedicated draft actual-box/wide/capture/barrier/nested tests retained but unrun,with no test credit.",
+  "receipts": {
+    "receipt.json": "926d3877a5365d570ba41aa3ed166b6fcfaa31cb3ddf78b0947fd58101e3a668",
+    "build-receipt.json": "6c3cd78821330b625b43db134a4fae52ac87ed9dda32f028d15692582c083dad",
+    "controls.json": "be5a5581e6bb49e9a4b5b3716a6b1c218f5688cc6b8427a685978bfe94f2cbde",
+    "baseline-binding.json": "c80627bd72f92d25662705c54d93df4197bb1bb4edd981fe1712928102f0c540"
+  },
+  "policy": "Sailing-.9373%,all4slower;Golfer+.3857%,3/4faster. Close unchanged with16 independently valid outputs. No further checks,timing retry or integration. Current main664745f runtime and Java5725 report stay unchanged;goal incomplete."
+}

@@ -460,3 +460,90 @@ fn direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_
         Kind::Quad,
     );
 }
+
+#[test]
+fn summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts() {
+    let mut lane = Lanes::default();
+    let mut pending = VecDeque::new();
+    let edges = [
+        Edge {
+            node: 3,
+            right: false,
+        },
+        Edge {
+            node: 4,
+            right: true,
+        },
+    ];
+    let first_pair = (usize::MAX, usize::MAX - 1);
+    let first_quad: Quad = (usize::MAX, 1, 2, 3);
+    let mut expected_pair = summary(i64::MIN);
+    expected_pair.distinct_count = usize::MAX;
+    expected_pair.min = None;
+    let mut expected_quad = summary(i64::MAX);
+    expected_quad.count = usize::MAX;
+    expected_quad.max = None;
+    lane.publish(
+        TupleChange::put(first_pair, expected_pair),
+        &edges,
+        &mut pending,
+    );
+    lane.publish(
+        TupleChange::put(first_quad, expected_quad),
+        &edges,
+        &mut pending,
+    );
+    let pair_ptr = lane.pairs.get(0) as *const PairChange as usize;
+    let quad_ptr = lane.quads.get(0) as *const QuadChange as usize;
+    for i in 0..CHUNK * 3 + 5 {
+        lane.publish(
+            TupleChange::put((i, usize::MAX - i), summary(i as i64)),
+            &edges,
+            &mut pending,
+        );
+        lane.publish(
+            TupleChange::put((i, 1usize, 2usize, usize::MAX - i), summary(-(i as i64))),
+            &edges,
+            &mut pending,
+        );
+    }
+    assert_eq!(lane.pairs.get(0) as *const PairChange as usize, pair_ptr);
+    assert_eq!(lane.quads.get(0) as *const QuadChange as usize, quad_ptr);
+    assert_eq!(
+        lane.pair(0).typed::<Pair, (Pair, IntSummary)>(),
+        &TupleChange::put(first_pair, (first_pair, expected_pair))
+    );
+    assert_eq!(
+        lane.quad(0).typed::<Quad, (Quad, IntSummary)>(),
+        &TupleChange::put(first_quad, (first_quad, expected_quad))
+    );
+    for expected in [3, 4, 3, 4] {
+        assert_eq!(pending.pop_front().unwrap().0.node, expected);
+    }
+    let pair_chunks = lane.pairs.chunks.len();
+    let quad_chunks = lane.quads.chunks.len();
+    pending.clear();
+    lane.clear();
+    lane.publish(
+        TupleChange::<Pair, IntSummary>::retract(first_pair),
+        &edges,
+        &mut pending,
+    );
+    lane.publish(
+        TupleChange::<Quad, IntSummary>::retract(first_quad),
+        &edges,
+        &mut pending,
+    );
+    assert_eq!(lane.pairs.chunks.len(), pair_chunks);
+    assert_eq!(lane.quads.chunks.len(), quad_chunks);
+    assert_eq!(lane.pairs.get(0) as *const PairChange as usize, pair_ptr);
+    assert_eq!(lane.quads.get(0) as *const QuadChange as usize, quad_ptr);
+    assert_eq!(
+        lane.pair(0).typed::<Pair, (Pair, IntSummary)>(),
+        &TupleChange::retract(first_pair)
+    );
+    assert_eq!(
+        lane.quad(0).typed::<Quad, (Quad, IntSummary)>(),
+        &TupleChange::retract(first_quad)
+    );
+}

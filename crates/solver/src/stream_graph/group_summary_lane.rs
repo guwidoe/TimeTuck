@@ -75,6 +75,17 @@ impl<T> Default for Arena<T> {
     }
 }
 impl<T> Arena<T> {
+    #[inline(always)]
+    fn push_with(&mut self, empty: fn() -> T, write: impl FnOnce(&mut T)) -> usize {
+        let index = self.len;
+        if index / CHUNK == self.chunks.len() {
+            self.chunks.push(Box::new(std::array::from_fn(|_| empty())));
+        }
+        write(&mut self.chunks[index / CHUNK][index % CHUNK]);
+        self.len += 1;
+        index
+    }
+    #[cfg(test)]
     fn push(&mut self, row: T, empty: fn() -> T) -> usize {
         let index = self.len;
         if index / CHUNK == self.chunks.len() {
@@ -105,24 +116,34 @@ impl Lanes {
         pending: &mut VecDeque<(Edge, QueuedEvent)>,
     ) {
         let key = change.id.clone();
-        let enriched = TupleChange {
-            id: change.id,
-            value: change.value.map(|summary| (key, summary)),
-        };
         match kind::<K>().expect("certified summary producer") {
             Kind::Pair => {
-                let row = (&enriched as &dyn Any)
-                    .downcast_ref::<PairChange>()
-                    .unwrap()
-                    .clone();
-                self.put_pair(row, edges, pending);
+                let id = *(&change.id as &dyn Any).downcast_ref::<Pair>().unwrap();
+                let value_key = *(&key as &dyn Any).downcast_ref::<Pair>().unwrap();
+                let index = self.pairs.push_with(
+                    || TupleChange::retract((0, 0)),
+                    |slot| {
+                        slot.id = id;
+                        slot.value = change.value.map(|summary| (value_key, summary));
+                    },
+                );
+                for &edge in edges {
+                    pending.push_back((edge, QueuedEvent::PairSummary(index)));
+                }
             }
             Kind::Quad => {
-                let row = (&enriched as &dyn Any)
-                    .downcast_ref::<QuadChange>()
-                    .unwrap()
-                    .clone();
-                self.put_quad(row, edges, pending);
+                let id = *(&change.id as &dyn Any).downcast_ref::<Quad>().unwrap();
+                let value_key = *(&key as &dyn Any).downcast_ref::<Quad>().unwrap();
+                let index = self.quads.push_with(
+                    || TupleChange::retract((0, 0, 0, 0)),
+                    |slot| {
+                        slot.id = id;
+                        slot.value = change.value.map(|summary| (value_key, summary));
+                    },
+                );
+                for &edge in edges {
+                    pending.push_back((edge, QueuedEvent::QuadSummary(index)));
+                }
             }
         }
     }
@@ -138,6 +159,7 @@ impl Lanes {
     pub(super) fn quad(&self, index: usize) -> SummaryRef<'_> {
         SummaryRef::Quad(self.quads.get(index))
     }
+    #[cfg(test)]
     fn put_pair(
         &mut self,
         row: PairChange,
@@ -149,6 +171,7 @@ impl Lanes {
             pending.push_back((edge, QueuedEvent::PairSummary(index)));
         }
     }
+    #[cfg(test)]
     fn put_quad(
         &mut self,
         row: QuadChange,

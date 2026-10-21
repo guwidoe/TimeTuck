@@ -1,0 +1,72 @@
+{
+  "kind": "real_world-summary-slot-write",
+  "generated_at": "2026-10-21T16:33:14.313767+00:00",
+  "status": "component integrated through selected summary/carrier batch;standalone timings remain historical",
+  "native_source_digest": "a807e5b1a6dafe75cc5ab5b990cbb5936c60384a3af8f928859e324b7cb4e160",
+  "input_sha256": "9db50357135f178bd7d7d5e5729e78b484c96a729f7fcf4a0fb8aac919144b18",
+  "source_snapshot": "98f53361def9715d588fc60748d6559b3f707775df0e4e2766eb8e5485ab5fd0",
+  "artifact_sha256": "5abcc68b9ee9471738084fdfc6d1eb6b475de1858c8c6ba9aa24c3515b07a752",
+  "mechanism": "Write full Pair/Quad summary arena fields in existing stable chunk slot after exact key-only type erasure;remove materialized enriched-row clone and by-value put helper. Original key clone,full fields,chunk growth,len publication after complete fill,FIFO/fanout/guard/input publication remain. Retained staged helpers become cfg(test);new production-path growth/reuse regression drafted.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/summary-slot-write-next-results/real_world-summary-slot-write-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64043.37412308957,
+            64093.33556709649,
+            63893.90678023194,
+            64028.80339639612
+          ],
+          "trial": [
+            64201.98892383195,
+            64160.63614288002,
+            64116.04543419295,
+            64786.64668931381
+          ]
+        },
+        "medians": {
+          "baseline": 64036.088759742845,
+          "trial": 64181.31253335599
+        },
+        "gain_pct": 0.22678426560061027
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            182226.01598255325,
+            186566.1750326504,
+            186255.900675377,
+            182494.69574437974
+          ],
+          "trial": [
+            189438.15889759405,
+            185323.12099463269,
+            187157.21023565755,
+            188142.4071060681
+          ]
+        },
+        "medians": {
+          "baseline": 184375.29820987838,
+          "trial": 187649.8086708628
+        },
+        "gain_pct": 1.7760028012304474
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "checks": [],
+  "test_scope": "No Rust test pass credit on these sources. Original native regressions are drafted/frozen but unrun until useful whole-batch result.",
+  "receipts": {
+    "receipt.json": "d783df7305e052f995567e20032d2bfc4410528398fc40279a0c5e9d3b242474",
+    "build-receipt.json": "5613cb6b8ddcea4f48ad4b29defc4ddb27db95b6f5c0358f0d0b8d77116dab05",
+    "controls.json": "babd23420d237c4fcb1336e8b9398f24b997a6d432834a545bdba6ca371cdb88",
+    "baseline-binding.json": "c80627bd72f92d25662705c54d93df4197bb1bb4edd981fe1712928102f0c540"
+  },
+  "policy": "Standalone Sailing+.2268%,all4faster;Golfer+1.7760%,3/4faster,16valid. Small Sailing signal retained only as component of measured carrier batch;no Rust tests/app/Clippy/full suite/Java or integration on standalone source. Selected combined runtime and actual checks are recorded separately in real_world-summary-carrier-reuse.json;no standalone test execution credit."
+}

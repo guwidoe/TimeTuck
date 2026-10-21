@@ -19,7 +19,29 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The selected consumed-graph collector backend owns each mutable integer
+The current selected batch writes complete numeric group summaries directly
+into existing stable arena slots and reuses one empty checkpoint carrier per
+group node. It retains full IDs/payloads, scalar FIFO/fanout, callbacks, arithmetic
+checks and nested/full/current rollback. Public/custom paths keep their contracts.
+Actual four rotating native3s pairs measured **Sailing +0.599% (4/4 faster),
+Golfer +0.303% (3/4)**; all16 outputs independently validated. This is a small
+native improvement, not Java parity or an additive component estimate.
+
+Selected native source is
+`0b4fcc680d1bd73933ddf6ece3e73322b42991d7577f097e1df293f063ee99a2`,
+production `55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6`,
+artifact `5a19112f10ab4e74c11cb23116ee7a6b5a2e80c2c78ac7b72bdeae7ef60f655d`.
+18 focused cases pass across two test sources, plus4 application tests and
+lib/example Clippy. The first run had17 passes and one new test fixture failure:
+generic tuple literals inferred i32 coordinates. Only that test was rerun after
+explicit usize annotations. Its actual final-source log credits1 pass; the
+original failed-run log and successful checks remain source-bound. Actual final
+release is byte-identical to the measured binary and production digest unchanged.
+No repeated successful checks/timings, full suite or upstream-method credit.
+Original Java5725 remains historical/stale; neither current-source target is
+qualified. Goal remains active. [Evidence](../compat/observations/real_world-summary-carrier-reuse.json).
+
+The preceding consumed-graph collector backend owns each mutable integer
 collector in a box and records scalar and structural undo in one ordered journal.
 Canonical keys retain their Arc owners; full and delta observations copy collector
 values. Exact builtin I/K and empty ownership-consumed graph activation keep the

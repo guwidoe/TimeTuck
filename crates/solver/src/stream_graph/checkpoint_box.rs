@@ -4,30 +4,30 @@ use std::any::Any;
 
 type UnpackedCheckpoint<T> = Result<(T, Box<Option<T>>), Box<dyn Any>>;
 
-pub(super) struct CheckpointBox<T> {
+pub(crate) struct CheckpointBox<T> {
     spare: Option<Box<Option<T>>>,
 }
 impl<T: 'static> CheckpointBox<T> {
-    pub(super) fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self { spare: None }
     }
-    pub(super) fn begin(&mut self, value: T) -> Box<dyn Any> {
+    pub(crate) fn begin(&mut self, value: T) -> Box<dyn Any> {
         let mut saved = self.spare.take().unwrap_or_else(|| Box::new(None));
         *saved = Some(value);
         saved
     }
-    pub(super) fn get(saved: &dyn Any) -> Option<&T> {
+    pub(crate) fn get(saved: &dyn Any) -> Option<&T> {
         saved
             .downcast_ref::<Option<T>>()
             .map(|saved| saved.as_ref().expect("active journal checkpoint"))
     }
-    pub(super) fn unpack(saved: Box<dyn Any>) -> UnpackedCheckpoint<T> {
+    pub(crate) fn unpack(saved: Box<dyn Any>) -> UnpackedCheckpoint<T> {
         saved.downcast::<Option<T>>().map(|mut saved| {
             let value = saved.take().expect("active journal checkpoint");
             (value, saved)
         })
     }
-    pub(super) fn recycle(&mut self, saved: Box<Option<T>>) {
+    pub(crate) fn recycle(&mut self, saved: Box<Option<T>>) {
         assert!(saved.is_none(), "recycle only an empty journal carrier");
         self.spare = Some(saved);
     }

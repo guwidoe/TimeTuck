@@ -31,7 +31,29 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-The selected consumed-graph collector backend owns each mutable integer
+The current selected batch writes complete numeric group summaries directly
+into existing stable arena slots and reuses one empty checkpoint carrier per
+group node. It retains full IDs/payloads, scalar FIFO/fanout, callbacks, arithmetic
+checks and nested/full/current rollback. Public/custom paths keep their contracts.
+Actual four rotating native3s pairs measured **Sailing +0.599% (4/4 faster),
+Golfer +0.303% (3/4)**; all16 outputs independently validated. This is a small
+native improvement, not Java parity or an additive component estimate.
+
+Selected native source is
+`0b4fcc680d1bd73933ddf6ece3e73322b42991d7577f097e1df293f063ee99a2`,
+production `55e146abc739fea5f4d7ef99ac09bd7866cc9607fc5586911daae41993980cf6`,
+artifact `5a19112f10ab4e74c11cb23116ee7a6b5a2e80c2c78ac7b72bdeae7ef60f655d`.
+18 focused cases pass across two test sources, plus4 application tests and
+lib/example Clippy. The first run had17 passes and one new test fixture failure:
+generic tuple literals inferred i32 coordinates. Only that test was rerun after
+explicit usize annotations. Its actual final-source log credits1 pass; the
+original failed-run log and successful checks remain source-bound. Actual final
+release is byte-identical to the measured binary and production digest unchanged.
+No repeated successful checks/timings, full suite or upstream-method credit.
+Original Java5725 remains historical/stale; neither current-source target is
+qualified. Goal remains active. [Evidence](../compat/observations/real_world-summary-carrier-reuse.json).
+
+The preceding consumed-graph collector backend owns each mutable integer
 collector in a box and records scalar and structural undo in one ordered journal.
 Canonical keys retain their Arc owners; full and delta observations copy collector
 values. Exact builtin I/K and empty ownership-consumed graph activation keep the
@@ -74,9 +96,24 @@ helpers account for about6% self samples. The held-page experiment65762/d1be
 removes duplicate lookups while preserving scalar/structural order, but is closed:
 Sailing+.456%(2/4faster),Golfer-1.603%(all4slower),16valid outputs. No Rust tests,
 Clippy,app,Java or integration on that source. Main664745f unchanged. A separate
-adjacent-scalar undo cancellation in the new ordered boxed journal is being
-measured;actual handles remain in ignored active state. No unchanged retry.
-Proof: `compat/observations/real_world-owned-collector-held-page.json`.
+adjacent-scalar undo cancellation in the new ordered boxed journal6dca/b79e is
+also closed:16valid outputs,Sailing-.937%(all4slower)/Golfer+.386%(3/4faster).
+No further checks or retry. Do not reopen old shared-owner cancellation caches
+or sparse HashMap prepared-entry trials unchanged. Direct summary-arena slot
+writinga807/9db5 measured Sailing+.227%(4/4faster)/Golfer+1.776%(3/4),16valid.
+The whole summary/carrier batch is now integrated as described above.
+The compact-score-key whole batchae596/ee838 was closed:16 valid outputs,
+Sailing+.357%(3/4 faster),Golfer-.654%(0/4). No tests/app/Clippy/Java or retry
+on that rejected source. Both final summary jobs are terminal/collected.
+Before another incremental pilot update genuine v31 baseline binding to selected
+0b4fcc/55e146/5a1911 with its actual final release/equivalence and original controls;
+do not rekey old receipts. No new subagents;local+runner-a,EFSparked.
+Proofs: `compat/observations/real_world-owned-collector-held-page.json` and
+`compat/observations/real_world-owned-adjacent-undo.json`.
+
+Measured component proofs:
+`compat/observations/real_world-summary-slot-write.json` and
+`compat/observations/real_world-summary-carrier-reuse.json`.
 
 Preceding selected batch: outline the existing Triple join publisher loop and make direction
 constant per call. Same original scratch Vec, complete rows, Event construction,
