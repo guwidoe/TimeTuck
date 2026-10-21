@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-indexed-join-row-visit-investigation",
+  "generated_at": "2026-10-21T11:29:04.070912+00:00",
+  "status": "measured Sailing gain/Golfer regression tradeoff; retained candidate, no main integration",
+  "native_source_digest": "be0dd48d7894d5c9271fc98bcb9bb816716f7bcb53a8996804faac7c710251f9",
+  "input_sha256": "e0b5df5134bc70b63aa6b0341402f8178e5f49641423ca06c06567adcd56ea19",
+  "source_snapshot": "9dff3a14ac2f93ad70c05ec4927391e96873c8941fdfac129316fede0ca8a38d",
+  "artifact_sha256": "3c77326fe714bef83d97cea3cc204d99632080efa170d0a93718e9a4b073b438",
+  "mechanism": "Paired complete fixed equality row/index bindings share one numeric slot universe. Matching bucket-bit traversal passes the already known position with the identical canonical ID reference, so put output reads the corresponding FixedRows cell without remapping the ID. Original full-bucket reservation, left/right ID clones, payload clone order, install/journal/poison phases, retractions, custom/ordered/unbound fallbacks and owners remain. No metadata/cache/event/storage changes. Unlike the rejected static-join-read mapper specialization, this removes the redundant mapping operation entirely.",
+  "focused": {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "incremental_stream::join_",
+      "--",
+      "--color=never"
+    ],
+    "tests_passed": 30,
+    "seconds": 122.41742512700148,
+    "receipt_sha256": "6772e1f027252a6607ce4f4494a1aa49fbc1d98cfafbbf0e79c62155004f30fd",
+    "full_suite": false,
+    "scope": "Relevant incremental_stream::join_ tests only. New native regression proves zero redundant mapper calls, full results, same canonical references, reservation before delivery, word boundaries, missing/extreme keys, holes, saved captures, install and rollback. Existing projection/Clone/Drop/panic and all-relations fallback controls pass."
+  },
+  "native_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; all16 assignments independently validated.",
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            58719.70168362797,
+            59946.909535737424,
+            59045.67107879469,
+            59704.69323932722
+          ],
+          "trial": [
+            60200.094344805155,
+            60312.709879089714,
+            60173.012325729935,
+            60992.73364411336
+          ]
+        },
+        "medians": {
+          "baseline": 59375.182159060954,
+          "trial": 60256.402111947435
+        },
+        "gain_pct": 1.4841553673482055
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            180760.37885663466,
+            180685.27673185503,
+            179977.86857396606,
+            180720.322720698
+          ],
+          "trial": [
+            179181.0550115028,
+            174486.3097751094,
+            178959.1489823689,
+            177465.5751607993
+          ]
+        },
+        "medians": {
+          "baseline": 180702.7997262765,
+          "trial": 178212.3620715841
+        },
+        "gain_pct": -1.3781953895926735
+      }
+    },
+    "build_receipt_sha256": "a0bd1d2677beec2001ef762a06e969b9d7690052e493f79d02bfe643374fa609",
+    "receipt_sha256": "b57f180e58f5357cbf4c991b0f435024707e09b9b411297a70d0c89e91666063",
+    "controls_sha256": "e724e89d2e927b9fc9f4df98c956a0caad999dd4435aed6423128eb05a8909f2"
+  },
+  "decision": "Sailing+1.484155% every4 pairs; Golfer-1.378195% every4 pairs. Retain explicit tradeoff without integration while pursuing group producer overhead. Original Java target is both at parity, not both gains relative to native baseline; Golfer headroom on this candidate is unproved until the frozen Java matrix is actually run. No extrapolated Java ratios or summed native gains.",
+  "baseline": {
+    "native_source_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+    "input_sha256": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+    "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e"
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Main9c24839/ab916 runtime and its focused evidence unchanged. No full suite, Clippy, application regressions or Java qualifier on this unintegrated tradeoff. Frozen model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy. Local+runner-a, runner-c parked; no new agents. Historical Java866338 unchanged/stale. Do not repeat unchanged measurements.",
+  "proof_directory": "work/real_world-goal/indexed-row-visit-ab916-next-results"
+}

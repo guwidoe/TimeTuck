@@ -85,7 +85,6 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             node: GroupNode::<I, K>::new(),
             mapping: Box::new(mapping),
             marker: PhantomData,
-            summary_staging: [None, None],
         }));
         self.connect(input.node, out.node, false);
         Ok(out)

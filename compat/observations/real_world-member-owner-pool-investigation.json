@@ -1,0 +1,91 @@
+{
+  "kind": "real_world-member-owner-pool-investigation",
+  "generated_at": "2026-10-21T11:22:25.976357+00:00",
+  "status": "closed; both workloads effectively flat, no main runtime integration",
+  "native_source_digest": "95493e429f2a68fd54db5feb73fa1f7652f4e0cb8df3cc0b9e9bec1084d170b2",
+  "input_sha256": "ae88c71d3c1278eb0371d6a37be0d2be8daf64ce8808e59750480f006b67724d",
+  "source_snapshot": "e39d9c4b598b21f0062120d78d1656378eb52618be83103f9a006e0180aa1b42",
+  "artifact_sha256": "aebc27797c387690fef0fc2af72f2eb230687f48f124a1d8e7a7807584448efa",
+  "mechanism": "Whole ownership-consumed exact numeric member joins retain a bounded per-side cache of individual Rc allocations. Reuse only via Rc::get_mut, proving strong AND Weak uniqueness; monotonically scan once per publication, preserve busy/weak-held cells, and allocate original fresh owners above the cache bound. Original full row preparation, orientation, per-row Shared owner, queue/FIFO/fanout, filter/terminal input signatures, callbacks, journal and error phases remain. Public/retaining/forced-shared routes use original owners. No Event/queue/carrier width or production vtable entry changes.",
+  "tradeoff": "Additional optional per-join buffer state and at most64KiB nominal owner-cell budget per side, plus original scratch buffers. Retained numeric owners are private; live strong/Weak references prevent overwrite. Extra reference-count and scan work may offset allocation savings. No universal memory/speed claim.",
+  "focused": {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "stream_graph::",
+      "--",
+      "--color=never"
+    ],
+    "tests_passed": 226,
+    "seconds": 72.67550270797801,
+    "receipt_sha256": "7951f6d36a6744843224a71a86dd5d761d0e3d2953514294c918d29dc87279b1",
+    "full_suite": false,
+    "scope": "Two new original tests prove actual owner reuse, busy/Weak preservation, bounded growth, full/MAX fields, right orientation/fanout, original72/24/40/16-byte layouts; real consumed graph vs cold/wide/public/forced-shared/retaining modes preserves callback traces, score/work, captures/nesting, errors/overflow/panic and retry. No upstream adaptation credit."
+  },
+  "native_controls": {
+    "qualified": false,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; all16 assignments independently validated.",
+    "valid_outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            60623.46131158357,
+            59731.4559635131,
+            61083.6567611256,
+            59316.22896896547
+          ],
+          "trial": [
+            60221.72453332978,
+            60445.25368276402,
+            59327.29725678946,
+            60645.63989320505
+          ]
+        },
+        "medians": {
+          "baseline": 60177.458637548334,
+          "trial": 60333.4891080469
+        },
+        "gain_pct": 0.2592839146603909
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            179289.6383852876,
+            178251.98767929024,
+            180546.62923164092,
+            178508.90142189182
+          ],
+          "trial": [
+            178929.83395863525,
+            178650.76994070323,
+            175045.1078431725,
+            179407.99371266484
+          ]
+        },
+        "medians": {
+          "baseline": 178899.2699035897,
+          "trial": 178790.30194966926
+        },
+        "gain_pct": -0.060910228409083444
+      }
+    },
+    "build_receipt_sha256": "9d6e945249cbc719af519832bfdade169572f481017270e183e90b18400fa497",
+    "receipt_sha256": "d04b3012070979d43e222ffb0ceef554c1d1e2fe57d551b095bf316e30893527",
+    "controls_sha256": "46cb2cdbea873c155178eff8c302ff26972b26bc9e93e05f215c67eed6a354b4"
+  },
+  "baseline": {
+    "native_source_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+    "input_sha256": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+    "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e"
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "integrated_native_tests": 0,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Main9c24839/ab916 runtime and focused evidence unchanged. Frozen model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy. No Clippy/application/full-suite/Java qualifier rerun for this flat variant. Local+runner-a, runner-c parked; no new agents. Historical Java866338 report remains unchanged/stale. Do not repeat this implementation unchanged.",
+  "proof_directory": "work/real_world-goal/member-owner-pool-ab916-next-results"
+}

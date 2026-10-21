@@ -19,19 +19,38 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current selected optimization defers graph-total score probes until each
+The current selected optimization publishes full numeric group summaries
+directly from the existing finish continuation, removing the two-row per-node
+staging buffer. Same stable row chunks, queue/FIFO/fanout and logical callbacks,
+counts, arithmetic, capture and rollback; public/custom/retaining/batched paths
+remain. Pure numeric publication precedes library local drops and evaluation-guard
+completion, with downstream callbacks still after return. The old staged publisher
+is retained solely as a differential test reference.
+
+Actual rotating native controls measured **+2.536% Sailing /+2.315% Golfer**,
+every pair faster, all 16 outputs independently valid. These are bounded native
+measurements and establish no current Java parity. Exact source passes 225 graph
+checks, 4 external RealWorld application regressions and lib/example Clippy;
+current 229 named results come from the two genuine source-bound focused logs.
+**No full suite ran.** Previous focused/full evidence stays bound to its own
+sources. Original Java866338 is unchanged/stale; the performance goal is incomplete.
+[Selected source and receipts](../compat/observations/real_world-direct-group-publication.json).
+
+The following describes the previous selected deferred-total baseline.
+
+The previous selected optimization defers graph-total score probes until each
 propagation finishes, while retaining every terminal event, callback, accounting
 and arithmetic check. It measured **+1.147% Sailing /+1.241% Golfer** in rotating
 native controls; all 16 outputs independently validated. These are modest native
 measurements, not new Java parity. Public/custom-score/probe-None paths remain.
 [Source-bound evidence](../compat/observations/real_world-deferred-terminal-totals.json).
 
-Following the latest user testing policy, current verification is **224 passing
+Following the latest user testing policy, that source’s verification is **224 passing
 graph-focused Cargo tests and lib/RealWorld example Clippy**, with no full-suite
 rerun. Two original native regressions add no upstream-method credit. The raw
 concurrent diagnostic log leaves 217 named passes parseable; the actual 224-pass
-Cargo summary and all original receipts remain. The dashboard credits only the
-217 current named results. The earlier full-suite evidence is preserved for its
+Cargo summary and all original receipts remain. That source credited only its
+217 parseable named results. The earlier full-suite evidence is preserved for its
 previous source, rather than relabeled. Upstream4412 adaptations remain declared
 with 0 pending; current unverified methods are not newly failed or unimplemented.
 

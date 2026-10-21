@@ -300,19 +300,20 @@ impl<S: AdditiveScore> GraphTransaction<'_, '_, S> {
                     }
                     continue;
                 }
-                if self.graph.consuming_search
-                    && let Some(kind) = self.graph.group_summary_lanes[id]
-                {
+                if self.graph.consuming_search && self.graph.group_summary_lanes[id].is_some() {
                     let edges = &self.graph.edges[id];
-                    let output = {
+                    {
                         let _count = ScoreEvaluationDelta::new(
                             self.graph.score_evaluation_counters[id].as_ref(),
                             &mut self.score_evaluations,
                         );
-                        self.graph.nodes[id].apply_group_summary(event)
-                    };
-                    debug_assert_eq!(output.kind(), kind);
-                    output.publish(edges, pending, summary_arena);
+                        self.graph.nodes[id].apply_group_summary(
+                            event,
+                            edges,
+                            pending,
+                            summary_arena,
+                        );
+                    }
                     continue;
                 }
                 if self.graph.consuming_search && self.graph.join_output_nodes[id] {

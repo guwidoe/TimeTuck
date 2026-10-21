@@ -28,7 +28,61 @@ Latest user testing policy: run only directly relevant tests and compile checks;
 no full suites unless explicitly requested. The completed suite below predates
 that update and must not be repeated on commit or integration.
 
-Selected batch: drain-local deferred terminal totals. Only whole ownership-
+Selected batch: direct group summary publication. Certified consumed numeric
+Pair/Quad groups publish original full outputs from the existing finish
+continuation, eliminating the two-row per-node staging array. Same stable chunks,
+full payloads, queue/FIFO/fanout and logical callbacks/work/arithmetic. Numeric
+publication now precedes remaining pure library local drops and evaluation-guard
+completion; no consumer callback runs before return/guard completion. Public,
+custom, retaining and batched paths keep ordinary publication. The staged
+publisher remains a test-only differential reference, not current runtime.
+
+Native `ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec`;
+production `218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d`;
+snapshot `e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886`;
+artifact `874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c`.
+Actual runner-a rotating3s seed7 native controls measured **+2.536% Sailing /
++2.315% Golfer**, every 4 pairs faster in each; all 16 outputs independently valid.
+No Java qualification or additive/extrapolated gain. Proof:
+`compat/observations/real_world-direct-group-publication.json` and
+`work/real_world-goal/direct-group-publish-ab916-next-results/`.
+
+Actual 225 graph tests +4 RealWorld application regressions and lib/example
+Clippy pass on that exact source. One new original differential regression adds
+no upstream-method credit. **No full suite ran.** The focused assembler preserves
+both actual job logs byte-for-byte, after validating their unchanged source,
+commands, checksums and successful receipts; current log credits 229 named passes,
+including all 4 separately declared external cases. Previous actual ab916 focused
+log/metadata is preserved in this proof, not relabeled. Original Java866338 remains
+byte-identical/stale: historical G1.467427x/S.730242x,12 valid; current 0 targets proven.
+Original 4412 adaptations/0pending/443excluded remain; current unverified does not
+mean reopened implementation. Goal active/incomplete; do not rerun resolved checks
+for a commit/reset. Local+runner-a; runner-c parked, no new agents.
+
+Closed owner-cache trial: bounded per-side individual Rc reuse requires strong
+and Weak uniqueness, preserving original Event/queue/carrier widths. Actual
+226 graph tests and 16 outputs passed, but Sailing+.259%/Golfer-.061% was flat;
+not integrated, no additional Clippy/application/full-suite/Java checks. Proof:
+`compat/observations/real_world-member-owner-pool-investigation.json`.
+Retained slot-reuse tradeoff: use the matching fixed-index bitposition directly
+instead of remapping its ID. 30 relevant join tests/16 valid outputs; Sailing
++1.484% every 4 pairs, Golfer-1.378% every 4. Not integrated. This differs from old
+static mapper specialization. Immutable source/proof is in
+`compat/observations/real_world-indexed-join-row-visit-investigation.json`.
+A combined direct-group + indexed-row candidate may be measured next as a whole;
+never add their separate gains or rerun either unchanged trial. Use only relevant
+join/graph-publisher/application checks for new integration, not a full suite.
+
+Future diagnostics: `pilot-v27-artifact-{remote,dispatch}.py` and
+`pilot-v27-master-dispatch.py` embed this actual ec026/218/874a release and 16-output
+baseline, plus genuine 225+4 focused/Clippy receipts with full_native_gate false.
+Helpers syntax-check, unrun. v26 stays immutable for ab916 controls. Do not
+rebuild or reverify the unchanged selected baseline for commit/reset.
+
+The following deferred-totals baseline is historical. Its runtime,
+focused evidence and native observations remain preserved for their own source.
+
+Previous batch: drain-local deferred terminal totals. Only whole ownership-
 consuming graphs with existing builtin-score metadata enter. Each terminal's
 starting total is captured on its first event; its final total is read after the
 queue succeeds. Every callback/event/guard/counter and terminal arithmetic check

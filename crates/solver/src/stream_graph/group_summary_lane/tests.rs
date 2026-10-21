@@ -100,7 +100,9 @@ fn group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandone
     ];
     let mut pending = VecDeque::new();
     let mut lane = Lanes::default();
-    GroupOutput::new(&mut raw).publish(&edges, &mut pending, &mut lane);
+    let staged = GroupOutput::new(&mut raw);
+    assert_eq!(staged.kind(), Kind::Pair);
+    staged.publish(&edges, &mut pending, &mut lane);
     assert!(raw.iter().all(Option::is_none));
     for (node, index) in [(3, 0), (4, 0), (3, 1), (4, 1)] {
         let (edge, queued) = pending.pop_front().unwrap();
@@ -375,4 +377,86 @@ fn group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback() {
         .unwrap();
     assert!(Arc::ptr_eq(&owners[0].1, &now.shared_entries()[0].1));
     assert!(weak.upgrade().is_some());
+}
+
+#[test]
+fn direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo() {
+    fn compare<K: Clone + 'static>(rows: [Option<TupleChange<K, IntSummary>>; 2], kind: Kind) {
+        for fanout in [0usize, 1, 3] {
+            let edges: Vec<_> = (0..fanout)
+                .map(|node| Edge {
+                    node,
+                    right: node % 2 == 1,
+                })
+                .collect();
+            let mut old_rows = rows.clone();
+            let mut original = Lanes::default();
+            let mut direct = Lanes::default();
+            let mut old_queue = VecDeque::new();
+            let mut new_queue = VecDeque::new();
+            GroupOutput::new(&mut old_rows).publish(&edges, &mut old_queue, &mut original);
+            for row in rows.iter().flatten().cloned() {
+                direct.publish(row, &edges, &mut new_queue);
+            }
+            assert_eq!(old_queue.len(), new_queue.len());
+            while let Some((edge, old)) = old_queue.pop_front() {
+                let (got, new) = new_queue.pop_front().unwrap();
+                assert_eq!((edge.node, edge.right), (got.node, got.right));
+                match (kind, old, new) {
+                    (Kind::Pair, QueuedEvent::PairSummary(old), QueuedEvent::PairSummary(new)) => {
+                        assert_eq!(
+                            original.pair(old).typed::<Pair, (Pair, IntSummary)>(),
+                            direct.pair(new).typed::<Pair, (Pair, IntSummary)>()
+                        )
+                    }
+                    (Kind::Quad, QueuedEvent::QuadSummary(old), QueuedEvent::QuadSummary(new)) => {
+                        assert_eq!(
+                            original.quad(old).typed::<Quad, (Quad, IntSummary)>(),
+                            direct.quad(new).typed::<Quad, (Quad, IntSummary)>()
+                        )
+                    }
+                    _ => panic!("same original queue tags and full rows"),
+                }
+            }
+            assert!(new_queue.is_empty());
+            assert_eq!(original.pairs.len, direct.pairs.len);
+            assert_eq!(original.quads.len, direct.quads.len);
+        }
+    }
+    let mut malformed = summary(i64::MIN);
+    malformed.count = 0;
+    malformed.distinct_count = usize::MAX;
+    malformed.min = None;
+    malformed.max = Some(i64::MAX);
+    compare::<Pair>([None, None], Kind::Pair);
+    compare::<Pair>(
+        [Some(TupleChange::put((usize::MAX, 0), malformed)), None],
+        Kind::Pair,
+    );
+    compare::<Pair>(
+        [None, Some(TupleChange::retract((1, usize::MAX)))],
+        Kind::Pair,
+    );
+    compare::<Pair>(
+        [
+            Some(TupleChange::retract((usize::MAX, 1))),
+            Some(TupleChange::put((2, usize::MAX), malformed)),
+        ],
+        Kind::Pair,
+    );
+    compare::<Quad>([None, None], Kind::Quad);
+    compare::<Quad>(
+        [
+            Some(TupleChange::put((usize::MAX, 0, 1, 2), malformed)),
+            None,
+        ],
+        Kind::Quad,
+    );
+    compare::<Quad>(
+        [
+            Some(TupleChange::retract((usize::MAX, 1, 2, 3))),
+            Some(TupleChange::put((2, usize::MAX, 4, 5), malformed)),
+        ],
+        Kind::Quad,
+    );
 }

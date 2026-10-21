@@ -8,6 +8,7 @@ type Pair = (usize, usize);
 type Quad = (usize, usize, usize, usize);
 type PairChange = TupleChange<Pair, (Pair, IntSummary)>;
 type QuadChange = TupleChange<Quad, (Quad, IntSummary)>;
+#[cfg(test)]
 type Raw<K> = [Option<TupleChange<K, IntSummary>>; 2];
 const CHUNK: usize = 64;
 
@@ -94,6 +95,37 @@ pub(super) struct Lanes {
     quads: Arena<QuadChange>,
 }
 impl Lanes {
+    // Exact builtin keys make owned type erasure pure scalar copies. No
+    // intermediate per-node Raw array or borrowed output carrier is required.
+    #[inline(always)]
+    pub(super) fn publish<K: Clone + 'static>(
+        &mut self,
+        change: TupleChange<K, IntSummary>,
+        edges: &[Edge],
+        pending: &mut VecDeque<(Edge, QueuedEvent)>,
+    ) {
+        let key = change.id.clone();
+        let enriched = TupleChange {
+            id: change.id,
+            value: change.value.map(|summary| (key, summary)),
+        };
+        match kind::<K>().expect("certified summary producer") {
+            Kind::Pair => {
+                let row = (&enriched as &dyn Any)
+                    .downcast_ref::<PairChange>()
+                    .unwrap()
+                    .clone();
+                self.put_pair(row, edges, pending);
+            }
+            Kind::Quad => {
+                let row = (&enriched as &dyn Any)
+                    .downcast_ref::<QuadChange>()
+                    .unwrap()
+                    .clone();
+                self.put_quad(row, edges, pending);
+            }
+        }
+    }
     pub(super) fn clear(&mut self) {
         // Only exact primitive keys and library NoDrop summaries are stored.
         // Keep the valid full rows/chunks private and overwrite on later use.
@@ -130,10 +162,13 @@ impl Lanes {
     }
 }
 
+// Test-only retained reference implementation for differential publication.
+#[cfg(test)]
 pub(super) enum GroupOutput<'node> {
     Pair(&'node mut Raw<Pair>),
     Quad(&'node mut Raw<Quad>),
 }
+#[cfg(test)]
 impl<'node> GroupOutput<'node> {
     pub(super) fn new<K: 'static>(raw: &'node mut Raw<K>) -> Self {
         match kind::<K>().expect("certified summary producer") {
@@ -181,6 +216,7 @@ impl<'node> GroupOutput<'node> {
         }
     }
 }
+#[cfg(test)]
 impl Drop for GroupOutput<'_> {
     fn drop(&mut self) {
         match self {

@@ -1,0 +1,142 @@
+{
+  "kind": "real_world-direct-group-publication",
+  "generated_at": "2026-10-21T11:34:39.389233+00:00",
+  "status": "selected; integrated exact tested and measured source",
+  "native_source_digest": "ec026acd32748c8f8b0233545f0e38c658f26f51c1c29e12cd5999e3885a49ec",
+  "input_sha256": "218c6d972018e72a758607ae2381098cd9251ddfb1dd9261c8c8f3d406bb604d",
+  "source_snapshot": "e54a11831c9d41ea5832cd7c5c4611a3083072757cc05c83f940561364e39886",
+  "artifact_sha256": "874a071423bea250b30d22f08881b9b389798232c37196afeb6cfc83233c311c",
+  "mechanism": "Remove the two-row summary staging array from each GroupState. Certified consumed numeric Pair/Quad group producers publish their original full summaries directly in the existing GroupNode finish continuation after input publication and poison clearing. Same stable full-row arena chunks and ordinary queue/FIFO/fanout; no compressed payload, event batching, Event/queue shape change, new runtime vtable entry or global routing vector. Existing private group vtable entry now takes publisher buffers and returns unit.",
+  "phase_boundary": "Pure numeric enrichment and queue publication now occur before remaining library local drops and before the original evaluation guard completes. These exact builtin IDs/keys/summaries have no user Clone/Drop hooks, publication invokes no consumer callback, and downstream execution still starts after return and guard completion. Group projection/update/error order, terminal evaluation, counts, arithmetic, captures and rollback retain the common algorithms. Public/custom/retaining/batch paths retain ordinary publication. Allocation aborts remain outside rollback guarantees.",
+  "tests": {
+    "focused_only": true,
+    "full_native_gate": false,
+    "checks": {
+      "graph": {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "stream_graph::",
+          "--",
+          "--color=never"
+        ],
+        "exit_code": 0,
+        "tests_passed": 225,
+        "seconds": 62.90345585800242,
+        "receipt_sha256": "b01634edd0ba954854c92b86f5d04d5f366f791a5fcce6aa5ea540602291cd67",
+        "log_sha256": "2578e65c85f7e6357a54460a173f61c83be50f0fd78b8c93825bd01a7fcec927",
+        "proof_directory": "work/real_world-goal/direct-group-publish-ab916-focused1"
+      },
+      "application": {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "exit_code": 0,
+        "tests_passed": 4,
+        "seconds": 31.364068948983913,
+        "receipt_sha256": "ee2325c8f0737975b2b59a615c1fddf2a6380f709ece5c8d13896b5cb0fd4596",
+        "log_sha256": "49d8c0543dd8ee3d44aa0951f0d0f9c0bccf81a27b36ed62e75c82e71da32e65",
+        "proof_directory": "work/real_world-goal/direct-group-publish-ab916-application1"
+      },
+      "clippy": {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "tests_passed": null,
+        "seconds": 23.314526494999882,
+        "receipt_sha256": "b38d04bb1b29d821314bd4f064772d6e66648b0ba6138823e8890ebd5929db1f",
+        "log_sha256": "7e498dde2509eaec2c6415356e8c075e11403839fe3195146b092c2b2a2efb45",
+        "proof_directory": "work/real_world-goal/direct-group-publish-ab916-clippy1"
+      }
+    },
+    "total_actual_named_tests_passed": 229,
+    "new_original_regressions": 1,
+    "scope": "New direct-versus-staged reference checks full Pair/Quad/MAX/malformed fields, both/sparse/empty outputs, identical queue tags/order/fanout. Existing complete graph callbacks/work/scores, captures/nesting, checked/wrapping errors, panic/retry and public/retaining/wide controls pass. Four original external RealWorld regressions pass. Test-only staged publisher remains the differential reference; constructor fixture updates remove only the deleted private staging field. No upstream-method credit.",
+    "aggregate": "Actual same-source225 graph+4 application logs concatenated byte-for-byte after checksum/source validation. Existing receipts unchanged; explicit focused assembler, not a full native gate. Preceding actual ab916 focused log/metadata preserved in this proof, not relabeled.",
+    "aggregate_log_sha256": "d9c954fa8f89426c27e5feafd02ef2254926a56815642b16e67ccd67f99675d9",
+    "aggregate_metadata_sha256": "6230dc01a10db9a227e9b9ba7086a0eb76ab8525d88f8aeebed26ec6c740d59b"
+  },
+  "native_controls": {
+    "qualified": false,
+    "valid_outputs": 16,
+    "protocol": "Actual runner-a four rotating3s seed7 native baseline/trial pairs per frozen case CPU2,3; every paired trial faster on both workloads, all16 assignments independently validated.",
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            60318.149049713604,
+            60486.671504789505,
+            59314.8873059995,
+            59921.68821584084
+          ],
+          "trial": [
+            61901.95335754846,
+            61387.09354851082,
+            60698.501302181976,
+            62301.26453368948
+          ]
+        },
+        "medians": {
+          "baseline": 60119.91863277722,
+          "trial": 61644.523453029644
+        },
+        "gain_pct": 2.5359395936061846
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            180914.2935096445,
+            180513.5010475249,
+            177851.8121999966,
+            180081.2761195298
+          ],
+          "trial": [
+            184702.1341140387,
+            182299.0448670143,
+            184239.70503829102,
+            185585.1011381903
+          ]
+        },
+        "medians": {
+          "baseline": 180297.38858352735,
+          "trial": 184470.91957616486
+        },
+        "gain_pct": 2.314803905606211
+      }
+    },
+    "build_receipt_sha256": "0f86cbf6caeaaf0f556a3f2b6192edfe67b07c42c4c23bbcb3d7c69ef942184c",
+    "receipt_sha256": "eee55a2304eb04bfab5b24da887252fcd341cfd4ac9aad043497bb2657d025ea",
+    "controls_sha256": "16836121804c6939fbc1d76ab45b8cde2e9964eeda5140c1cbbd5b47c4f4a738",
+    "scope": "Sailing+2.535940%/Golfer+2.314804% bounded native signal. No Java qualifier, extrapolated parity, summed gains or general speed guarantee."
+  },
+  "baseline": {
+    "native_source_digest": "ab916410936c1e10c29225a58facc7a587550c2e54392dc7254dbe5f86cf1d16",
+    "input_sha256": "1b2a1184fec54e86f7e49823c4ac95442aa069f67ee220817d9387792a31ada5",
+    "artifact_sha256": "0ea2876347e63e8d9289536cbae44201c13b228772a365747e0a8032709c654e",
+    "original_observation": "compat/observations/real_world-deferred-terminal-totals.json"
+  },
+  "credit": {
+    "upstream_methods": 0,
+    "new_integrated_native_tests": 1,
+    "current_java_targets_proven": 0
+  },
+  "policy": "Frozen model/fixtures/declarations/runner/settings/compiler/CPU/PGO/panic/batch policy unchanged. Focused verification only per latest user instruction; no full suite or unchanged benchmark/browser rerun. Local+runner-a, runner-c parked; no new agents. Original Java866338 report remains byte-identical/historical/stale. Goal remains incomplete.",
+  "proof_directory": "work/real_world-goal/direct-group-publish-ab916-next-results"
+}

@@ -364,10 +364,13 @@ trait Node<S: AdditiveScore> {
     fn group_summary_ready(&self, _kind: group_summary_lane::Kind) -> bool {
         false
     }
-    fn apply_group_summary<'node>(
-        &'node mut self,
+    fn apply_group_summary(
+        &mut self,
         _event: &Event,
-    ) -> group_summary_lane::GroupOutput<'node> {
+        _edges: &[Edge],
+        _pending: &mut VecDeque<(Edge, event_queue::QueuedEvent)>,
+        _lanes: &mut group_summary_lane::Lanes,
+    ) {
         unreachable!("certified Group producer")
     }
     fn apply_borrowed_summary(
@@ -1137,7 +1140,6 @@ struct GroupState<I, T, K, F> {
     node: GroupNode<I, K>,
     mapping: F,
     marker: PhantomData<fn() -> T>,
-    summary_staging: [Option<TupleChange<K, IntSummary>>; 2],
 }
 impl<
     I: Ord + Clone + 'static,
@@ -1152,24 +1154,31 @@ impl<
             .then(group_summary_lane::kind::<K>)
             .flatten()
     }
-    fn apply_group_summary<'node>(
-        &'node mut self,
+    fn apply_group_summary(
+        &mut self,
         event: &Event,
-    ) -> group_summary_lane::GroupOutput<'node> {
+        edges: &[Edge],
+        pending: &mut VecDeque<(Edge, event_queue::QueuedEvent)>,
+        lanes: &mut group_summary_lane::Lanes,
+    ) {
         let change = typed::<I, T>(event);
         let mapped = TupleChange {
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         };
-        let pending = &mut self.summary_staging;
-        debug_assert!(pending.iter().all(Option::is_none));
         self.node
             .apply_inline_with_policy::<crate::primitive_rows::Exact, _>(mapped, |old, new| {
-                *pending = [old, new]
+                // The common algorithm has completed input publication and poison
+                // clearing. Exact numeric keys/summaries and all remaining locals
+                // have no user Drop hooks. Publish both original full outputs here;
+                // downstream callbacks still run after the evaluation guard drops.
+                if let Some(row) = old {
+                    lanes.publish(row, edges, pending);
+                }
+                if let Some(row) = new {
+                    lanes.publish(row, edges, pending);
+                }
             });
-        // The common apply, including its remaining local owner destruction,
-        // has completed. Publication only borrows these already-staged outputs.
-        group_summary_lane::GroupOutput::new(pending)
     }
 
     fn capture_checkpoint(&self, original: &dyn Any) -> Box<dyn Any> {
@@ -2490,7 +2499,6 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
             node,
             mapping,
             marker: PhantomData,
-            summary_staging: [None, None],
         });
         self.live_commit_nodes[out.node] = live_commit;
         self.consuming_nodes[out.node] = live_commit_key::<I>()
