@@ -40,7 +40,7 @@ qualificationeeee0130 is current:all12 outputs independently valid,
 Sailing needs11.526746% more Rust throughput. Actual Sailing medians
 Rust67585/Java75375 evaluations/s versus prior66641/75107:modest improvement.
 Rust2/3 versus Java0/3 Sailing runs are feasible;quality stays separate.
-Prior317eca04 remains historical/source-stale. All jobs terminal/collected.
+Prior317eca04 remains historical/source-stale. Selected measurements are terminal/collected.
 [Evidence](../compat/observations/real_world-count-states.json).
 
 The preceding score-only private contribution storage remains in the selected
@@ -51,6 +51,16 @@ Its original qualification317eca04 and40 actual checks remain bound to817b1386/
 Prepared v36 controls bind current9848/df9b/1d5b,22 actual checks/Clippy and
 originalJavaeeee0130. v35 is historical. Do not repeat completed checks or this
 matrix on unchanged inputs;v36 is prepared only,no unchanged job dispatched.
+
+The next three trials are closed without runtime changes:input-presence pages
+20 actual checks/16 valid outputs,S+.515%(2/4 faster)/G-1.681%;replacement preflight
+19/16,S-.796%/G+.296%;dense-page first-preimage masks38/16,S-2.674%/G-2.476%,all
+pairs slower both. Each source/failure boundary and independent output validation
+is in its separate observation. No retry,app/Clippy/Java/full checks for these.
+Current sparse-depth score undo passed38 focused checks and its original release/
+controls run on runner-a session90603. Independent-input hash-word multiplication
+is under local focused check60813. Both are isolated prototypes off selected9848;
+no changes selected or speedup claims yet. Preserve live handles across timeouts.
 
 The next five trials are closed and unintegrated. Continuation-based filters
 passed22 focused cases/16 valid native outputs but slowed Sailing2.246% and

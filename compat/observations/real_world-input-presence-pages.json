@@ -1,0 +1,102 @@
+{
+  "kind": "real_world-input-presence-pages",
+  "status": "closed;unintegrated;Sailing mixed small signal,Golfer slower",
+  "native_source_digest": "c14fe7d767326b9e3622e2fb44ab374bde7a9ce2ccbb99eb1b21f28acc372b95",
+  "input_sha256": "589aeb304647a7a6e153025a24dcce709fe5ce1e654e7f749015127b5c398db0",
+  "source_snapshot": "b72680f8f2446f1969b9b7402603e775025a0437c653c66a13aa89c9eb6792d3",
+  "artifact_sha256": "c5a68ffb1ece812b69529a971941f1819c5bf639d02c57cb0ba6ff2086fdeb89",
+  "mechanism": "Private owned bounded-pair inputs retain initialized complete builtin values plus one64-bit presence bitmap per64cells. Static graph Clone copier handles certified writes/retractions;generic NoClone/public/shared branches retain original methods. Every ordered full-value preimage,dimensions,absence,bounds,full/current snapshots and all forward callbacks/FIFO remain;dense storage unchanged. Pair-key pages shrink2048to1544bytes;absent cells retain private scalar values and full snapshots copy initialized cells.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/input-presence-pages-next-results/real_world-input-presence-pages-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66919.07767752913,
+            65808.93735535008,
+            66219.78241113685,
+            65283.27078973399
+          ],
+          "trial": [
+            66399.76466779194,
+            65313.21400379823,
+            66309.30700139454,
+            66498.39674005659
+          ]
+        },
+        "medians": {
+          "baseline": 66014.35988324347,
+          "trial": 66354.53583459323
+        },
+        "gain_pct": 0.5153059909259516
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196452.02353653996,
+            196046.0161976592,
+            194727.3210874544,
+            193468.43885313053
+          ],
+          "trial": [
+            192172.22906796107,
+            192031.63959521934,
+            195587.01640640709,
+            189572.8536046837
+          ]
+        },
+        "medians": {
+          "baseline": 195386.6686425568,
+          "trial": 192101.9343315902
+        },
+        "gain_pct": -1.6811455631989602
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "focused_tests": {
+    "passed": 20,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_inputs::owned::presence_tests",
+      "incremental_stream::group_inputs::pool_tests",
+      "incremental_stream::group_inputs::paged::pool_tests",
+      "stream_graph::owned_group_input_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/input-presence-pages-focused1",
+    "receipt_sha256": "4c882fa7eb89c3e0447a3178d71ae534a0dd6fa212af8fec12a3d7db440e46ec",
+    "log_sha256": "0a3017c427153c286b67a6d0aad5c4088fa22f805e0d0aed5a293285e4a27599",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "2a7f5ebd364917d0dba602573ac7c49fd6affe7fb1781cde840828d577b4ecbd",
+  "receipts": {
+    "receipt.json": "ace0fba2eebd21653958c132d778b33cc8b94bb028390233d36fa8bfca53a29c",
+    "build-receipt.json": "e67b6d943c5301c30801e1de6f323d8dbfca4434b7dc214fa0bd0d5e688dd437",
+    "controls.json": "09bf2dd4a4d16584df233d5a81cf38ef3d0d2781a70a804ce59df128d6e4b84b",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "20 actual focused checks and16 independently valid outputs. Sailing+.515%(2/4 faster),Golfer-1.681%(1/4). Closed without integration,unchanged retry,application/Clippy/Java checks or full suite. Main9848/currentJavaeeee unchanged."
+}

@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-replacement-preflight",
+  "status": "closed;unintegrated;Sailing slower",
+  "native_source_digest": "403e83b3097023e1d1d62ff2c160a49dd6780a27757d8836e67ae8e48bb44378",
+  "input_sha256": "5a0b52b381c92adecd77d8348ca39a9762eeeaf9bf197ddf93b9dd63ac4c0614",
+  "source_snapshot": "dc4faea17a27360f7efbf6ce76183bc57e5d25ee0a29c174e9c1cc49323c3473",
+  "artifact_sha256": "a78cf32790c2550a842b0d0707bed1c293b956dbbea3e0f99e4688bb2c5fe2d1",
+  "mechanism": "Private integer replacement checks total count nonzero instead of separately searching old frequency before the existing validating replace operation. Keep original checked count preflight before mutation,missing-value false/no change,full wrapping sums,all frequencies and snapshots. Zero count implies empty in every constructible collector;public/custom callbacks,FIFO/model/settings unchanged.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/replacement-preflight-next-results/real_world-replacement-preflight-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            64763.96336695986,
+            67213.25713593281,
+            66644.77677252762,
+            66644.9219954253
+          ],
+          "trial": [
+            66012.0806402964,
+            66959.73707524019,
+            66216.86679559367,
+            65320.747448432274
+          ]
+        },
+        "medians": {
+          "baseline": 66644.84938397646,
+          "trial": 66114.47371794503
+        },
+        "gain_pct": -0.795823939785123
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            192063.1723308913,
+            198232.73399543358,
+            196611.66910425483,
+            196447.53459500716
+          ],
+          "trial": [
+            197455.16400738718,
+            200146.62470707553,
+            195303.01326272317,
+            196766.68444531824
+          ]
+        },
+        "medians": {
+          "baseline": 196529.601849631,
+          "trial": 197110.9242263527
+        },
+        "gain_pct": 0.29579379963660113
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "focused_tests": {
+    "passed": 19,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "--nocapture",
+      "int_collector_counts::",
+      "stream::group_inverse_count_tests",
+      "stream::owned_collector_box_tests"
+    ],
+    "proof_directory": "work/real_world-goal/replacement-preflight-focused1",
+    "receipt_sha256": "92178732877903a64dc5f8e64aa0d06a61b47c87fcd8f8f0a881e989189d2050",
+    "log_sha256": "a93e2350ab25ad07eca37f29e019fff79f2ffbc2f4907f0fc6c92f85fcf92ee2",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "0e891f2bce1ef559bdfd7a7c70c2a98008ebbfbb2133c459d37795e9ccb62fe7",
+  "receipts": {
+    "receipt.json": "d6521d88ccb14271d744cba7e0a189b71678c8539222e190dd0adbcbe1763937",
+    "build-receipt.json": "7415a9e219981c90910fcf5abffa3f2057618d7e23d622d3d88e4fcdf25a426e",
+    "controls.json": "048ae925414095cf751e71cfd84ad5d793e0e5d1c43f56fc6f8e32ae95b2cf44",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "19 actual focused checks and16 independently valid native outputs. Sailing-.796%(1/4 faster),Golfer+.296%(3/4). No integration,unchanged retry,application/Clippy/Java checks or full suite. Current9848/df9b/1d5b/Javaeeee unchanged."
+}

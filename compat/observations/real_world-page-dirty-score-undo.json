@@ -1,0 +1,101 @@
+{
+  "kind": "real_world-page-dirty-score-undo",
+  "status": "closed;unintegrated;all pairs slower on both workloads",
+  "native_source_digest": "6393ade4f66205ab892cc43e29024fe58a58d05575a625427203c15abc158d42",
+  "input_sha256": "601b1b5cd55b64ff797f4b077185e5c6c0ddadb8058f700289f640f353f65fb8",
+  "source_snapshot": "c894c8ef21115a3fb073057a35da278c7a1d735a60a83e0d00f9e4f450205bcd",
+  "artifact_sha256": "87156c0a8a99da97efa46b2bcb8390883bd2fdb061e94664f38fb930260a2c82",
+  "mechanism": "Dense private score pages carry nested frame depth and16 dirty bits. Record only first preimage/cell/frame in same page access;restore ancestor masks at child end and merge first histories on commit. Lost/pruned metadata retains extra records. Sparse retains every-write history;all forward score updates,callbacks,clones,checked arithmetic,FIFO and full/current/entry snapshots remain. No epoch counter,coordinate narrowing,model/settings change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "/home/developer/repos/lab/TimeTuck/work/real_world-goal/page-dirty-score-undo-next-results/real_world-page-dirty-score-undo-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            66696.73753228436,
+            65803.33719044577,
+            66262.69811545122,
+            65670.44018091197
+          ],
+          "trial": [
+            63756.02945275171,
+            64743.87841451067,
+            64103.090742086715,
+            64431.981155273665
+          ]
+        },
+        "medians": {
+          "baseline": 66033.0176529485,
+          "trial": 64267.53594868019
+        },
+        "gain_pct": -2.6736347467068766
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197988.37420015782,
+            194194.2469285203,
+            194589.80491024186,
+            195950.9843461985
+          ],
+          "trial": [
+            188794.03411545503,
+            189306.47965381911,
+            191631.09378402692,
+            191562.82152431738
+          ]
+        },
+        "medians": {
+          "baseline": 195270.39462822018,
+          "trial": 190434.65058906825
+        },
+        "gain_pct": -2.4764348166340433
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "focused_tests": {
+    "passed": 38,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::",
+      "stream_graph::terminal_prepared_tests",
+      "stream_graph::terminal_primitive_tests",
+      "stream_graph::group_summary_lane::tests"
+    ],
+    "proof_directory": "work/real_world-goal/page-dirty-score-undo-focused1",
+    "receipt_sha256": "65fbe113a6921f3e35fd12d903d630be95beb08a21cf7dc4860bc900e31f4a8b",
+    "log_sha256": "6e93459c4a6014fb1835f1b0b124494ef37ff6daeffc3d7fea9002cdbcb81f28",
+    "source_unchanged": true
+  },
+  "independent_validation_sha256": "fa97dc12cc63cfd255c35b3685e641b77cdc3369ff1504812e67ebd19f7e1ed8",
+  "receipts": {
+    "receipt.json": "768f4f6780bb240a2f3e8ca1c89f79765da96c8a8a84265b500050c9db3aeb6d",
+    "build-receipt.json": "73ca6a8fac536947f0fc3976f47d1f8b84f1b4c623336422089b1591a7e688ca",
+    "controls.json": "457c4bf5ab8e78e9d29a9278369be1dd263a1c97948a05232b03bfcde4648e1e",
+    "baseline-binding.json": "375d1b61edc90c0bb67dc475c2173be238d5047db0919232258908a21a8487c0"
+  },
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "comparison_baseline": {
+    "rust_digest": "9848e7c18704f33865135101d6d739094dff85aa76cfbc0601bd33575ddabbf6",
+    "production_digest": "df9b08e04e1eeaeac8fa62c69d772d09f09fd851397003d0ebf92381b256b231",
+    "artifact_sha256": "1d5b9518e0f4f0d38d8db030c8807c311d4640a0298be797a209b0548afc3a87",
+    "source_snapshot": "c878eb1ab50daa70bd3613c41e5b575ed891e5355f50cc8c5970a4d6bae1f1b1",
+    "current_java_throughput_targets_proven": 1,
+    "current_java_report_sha256": "eeee01305485c927b26be7d70c52f9030dd4b730674409dd401f4bd60d5c7c0a"
+  },
+  "policy": "38 actual focused checks and16 independently valid outputs. Sailing-2.674%/Golfer-2.476%,all4pairs slowerboth. No integration,retry,application/Clippy/Java checks or full suite. Selected9848/currentJavaeeee unchanged."
+}
