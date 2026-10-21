@@ -217,5 +217,42 @@
       "sailing-trip-v1": 0.8738274682339982
     },
     "proof": "real_world-collector-arena-current-java-qualification.json"
+  },
+  "selected_runtime_profile": {
+    "native_source_digest": "d4663b6e9a14bab1d57ddbf2446ad35bbcab8021f378f603f7adae7ce3fa40ba",
+    "production_digest": "465509b3c683afcb038718d70761765d2a9ab7b729978f4f6630aba879167a37",
+    "artifact_sha256": "84e98daeb7da5f13ebad83b5c3f7248e7a43107100ac0b8e4ca7678ea875aec7",
+    "source_snapshot": "446c54129e2371f087ba899bd8ff6c20b3b4d891e514d67d80a620ef5c0e3b1e",
+    "samples": 994,
+    "lost_samples": 0,
+    "receipt_sha256": "5e298bfd4789558d96c979415a4d74a9d3f289c1d41ba97134d519696a128d3d",
+    "perf_data_sha256": "f33d50a9343f39d9843e4239205a6ddab157f2b316514ac5d8fdfed087303dff",
+    "output_sha256": "9c0289c41a1752233c5601af46a647c9af876c942a4b2c0825ad80aa1e40363f",
+    "problem_sha256": "7d61819289f7deb484953b0272e29348175d366f9a50bcf74c99b2d948d918ff",
+    "independent_local_validation": {
+      "score": [
+        0,
+        94500
+      ],
+      "feasible": true,
+      "structural_errors": [],
+      "pin_violations": [],
+      "breakdown": {
+        "capacity_penalty": 0,
+        "hard_pair_penalty": 0,
+        "unique_contacts": 2631,
+        "repeat_penalty_units": 109,
+        "soft_pair_penalty": 54500,
+        "balance_penalty": 103200
+      },
+      "reported_score": [
+        0,
+        94500
+      ],
+      "score_matches": true,
+      "valid": true
+    },
+    "initial_score_and_assignments_match": true,
+    "scope": "One actual selected-arena10s seed7 CPU2,3 cycle profile. Actual finalrelease binding/currentoriginalJava4795 preserved;no build,timinggain,Java ortestcredit. Existing boxed-collector profile remains historical."
   }
 }

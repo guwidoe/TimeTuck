@@ -110,11 +110,19 @@ Initial eager then_some draft26a compilepassed butwas fixed before any timing/te
 because out-of-range debug arithmeticcouldoverflow. No receipt rekey,retry,app,
 Clippy,Java,fullsuite or integration. Proof:
 `compat/observations/real_world-quad-score-pages.json`.
-A fresh selected-arena Sailing cycle profile is now running against immutable
-84e98d,d466/465509,snapshot446c. No build/Java/timinggain claim. Read actual live
-handles in ignored active state;do not restart on observation timeouts. Main
-runtime763da12 and currentoriginalJava4795 remain unchanged (1/2targets).
-No new subagents;local+runner-a,EFSparked. Preserve unrelated writer changes.
+Fresh selected-arena Sailing profile is collected:994cyclesamples,zeroLost,
+one fulloutput independently valid including initialstate. Immutable84e98d,
+d466/465509,snapshot446c;no build,Java or timinggain claim. New profile confirms
+propagation74.17%inclusive and terminalapply_change remains a useful target.
+A distinct consumed-builtin equal-contribution total identity is now under
+measurement:exact builtin scores let old==new cancel without wide/modular
+adjustment,while clearing structural state exactly as both arithmetic modes do.
+Callback evaluation/structural rejection/score,ID,payload clones and presence-aware
+store/undo remain. Test-ready draft adds explicit by-value callback captures and
+an extreme-level/structural-reset/presence regression;no production edit relative
+to measured draft. See live handles in ignored active state;no source rekey.
+Mainruntime763da12/currentJava4795 unchanged,1/2targets. Local+runner-a,EFSparked;
+no new subagents. Preserve unrelated writer changes.
 
 
 The preceding consumed-graph collector backend owns each mutable integer
