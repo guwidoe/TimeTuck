@@ -1,6 +1,9 @@
 # Public-release preparation review
 
-Review date: **2026-10-21**. Publication is **not authorized** by this review:
+> Published 2026-10-22: the repository is public; see
+> [publication](#publication--2026-10-22). Sections below keep their review-time wording.
+
+Review date: **2026-10-21**. Publication was **not authorized** by this review:
 the owner requested preparation while keeping the repository private. GitHub
 reported `PRIVATE`; no visibility, sharing, release, package-publishing, or remote
 repository settings were changed. Crate publishing remains disabled.
@@ -158,21 +161,20 @@ comparison reports and 109 timed workloads predate this source and were not reru
 The prepared publication-day wording for README, SECURITY, CONTRIBUTING, getting
 started and the roadmap is a separate final commit.
 
-## Publication steps still intentionally deferred
+## Publication — 2026-10-22
 
-1. Obtain the owner's explicit instruction to make the clean repository public.
-   Keep the original archive private. The private cutover is complete; it does not
-   authorize any visibility change, site, package, release or announcement.
-2. Push `main` and confirm the quick CI checks pass, then repeat the history delta
-   review for anything committed after the 2026-10-22 publication review. The
-   private-status wording is already replaced by the final prepared commit.
-3. Immediately after publication, enable and verify the chosen
-   [GitHub private vulnerability reporting route](../SECURITY.md). GitHub makes it
-   available for public repositories; it remains inactive during preparation.
-4. When hosting is authorized, activate GitHub Pages and set
-   `PUBLISH_DASHBOARD=true`. Hosting remains deferred by the owner's instruction;
-   the [Pages workflow and README link](github-pages.md) are prepared. Crates remain
-   unpublished and `publish = false`.
+On the owner's instruction the five retained `codex/` branches were deleted (tips
+bundled privately), `main` was pushed and its quick CI checks passed at `29575be8`,
+and the delta since the publication review had zero identity and Gitleaks findings
+(audit over 1,239 commits). The repository was then made public. Private
+vulnerability reporting, secret scanning, push protection and Dependabot alerts
+were enabled immediately; Dependabot fix pull requests stay off. The original
+archive remains private.
+
+Still open, each by separate owner decision: GitHub Pages hosting
+(`PUBLISH_DASHBOARD=true`; the [workflow and README link](github-pages.md) are
+prepared), a crates.io release (crates remain `publish = false`), and trademark
+clearance.
 
 Apache-2.0 project licensing and existing third-party notices remain in place.
 The [legal/provenance guide](legal-and-provenance.md) retains the naming and

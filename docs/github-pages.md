@@ -2,11 +2,11 @@
 
 The project site is intended for
 [guwidoe.github.io/TimeTuck](https://guwidoe.github.io/TimeTuck/). Hosting the
-dashboard is separate from making the source repository public. The repository
-remains private. GitHub rejected activation on 2026-10-21 with HTTP 422:
-“Your current plan does not support GitHub Pages for this repository.” The owner
-chose to keep hosting prepared for later rather than create a separate public
-dashboard repository. The URL above is reserved as the intended destination and
+dashboard is separate from making the source repository public. While the repository
+was private, GitHub rejected activation on 2026-10-21 with HTTP 422: “Your current
+plan does not support GitHub Pages for this repository.” The repository has been
+public since 2026-10-22, so the plan no longer blocks Pages; hosting remains a
+separate owner decision. The URL above is reserved as the intended destination and
 is not a live-site claim.
 
 ## What the site contains
@@ -85,14 +85,9 @@ ignored local report files from a fresh checkout.
 
 When hosting is authorized, enable GitHub Pages with GitHub Actions as its
 publishing source and set `PUBLISH_DASHBOARD=true` before the first workflow
-deployment. With the source repository private, account eligibility must
-support Pages for private repositories. The Pages site can be publicly accessible
-even while the source remains private. See [GitHub's workflow and eligibility
+deployment. See [GitHub's workflow
 documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
-
-Keep the source repository private during this preparation. No plan upgrade,
-visibility change, or publication of the full repository is part of this hosting
-configuration.
+No plan upgrade is part of this hosting configuration.
 
 ## Preparation verification — 2026-10-21
 
