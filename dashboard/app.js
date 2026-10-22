@@ -192,7 +192,7 @@ function renderAdditionalTests() {
         const runtimes = summary.runtimes || {}, row = node("tr");
         const name = summary.label || `Use case ${String.fromCharCode(65 + index)}`;
         const ratio = summary.rust_over_java_streams_evaluations_per_second;
-        row.append(node("th", "", name), node("td", "", speed(runtimes["rust-streams"])), node("td", "", speed(runtimes["java-streams"])), node("td", "", speed(runtimes["java-incremental"])), node("td", summary.throughput_target_met ? "completion-met" : "completion-open", Number.isFinite(ratio) ? `${ratio.toFixed(2)}×` : "—"));
+        row.append(node("th", "", name), node("td", "", speed(runtimes["rust-streams"])), node("td", "", speed(runtimes["java-streams"])), node("td", "", speed(runtimes["rust-incremental"])), node("td", "", speed(runtimes["java-incremental"])), node("td", summary.throughput_target_met ? "completion-met" : "completion-open", Number.isFinite(ratio) ? `${ratio.toFixed(2)}×` : "—"));
         row.firstChild.scope = "row";
         const rust = runtimes["rust-streams"], java = runtimes["java-streams"];
         if (rust && java) row.firstChild.append(node("small", "application-quality", `Feasible solves: Rust ${rust.feasible_runs} / ${rust.runs} · Java ${java.feasible_runs} / ${java.runs}`));
@@ -201,7 +201,7 @@ function renderAdditionalTests() {
     $("real-world-table-wrap").hidden = summaries.length === 0;
     const config = benchmark.configuration || {};
     const seeds = Array.isArray(config.seeds) ? config.seeds.join(", ") : "see report";
-    note.textContent = `${benchmark.valid ? "Independent score checks passed." : "Some score or runtime checks failed; inspect raw results."} Seeds ${seeds}; ${config.seconds ?? "see report"} seconds per run. Measured ${timestamp(benchmark.generated_at)}. Java incremental scoring is a separate hand-written comparator; throughput does not imply equal solution quality.`;
+    note.textContent = `${benchmark.valid ? "Independent score checks passed." : "Some score or runtime checks failed; inspect raw results."} Seeds ${seeds}; ${config.seconds ?? "see report"} seconds per run. Measured ${timestamp(benchmark.generated_at)}. Rust and Java incremental scoring are separate hand-written comparators, compared with each other; throughput does not imply equal solution quality.`;
 }
 function renderNativeReadiness() {
     const model = report.native_readiness;
