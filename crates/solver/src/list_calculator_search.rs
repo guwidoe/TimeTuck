@@ -17,6 +17,7 @@ crate::calculator_backend::calculator_backend!(
     ListScoringError,
     list_changes,
     list_structure,
+    crate::calculator_backend::full_structure_scan,
     apply_validated
 );
 fn list_changes<V>(movement: &ListMove<V>) -> Vec<usize> {

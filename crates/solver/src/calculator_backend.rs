@@ -4,9 +4,15 @@ pub(crate) struct CalculatorSnapshot<A, C: crate::IncrementalCalculator<A>> {
     pub(crate) score: C::Score,
 }
 
+/// Structural-delta hook for backends without a cheap delta: always rescan.
+pub(crate) fn full_structure_scan<P, A, C>(_: &P, _: &A, _: &A, _: &C) -> Option<i64> {
+    None
+}
+
 macro_rules! calculator_backend {
     ($director:ident, $guard:ident, [$($v:ident),+], $assignment:ty, $problem:ty,
-     $movement:ty, $change:ty, $error:ident, $describe:path, $structure:path, $apply:ident) => {
+     $movement:ty, $change:ty, $error:ident, $describe:path, $structure:path,
+     $structure_delta:path, $apply:ident) => {
 /// A calculator backend for native moves. Change descriptors identify the
 /// slots touched by the whole move. Callbacks see complete
 /// pre/post assignments, including for composites and their inverse updates.
@@ -122,6 +128,24 @@ where
         }
         $structure(score, problem, session.solution())
     }
+    /// Score after a move whose structural change is known, avoiding a scan of
+    /// every slot; `None` falls back to the full structural calculation.
+    fn calculate_moved(
+        problem: &$problem,
+        session: &mut CalculatorSession<$assignment, C>,
+        structural: Option<i64>,
+    ) -> Result<C::Score, $error> {
+        let Some(structural) = structural else {
+            return Self::calculate(problem, session);
+        };
+        let score = session.score().map_err($error::Calculator)?;
+        if score.structural() != 0 {
+            return Err($error::Calculator(
+                MatchRegistryError::StructuralContribution,
+            ));
+        }
+        Ok(score.with_structural(structural))
+    }
     fn healthy(&self) -> Result<(), $error> {
         if let Some(error) = &self.failure {
             return Err($error::Calculator(error.clone()));
@@ -231,21 +255,30 @@ where
         self.problem.$apply(&mut candidate, movement)?.commit();
         let variables = $describe(movement);
         let previous_score = self.score.clone();
-        let prior = Some(self.assignment().clone());
-        let guard = $guard {
+        let structural = $structure_delta(self.problem, self.assignment(), &candidate, &variables)
+            .map(|delta| previous_score.structural() + delta);
+        let mut guard = $guard {
             director: self,
-            prior,
+            prior: None,
             variables,
             previous_score,
         };
+        // The replaced assignment becomes the rollback state, avoiding a second
+        // whole-assignment copy. A callback failure before the swap leaves the
+        // solution untouched and the session awaiting reset.
+        let prior = &mut guard.prior;
         guard
             .director
             .session
-            .change(&guard.variables, |a| *a = candidate)
+            .change(&guard.variables, |a| *prior = Some(std::mem::replace(a, candidate)))
             .map_err($error::Calculator)?;
         guard.director.score = match known_score {
             Some(score) => score,
-            None => Self::calculate(guard.director.problem, &mut guard.director.session)?,
+            None => Self::calculate_moved(
+                guard.director.problem,
+                &mut guard.director.session,
+                structural,
+            )?,
         };
         Ok(guard)
     }

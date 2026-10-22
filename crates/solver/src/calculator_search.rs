@@ -48,10 +48,29 @@ crate::calculator_backend::calculator_backend!(
     ScoringError,
     basic_changes,
     basic_structure,
+    basic_structural_delta,
     apply_validated
 );
 fn basic_changes<V>(movement: &Move<V>) -> Vec<usize> {
     movement.touched_variables()
+}
+/// Structural change of a move: each touched required variable contributes -1 when
+/// it becomes unassigned and +1 when it becomes assigned. Touched indices are unique.
+fn basic_structural_delta<V: Eq>(
+    problem: &FiniteProblem<V>,
+    before: &Assignment<V>,
+    after: &Assignment<V>,
+    touched: &[usize],
+) -> Option<i64> {
+    Some(
+        touched
+            .iter()
+            .filter(|&&v| !problem.variables()[v].allows_unassigned())
+            .map(|&v| {
+                i64::from(before.values()[v].is_none()) - i64::from(after.values()[v].is_none())
+            })
+            .sum(),
+    )
 }
 fn basic_structure<V: Eq, S: AdditiveScore>(
     score: S,

@@ -221,6 +221,42 @@ fn move_guards_validate_commit_rollback_and_preserve_explanations() {
     assert_eq!(d.score().unwrap().structural(), -2);
 }
 
+/// Move scores derive required-variable structure from the touched variables and the
+/// committed score. A wrong sign, a missed swap side or a stale base would make these
+/// scores disagree with the full calculation.
+#[test]
+fn move_structure_follows_committed_unassignments() {
+    let p = problem();
+    let n = network(4);
+    let counts = Rc::new(Counts::default());
+    let factory = || Calculator {
+        counts: counts.clone(),
+        ..Default::default()
+    };
+    let mut d = CalculatorScoreDirector::new(&p, complete(), factory, false).unwrap();
+    for (movement, structural) in [
+        (change(2, None), -1),
+        (change(3, Some(1)), -1),
+        (Move::Swap { left: 2, right: 3 }, 0),
+        (
+            Move::Composite(vec![change(1, None), change(2, None), change(1, Some(2))]),
+            -1,
+        ),
+    ] {
+        let committed = d.score().unwrap();
+        let candidate = d.apply(&movement).unwrap();
+        assert_eq!(candidate.score().structural(), structural);
+        assert_eq!(
+            candidate.score(),
+            n.calculate(&p, candidate.assignment()).unwrap()
+        );
+        drop(candidate);
+        assert_eq!(d.score().unwrap(), committed);
+        d.apply(&movement).unwrap().commit();
+        d.assert_consistent().unwrap();
+    }
+}
+
 #[test]
 fn construction_and_local_search_match_existing_engine_behavior() {
     let p = problem();
