@@ -16,6 +16,14 @@
 > source identities. See [continuation instructions](agent-continuation.md) before
 > starting another experiment; the original checkout is preserved as an archive.
 
+> Real-world benchmark correction, 2026-10-22: the Java comparator's change filter
+> read occupancy from the unchanged input seats, so Sailing Java runs admitted moves
+> into full groups, and the native model cooled over 40000 steps instead of the time
+> limit. Both are fixed; every earlier Golfer/Sailing ratio, throughput target and
+> quality comparison below is superseded, including the Sailing target. Rerun the
+> default matrix before setting a new target. See
+> [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
+
 ## Objective and boundaries
 
 Build an independent Rust constraint optimization solver using pinned Timefold

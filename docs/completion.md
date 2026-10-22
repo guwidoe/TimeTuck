@@ -4,6 +4,10 @@
 > The source-bound results below remain historical; they do not qualify the
 > renamed source. See [history preparation](public-history.md).
 
+> Real-world benchmark correction, 2026-10-22: Golfer/Sailing Java comparisons
+> recorded below predate fixes to the Java occupancy filter and native cooling; see
+> [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
+
 For a newcomer-facing summary, read [Timefold compatibility](timefold-compatibility.md)
 and [performance](performance.md). This page retains original acceptance and
 subsequent development evidence; a successful historical cohort does not qualify
