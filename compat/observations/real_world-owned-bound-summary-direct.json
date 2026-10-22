@@ -1,0 +1,105 @@
+{
+  "kind": "real_world-owned-bound-summary-direct",
+  "status": "Closed unintegrated: Sailing-.9817%(1/4 faster),Golfer+1.5796%(4/4 faster);no Sailing gain.",
+  "native_source_digest": "e65520f29ca6d47b9c9acf03356b396c3518fa0f291eedb35073dada54975172",
+  "input_sha256": "6bcb9caccb4ad9369fac607d18e77c334ba570b48972bc09b4f18aa3b0037414",
+  "source_snapshot": "8a1401cb9b54aad0d4a23efe2f204d141fd6637e31164eb8d7ae4d46555c8936",
+  "artifact_sha256": "f5da086bdbce762113185becf8d452388ae02044405968eda03fdf9cff8242f9",
+  "mechanism": "Refine typed owned-bound kernel to return two full changes directly for graph publication,instead of one shared finish closure. Exact builtin private locals have no Drop hooks;ordinary/public operator retains original continuation. Original output order,evaluation guard and poison clearing retained.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/owned-bound-summary-direct-next-results/clean-owned-bound-summary-direct-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            68223.41495370079,
+            70159.47075483025,
+            69291.77242779739,
+            70106.75604507666
+          ],
+          "trial": [
+            69533.29875046875,
+            69000.86988343639,
+            69029.14856212765,
+            68250.90901498245
+          ]
+        },
+        "medians": {
+          "baseline": 69699.26423643703,
+          "trial": 69015.00922278201
+        },
+        "gain_pct": -0.9817248734991679
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197024.17344076387,
+            195460.568239695,
+            194388.44230589882,
+            192522.17135364955
+          ],
+          "trial": [
+            199003.5992505383,
+            198044.0744395755,
+            195903.0885021589,
+            197963.06584523543
+          ]
+        },
+        "medians": {
+          "baseline": 194924.5052727969,
+          "trial": 198003.57014240546
+        },
+        "gain_pct": 1.5796191788710168
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "verification": {
+    "actual_tests_passed": 26,
+    "rust_digest": "e65520f29ca6d47b9c9acf03356b396c3518fa0f291eedb35073dada54975172",
+    "production_digest": "6bcb9caccb4ad9369fac607d18e77c334ba570b48972bc09b4f18aa3b0037414",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_owned_summary::tests",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_entry::tests",
+      "incremental_stream::group_inverse_tests",
+      "stream_graph::group_summary_lane::tests",
+      "incremental_stream::owned_collector_box_tests"
+    ],
+    "receipt_sha256": "0e4469700301ca038d65fd6a49567c3cf595305d1a34d5c94a6545f202ec04fe",
+    "log_sha256": "dd55887a41e217a25c5ac8c03d5571b1536c1042efefeda5788ae71c317d2cb4",
+    "full_native_gate": false
+  },
+  "independent_validation_sha256": "f0b1763c9c72917b8f0a1156d5ba728bec25daffe7c41a7eb773626deb9f15c6",
+  "receipts": {
+    "receipt.json": "ce88e98772b0bfaf3e493143bc6204ae7e75994b2f1cb6519daecf3abccc9ae4",
+    "build-receipt.json": "cef645bc10dd31ce8e27bae2c4136b96353bb0ac63960197fe83b3a829f4f465",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "85875fce93eb13281fcfba8968c91c0fc6a58ef77ae83e3307631a646e08efaa"
+  },
+  "source_archive_sha256": "db3dfb5a284c778c46095cc803b4397bda81be9bc8ed4a7a2e5c6ea3ce8fafbe",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "26 exact-source relevant group checks and16 independent full output validations for each distinct source. No app/Clippy/Java/full suite or unchanged retry. Selected4830/dd55/29f remains unchanged.",
+  "development_failure": {
+    "source_digest": "22495ceb0977a9272d736d06ff7d219da18d2e23a8bc29dbe67eb27d493d4b64",
+    "exit_code": 101,
+    "executed_tests": 0,
+    "cause": "Preparation stopped before updating graph call and one test call,leaving old closure arguments. Partial prototype and exact compiler error retained;fixed fresh prototype used for26 actual passes. An isolated inline-closure syntax probe also failed before any library/runtime operations.",
+    "log_sha256": "4c2be460a4ec410d0af0caf079bcd7dbd0b5ed821482b20be5da16431fe53512",
+    "receipt_sha256": "b49a5532e17900332c7c6d6c7866b1df72a32826338bd6aa55f3aa041d38a570"
+  }
+}

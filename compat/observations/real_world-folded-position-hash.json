@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-folded-position-hash",
+  "status": "Closed unintegrated: Sailing-1.2861%(1/4 faster),Golfer+1.1035%(4/4 faster);no Sailing gain.",
+  "native_source_digest": "6332d49c04181bae12a394c8b104b017617daf024d53238dc4b31771b1b9af8a",
+  "input_sha256": "3c1bf89ca92ed61bcded5b03560de8bacfbbed7e81ec55a78acee46ead220b04",
+  "source_snapshot": "1663a87d03168236a0ed40f74e73e1b88015eb05df436d930dccf773cac87826",
+  "artifact_sha256": "daca5e83a5ec19da9e79b676475f14472b5f1a52fb5e3637515c6458078b5a83",
+  "mechanism": "Feed full coordinate pairs through two write_u128 calls. Mix independent64x64 products and fold both halves into the private numeric accumulator;finish with XOR-shift. Full stored Position/Eq and all cold sorting,rows,captures,zero presence and payload behavior stay unchanged. Distinct from the closed four-word input-only packing.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/folded-position-hash-next-results/clean-folded-position-hash-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70139.63684159721,
+            69304.48105721072,
+            68378.88346161666,
+            69818.45929248827
+          ],
+          "trial": [
+            68441.55110130664,
+            69862.54427195458,
+            67786.9607622101,
+            68892.060397828
+          ]
+        },
+        "medians": {
+          "baseline": 69561.4701748495,
+          "trial": 68666.80574956731
+        },
+        "gain_pct": -1.2861493913704836
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195443.65196179526,
+            195194.37945570442,
+            192820.54887804756,
+            197918.32975645055
+          ],
+          "trial": [
+            197996.52924860455,
+            195424.98293682522,
+            197533.52050546036,
+            197415.1038647588
+          ]
+        },
+        "medians": {
+          "baseline": 195319.01570874982,
+          "trial": 197474.3121851096
+        },
+        "gain_pct": 1.1034749834975877
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "verification": {
+    "actual_tests_passed": 22,
+    "rust_digest": "6332d49c04181bae12a394c8b104b017617daf024d53238dc4b31771b1b9af8a",
+    "production_digest": "3c1bf89ca92ed61bcded5b03560de8bacfbbed7e81ec55a78acee46ead220b04",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::tests",
+      "stream_graph::consuming::equal_tests"
+    ],
+    "log_sha256": "e1332dd96d86810e2f75e97de77c9a9a0641d3c07c961be68b3c4df16876eded",
+    "receipt_sha256": "a71913520f4f2dbf79fad99a3aa461ac72f68d869d2a33b3695d1c8d070d2112",
+    "full_native_gate": false
+  },
+  "independent_validation_sha256": "e396afb10e2744175edc564bab418bc3c2e3c0c939fb53711e3b1aa7b0d44510",
+  "comparison_baseline": {
+    "rust_digest": "4830c0a176c3fbc35298eb554a072322a826d23e7cce7e8a67ee9d5d1e5cf9d9",
+    "production_digest": "b01b54ef2672ecae22e15196909dd9b8cf1362fc3b8120417104eed95d851069",
+    "snapshot": "8fcc3a2bfbbd92652e93c276da6d19752fdf0dd96af6c1a23e206ecdfc4a92d7",
+    "artifact_sha256": "dd55ac40a3cca7a311e7a68200c95f9fd8b1296c8cbe046146029efe025c0d2e"
+  },
+  "receipts": {
+    "receipt.json": "06d74110c8401a6faa34c8aaf4b91372ea0c55dd1ecc0d43f73f0a57c306f2ac",
+    "build-receipt.json": "02aaf172a6570a400187e2f4452215bef5b1d6923c328c7d589a73a5b029f6f0",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "09b80d500ac82911110aa4f685a054ddc1960672aa4a69aba8ecf92e7f6c1a7f"
+  },
+  "source_archive_sha256": "7d9bd93e5579ce22043f6e5358442149a04faaea9cabf169bff74f1b906a06e1",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "22 actual same-source relevant hash/row/terminal checks and16 independently valid full outputs. No app/Clippy/Java/full suite or unchanged retry. The selected4830/dd55/29f runtime remains unchanged."
+}

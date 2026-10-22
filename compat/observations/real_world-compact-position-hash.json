@@ -1,0 +1,100 @@
+{
+  "kind": "real_world-compact-position-hash",
+  "status": "Closed unintegrated: Sailing-.1182%(1/4 faster),Golfer-1.5840%(1/4 faster);no Sailing gain.",
+  "native_source_digest": "5c52609f0e16a37dd715da5ea816bb659368c9b79deeb8e19a673a625d71e3ca",
+  "input_sha256": "8e971562f741c0ede1f291087eafb9434e2184fd6095028f75469b47d4a58acd",
+  "source_snapshot": "4bca81cd590fedfd715ac8ea1aef30c2e11c643f2f07ab37459e14ff73d82ad4",
+  "artifact_sha256": "75a9394b50fcd89d872f25af0d648023cd127395df57853f2c017df3279cb2c4",
+  "mechanism": "Hash mapper-generated Position as four original coordinate words,joining last page quotient and cell using rotation/XOR. Omit a fixed array-length word and separate cell write. Preserve full stored Position/Eq,old independent word mixer/final avalanche and all cold ordering/snapshot/row behavior.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/compact-position-hash-next-results/clean-compact-position-hash-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            68806.22487509066,
+            70115.55751027817,
+            68535.26988124299,
+            69758.02330012819
+          ],
+          "trial": [
+            68058.33925917368,
+            69514.8600469147,
+            68885.63242681722,
+            69750.9668974479
+          ]
+        },
+        "medians": {
+          "baseline": 69282.12408760942,
+          "trial": 69200.24623686596
+        },
+        "gain_pct": -0.11818034135316902
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195815.52353210287,
+            193932.2674836365,
+            196760.41908543647,
+            192820.53389194296
+          ],
+          "trial": [
+            193031.2953470449,
+            189276.6756406825,
+            196802.51301104328,
+            190542.7481654042
+          ]
+        },
+        "medians": {
+          "baseline": 194873.8955078697,
+          "trial": 191787.02175622457
+        },
+        "gain_pct": -1.5840365604640305
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "verification": {
+    "actual_tests_passed": 22,
+    "rust_digest": "5c52609f0e16a37dd715da5ea816bb659368c9b79deeb8e19a673a625d71e3ca",
+    "production_digest": "8e971562f741c0ede1f291087eafb9434e2184fd6095028f75469b47d4a58acd",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "primitive_rows::consumed_scores::",
+      "stream_graph::consuming::tests",
+      "stream_graph::consuming::equal_tests"
+    ],
+    "log_sha256": "3baab7a62e4f1f465a73ae178108688fd12c6d7e16dc283ea257bdb9a1a12de1",
+    "receipt_sha256": "118183fd0cef05ce2355da4446a712b5f285a754bbdcaa5cd057228cec052bdd",
+    "full_native_gate": false
+  },
+  "independent_validation_sha256": "4c6679dfa69fe5d511dade7e03e52be048c5e6b77ded94e1e4eed5144a8aeb23",
+  "comparison_baseline": {
+    "rust_digest": "4830c0a176c3fbc35298eb554a072322a826d23e7cce7e8a67ee9d5d1e5cf9d9",
+    "production_digest": "b01b54ef2672ecae22e15196909dd9b8cf1362fc3b8120417104eed95d851069",
+    "snapshot": "8fcc3a2bfbbd92652e93c276da6d19752fdf0dd96af6c1a23e206ecdfc4a92d7",
+    "artifact_sha256": "dd55ac40a3cca7a311e7a68200c95f9fd8b1296c8cbe046146029efe025c0d2e"
+  },
+  "receipts": {
+    "receipt.json": "01ebca56daeb63b4a67d7e209c4702af5ec178f032aaaba9ee219d3f156022c7",
+    "build-receipt.json": "5298dee8ec1532ecc9f913785ef411340654dbec4ecc85eb85894652f95c3527",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "2c80b435b939ccb54a8761db174fe80e9fd4d1458d2c8dfceb3f931375b7322d"
+  },
+  "source_archive_sha256": "b68342a1f738a5d157bb3bf44739254d158734a68dc5af57087366d4b0918613",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "22 actual same-source hash/score-row/consuming-terminal checks and16 independently valid full outputs. No app/Clippy/Java/full suite or unchanged retry. No narrower ID,changed logical equality or model/fixture/compiler/search policy."
+}

@@ -1,0 +1,129 @@
+{
+  "kind": "real_world-owned-bound-summary",
+  "status": "Closed unintegrated: Sailing-2.8717% and Golfer-.7224%,all4 pairs slower on both.",
+  "native_source_digest": "94959f0830423d1b9894d8ffac9ef4f43d93695ace99f12e41a47da10a015dbc",
+  "input_sha256": "df9ef99defed81968f0870c778b78fbf7d820e9b18b2531748a70a1d0a09901d",
+  "source_snapshot": "58a8385bdeed8843632e2489c8c053b367352dd6c3f54ac4b3169703c50b46c9",
+  "artifact_sha256": "c248d1a88a8fd8a611e9889c5c110f658fec4e5d8a321c7ad5de84a5f5e1bf3e",
+  "mechanism": "Explicit typed owned-bound input preparation and owned collector updates;whole common fallback outlined. Common public operator unchanged. Full original values/order/poison/bounds/journals/captures preserved. New independent multiset/guard/capture controls pass.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/owned-bound-summary-next-results/clean-owned-bound-summary-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69383.27697602056,
+            69506.35788999958,
+            69639.248965575,
+            70112.29054703821
+          ],
+          "trial": [
+            67526.13749815704,
+            67346.81105155045,
+            67932.63120516848,
+            67623.60330240132
+          ]
+        },
+        "medians": {
+          "baseline": 69572.8034277873,
+          "trial": 67574.87040027918
+        },
+        "gain_pct": -2.8717155685437645
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            196688.25975558918,
+            197927.06744835948,
+            195465.11180945984,
+            196533.8291237289
+          ],
+          "trial": [
+            195315.49749135238,
+            196551.84847959474,
+            194299.4582556181,
+            195065.84599429564
+          ]
+        },
+        "medians": {
+          "baseline": 196611.04443965905,
+          "trial": 195190.67174282402
+        },
+        "gain_pct": -0.7224277257074196
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "actual_tests_passed": 26,
+    "rust_digest": "94959f0830423d1b9894d8ffac9ef4f43d93695ace99f12e41a47da10a015dbc",
+    "production_digest": "df9ef99defed81968f0870c778b78fbf7d820e9b18b2531748a70a1d0a09901d",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "incremental_stream::group_owned_summary::tests",
+      "incremental_stream::group_inputs::owned_tests",
+      "incremental_stream::group_entry::tests",
+      "incremental_stream::group_inverse_tests",
+      "stream_graph::group_summary_lane::tests",
+      "incremental_stream::owned_collector_box_tests"
+    ],
+    "receipt_sha256": "5c14c010c6ded2bef526ee064439e6384f2b5d46e472d3e92cf070b745b245b7",
+    "log_sha256": "c4aff9fb25a5a69f08e88390f779f612d231e43eac3b579674a624e855b5713a",
+    "full_native_gate": false
+  },
+  "independent_validation_sha256": "bf9c6f975761a76ec9bf1d2c1e53c2a8103c7809aea958dec98a3d6449ee49eb",
+  "receipts": {
+    "receipt.json": "16cb0c2a263612a32fd026840eae0fceac61cdbeea6aa55081a5ee290b0d3bb5",
+    "build-receipt.json": "c11f68848a42fdef3a726376e48b9fba210f99743d05b08af0edf9910d1cfebd",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "57fb2059cdc90f0e9c6222d7b617490ee5feadf6d2c8518857b169286bfafde1"
+  },
+  "source_archive_sha256": "6c0004920dd963c498daa779cce48a6e295cdc6942f1c87da5aea04432bde635",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "26 exact-source relevant group checks and16 independent full output validations for each distinct source. No app/Clippy/Java/full suite or unchanged retry. Selected4830/dd55/29f remains unchanged.",
+  "assembly": {
+    "baseline_group_frame_bytes": [
+      12216,
+      12184,
+      16376
+    ],
+    "trial_group_frame_bytes": [
+      808,
+      808,
+      1064
+    ],
+    "evidence_sha256": "b7b171bc77b23ffe9d5dc6a04d020028e5a918e6bf25fb836d49e775653663dd",
+    "limit": "Smaller stack reservations did not establish a throughput gain."
+  },
+  "diagnostic": {
+    "receipt_sha256": "1f8b9537be8fe7b19a0e3beb8846d8372a6bd2f54c1c6590b644d7f67b89961b",
+    "collection_verification_sha256": "250491b74c8336fa670de31cab727f8f6a5231bf32db8f76371ab576f793911f",
+    "flat_sha256": "0f60a69ea127fa5fd00d4d876839f4b881f225da0f43d743d7ac3f630dfc4725",
+    "group_caller_samples_pct": 7.58,
+    "fallback_samples_pct": 2.21,
+    "outlined_publisher_closure_samples_pct": 1.96,
+    "lost_samples": 0,
+    "scope": "Unselected candidate only.199Hz capture gives broad samples,not causal instruction attribution or speed comparison."
+  },
+  "development_failure": {
+    "source_digest": "c088693ab353fd3d68e2bfaafe6c7039bd82eaf0e793f29454f95bb7b445e675",
+    "exit_code": 101,
+    "executed_tests": 0,
+    "cause": "Initial new-module visibility and static key bound compile errors. Failed prototype,source manifest and receipt retained.",
+    "log_sha256": "a3adf2d4ebdf96f8baf293479f1b67d7bc38663d9072ad13bfa8679cb482cbd1",
+    "receipt_sha256": "c12e683e8d7b88ed699b712b395837aed55f0cde6bb23dc64eec4ac46a0ade6c"
+  }
+}

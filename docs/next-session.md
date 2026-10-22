@@ -74,6 +74,34 @@ without replacing the selected Sailing runtime. No app/Clippy/Java/full suite
 or unchanged retry.
 [Routing trial](../compat/observations/real_world-held-node-routing.json).
 
+A four-word Position hash trial is closed unintegrated:22 exact-source
+checks and16 independently valid outputs on5c52609f/8e971562.
+Sailing-.1182%(1/4)/Golfer-1.5840%(1/4),so no app/Clippy/Java/full suite
+or unchanged retry. Full key storage/equality stays intact;removing redundant
+hash inputs alone did not help. The distinct folded wide-product mixer is
+also closed unintegrated:22 exact-source checks and16 valid full outputs on
+6332d49c/3c1bf89c,Sailing-1.2861%(1/4)/Golfer+1.1035%(4/4). No app/Clippy/
+Java/full suite or unchanged retry for either hash variant.
+[Folded hash trial](../compat/observations/real_world-folded-position-hash.json).
+[Compact hash trial](../compat/observations/real_world-compact-position-hash.json).
+
+Typed owned-bound group summaries and the direct-return refinement are both
+closed unintegrated. Each has26 exact-source focused passes and16 independently
+valid full outputs. First94959f08/df9ef99d:Sailing-2.8717%/Golfer-.7224%,all4
+pairs slower on both. Caller stack frames fall from12–16KB to808/808/1064B;
+this does not establish a speed benefit. Candidate-only199Hz10s cycle capture
+is valid,zero lost samples:group caller7.58%,fallback2.21%,publisher closure1.96%.
+Direct-returne65520f2/6bcb9cac removes that closure but remains slower on Sailing:
+-.9817%(1/4),Golfer+1.5796%(4/4). No app/Clippy/Java/full suite or unchanged
+retry. Both original compile failures execute0tests;failed sources/logs retained.
+[Typed route](../compat/observations/real_world-owned-bound-summary.json),
+[Direct return](../compat/observations/real_world-owned-bound-summary-direct.json).
+The fallback is a minority of candidate samples;do not blindly expand unbounded
+input storage or retry the closed typed route. A possible next target is the
+repeated wide-member terminal work probe:cache put/retract information with the
+existing immutable shared event owner and use it only for certified single-put
+terminals,keeping unknown/custom/fused-counter routes unchanged.
+
 The following original-label selected checkpoints are preserved historical
 records;their source/class identities do not qualify the clean checkout.
 
