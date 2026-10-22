@@ -79,8 +79,20 @@ The collector-slot handle trial is closed unintegrated: Sailing+.3816%/
 Golfer-.4690%,27 focused checks and16 independently valid outputs. No app,
 Clippy,Java,full suite or unchanged repeat.
 [Handle evidence](../compat/observations/real_world-group-summary-handles.json).
-Do not retry this or the selected seed mechanism unchanged. Next seek a different
-hot-path mechanism;the remaining gap is not solved by these summary changes.
+Do not retry the handle or selected seed mechanism unchanged. A current a7ed
+199Hz10s CPU2,3 Sailing cycle capture has zero lost samples and one independently
+valid full output. Propagation10.34%,group summary8.77%/5.52%,membership6.68%,
+terminal summary6.53%,owned output closures4.58%/2.41% are diagnostic self samples,
+not removable costs. Annotation confirms10 collector closure call sites across
+instantiations. No build,test or comparative Java lane accompanied this capture.
+[Current profile](../compat/observations/real_world-selected-seed-cycle-profile.json).
+The exact-body two-closure inline trial is closed unintegrated:Sailing+.8571%
+(2/4 faster),Golfer-.3831%(0/4),16 full outputs independently valid. Zero new
+unit runs;prior31 unit+4 application checks retain their original source hashes.
+No app,Clippy,Java,full suite or unchanged repeat for this rejected source.
+[Closure evidence](../compat/observations/real_world-summary-closure-inline.json).
+All trial/profile jobs are terminal and collected. Next seek a different cost;
+do not retry the same hints or summary representations unchanged.
 
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;

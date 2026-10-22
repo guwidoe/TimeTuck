@@ -1,0 +1,83 @@
+{
+  "kind": "real_world-summary-closure-inline",
+  "status": "Closed unintegrated: small mixed Sailing+.8571%(2/4 faster)/Golfer-.3831%(0/4). Retain selected ca2f/a7ed source.",
+  "native_source_digest": "dbcfe7f7c493bdced71e3c63dcc31af199fa82ef95ef7b8a7742c9262595ff44",
+  "input_sha256": "9b4f6ea4c576ab7d52f4de80b46869f45fe11ff3a6911e06de0289a3609ef80c",
+  "source_snapshot": "d0f8056ce1e6148214015a0d6efc2f7cc4a28f969693c06966dddac68b5f12b8",
+  "artifact_sha256": "d8912e8b123c976bcb43e2fe5de1763e0de64858c12420f0f38000bcde05021b",
+  "mechanism": "Exactly two inline(always) attributes on original owning collector old.and_then/new.map closure bodies. Strip those inserted strings to recover selected owning collector source byte for byte. No behavior,model,fixture,search or toolchain policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/summary-closure-inline-next-results/clean-summary-closure-inline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70011.01275663335,
+            70596.35790301742,
+            70442.72252714868,
+            71072.1460621014
+          ],
+          "trial": [
+            67721.2631703431,
+            71320.28083351147,
+            71303.74561189328,
+            70944.1133102845
+          ]
+        },
+        "medians": {
+          "baseline": 70519.54021508305,
+          "trial": 71123.92946108889
+        },
+        "gain_pct": 0.8570521647793816
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197714.74600523576,
+            199530.4214000056,
+            198588.06457009507,
+            198926.73632597656
+          ],
+          "trial": [
+            193474.5829640153,
+            198249.40720596668,
+            197742.34590414623,
+            198880.9102754551
+          ]
+        },
+        "medians": {
+          "baseline": 198757.4004480358,
+          "trial": 197995.87655505646
+        },
+        "gain_pct": -0.3831424094211
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "actual_new_unit_tests": 0,
+    "body_equivalence_sha256": "4316e4b337db00efc64869088c612c8b2b89a83c91146e21028cbf8e5131664c",
+    "prior_source_bound_verification_sha256": "ae0306831e400511e2698f42b7424308dab108f5b13504b756e32c2a8f4a65b0",
+    "policy": "31 prior unit checks across original source generations+4 finalca2f application cases retain their original hashes. Attribute-only exact-body equivalence supports reuse;no rekeying or new behavior-test credit."
+  },
+  "independent_validation_sha256": "81f7fe851584d4f63f4bdc210b63ef9c56ad24aeca252c4f2d4ef57e92229eb4",
+  "receipts": {
+    "receipt.json": "44df431dfc1e309dfc923bf186e235741dd0a64faec993bf382bfa9ff8540f9e",
+    "build-receipt.json": "6533ae5d425c95fe0ad8c56012ebc5edc247bfbf6a8ac72d92dbae768de8a2b6",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "75f0f4429d10b5f78c69a7e31ea2cd9dc4c67a45421cfc3f6b4035159f5c8baf"
+  },
+  "source_archive_sha256": "29d07a21534c640c5d7e8458fd2aaea2f7d9baa43f4308ed198670a4529f7eca",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full native outputs independently valid. Baseline measured87f/a7ed retained;actual final ca2f Cargo qualification proved byte identity across the test-only bridge. No further app,Clippy,Java,full suite or unchanged repeat on this rejected source."
+}

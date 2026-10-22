@@ -1,0 +1,42 @@
+{
+  "kind": "real_world-selected-seed-cycle-profile",
+  "status": "Complete selected-source diagnostic;one valid solve and zero lost samples. No throughput comparison.",
+  "native_source_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+  "input_sha256": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+  "source_snapshot": "3c5476d97738fe65143f4a67204c010fd36d43042c944a7bd0265fb1a5bc7b8c",
+  "artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "sampling": {
+    "seconds": 10,
+    "seed": 7,
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "event": "cycles:u",
+    "frequency_hz": 199,
+    "lost_samples": 0
+  },
+  "sample_percentages": {
+    "propagate_arena": 10.34,
+    "group_summary_largest_instantiation": 8.77,
+    "membership_filter_largest_instantiation": 6.68,
+    "terminal_summary_largest_instantiation": 6.53,
+    "group_summary_second_instantiation": 5.52,
+    "owned_output_first_closure": 4.58,
+    "owned_output_second_closure": 2.41
+  },
+  "next_target": "Two original collector-output and_then/map closures remain outlined;try exact-body inline attributes so consumer code can optimize across call/return boundaries. No behavior change or promised removable cost.",
+  "receipt_sha256": "73ce77bda723c73cb331491ea734d158c37fc8e8bf0b0eb5b891f861998dc2d8",
+  "release_receipt_sha256": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+  "measured_build_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "fixture_only_bridge": true,
+  "data_sha256": "e205e416807cc8441104459c3e4cac822666b3b7b13c1c0a1148d793465390fd",
+  "output_sha256": "87e9a941badd0d5a9f5d8817715ea24d73e3e48bb202f82d7e0fa6ba3e0b2c3f",
+  "flat_sha256": "8c3b040044d6b368360460a61a5bcf2ee18c407997dfd84d648ec05c563de154",
+  "annotation_sha256": "32cda8e5143d1edb742ceb72ee4219d2d19616669d07c8db6cf9f634cd3e4d80",
+  "independent_validation_sha256": "fe6f41e814e2fb32cfd38b281e4e42f50a53a17b65af3d3ebc69c660335a596f",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "Actual selected a7ed artifact reused,no build/test/Java lane. Final ca2f release qualification proves byte identity to original measured87f7 build;both identities retained. Independent full output/initial state valid. Self sample percentages are diagnosis,not removable costs or comparative gains.",
+  "actual_collector_closure_call_sites_in_annotation": 10
+}
