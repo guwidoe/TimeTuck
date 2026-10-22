@@ -52,8 +52,10 @@ this benchmark does not claim all RealWorld product semantics. Public weights
 are exactly integral after scaling; other fractions are rejected.
 
 Both models offer capacity-filtered individual changes and same-session swaps.
-They lack whole keep-together moves. Native step cooling and Timefold wall-time
-cooling/hard-score annealing differ. Equal numeric seeds do not imply equal RNG
+They lack whole keep-together moves. Both accept with the same per-level
+`exp(-loss / temperature)` rule at `0hard/500soft` and cool linearly over the time
+limit. The Java change filter reads occupancy from the solver's working solution,
+not from the input clone. Equal numeric seeds do not imply equal RNG
 streams, move counts or traces. The sailing case can remain infeasible and its
 quality is not equal-gated. Per-runtime evaluation throughput and raw hard/soft
 quality are reported separately. `throughput_target_met` is a bounded observed
@@ -65,3 +67,14 @@ Focused checks:
 ```sh
 python3 -m unittest discover -s scripts -p test_real_world_reference.py
 ```
+
+## Superseded comparisons
+
+Reports produced before the occupancy and cooling corrections are not like-for-like.
+The Java change filter counted occupancy on the unchanged input seats, so on Sailing
+it admitted changes into groups that had since filled and traded keep-together
+violations for capacity violations. Golfer was unaffected because every group stays
+full there. The native model cooled over 40000 steps and still ran hot when a
+10-second run completed fewer steps. Retained observations keep their original
+bytes; treat their Sailing Java quality and throughput, and both runtimes' quality
+comparisons, as superseded until the default matrix is rerun.

@@ -24,8 +24,10 @@ model contract, not a claim about other RealWorld implementations.
 
 The original within-session spare-seat changes and swaps retain their xorshift
 move stream. Benchmark acceptance uses simulated annealing with soft temperature
-500 (`SA=5` at scale100), cooling over 40000 steps, first-accepted selection and
-the supplied seed. Diagnostic environment switches and `pprof` were removed.
+500 (`SA=5` at scale100) and zero hard temperature, first-accepted selection and
+the supplied seed. Timed runs cool linearly over their time limit, matching the
+Timefold comparator; untimed, evaluation-bounded regressions cool over 40000
+steps so they stay deterministic. Diagnostic environment switches and `pprof` were removed.
 No hot-path solver library implementation was changed.
 
 Run the benchmark with:

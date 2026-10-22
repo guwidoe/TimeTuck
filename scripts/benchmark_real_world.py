@@ -115,7 +115,7 @@ def summarize(runs, cases):
                           'rust_over_java_streams_evaluations_per_second': ratio,
                           'throughput_target_met': complete and ratio is not None and ratio >= 1,
                           'quality_equal_gated': False,
-                          'quality_note': 'Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ.'})
+                          'quality_note': 'Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; random streams differ.'})
     return summaries
 
 
@@ -156,8 +156,8 @@ def main(argv=None):
               'generated_at': datetime.now(timezone.utc).isoformat(), 'run_directory': str(run_dir),
               'configuration': {'cases': args.cases, 'seeds': args.seeds, 'seconds': args.seconds,
                                 'java_modes': args.java_modes, 'cpu_affinity': cpus,
-                                'scale': 100, 'rust': {'acceptor': 'simulated_annealing', 'soft_temperature': 500, 'cooling_steps': 40000},
-                                'java': {'acceptor': 'simulated_annealing', 'temperature': '0hard/500soft',
+                                'scale': 100, 'rust': {'acceptor': 'simulated_annealing', 'temperature': '0hard/500soft', 'cooling': 'elapsed time over the limit'},
+                                'java': {'acceptor': 'simulated_annealing', 'temperature': '0hard/500soft', 'cooling': 'elapsed time over the limit',
                                          'accepted_count_limit': 1, 'environment_mode': 'NO_ASSERT',
                                          'termination': 'milliseconds spent', 'heap': '-Xmx1g'},
                                 'move_families': ['capacity-filtered change', 'same-session swap'],
@@ -282,7 +282,7 @@ def main(argv=None):
     report['qualification_note'] = 'Qualification means complete default application measurements with independent scoring, never native/Java parity or upstream coverage.'
     report['limits'] = ['Move evaluation counts describe each runtime work, not identical work.',
                         'Search traces and random streams differ despite shared numeric seeds.',
-                        'Native step cooling differs from Timefold wall-time cooling and hard-score annealing.',
+                        'Both runtimes cool over elapsed time with zero hard temperature; their cooling clocks start at slightly different points.',
                         'Whole keep-together moves are absent; sailing quality is not equal-gated.',
                         'Optional Java incremental is a separate hand-written domain-cache comparator.',
                         'RealWorld solver_settings are retained export metadata; they do not configure these solvers.']

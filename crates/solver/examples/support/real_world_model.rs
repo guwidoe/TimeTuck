@@ -479,9 +479,11 @@ pub struct BenchmarkRun {
     pub elapsed_ns: u128,
 }
 
-/// Uses the spike's SA=5/COOL=40000 configuration, with an optional deterministic
-/// evaluation ceiling for regression tests. Only solving is timed, including
-/// stream score-director initialization, as in the original application spike.
+/// Simulated annealing at soft temperature 500 (scale 100) and zero hard temperature.
+/// A timed run cools over its time limit, like the Timefold comparator; an untimed
+/// run cools over 40000 completed steps so evaluation-bounded regressions stay
+/// deterministic. Only solving is timed, including stream score-director
+/// initialization, as in the original application spike.
 pub fn solve(
     m: &Model,
     problem: &FiniteProblem<usize>,
@@ -506,10 +508,17 @@ pub fn solve(
         max_accepted_moves: u64::MAX,
         max_steps: u64::MAX,
         max_time,
-        acceptance: Acceptance::SimulatedAnnealing {
-            starting_temperature: HardSoftScore::new(0, 500),
-            cooling_steps: 40_000,
-            seed,
+        acceptance: match max_time {
+            Some(cooling_time) => Acceptance::SimulatedAnnealingTime {
+                starting_temperature: HardSoftScore::new(0, 500),
+                cooling_time,
+                seed,
+            },
+            None => Acceptance::SimulatedAnnealing {
+                starting_temperature: HardSoftScore::new(0, 500),
+                cooling_steps: 40_000,
+                seed,
+            },
         },
         selection: MoveSelection::FirstAccepted,
         ..Default::default()

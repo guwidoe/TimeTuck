@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         "best_score": [best.score.hard(), best.score.soft()],
         "termination": format!("{:?}", run.result.termination),
         "seed": seed, "seconds": seconds, "score_scale": 100,
-        "starting_temperature": [0, 500], "cooling_steps": 40_000,
+        "starting_temperature": [0, 500], "cooling": "elapsed_time",
         "people": people, "groups": groups, "sessions": sessions, "variables": variables,
     });
     let mut output = problem;
