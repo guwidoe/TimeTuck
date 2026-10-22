@@ -30,26 +30,26 @@ fn uniform_arena_keeps_arbitrary_values_counts_immutable_clones_promotions_and_r
         let saved = a.clone();
         let old = model.clone();
         for round in 0..12 {
-            for i in 0..model.len() {
+            for (i, slot) in model.iter_mut().enumerate() {
                 let edit = if (i + round) % 2 == 0 {
                     ScalarEdit::Insert(value)
                 } else {
                     ScalarEdit::Remove(value)
                 };
                 if matches!(edit, ScalarEdit::Remove(_))
-                    && model[i].as_ref().unwrap().occurrence_count() == 0
+                    && slot.as_ref().unwrap().occurrence_count() == 0
                 {
                     continue;
                 }
                 let output = a.try_uniform_update(i, edit, "input occurrence").unwrap();
                 match edit {
-                    ScalarEdit::Insert(v) => model[i].as_mut().unwrap().insert(v),
-                    ScalarEdit::Remove(v) => assert!(model[i].as_mut().unwrap().remove(v)),
+                    ScalarEdit::Insert(v) => slot.as_mut().unwrap().insert(v),
+                    ScalarEdit::Remove(v) => assert!(slot.as_mut().unwrap().remove(v)),
                     _ => unreachable!(),
                 }
                 assert_eq!(
                     IntCollector::from_single_state(output.0, output.1),
-                    *model[i].as_ref().unwrap()
+                    *slot.as_ref().unwrap()
                 );
             }
             check(&a, &model);

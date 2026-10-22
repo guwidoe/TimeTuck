@@ -168,28 +168,27 @@ impl Arena {
     }
     pub(super) fn insert(&mut self, pos: Position, collector: IntCollector) -> usize {
         let address = Address::new(pos);
-        if let Storage::Uniform(u) = &mut self.storage {
-            if let Some((value, count)) = collector.single_state()
-                && (count == 0 || u.value.is_none_or(|v| v == value))
-            {
-                u.observed.take();
-                if count != 0 && u.value.is_none() {
-                    u.value = Some(value);
-                }
-                let counter = Counter { address, count };
-                return match self.free.pop() {
-                    Some(index) => {
-                        assert!(u.values[index].is_none(), "free collector slot");
-                        u.values[index] = Some(counter);
-                        index
-                    }
-                    None => {
-                        let index = u.values.len();
-                        u.values.push(Some(counter));
-                        index
-                    }
-                };
+        if let Storage::Uniform(u) = &mut self.storage
+            && let Some((value, count)) = collector.single_state()
+            && (count == 0 || u.value.is_none_or(|v| v == value))
+        {
+            u.observed.take();
+            if count != 0 && u.value.is_none() {
+                u.value = Some(value);
             }
+            let counter = Counter { address, count };
+            return match self.free.pop() {
+                Some(index) => {
+                    assert!(u.values[index].is_none(), "free collector slot");
+                    u.values[index] = Some(counter);
+                    index
+                }
+                None => {
+                    let index = u.values.len();
+                    u.values.push(Some(counter));
+                    index
+                }
+            };
         }
         self.promote();
         let Storage::General(values) = &mut self.storage else {

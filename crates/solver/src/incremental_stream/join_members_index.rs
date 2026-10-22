@@ -183,6 +183,7 @@ impl<K: 'static, I> Index<K, I> {
     }
 }
 #[cfg(test)]
+#[allow(clippy::items_after_test_module)] // The trailing alias keeps body locations stable.
 mod tests {
     use super::*;
     use std::collections::{BTreeMap, BTreeSet};

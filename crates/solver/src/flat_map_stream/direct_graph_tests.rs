@@ -8,13 +8,12 @@ use std::{
 fn direct_graph_output_preserves_full_rows_zero_presence_tails_equal_owners_and_captures() {
     type Id = (usize, usize);
     type Row = (usize, usize, usize, usize, i64);
-    fn run(
-        direct: bool,
-    ) -> (
+    type Run = (
         Vec<Vec<TupleChange<(Id, usize), Row>>>,
         Vec<(Id, usize)>,
         usize,
-    ) {
+    );
+    fn run(direct: bool) -> Run {
         let calls = Cell::new(0usize);
         let mut node = FlatMapNode::new(|&(n, value): &(usize, i64)| {
             calls.set(calls.get() + 1);
