@@ -1,0 +1,96 @@
+{
+  "kind": "real_world-typed-member-owner",
+  "status": "Closed unintegrated: Sailing-5.6262% and Golfer-4.1531%,all4 pairs slower on both.",
+  "native_source_digest": "55a0c4992b60a87cc1825d8498f4286f13b57ed0e08292a4c7d68cabf07a2b2e",
+  "input_sha256": "3d7139e9ac837c26ee549c823989171c0d0aa5bff3c9ca850f0b7398822788b9",
+  "source_snapshot": "b8b39199411480b1fa293f23f5959d8eac429314f85c85d50b80e4c42efffddf",
+  "artifact_sha256": "06391fbd38d21d73bf54f599e8c6b4f6a5135a35422254adcc241f741e4cb751",
+  "mechanism": "Keep exact wide member shared owners as Rc of original typed TupleChange instead of erased Rc,retaining put/retract certificates. Erase on owning downcast only;reference type checks see concrete builtin type. Same allocation,canonical ownership,full row fields,FIFO and callbacks. No unsafe code.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/typed-member-owner-next-results/clean-typed-member-owner-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69534.76813653043,
+            70094.40283102117,
+            70129.32055589196,
+            69225.59254573892
+          ],
+          "trial": [
+            66530.44309759306,
+            65881.45220682456,
+            65288.189961682576,
+            65891.96647326184
+          ]
+        },
+        "medians": {
+          "baseline": 69814.5854837758,
+          "trial": 65886.70934004319
+        },
+        "gain_pct": -5.626154071552003
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197796.30288091284,
+            194586.3991172765,
+            195899.1770275633,
+            195691.64335881706
+          ],
+          "trial": [
+            187508.55957538416,
+            188033.20122086574,
+            187289.84330325326,
+            187819.0032866744
+          ]
+        },
+        "medians": {
+          "baseline": 195795.41019319018,
+          "trial": 187663.78143102926
+        },
+        "gain_pct": -4.153125323079587
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "actual_tests_passed": 44,
+    "rust_digest": "55a0c4992b60a87cc1825d8498f4286f13b57ed0e08292a4c7d68cabf07a2b2e",
+    "production_digest": "3d7139e9ac837c26ee549c823989171c0d0aa5bff3c9ca850f0b7398822788b9",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::event::",
+      "stream_graph::event_queue::tests",
+      "stream_graph::score_routing_tests",
+      "stream_graph::deferred_totals::tests",
+      "stream_graph::membership_filter::",
+      "stream_graph::join_output::"
+    ],
+    "receipt_sha256": "4d1c44c594b65403d0b546a193d4240a754595b76030d996a4257982bb6f9945",
+    "log_sha256": "c9b6922d606b7986432428fff1843b437a5c7ab1ae57d7d6a97f14e39232072c"
+  },
+  "independent_validation_sha256": "9924702c00c838c63ecd31e2455f9889555ecc411aa647e54a267e4f22dc3c52",
+  "receipts": {
+    "receipt.json": "c8076e2440cdf9bf14cac864719f90b8ea6a95128a864edb070ef10b81307593",
+    "build-receipt.json": "8f59181593e386d50c37861faff22776337ec502be21f43def8ebf43a6e8d37e",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "2e6ba8bb39aaefc60659fc74da8a91175284ea9c7422d98d898b0b31cc73863e"
+  },
+  "source_archive_sha256": "1be9c4fb8e55727c022609fd9f3c14bf908c9960cc59e8a78005e7cd141925cc",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "No application/Clippy/Java/full suite or unchanged retry. Selected4830/dd55/report29f remains unchanged."
+}

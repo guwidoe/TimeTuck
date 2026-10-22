@@ -60,6 +60,19 @@ Clean backend report uses the20 actual same-source passes,not a full gate.
 The clean dashboard serves localhost:8766;original8765 server and working
 directory remain untouched. No pending build/test/benchmark jobs after collection.
 
+Three member-event trials are closed unintegrated. Put/retract work tags measured
+Sailing-5.9251%/Golfer-5.8997%;typed owners plus tags-5.6262%/-4.1531%;
+one typed owner variant without accounting metadata-4.3783%/-3.9451%.
+All4 pairs were slower on both cases for every trial;each16 full outputs
+independently validate. Tags passed43 checks on the first test source plus2
+after test-only refinement,same production;both typed trials passed44 actual
+exact-source checks. Sources,receipts,preparation failure and owner/rollback/
+work-count regressions remain preserved. No app/Clippy/Java/full suite or
+unchanged retry. The selected4830/dd55 runtime and currentJava29f remain.
+[Tags](../compat/observations/real_world-member-work-tag.json),
+[typed plus tags](../compat/observations/real_world-typed-member-owner.json),
+[typed only](../compat/observations/real_world-typed-member-only.json).
+
 A distinct borrowed filter-forwarding trial is closed unintegrated:15 actual
 scoped checks and16 independently valid outputs,onb73f55b0/568be0c3.
 Sailing-1.6045%(0/4 faster)/Golfer-.2535%(2/4),so no app/Clippy/Java/full

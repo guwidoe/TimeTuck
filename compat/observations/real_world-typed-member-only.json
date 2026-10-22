@@ -1,0 +1,97 @@
+{
+  "kind": "real_world-typed-member-only",
+  "status": "Closed unintegrated: Sailing-4.3783% and Golfer-3.9451%,all4 pairs slower on both.",
+  "native_source_digest": "7a4dffcf5a81a435c81f7f7f4d6327b1508ea574a2be40472ed4221ab35b8992",
+  "input_sha256": "fc3f2da3ce9e73d0eb4b2f5f3165b735904e80991a3d56a3446852f82368c0a6",
+  "source_snapshot": "c10007294eef52bd2f42871a0b6aa4bf1b723c7fddfd81a9207c155d2d1513d9",
+  "artifact_sha256": "03ea2f9b7fbe26dd03279652559d8a767b659839bfac301e665fa4dcc0dbce5e",
+  "mechanism": "One typed shared-member variant without put/retract tags or work-accounting metadata. Concrete reference type tests,original work probes,72-byte Event/24-byte queue cell,canonical original Rc allocation,full fields,FIFO,callbacks and rollback. No unsafe code.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/typed-member-only-next-results/clean-typed-member-only-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69398.91473535185,
+            69810.4910629325,
+            69067.57679945188,
+            69900.65962957905
+          ],
+          "trial": [
+            65855.53573765243,
+            67188.92247537446,
+            66722.86337497969,
+            66391.47773988996
+          ]
+        },
+        "medians": {
+          "baseline": 69604.70289914217,
+          "trial": 66557.17055743482
+        },
+        "gain_pct": -4.37834257567804
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            195836.2183022279,
+            195800.36823962015,
+            197655.9685012061,
+            193429.42638971785
+          ],
+          "trial": [
+            189376.7848734892,
+            186870.65125649422,
+            187545.57237562834,
+            188640.4939151252
+          ]
+        },
+        "medians": {
+          "baseline": 195818.293270924,
+          "trial": 188093.03314537677
+        },
+        "gain_pct": -3.9451166673478144
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "actual_tests_passed": 44,
+    "rust_digest": "7a4dffcf5a81a435c81f7f7f4d6327b1508ea574a2be40472ed4221ab35b8992",
+    "production_digest": "fc3f2da3ce9e73d0eb4b2f5f3165b735904e80991a3d56a3446852f82368c0a6",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::event::",
+      "stream_graph::event_queue::tests",
+      "stream_graph::score_routing_tests",
+      "stream_graph::deferred_totals::tests",
+      "stream_graph::membership_filter::",
+      "stream_graph::join_output::"
+    ],
+    "receipt_sha256": "14ffbaf963df31f9d5faf47a53bd8f6f71d27b171f03cf4a04a709f42d2f5a0b",
+    "log_sha256": "4bf59f2518d92466f6aa93ee759dc155dc168e1d3cc35036c8b9f428987d015c"
+  },
+  "independent_validation_sha256": "fc66c05b157c608b1b7f7751a614cec596f1ec0c906ea8f291c934fd62b917ac",
+  "receipts": {
+    "receipt.json": "1bc131488ea932f2011d426a710a4ea61a6a6234b6e3e71b9e04434762eae7e4",
+    "build-receipt.json": "9e512e4789f4acc331d034189f6138f2070e5fc6b19af07253d246b3efcdcbfd",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "e2b9406627a808d327a14883035c4646df2c87221ff7ec7dd46cb0694613bef3"
+  },
+  "source_archive_sha256": "9eaf583c447dfd90f2bca60e2fb4956eb4c572ad8bf165ec20c88eafd31573f4",
+  "development_preparation_failure": "Initial assertion rejected an unexpected original enqueue_existing source shape before build or runtime. Partial source retained;new final prototype applied exact original shape and passed44 tests. No compiler failure or executed test credited to partial source.",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "No application/Clippy/Java/full suite or unchanged retry. Selected4830/dd55/report29f remains unchanged."
+}

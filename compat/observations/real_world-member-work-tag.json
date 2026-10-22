@@ -1,0 +1,116 @@
+{
+  "kind": "real_world-member-work-tag",
+  "status": "Closed unintegrated: Sailing-5.9251% and Golfer-5.8997%,all4 pairs slower on both.",
+  "native_source_digest": "2ed3e59be86dabcc5d1eac8224b656bea39e5d6537fcfc94af3bc34fb2abc47a",
+  "input_sha256": "20791cfd1a4b6e306ebd4af34aeab2f1219075a029c4f0c99e4d9db526b27876",
+  "source_snapshot": "023d544b3a6428722a5e147aa02fa743fc8b2df533e8409f87992f1ae90bc330",
+  "artifact_sha256": "12d7264dfd0ad20d0eab1b9a2e7f8b7791fc9adbc95b565b88fc0cd3228c80fd",
+  "mechanism": "Cache immutable put/retract tags on exact shared member events;certified consuming terminal work probes read tags. Same canonical Rc owner,full fields,72-byte Event/24-byte queue cell,publication phases,callbacks,checked arithmetic and rollback. Other terminals fall back to original probes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/member-work-tag-next-results/clean-member-work-tag-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70391.28317612105,
+            69686.7102772461,
+            70153.78707587191,
+            69791.50949308657
+          ],
+          "trial": [
+            65246.178649370326,
+            65593.41448063657,
+            66081.62709176223,
+            66060.04441750702
+          ]
+        },
+        "medians": {
+          "baseline": 69972.64828447925,
+          "trial": 65826.72944907179
+        },
+        "gain_pct": -5.92505634280398
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197732.50580540102,
+            196406.0505979149,
+            197413.5923830033,
+            196033.25527981884
+          ],
+          "trial": [
+            186898.52465104466,
+            182283.63543999684,
+            187811.36262123738,
+            183687.08441867534
+          ]
+        },
+        "medians": {
+          "baseline": 196909.8214904591,
+          "trial": 185292.80453486
+        },
+        "gain_pct": -5.899663545305667
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": [
+    {
+      "actual_tests_passed": 43,
+      "rust_digest": "5c1f7e49ccc017f9596e4da8e96e1b4838ed6501ac365821545e66e173fff09f",
+      "production_digest": "20791cfd1a4b6e306ebd4af34aeab2f1219075a029c4f0c99e4d9db526b27876",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "stream_graph::event::",
+        "stream_graph::event_queue::tests",
+        "stream_graph::score_routing_tests",
+        "stream_graph::deferred_totals::tests",
+        "stream_graph::membership_filter::",
+        "stream_graph::join_output::"
+      ],
+      "receipt_sha256": "61484f973ea9e36eea8b48b0a706d161c6af052425cbb5d0c0a5cd01472a320d",
+      "log_sha256": "1d76c553a2361d5f62f9679bbc7edf8fcc360a961b53b89322b01274dd7e466f"
+    },
+    {
+      "actual_tests_passed": 2,
+      "rust_digest": "2ed3e59be86dabcc5d1eac8224b656bea39e5d6537fcfc94af3bc34fb2abc47a",
+      "production_digest": "20791cfd1a4b6e306ebd4af34aeab2f1219075a029c4f0c99e4d9db526b27876",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "member_work_tag_preserves_original_owner_downcasts_and_opaque_fallback",
+        "shared_forward_consumed_member_graph_preserves_callbacks_captures_errors_overflow_and_retry"
+      ],
+      "receipt_sha256": "f6c5263c0cdc79e4e11eb43e367969dd0b293c214d65b1652b66bb41439bf9f1",
+      "log_sha256": "cc3582991e5cd870ee9a49d910ba7e691db12ba7b31488b10574e842f77b4229"
+    }
+  ],
+  "verification_note": "43 passes on first test source;2 actual passes after test-only refinement on final source,same production digest. 45 executions/44 unique tests across2 sources;not45 final-source passes.",
+  "independent_validation_sha256": "002a7dbb04dcce8c85ad5c3973d811b99b96a2e8aa97c7f7d66f3960705f9453",
+  "receipts": {
+    "receipt.json": "1d6af4f2e5ab518b6268dab254e6712734fe5ee75f2fd0d34d8fef47f862f2c4",
+    "build-receipt.json": "1f6899eda71a3785f29d8646d280fa70b938d9e34dcdbacf4262acd36ed427ac",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "e93e0dfe50832261fa1849bf0576705395ccbb0bd70c036e0ff1273f62fe5719"
+  },
+  "source_archive_sha256": "03e72a481fdfed392800bcf621a2359d53ea2badd8e2f037d20d0414ae97d02c",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "No application/Clippy/Java/full suite or unchanged retry for losing runtime. Selected4830/dd55/report29f remains unchanged."
+}
