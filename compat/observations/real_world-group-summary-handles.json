@@ -1,0 +1,82 @@
+{
+  "native_source_digest": "70318a92bee39b790111a9f7920bd0ee8a83079bd822b8115102f6425390614f",
+  "input_sha256": "6a5bd88a2ac31ceeb6187f62a58c67ac2d8a2dd4b14228e6f40f8202cfd7a76d",
+  "source_snapshot": "be163e79983629c1b285664da734d939a045ed1869d7b10617981abf25c0acba",
+  "artifact_sha256": "6e9f1acbb17925c47c9b81c7efc05da54702187f6498898c565c6e7eac053404",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/group-summary-handles-next-results/clean-group-summary-handles-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70667.9428109703,
+            70305.0704769492,
+            70654.24389212953,
+            71489.95233479659
+          ],
+          "trial": [
+            70665.98934132607,
+            71212.69023849603,
+            71068.06230349139,
+            70793.37374968112
+          ]
+        },
+        "medians": {
+          "baseline": 70661.0933515499,
+          "trial": 70930.71802658626
+        },
+        "gain_pct": 0.381574445352717
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            201227.29919801248,
+            200203.41523223248,
+            200309.70274832286,
+            197380.63954047792
+          ],
+          "trial": [
+            200801.66604868163,
+            199586.09320760053,
+            199048.75988073746,
+            193700.36316530665
+          ]
+        },
+        "medians": {
+          "baseline": 200256.55899027767,
+          "trial": 199317.426544169
+        },
+        "gain_pct": -0.4689646375848677
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "independent_validation_sha256": "5ffc6078078cc380ab495003a5a834692d49275eda507553b8ef53baa4748ff9",
+  "receipts": {
+    "receipt.json": "a57e2b1a4efdb7846f465171d8a06625f62d3873c0daa607cc81bd8c677e39b8",
+    "build-receipt.json": "6627e072e20eaa6f97cd432c5c4481833ea093013121ba98f3426130716539fc",
+    "baseline-build-receipt.json": "f6bdd8f189742593170161d4e54655841c916253e9208b7e7f8fcdd3b22733ce",
+    "baseline-reuse.json": "a00999d70831f32aa06d25c941ca091298b0e87c81ae53d6ed9658a0a47389a8",
+    "controls.json": "08cd54881ec6df0bbdfa1f61d1ba38385bd91b28158fde1f6692c95e967c1a80"
+  },
+  "source_archive_sha256": "f930b14419ea5b9c7e24f4659a0cb9a75ecf10d59f89ef3816dd42d46fe69342",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "kind": "real_world-group-summary-handles",
+  "status": "Closed unintegrated: small mixed Sailing+.3816%/Golfer-.4690% change.",
+  "mechanism": "Deferred owned collector slot/count tickets; resolve full summaries after both group edits and input publication inside scoped emission. Retains original full lane rows,callbacks and rollback.",
+  "verification": {
+    "actual_tests_passed": 27,
+    "rust_digest": "70318a92bee39b790111a9f7920bd0ee8a83079bd822b8115102f6425390614f",
+    "production_digest": "6a5bd88a2ac31ceeb6187f62a58c67ac2d8a2dd4b14228e6f40f8202cfd7a76d",
+    "log_sha256": "5489f3d3eb240efba779b0e200f702f4ba6a78d3aa4f779c5a1e2b9a0ed5906e",
+    "receipt_sha256": "dac3c6b8ae5343621dfe107d5aecdc98cc3d923e90e91e1d1a3b42b424f62ba7"
+  },
+  "java_qualification_run": false,
+  "policy": "16 full outputs independently validate. No app/Clippy/Java/full suite or unchanged repeat for this rejected source. Baseline is selected count-only1e4f/92d2;no additive Java gain."
+}

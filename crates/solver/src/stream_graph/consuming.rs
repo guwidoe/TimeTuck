@@ -83,6 +83,22 @@ impl<S: AdditiveScore + 'static> StreamGraph<'_, S> {
                 })
             })
             .collect();
+        let eligible = |kind| {
+            let mut seen = false;
+            for (id, lane) in self.group_summary_lanes.iter().enumerate() {
+                if *lane == Some(kind) {
+                    seen = true;
+                    if !self.group_single_receivers[id] {
+                        return false;
+                    }
+                }
+            }
+            seen
+        };
+        self.propagation_workspace.summary_arena.enable_seeds(
+            eligible(group_summary_lane::Kind::Pair),
+            eligible(group_summary_lane::Kind::Quad),
+        );
         self.consuming_search = true;
         true
     }
@@ -160,15 +176,34 @@ impl<
         contribution: Option<S>,
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
+        self.apply_consumed_payload(
+            &change.id,
+            change.value.is_some(),
+            contribution,
+            arithmetic,
+            || {
+                change
+                    .value
+                    .as_ref()
+                    .expect("present consumed payload")
+                    .clone()
+            },
+        )
+    }
+    pub(super) fn apply_consumed_payload<F: FnOnce() -> T>(
+        &mut self,
+        id: &I,
+        present: bool,
+        contribution: Option<S>,
+        arithmetic: NodeArithmetic,
+        clone_payload: F,
+    ) -> Result<Outputs, GraphError> {
         let (prepared, (old, unchanged)) =
-            self.consumed
-                .as_mut()
-                .unwrap()
-                .prepare_change(&change.id, |score| {
-                    let old = score.cloned();
-                    let unchanged = old.as_ref() == contribution.as_ref();
-                    (old.unwrap_or(S::ZERO), unchanged)
-                });
+            self.consumed.as_mut().unwrap().prepare_change(id, |score| {
+                let old = score.cloned();
+                let unchanged = old.as_ref() == contribution.as_ref();
+                (old.unwrap_or(S::ZERO), unchanged)
+            });
         let new = contribution.clone().unwrap_or(S::ZERO);
         let total = arithmetic
             .totals
@@ -176,12 +211,12 @@ impl<
             .map_err(|_| GraphError::ScoreOverflow {
                 constraint: Some(self.name.clone()),
             })?;
-        if let Some(value) = &change.value {
+        if present {
             // Preserve ordinary terminal publication's ID then payload Clone,
             // after all checks. Exact certified T has no destruction hooks; the
             // copied payload is discarded only at its original storage phase.
-            let id = change.id.clone();
-            let payload = value.clone();
+            let id = id.clone();
+            let payload = clone_payload();
             let contribution = contribution.expect("scored match");
             // This graph is consumed and exact builtin row/ID/score types were
             // certified before activation. No public owner or payload history

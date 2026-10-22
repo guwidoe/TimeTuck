@@ -188,3 +188,84 @@ impl IntCollectorCounts {
 }
 #[cfg(test)]
 mod state_tests;
+
+// Complete owned snapshot with directly addressable count/sum fields. Range
+// options are reconstructed inside the concrete consumer, where unused fields
+// can be eliminated. Every signed bit and every extrema combination survives.
+#[derive(Clone, Copy)]
+pub(crate) struct SummarySeed {
+    count: usize,
+    distinct_count: usize,
+    sum: i64,
+    range: SummaryRange,
+}
+#[derive(Clone, Copy)]
+enum SummaryRange {
+    Empty,
+    One(i64),
+    Both(i64, i64),
+    Lower(i64),
+    Upper(i64),
+}
+impl SummarySeed {
+    #[inline]
+    pub(crate) fn from_summary(s: crate::IntSummary) -> Self {
+        let range = match (s.min, s.max) {
+            (None, None) => SummaryRange::Empty,
+            (Some(a), Some(b)) if a == b => SummaryRange::One(a),
+            (Some(a), Some(b)) => SummaryRange::Both(a, b),
+            (Some(a), None) => SummaryRange::Lower(a),
+            (None, Some(b)) => SummaryRange::Upper(b),
+        };
+        Self {
+            count: s.count,
+            distinct_count: s.distinct_count,
+            sum: s.sum,
+            range,
+        }
+    }
+    #[inline]
+    pub(crate) fn capture(values: &IntCollectorCounts, count: usize, sum: i64) -> Self {
+        let (distinct_count, range) = match values {
+            IntCollectorCounts::Empty => (0, SummaryRange::Empty),
+            IntCollectorCounts::One((v, _)) => (1, SummaryRange::One(*v)),
+            IntCollectorCounts::Two([a, b]) => (2, SummaryRange::Both(a.0, b.0)),
+            IntCollectorCounts::Tree(tree) => {
+                return Self::from_summary(crate::IntSummary {
+                    count,
+                    sum,
+                    distinct_count: tree.len(),
+                    min: tree.min(),
+                    max: tree.max(),
+                });
+            }
+        };
+        Self {
+            count,
+            distinct_count,
+            sum,
+            range,
+        }
+    }
+    #[inline(always)]
+    pub(crate) fn count(&self) -> usize {
+        self.count
+    }
+    #[inline(always)]
+    pub(crate) fn materialize(&self) -> crate::IntSummary {
+        let (min, max) = match self.range {
+            SummaryRange::Empty => (None, None),
+            SummaryRange::One(v) => (Some(v), Some(v)),
+            SummaryRange::Both(a, b) => (Some(a), Some(b)),
+            SummaryRange::Lower(a) => (Some(a), None),
+            SummaryRange::Upper(b) => (None, Some(b)),
+        };
+        crate::IntSummary {
+            count: self.count,
+            distinct_count: self.distinct_count,
+            sum: self.sum,
+            min,
+            max,
+        }
+    }
+}

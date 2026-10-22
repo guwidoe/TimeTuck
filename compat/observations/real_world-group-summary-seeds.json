@@ -1,0 +1,384 @@
+{
+  "native_source_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+  "input_sha256": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+  "source_snapshot": "e8485f5a137a6b3f4089890ac19a6675d587000048e6e6fb1b9096cd897350fb",
+  "artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/group-summary-seeds-next-results/clean-group-summary-seeds-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70540.81396566103,
+            70516.40743701669,
+            70211.78384811922,
+            69893.77342449511
+          ],
+          "trial": [
+            71165.78348090504,
+            70973.66437175777,
+            71350.31717415221,
+            70538.09472016434
+          ]
+        },
+        "medians": {
+          "baseline": 70364.09564256796,
+          "trial": 71069.72392633141
+        },
+        "gain_pct": 1.0028243485823651
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            200255.97392629154,
+            199413.65835994706,
+            200192.2816137598,
+            201906.94463102915
+          ],
+          "trial": [
+            198947.9875185137,
+            200071.8060573513,
+            199667.10314309646,
+            193604.09515124877
+          ]
+        },
+        "medians": {
+          "baseline": 200224.1277700257,
+          "trial": 199307.54533080506
+        },
+        "gain_pct": -0.4577782155572141
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "independent_validation_sha256": "df5729fd0eb5f5817403c3edfbea1bc35303510437d502eba2cd549d36eadedb",
+  "receipts": {
+    "receipt.json": "00312466b5c01e832ebb6938365eb83c7c6659cedcaee753450eceb01e3fe41b",
+    "build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-build-receipt.json": "f6bdd8f189742593170161d4e54655841c916253e9208b7e7f8fcdd3b22733ce",
+    "baseline-reuse.json": "a00999d70831f32aa06d25c941ca091298b0e87c81ae53d6ed9658a0a47389a8",
+    "controls.json": "9b251e6a1531ef0cd3e60598a8b913956b02e065b2325f66e7ccf8ed6e1e3cc1"
+  },
+  "source_archive_sha256": "dcefcd7448266def5f0e1dd33382fa2d6198bc2ff4e94421076a2e82a09b6640",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "kind": "real_world-group-summary-seeds",
+  "status": "Selected and integrated;fresh original-default Java qualification proves1of2 throughput targets.",
+  "mechanism": "Capture complete48-byte immutable count/distinct/sum/extrema seed at original summary phase;materialize full56-byte logical summary inside the concrete terminal evaluator so unused callback fields can be eliminated. Only original single-receiver builtin pair/quad producers;original fanout recorded before edge pruning. Canonical full rows retained for fanout/custom paths. No unsafe,callback removal,per-row heap allocation,benchmark/model/fixture/compiler/CPU/search-policy change.",
+  "measured_native_source_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "verification": {
+    "full_native_gate": false,
+    "native_source_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+    "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+    "actual_current_source_tests_passed": 5,
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/group-summary-seeds-focused5",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots"
+        ],
+        "tests_passed": 1,
+        "test_names": [
+          "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots"
+        ],
+        "exit_code": 0,
+        "seconds": 31.613476736005396,
+        "log_sha256": "bec1125a82c0ce2d809427e143a199037bbb1f23c664d5f9a62265e2eb7ae14d",
+        "receipt_sha256": "ed7baf918f806439c4cc04fdd8130ba40f94aa47b1a61dd584edf2fc6c14ac24"
+      },
+      {
+        "proof_directory": "work/real_world-goal/group-summary-seeds-application1",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "test_names": [
+          "social_golfer_bounded_search",
+          "social_golfer_full_score_and_rollback",
+          "sailing_bounded_search",
+          "sailing_full_score_and_rollback"
+        ],
+        "exit_code": 0,
+        "seconds": 31.153087859012885,
+        "log_sha256": "75be08286b1d46c85c6086b5bf41aa2ab65aef9a7f77d7bf78e734cd756a410b",
+        "receipt_sha256": "e16838e03ff017fd289e53fb6e28d4d209fef33accefcb6e341355fcde6061dd"
+      },
+      {
+        "proof_directory": "work/real_world-goal/group-summary-seeds-clippy1",
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "test_names": [],
+        "exit_code": 0,
+        "seconds": 22.770504182000877,
+        "log_sha256": "6052a63d6b0fed2880b499da9aca062297289dd3404133aa9691367fb6920f9c",
+        "receipt_sha256": "1c27dc59f841688aab8df98344ccfdf12c59f555a582f70820ee4d4e4da6ce64"
+      }
+    ],
+    "reused_source_bound_checks": [
+      {
+        "proof_directory": "work/real_world-goal/group-summary-seeds-focused2",
+        "original_native_source_digest": "c5fedbe9c9ab0b96e8d0df6af012f8f87cfcb02d3ee20e8fca81228c0c1bc88d",
+        "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+        "original_exit_code": 0,
+        "passed_test_names": [
+          "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+          "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+          "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+          "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+          "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+          "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+          "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+          "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+          "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+          "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+          "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+          "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+          "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+          "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+          "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+          "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+          "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+          "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+          "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+          "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+          "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+          "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+          "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+          "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+        ],
+        "tests_passed": 28,
+        "log_sha256": "c3b44941160d8edba8c088947a77ae03e25e7c9595e7665f19f7e03b150f5691",
+        "receipt_sha256": "edd64cf090e492a457eb69f142bb1866ac46b5cc9053d38fe19a7fb1df261acf",
+        "scope": "Source-bound reuse; only test literal annotations differ. Two successful tests in focused3 retained alongside its real failed fixture, which was rerun alone on final source."
+      },
+      {
+        "proof_directory": "work/real_world-goal/group-summary-seeds-focused3",
+        "original_native_source_digest": "c5fedbe9c9ab0b96e8d0df6af012f8f87cfcb02d3ee20e8fca81228c0c1bc88d",
+        "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+        "original_exit_code": 101,
+        "passed_test_names": [
+          "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+          "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery"
+        ],
+        "tests_passed": 2,
+        "log_sha256": "8a6eea913177a862ab8feefdc560345a9fd6c167cd3382439dab02ac83106a56",
+        "receipt_sha256": "4737b23262368b418b57c8f54ecb574f961067ae0dfbecddd593332e1460d7ad",
+        "scope": "Source-bound reuse; only test literal annotations differ. Two successful tests in focused3 retained alongside its real failed fixture, which was rerun alone on final source."
+      }
+    ],
+    "unique_scoped_unit_tests_passed_across_generations": 31,
+    "original_tests_upstream_method_credit": 0,
+    "fixture_only_bridge": {
+      "measured_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+      "final_rust_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "measured_snapshot": "e8485f5a137a6b3f4089890ac19a6675d587000048e6e6fb1b9096cd897350fb",
+      "final_snapshot": "3c5476d97738fe65143f4a67204c010fd36d43042c944a7bd0265fb1a5bc7b8c",
+      "only_changed_files": [
+        "crates/solver/src/stream_graph/group_summary_lane/seed_tests.rs"
+      ],
+      "reason": "Correct usize/i64 fixture literal annotation only; production identical. Original native and focused receipts retain their actual source identities. Final actual Cargo build must match measured artifact bytes."
+    },
+    "policy": "1 corrected fixture+4 application cases and lib/example Clippy actually executed on final source.30 successful prior focused checks retain their original source identities; no rekeying/full suite/unchanged rerun."
+  },
+  "preparation_history": [
+    {
+      "proof_directory": "work/real_world-goal/group-summary-seeds-focused1",
+      "rust_digest": "797ae3d5e65426e604d6d4bffa90db242513eff20af07be88381f9fa6c20a1fc",
+      "production_digest": "8e8ed07f0d4a83e4e0b3f1ce34c9483bcb6a9fb602b77bab7bee9bd4c96c1873",
+      "exit_code": 101,
+      "log_sha256": "4a7fff67648c58603db845492f9cdb5e17506a7fcbbcc67aee34e2535b3064db",
+      "receipt_sha256": "a232fb4e441e6af519e45a1136b04a1ec73e90b2868302776987ef7890c48bf2"
+    },
+    {
+      "proof_directory": "work/real_world-goal/group-summary-seeds-focused2",
+      "rust_digest": "c5fedbe9c9ab0b96e8d0df6af012f8f87cfcb02d3ee20e8fca81228c0c1bc88d",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "exit_code": 0,
+      "log_sha256": "c3b44941160d8edba8c088947a77ae03e25e7c9595e7665f19f7e03b150f5691",
+      "receipt_sha256": "edd64cf090e492a457eb69f142bb1866ac46b5cc9053d38fe19a7fb1df261acf"
+    },
+    {
+      "proof_directory": "work/real_world-goal/group-summary-seeds-focused3",
+      "rust_digest": "c5fedbe9c9ab0b96e8d0df6af012f8f87cfcb02d3ee20e8fca81228c0c1bc88d",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "exit_code": 101,
+      "log_sha256": "8a6eea913177a862ab8feefdc560345a9fd6c167cd3382439dab02ac83106a56",
+      "receipt_sha256": "4737b23262368b418b57c8f54ecb574f961067ae0dfbecddd593332e1460d7ad"
+    },
+    {
+      "proof_directory": "work/real_world-goal/group-summary-seeds-focused4",
+      "rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "exit_code": 101,
+      "log_sha256": "9d5eca901dc5555e6afd096a74a54c348dc4fedb7896ca7980e2cf1001835720",
+      "receipt_sha256": "dae1336d2eac9180630552bd599ae9b8698a43fa819dbf918eaa4b06f6cf10c0"
+    },
+    {
+      "proof_directory": "work/real_world-goal/group-summary-seeds-focused5",
+      "rust_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "exit_code": 0,
+      "log_sha256": "bec1125a82c0ce2d809427e143a199037bbb1f23c664d5f9a62265e2eb7ae14d",
+      "receipt_sha256": "ed7baf918f806439c4cc04fdd8130ba40f94aa47b1a61dd584edf2fc6c14ac24"
+    }
+  ],
+  "policy": "Native controls measured Rust87f7 with test-only fixture defects;finalca2f differs in exactly one cfg(test) file and has same production3c8e. Original hashes retained.30 successful focused checks on c5fe reused;only failed fixture rerun on ca2f. First preparation compile failure,wrong fixture type and correction compile failure remain preserved. No full suite or unchanged rerun. Final actual release Cargo build must reproduce measured artifact bytes before Java report promotion. Actual final-source Cargo+javac reproduced measureda7ed artifact. Latest Java report3bf3 is current;prior04ad retained unchanged. Native+1.0028% Sailing is not additive to prior Java ratio. Latest Rust71276/Java76357 Sailing needs7.1294% more Rust throughput;Golfer1.622928x.1/2 targets,goal remains active.",
+  "final_source_snapshot": "3c5476d97738fe65143f4a67204c010fd36d43042c944a7bd0265fb1a5bc7b8c",
+  "java_qualification": {
+    "report_sha256": "3bf31cc608915d7a4e37af40df71f759cc3c5dc25ffeaac2b0af4587873e2e1c",
+    "collection_verification_sha256": "2adad3ee30c8c56906328e43c867adf0fdfbce1d305dca7958a1e4d390ca20ca",
+    "current_throughput_targets_met": 1,
+    "required_targets": 2,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 122954.61476779908,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.041854064
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 199546.53412191867,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000101979
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.622928382954671,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 76357.29869663324,
+            "scores": [
+              [
+                -12,
+                80500
+              ],
+              [
+                -7,
+                168200
+              ],
+              [
+                -14,
+                91800
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.048837377
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 71275.73993619734,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86500
+              ],
+              [
+                -1,
+                196900
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000810853
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9334502549569638,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "independent_local_full_outputs": 12,
+    "artifact_byte_identical_to_measured": true,
+    "fixture_only_bridge": {
+      "measured_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+      "final_rust_digest": "ca2f617fa9f707bc4694c3e97ffc65f0c37bcac880faf84dfb33ac4f51cf5c44",
+      "production_digest": "3c8ee537264a07f424f428dbd6ff6ae6b7f9e14cf4f81ff8971fb9ba740615fd",
+      "measured_snapshot": "e8485f5a137a6b3f4089890ac19a6675d587000048e6e6fb1b9096cd897350fb",
+      "final_snapshot": "3c5476d97738fe65143f4a67204c010fd36d43042c944a7bd0265fb1a5bc7b8c",
+      "only_changed_files": [
+        "crates/solver/src/stream_graph/group_summary_lane/seed_tests.rs"
+      ],
+      "reason": "Correct usize/i64 fixture literal annotation only; production identical. Original native and focused receipts retain their actual source identities. Final actual Cargo build must match measured artifact bytes."
+    },
+    "source_binding_sha256": "03247dcdbe19b809e950fc4738c3ddfd5c2bf6d584f636b4494f632502868bb3",
+    "receipt_sha256": "fa27cbe21d1f14010b3ad9a445c79c918e11e6592a2759b361b06399182ee794"
+  }
+}

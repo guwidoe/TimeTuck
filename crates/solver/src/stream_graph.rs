@@ -1202,6 +1202,18 @@ impl<
             id: change.id.clone(),
             value: change.value.as_ref().map(|v| (self.mapping)(v)),
         };
+        if self.node.has_owned_summary_groups() && lanes.seed_enabled::<K>() {
+            self.node
+                .apply_summary_seeds::<crate::primitive_rows::Exact, _>(mapped, |old, new| {
+                    if let Some(row) = old {
+                        lanes.publish_seed(row, edges, pending);
+                    }
+                    if let Some(row) = new {
+                        lanes.publish_seed(row, edges, pending);
+                    }
+                });
+            return;
+        }
         self.node
             .apply_inline_with_policy::<crate::primitive_rows::Exact, _>(mapped, |old, new| {
                 // The common algorithm has completed input publication and poison
@@ -1603,7 +1615,15 @@ impl<
         summary: group_summary_lane::SummaryRef<'_>,
         arithmetic: NodeArithmetic,
     ) -> Result<Outputs, GraphError> {
-        self.apply_change(summary.typed(), arithmetic)
+        match summary {
+            group_summary_lane::SummaryRef::PairSeed(row) => {
+                self.apply_seed_change(row, arithmetic)
+            }
+            group_summary_lane::SummaryRef::QuadSeed(row) => {
+                self.apply_seed_change(row, arithmetic)
+            }
+            summary => self.apply_change(summary.typed(), arithmetic),
+        }
     }
     fn apply(
         &mut self,
@@ -1622,6 +1642,50 @@ impl<
     E: TerminalEvaluator<T, S>,
 > TerminalState<I, T, S, E>
 {
+    #[inline(always)]
+    fn apply_seed_change<K: Clone + 'static>(
+        &mut self,
+        change: &TupleChange<K, (K, crate::int_collector_counts::SummarySeed)>,
+        arithmetic: NodeArithmetic,
+    ) -> Result<Outputs, GraphError> {
+        let id = (&change.id as &dyn Any)
+            .downcast_ref::<I>()
+            .expect("certified summary ID");
+        let payload = || {
+            let (key, seed) = change.value.as_ref().expect("present summary seed");
+            let value = (key.clone(), seed.materialize());
+            (&value as &dyn Any)
+                .downcast_ref::<T>()
+                .expect("certified summary row")
+                .clone()
+        };
+        debug_assert!(
+            self.consumed.is_some(),
+            "certified consuming summary terminal"
+        );
+        let contribution = change
+            .value
+            .as_ref()
+            .map(|_| {
+                let value = payload();
+                self.evaluate.evaluate(&value, &self.name, arithmetic)
+            })
+            .transpose()?;
+        if contribution
+            .as_ref()
+            .is_some_and(|score| score.structural() != 0)
+        {
+            return Err(GraphError::StructuralContribution(self.name.clone()));
+        }
+        self.apply_consumed_payload(
+            id,
+            change.value.is_some(),
+            contribution,
+            arithmetic,
+            payload,
+        )
+    }
+
     fn apply_change(
         &mut self,
         change: &TupleChange<I, T>,
@@ -2868,6 +2932,8 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
                 })
             })
             .collect();
+        // Record original fanout before weights can prune/restore an edge.
+        let group_single_receivers = self.edges.iter().map(|edges| edges.len() == 1).collect();
         let pruned_edges = self.prune_disabled_constraints();
         let mut observed: Vec<_> = self
             .nodes
@@ -2924,6 +2990,7 @@ impl<'a, S: AdditiveScore + 'static> StreamGraphBuilder<'a, S> {
                 .map(|node| node.has_join_output())
                 .collect(),
             group_summary_candidates,
+            group_single_receivers,
             group_summary_lanes: vec![None; self.nodes.len()],
             shared_event_producers,
             supports_live_commit,
@@ -3000,6 +3067,7 @@ pub struct StreamGraph<'a, S: AdditiveScore> {
     join_output_nodes: Vec<bool>,
     inline_forward_nodes: Vec<bool>,
     group_summary_candidates: Vec<Option<group_summary_lane::Kind>>,
+    group_single_receivers: Vec<bool>,
     group_summary_lanes: Vec<Option<group_summary_lane::Kind>>,
     shared_event_producers: Vec<bool>,
     supports_live_commit: bool,

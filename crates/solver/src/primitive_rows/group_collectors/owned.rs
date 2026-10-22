@@ -215,6 +215,9 @@ impl<K> Owned<K> {
         self.get_key_value(key).map(|(_, v)| v)
     }
     pub(super) fn insert(&mut self, key: K, value: IntCollector) {
+        self.insert_slot(key, value);
+    }
+    fn insert_slot(&mut self, key: K, value: IntCollector) -> usize {
         let pos = (self.map)(&key);
         let canonical = self
             .entry(pos)
@@ -228,6 +231,7 @@ impl<K> Owned<K> {
                 value,
             }),
         );
+        value
     }
     pub(super) fn remove(&mut self, key: &K) -> bool {
         let pos = (self.map)(key);
@@ -443,7 +447,11 @@ impl<K> Owned<K> {
         }
     }
     #[inline(always)]
-    fn scalar<P: LookupPolicy<K>>(&mut self, key: &K, edit: ScalarEdit) -> Option<IntSummary> {
+    fn scalar<P: LookupPolicy<K>, Q: summary_output::Output>(
+        &mut self,
+        key: &K,
+        edit: ScalarEdit,
+    ) -> Option<Q::Row> {
         let pos = P::locate(self.map, key);
         let row = self.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
         let tagged = row.value;
@@ -469,8 +477,8 @@ impl<K> Owned<K> {
                 assert!(collector.replace_captured(a, b), "input occurrence")
             }
         }
-        let summary = collector.summary();
-        row.value = if summary.count == 0 {
+        let summary = Q::prepare(collector);
+        row.value = if Q::count(&summary) == 0 {
             slot | INACTIVE
         } else {
             slot
@@ -478,7 +486,7 @@ impl<K> Owned<K> {
         if let Some(frame) = self.frames.last_mut() {
             frame.edits.push(OwnedUndo::Scalar(tagged, edit));
         }
-        Some(summary)
+        Some(Q::finish(summary, slot))
     }
 }
 impl<K: Ord + Clone> Owned<K> {
@@ -490,11 +498,21 @@ impl<K: Ord + Clone> Owned<K> {
         new_key: Option<&K>,
         same: bool,
     ) -> (Option<IntSummary>, Option<IntSummary>) {
+        self.apply_output::<P, summary_output::Full>(old, new, new_key, same)
+    }
+    #[inline(always)]
+    pub(super) fn apply_output<P: LookupPolicy<K>, Q: summary_output::Output>(
+        &mut self,
+        old: Option<&(K, i64)>,
+        new: Option<&(K, i64)>,
+        new_key: Option<&K>,
+        same: bool,
+    ) -> (Option<Q::Row>, Option<Q::Row>) {
         if same {
             let (key, old) = old.unwrap();
             let new = new.unwrap().1;
             if *old != new
-                && let Some(summary) = self.scalar::<P>(key, ScalarEdit::Replace(*old, new))
+                && let Some(summary) = self.scalar::<P, Q>(key, ScalarEdit::Replace(*old, new))
             {
                 return (Some(summary), None);
             }
@@ -503,42 +521,48 @@ impl<K: Ord + Clone> Owned<K> {
                 assert!(collector.remove(*old), "input occurrence");
                 self.remove(key);
                 collector.insert(new);
-                let summary = collector.summary();
-                self.insert(new_key.unwrap().clone(), collector);
-                return (Some(summary), None);
+                let summary = Q::prepare(&collector);
+                let slot = self.insert_slot(new_key.unwrap().clone(), collector);
+                return (Some(Q::finish(summary, slot)), None);
             }
             if *old != new {
                 assert!(collector.replace_captured(*old, new), "input occurrence");
-                let summary = collector.summary();
-                self.insert(key.clone(), collector);
-                return (Some(summary), None);
+                let summary = Q::prepare(&collector);
+                let slot = self.insert_slot(key.clone(), collector);
+                return (Some(Q::finish(summary, slot)), None);
             }
-            return (Some(collector.summary()), None);
+            let summary = Q::prepare(&collector);
+            let slot = if Q::NEEDS_SLOT {
+                self.entry(P::locate(self.map, key)).unwrap().slot()
+            } else {
+                0
+            };
+            return (Some(Q::finish(summary, slot)), None);
         }
         let before = old.and_then(|(key, value)| {
-            if let Some(summary) = self.scalar::<P>(key, ScalarEdit::Remove(*value)) {
-                return (summary.count != 0).then_some(summary);
+            if let Some(summary) = self.scalar::<P, Q>(key, ScalarEdit::Remove(*value)) {
+                return (Q::row_count(&summary) != 0).then_some(summary);
             }
             let mut collector = self.get(key).expect("input group").clone();
             assert!(collector.remove(*value), "input occurrence");
-            let summary = collector.summary();
-            if summary.count == 0 {
+            let summary = Q::prepare(&collector);
+            if Q::count(&summary) == 0 {
                 self.remove(key);
                 None
             } else {
-                self.insert(key.clone(), collector);
-                Some(summary)
+                let slot = self.insert_slot(key.clone(), collector);
+                Some(Q::finish(summary, slot))
             }
         });
         let after = new.map(|(key, value)| {
-            if let Some(summary) = self.scalar::<P>(key, ScalarEdit::Insert(*value)) {
+            if let Some(summary) = self.scalar::<P, Q>(key, ScalarEdit::Insert(*value)) {
                 return summary;
             }
             let mut collector = self.get(key).cloned().unwrap_or_default();
             collector.insert(*value);
-            let summary = collector.summary();
-            self.insert(key.clone(), collector);
-            summary
+            let summary = Q::prepare(&collector);
+            let slot = self.insert_slot(key.clone(), collector);
+            Q::finish(summary, slot)
         });
         (before, after)
     }

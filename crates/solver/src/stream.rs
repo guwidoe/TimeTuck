@@ -90,6 +90,11 @@ impl IntCollector {
         self.count
     }
 
+    #[inline]
+    pub(crate) fn summary_seed(&self) -> crate::int_collector_counts::SummarySeed {
+        crate::int_collector_counts::SummarySeed::capture(&self.values, self.count, self.sum)
+    }
+
     pub fn summary(&self) -> IntSummary {
         IntSummary {
             count: self.count,

@@ -41,28 +41,46 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-Current clean source replaces six count-only full-summary reads with a private
-inline occurrence_count accessor. Full emitted summaries,arithmetic/overflow
-phases,ownership,callbacks,publication,rollback and model/compiler/CPU policies
-remain. Native controls Sailing+2.0420%(3/4 faster)/Golfer+2.6212%(4/4),all16
-full outputs independently valid. Actual18 scoped collector/rollback checks+4
-application cases and lib/example Clippy pass on1e4f2673/productione03d3036.
-Exact measured artifact92d234fb,snapshot77dcfc79,is integrated in005d7c9a.
-No new test or upstream-method credit. Prior lazy owned-input and summary-chunk
-allocation outlines remain selected. The precedingff2d assembly demonstrated
-12–16KB to1.3–1.4KB caller frame reductions;not a new frame measurement here.
-Fresh original-default Java/Rust report04adf381 is current:serial rotating
-3seeds10s/CPU2,3,actual Cargo+javac,12 independent full-output validations,
-byte-identical native artifact. Golfer1.668160x/Sailing.953155x Java,1/2 targets.
-Sailing Rust71928/Java75463 evaluations/s,needing4.9147% more Rust throughput.
-Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Native gains
-are not added to preceding ratios. Prior1299 onff2d/1456 and all previous
-source/class hashes remain preserved unchanged as historical evidence.
-[Selected evidence](../compat/observations/real_world-collector-count-only.json).
-[Preceding selection](../compat/observations/real_world-summary-chunk-outline.json).
-The clean dashboard serves localhost:8766 from22 actual current-source passes,
-not a full native/upstream gate. Original8765 server/directory remain preserved.
-All current build/test/benchmark jobs are terminal/collected. Goal remains active.
+Current clean source additionally captures complete immutable summary seeds and
+materializes full logical rows inside the concrete terminal evaluator. This
+avoids computing unused callback fields;only original single-receiver builtin
+pair/quad producers qualify. Original fanout is recorded before weight pruning;
+shared/custom paths retain canonical full rows. Complete extrema,count,distinct,
+sum,callback order/work,overflow/publication and rollback remain. No model,
+fixture,compiler,CPU or search-policy changes. Native controls versus selected
+count-only1e4f/92d2: Sailing+1.0028%(4/4 faster),Golfer-.4578%(1/4),all16 full
+outputs independently valid. Actual31 unique scoped unit checks across two test
+sources+4 final application cases and final lib/example Clippy pass.30 previous
+successful checks retain sourcec5fe;only corrected fixture rerun on finalca2f.
+Two fixture type errors and the earlier incomplete preparation remain preserved;
+no old results are rekeyed and no full suite was run. Final actual source is
+ca2f617f/production3c8ee537,snapshot3c5476d9. Measured native snapshote8485f5a
+had test-only annotation defects;final differs in exactly that cfg(test) file.
+Actual final Cargo reproduced byte-identical artifacta7ed7dfa.
+Fresh default Java/Rust report3bf31cc6 is current:serial rotating3seeds10s/CPU2,3,
+actual Cargo+javac,12 independent full-output validations. Golfer1.622928x/
+Sailing.933450x Java,1/2 targets. Sailing Rust71276/Java76357 evaluations/s,
+needing7.1294% more Rust throughput. Rust2/3 versusJava0/3 Sailing runs feasible;
+quality stays separate. Latest Java margin is wider than prior04ad despite the
+paired native gain;do not extrapolate or add gains to prior ratios. Previous04ad
+and all raw hashes/receipts remain unchanged.
+[Selected evidence](../compat/observations/real_world-group-summary-seeds.json).
+The clean dashboard serves localhost:8766 from5 actual current-source passes,
+with30 previous focused checks separately source-bound;not a full native/upstream
+gate. Original8765 server/directory remain preserved. All build/test/benchmark
+jobs are terminal/collected. Goal remains active.
+
+Preceding selected count-only accessor replaced six full-summary count reads.
+It passed18 scoped+4 application cases/Clippy and measured Sailing+2.0420%/
+Golfer+2.6212%;its actual Java report04ad had1.668160x/.953155x and1/2 targets.
+[Preceding evidence](../compat/observations/real_world-collector-count-only.json).
+
+The collector-slot handle trial is closed unintegrated: Sailing+.3816%/
+Golfer-.4690%,27 focused checks and16 independently valid outputs. No app,
+Clippy,Java,full suite or unchanged repeat.
+[Handle evidence](../compat/observations/real_world-group-summary-handles.json).
+Do not retry this or the selected seed mechanism unchanged. Next seek a different
+hot-path mechanism;the remaining gap is not solved by these summary changes.
 
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;

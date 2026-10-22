@@ -789,6 +789,63 @@ impl<I: Ord, K: Ord + Clone> GroupNode<I, K> {
         self.apply_inline_with_policy::<crate::primitive_rows::Stored, R>(change, finish)
     }
 
+    // Private owning graph snapshots complete values at the original phases.
+    // Only their callback-facing representation is delayed; no live handle
+    // survives this call or a later collector edit.
+    pub(crate) fn has_owned_summary_groups(&self) -> bool {
+        self.groups.has_owned()
+    }
+    pub(crate) fn apply_summary_seeds<P: crate::primitive_rows::LookupPolicy<K>, R>(
+        &mut self,
+        change: TupleChange<I, (K, i64)>,
+        finish: impl FnOnce(
+            Option<TupleChange<K, crate::int_collector_counts::SummarySeed>>,
+            Option<TupleChange<K, crate::int_collector_counts::SummarySeed>>,
+        ) -> R,
+    ) -> R {
+        healthy(self.poisoned);
+        let (input, old) = self.inputs.prepare_change(&change.id, |old| {
+            old.map(|(key, value)| (key.clone(), *value))
+        });
+        let old_key = old.as_ref().map(|(key, _)| key);
+        let new_key = change.value.as_ref().map(|(key, _)| key.clone());
+        self.poisoned = true;
+        let same_group = old_key.is_some() && old_key == new_key.as_ref();
+        let summaries = self.groups.apply_seeds::<P>(
+            old.as_ref(),
+            change.value.as_ref(),
+            new_key.as_ref(),
+            same_group,
+        );
+        if let Some(value) = change.value {
+            if self.equal_input_reuse {
+                input.insert_unless_exclusive_equal(change.id, value, |a, b| {
+                    a.0 == b.0 && a.1 == b.1
+                });
+            } else {
+                input.insert(change.id, value);
+            }
+        } else {
+            input.remove();
+        }
+        let old_output = old_key.map(|key| TupleChange {
+            id: key.clone(),
+            value: summaries.0,
+        });
+        let new_output = if let Some(key) = new_key
+            && !same_group
+        {
+            Some(TupleChange {
+                id: key,
+                value: Some(summaries.1.expect("new group")),
+            })
+        } else {
+            None
+        };
+        self.poisoned = false;
+        finish(old_output, new_output)
+    }
+
     // Exact lookup is selected only by the private graph's existing primitive
     // key gate. The public/borrowed operator shares this entire body via Stored.
     pub(crate) fn apply_inline_with_policy<P: crate::primitive_rows::LookupPolicy<K>, R>(
@@ -973,3 +1030,6 @@ mod join_equality_visit_tests;
 
 #[cfg(test)]
 mod owned_collector_box_tests;
+
+#[cfg(test)]
+mod group_ticket_tests;

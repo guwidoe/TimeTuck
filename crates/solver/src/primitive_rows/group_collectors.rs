@@ -8,6 +8,8 @@
 use super::*;
 use crate::{IntCollector, IntSummary};
 mod owned;
+mod summary_output;
+use crate::int_collector_counts::SummarySeed;
 
 #[derive(Clone, Copy)]
 pub(crate) enum ScalarEdit {
@@ -418,6 +420,25 @@ impl<K: Ord> GroupCollectors<K> {
         self.owned
             .as_mut()
             .map(|rows| rows.apply::<P>(old, new, new_key, same))
+    }
+    pub(crate) fn has_owned(&self) -> bool {
+        self.owned.is_some()
+    }
+    #[inline(always)]
+    pub(crate) fn apply_seeds<P: LookupPolicy<K>>(
+        &mut self,
+        old: Option<&(K, i64)>,
+        new: Option<&(K, i64)>,
+        new_key: Option<&K>,
+        same: bool,
+    ) -> (Option<SummarySeed>, Option<SummarySeed>)
+    where
+        K: Clone,
+    {
+        self.owned
+            .as_mut()
+            .expect("consumed summary groups")
+            .apply_output::<P, summary_output::Deferred>(old, new, new_key, same)
     }
     pub(crate) fn get(&self, key: &K) -> Option<&IntCollector> {
         if let Some(rows) = &self.owned {
