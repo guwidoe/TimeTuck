@@ -150,6 +150,7 @@ repository remained private.
 | Real-world matrix | Qualified at input `5a97010c` with all four runtimes; recorded in [performance](performance.md). |
 | Public snapshot | Re-exported from that report; zero forbidden-identity findings, zero Gitleaks findings, `test_build_dashboard_site` passes. Headless Chrome rendered the new Rust incremental column without runtime errors and without page overflow at 500 and 1440 pixels. |
 | History privacy | The repository's own identity audit over all 1,233 commits and every stored object of this checkout (head `2088dd22`) found zero forbidden-identity findings. Gitleaks found no leaks in the 34-commit delta; the 43 tracked-tree matches are the previously reviewed fingerprints and one collector-key description. The two recording commits' diffs were scanned with the same identity rules before commit. |
+| Hosted CI | The full gate exceeds a hosted runner: four parallel test compilations peaked at 12.9 GB and incremental caches grew the build to 27 GB, which had failed every Rust check since early October. To stay within the free compute allowance, hosted CI now runs only formatting, the Python script tests and the upstream pin (about a minute); the full gate runs on local hardware. Rust is pinned to the verified 1.92.0 in `rust-toolchain.toml`. |
 | Remaining branches | The five retained `codex/` branches are 400–551 commits behind `main` with 1–6 unmerged patches each; publishing, merging or deleting them is the owner's decision. |
 
 The static snapshot shows native readiness as not current: the 18 historical Java
@@ -162,7 +163,7 @@ started and the roadmap is a separate final commit.
 1. Obtain the owner's explicit instruction to make the clean repository public.
    Keep the original archive private. The private cutover is complete; it does not
    authorize any visibility change, site, package, release or announcement.
-2. Push `main` and confirm the first CI run passes, then repeat the history delta
+2. Push `main` and confirm the quick CI checks pass, then repeat the history delta
    review for anything committed after the 2026-10-22 publication review. The
    private-status wording is already replaced by the final prepared commit.
 3. Immediately after publication, enable and verify the chosen

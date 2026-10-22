@@ -1,27 +1,30 @@
-name: Rust checks
+name: Quick checks
+# Hosted CI runs only checks that finish in about a minute without building the
+# solver. The full gate (strict Clippy, every Rust test target, doctests) needs
+# about 13 GB of memory and tens of minutes, so it runs on local hardware with
+# `bash scripts/check.sh`; see CONTRIBUTING.md.
 on:
   push:
+    branches: [main]
   pull_request:
+
+concurrency:
+  group: quick-checks-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
-  check:
+  quick:
     runs-on: ubuntu-latest
-    env:
-      # A fresh runner gains nothing from incremental caches, which otherwise grow the
-      # full test build to about 27 GB and exhaust the runner disk.
-      CARGO_INCREMENTAL: "0"
-      CARGO_PROFILE_DEV_DEBUG: line-tables-only
-      # One test-shard compilation peaks near 4.9 GB; four in parallel reached 12.9 GB
-      # and the hosted runner was killed. Read by scripts/verify_checks.py and
-      # scripts/run_rust_tests.py.
-      CARGO_BUILD_JOBS: "1"
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned Rust toolchain
         run: rustup toolchain install
+      - name: Check formatting
+        run: cargo fmt --all -- --check
       - name: Install pinned history test tool
         run: |
           curl --fail --silent --show-error --location \
@@ -29,11 +32,15 @@ jobs:
             --output "$RUNNER_TEMP/git-filter-repo"
           echo "67447413e273fc76809289111748870b6f6072f08b17efe94863a92d810b7d94  $RUNNER_TEMP/git-filter-repo" | sha256sum --check
           echo "PUBLIC_HISTORY_FILTER_TOOL=$RUNNER_TEMP/git-filter-repo" >> "$GITHUB_ENV"
-      - name: Check workspace
-        run: bash scripts/check.sh
+      - name: Script tests
+        run: |
+          for test in scripts/test_*.py; do
+            python3 -m unittest discover -s scripts -p "$(basename "$test")" || exit 1
+          done
 
   upstream-reference:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:

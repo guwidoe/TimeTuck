@@ -35,11 +35,15 @@ integration layout preserves individual target names; see [test layout](docs/tes
 Use `cargo fmt --all -- --check` for formatting and an appropriately scoped Cargo
 check or Clippy command for changed code.
 
-The existing CI gate runs `bash scripts/check.sh`, which orchestrates formatting,
-Clippy, captured Rust tests, documentation tests, and optional report regeneration.
-Full suites are reserved for CI, nightly runs, or an explicit request. Documentation
-changes need link/example and diff review, without repeating the Rust suite or
-benchmarks. Never relabel old execution evidence after changing source hashes.
+Hosted CI runs only quick checks: formatting, the Python script tests and the
+pinned upstream reference. The full gate, `bash scripts/check.sh`, orchestrates
+formatting, strict Clippy, captured Rust tests, documentation tests, and optional
+report regeneration. It runs on local hardware before changes are merged: with the
+default four parallel compile jobs it needs about 13 GB of memory; set
+`CARGO_BUILD_JOBS=1` to stay near 5 GB at the cost of time. Full suites are
+otherwise reserved for nightly runs or an explicit request. Documentation changes
+need link/example and diff review, without repeating the Rust suite or benchmarks.
+Never relabel old execution evidence after changing source hashes.
 
 When adding a top-level integration test, regenerate and commit its registration:
 
