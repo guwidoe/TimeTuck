@@ -13,7 +13,8 @@
     "Calculate initial score through compiled Community public SolutionManager API.",
     "Use exact integer x100 weight validation on converter inputs; public weights retain values.",
     "Add independent original-JSON rescoring and structure/attendance/pin validation in Python.",
-    "Remove inherited ASSERT environment override; benchmark explicitly fixes NO_ASSERT."
+    "Remove inherited ASSERT environment override; benchmark explicitly fixes NO_ASSERT.",
+    "Read change-filter occupancy from the working solution instead of the unchanged input seats."
   ],
   "excluded_sources": [
     "Timefold production source",

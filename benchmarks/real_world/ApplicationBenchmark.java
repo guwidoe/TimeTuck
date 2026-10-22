@@ -34,7 +34,6 @@ public final class ApplicationBenchmark {
     // Static model data (single solve per process).
     static int P, G, S, UC, REP_MAX, REP_SQ, REP_W;
     static int[][] CAP;
-    static Seat[][] SESSION_SEATS;
     static Req[] REQS;
     static int[][] REQS_BY_PERSON;
     static Bal[] BALS;
@@ -199,13 +198,29 @@ public final class ApplicationBenchmark {
     }
     /** Changes only into a different group with a spare seat in that session. */
     public static final class SpareSeatChange implements SelectionFilter<Plan, SelectorBasedChangeMove<Plan>> {
+        // The solver works on a planning clone, so occupancy must come from the working solution's
+        // seats; the input seats keep their initial groups and would admit moves into full groups.
+        private Plan indexed;
+        private Seat[][] seatsBySession;
+
         @Override public boolean accept(ScoreDirector<Plan> d, SelectorBasedChangeMove<Plan> m) {
             Seat a = (Seat) m.getEntity();
             Integer to = (Integer) m.getToPlanningValue();
             if (to == null || to.equals(a.group)) return false;
             int n = 0;
-            for (Seat o : SESSION_SEATS[a.s]) if (to.equals(o.group)) n++;
+            for (Seat o : workingSessionSeats(d.getWorkingSolution())[a.s]) if (to.equals(o.group)) n++;
             return n < CAP[a.s][to];
+        }
+
+        private Seat[][] workingSessionSeats(Plan working) {
+            if (working != indexed) {
+                List<List<Seat>> bySession = new ArrayList<>();
+                for (int s = 0; s < S; s++) bySession.add(new ArrayList<>());
+                for (Seat seat : working.seats) bySession.get(seat.s).add(seat);
+                seatsBySession = bySession.stream().map(l -> l.toArray(Seat[]::new)).toArray(Seat[][]::new);
+                indexed = working;
+            }
+            return seatsBySession;
         }
     }
 
@@ -219,12 +234,7 @@ public final class ApplicationBenchmark {
         plan.groups = new ArrayList<>(); for (int g = 0; g < G; g++) plan.groups.add(g);
         plan.seats = new ArrayList<>();
         int nv = in.nextInt();
-        List<List<Seat>> bySession = new ArrayList<>(); for (int s = 0; s < S; s++) bySession.add(new ArrayList<>());
-        for (int v = 0; v < nv; v++) {
-            var seat = new Seat(v, in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt() == 1);
-            plan.seats.add(seat); bySession.get(seat.s).add(seat);
-        }
-        SESSION_SEATS = bySession.stream().map(l -> l.toArray(Seat[]::new)).toArray(Seat[][]::new);
+        for (int v = 0; v < nv; v++) plan.seats.add(new Seat(v, in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt() == 1));
         int nr = in.nextInt();
         REQS = new Req[nr];
         List<List<Integer>> byPerson = new ArrayList<>(); for (int p = 0; p < P; p++) byPerson.add(new ArrayList<>());
