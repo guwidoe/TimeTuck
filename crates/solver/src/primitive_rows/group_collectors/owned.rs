@@ -425,7 +425,7 @@ impl<K> Owned<K> {
     fn undo_scalar(&mut self, tagged: usize, edit: ScalarEdit) {
         let slot = tagged & !INACTIVE;
         let collector = self.values.get_mut(slot);
-        let was_empty = collector.summary().count == 0;
+        let was_empty = collector.occurrence_count() == 0;
         match edit {
             ScalarEdit::Insert(v) => assert!(collector.remove(v), "inverse group occurrence"),
             ScalarEdit::Remove(v) => collector.insert(v),
@@ -448,7 +448,7 @@ impl<K> Owned<K> {
         let row = self.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
         let tagged = row.value;
         let slot = row.slot();
-        let count = self.values.get(slot).summary().count;
+        let count = self.values.get(slot).occurrence_count();
         if (!row.active() && !matches!(edit, ScalarEdit::Insert(_)))
             || (count == 0 && row.active())
             || (count == 1 && !matches!(edit, ScalarEdit::Insert(_)) && self.len > CACHE_ROWS)
@@ -499,7 +499,7 @@ impl<K: Ord + Clone> Owned<K> {
                 return (Some(summary), None);
             }
             let mut collector = self.get(key).expect("input group").clone();
-            if collector.summary().count == 1 {
+            if collector.occurrence_count() == 1 {
                 assert!(collector.remove(*old), "input occurrence");
                 self.remove(key);
                 collector.insert(new);

@@ -84,7 +84,7 @@ impl<I: Ord + Clone, K: Ord + Clone> GroupNode<I, K> {
             }
         }
         for (key, collector) in groups {
-            if collector.summary().count == 0 {
+            if collector.occurrence_count() == 0 {
                 summaries.remove(&key);
             } else {
                 summaries.insert(key, collector);

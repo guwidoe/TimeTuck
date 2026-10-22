@@ -34,7 +34,7 @@ pub(super) fn apply<K: Ord + Clone, P: LookupPolicy<K>>(
         }
         let (prepared, mut collector) =
             groups.prepare_change_with_policy::<P, _>(key, |row| row.expect("input group").clone());
-        if collector.summary().count == 1 {
+        if collector.occurrence_count() == 1 {
             assert!(collector.remove(*old), "input occurrence");
             // Preserve actual removal and reinsertion, including the new key
             // representative and each intermediate journal entry.

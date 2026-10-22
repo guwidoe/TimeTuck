@@ -485,7 +485,7 @@ impl<K: Ord> GroupCollectors<K> {
         };
         let pos = P::locate(rows.map, key);
         let row = rows.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
-        let count = row.value.summary().count;
+        let count = row.value.occurrence_count();
         if count == 0 || (count == 1 && !matches!(edit, ScalarEdit::Insert(_))) {
             return None;
         }

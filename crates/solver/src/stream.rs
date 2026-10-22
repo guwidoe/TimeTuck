@@ -84,6 +84,12 @@ impl IntCollector {
         true
     }
 
+    // Internal guards need the occurrence count, without computing extrema.
+    #[inline]
+    pub(crate) fn occurrence_count(&self) -> usize {
+        self.count
+    }
+
     pub fn summary(&self) -> IntSummary {
         IntSummary {
             count: self.count,
