@@ -3,14 +3,13 @@
 TimeTuck is an experimental Rust library. This roadmap describes priorities,
 not release dates or a stable API commitment.
 
-## Public-development preparation
+## Public development
 
 - Make the native modeling workflow approachable through a short README, examples,
   architecture, and a compatibility guide.
-- Complete the [publication review](public-release-preparation.md), including
-  history and Actions disclosure, attribution, and a private security-reporting route.
-- Keep the repository private until the owner explicitly authorizes publication.
-  Keep all crates unpublished during this preparation.
+- The [publication review](public-release-preparation.md) records history and Actions
+  disclosure, attribution, and the private security-reporting route.
+- Keep all crates unpublished until a crates.io release is decided separately.
 
 ## Solver development
 

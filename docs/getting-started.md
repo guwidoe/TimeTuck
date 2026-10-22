@@ -13,7 +13,6 @@ cd TimeTuck
 cargo run --locked --example tiny_schedule
 ```
 
-While the repository is private, cloning requires access and GitHub authentication.
 The first build downloads the dependencies locked in `Cargo.lock`; later runs can
 reuse Cargo's cache. Java, Python, and the Timefold submodule are unnecessary for
 this example.

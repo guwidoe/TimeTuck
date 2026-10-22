@@ -1,8 +1,7 @@
 # Contributing to TimeTuck
 
-TimeTuck is experimental and currently private during public-release preparation.
-Access and collaboration are by invitation until publication. The Rust API may
-change; there is no promised release cadence or support response time.
+TimeTuck is experimental. The Rust API may change; there is no promised release
+cadence or support response time.
 
 Start with the [README](README.md), [architecture](docs/architecture.md), and the
 [contract](docs/README.md#modeling-and-solving-contracts) relevant to your change.

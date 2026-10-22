@@ -11,14 +11,13 @@ can run. The implementation is independently written, using pinned Community tes
 and public APIs as behavioral specifications. Adapted tests and fixtures retain
 their attribution.
 
-**Status:** under active development; Rust APIs may change. The repository is
-currently private while public-release preparation is reviewed. The crate is
-unpublished.
+**Status:** under active development; Rust APIs may change. The crate is not yet
+published to crates.io.
 
 ## Try a complete problem
 
 Install a current stable Rust toolchain through [rustup](https://rustup.rs/) and
-Git. Repository access is required while this repository is private.
+Git.
 
 ```sh
 git clone https://github.com/guwidoe/TimeTuck.git
@@ -83,8 +82,7 @@ Measurements record their source, inputs, machine, configuration, and date.
 Historical results remain historical when the solver changes. Start with
 [performance and reproducibility](docs/performance.md) before quoting a number;
 the [performance dashboard on GitHub Pages](https://guwidoe.github.io/TimeTuck/)
-is the planned public snapshot location (prepared; hosting deferred while the
-repository remains private on its current GitHub plan).
+is the planned public snapshot location (prepared; hosting not yet enabled).
 Its application section uses anonymized “Real-world use cases” labels. The
 [local dashboard](docs/dashboard.md) retains detailed evidence and live freshness
 checks; see [hosting and snapshot updates](docs/github-pages.md).
@@ -94,7 +92,7 @@ checks; see [hosting and snapshot updates](docs/github-pages.md).
 - [Documentation index](docs/README.md): guides, architecture, and API contracts.
 - [Roadmap](docs/roadmap.md): current priorities and release boundaries.
 - [Contributing](CONTRIBUTING.md): focused checks, test provenance, and change review.
-- [Security](SECURITY.md): reporting sensitive findings during private preparation.
+- [Security](SECURITY.md): reporting vulnerabilities privately.
 - [Public-release preparation](docs/public-release-preparation.md): review results
   and remaining publication decisions.
 
