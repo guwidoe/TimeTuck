@@ -41,24 +41,30 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-Current clean source now isolates lazy owned-group input page allocation in a
-cold non-inlined helper. Exact64-cell contents,allocation trigger,IDs,callbacks,
-guards,rollback and policies remain. Native controls Sailing+1.902%/Golfer+1.221%,
-all4 pairs faster on both,16 full outputs independently valid. Actual16 scoped
-checks+4 application cases and lib/example Clippy pass on4830c0a1/b01b54ef;
-measured artifactdd55ac40,snapshot8fcc3a2b,is integrated exactly. Static checks
-find all three group-summary stack reservations unchanged;do not claim that
-this removes the total caller frame or proves the cause of the speedup.
-Fresh clean-source default Java/Rust report29f02ea6 is current:original serial
-rotating3seeds10s/CPUs2,3,Cargo+javac,12 independent full-output validations,
-byte-identical native artifact. Golfer1.674400x/Sailing.956213x Java,1/2 targets.
-Sailing Rust70970/Java74220 evaluations/s,needing4.5793% more Rust throughput.
-Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Prior source/
-class hashes remain historical,not rekeyed across the private cutover.
-[Selected evidence](../compat/observations/real_world-group-page-outline.json).
-Clean backend report uses the20 actual same-source passes,not a full gate.
+Current clean source isolates lazy64-row summary chunk allocation in a cold
+non-inlined helper. Full cells,initialization order,allocation trigger,IDs,
+callbacks,guards,rollback and policies remain. The preceding owned-input page
+allocation helper remains selected. Native controls Sailing+.3809%(3/4 pairs
+faster)/Golfer+.4897%(4/4),all16 outputs independently valid. Actual group
+summary caller frames fall from12216/12184/16376B to1352/1336/1400B;this is
+neither total process stack nor proof of the small speedup's cause.
+Actual24 scoped checks+4 application cases and lib/example Clippy pass on
+ff2d87b0/production0be85081. Exact measured artifact1456b5c3,snapshot5cca6902,
+is integrated in c9834d11. No test or upstream-method credit is manufactured.
+Fresh original-default Java/Rust report12990041 is current:serial rotating
+3seeds10s/CPUs2,3,actual Cargo+javac,12 independent full-output validations,
+byte-identical native artifact. Golfer1.568676x/Sailing.945741x Java,1/2 targets.
+Sailing Rust71642/Java75752 evaluations/s,needing5.7372% more Rust throughput.
+Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Fresh Java
+throughput differs from the preceding run;do not infer a source regression or
+add native gains across qualifications. Previous29f report on4830/dd55 and all
+prior source/class hashes are preserved unchanged as historical evidence.
+[Selected evidence](../compat/observations/real_world-summary-chunk-outline.json).
+[Preceding selection](../compat/observations/real_world-group-page-outline.json).
+Clean backend report uses28 actual current-source focused/application passes,
+not a full native/upstream gate;upstream method credit remains0 for this run.
 The clean dashboard serves localhost:8766;original8765 server and working
-directory remain untouched. No pending build/test/benchmark jobs after collection.
+directory remain untouched. All current build/test/benchmark jobs are collected.
 
 Three member-event trials are closed unintegrated. Put/retract work tags measured
 Sailing-5.9251%/Golfer-5.8997%;typed owners plus tags-5.6262%/-4.1531%;
@@ -68,7 +74,7 @@ independently validate. Tags passed43 checks on the first test source plus2
 after test-only refinement,same production;both typed trials passed44 actual
 exact-source checks. Sources,receipts,preparation failure and owner/rollback/
 work-count regressions remain preserved. No app/Clippy/Java/full suite or
-unchanged retry. The selected4830/dd55 runtime and currentJava29f remain.
+unchanged retry. Those trials did not replace preceding4830/dd55 or report29f.
 [Tags](../compat/observations/real_world-member-work-tag.json),
 [typed plus tags](../compat/observations/real_world-typed-member-owner.json),
 [typed only](../compat/observations/real_world-typed-member-only.json).

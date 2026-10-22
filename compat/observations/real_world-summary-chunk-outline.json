@@ -1,0 +1,269 @@
+{
+  "kind": "real_world-summary-chunk-outline",
+  "status": "Selected and integrated;actual original-default Java qualification proves1of2 throughput targets.",
+  "native_source_digest": "ff2d87b0f842fea8b90ca8df55d5dc35bdc90624d240aead3765ec2dc45dd1f5",
+  "input_sha256": "0be850819c7e222fa555d63fd04aed73bf1f2d31ec1d8f0759b0eb7f2bc48a6f",
+  "source_snapshot": "5cca69021b28ec7d08a76675713b8172586c1a766452dff7411b45c4d85c56c7",
+  "artifact_sha256": "1456b5c334d2ef1cd968dbabf6d6dfa4deb08ab5a96fb17042e6788b0fcad5a6",
+  "mechanism": "Move lazy64-row summary chunk allocation into a cold non-inlined helper. Keep complete cells,initialization order,allocation trigger,full keys,publication/FIFO/fanout,callback counts,checked arithmetic,search and rollback policies. Existing owned group input page helper remains.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/summary-chunk-outline-next-results/clean-summary-chunk-outline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69370.20002425926,
+            69580.37838274903,
+            70031.94860667892,
+            69549.72606002842
+          ],
+          "trial": [
+            69826.42666454012,
+            69833.58346409099,
+            69170.98579193422,
+            70353.04742958506
+          ]
+        },
+        "medians": {
+          "baseline": 69565.05222138873,
+          "trial": 69830.00506431556
+        },
+        "gain_pct": 0.3808706160150832
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            194954.09729845,
+            197176.0757277087,
+            197401.83025903848,
+            196791.30860518425
+          ],
+          "trial": [
+            197442.93211920853,
+            198169.12668914767,
+            197727.47561720567,
+            198631.79784667594
+          ]
+        },
+        "medians": {
+          "baseline": 196983.69216644648,
+          "trial": 197948.30115317667
+        },
+        "gain_pct": 0.48968976879320003
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "verification": {
+    "full_native_gate": false,
+    "native_source_digest": "ff2d87b0f842fea8b90ca8df55d5dc35bdc90624d240aead3765ec2dc45dd1f5",
+    "production_digest": "0be850819c7e222fa555d63fd04aed73bf1f2d31ec1d8f0759b0eb7f2bc48a6f",
+    "actual_current_source_tests_passed": 28,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "stream_graph::group_summary_lane::tests",
+          "incremental_stream::group_inputs::owned_tests",
+          "incremental_stream::group_entry::tests",
+          "incremental_stream::group_inverse_tests",
+          "incremental_stream::owned_collector_box_tests"
+        ],
+        "tests_passed": 24,
+        "exit_code": 0,
+        "seconds": 69.39270435401704,
+        "proof_directory": "work/real_world-goal/summary-chunk-outline-focused1",
+        "log_sha256": "68f0c81bb5ad048c0c4cb4ffba81f800d90842c99994055c630ecc84586982a2",
+        "receipt_sha256": "e7a2a7e8f8f06532ab0ed2c9dba445e973e1bc15d235424e35e05cba9a0b6ab7"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 10.892050196998753,
+        "proof_directory": "work/real_world-goal/summary-chunk-outline-application1",
+        "log_sha256": "7a9e3750f5c2ef208849b024677502e44d59d46aee50ab157fd1515f83afaa1f",
+        "receipt_sha256": "472289000ba134b3c3af4c17ff1248182872a98f48bed31d69a5471a92bdd54e"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 10.830625333997887,
+        "proof_directory": "work/real_world-goal/summary-chunk-outline-clippy1",
+        "log_sha256": "ccb1e5a849ac7360374f389d9272d5eaed4cfcf87a978ac74d816e4b07d8e375",
+        "receipt_sha256": "5ba775dc0e15d903c4585f1666e44f6126f2393580e10c4e01fb4b988abae3f5"
+      }
+    ],
+    "policy": "Reuse actual24 scoped group checks plus4 real-world application cases and lib/example Clippy;no full suite."
+  },
+  "assembly": {
+    "baseline_group_summary_stack_bytes": [
+      12216,
+      12184,
+      16376
+    ],
+    "selected_group_summary_stack_bytes": [
+      1352,
+      1336,
+      1400
+    ],
+    "proof_sha256": "2ed4877cffb11dfbf71c72acd19efd2e49f0d06140791dadc0da037ea425d0f5",
+    "limits": "Actual caller reservations in two measured artifacts,not total process stack/memory or proof that reduced frames caused the small speed change."
+  },
+  "independent_validation_sha256": "3d5c5bef3c6d0fb15e415e2fbeabc18b1f509db8c25559ed7dae0e38b7af6675",
+  "receipts": {
+    "receipt.json": "dc57de05cf76308e38667090525123f2c051ee254f30594fcdf952c629a707cb",
+    "build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-build-receipt.json": "a056bc82b8b583f28e6cefa502aa79f314b50f3baf1aac5df54a05c62c03a96e",
+    "baseline-reuse.json": "c84ec91143d4fd4f1ffb355d9236ca4dbd8fc45369ff0286cbb986d8009b254c",
+    "controls.json": "91088e2492b924e860adbb3a753bf9cb800c6d2a579863345fb377dc018584f1"
+  },
+  "java_qualification": {
+    "report_sha256": "12990041d12d03ba4f7beb66f4014aeae7ea255fd75ff24b87c146f6bfcd4c30",
+    "artifact_byte_identical_to_measured": true,
+    "collection_verification_sha256": "f22dc5324206f5a229b6147712291fdd9abd273793b09a84e1669a4edd19b2dd",
+    "outputs_independently_validated": 12,
+    "current_targets_met": 1,
+    "required_targets": 2,
+    "sailing_more_rust_throughput_pct": 5.737231671535947,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 126532.7494858331,
+            "scores": [
+              [
+                0,
+                19400
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.039369295
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 198488.87708076034,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000102642
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.5686759189800392,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75752.04709330009,
+            "scores": [
+              [
+                -14,
+                83700
+              ],
+              [
+                -8,
+                163300
+              ],
+              [
+                -9,
+                90000
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.056893556
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 71641.79153906509,
+            "scores": [
+              [
+                0,
+                94500
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                196900
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.00078828
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9457406669264977,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "policy": "Actual Cargo+javac on same runner,CPUs2,3,serial rotating Rust/Java streams,seeds7/11/23 and10seconds. All12 outputs independently validate;quality remains separate. Previous29f source-bound report preserved unchanged. Native gains are not added to historical Java ratios."
+  },
+  "source_archive_sha256": "d59d6a4412d168ccfe14e1d68b93834793a65d0a188b031bf471d63386afef34",
+  "full_native_gate": false,
+  "java_qualification_run": true,
+  "upstream_method_credit": 0,
+  "policy": "Independent native solver,Community-only reference. No model,fixture,compiler,CPU,PGO,panic,batch,queue or search policy change.24 relevant checks+4 application cases+Clippy,no full suite or unchanged repeat. Goal remains active/incomplete."
+}
