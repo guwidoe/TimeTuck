@@ -1,0 +1,102 @@
+{
+  "kind": "real_world-packed-scalar-journal-layout",
+  "status": "Closed unintegrated before any native build/control:layout hypothesis disproved.",
+  "native_source_digest": "01fbf8c5b80d189a68439175a2014f5a266a1abfbbe803ac9d3ca4b3917b5569",
+  "input_sha256": "6f0b10fa42427186413425703d0c129ee033c4573ecac70f46cbc226cee9e0ab",
+  "mechanism": "An independent opcode-only lossless scalar journal stored its operation tag in unused private allocated-slot address bits while retaining both full i64 values and original visibility. The initial assumption that original ordered records used40bytes was wrong:actual library test proved original32bytes and corrected control proved candidate32bytes too. Rust already shares the original inner/outer enum discriminant storage. No record-size improvement;do not benchmark this unchanged candidate.",
+  "verification": {
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/packed-scalar-journal-focused1",
+        "rust_digest": "9211e2f9137fedc85d09754fea243907b4400f2ee32800e015051a9c8141264c",
+        "production_digest": "9acf2a31682b5f85f0efc6b291a8317232baf3e29334a5cd2f01210cded1c3c6",
+        "exit_code": 101,
+        "actual_tests_passed": 43,
+        "test_names": [
+          "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+          "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+          "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+          "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+          "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+          "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+          "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+          "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+          "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+          "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+          "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_count_overflow_preserves_views_and_never_limits_the_general_domain",
+          "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+          "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+          "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+          "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+          "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+          "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+          "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_reuse_slots_and_preserve_nested_full_delta_restore",
+          "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+          "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+          "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+          "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+          "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+          "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+          "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+          "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+          "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+          "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_keeps_arbitrary_values_counts_immutable_clones_promotions_and_reuse",
+          "incremental_stream::owned_collector_box_tests::uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history",
+          "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+          "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+          "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+          "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_cap_and_explicit_empty_collectors_keep_presence",
+          "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+          "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+          "incremental_stream::owned_collector_box_tests::uniform_owned_groups_keep_sustained_cohorts_nested_captures_and_foreign_value_promotion",
+          "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+        ],
+        "log_sha256": "f5a9f6e778cce68343367929786bec6cc07a81f7ee528b2dfe75b425a4319110",
+        "receipt_sha256": "c3ec8876919e852b6fd23a3c7a320167a661bacfde1e61d6571b055976b3719e"
+      },
+      {
+        "proof_directory": "work/real_world-goal/packed-scalar-journal-focused2",
+        "rust_digest": "18c731f052b11858125e1db7b222bab635dcb24baf9d6178b7b788b3af20653d",
+        "production_digest": "6f0b10fa42427186413425703d0c129ee033c4573ecac70f46cbc226cee9e0ab",
+        "exit_code": 101,
+        "actual_tests_passed": 0,
+        "test_names": [],
+        "log_sha256": "4ad704e430d510c20456537514a0fddb623907e311b625f8d88a37feaccd680f",
+        "receipt_sha256": "c69334321413b2041ae3c979365dc3a23a441bbbaddaa7650bd4a7cfbad470dd"
+      },
+      {
+        "proof_directory": "work/real_world-goal/packed-scalar-journal-focused3",
+        "rust_digest": "01fbf8c5b80d189a68439175a2014f5a266a1abfbbe803ac9d3ca4b3917b5569",
+        "production_digest": "6f0b10fa42427186413425703d0c129ee033c4573ecac70f46cbc226cee9e0ab",
+        "exit_code": 0,
+        "actual_tests_passed": 1,
+        "test_names": [
+          "primitive_rows::group_collectors::owned::packed_scalar::tests::packed_scalar_keeps_every_value_tag_and_operation_but_matches_existing_record_size"
+        ],
+        "log_sha256": "e066fdb6a99b76fa8d695c48f5adb5f7649bae3229c03314af1022a2566a66d0",
+        "receipt_sha256": "307a684aa5078997b754cb5fb491ed75381dc3e01993c4594dd71d49cd968152"
+      }
+    ],
+    "full_native_gate": false,
+    "actual_original_tests_passed": 43,
+    "actual_new_codec_layout_controls_passed": 1,
+    "failure": "Initial layout assertion expected original40but actual32;the import-only fixed source failed the same old expectation. Third source changes only test name/expectation and proves both32bytes,including all value/tag/op roundtrips. All earlier failed sources/logs remain unchanged.",
+    "production_equivalence": "Moving INACTIVE import to cfg(test) prevents an unused production import;all original production/test bodies otherwise retain exact behavior. Prior43 checks remain bound to9211source,not relabeled."
+  },
+  "unused_frozen_source": {
+    "snapshot": "9f0e1bebd38772e47f10a203492561393830ffd36724b819219bfa49a056d408",
+    "rust_digest": "18c731f052b11858125e1db7b222bab635dcb24baf9d6178b7b788b3af20653d",
+    "archive_sha256": "7ed337ff45c6e28454b9a3b9493fc177c9bfdb15b538b5c7c95c113569cc2ad7",
+    "status": "Frozen only;never dispatched."
+  },
+  "native_runs": 0,
+  "java_runs": 0,
+  "upstream_method_credit": 0,
+  "policy": "Selected9c19/10ef/report38d5 unchanged. No app,Clippy,Java,native/full suite or unchanged rerun. Distinct later NonZero scalar+boxed structural-row layout is a separate trial and must independently prove actual24byte record size and performance."
+}

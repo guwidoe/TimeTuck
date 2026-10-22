@@ -75,10 +75,23 @@ cached-empty cases;all16 full outputs independently validate. Selected9c19/10ef/
 report38d5 remain unchanged/current. No variant app,Clippy,Java,full suite or
 unchanged repeat. All jobs terminal/collected. Do not retry this layout unchanged.
 [Column evidence](../compat/observations/real_world-uniform-count-columns.json).
-Next inspect ordered scalar journal size/traffic:retain every scalar operation,
-full values,interleaving with structural undo and snapshot namespaces. The prior
-single-state-preimage undo trial is a distinct rejected mechanism;do not repeat it.
 
+Two ordered-journal trials are also closed unintegrated. Opcode-only packing did
+not shrink the record:the compiler already stores the original enum in32bytes,
+not the assumed40.43 scoped cases passed;the new layout assertion failed,then
+one corrected independent codec/layout control passed,confirming32bytes for both.
+The unused frozen capsule was never dispatched;no native build or timing for it.
+A distinct NonZero scalar+boxed cold structural-row layout actually reached24bytes
+and passed44 scoped checks,but measured Sailing+.1207%(2/4 faster)/Golfer-1.3712%
+(0/4). All16 full outputs independently validate. Its first constructor-type
+preparation error executed0tests;corrected source is separate. No variant app,
+Clippy,Java,full suite or unchanged repeat. All jobs terminal and collected;
+selected9c19/10ef/report38d5/current dashboard7passes remain unchanged.
+[Layout disproof](../compat/observations/real_world-packed-scalar-journal-layout.json),
+[boxed-row evidence](../compat/observations/real_world-boxed-row-journal.json).
+Do not retry these journal layouts or infer original40byte records. Next inspect
+a different current hot-path cost;the earlier29b9 cycle profile remains historical,
+not a current9c19 capture. Goal remains1/2,with4.1648% Sailing throughput needed.
 
 The preceding clean selection uses the owning integer collector total instead of duplicate
 small-state frequencies. One class stores no frequency;two classes store only the
