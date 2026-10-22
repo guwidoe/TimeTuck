@@ -171,10 +171,12 @@ vulnerability reporting, secret scanning, push protection and Dependabot alerts
 were enabled immediately; Dependabot fix pull requests stay off. The original
 archive remains private.
 
-Still open, each by separate owner decision: GitHub Pages hosting
-(`PUBLISH_DASHBOARD=true`; the [workflow and README link](github-pages.md) are
-prepared), a crates.io release (crates remain `publish = false`), and trademark
-clearance.
+The owner then enabled [GitHub Pages hosting](github-pages.md): the first deployment
+serves the committed sanitized snapshot unchanged at
+[guwidoe.github.io/TimeTuck](https://guwidoe.github.io/TimeTuck/).
+
+Still open, each by separate owner decision: a crates.io release (crates remain
+`publish = false`) and trademark clearance.
 
 Apache-2.0 project licensing and existing third-party notices remain in place.
 The [legal/provenance guide](legal-and-provenance.md) retains the naming and

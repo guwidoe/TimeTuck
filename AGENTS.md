@@ -7,7 +7,8 @@ Continue development in the clean checkout whose `origin` is
 when starting or resuming a session; use that checkout explicitly for tool calls.
 The preserved original checkout points to a private read-only archive. Transfer
 later original work as reviewed anonymized patches, never by merging its history.
-The repository is public since 2026-10-22; keep dashboard publication disabled until authorized.
+The repository and its GitHub Pages dashboard are public since 2026-10-22; update the
+dashboard only through a reviewed `dashboard/public/report.json` snapshot.
 See `docs/agent-continuation.md` for the migrated work and private evidence.
 
 ## Goal and boundaries

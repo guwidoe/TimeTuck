@@ -5,9 +5,8 @@ The project site is intended for
 dashboard is separate from making the source repository public. While the repository
 was private, GitHub rejected activation on 2026-10-21 with HTTP 422: “Your current
 plan does not support GitHub Pages for this repository.” The repository has been
-public since 2026-10-22, so the plan no longer blocks Pages; hosting remains a
-separate owner decision. The URL above is reserved as the intended destination and
-is not a live-site claim.
+public since 2026-10-22, and the owner enabled hosting the same day: Pages builds
+from GitHub Actions with `PUBLISH_DASHBOARD=true`, and the site above is live.
 
 ## What the site contains
 
@@ -83,9 +82,8 @@ job uses `pages: write`, `id-token: write`, and the
 `github-pages` environment. It has no benchmark or full-test step and cannot read
 ignored local report files from a fresh checkout.
 
-When hosting is authorized, enable GitHub Pages with GitHub Actions as its
-publishing source and set `PUBLISH_DASHBOARD=true` before the first workflow
-deployment. See [GitHub's workflow
+Hosting is enabled with GitHub Actions as the publishing source and
+`PUBLISH_DASHBOARD=true`; setting the variable to anything else stops deployment. See [GitHub's workflow
 documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 No plan upgrade is part of this hosting configuration.
 
