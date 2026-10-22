@@ -89,9 +89,41 @@ Clippy,Java,full suite or unchanged repeat. All jobs terminal and collected;
 selected9c19/10ef/report38d5/current dashboard7passes remain unchanged.
 [Layout disproof](../compat/observations/real_world-packed-scalar-journal-layout.json),
 [boxed-row evidence](../compat/observations/real_world-boxed-row-journal.json).
-Do not retry these journal layouts or infer original40byte records. Next inspect
-a different current hot-path cost;the earlier29b9 cycle profile remains historical,
-not a current9c19 capture. Goal remains1/2,with4.1648% Sailing throughput needed.
+Do not retry these journal layouts or infer original40byte records.
+
+A current9c19/10ef199Hz10s seed7 CPU2,3 Sailing cycle profile now has zero lost
+samples and one independently valid full output. Propagation12.82%,group summary
+7.73%/4.37%,terminal6.32%,membership6.18%,owned output closures4.22%/2.76%
+are diagnostic self samples,not removable costs. Original058e release receipt
+is retained;selected9c19 differs only in cfg(test),and actual final Cargo previously
+proved byte-identical10ef. No build,test,Java or timing-gain claim for profiling.
+[Current profile](../compat/observations/real_world-selected-uniform-cycle-profile.json).
+
+Two further variants are closed unintegrated. Full collector fallback extraction
+into two non-cold helpers plus explicit Option matching passed4directly relevant
+checks but slowed Sailing2.5833%/Golfer2.8115%,all4pairs slower both. Single-key
+private immutable seed rows passed13 actual summary/queue checks,including one
+new independent full-width/growth/retained-row/layout case,but measured S-.3211%
+(0/4faster)/G-.1850%(1/4). Both16full outputs independently validate. Neither got
+variant app/Clippy/Java/full suite or unchanged repeats. All jobs terminal/collected;
+selected9c19/10ef/report38d5/current dashboard7passes remain unchanged/current.
+[Fallback split](../compat/observations/real_world-group-fallback-split.json),
+[single-key seeds](../compat/observations/real_world-single-key-seeds.json).
+Do not retry these unchanged,or the earlier drain/metadata/queue/hint proposals.
+
+Next implement an arena-wide two-class extension of selected Uniform collectors.
+The frozen own model's balance counters contain0/1values,so a second distinct
+value currently promotes the whole arena to64byte general slots. Discover two
+arbitrary signed values at runtime and keep per-slot total+first frequency with
+canonical address;third-class/unsupported union promotes to original General.
+Keep the existing24byte Uniform path. Intended binary32byte size must be measured,
+not assumed. Preserve full domains,overflow/missing preflight,all summaries,
+canonical owners,visibility,every ordered edit,hot inverses and full/delta/active
+snapshot namespace installs. Matching Two collectors inserted during snapshots
+must not accidentally promote. This is distinct from rejected per-row binary/
+boxed fallbacks. Read ignored work/real_world-goal/two-class-collector-arena-outline.json
+before implementation. No code or gain for this hypothesis is claimed yet.
+Goal remains1/2,with4.1648% Sailing throughput needed.
 
 The preceding clean selection uses the owning integer collector total instead of duplicate
 small-state frequencies. One class stores no frequency;two classes store only the

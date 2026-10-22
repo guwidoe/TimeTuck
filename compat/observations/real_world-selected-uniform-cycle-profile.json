@@ -1,0 +1,44 @@
+{
+  "kind": "real_world-selected-uniform-cycle-profile",
+  "status": "Collected;current selected runtime diagnostic,zero lost samples.",
+  "native_source_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
+  "input_sha256": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+  "source_snapshot": "a03d5f58d746f876c6d86bdf9177d13f9e7b8201e19d5912187d7ddfdb1adaf1",
+  "artifact_sha256": "10ef03c9abec0f48382201af850461f861377da99dbc56c8a85902ae9156f8e6",
+  "receipt_sha256": "8a5aaab2d8712e2ef03c3297b73bfa4cd4a25edb24b43885918ee5396acee196",
+  "output_sha256": "1734fb30deeebc1d81020aabc03feef93a256ef7d66c90745057c9d2d5cb9e7a",
+  "data_sha256": "946c854bffc73b0b2c448852d6d6057d88fddc984409c86f51dfdedcdfdd81ee",
+  "proof_directory": "work/real_world-goal/selected-uniform-sailing-profile",
+  "configuration": {
+    "event": "cycles:u",
+    "frequency_hz": 199,
+    "seconds": 10,
+    "seed": 7,
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "lost_samples": 0
+  },
+  "self_percent_diagnostic": {
+    "propagation": 12.82,
+    "group_summary_largest": 7.73,
+    "terminal_summary_largest": 6.32,
+    "membership_largest": 6.18,
+    "group_summary_second": 4.37,
+    "owned_output_old_closure": 4.22,
+    "join_apply": 4.08,
+    "owned_output_new_closure": 2.76,
+    "collector_rollback": 2.11,
+    "terminal_restore": 1.87,
+    "checkpoint": 1.61
+  },
+  "full_output_independently_validated": true,
+  "release_binding": {
+    "measured_build_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+    "release_receipt_sha256": "59f0e5dae185a5590d2534b0b3dd472c058d4e177afa3809dfc374b9f361abc7",
+    "cfg_test_only_bridge": true,
+    "policy": "Original058e/e67d/10ef release receipt retained. Selected9c19 appends one cfg(test) case;actual final Cargo qualification previously proved byte-identical10ef artifact. Profile uses frozen final9c19 inputs and exact measured bytes,not rekeyed old release."
+  },
+  "policy": "Diagnostic self samples are not removable costs or comparative performance. One selected-source10s run,not a build,test or Java qualifier. Full final/initial schedules and scores independently valid;zero lost samples. Failed dispatch/metadata/drain/queue/inline proposals found in historical evidence are not repeated unchanged. Next structural fallback split is distinct from earlier two-closure inline attributes;common old/new full-fallback closure calls remain visible."
+}

@@ -1,0 +1,103 @@
+{
+  "kind": "real_world-single-key-seeds",
+  "status": "Closed unintegrated;slightly slower Sailing and Golfer.",
+  "native_source_digest": "52f099c42af81c1517c2da72b45ea49cf0a37391ad6b774c45c4bcf7e8193474",
+  "input_sha256": "99647621ab4da2a49d9dac820c5f7b4ceb2107e01ef5edf540741cac7a0e7475",
+  "source_snapshot": "ebe2658356661b2a90225d47250717bcc8e3bf6b1c3fd40bfeb71bfe8b957004",
+  "artifact_sha256": "4b1e4e48c190e24c1df00388d2ab13ef275ee69c51bab2727f06d63134b32c5a",
+  "mechanism": "Only certified private Pair/Quad immutable seed arena rows retain the numeric key once as ID,instead of also duplicating it in the payload. Complete SummarySeed snapshots,all signed/unsigned bits and every extrema option stay retained. Concrete consumer reconstructs the original equal builtin payload key at its existing materialization phase. Shared/public full rows,queue/Event shapes,type gates,original fanout eligibility,FIFO,callbacks,guards,score arithmetic,work counters and captures remain. No fixed-value restriction,model,fixture,compiler,CPU,search or unsafe changes. Distinct from old global compact Event with value-shape guards and wider Event variants.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/single-key-seeds-next-results/clean-single-key-seeds-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            73196.1198642418,
+            71646.24519739536,
+            72475.30156072782,
+            72604.30278123262
+          ],
+          "trial": [
+            72522.53275235911,
+            71381.09339674635,
+            72400.77110297,
+            72212.96419161532
+          ]
+        },
+        "medians": {
+          "baseline": 72539.80217098023,
+          "trial": 72306.86764729266
+        },
+        "gain_pct": -0.3211127087699106
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            202443.05399926982,
+            204007.47868204964,
+            203460.44300440577,
+            203670.34184511408
+          ],
+          "trial": [
+            203361.16218428273,
+            203671.61923051486,
+            203016.27422556805,
+            201863.186713722
+          ]
+        },
+        "medians": {
+          "baseline": 203565.39242475992,
+          "trial": 203188.7182049254
+        },
+        "gain_pct": -0.18503843671451303
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "verification": {
+    "full_native_gate": false,
+    "actual_current_source_tests_passed": 13,
+    "test_names": [
+      "stream_graph::event_queue::tests::narrow_queue_layout_and_inline_fanout_use_one_arena_cell",
+      "stream_graph::event_queue::tests::shared_payloads_never_enter_arena_and_keep_fifo_release_phase",
+      "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+      "stream_graph::group_summary_lane::seed_tests::seed_rows_store_one_identity_and_preserve_growth_and_complete_values",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+      "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+      "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+      "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+      "stream_graph::event_queue::tests::scalar_arena_reuses_capacity_and_cleans_after_errors_panics_and_nested_replay",
+      "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original"
+    ],
+    "original_regressions_added": 1,
+    "adapted_existing_original_tests": 1,
+    "upstream_method_credit": 0,
+    "proof_directory": "work/real_world-goal/single-key-seeds-focused1",
+    "receipt_sha256": "3ea4e531bef91a473a898be68bf12d627280ab6e6705dd856fe76d4f494cd8fe",
+    "log_sha256": "e9776fc3b29d5d4e589e9e1bc1ee99da2b8e33a9732c08cce2459987b450a1e1",
+    "scope": "Seed/ordinary summary lanes and scalar arena delivery. New original case proves strict row-size reduction,full MAX IDs,all summary fields,300-row growth with retained original row/value/address,FIFO and Quad fields. Existing roundtrip test reads the single stored key at its new location;all assertions preserved. Callback traces/work/checked failures/recovery/full+delta+nested rollback/fanout and old public/custom fallbacks pass."
+  },
+  "independent_validation_sha256": "041e4c872dd03853017651762fece3d74d3141dcf4dfaa19e572260221f63279",
+  "receipts": {
+    "receipt.json": "2553215392fd54c79ee6fc74735621fdd8546fa3feba18f4d8af8930f7d0adcc",
+    "build-receipt.json": "8bd2c54af3ee642f74a4ce8430e825ee42e303d4e4d366e83b22071beeca1b15",
+    "baseline-build-receipt.json": "59f0e5dae185a5590d2534b0b3dd472c058d4e177afa3809dfc374b9f361abc7",
+    "baseline-reuse.json": "da2c159679dc88041dfd362602c8fdfb5eaa8581aa8aa6caaf62907794a7ce26",
+    "controls.json": "eb76c45aa38f08a7cd1df8a63d010e548adde9ca0dfac910d0a5da82290bc74a"
+  },
+  "source_archive_sha256": "638e4ba0c309ab8b696a1539bb95786ad1c719d0bffda8ca49beecc45ac7e24d",
+  "baseline_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+  "baseline_artifact_sha256": "10ef03c9abec0f48382201af850461f861377da99dbc56c8a85902ae9156f8e6",
+  "baseline_policy": "Actual original058e/e67d/10ef build kept unchanged;selected9c19 appends one cfg(test) case and actual final Cargo previously reproduced identical10ef bytes. No rekeying.",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "13 actual same-source scoped passes,including new independent immutable single-key growth/full-value case,and16 independently valid full outputs. Sailing-.3211%(0/4faster)/Golfer-.1850%(1/4). Leave selected9c19/10ef/report38d5current. No variant app,Clippy,Java,full suite or unchanged repeat. All source/logs/snapshots/receipts/outputs preserved."
+}

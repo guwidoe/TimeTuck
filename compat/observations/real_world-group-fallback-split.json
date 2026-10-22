@@ -1,0 +1,92 @@
+{
+  "kind": "real_world-group-fallback-split",
+  "status": "Closed unintegrated;all4 native pairs slower both workloads.",
+  "native_source_digest": "ef4de7e637413b96b860cf1d1ae0c0817d7d87e8f559425ec07b6243211da2f6",
+  "input_sha256": "35e883c231f60268ccb28b2da8752a48cea3906ee7db671726bdd7fa91982ffa",
+  "source_snapshot": "f25d2124ffff71092a5c9c03f20da88206672b863e91bdcae825262057a7c34a",
+  "artifact_sha256": "c09af5a730f4c116417d0b76ede619883ba85bc72c30bba2275930d7224ec74a",
+  "mechanism": "Original full-collector fallback statements extracted in order into two non-cold inline(never) helpers. Exhaustive Option matching replaces old.and_then/new.map common update closures. Callbacks,arithmetic,ordered journal edits,summaries,owners and publication/drop phases retained. This structural extraction is distinct from two inline hints on original large closure bodies;actual current9c19profile showed those two calls. No model,fixture,runner,CPU,compiler,search or unsafe changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/group-fallback-split-next-results/clean-group-fallback-split-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            72621.51688044505,
+            72846.99090317941,
+            72226.40138296664,
+            71637.11643222942
+          ],
+          "trial": [
+            70027.53300169208,
+            70941.18188197633,
+            70164.83388732091,
+            71624.89792023248
+          ]
+        },
+        "medians": {
+          "baseline": 72423.95913170584,
+          "trial": 70553.00788464863
+        },
+        "gain_pct": -2.5833319104452857
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            201932.2615982214,
+            201088.17292247052,
+            201573.46431637532,
+            202092.18179800903
+          ],
+          "trial": [
+            195908.34930335786,
+            197338.3458167585,
+            196103.64166625837,
+            196057.68504731718
+          ]
+        },
+        "medians": {
+          "baseline": 201752.86295729835,
+          "trial": 196080.66335678776
+        },
+        "gain_pct": -2.811459286062834
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "full_native_gate": false,
+    "actual_current_source_tests_passed": 4,
+    "test_names": [
+      "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_reuse_slots_and_preserve_nested_full_delta_restore",
+      "incremental_stream::owned_collector_box_tests::uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history",
+      "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_cap_and_explicit_empty_collectors_keep_presence",
+      "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces"
+    ],
+    "proof_directory": "work/real_world-goal/group-fallback-split-focused1",
+    "receipt_sha256": "46901ba4d25ae8bc53223fd2c176d3e32493a42391f5c763ab6a12f3633cffb5",
+    "log_sha256": "2f040812767ac4fb1cc7081669261d6affb0292618885244152f64018f68ad5d",
+    "source_transformation_sha256": "aa82d209c8dd70b52ee8f1843c6b2ee52979102ace59b8ead5fdf2d397d876cb",
+    "scope": "Exact cached-empty cap/presence/nested/full/delta paths,summary-seed growth/capture namespaces and active uniform/general snapshot promotion. Original successful collector/graph checks stay source-bound,not rerun or rekeyed."
+  },
+  "independent_validation_sha256": "f25678bcd6f53eb0006a9aeec5f02595ea62e447b80da98dcb373499e2e3cb87",
+  "receipts": {
+    "receipt.json": "cc7d8a3440daa3d099169f7a5cd245171a3ecd10e4ba70bda8d6e449d72b7608",
+    "build-receipt.json": "7f24916b341f9d70eb203ad4cff27ad176f1aa82b55fb3b743950d4acabe3958",
+    "baseline-build-receipt.json": "59f0e5dae185a5590d2534b0b3dd472c058d4e177afa3809dfc374b9f361abc7",
+    "baseline-reuse.json": "da2c159679dc88041dfd362602c8fdfb5eaa8581aa8aa6caaf62907794a7ce26",
+    "controls.json": "6a52b16d0b04da1ffec03f390f8f9ebed14a46a635a51242e567bab1a1880711"
+  },
+  "source_archive_sha256": "4109e54e8a9dd0337268735ce6882badb377f0ebf5cea2d392a045710148599c",
+  "baseline_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+  "baseline_artifact_sha256": "10ef03c9abec0f48382201af850461f861377da99dbc56c8a85902ae9156f8e6",
+  "baseline_policy": "Actual original058e/e67d/10ef build kept unchanged;selected9c19 appends one cfg(test) case and actual final Cargo previously reproduced identical10ef bytes. No rekeying.",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "4directly relevant actual passes and16 independently valid full outputs. Sailing-2.5833%/Golfer-2.8115%,all4 slower both. Leave selected9c19/10ef/report38d5current. No variant app,Clippy,Java,full suite or unchanged repeat. All original source/logs/snapshots/receipts/output preserved."
+}
