@@ -22,12 +22,13 @@
 > limit. Both are fixed; every earlier Golfer/Sailing ratio, throughput target and
 > quality comparison below is superseded, including the Sailing target. See
 > [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
-> The corrected default matrix with both Java comparators qualified on the dedicated
-> benchmark host at input `efa45d2c` (commit `e73a22d6`): Golfer 1.682×, Sailing
-> 0.851× Java streams evaluations/s (Rust 200650/71115, Java streams 119306/83574,
-> Java incremental 376832/502264 median evaluations/s). Sailing needs about 17.5%
-> more native throughput for its target. Raw report: ignored
-> `work/real_world-qualification-e73a22d6/report.json`.
+> The corrected default matrix with all four runtimes qualified on the dedicated
+> benchmark host at input `e1b0c30a` (commit `fdc51c1b`). Median Golfer/Sailing
+> evaluations/s: Rust streams 197433/67675, Java streams 115270/79310 (1.713×/0.853×);
+> Rust incremental 1289297/403453, Java incremental 506463/489930 (2.546×/0.823×).
+> Sailing streams needs about 17% more native throughput for its target. The earlier
+> two-Java-mode qualification at `efa45d2c` (1.682×/0.851×) is retained as history.
+> Raw reports: ignored `work/real_world-qualification-{e73a22d6,fdc51c1b}/report.json`.
 
 ## Objective and boundaries
 
