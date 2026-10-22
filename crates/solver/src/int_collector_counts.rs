@@ -1,4 +1,5 @@
 //! Allocation-free small frequency sets, persistent trees for larger collectors.
+pub(crate) mod lean;
 mod tree;
 use tree::CountsTree;
 #[derive(Clone, Default)]
@@ -161,6 +162,7 @@ impl IntCollectorCounts {
         self.increment(new);
         true
     }
+    #[cfg(test)]
     pub(crate) fn len(&self) -> usize {
         match self {
             Self::Empty => 0,
@@ -169,6 +171,7 @@ impl IntCollectorCounts {
             Self::Tree(t) => t.len(),
         }
     }
+    #[cfg(test)]
     pub(crate) fn min(&self) -> Option<i64> {
         match self {
             Self::Empty => None,
@@ -177,6 +180,7 @@ impl IntCollectorCounts {
             Self::Tree(t) => t.min(),
         }
     }
+    #[cfg(test)]
     pub(crate) fn max(&self) -> Option<i64> {
         match self {
             Self::Empty => None,
@@ -225,12 +229,12 @@ impl SummarySeed {
         }
     }
     #[inline]
-    pub(crate) fn capture(values: &IntCollectorCounts, count: usize, sum: i64) -> Self {
+    pub(crate) fn capture(values: &lean::LeanCounts, count: usize, sum: i64) -> Self {
         let (distinct_count, range) = match values {
-            IntCollectorCounts::Empty => (0, SummaryRange::Empty),
-            IntCollectorCounts::One((v, _)) => (1, SummaryRange::One(*v)),
-            IntCollectorCounts::Two([a, b]) => (2, SummaryRange::Both(a.0, b.0)),
-            IntCollectorCounts::Tree(tree) => {
+            lean::LeanCounts::Empty => (0, SummaryRange::Empty),
+            lean::LeanCounts::One(v) => (1, SummaryRange::One(*v)),
+            lean::LeanCounts::Two([a, b], _) => (2, SummaryRange::Both(*a, *b)),
+            lean::LeanCounts::Tree(tree) => {
                 return Self::from_summary(crate::IntSummary {
                     count,
                     sum,

@@ -41,45 +41,49 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-Current clean source additionally captures complete immutable summary seeds and
-materializes full logical rows inside the concrete terminal evaluator. This
-avoids computing unused callback fields;only original single-receiver builtin
-pair/quad producers qualify. Original fanout is recorded before weight pruning;
-shared/custom paths retain canonical full rows. Complete extrema,count,distinct,
-sum,callback order/work,overflow/publication and rollback remain. No model,
-fixture,compiler,CPU or search-policy changes. Native controls versus selected
-count-only1e4f/92d2: Sailing+1.0028%(4/4 faster),Golfer-.4578%(1/4),all16 full
-outputs independently valid. Actual31 unique scoped unit checks across two test
-sources+4 final application cases and final lib/example Clippy pass.30 previous
-successful checks retain sourcec5fe;only corrected fixture rerun on finalca2f.
-Two fixture type errors and the earlier incomplete preparation remain preserved;
-no old results are rekeyed and no full suite was run. Final actual source is
-ca2f617f/production3c8ee537,snapshot3c5476d9. Measured native snapshote8485f5a
-had test-only annotation defects;final differs in exactly that cfg(test) file.
-Actual final Cargo reproduced byte-identical artifacta7ed7dfa.
-Fresh default Java/Rust report3bf31cc6 is current:serial rotating3seeds10s/CPU2,3,
-actual Cargo+javac,12 independent full-output validations. Golfer1.622928x/
-Sailing.933450x Java,1/2 targets. Sailing Rust71276/Java76357 evaluations/s,
-needing7.1294% more Rust throughput. Rust2/3 versusJava0/3 Sailing runs feasible;
-quality stays separate. Latest Java margin is wider than prior04ad despite the
-paired native gain;do not extrapolate or add gains to prior ratios. Previous04ad
-and all raw hashes/receipts remain unchanged.
-[Selected evidence](../compat/observations/real_world-group-summary-seeds.json).
-The clean dashboard serves localhost:8766 from5 actual current-source passes,
-with30 previous focused checks separately source-bound;not a full native/upstream
-gate. Original8765 server/directory remain preserved. All build/test/benchmark
-jobs are terminal/collected. Goal remains active.
+Current clean source uses the owning integer collector total instead of duplicate
+small-state frequencies. One class stores no frequency;two classes store only the
+first. IntCollector56to48bytes on measured64bit. Insert/remove primitives inline;
+large sets retain the original persistent tree and lower demotion threshold.
+Complete summaries,wrapping sums,overflow preflight,logical equality,Debug,
+canonical owners,journals/captures/rollback and callbacks remain. Checked
+SumCollector keeps its old backend;three unused old extrema methods are test-only.
+No unsafe,restricted-value domain,model,fixture,compiler,CPU or search-policy change.
+Native controls versus selecteda7:Sailing+1.9796%(4/4 faster),Golfer-.4513%(2/4),
+all16 full outputs independently valid. Actual37 scoped checks pass on a0d0/3fa9,
+including3 new independent multiset/full-summary/near-limit/two-class/snapshot
+controls. These retain their exact prior source identity;only two inline attributes
+and3 cfg(test) annotations changed afterward,zero fresh unit runs on hints. Final
+29b9aa90/production1aab8f22 has4 actual application passes+lib/example Clippy.
+Measured artifactccb6e320,snapshot8e7eaea6,is the selected runtime. Initial test-module
+visibility/type-annotation compile failures executed0 tests and remain preserved;native
+measured4bb0 and corrected-testeda0d0 differ in exactly one cfg(test) file.
+Fresh default Java/Rust report0941b612 is current:serial rotating3seeds10s/CPU2,3,
+actual Cargo+javac,12 independent full-output validations,byte-identicalccb6.
+Golfer1.654512x/Sailing.950779x Java,1/2 targets. Sailing Rust72668/Java76430
+evaluations/s,needing5.1769% more Rust throughput. Rust2/3 versusJava0/3 Sailing
+runs feasible;quality stays separate. Previous3bf3 and all raw identities remain
+unchanged. Native gains are not added to historical Java ratios. No full suite.
+[Selected evidence](../compat/observations/real_world-lean-int-counts-inline.json).
+The clean dashboard serves localhost:8766 from4 actual current-source application
+passes,with37 prior checks separately source-bound;not a full native/upstream gate.
+Original8765 server/directory remain preserved. All jobs terminal and collected.
+Goal remains active.
 
-Preceding selected count-only accessor replaced six full-summary count reads.
-It passed18 scoped+4 application cases/Clippy and measured Sailing+2.0420%/
-Golfer+2.6212%;its actual Java report04ad had1.668160x/.953155x and1/2 targets.
-[Preceding evidence](../compat/observations/real_world-collector-count-only.json).
+Precedingca2f/3c8e/a7ed captured complete immutable summary seeds,materialized full
+rows inside concrete terminal evaluators and recorded original fanout before
+weight pruning. Native Sailing+1.0028%/Golfer-.4578%,31 scoped unit checks across
+two test generations+4 applications/Clippy. Report3bf3 proved1/2 targets at
+Golfer1.622928x/Sailing.933450x;it now remains historical.
+[Prior selection](../compat/observations/real_world-group-summary-seeds.json).
+Preceding count-only accessor1e4f/e03d/92d2/report04ad remains historical.
+[Count-only evidence](../compat/observations/real_world-collector-count-only.json).
 
 The collector-slot handle trial is closed unintegrated: Sailing+.3816%/
 Golfer-.4690%,27 focused checks and16 independently valid outputs. No app,
 Clippy,Java,full suite or unchanged repeat.
 [Handle evidence](../compat/observations/real_world-group-summary-handles.json).
-Do not retry the handle or selected seed mechanism unchanged. A current a7ed
+Do not retry the handle or selected seed mechanism unchanged. A preceding a7ed
 199Hz10s CPU2,3 Sailing cycle capture has zero lost samples and one independently
 valid full output. Propagation10.34%,group summary8.77%/5.52%,membership6.68%,
 terminal summary6.53%,owned output closures4.58%/2.41% are diagnostic self samples,
@@ -104,17 +108,27 @@ G-1.0366%,0/4 faster Sailing. It reused prior31 unit+4 application checks under
 original hashes,zero new unit runs. Each trial has16 independently valid full
 outputs. The bit-prototype preparation regex failure executed zero Cargo/native
 runs and remains preserved;the measured corrected source is separate. No further
-app,Clippy,Java,full suite or unchanged repeat on these rejected runtimes. Current
-selectedca2f/a7ed/report3bf3 remains unchanged and current;goal still1/2 targets.
+app,Clippy,Java,full suite or unchanged repeat on these rejected runtimes. At that batch,
+selectedca2f/a7ed/report3bf3 remained unchanged;goal still1/2 targets.
 [Records](../compat/observations/real_world-routing-records.json),
 [bits](../compat/observations/real_world-routing-bits.json),
 [workspace](../compat/observations/real_world-workspace-slot.json),
 [fallback](../compat/observations/real_world-full-summary-outline.json).
 All jobs are terminal and collected. Do not retry these layouts/wrappers unchanged.
-Next consider precomputed receiver operations that remove dispatch decisions;
-co-locating the existing flags alone did not help. Preserve dynamic bindings,
-custom-score probes,activity/weights and original-path switches when evaluating
-such a change. There is no new current Java measurement or target credit here.
+The subsequent precomputed receiver-operation trial is also closed unintegrated:
+Sailing+.1946%(3/4 faster)/Golfer+.1365%(2/4),effectively flat.55 initial scoped
+passes retain their exact source;only2 improved cached join controls reran on the
+measured final test source,including late binding.53 untouched checks reused;
+production unchanged.16 full outputs independently validate;no app/Clippy/Java/
+full suite or unchanged repeat.
+[Operations](../compat/observations/real_world-receiver-operations.json).
+The standalone smaller collector also lost Sailing-.7083%/Golfer+.2586%;its
+37 checks and16 valid outputs remain source-bound. The combined inline candidate
+above is selected as a whole;no additive gain claim.
+[Standalone](../compat/observations/real_world-lean-int-counts.json).
+All jobs are terminal and collected. Do not repeat these operations/layouts/hints
+unchanged. Next investigate reducing repeated collector lookup/inverse work;
+keep complete keys,callback/publication/overflow phases and snapshots intact.
 
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;

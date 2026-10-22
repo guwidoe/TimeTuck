@@ -15,7 +15,7 @@
 //! assert_eq!(score, HardSoftScore::new(-2, 0));
 //! ```
 
-use crate::int_collector_counts::IntCollectorCounts;
+use crate::int_collector_counts::lean::LeanCounts as IntCollectorCounts;
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::hash::Hash;
@@ -38,12 +38,30 @@ pub struct IntSummary {
 /// Values are captured at insertion; changing a source fact requires removing
 /// its old mapped value and inserting its new one. Counts are native `usize`.
 /// Insertion panics before modifying state if the total count would overflow.
-#[derive(Clone, Debug, Default, PartialEq, Eq)]
+#[derive(Clone, Default)]
 pub struct IntCollector {
     values: IntCollectorCounts,
     count: usize,
     sum: i64,
 }
+
+impl std::fmt::Debug for IntCollector {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("IntCollector")
+            .field("values", &self.values.debug(self.count))
+            .field("count", &self.count)
+            .field("sum", &self.sum)
+            .finish()
+    }
+}
+impl PartialEq for IntCollector {
+    fn eq(&self, other: &Self) -> bool {
+        self.count == other.count
+            && self.sum == other.sum
+            && self.values.equivalent(&other.values, self.count)
+    }
+}
+impl Eq for IntCollector {}
 
 impl IntCollector {
     pub fn new() -> Self {
@@ -52,14 +70,14 @@ impl IntCollector {
 
     pub fn insert(&mut self, value: i64) {
         let count = self.count.checked_add(1).expect("collector count overflow");
-        self.values.increment(value);
+        self.values.increment(value, self.count);
         self.count = count;
         self.sum = self.sum.wrapping_add(value);
     }
 
     /// Returns false without modifying state if this value is absent.
     pub fn remove(&mut self, value: i64) -> bool {
-        if !self.values.remove(value) {
+        if !self.values.remove(value, self.count) {
             return false;
         }
         self.count -= 1;
@@ -76,7 +94,7 @@ impl IntCollector {
         // user code; a present capture guarantees a nonzero total count.
         let count = self.count - 1;
         let count = count.checked_add(1).expect("collector count overflow");
-        if !self.values.replace(old, new) {
+        if !self.values.replace(old, new, self.count) {
             return false;
         }
         self.count = count;
@@ -369,3 +387,6 @@ mod group_inverse_count_tests;
 
 #[cfg(test)]
 mod owned_collector_box_tests;
+
+#[cfg(test)]
+mod lean_count_tests;

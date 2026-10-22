@@ -1,0 +1,164 @@
+{
+  "kind": "real_world-receiver-operations",
+  "status": "Closed unintegrated: Sailing+.1946%(3/4 faster)/Golfer+.1365%(2/4);effectively flat.",
+  "native_source_digest": "c979df1a4a46e2391a48c6af1d707115ffacb7a09f5b30d3dafaf86163a03b6f",
+  "input_sha256": "b24e12347f8f337989b6a376155b224391749dc6bd5bdb3fa09bcc8efa4043a3",
+  "source_snapshot": "c7f9423659d7cd4381d3e520755ac43ec787abefb2b3e419889f96e0f6c7a88b",
+  "artifact_sha256": "92119eef5c49d197c145bee9dd57b2a1fcf510c12c0859c5b35b041cac64c796",
+  "mechanism": "One precomputed receiver operation per consuming node selects unchanged Inline/Group/Join/Plain branch bodies;Scored falls through to original scoring path. Canonical capability arrays retained. Derived-universe binding updates operation before next event;custom/uncached routes classify dynamically. Original reference controls clear plan after disabling capabilities;final two join controls keep optimized plan active including late binding. No event/queue/layout/model/compiler/search-policy changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/receiver-operations-next-results/clean-receiver-operations-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69947.13098062233,
+            70437.46966292069,
+            70769.12701897472,
+            70740.97494763728
+          ],
+          "trial": [
+            70646.33069332785,
+            70806.77909719525,
+            70873.40222074382,
+            70536.82569290983
+          ]
+        },
+        "medians": {
+          "baseline": 70589.22230527899,
+          "trial": 70726.55489526155
+        },
+        "gain_pct": 0.1945517821242415
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            199160.12644727426,
+            197506.61468498607,
+            197475.94195259004,
+            199795.9425937149
+          ],
+          "trial": [
+            196311.86099250705,
+            202441.45361019403,
+            194624.34389889942,
+            200896.4934982996
+          ]
+        },
+        "medians": {
+          "baseline": 198333.37056613015,
+          "trial": 198604.17724540332
+        },
+        "gain_pct": 0.13654115719414772
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "actual_final_source_passes": 2,
+    "unique_scoped_tests_passed_across_two_generations": 55,
+    "earlier_passed_invocations": 55,
+    "earlier_reused_checks": 53,
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/receiver-operations-focused1",
+        "rust_digest": "bdd6b072ec322e58736ece19d56676a5d2aff243c75d8e4dbad83e4cbca60520",
+        "production_digest": "b24e12347f8f337989b6a376155b224391749dc6bd5bdb3fa09bcc8efa4043a3",
+        "actual_passed_invocations": 55,
+        "test_names": [
+          "stream_graph::event::tests::custom_clone_drop_and_shared_aliases_are_unchanged",
+          "stream_graph::event::tests::borrowed_downcast_matches_only_exact_shape_for_inline_and_shared_events",
+          "stream_graph::event::tests::exact_inline_shapes_round_trip_put_retract_extremes_and_clone",
+          "stream_graph::event::tests::layout_budget_includes_queue_outputs_and_wide_fallback",
+          "stream_graph::bound_universes::tests::pair_bounds_follow_both_join_inputs_and_stop_at_new_namespaces",
+          "stream_graph::bound_universes::tests::one_known_join_input_does_not_imply_a_cartesian_universe",
+          "stream_graph::deferred_totals::tests::deferred_totals_preserve_final_graph_overflow_after_all_terminal_callbacks",
+          "stream_graph::event::tests::numeric_shared_owner_promotion_happens_before_passthrough_fanout",
+          "stream_graph::event_queue::tests::narrow_queue_layout_and_inline_fanout_use_one_arena_cell",
+          "stream_graph::event::tests::moving_output_owner_keeps_custom_fanout_fifo_aliases_and_drop_point",
+          "stream_graph::event_queue::tests::shared_payloads_never_enter_arena_and_keep_fifo_release_phase",
+          "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+          "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+          "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+          "stream_graph::event::tests::numeric_shared_and_fused_fixed_link_adapters_accept_promoted_producer_events",
+          "stream_graph::join_output::member_tests::shared_member_carrier_keeps_complete_rows_fifo_orientation_and_owner_lifetimes",
+          "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+          "stream_graph::event_queue::tests::scalar_arena_reuses_capacity_and_cleans_after_errors_panics_and_nested_replay",
+          "stream_graph::join_output::tests::typed_join_publication_keeps_full_rows_fanout_right_order_and_shared_fallback",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+          "stream_graph::membership_filter::concrete_callback_tests::concrete_filter_callback_owned_closure_drops_once_when_node_drops",
+          "stream_graph::join_output::tests::join_output_carrier_end_input_borrow_arena_growth_promotion_and_panic_release",
+          "stream_graph::membership_filter::shared_forward_tests::shared_forward_public_unknown_and_retaining_endpoints_keep_distinct_promoted_owners",
+          "stream_graph::join_output::tests::join_output_carrier_scope_rejects_unbounded_partial_custom_clone_and_public_graph",
+          "stream_graph::membership_filter::concrete_callback_tests::concrete_filter_callback_preserves_graph_trace_unwind_capture_and_public_owners",
+          "stream_graph::membership_filter::inline_forward_tests::inline_forward_actions_match_original_all_copy_shapes_acceptance_transitions_and_full_range_ids",
+          "stream_graph::membership_filter::inline_forward_tests::inline_forward_public_graph_keeps_retained_canonical_match_owners",
+          "stream_graph::membership_filter::tests::membership_filter_predicate_panic_keeps_acceptance_and_does_not_poison",
+          "stream_graph::membership_filter::tests::membership_filter_preserves_bound_panic_poison_and_sticky_rejected_universe_evidence",
+          "stream_graph::membership_filter::tests::membership_filter_recycles_only_empty_journal_carriers_across_nested_restore",
+          "stream_graph::membership_filter::tests::membership_filter_matches_reference_emissions_batch_order_nested_captures_and_restore",
+          "stream_graph::propagation_workspace_tests::per_event_total_overflow_is_not_deferred_across_the_batch",
+          "stream_graph::membership_filter::tests::membership_filter_builder_keeps_custom_drop_payload_lifetimes_on_the_legacy_route",
+          "stream_graph::propagation_workspace_tests::fifo_boundaries_reuse_buffers_across_commit_drop_and_nested_diagnostics",
+          "stream_graph::membership_filter::tests::membership_filter_keeps_custom_nodrop_clone_order_and_both_clone_failure_boundaries",
+          "stream_graph::membership_filter::tests::membership_filter_actual_graph_keeps_breadth_first_callbacks_matches_and_transaction_rollback",
+          "stream_graph::score_routing_tests::builtin_noncontributing_nodes_execute_without_virtual_score_or_evaluation_probes",
+          "stream_graph::score_routing_tests::builtin_score_routing_preserves_checked_overflow_failure_boundaries_and_rollback",
+          "stream_graph::propagation_workspace_tests::errors_and_panics_clear_pending_events_and_score_deltas_before_reuse",
+          "stream_graph::join_output::tests::join_output_carrier_fixed_both_sides_order_and_current_nested_full_restore_match_original",
+          "stream_graph::score_routing_tests::routing_allowlist_is_exact_and_all_builtin_terminal_kinds_remain_scoring_nodes",
+          "stream_graph::score_routing_tests::custom_no_drop_score_retains_zero_equality_clone_and_checked_hooks",
+          "stream_graph::membership_filter::shared_forward_tests::shared_forward_member_actions_keep_full_ids_fifo_fanout_and_private_owner_lifetimes",
+          "stream_graph::score_routing_tests::builtin_score_routing_matches_original_events_matches_datasets_and_physical_counts",
+          "stream_graph::event::tests::arena_wide_inline_and_shared_scalar_routes_have_identical_observables",
+          "stream_graph::event::tests::inline_and_shared_routes_preserve_callback_trace_batch_and_panic_rollback",
+          "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+          "stream_graph::membership_filter::inline_forward_tests::inline_forward_consumed_graph_fifo_fanout_captures_nested_rollback_errors_and_shared_fallback_match_original",
+          "stream_graph::deferred_totals::tests::deferred_totals_preserve_every_callback_work_capture_failure_and_retry",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+          "stream_graph::membership_filter::shared_forward_tests::shared_forward_consumed_member_graph_preserves_callbacks_captures_errors_overflow_and_retry",
+          "stream_graph::join_output::tests::join_output_carrier_actual_consumed_graph_bfs_replay_captures_errors_and_panics_match_cold_and_wide",
+          "stream_graph::join_output::member_tests::shared_member_carrier_consumed_graph_preserves_callbacks_captures_failures_and_retry"
+        ],
+        "log_sha256": "1990f6c274165f49f6bb10e3273536dfba8bb0b4e7e2c2ddf2c9c61780517447",
+        "receipt_sha256": "600e4e348ecc142e7072c67d19620137bed47e2af42557d56b25d518ce36410a"
+      },
+      {
+        "proof_directory": "work/real_world-goal/receiver-operations-focused2",
+        "rust_digest": "c979df1a4a46e2391a48c6af1d707115ffacb7a09f5b30d3dafaf86163a03b6f",
+        "production_digest": "b24e12347f8f337989b6a376155b224391749dc6bd5bdb3fa09bcc8efa4043a3",
+        "actual_passed_invocations": 2,
+        "test_names": [
+          "stream_graph::join_output::tests::join_output_carrier_actual_consumed_graph_bfs_replay_captures_errors_and_panics_match_cold_and_wide",
+          "stream_graph::join_output::member_tests::shared_member_carrier_consumed_graph_preserves_callbacks_captures_failures_and_retry"
+        ],
+        "log_sha256": "7f0e5c8cfccfdf911c30cdd78462622ffa2300c49500a3adedbbd80df2f91b5a",
+        "receipt_sha256": "c985cdb083a4712dab237120687f6a628d2323e8f65a5cf9212cd60152f8e0fd"
+      }
+    ],
+    "body_lifting_proof_sha256": "54e1d1fe0576b1de576a96db3bf29198ff72fe8f1d59110316f8ef6fb23e8c5e",
+    "policy": "Only two join test controls changed after initial55 passes;production digest unchanged. Two improved join controls rerun alone on measured final source;53 untouched checks retain original source identity. No rekeying or full suite."
+  },
+  "independent_validation_sha256": "1cbae133d811dac0614ec077f89d49911af3f2e45ded137bde019ca0624bfadb",
+  "receipts": {
+    "receipt.json": "be4dc428001a4a308b98bccfd58ed092ac49cea099c4fce37ab1d686c1335a0f",
+    "build-receipt.json": "7b4a50fd2ec15856e1f93e818822f4e300f315cf5b31825219a38aa3f1319d94",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "65c762c0fdad4b9d38cdcfbb54b0f34f6516c4f04319b5c070eeace93b770b57"
+  },
+  "source_archive_sha256": "b34b5bcac0c851cf6dc66d0415e881174a4305bd39563440b8f52d08c72e756a",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently valid. Baseline measured87f/a7ed retained;actual finalca2f Cargo qualification proved byte identity across test-only bridge. No app/Clippy/Java/full suite or unchanged repeat on rejected source."
+}

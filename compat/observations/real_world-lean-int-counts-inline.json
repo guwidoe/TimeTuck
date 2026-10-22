@@ -1,0 +1,293 @@
+{
+  "kind": "real_world-lean-int-counts-inline",
+  "status": "Selected and integrated;fresh original-default Java qualification proves1of2 throughput targets.",
+  "native_source_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "input_sha256": "1aab8f22f57bb1d2ac4f8629bd17054c43948f298b15bb60473557608ae9f853",
+  "source_snapshot": "8e7eaea6e75abf31f83921e26f1c16d6afb090a47c1bbc5b7205474f70dd32a6",
+  "artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "mechanism": "Independent count-context frequency representation reduces IntCollector56to48bytes on measured64-bit target. One-class frequency uses existing total;two classes store only the first frequency. Explicit inline insert/remove primitives expose this representation to callers. Persistent tree,promotion/demotion hysteresis,complete summaries,wrapping sum,count-overflow preflight,logical equality,Debug,canonical owners,journals/captures/rollback and callback phases remain. Checked SumCollector retains its old backend;three unused old-backend extrema helpers become test-only. No unsafe,fixed-value restriction,model,fixture,runner,compiler,CPU or search-policy changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/lean-int-counts-inline-next-results/clean-lean-int-counts-inline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69469.65871333273,
+            70622.39589516773,
+            70742.17188886779,
+            70259.73180720981
+          ],
+          "trial": [
+            70858.39724610471,
+            75885.49745244988,
+            71586.84897346458,
+            72084.17284769124
+          ]
+        },
+        "medians": {
+          "baseline": 70441.06385118878,
+          "trial": 71835.51091057791
+        },
+        "gain_pct": 1.9795939799191364
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198700.37914400536,
+            195086.5084919491,
+            198866.7344710612,
+            199038.1141329113
+          ],
+          "trial": [
+            193961.31040371172,
+            199316.56215108393,
+            199380.47201750553,
+            196456.24320236812
+          ]
+        },
+        "medians": {
+          "baseline": 198783.55680753328,
+          "trial": 197886.40267672602
+        },
+        "gain_pct": -0.4513221039081805
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "full_native_gate": false,
+    "native_source_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+    "production_digest": "1aab8f22f57bb1d2ac4f8629bd17054c43948f298b15bb60473557608ae9f853",
+    "actual_current_source_tests_passed": 4,
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/lean-int-counts-inline-application1",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "test_names": [
+          "social_golfer_bounded_search",
+          "social_golfer_full_score_and_rollback",
+          "sailing_bounded_search",
+          "sailing_full_score_and_rollback"
+        ],
+        "exit_code": 0,
+        "seconds": 32.12665088000358,
+        "log_sha256": "a0716489f53dcba923dd5b84d767c8af631cc99d64e4986af62f23ef2a130c29",
+        "receipt_sha256": "15efb680b921e8fef88ca980aa5e1b392c9c0099444422440684b69f055ee9c6"
+      },
+      {
+        "proof_directory": "work/real_world-goal/lean-int-counts-inline-clippy1",
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "test_names": [],
+        "exit_code": 0,
+        "seconds": 25.564987607009243,
+        "log_sha256": "7c0cd86e2e819cb1b173cb3f7b4732e4fbb97c0674bdc3e506e45ceff6160d61",
+        "receipt_sha256": "55f1fc9ae19ffb5ba91a6452154014727fe8d883d8f27b6787a8c1542fa1f398"
+      }
+    ],
+    "reused_source_bound_checks": {
+      "proof_directory": "work/real_world-goal/lean-int-counts-focused3",
+      "original_rust_digest": "a0d000df5312de48edff963d791e446148aee9b8e6ce2c7eb53730fd949b5bdb",
+      "original_production_digest": "3fa99ff9a89453d1bd39387d9b49bcf48d6052d5be9947a8848f9db0c74e1caa",
+      "actual_passed_tests": 37,
+      "test_names": [
+        "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+        "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+        "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+        "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+        "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+        "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+        "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+        "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+        "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+        "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+        "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+        "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+        "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+        "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+        "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+        "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+        "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+        "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+        "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+        "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+        "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+        "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+        "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+        "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+        "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+        "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+        "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+        "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+        "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+        "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+        "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+        "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+        "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+      ],
+      "log_sha256": "f46a56baf47f0c49d6fcf06a7a9eedb5c323994158be46476e6ae3e6dad322b2",
+      "receipt_sha256": "06cfbf7ecab4bdd71ef269cfd800af199c938f014728d842095ff227e6fef9e3",
+      "body_equivalence_sha256": "6d850b3aef4c48a22935a2c0191eb1e7d34c2e56792a1306441ccc8599bcf753",
+      "policy": "Only two inline edit attributes and three cfg(test) annotations on unused old-backend extrema methods differ. All actual method/test bodies unchanged;old results retain a0d0/3fa9 source identities. No fresh unit-test claim."
+    },
+    "original_regression_tests_added": 3,
+    "upstream_method_credit": 0,
+    "policy": "Actual final-source4 application passes+lib/example Clippy.37 successful prior focused cases are separately source-bound reused checks,including independent multiset,near-limit count,complete summary,clones,captures,rollback,guards,shared/weak owners and recovery. No full suite or unchanged rerun."
+  },
+  "independent_validation_sha256": "77cbf239cd706cf53f3da88cfb096f206f7fe01e4ff75a828f8e47d98b8e3335",
+  "receipts": {
+    "receipt.json": "766b30f16a4c68080a69956a5bf47c09536e144a128de1ff6fd03ed6820c34bc",
+    "build-receipt.json": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "9f8a740f925160a03277e8ca61517450bd44815277c1953ed31915e4fe09d9d5"
+  },
+  "source_archive_sha256": "a6e07bf72271078d118af98e23062f68f1bf6707177d057a32ad16829b0c7a98",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "Combined smaller representation+leaf hints versus selecteda7 baseline:Sailing+1.9796%(4/4 faster),Golfer-.4513%(2/4).16 full outputs independently validate. Standalone smaller representation lost Sailing and remains separately recorded;gains are not additive.37 actual prior focused checks retain a0d0/3fa9 source identities;only attributes changed,zero new unit runs on hints. Actual final4 application passes and Clippy. Fresh Java qualification must reproduce exactccb6 artifact and independently validate all12 outputs before promotion. Actual final29b9 Cargo+javac qualification reproduced measuredccb6 artifact bytes;report0941 is current. Golfer1.654512x/Sailing.950779x Java. Sailing Rust72668/Java76430 evaluations/s needs5.1769% more Rust throughput;Rust2/3 versusJava0/3 feasible. Previous3bf3 report retained unchanged;native gains are not added to earlier Java ratios. Goal remains active/incomplete.",
+  "java_qualification": {
+    "report_sha256": "0941b6129a44003b00ba1468647099224845e7f8969a247c03bf35f73555bf7f",
+    "collection_verification_sha256": "97c575aea4a9921569233ba038b5a16b784b59c96e84b4b0569d656db33620f6",
+    "current_throughput_targets_met": 1,
+    "required_targets": 2,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 121734.90788981627,
+            "scores": [
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                15000
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.047096234
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 201411.8485196169,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000106555
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.6545118570420014,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 76429.74804711922,
+            "scores": [
+              [
+                -12,
+                81400
+              ],
+              [
+                -5,
+                68500
+              ],
+              [
+                -9,
+                90700
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.055970979
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 72667.80515131222,
+            "scores": [
+              [
+                0,
+                94600
+              ],
+              [
+                0,
+                86500
+              ],
+              [
+                -1,
+                197300
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000828381
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9507790750077083,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "independent_local_full_outputs": 12,
+    "artifact_byte_identical_to_measured": true,
+    "source_binding_sha256": "7ccddb7f2d90eccd843c481c045bae41e0d1e1fc7d3ebe894eadfe2da7a51936",
+    "receipt_sha256": "f8ff08e47865373839895e85020d613168b78b9490516c910a5f1f55a93bde90"
+  }
+}

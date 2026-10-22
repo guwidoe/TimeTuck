@@ -1,0 +1,165 @@
+{
+  "kind": "real_world-lean-int-counts",
+  "status": "Closed standalone source unintegrated: Sailing-.7083%/Golfer+.2586%;combined inline refinement selected separately.",
+  "native_source_digest": "4bb004a52b336ed2af3a899f91af3a1d0501405a9ee6d4813efb93fdb70e604b",
+  "input_sha256": "3fa99ff9a89453d1bd39387d9b49bcf48d6052d5be9947a8848f9db0c74e1caa",
+  "source_snapshot": "e81b163330a342ba581ad41bd4ea8434a644c655ec8d4bac621bb2e21e4ae060",
+  "artifact_sha256": "da14fb5d3ca4d82a49092b9fe0277f8d1ece122e65fc52fc9451a7e8da5a2ebd",
+  "mechanism": "Independent LeanCounts stores no duplicate frequency for one class and only the first frequency for two classes;the owning IntCollector total supplies the other counts. IntCollector56to48bytes on measured64-bit target;large sets use unchanged persistent tree and lower demotion threshold. Complete summaries,wrapping sums,overflow preflight,logical equality,Debug,multiset snapshots and owners remain. The separate checked SumCollector retains original count backend. No fixed-value restriction,model,fixture,runner,compiler or search-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/lean-int-counts-next-results/clean-lean-int-counts-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            71199.95891922225,
+            70797.80186078357,
+            70043.5467668722,
+            71373.27098953324
+          ],
+          "trial": [
+            69487.34988078926,
+            70392.66243170339,
+            70834.39877908742,
+            70599.27965967452
+          ]
+        },
+        "medians": {
+          "baseline": 70998.88039000292,
+          "trial": 70495.97104568896
+        },
+        "gain_pct": -0.7083341899920548
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197959.66416897514,
+            194851.76228932172,
+            201054.39843098636,
+            199520.7923772861
+          ],
+          "trial": [
+            199858.36710051267,
+            192809.90196624334,
+            199532.64351668017,
+            198975.5744646947
+          ]
+        },
+        "medians": {
+          "baseline": 198740.2282731306,
+          "trial": 199254.10899068744
+        },
+        "gain_pct": 0.2585690486631709
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "verification": {
+    "actual_tests_passed": 37,
+    "rust_digest": "a0d000df5312de48edff963d791e446148aee9b8e6ce2c7eb53730fd949b5bdb",
+    "production_digest": "3fa99ff9a89453d1bd39387d9b49bcf48d6052d5be9947a8848f9db0c74e1caa",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream::lean_count_tests",
+      "stream::group_inverse_count_tests",
+      "owned_collector_box_tests",
+      "incremental_stream::group_entry::tests",
+      "incremental_stream::group_inverse_tests",
+      "primitive_rows::group_collectors::tests",
+      "incremental_stream::group_ticket_tests",
+      "stream_graph::group_summary_lane"
+    ],
+    "test_names": [
+      "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+      "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+      "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+      "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+      "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+      "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+      "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+      "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+      "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+      "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+      "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+      "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+      "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+      "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+      "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+      "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+      "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+      "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+      "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+      "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+      "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+      "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+      "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+      "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+      "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+      "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+      "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+      "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+      "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+      "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+      "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+      "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+      "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+    ],
+    "log_sha256": "f46a56baf47f0c49d6fcf06a7a9eedb5c323994158be46476e6ae3e6dad322b2",
+    "receipt_sha256": "06cfbf7ecab4bdd71ef269cfd800af199c938f014728d842095ff227e6fef9e3",
+    "measured_to_tested_only_changed_files": [
+      "crates/solver/src/stream/lean_count_tests.rs"
+    ],
+    "policy": "Actual37 scoped passes on correcteda0d0 test source;native timing on4bb0. Exactly one cfg(test) file differs;production3fa9 identical. No relabeling old receipts."
+  },
+  "preparation_history": [
+    {
+      "proof_directory": "work/real_world-goal/lean-int-counts-focused1",
+      "stage": "Test compilation failure;zero executed tests",
+      "rust_digest": "0f11779d5669aabaaeb3c56ae879121f8133d67563d058e41f08902b41d704c2",
+      "production_digest": "3fa99ff9a89453d1bd39387d9b49bcf48d6052d5be9947a8848f9db0c74e1caa",
+      "exit_code": 101,
+      "log_sha256": "79cc9462666c6c33a1d23e026a1cff2293e5ca537f53b2c8f6dd0e7ba139885f",
+      "receipt_sha256": "c58a0e0557d89556e37f70df11d575034dbe8817a7a77197a94242f1ac05188b"
+    },
+    {
+      "proof_directory": "work/real_world-goal/lean-int-counts-focused2",
+      "stage": "Test compilation failure;zero executed tests",
+      "rust_digest": "4bb004a52b336ed2af3a899f91af3a1d0501405a9ee6d4813efb93fdb70e604b",
+      "production_digest": "3fa99ff9a89453d1bd39387d9b49bcf48d6052d5be9947a8848f9db0c74e1caa",
+      "exit_code": 101,
+      "log_sha256": "5d71f9e6200d2c5400654c7e9a4dcec70f887bf897afedbad5896dde770871af",
+      "receipt_sha256": "56278d3d67c4afaede1295d894272ebecb0908dc5e203804019600e970a9ea0d"
+    }
+  ],
+  "independent_validation_sha256": "11ac79dafca88d0d58e82e81a48772b73e540f92e9f460e0e100ea67d9be2e5d",
+  "static_call_inspection_sha256": "a42216f781968a62f47766365ba22ade804d2a0dd1fefcfcffb004972f177178",
+  "baseline_static_call_inspection_sha256": "38463f695c6e4a8b3f0d2bd591d241997820b959f449991befbce48c8a7c2ac9",
+  "receipts": {
+    "receipt.json": "98b80f19aebee43142436018d6f7d677b71b3ac246d3a470132314a737e9da50",
+    "build-receipt.json": "697953cae0d109d51a466108e9995cca686bf3b214393ee051b799ef0241cf2f",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "7c92eb103f9bcdd043afa96e393820b007659ce5a3d59851d59d3593ed938ab4"
+  },
+  "source_archive_sha256": "3ef8c243ee9f458be304bd1d67f972ed541f62b5d4b6c8ae53bdecd0fb2b102a",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently valid. Smaller memory footprint is not a throughput win. Static disassembly shows candidate increment/remove37/37 calls versus original37/44;it does not show new extra call overhead caused this slowdown. No app/Clippy/Java/full suite or unchanged repeat on rejected standalone source. Next distinct refinement inlines lean edit primitives while retaining their body and37 prior source-bound checks."
+}
