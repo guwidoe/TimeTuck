@@ -1,0 +1,117 @@
+{
+  "kind": "real_world-wide-contribution-pages",
+  "status": "Closed unintegrated: Sailing-1.4184%/Golfer+.7527%.",
+  "native_source_digest": "c3a79505967dbdd24de15abab125b2c5d2ce8994b7cb497aaaa75e1b997e0202",
+  "input_sha256": "a5008c3a185876703641486c5e8d7652b5a7e56563d3c5de157f62f70c8ce635",
+  "source_snapshot": "ca7209ac6347d30f6b825305f3b11161fad6d18268b24061c0c610c31d47c0cd",
+  "artifact_sha256": "c9d8de9bf8331b68b49d0b12d2daa9c900d362434d0a4635c8e318fd56c1e39d",
+  "mechanism": "Bounded128-coordinate four-part IDs use lazy direct score pages;8192-page empty cache,full-width hash fallback,complete positions and original every-write histories.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/wide-contribution-pages-next-results/clean-wide-contribution-pages-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70642.66107119642,
+            69716.8999397911,
+            70370.52954189881,
+            70384.0539376079
+          ],
+          "trial": [
+            69586.10668599911,
+            69171.957425336,
+            69934.08531515747,
+            69159.31469406954
+          ]
+        },
+        "medians": {
+          "baseline": 70377.29173975336,
+          "trial": 69379.03205566756
+        },
+        "gain_pct": -1.4184400385528373
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198079.8475698342,
+            193634.7424996614,
+            197729.57302514146,
+            198218.35770283337
+          ],
+          "trial": [
+            199417.15456653954,
+            199543.0657820506,
+            195636.7070568156,
+            199371.4668471008
+          ]
+        },
+        "medians": {
+          "baseline": 197904.71029748785,
+          "trial": 199394.31070682016
+        },
+        "gain_pct": 0.752685677411713
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "verification": [
+    {
+      "tests_passed": 23,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::consumed_scores::",
+        "stream_graph::terminal_primitive_tests",
+        "stream_graph::terminal_prepared_tests",
+        "incremental_stream::join_owned_payload_tests",
+        "incremental_stream::join_payload_tests",
+        "stream_graph::score_routing_tests"
+      ],
+      "rust_digest": "c3a79505967dbdd24de15abab125b2c5d2ce8994b7cb497aaaa75e1b997e0202",
+      "production_digest": "a5008c3a185876703641486c5e8d7652b5a7e56563d3c5de157f62f70c8ce635",
+      "receipt_sha256": "1295135a069c7921549f6ab03e04a8aeef22e73ec87172a6e9a42af5be69559f",
+      "log_sha256": "63e32d9b9ec1e8cbabcdf6d5ba73212333ff512fd401185e6a3fc32e72032ecd"
+    },
+    {
+      "tests_passed": 17,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "incremental_stream::consuming_join_rows_tests",
+        "incremental_stream::join_fixed_rows::copied_tests",
+        "incremental_stream::join_journal::primitive_rows_tests"
+      ],
+      "rust_digest": "c3a79505967dbdd24de15abab125b2c5d2ce8994b7cb497aaaa75e1b997e0202",
+      "production_digest": "a5008c3a185876703641486c5e8d7652b5a7e56563d3c5de157f62f70c8ce635",
+      "receipt_sha256": "a6324d0276f1158a1dfd9507e557803258fba62838979b27636f3cc8440d5a83",
+      "log_sha256": "d6f3c01cc614becca8763ac2fdc7ae04ec34bd45daf110ff48298ce04e96aa35"
+    }
+  ],
+  "actual_same_source_tests_passed": 40,
+  "independent_validation_sha256": "07dd9c68dd3c10b8a8e83b11153474d8844081c52251b65b3925aab11e079f54",
+  "receipts": {
+    "receipt.json": "980667aa9928756eb18bef9c91763176d1236383385ebc98be8efa5395e43aeb",
+    "build-receipt.json": "e463d8013a2e394beb31307e974daa3b11a09c46c66cdcfa9a1e7daf18755711",
+    "baseline-build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-reuse.json": "3ce8dd65debe0bd7bfe6dec7f794634f6071471cad60a652f5dafe7aa37ed4f0",
+    "controls.json": "10dcad910b8cd9df0018e615f798ac8918f5a8bd49ebf7f16ba37ea905c7b63a"
+  },
+  "source_archive_sha256": "654a90249f4163d35825c4afa422431cb54a5bbe9432c7367dc3e56c6f2f7b47",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 unique serial rotating3s controls independently validate pertrial. Actual selected ff2d/1456 build reused;no old evidence rekey. No application/Clippy/Java/full suite or unchanged repeat for these losing candidates;main unchanged."
+}

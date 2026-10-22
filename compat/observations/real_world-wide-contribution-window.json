@@ -1,0 +1,107 @@
+{
+  "kind": "real_world-wide-contribution-window",
+  "status": "Closed unintegrated: Sailing-1.9917%/Golfer-1.1699%.",
+  "native_source_digest": "951b33db89790bac072d3c1be68ea546c6d6ec366e26f0ef4c3e2563f1601244",
+  "input_sha256": "f11211862054a0275bca14a308ba6cd34e28f56b8ebe2f91ace89edf7a94f491",
+  "source_snapshot": "c4f7b9c1918794dba6fc8a448f008e9c9b6d72ff6f993901ae9f29212b5b0cbd",
+  "artifact_sha256": "5a482b4c7d08a704ad11eb531cc9cb4e4e77d19a53c415c60456386dbb2c4873",
+  "mechanism": "Wide directory stores only a lazily grown index interval;boxed score pages keep stable addresses during prefix/suffix growth. Empty-page cleanup sweeps only past8192-page cache cap. All full values,global cold ordering,preimages,nested rollback/captures and fallback remain.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/wide-contribution-window-next-results/clean-wide-contribution-window-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70336.419143416,
+            69106.2453034397,
+            69795.90086775653,
+            70388.6763179797
+          ],
+          "trial": [
+            68554.30336603126,
+            67630.87617494939,
+            68788.56142798091,
+            68787.07029919319
+          ]
+        },
+        "medians": {
+          "baseline": 70066.16000558627,
+          "trial": 68670.68683261223
+        },
+        "gain_pct": -1.99165070964753
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198387.15359320043,
+            198526.3333533751,
+            199115.9820112906,
+            196177.99376452336
+          ],
+          "trial": [
+            196279.8722774017,
+            196330.78186969526,
+            195898.90055854412,
+            195990.174968807
+          ]
+        },
+        "medians": {
+          "baseline": 198456.7434732878,
+          "trial": 196135.02362310435
+        },
+        "gain_pct": -1.1698871046404768
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": [
+    {
+      "tests_passed": 27,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "--",
+        "--color=never",
+        "primitive_rows::consumed_scores::",
+        "stream_graph::terminal_primitive_tests",
+        "stream_graph::terminal_prepared_tests",
+        "incremental_stream::consuming_join_rows_tests::pair_payload_tests",
+        "stream_graph::score_routing_tests"
+      ],
+      "rust_digest": "951b33db89790bac072d3c1be68ea546c6d6ec366e26f0ef4c3e2563f1601244",
+      "production_digest": "f11211862054a0275bca14a308ba6cd34e28f56b8ebe2f91ace89edf7a94f491",
+      "receipt_sha256": "31aa7fe94e56122a02058d1ffc762e4db3e1bdbd25fb391e40be189a8ca3e8e8",
+      "log_sha256": "e7e2f7bc97109eb2993dfe9ed9478e066781391fd0721179b64f8feea969a635"
+    }
+  ],
+  "actual_same_source_tests_passed": 27,
+  "independent_validation_sha256": "027f8cf26992a27cd9d4ca4756ba77bf79ce694117c2c885f6411f337a10e397",
+  "receipts": {
+    "receipt.json": "5e012df73c9d3877bcb0e40ed392d7f890b882a8d929814aa59b58ff69e1c41e",
+    "build-receipt.json": "1f93ef9ccba0bb7af7b59a0526b511726152f43f7f0d2600be5259282c72fd57",
+    "baseline-build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-reuse.json": "3ce8dd65debe0bd7bfe6dec7f794634f6071471cad60a652f5dafe7aa37ed4f0",
+    "controls.json": "43b5b96cc5a5c376c56b277aabba2006917b7181a1e5c8762207ce398f6c6c69"
+  },
+  "source_archive_sha256": "9350478e2becf9fdaa668812469bf5e6c2d429d8e0c3db37fccc2090cfd580fd",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 unique serial rotating3s controls independently validate pertrial. Actual selected ff2d/1456 build reused;no old evidence rekey. No application/Clippy/Java/full suite or unchanged repeat for these losing candidates;main unchanged.",
+  "development_failure": {
+    "rust_digest": "cdd2beb5abc6c71e37c566cc26b9383713c1d52963283f27ef07583feb11373d",
+    "production_digest": "66e5272fe64ef6924dcbb95db6123543ae5eca28db302f85bf756714f1973e9e",
+    "exit_code": 101,
+    "executed_tests": 0,
+    "cause": "Derived generic Default added an unwanted Page<S>:Default bound;manual bound-free Default in fresh final prototype fixed it before remote dispatch. Failed source/log/receipt retained.",
+    "log_sha256": "a51b0737d420ea23c9921f8837dc4fa272f3be553f24ca758b634d07d5accdc8",
+    "receipt_sha256": "7fd19185eee589562686e3d38d128fb5f21260b66e23f164a5b29aa74fa7ded5"
+  }
+}

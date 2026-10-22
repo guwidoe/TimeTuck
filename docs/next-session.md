@@ -66,6 +66,23 @@ not a full native/upstream gate;upstream method credit remains0 for this run.
 The clean dashboard serves localhost:8766;original8765 server and working
 directory remain untouched. All current build/test/benchmark jobs are collected.
 
+A fresh selected-source199Hz10s Sailing cycle capture finished0 with no lost
+samples and one independently valid full output. Propagation10.29%,group summary
+8.59%,membership filtering7.44%,terminal change5.76% are diagnostic self samples,
+not removable costs. No rebuild,test or Java comparison accompanied this capture.
+[Profile](../compat/observations/real_world-selected-summary-cycle-profile.json).
+
+Three bounded contribution directory trials are closed unintegrated:128-part
+pages Sailing-1.4184%/Golfer+.7527%;1024-part pages-1.0836%/-1.1975%;windowed
+intervals-1.9917%/-1.1699%. Each16 full outputs independently validate. Actual
+same-source checks passed40,12 and27 respectively;the original window Default
+compile failure executed0 tests and remains preserved. Full coordinates,fallback,
+sorted snapshots and rollback remain. No app/Clippy/Java/full suite or unchanged
+retry;selectedff2d/1456/report1299 remains. Do not retry these layouts unchanged.
+[128](../compat/observations/real_world-wide-contribution-pages.json),
+[1024](../compat/observations/real_world-wide-contribution-1024.json),
+[window](../compat/observations/real_world-wide-contribution-window.json).
+
 Three member-event trials are closed unintegrated. Put/retract work tags measured
 Sailing-5.9251%/Golfer-5.8997%;typed owners plus tags-5.6262%/-4.1531%;
 one typed owner variant without accounting metadata-4.3783%/-3.9451%.
