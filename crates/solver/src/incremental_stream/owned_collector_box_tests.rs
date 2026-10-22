@@ -221,3 +221,137 @@ fn owned_collector_arena_growth_retirement_and_snapshot_installs_match_independe
     }
     check(&node, &rows);
 }
+
+#[test]
+fn uniform_owned_groups_keep_sustained_cohorts_nested_captures_and_foreign_value_promotion() {
+    let keys = [
+        (0, 0, 0, 0),
+        (1, 2, 3, 4),
+        (usize::MAX, usize::MAX, usize::MAX, usize::MAX),
+    ];
+    for value in [0, -7, i64::MIN, i64::MAX] {
+        let mut node = GroupNode::<usize, Key>::new();
+        let mut reference = GroupNode::<usize, Key>::new();
+        assert!(node.bind_primitive_group_keys());
+        assert!(reference.bind_primitive_group_keys());
+        assert!(node.bind_primitive_inputs());
+        assert!(reference.bind_primitive_inputs());
+        node.enable_consumed_collectors();
+        let mut model = Inputs::new();
+        for id in 0..48 {
+            let row = (keys[id % keys.len()], value);
+            assert_eq!(
+                node.apply(TupleChange::put(id, row)),
+                reference.apply(TupleChange::put(id, row))
+            );
+            model.insert(id, row);
+        }
+        let initial = model.clone();
+        for round in 0..12 {
+            let outer = node.begin_journal_checkpoint();
+            let r_outer = reference.begin_journal_checkpoint();
+            for step in 0..24 {
+                let id = (round * 17 + step * 13) % 48;
+                let next = if step % 5 == 0 {
+                    None
+                } else {
+                    Some((keys[(step + round) % keys.len()], value))
+                };
+                assert_eq!(
+                    node.apply(TupleChange { id, value: next }),
+                    reference.apply(TupleChange { id, value: next })
+                );
+                if let Some(row) = next {
+                    model.insert(id, row);
+                } else {
+                    model.remove(&id);
+                }
+                check(&node, &model);
+                check(&reference, &model);
+            }
+            let wanted = model.clone();
+            let delta = node.capture_checkpoint(outer.as_ref());
+            let r_delta = reference.capture_checkpoint(r_outer.as_ref());
+            let full = node.checkpoint();
+            let r_full = reference.checkpoint();
+            let child = node.begin_journal_checkpoint();
+            let r_child = reference.begin_journal_checkpoint();
+            for id in 0..48 {
+                let row = (keys[(id + round + 1) % keys.len()], value);
+                assert_eq!(
+                    node.apply(TupleChange::put(id, row)),
+                    reference.apply(TupleChange::put(id, row))
+                );
+                model.insert(id, row);
+            }
+            node.commit_journal_checkpoint(child);
+            reference.commit_journal_checkpoint(r_child);
+            node.restore_checkpoint(full);
+            reference.restore_checkpoint(r_full);
+            model = wanted.clone();
+            check(&node, &model);
+            check(&reference, &model);
+            node.restore_checkpoint(outer);
+            reference.restore_checkpoint(r_outer);
+            model = initial.clone();
+            check(&node, &model);
+            check(&reference, &model);
+            let install = node.begin_journal_checkpoint();
+            let r_install = reference.begin_journal_checkpoint();
+            node.restore_checkpoint(delta);
+            reference.restore_checkpoint(r_delta);
+            model = wanted;
+            check(&node, &model);
+            check(&reference, &model);
+            node.restore_checkpoint(install);
+            reference.restore_checkpoint(r_install);
+            model = initial.clone();
+            check(&node, &model);
+            check(&reference, &model);
+        }
+        let uniform = node.checkpoint();
+        let r_uniform = reference.checkpoint();
+        let foreign = (keys[0], value.wrapping_add(1));
+        assert_eq!(
+            node.apply(TupleChange::put(0, foreign)),
+            reference.apply(TupleChange::put(0, foreign))
+        );
+        model.insert(0, foreign);
+        check(&node, &model);
+        check(&reference, &model);
+        node.restore_checkpoint(uniform);
+        reference.restore_checkpoint(r_uniform);
+        check(&node, &initial);
+        check(&reference, &initial);
+    }
+}
+
+#[test]
+fn uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history() {
+    for value in [0,-7,i64::MIN,i64::MAX] {
+        let mut node=GroupNode::<usize,Key>::new();
+        let mut reference=GroupNode::<usize,Key>::new();
+        assert!(node.bind_primitive_group_keys());assert!(reference.bind_primitive_group_keys());
+        assert!(node.bind_primitive_inputs());assert!(reference.bind_primitive_inputs());
+        node.enable_consumed_collectors();
+        let mut model=Inputs::new();
+        for id in 0..64 {
+            let row=((id%3,usize::MAX,0,id%3),value);
+            assert_eq!(node.apply(TupleChange::put(id,row)),reference.apply(TupleChange::put(id,row)));
+            model.insert(id,row);
+        }
+        let baseline=model.clone();
+        let uniform=node.checkpoint();let r_uniform=reference.checkpoint();
+        let outer=node.begin_journal_checkpoint();let r_outer=reference.begin_journal_checkpoint();
+        let foreign=((0,usize::MAX,0,0),value.wrapping_add(1));
+        assert_eq!(node.apply(TupleChange::put(0,foreign)),reference.apply(TupleChange::put(0,foreign)));
+        model.insert(0,foreign);check(&node,&model);check(&reference,&model);
+        let promoted=node.checkpoint();let r_promoted=reference.checkpoint();
+        node.restore_checkpoint(uniform);reference.restore_checkpoint(r_uniform);
+        check(&node,&baseline);check(&reference,&baseline);
+        node.restore_checkpoint(promoted);reference.restore_checkpoint(r_promoted);
+        check(&node,&model);check(&reference,&model);
+        node.restore_checkpoint(outer);reference.restore_checkpoint(r_outer);
+        check(&node,&baseline);check(&reference,&baseline);
+    }
+}

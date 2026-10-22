@@ -29,7 +29,22 @@ about every problem size, search trace or finite-budget optimum.
 | Configured applications and solver services | Owned XML/model factories, live daemon changes, cancellation and manager tests; [roster file workflow](owned-roster-workflow.md), [mixed cold-start qualification](../crates/solver/tests/mixed_benchmark_regression.rs), canonical solution persistence | Native typed bindings replace Java frameworks. Scheduling/time limits are cooperative. Larger-case optimum and arbitrary-scale quality are not proved. |
 | Visual test and performance dashboard | [Report pipeline](dashboard.md), desktop/mobile rendering evidence, actual native/Community timings with quality, work, timestamps and input hashes | Method coverage uses statically discovered annotated source methods, not all JUnit runtime invocations. Stale measurements remain stale until rerun. |
 
-The current selected collector backend stores consumed integer values in a
+Current performance development selects the runtime-uniform owned collector arena:
+24-byte uniform slots versus64-byte general slots on the measured target,with
+full-domain promotion,complete cold observations and unchanged ordered rollback.
+Forty focused checks pass on the measured source;final source adds one independent
+active snapshot/promotion test plus four application passes. Library/example Clippy
+passes with one explicit style-only `collapsible_if` exception. No full suite or
+upstream-method credit is claimed. Native controls improve Sailing1.583% and
+Golfer1.816%,all four pairs faster both;all16 outputs independently validate.
+Actual final-source Java/Rust qualification uses the byte-identical measured
+release and validates all12 outputs independently. Report38d5ee91 proves
+Golfer1.598796x/Sailing.960017x Java;Sailing still needs4.1648% more Rust throughput.
+The goal remains active. See [current evidence](../compat/observations/real_world-uniform-collector-arena.json)
+and [handoff](next-session.md) for exact source identities and scoped receipts.
+The earlier source-bound cohorts below remain historical.
+
+The preceding collector backend stores consumed integer values in a
 reusable contiguous arena. Pages retain canonical Arc keys and slot indices;
 ordered scalar undo reaches the slot directly, while structural undo retains
 retired slots until the corresponding frame finishes. Cold captures retain full

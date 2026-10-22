@@ -102,6 +102,28 @@ impl IntCollector {
         true
     }
 
+    // A private uniform arena reconstructs full values for original cold views.
+    #[inline]
+    pub(crate) fn single_state(&self) -> Option<(i64, usize)> {
+        match &self.values {
+            IntCollectorCounts::Empty => Some((0, 0)),
+            IntCollectorCounts::One(value) => Some((*value, self.count)),
+            _ => None,
+        }
+    }
+    #[inline(always)]
+    pub(crate) fn from_single_state(value: i64, count: usize) -> Self {
+        Self {
+            values: if count == 0 {
+                IntCollectorCounts::Empty
+            } else {
+                IntCollectorCounts::One(value)
+            },
+            count,
+            sum: value.wrapping_mul(count as i64),
+        }
+    }
+
     // Internal guards need the occurrence count, without computing extrema.
     #[inline]
     pub(crate) fn occurrence_count(&self) -> usize {

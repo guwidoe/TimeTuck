@@ -41,7 +41,32 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-Current clean source uses the owning integer collector total instead of duplicate
+Current selected source9c195167/productione67da11e uses one arbitrary runtime
+integer value across the private owned collector arena,with per-slot counts and
+canonical addresses. Uniform slots24bytes versus general64bytes on measured64bit;
+foreign values or multiclass inputs promote to the original general arena while
+preserving indices,free slots,ordered history and snapshots. Hot forward/inverse
+edits use counts;one arena-wide lazy cache supplies complete cold values. Full
+i64/usize domain,wrapping sums,overflow/missing preflight,complete summaries,
+logical equality,Debug,owners,visibility and callbacks remain. Public/shared/custom
+paths unchanged. Native controls versus29b9/ccb6:Sailing+1.5827%/Golfer+1.8156%,
+all4 pairs faster both,all16 full outputs independently valid.40 actual focused
+passes on measured058e remain source-bound;final9c19 appends only one cfg(test)
+active snapshot/promotion regression and has5 actual passes (1new unit+4app).
+Clippy lib/example passes with one explicit style-only collapsible_if exception;
+original strict lint failure is preserved. Initial fixture compile failure ran0tests;
+fixed .into_iter() source/log retained separately. No full suite or upstream credit.
+Fresh default3seed10s Java/Rust qualification reproduces measured artifact10ef03c9,
+all12 full outputs independently valid. Current report38d5ee91 proves Golfer1.598796x/
+Sailing.960017x Java,1/2 targets. Sailing Rust72940/Java75977 evaluations/s needs
+4.1648% more Rust throughput. Rust2/3 versusJava0/3 Sailing runs feasible;quality
+stays separate. Previous0941 report retained unchanged;native gains are not added
+to old Java ratios. Dashboard localhost:8766 credits5 actual current-source passes,
+with40 prior focused checks separately bound;not a full native/upstream gate.
+All jobs terminal/collected;goal active. No new subagents;local+runner-a,runner-c parked.
+[Selected arena evidence](../compat/observations/real_world-uniform-collector-arena.json).
+
+The preceding clean selection uses the owning integer collector total instead of duplicate
 small-state frequencies. One class stores no frequency;two classes store only the
 first. IntCollector56to48bytes on measured64bit. Insert/remove primitives inline;
 large sets retain the original persistent tree and lower demotion threshold.
@@ -149,15 +174,11 @@ group summary7.78%/second4.12%,owned output closures4.66%/2.16%,membership6.52%,
 terminal6.42%,collector rollback2.46% are diagnostic self samples,not removable
 costs. Actual selected artifact reused;no build,test or comparative Java lane.
 [Current profile](../compat/observations/real_world-selected-lean-cycle-profile.json).
-Selected source/report0941 remain unchanged/current;goal1/2,5.1769% Sailing gap.
-All jobs terminal and collected. Next unimplemented hypothesis is a runtime-uniform
-private arena:one arbitrary sharedi64 value plus per-slot counts,with general
-promotion/fallback on foreign values. Preserve full keys,arithmetic/overflow,
-output/callback phases,visibility,retired slots and snapshot namespaces. Cold
-views must remain complete;hot inverses must not accidentally promote the arena.
-This is distinct from prior per-row binary/boxed fallback experiments. Read the
-ignored work/real_world-goal/runtime-uniform-arena-outline.json before implementing.
-No implementation or gain for this hypothesis is claimed.
+That29b9 profile now remains historical. The runtime-uniform arena hypothesis was
+implemented and selected above;its current source/report38d5 now needs4.1648%
+more Sailing throughput. All jobs terminal/collected. Next investigate a different
+hot-path cost or a distinct count/address layout;do not rerun the unchanged
+collector borrowing,ordered-undo,preflight or uniform arena trials.
 
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;

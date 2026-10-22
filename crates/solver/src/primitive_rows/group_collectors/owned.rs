@@ -428,13 +428,24 @@ impl<K> Owned<K> {
     }
     fn undo_scalar(&mut self, tagged: usize, edit: ScalarEdit) {
         let slot = tagged & !INACTIVE;
-        let collector = self.values.get_mut(slot);
-        let was_empty = collector.occurrence_count() == 0;
-        match edit {
-            ScalarEdit::Insert(v) => assert!(collector.remove(v), "inverse group occurrence"),
-            ScalarEdit::Remove(v) => collector.insert(v),
-            ScalarEdit::Replace(a, b) => {
-                assert!(collector.replace_captured(b, a), "inverse group occurrence")
+        let was_empty = self.values.count(slot) == 0;
+        let inverse = match edit {
+            ScalarEdit::Insert(v) => ScalarEdit::Remove(v),
+            ScalarEdit::Remove(v) => ScalarEdit::Insert(v),
+            ScalarEdit::Replace(a, b) => ScalarEdit::Replace(b, a),
+        };
+        if self
+            .values
+            .try_uniform_update(slot, inverse, "inverse group occurrence")
+            .is_none()
+        {
+            let collector = self.values.get_mut(slot);
+            match edit {
+                ScalarEdit::Insert(v) => assert!(collector.remove(v), "inverse group occurrence"),
+                ScalarEdit::Remove(v) => collector.insert(v),
+                ScalarEdit::Replace(a, b) => {
+                    assert!(collector.replace_captured(b, a), "inverse group occurrence")
+                }
             }
         }
         if was_empty || tagged & INACTIVE != 0 {
@@ -456,7 +467,7 @@ impl<K> Owned<K> {
         let row = self.pages.get_mut(&pos.page)?.cells[pos.cell].as_mut()?;
         let tagged = row.value;
         let slot = row.slot();
-        let count = self.values.get(slot).occurrence_count();
+        let count = self.values.count(slot);
         if (!row.active() && !matches!(edit, ScalarEdit::Insert(_)))
             || (count == 0 && row.active())
             || (count == 1 && !matches!(edit, ScalarEdit::Insert(_)) && self.len > CACHE_ROWS)
@@ -469,15 +480,22 @@ impl<K> Owned<K> {
         if let Some(frame) = self.frames.last_mut() {
             frame.edits.reserve(1);
         }
-        let collector = self.values.get_mut(slot);
-        match edit {
-            ScalarEdit::Insert(v) => collector.insert(v),
-            ScalarEdit::Remove(v) => assert!(collector.remove(v), "input occurrence"),
-            ScalarEdit::Replace(a, b) => {
-                assert!(collector.replace_captured(a, b), "input occurrence")
+        let summary = if let Some((value, count)) =
+            self.values
+                .try_uniform_update(slot, edit, "input occurrence")
+        {
+            Q::prepare(&IntCollector::from_single_state(value, count))
+        } else {
+            let collector = self.values.get_mut(slot);
+            match edit {
+                ScalarEdit::Insert(v) => collector.insert(v),
+                ScalarEdit::Remove(v) => assert!(collector.remove(v), "input occurrence"),
+                ScalarEdit::Replace(a, b) => {
+                    assert!(collector.replace_captured(a, b), "input occurrence")
+                }
             }
-        }
-        let summary = Q::prepare(collector);
+            Q::prepare(collector)
+        };
         row.value = if Q::count(&summary) == 0 {
             slot | INACTIVE
         } else {

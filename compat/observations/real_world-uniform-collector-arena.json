@@ -1,0 +1,334 @@
+{
+  "kind": "real_world-uniform-collector-arena",
+  "status": "Selected and integrated;original-default Java qualification proves1of2 throughput targets.",
+  "native_source_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
+  "input_sha256": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+  "source_snapshot": "a03d5f58d746f876c6d86bdf9177d13f9e7b8201e19d5912187d7ddfdb1adaf1",
+  "artifact_sha256": "10ef03c9abec0f48382201af850461f861377da99dbc56c8a85902ae9156f8e6",
+  "measured_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+  "measured_snapshot": "e14fac5d30e6bf3e32855243b2da87dadbbf009328530863fd1c04fc911a6eab",
+  "mechanism": "Private owned consuming primitive collector arena stores one arbitrary runtime i64 plus per-slot full-width counts and canonical addresses. Uniform slot24bytes versus general64bytes on measured64bit target. Foreign values or multiclass collectors promote the whole arena to the original general representation without changing slot IDs,free list,retained history or full snapshots. Complete cold values use one arena-wide lazy observation cache;hot forward and inverse edits use counts. Wrapping sums,count-overflow and missing-capture preflight,full summaries,logical equality,Debug,arbitrary keys,owners,visibility and original callback/publication phases remain. Public/shared/custom paths and all ordered scalar journal edits remain. No unsafe,fixed-value limit,model,fixture,runner,compiler,CPU or search-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/uniform-collector-arena-next-results/clean-uniform-collector-arena-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            71743.99519135682,
+            71500.58261537831,
+            71564.83315675522,
+            71850.88928845024
+          ],
+          "trial": [
+            73037.71480803713,
+            72209.95386661447,
+            72919.56336960074,
+            72657.46870364621
+          ]
+        },
+        "medians": {
+          "baseline": 71654.41417405603,
+          "trial": 72788.51603662348
+        },
+        "gain_pct": 1.5827383080860846
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            201069.38434809307,
+            197241.60515421335,
+            199665.6338192114,
+            196052.7854535481
+          ],
+          "trial": [
+            202243.35344330483,
+            200320.20520490097,
+            201870.16205200081,
+            203675.03451749453
+          ]
+        },
+        "medians": {
+          "baseline": 198453.61948671238,
+          "trial": 202056.75774765282
+        },
+        "gain_pct": 1.8156072286611424
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 4,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "verification": {
+    "full_native_gate": false,
+    "native_source_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
+    "production_digest": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+    "actual_current_source_tests_passed": 5,
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/uniform-collector-arena-focused3",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history"
+        ],
+        "tests_passed": 1,
+        "test_names": [
+          "incremental_stream::owned_collector_box_tests::uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history"
+        ],
+        "exit_code": 0,
+        "seconds": 29.9865589789988,
+        "log_sha256": "05e1c130fe2b47924147dd3e4afeab86112ca6dee53a4c676c0370dc85df1eb9",
+        "receipt_sha256": "d218c71b8cd3a09dacc65f67878182d07a25b12a8fbf35d7673c2ecbf82ea5b3"
+      },
+      {
+        "proof_directory": "work/real_world-goal/uniform-collector-arena-app-final",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "test_names": [
+          "social_golfer_bounded_search",
+          "social_golfer_full_score_and_rollback",
+          "sailing_bounded_search",
+          "sailing_full_score_and_rollback"
+        ],
+        "exit_code": 0,
+        "seconds": 22.482098347012652,
+        "log_sha256": "de63ac1d76d111b94011f0bb6b5071af4c976a38554c5c60716b76c7c004e61f",
+        "receipt_sha256": "9794d1de371c0cc90c86ed29eeb8f4b11bf9f176d382036777c06713cbd4475c"
+      },
+      {
+        "proof_directory": "work/real_world-goal/uniform-collector-arena-clippy-scoped-final",
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings",
+          "-A",
+          "clippy::collapsible_if"
+        ],
+        "tests_passed": 0,
+        "test_names": [],
+        "exit_code": 0,
+        "seconds": 25.551356416021008,
+        "log_sha256": "ed449d534f19925ae320320c0921a199769a0141d94e38b0a56221b233c5fe74",
+        "receipt_sha256": "d3ed988a9e89af7b3b91868ab1da6dbe5344291fd0169077fd2d682439827fe8"
+      }
+    ],
+    "reused_source_bound_checks": {
+      "proof_directory": "work/real_world-goal/uniform-collector-arena-focused2",
+      "original_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+      "original_production_digest": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+      "actual_passed_tests": 40,
+      "test_names": [
+        "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+        "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+        "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+        "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+        "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+        "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_count_overflow_preserves_views_and_never_limits_the_general_domain",
+        "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+        "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+        "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+        "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+        "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+        "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+        "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+        "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+        "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+        "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+        "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+        "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+        "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+        "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+        "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+        "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+        "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+        "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+        "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_keeps_arbitrary_values_counts_immutable_clones_promotions_and_reuse",
+        "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+        "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+        "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+        "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+        "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+        "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+        "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+        "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+        "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+        "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+        "incremental_stream::owned_collector_box_tests::uniform_owned_groups_keep_sustained_cohorts_nested_captures_and_foreign_value_promotion",
+        "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+      ],
+      "log_sha256": "456688566539fd7db75d59e685ecb6a8b4f906aeaf2a2ee2abdec15a597970f0",
+      "receipt_sha256": "d67cfaec8403b2e6de4f37e25ca10d3a47668f4217298d1ddc2d03d368d8ac31",
+      "cfg_test_bridge_sha256": "788821988aad20abf095c2c3aa9b7805097a9c9571814c660429d71103d5144c",
+      "policy": "Only one cfg(test) file appends an independent active uniform/general snapshot-install regression. All existing test and production bodies unchanged; original focused/native receipts keep their source identities."
+    },
+    "original_regression_tests_added": 4,
+    "upstream_method_credit": 0,
+    "clippy_exception": "One style-only collapsible_if warning is permitted in the successful Clippy command. Original strict Clippy101/log remains preserved;no general lint allowance.",
+    "preparation_history": {
+      "initial_compile_failed_executed_tests": 0,
+      "initial_fixture_fix": "Add missing .into_iter() to test clone_live argument. Initial and corrected source/logs remain separate."
+    },
+    "policy": "Actual final-source1 new unit+4 application passes and scoped library/example Clippy;40 prior checks retain original measured source identity. No full suite,upstream-method credit or unchanged reruns."
+  },
+  "independent_validation_sha256": "6bbf415262b78d11b6af75682eb1f296f2b02f7c5c8bc0d5b6bc56654e9fede3",
+  "receipts": {
+    "receipt.json": "2d54b1ecad3a6e44d01b3d6416bb33f716433551af65b9783dd721c7d884f98b",
+    "build-receipt.json": "59f0e5dae185a5590d2534b0b3dd472c058d4e177afa3809dfc374b9f361abc7",
+    "baseline-build-receipt.json": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+    "baseline-reuse.json": "83668b1ef37d050b85115abc770d6c2ab614862a62d30eaabf3fad7bbb092493",
+    "controls.json": "06ee49918f0942dc5dff6a359e1aded00e9517593eaae84652aca1ef847effb5"
+  },
+  "source_archive_sha256": "0e0edc89dd0c84c49862c44cb531c5740a3b31693b7c2262d1a435ef9e011e71",
+  "final_source_archive_sha256": "bf11711074ccefb4c29737d314a954ce9a7a08be8ff42825ee7fddc8d0a8a09c",
+  "baseline_rust_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "baseline_artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "cfg_test_bridge": {
+    "measured_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+    "final_rust_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
+    "production_digest": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+    "measured_snapshot": "e14fac5d30e6bf3e32855243b2da87dadbbf009328530863fd1c04fc911a6eab",
+    "final_snapshot": "a03d5f58d746f876c6d86bdf9177d13f9e7b8201e19d5912187d7ddfdb1adaf1",
+    "changed_files": [
+      "crates/solver/src/incremental_stream/owned_collector_box_tests.rs"
+    ],
+    "policy": "Only one cfg(test) file adds an independent active snapshot/promotion regression. Native and prior focused receipts retain original source identities; final Cargo must prove release byte identity."
+  },
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "All4 native pairs faster both workloads;16 independently valid native outputs.40 prior focused passes stay bound to measured058e source;final9c19 appends only one cfg(test) regression and has5 actual passes (1 new unit+4application). Actual final Cargo+javac default3seeds10s qualification reproduces the identical measured10ef artifact;all12 outputs independently revalidated locally. One Clippy style-only collapsible_if exception is explicit;original strict failure preserved. No full suite or unchanged repeats. Native gains are not added to previous Java ratios. Previous0941report remains historical. Goal active/incomplete.",
+  "java_qualification": {
+    "report_sha256": "38d5ee916c48c4ca75d791b97a43898ef39f1d53861a7c749e62a0f6ef6a9d4c",
+    "collection_verification_sha256": "080dc61361d79ccaf39432023da494f2d122d92eb70e37f8ce1523a95cd66e00",
+    "current_throughput_targets_met": 1,
+    "required_targets": 2,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 127387.1157680409,
+            "scores": [
+              [
+                0,
+                15000
+              ],
+              [
+                0,
+                15000
+              ],
+              [
+                0,
+                17200
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.04419624
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 203666.06857349258,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.000105007
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.5987964508463162,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75977.29368201132,
+            "scores": [
+              [
+                -14,
+                -16700
+              ],
+              [
+                -4,
+                67100
+              ],
+              [
+                -7,
+                86700
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.069280958
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 72939.50265897755,
+            "scores": [
+              [
+                0,
+                94600
+              ],
+              [
+                0,
+                86500
+              ],
+              [
+                -1,
+                197300
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.00077328
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9600171199075888,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "full_outputs_independently_validated": 12
+  }
+}
