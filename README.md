@@ -16,8 +16,8 @@ published to crates.io.
 
 ## Try a complete problem
 
-Install a current stable Rust toolchain through [rustup](https://rustup.rs/) and
-Git.
+Install [rustup](https://rustup.rs/) and Git. The repository pins its verified
+Rust toolchain in `rust-toolchain.toml`; rustup selects it automatically.
 
 ```sh
 git clone https://github.com/guwidoe/TimeTuck.git

@@ -2,10 +2,10 @@
 
 ## Run the scheduling example
 
-Install Git and the current stable Rust toolchain using
-[rustup](https://rustup.rs/). Rustup supplies Cargo; the repository requests
-Rustfmt and Clippy through `rust-toolchain.toml`. The Rust library uses edition
-2024. A minimum supported Rust version has not been established.
+Install Git and [rustup](https://rustup.rs/). The repository pins Rust 1.92.0 with
+Rustfmt and Clippy in `rust-toolchain.toml`, the toolchain its checks are verified
+on; rustup selects it automatically. The Rust library uses edition 2024. A minimum
+supported Rust version has not been established.
 
 ```sh
 git clone https://github.com/guwidoe/TimeTuck.git
