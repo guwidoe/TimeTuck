@@ -1,0 +1,42 @@
+{
+  "kind": "real_world-selected-lean-cycle-profile",
+  "status": "Complete selected-source diagnostic;one valid solve and zero lost samples. No throughput comparison.",
+  "native_source_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "input_sha256": "1aab8f22f57bb1d2ac4f8629bd17054c43948f298b15bb60473557608ae9f853",
+  "source_snapshot": "8e7eaea6e75abf31f83921e26f1c16d6afb090a47c1bbc5b7205474f70dd32a6",
+  "artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "sampling": {
+    "seconds": 10,
+    "seed": 7,
+    "cpu_affinity": [
+      2,
+      3
+    ],
+    "event": "cycles:u",
+    "frequency_hz": 199,
+    "lost_samples": 0
+  },
+  "sample_percentages": {
+    "propagate_arena": 11.04,
+    "group_summary_largest_instantiation": 7.78,
+    "membership_filter_largest_instantiation": 6.52,
+    "terminal_summary_largest_instantiation": 6.42,
+    "owned_output_first_closure": 4.66,
+    "group_summary_second_instantiation": 4.12,
+    "owned_output_second_closure": 2.16,
+    "collector_rollback": 2.46,
+    "terminal_restore": 2.16,
+    "checkpoint": 2.11
+  },
+  "next_target": "Runtime-uniform private collector arena:one arbitrary sharedi64 value plus per-slot counts,with general fallback/promotion on foreign values. Preserve complete summaries,keys,namespace-safe snapshots and existing scalar inverses;this is an unimplemented hypothesis,not a measured gain. Distinct from prior per-collector binary-state/boxed fallback trial.",
+  "receipt_sha256": "21ab23e6b96936cf7a24b19764e935e21f715a6740aa834d0650ef24eeb40fbe",
+  "release_receipt_sha256": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+  "data_sha256": "5114b357e48d129d71b7fe558bc24e636c6c0cc6723f89e7754db91be91350ea",
+  "output_sha256": "03ed02031d8f682bced428df8149351d04f7b5a95402c1d246a6113237b0377b",
+  "flat_sha256": "b386f99368c3a330fd5dd71ad0c5938968044b5cf771e25ba89ca7ff86605631",
+  "annotation_sha256": "6a7ba0dc3db82a94efa50bd3921065f234ed006023faf53b0b691da4b91757a6",
+  "independent_validation_sha256": "0884803eee82e634c58da9bfed254d71255a121ae28ec8833156c2809170d8b6",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "Actual selected29b9/ccb6 artifact reused,no build/test/Java lane. Independent full score,structure,pins and exact initial state validation. Self sample percentages diagnose costs;they are not removable costs or comparative gains. Existing qualified report0941 remains unchanged/current."
+}

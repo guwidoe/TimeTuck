@@ -127,8 +127,37 @@ The standalone smaller collector also lost Sailing-.7083%/Golfer+.2586%;its
 above is selected as a whole;no additive gain claim.
 [Standalone](../compat/observations/real_world-lean-int-counts.json).
 All jobs are terminal and collected. Do not repeat these operations/layouts/hints
-unchanged. Next investigate reducing repeated collector lookup/inverse work;
-keep complete keys,callback/publication/overflow phases and snapshots intact.
+unchanged.
+
+Three following collector-update trials are closed unintegrated versus selected
+29b9/ccb6. Single collector/frame borrowing was mixed:Sailing+.5030%/Golfer+.4490%,
+2/4 faster each;zero fresh unit runs,prior source-bound37+4 checks reused. Ordered
+single-state rollback records passed38 actual focused cases,including a new
+full-width/nested/cross-install regression,but slowed S1.3803%/G1.3513%. Reusing
+the existing count-insertion preflight passed5 actual overflow/normal-history
+checks and measured S+.4382%(3/4 faster)/G+1.0480%(4/4). Its Sailing result is small;
+retain selected source rather than refresh the qualifier for this candidate.
+Each16 full outputs independently validate. No app/Clippy/Java/full suite or
+unchanged repeat on these unintegrated variants.
+[Borrowing](../compat/observations/real_world-collector-update-borrows.json),
+[rollback](../compat/observations/real_world-single-state-undo.json),
+[preflight](../compat/observations/real_world-preflighted-count-insert.json).
+
+The current29b9/ccb6 199Hz10s seed7 CPU2,3 Sailing profile is collected with zero
+lost samples and one independently valid full output. Propagation11.04%,largest
+group summary7.78%/second4.12%,owned output closures4.66%/2.16%,membership6.52%,
+terminal6.42%,collector rollback2.46% are diagnostic self samples,not removable
+costs. Actual selected artifact reused;no build,test or comparative Java lane.
+[Current profile](../compat/observations/real_world-selected-lean-cycle-profile.json).
+Selected source/report0941 remain unchanged/current;goal1/2,5.1769% Sailing gap.
+All jobs terminal and collected. Next unimplemented hypothesis is a runtime-uniform
+private arena:one arbitrary sharedi64 value plus per-slot counts,with general
+promotion/fallback on foreign values. Preserve full keys,arithmetic/overflow,
+output/callback phases,visibility,retired slots and snapshot namespaces. Cold
+views must remain complete;hot inverses must not accidentally promote the arena.
+This is distinct from prior per-row binary/boxed fallback experiments. Read the
+ignored work/real_world-goal/runtime-uniform-arena-outline.json before implementing.
+No implementation or gain for this hypothesis is claimed.
 
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;

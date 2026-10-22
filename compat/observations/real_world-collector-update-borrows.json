@@ -1,0 +1,83 @@
+{
+  "kind": "real_world-collector-update-borrows",
+  "status": "Closed unintegrated: Sailing+.5030%/Golfer+.4490%,2/4 faster each;small/mixed.",
+  "native_source_digest": "2002849a627eecdb33db906f04bb357d395dcb5567146c5461d3c0f2168e00a7",
+  "input_sha256": "445529363cb1364c6f55025c8854b46e1a5afb520af52af91b5b128b3fac2783",
+  "source_snapshot": "d67deb6c649f36376761a9593f9f266b13af475b330514b55b75b365d06b9181",
+  "artifact_sha256": "1473f1e3c1424697a7d5b3cb863fca6e03dc37f3792ffea6e18e9cc6e7a63335",
+  "mechanism": "Borrow same private collector once through count read/edit/summary,and same frame once through original reserve/push. No state,allocation,guard,summary,journal-publication or owner phase moved. No data structure,API,event/model/fixture/compiler/search-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/collector-update-borrows-next-results/clean-collector-update-borrows-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70433.07862593111,
+            71301.2184044187,
+            70178.66091319792,
+            71267.29432424795
+          ],
+          "trial": [
+            71438.82193889211,
+            70974.31034420131,
+            71456.59508030793,
+            70534.34550966664
+          ]
+        },
+        "medians": {
+          "baseline": 70850.18647508953,
+          "trial": 71206.5661415467
+        },
+        "gain_pct": 0.5030045567804953
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            199463.6204516749,
+            200948.0820668962,
+            193051.64017111677,
+            197870.1667516614
+          ],
+          "trial": [
+            201243.90601815024,
+            197873.8909847186,
+            201253.39225674074,
+            197796.7173427318
+          ]
+        },
+        "medians": {
+          "baseline": 198666.89360166815,
+          "trial": 199558.89850143442
+        },
+        "gain_pct": 0.44899524203301233
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "actual_new_unit_runs": 0,
+    "body_equivalence_sha256": "aaeadb33cef582631b409a4c54a8989cdc03df1392653193c328d91f55ea3d02",
+    "selected_source_bound_verification_sha256": "3e8e1102cdd68c446e7118c5a996442351b192b9300cc389b836c980a9dca8cb",
+    "policy": "Private reference binding only;37 original collector checks retain a0d0/3fa9 source hashes and selected4 application passes retain29b9/1aab. No rekeying or fresh unit credit."
+  },
+  "independent_validation_sha256": "3faf9acee1848e068eb9ab7453300bae1d4ff23c8b2e05a87ad1c1664027ce35",
+  "receipts": {
+    "receipt.json": "edb85d60e705939d0253258aa8e8674d9b179c4cd516709aef5a047773d643be",
+    "build-receipt.json": "d22bbfee2b149d96427524a1daaa7f0a5b8a8a3a688fc32b2ac51d98066516c1",
+    "baseline-build-receipt.json": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+    "baseline-reuse.json": "83668b1ef37d050b85115abc770d6c2ab614862a62d30eaabf3fad7bbb092493",
+    "controls.json": "e0d0f9be24d3a732888b6fde7bf1c0cebf2e8dd37ab709a5b2c9d771a8d984fa"
+  },
+  "source_archive_sha256": "60195b5e7b23bb72a848c22dd7f04262d336a04a89a6343bfff56fb996eac6c6",
+  "baseline_rust_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "baseline_artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently validate. Compare whole candidate against selected29b9/ccb6,not priora7 or additive Java ratios. No app/Clippy/Java/full suite or unchanged repeat on rejected runtimes. Preserve all original source/receipt identities."
+}

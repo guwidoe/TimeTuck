@@ -1,0 +1,140 @@
+{
+  "kind": "real_world-single-state-undo",
+  "status": "Closed unintegrated: Sailing-1.3803%(1/4 faster)/Golfer-1.3513%(0/4).",
+  "native_source_digest": "90a8740af4ae2cb4cc9aa61d2d3831337bdd8cab5a2d708e5d8aa447e99cb203",
+  "input_sha256": "3dfa9805659158518ef5ee09cdb0d04b31bce0b9f468e0ac918b18a3d0161b44",
+  "source_snapshot": "5461aaa4059030e26ce23e820818a58c22d14c7b95727123ec0adad71966af74",
+  "artifact_sha256": "0c1bb9594957a055d362437dd9c59f42ec0c932ac1f9e51633e6c3fae9174fd7",
+  "mechanism": "Each scalar edit retains its original ordered journal step. Empty/single-class preimages save full arbitraryi64 value and fullusize count,restoring exact wrapping sum/state directly;other states keep original inverse. Canonical keys,value slots,visibility,overflow/FIFO/callback phases,structural retirement and capture namespaces remain. No coalescing,unsafe,restricted domain,model/compiler/search-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/single-state-undo-next-results/clean-single-state-undo-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70951.80782501108,
+            71467.1782103733,
+            70803.09813765711,
+            71599.80923734643
+          ],
+          "trial": [
+            71058.97390373814,
+            70959.07054131503,
+            69494.14450124321,
+            69245.77707221972
+          ]
+        },
+        "medians": {
+          "baseline": 71209.49301769219,
+          "trial": 70226.60752127912
+        },
+        "gain_pct": -1.3802731275854963
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            199138.87287001967,
+            198480.4496343791,
+            199130.64227824524,
+            197991.52942042198
+          ],
+          "trial": [
+            196586.74723508322,
+            190122.72314649497,
+            197111.56990973887,
+            195651.34021536369
+          ]
+        },
+        "medians": {
+          "baseline": 198805.54595631215,
+          "trial": 196119.04372522346
+        },
+        "gain_pct": -1.3513215731310924
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 1,
+    "social-golfer-32x8x10-v1": 0
+  },
+  "verification": {
+    "actual_tests_passed": 38,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream::lean_count_tests",
+      "stream::group_inverse_count_tests",
+      "owned_collector_box_tests",
+      "incremental_stream::group_entry::tests",
+      "incremental_stream::group_inverse_tests",
+      "primitive_rows::group_collectors::tests",
+      "incremental_stream::group_ticket_tests",
+      "stream_graph::group_summary_lane"
+    ],
+    "rust_digest": "90a8740af4ae2cb4cc9aa61d2d3831337bdd8cab5a2d708e5d8aa447e99cb203",
+    "production_digest": "3dfa9805659158518ef5ee09cdb0d04b31bce0b9f468e0ac918b18a3d0161b44",
+    "test_names": [
+      "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+      "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+      "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+      "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+      "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+      "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+      "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+      "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+      "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+      "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+      "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+      "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+      "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+      "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+      "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+      "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+      "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+      "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+      "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+      "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+      "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+      "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+      "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+      "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+      "stream::owned_collector_box_tests::owned_single_state_undo_keeps_full_width_counts_nested_edits_and_cross_snapshot_installs",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+      "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+      "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+      "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+      "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+      "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+      "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+      "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+      "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+      "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+    ],
+    "log_sha256": "459e5676b8546679abad2c2765954d5e489c2d1c5d0a9a2c86d98bb093370885",
+    "receipt_sha256": "b72da329f4681f43c65e14a738682b376d04693a9c5e32784f7d581c4a1d9e5f"
+  },
+  "independent_validation_sha256": "2bfa63b7bb84ed916edaaa7df76f3a2d12e50492ea55d134e5b25fad6e3a58f0",
+  "receipts": {
+    "receipt.json": "be4f5f40f07a6d78ffec01a027b2fc170c3f1566c77c130597315179d1983a52",
+    "build-receipt.json": "c8ad44ac2839d9f5af85728d9ee41b1155bb9031d6909d933cbb83ee83a29993",
+    "baseline-build-receipt.json": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+    "baseline-reuse.json": "83668b1ef37d050b85115abc770d6c2ab614862a62d30eaabf3fad7bbb092493",
+    "controls.json": "b71efdcf4b653d0edf78d42d43d315a024ba2f478a65201241f303e5555e79cb"
+  },
+  "source_archive_sha256": "7d37fede1e99b03ef44f280eb46c1dacf2328183ea734b26b500bc67901e4e73",
+  "baseline_rust_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "baseline_artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently validate. Compare whole candidate against selected29b9/ccb6,not priora7 or additive Java ratios. No app/Clippy/Java/full suite or unchanged repeat on rejected runtimes. Preserve all original source/receipt identities."
+}

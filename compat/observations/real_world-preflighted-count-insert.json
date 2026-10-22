@@ -1,0 +1,102 @@
+{
+  "kind": "real_world-preflighted-count-insert",
+  "status": "Closed unintegrated for now: Sailing+.4382%(3/4 faster)/Golfer+1.0480%(4/4);small Sailing result,retain selected29b9/ccb6 source.",
+  "native_source_digest": "8fa280b7837efda9421cf879f8c6c82500e00d0202bfe03a0a7ae68a833f9d43",
+  "input_sha256": "a443baaaecf4fae6edeba6e868348a3e2a4517a90ee0e368a75773a1a10e7251",
+  "source_snapshot": "ad54e9a925a6f4b1a24f667f5d659b5925a8a021f2374f480d561d014006da66",
+  "artifact_sha256": "141f1312540a67956e70cbe8f2c4acd899fdfcbea748e0ae67c3b541cc2c1ad8",
+  "mechanism": "Retain successful next-count preflight before original journal reserve;pass it to shared insertion body instead of repeating the same checked add afterward. Public insert still checks before the same frequency/count/sum publication body. Remove/replace and all other storage/callback/guard phases unchanged;no model/fixture/compiler/search-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/preflighted-count-insert-next-results/clean-preflighted-count-insert-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            71786.39533528015,
+            71697.34903482416,
+            70214.42367624982,
+            70306.41370054873
+          ],
+          "trial": [
+            72175.11903697667,
+            68673.58325578964,
+            71708.26354776378,
+            70917.79535071086
+          ]
+        },
+        "medians": {
+          "baseline": 71001.88136768644,
+          "trial": 71313.02944923732
+        },
+        "gain_pct": 0.4382251224296363
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197112.94273461695,
+            199415.20862675953,
+            197121.92772472373,
+            199155.8856079176
+          ],
+          "trial": [
+            200103.75190859963,
+            200722.26770823364,
+            199249.28496701445,
+            200326.9946985467
+          ]
+        },
+        "medians": {
+          "baseline": 198138.90666632066,
+          "trial": 200215.37330357317
+        },
+        "gain_pct": 1.047985311006805
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "verification": {
+    "actual_tests_passed": 5,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "count_overflow",
+      "lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+      "owned_collector_box_history_matches_independent_groups_and_shared_events"
+    ],
+    "rust_digest": "8fa280b7837efda9421cf879f8c6c82500e00d0202bfe03a0a7ae68a833f9d43",
+    "production_digest": "a443baaaecf4fae6edeba6e868348a3e2a4517a90ee0e368a75773a1a10e7251",
+    "test_names": [
+      "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+      "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+      "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+      "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+      "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+    ],
+    "log_sha256": "33aa34ec660151eb413c8ed7765541597b739f59aeeb12034a12224e751a3260",
+    "receipt_sha256": "5c8a5104f4d6ced4e953a28dc401e37457a6e88381ca1fcf00bc2fadd1daa543"
+  },
+  "independent_validation_sha256": "03dd837a6f6865226eba806ebd15c9f46941c48e34a8396a68aee53382b6b7bf",
+  "receipts": {
+    "receipt.json": "b50f135ade9cccc04152b6ebf92725a3e1c887ca4b241a73b5f233ac3d6015d0",
+    "build-receipt.json": "7307dc86140dcddbd59097fc20c7d19784a149f4e7fa4ca376d833818c4bf7d9",
+    "baseline-build-receipt.json": "5ff1879d3337c5af61f68fc6fa157a8f3c58b267b748fe058eb15d4a38148cbd",
+    "baseline-reuse.json": "83668b1ef37d050b85115abc770d6c2ab614862a62d30eaabf3fad7bbb092493",
+    "controls.json": "f5cb496981fc92de186911f6ff192ddeae33a5fb5dd46b78e786e97dfd68fdfb"
+  },
+  "source_archive_sha256": "dabadd4ec99f62e0fe48e1de0e9d516fb3311a1e5b953d96ff110570e13a4acb",
+  "baseline_rust_digest": "29b9aa90ceac8087af139c281e765e24370cb6c9d181759d9eb9dc8810d113eb",
+  "baseline_artifact_sha256": "ccb6e320710afd9747ab4d1e0ecfca170fee0971f4581b34230158e73ba17f4c",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently validate. Compare whole candidate against selected29b9/ccb6,not priora7 or additive Java ratios. No app/Clippy/Java/full suite or unchanged repeat on rejected runtimes. Preserve all original source/receipt identities."
+}
