@@ -9,6 +9,11 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      # A fresh runner gains nothing from incremental caches, which otherwise grow the
+      # full test build to about 27 GB and exhaust the runner disk.
+      CARGO_INCREMENTAL: "0"
+      CARGO_PROFILE_DEV_DEBUG: line-tables-only
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned Rust toolchain
