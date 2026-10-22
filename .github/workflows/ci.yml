@@ -14,6 +14,10 @@ jobs:
       # full test build to about 27 GB and exhaust the runner disk.
       CARGO_INCREMENTAL: "0"
       CARGO_PROFILE_DEV_DEBUG: line-tables-only
+      # One test-shard compilation peaks near 4.9 GB; four in parallel reached 12.9 GB
+      # and the hosted runner was killed. Read by scripts/verify_checks.py and
+      # scripts/run_rust_tests.py.
+      CARGO_BUILD_JOBS: "1"
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned Rust toolchain
