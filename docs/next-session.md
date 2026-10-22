@@ -22,13 +22,20 @@
 > limit. Both are fixed; every earlier Golfer/Sailing ratio, throughput target and
 > quality comparison below is superseded, including the Sailing target. See
 > [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
-> The corrected default matrix with all four runtimes qualified on the dedicated
-> benchmark host at input `e1b0c30a` (commit `fdc51c1b`). Median Golfer/Sailing
-> evaluations/s: Rust streams 197433/67675, Java streams 115270/79310 (1.713×/0.853×);
-> Rust incremental 1289297/403453, Java incremental 506463/489930 (2.546×/0.823×).
-> Sailing streams needs about 17% more native throughput for its target. The earlier
-> two-Java-mode qualification at `efa45d2c` (1.682×/0.851×) is retained as history.
-> Raw reports: ignored `work/real_world-qualification-{e73a22d6,fdc51c1b}/report.json`.
+> Current four-runtime qualification on the dedicated benchmark host: input
+> `9f37db07` (commit `798344ea`), after basic calculator moves stopped rescanning
+> every variable for structure and the handwritten scorer gained balance/pair caches.
+> Median Golfer/Sailing evaluations/s: Rust streams 176705/56028, Java streams
+> 99506/65096 (1.776×/0.861×); Rust incremental 2038006/830981, Java incremental
+> 358477/441912 (5.685×/1.880×). Absolute rates on this host were lower than the
+> earlier run for every runtime; compare ratios within one report. Sailing streams
+> still needs about 16% more native throughput; its profile is spread across the
+> stream engine (event queue, grouped inputs, collectors, score and join rows).
+> Paired native controls of the same changes: Sailing incremental 404910 to 957492,
+> Golfer 1249459 to 2096342; streams unchanged within noise. Earlier qualifications
+> at `efa45d2c` and `e1b0c30a` (`fdc51c1b`: 1.713×/0.853× streams, 2.546×/0.823×
+> incremental) are history. Raw reports: ignored
+> `work/real_world-qualification-{e73a22d6,fdc51c1b,798344ea}/report.json`.
 
 ## Objective and boundaries
 
