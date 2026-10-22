@@ -33,7 +33,8 @@ def main():
     for path in sorted((ROOT / 'scripts').glob('test_*.py')):
         code, _ = run_job(path.stem, ['python3', '-m', 'unittest', 'discover', '-s', 'scripts', '-p', path.name],
                          lambda path=path: python_inputs(str(path.relative_to(ROOT))) | {'compat/upstream.json'} |
-                         (files('tests/application/real_world/**/*') | files('benchmarks/real_world/**/*')
+                         ({f for f in files('tests/application/real_world/**/*') | files('benchmarks/real_world/**/*')
+                           if '__pycache__' not in f}  # importing prep.py writes bytecode here
                           if path.name == 'test_real_world_reference.py' else set()),
                          kind='python', force=args.force)
         if code: return code
