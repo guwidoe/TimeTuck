@@ -1,0 +1,254 @@
+{
+  "kind": "real_world-collector-count-only",
+  "status": "Selected and integrated;fresh original-default Java qualification proves1of2 throughput targets.",
+  "native_source_digest": "1e4f26739e109bc47eb542f76df8deaa194b1cf2a3836fc677e06a8f0c144d8a",
+  "input_sha256": "e03d30362c0ce883a27b888314533c2e6a98d34e79cab51f21e000cc515b0ae1",
+  "source_snapshot": "77dcfc7938c1f281d45b3f1ce04e5733ef019b7b1c28ee179e8e0c3ba7df37fe",
+  "artifact_sha256": "92d234fb63c67d7ebba04aac595f4859addbd45dbda3de004483da974b7dc912",
+  "mechanism": "Private inline occurrence_count reads the stored count for six internal guards. Avoid unused full summary/distinct/extrema computation;full emitted summaries,primitive arithmetic/overflow phases,canonical ownership,callback counts,publication and rollback remain. No storage/queue/row/fixture/search/compiler-policy change.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/collector-count-only-next-results/clean-collector-count-only-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70469.33593798925,
+            69825.8970853494,
+            69800.90821845287,
+            69527.41621694999
+          ],
+          "trial": [
+            71327.78903544537,
+            69443.90324808058,
+            71236.49780967498,
+            71241.5108160936
+          ]
+        },
+        "medians": {
+          "baseline": 69813.40265190112,
+          "trial": 71239.0043128843
+        },
+        "gain_pct": 2.0420171583548363
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            197108.45700770215,
+            197019.21899252073,
+            196849.79083368517,
+            195783.46831653913
+          ],
+          "trial": [
+            201759.08196268478,
+            202433.83311547406,
+            202854.23093338183,
+            200384.88203533072
+          ]
+        },
+        "medians": {
+          "baseline": 196934.50491310295,
+          "trial": 202096.45753907942
+        },
+        "gain_pct": 2.621151955191481
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 4
+  },
+  "verification": {
+    "full_native_gate": false,
+    "native_source_digest": "1e4f26739e109bc47eb542f76df8deaa194b1cf2a3836fc677e06a8f0c144d8a",
+    "production_digest": "e03d30362c0ce883a27b888314533c2e6a98d34e79cab51f21e000cc515b0ae1",
+    "actual_current_source_tests_passed": 22,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::group_collectors::tests",
+          "incremental_stream::group_entry::tests",
+          "incremental_stream::group_inverse_tests",
+          "incremental_stream::owned_collector_box_tests"
+        ],
+        "tests_passed": 18,
+        "exit_code": 0,
+        "seconds": 66.59612694298266,
+        "proof_directory": "work/real_world-goal/collector-count-only-focused1",
+        "log_sha256": "6f3e45b72b26cd1f496e8d154e123e654f6e105a18d826353e17222261de0a5a",
+        "receipt_sha256": "928ac515bc81b219e1370d229cca6fe674cfb9b24df1c3bcee4c75431ae41e84"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--test",
+          "real_world_application_regression",
+          "--",
+          "--color=never"
+        ],
+        "tests_passed": 4,
+        "exit_code": 0,
+        "seconds": 10.740760012005921,
+        "proof_directory": "work/real_world-goal/collector-count-only-application1",
+        "log_sha256": "c9c4d12a192720c508b6dd27afac6594720f612ecb5618645949037ddc7ba44c",
+        "receipt_sha256": "5ca66b466b71603b4adbdf123788e51dbe2d6a650b9064c8edd64fb013cb1e96"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--lib",
+          "--example",
+          "real_world_benchmark",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "tests_passed": 0,
+        "exit_code": 0,
+        "seconds": 11.392451382998843,
+        "proof_directory": "work/real_world-goal/collector-count-only-clippy1",
+        "log_sha256": "d63c16aa8de0a4a93962329c32e333cdd740e269767dc5d2cdbbb61f4486d1d5",
+        "receipt_sha256": "cdd340f53390eb6ad8b7b328e04abbfec9ceca5729b609e53337ebeacb9b31b3"
+      }
+    ],
+    "policy": "18 relevant collector/rollback checks+4 real-world application cases and lib/example Clippy on exact selected source;no full suite or unchanged rerun."
+  },
+  "independent_validation_sha256": "bf9c2f756e2cb8660990fb446b550dae59465e39bc4291e68bff40778ca3df21",
+  "receipts": {
+    "receipt.json": "24dc043305887f369b0632594419e4d96a04ca6e3f9382ac754ccfab11dd61cc",
+    "build-receipt.json": "f6bdd8f189742593170161d4e54655841c916253e9208b7e7f8fcdd3b22733ce",
+    "baseline-build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-reuse.json": "3ce8dd65debe0bd7bfe6dec7f794634f6071471cad60a652f5dafe7aa37ed4f0",
+    "controls.json": "9edf4aa3b66f69702318cf263a5aaa9bc24919986186837e6d20b6ae9647993e"
+  },
+  "java_qualification": {
+    "report_sha256": "04adf3810f6f04296221b7b055cae15f1a4e98213b6c74ae34260a229e5fb21b",
+    "artifact_byte_identical_to_measured": true,
+    "collection_verification_sha256": "b969c32668c579505e1372cc6db8ad9589b81fce8becacd4138c90bde61c0d3f",
+    "outputs_independently_validated": 12,
+    "current_targets_met": 1,
+    "required_targets": 2,
+    "sailing_more_rust_throughput_pct": 4.91474116932884,
+    "summaries": [
+      {
+        "case": "social-golfer-32x8x10-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 119721.06304134488,
+            "scores": [
+              [
+                0,
+                19400
+              ],
+              [
+                0,
+                13900
+              ],
+              [
+                0,
+                16100
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.041750127
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 199713.8810357222,
+            "scores": [
+              [
+                0,
+                16100
+              ],
+              [
+                0,
+                18300
+              ],
+              [
+                0,
+                13900
+              ]
+            ],
+            "feasible_runs": 3,
+            "median_elapsed_seconds": 10.0001061
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 1.6681599374602307,
+        "throughput_target_met": true,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      },
+      {
+        "case": "sailing-trip-v1",
+        "runtimes": {
+          "java-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 75462.83936484838,
+            "scores": [
+              [
+                -13,
+                81800
+              ],
+              [
+                -5,
+                68900
+              ],
+              [
+                -9,
+                87100
+              ]
+            ],
+            "feasible_runs": 0,
+            "median_elapsed_seconds": 10.055428507
+          },
+          "rust-streams": {
+            "runs": 3,
+            "valid_runs": 3,
+            "median_evaluations_per_second": 71927.77537624947,
+            "scores": [
+              [
+                0,
+                94600
+              ],
+              [
+                0,
+                86400
+              ],
+              [
+                -1,
+                197300
+              ]
+            ],
+            "feasible_runs": 2,
+            "median_elapsed_seconds": 10.000843394
+          }
+        },
+        "rust_over_java_streams_evaluations_per_second": 0.9531549035478568,
+        "throughput_target_met": false,
+        "quality_equal_gated": false,
+        "quality_note": "Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; hard annealing and cooling semantics differ."
+      }
+    ],
+    "policy": "Actual Cargo+javac,selected source mirrored into the stable original build root,same runner CPU2,3,serial rotating Rust/Java streams,seeds7/11/23 and10seconds. All12 outputs independently valid;quality remains separate. Old1299 report preserved unchanged;native gains are not added to prior Java ratios."
+  },
+  "source_archive_sha256": "fb42b461c94d49eb4cc42df2eb1e2395b2d9c142c098fdf33a98dba6db63f6c8",
+  "full_native_gate": false,
+  "java_qualification_run": true,
+  "upstream_method_credit": 0,
+  "policy": "Independent native solver;Community-only reference.18 directly relevant checks+4 application cases+Clippy,no full suite or unchanged repeated checks. Goal remains active/incomplete;1of2 original throughput targets."
+}

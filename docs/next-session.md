@@ -41,35 +41,46 @@ Model,fixtures,declarations,runner,compiler,CPU,PGO,panic and batch policies are
 unchanged. Local+runner-a;runner-c parked,no new subagents. Only directly relevant
 checks;no full suites or repeats for a commit/turn/context change.
 
-Current clean source isolates lazy64-row summary chunk allocation in a cold
-non-inlined helper. Full cells,initialization order,allocation trigger,IDs,
-callbacks,guards,rollback and policies remain. The preceding owned-input page
-allocation helper remains selected. Native controls Sailing+.3809%(3/4 pairs
-faster)/Golfer+.4897%(4/4),all16 outputs independently valid. Actual group
-summary caller frames fall from12216/12184/16376B to1352/1336/1400B;this is
-neither total process stack nor proof of the small speedup's cause.
-Actual24 scoped checks+4 application cases and lib/example Clippy pass on
-ff2d87b0/production0be85081. Exact measured artifact1456b5c3,snapshot5cca6902,
-is integrated in c9834d11. No test or upstream-method credit is manufactured.
-Fresh original-default Java/Rust report12990041 is current:serial rotating
-3seeds10s/CPUs2,3,actual Cargo+javac,12 independent full-output validations,
-byte-identical native artifact. Golfer1.568676x/Sailing.945741x Java,1/2 targets.
-Sailing Rust71642/Java75752 evaluations/s,needing5.7372% more Rust throughput.
-Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Fresh Java
-throughput differs from the preceding run;do not infer a source regression or
-add native gains across qualifications. Previous29f report on4830/dd55 and all
-prior source/class hashes are preserved unchanged as historical evidence.
-[Selected evidence](../compat/observations/real_world-summary-chunk-outline.json).
-[Preceding selection](../compat/observations/real_world-group-page-outline.json).
-Clean backend report uses28 actual current-source focused/application passes,
-not a full native/upstream gate;upstream method credit remains0 for this run.
-The clean dashboard serves localhost:8766;original8765 server and working
-directory remain untouched. All current build/test/benchmark jobs are collected.
+Current clean source replaces six count-only full-summary reads with a private
+inline occurrence_count accessor. Full emitted summaries,arithmetic/overflow
+phases,ownership,callbacks,publication,rollback and model/compiler/CPU policies
+remain. Native controls Sailing+2.0420%(3/4 faster)/Golfer+2.6212%(4/4),all16
+full outputs independently valid. Actual18 scoped collector/rollback checks+4
+application cases and lib/example Clippy pass on1e4f2673/productione03d3036.
+Exact measured artifact92d234fb,snapshot77dcfc79,is integrated in005d7c9a.
+No new test or upstream-method credit. Prior lazy owned-input and summary-chunk
+allocation outlines remain selected. The precedingff2d assembly demonstrated
+12–16KB to1.3–1.4KB caller frame reductions;not a new frame measurement here.
+Fresh original-default Java/Rust report04adf381 is current:serial rotating
+3seeds10s/CPU2,3,actual Cargo+javac,12 independent full-output validations,
+byte-identical native artifact. Golfer1.668160x/Sailing.953155x Java,1/2 targets.
+Sailing Rust71928/Java75463 evaluations/s,needing4.9147% more Rust throughput.
+Rust2/3 versusJava0/3 Sailing runs feasible;quality stays separate. Native gains
+are not added to preceding ratios. Prior1299 onff2d/1456 and all previous
+source/class hashes remain preserved unchanged as historical evidence.
+[Selected evidence](../compat/observations/real_world-collector-count-only.json).
+[Preceding selection](../compat/observations/real_world-summary-chunk-outline.json).
+The clean dashboard serves localhost:8766 from22 actual current-source passes,
+not a full native/upstream gate. Original8765 server/directory remain preserved.
+All current build/test/benchmark jobs are terminal/collected. Goal remains active.
 
-A fresh selected-source199Hz10s Sailing cycle capture finished0 with no lost
+The count accessor plus three IntCollector inline hints is closed unintegrated:
+Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;
+18 prior body-equivalent checks retain their1e4f source identity,zero new unit
+runs were claimed. The singleton-removal shortcut passed23 actual scoped checks
+including a new independent signed/wrapping/snapshot multiset case,but measured
+Sailing+.0287%/Golfer-.1427%. Both16-output matrices independently validate;
+no app/Clippy/Java/full suite or unchanged repeat on these rejected candidates.
+[Hints](../compat/observations/real_world-collector-edit-inline.json),
+[singleton](../compat/observations/real_world-collector-singleton-remove.json).
+Next investigate a different mechanism or individual edit hints with full
+summaries kept out of line;do not repeat the combined hints or singleton shortcut.
+
+A precedingff2d-source199Hz10s Sailing cycle capture finished0 with no lost
 samples and one independently valid full output. Propagation10.29%,group summary
 8.59%,membership filtering7.44%,terminal change5.76% are diagnostic self samples,
-not removable costs. No rebuild,test or Java comparison accompanied this capture.
+not removable costs. No rebuild,test or Java comparison accompanied this capture;it predates the
+selected count accessor.
 [Profile](../compat/observations/real_world-selected-summary-cycle-profile.json).
 
 Three bounded contribution directory trials are closed unintegrated:128-part
@@ -78,7 +89,8 @@ intervals-1.9917%/-1.1699%. Each16 full outputs independently validate. Actual
 same-source checks passed40,12 and27 respectively;the original window Default
 compile failure executed0 tests and remains preserved. Full coordinates,fallback,
 sorted snapshots and rollback remain. No app/Clippy/Java/full suite or unchanged
-retry;selectedff2d/1456/report1299 remains. Do not retry these layouts unchanged.
+retry;these trials did not replace precedingff2d/1456/report1299. Do not retry
+these layouts unchanged.
 [128](../compat/observations/real_world-wide-contribution-pages.json),
 [1024](../compat/observations/real_world-wide-contribution-1024.json),
 [window](../compat/observations/real_world-wide-contribution-window.json).

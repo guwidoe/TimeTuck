@@ -1,0 +1,96 @@
+{
+  "kind": "real_world-collector-singleton-remove",
+  "status": "Closed unintegrated: whole candidate Sailing+.0287%/Golfer-.1427%;retain simpler count-only source.",
+  "native_source_digest": "9d56960f8640d5ae91c6bd0b935a41e79889a75dc5631efd09fe1d96c7ffe329",
+  "input_sha256": "b0779d57ad3c894c727ed1e586ad797a01f1015a35e0172b9820c285dc1aa9f3",
+  "source_snapshot": "e59fc4218d8b921ae5b43b5851c4ceabcf6d5686f7629faffd633809d776c7ca",
+  "artifact_sha256": "03dc7f28ff8262861f6242b8e744d25e30793293f4cafa5b8d74c7a22d969823",
+  "mechanism": "Count-only guards plus sole-occurrence removal validated against stored wrapping sum before clearing frequency representation. Every removal result,full summary,snapshot and callback remains. New independent multiset signed-extremes/absent-removal/wrapping/snapshot regression passes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/collector-singleton-remove-next-results/clean-collector-singleton-remove-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            69865.84514079867,
+            70961.47061175533,
+            70563.51259233324,
+            69492.48516246032
+          ],
+          "trial": [
+            70216.90111422507,
+            70252.72841204747,
+            70929.38295206842,
+            68900.57742484847
+          ]
+        },
+        "medians": {
+          "baseline": 70214.67886656596,
+          "trial": 70234.81476313627
+        },
+        "gain_pct": 0.028677616839312137
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198483.96412784336,
+            196589.09430006603,
+            193748.5723053248,
+            198587.83993759702
+          ],
+          "trial": [
+            196092.7077118307,
+            200336.755903992,
+            197052.52505107934,
+            197456.95660471052
+          ]
+        },
+        "medians": {
+          "baseline": 197536.5292139547,
+          "trial": 197254.74082789494
+        },
+        "gain_pct": -0.1426512793259338
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "actual_tests_passed": 23,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream::singleton_remove_tests",
+      "stream::group_inverse_count_tests",
+      "stream::owned_collector_box_tests",
+      "incremental_stream::group_entry::tests",
+      "incremental_stream::group_inverse_tests",
+      "primitive_rows::group_collectors::tests"
+    ],
+    "rust_digest": "9d56960f8640d5ae91c6bd0b935a41e79889a75dc5631efd09fe1d96c7ffe329",
+    "production_digest": "b0779d57ad3c894c727ed1e586ad797a01f1015a35e0172b9820c285dc1aa9f3",
+    "receipt_sha256": "70870097a2789d5ed1e40e03f6a692d7feaef792ba161ffbc54ac93ba0b10fbe",
+    "log_sha256": "9c4aebd9c77cc75be67ecfe5dac8ce090ad1720686dacbd3397f8e0eae607140"
+  },
+  "independent_validation_sha256": "171b526bed7afa255148e2372556947600666f1623c9241fa9342a81d97278f9",
+  "receipts": {
+    "receipt.json": "6f89c3204f446bc38f575b0a907ab73bdcdf342858c3bd1c53f6616302177624",
+    "build-receipt.json": "1ddac2d3dcae0eeb05734c71bc6a5dd2770e580e6951c62b28ffb36ecf71d867",
+    "baseline-build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-reuse.json": "3ce8dd65debe0bd7bfe6dec7f794634f6071471cad60a652f5dafe7aa37ed4f0",
+    "controls.json": "01c03a88514cb04e1b1026a20f8d4f5afa2b8d17d5e89cb891f02d1061d11141"
+  },
+  "source_archive_sha256": "ed8cd2e9d4a4f52f5263de96e9610c62d5de996d1464af0db6d8dad166c69f4f",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 outputs independently validate. No app/Clippy/Java/full suite or unchanged repeat for this rejected runtime;native medians compare whole candidate to ff2d/1456,not additive gains."
+}

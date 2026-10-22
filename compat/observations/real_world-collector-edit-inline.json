@@ -1,0 +1,85 @@
+{
+  "kind": "real_world-collector-edit-inline",
+  "status": "Closed unintegrated: whole candidate Sailing+.3369%/Golfer+.2694%;does not retain the stronger count-only gain.",
+  "native_source_digest": "37d63e2256f7b2ac109f73b3d68fff25432c77b7f1940b3ce818ae269dcbf9ec",
+  "input_sha256": "6a04d71a1c03b76836132db88e73401e7b22e32b301bc41654be36fb54ffc25e",
+  "source_snapshot": "9990fa5c482302f947f3c0ef92de893a123f4a35a6a3b2849764e7758b8c6571",
+  "artifact_sha256": "590cedc5fa8fd537ba4416d852ca6cbb3cc3a5f5c865e1de032fa4686d432969",
+  "mechanism": "Count-only guards plus three inline hints on existing IntCollector insert/remove/summary. Every method body and all other library files identical to the count-only candidate.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/collector-edit-inline-next-results/clean-collector-edit-inline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70448.54096800482,
+            69418.44030471168,
+            70678.88009080557,
+            69603.73845581064
+          ],
+          "trial": [
+            70844.81341282009,
+            69561.93899276522,
+            70009.16210526311,
+            70514.89351950161
+          ]
+        },
+        "medians": {
+          "baseline": 70026.13971190773,
+          "trial": 70262.02781238235
+        },
+        "gain_pct": 0.3368572099577083
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198638.62365169075,
+            197523.90252646594,
+            197882.65347456798,
+            198071.79857005857
+          ],
+          "trial": [
+            200077.797462339,
+            192900.31233747795,
+            196943.17390975694,
+            200772.31776187202
+          ]
+        },
+        "medians": {
+          "baseline": 197977.2260223133,
+          "trial": 198510.48568604796
+        },
+        "gain_pct": 0.2693540436184083
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 3,
+    "social-golfer-32x8x10-v1": 2
+  },
+  "verification": {
+    "new_unit_tests_run": 0,
+    "prior_body_equivalent_tests_reused": 18,
+    "prior_rust_digest": "1e4f26739e109bc47eb542f76df8deaa194b1cf2a3836fc677e06a8f0c144d8a",
+    "prior_production_digest": "e03d30362c0ce883a27b888314533c2e6a98d34e79cab51f21e000cc515b0ae1",
+    "prior_receipt_sha256": "928ac515bc81b219e1370d229cca6fe674cfb9b24df1c3bcee4c75431ae41e84",
+    "prior_log_sha256": "6f3e45b72b26cd1f496e8d154e123e654f6e105a18d826353e17222261de0a5a",
+    "body_reuse_proof_sha256": "7a5b27e8507cda85cf1b33b700d3b0a7952daa64b070fd650a8e075b87ab7746",
+    "policy": "Original18 actual passes keep their count-only source identity;no new final-source unit test or upstream credit claimed. Actual fresh release compile and16 independent full outputs bind the attribute candidate."
+  },
+  "independent_validation_sha256": "c43e33078c9cd1e6de40465b9a82af5c146d38daa9956e9ea8dc2fb069d293ce",
+  "receipts": {
+    "receipt.json": "24a4b7cf1d130c5193f0b53dfb1d557defd5b5e4fd7345125d478457dbf81a4f",
+    "build-receipt.json": "7c382922bbe6e744b03f8b86867651960d83d46677e5e8308eb978ab3a1653df",
+    "baseline-build-receipt.json": "8c67776cbb74931965b1d17e6584dee5c47eb9b9668d243515c7ef866c02e815",
+    "baseline-reuse.json": "3ce8dd65debe0bd7bfe6dec7f794634f6071471cad60a652f5dafe7aa37ed4f0",
+    "controls.json": "8d64ed3e55f7ca7064870a2d76a7c726edebad624156fa6068108cefca891a71"
+  },
+  "source_archive_sha256": "92f2ccdd06fe523074c79e99588182cabbf4fa67ab2577ee5ab27aee714c3a62",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "Native timings compare the complete candidate to actual selectedff2d/1456;not additive component gains. No app/Clippy/Java/full suite or unchanged retry on this unselected source."
+}
