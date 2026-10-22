@@ -18,8 +18,10 @@ runtime, paired serially on the same machine and CPU affinity. Runtime order
 rotates by seed. Rust and Java artifacts build locally before timing. The Java
 reference executes the actual Timefold constraint streams engine. The optional
 `--java-modes streams incremental` adds the original application's handwritten
-Java domain-cache scorer as a distinct comparator. It is not an equivalent
-implementation or a replacement for the streams reference. `--no-build` requires
+Java domain-cache scorer as a distinct comparator, and `--rust-modes streams
+incremental` adds the native handwritten scorer with the same caches (occupancy,
+members, pair encounter counts and attribute tallies). The two incremental modes
+are compared with each other; neither replaces the streams reference. `--no-build` requires
 a matching source/artifact receipt produced by a previous runner build.
 
 For a short diagnostic, use `--seconds 0.2 --seeds 7 --report work/real_world-smoke.json`.

@@ -7,11 +7,18 @@ use std::{error::Error, time::Duration};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = std::env::args().collect();
-    if args.len() != 5 {
+    if !(5..=6).contains(&args.len()) {
         return Err(
-            "usage: real_world_benchmark <problem.json> <seconds> <seed> <output.json>".into(),
+            "usage: real_world_benchmark <problem.json> <seconds> <seed> <output.json> \
+             [streams|incremental]"
+                .into(),
         );
     }
+    let scoring = match args.get(5).map(String::as_str) {
+        None | Some("streams") => real_world_model::Scoring::Streams,
+        Some("incremental") => real_world_model::Scoring::Incremental,
+        Some(other) => return Err(format!("unknown scoring {other}").into()),
+    };
     let problem: Value = serde_json::from_str(&std::fs::read_to_string(&args[1])?)?;
     let seconds: f64 = args[2].parse()?;
     if !seconds.is_finite() || seconds <= 0.0 {
@@ -26,6 +33,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         seed,
         Some(Duration::from_secs_f64(seconds)),
         u64::MAX,
+        scoring,
     );
     let best = run
         .result
@@ -43,6 +51,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         "termination": format!("{:?}", run.result.termination),
         "seed": seed, "seconds": seconds, "score_scale": 100,
         "starting_temperature": [0, 500], "cooling": "elapsed_time",
+        "scoring": format!("{scoring:?}").to_lowercase(),
         "people": people, "groups": groups, "sessions": sessions, "variables": variables,
     });
     let mut output = problem;

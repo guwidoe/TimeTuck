@@ -473,6 +473,248 @@ impl<'m> GroupMoves<'m> {
     }
 }
 
+/// Handwritten domain-cache scorer with the same objective as [`graph`]. It keeps
+/// occupancy, members, pair encounter counts and attribute tallies per session/group
+/// and updates the score by delta, mirroring the Java incremental comparator.
+pub struct IncrementalScorer<'m> {
+    m: &'m Model,
+    /// Persons of each pair constraint, indexed like `Model::pair_cons`.
+    con_people: Vec<Vec<usize>>,
+    /// Target index of each person's attribute value per balance, if any.
+    value_of: Vec<Vec<Option<usize>>>,
+    occ: Vec<i64>,
+    members: Vec<Vec<usize>>,
+    pair_count: Vec<u32>,
+    loc: Vec<Option<usize>>,
+    /// Hits per (balance, session, group, target), flattened.
+    hits: Vec<i64>,
+    hit_offsets: Vec<usize>,
+    hard: i64,
+    soft: i64,
+}
+
+impl<'m> IncrementalScorer<'m> {
+    pub fn new(m: &'m Model) -> Self {
+        let (p_n, g_n, s_n) = (m.people.len(), m.groups.len(), m.sessions);
+        let mut con_people = vec![Vec::new(); m.pair_cons.len()];
+        for (p, cons) in m.member.iter().enumerate() {
+            for &c in cons {
+                con_people[c].push(p);
+            }
+        }
+        let value_of = m
+            .balances
+            .iter()
+            .map(|bal| {
+                (0..p_n)
+                    .map(|p| {
+                        let value = m.attrs[p].get(&bal.key);
+                        bal.targets.iter().position(|(t, _)| value == Some(t))
+                    })
+                    .collect()
+            })
+            .collect();
+        let mut hit_offsets = Vec::with_capacity(m.balances.len());
+        let mut size = 0;
+        for bal in &m.balances {
+            hit_offsets.push(size);
+            size += s_n * g_n * bal.targets.len();
+        }
+        Self {
+            m,
+            con_people,
+            value_of,
+            occ: vec![0; s_n * g_n],
+            members: vec![Vec::new(); s_n * g_n],
+            pair_count: vec![0; p_n * p_n],
+            loc: vec![None; p_n * s_n],
+            hits: vec![0; size],
+            hit_offsets,
+            hard: 0,
+            soft: 0,
+        }
+    }
+
+    fn slot(&self, s: usize, g: usize) -> usize {
+        s * self.m.groups.len() + g
+    }
+
+    fn hit(&self, b: usize, s: usize, g: usize, t: usize) -> usize {
+        let targets = self.m.balances[b].targets.len();
+        self.hit_offsets[b] + (s * self.m.groups.len() + g) * targets + t
+    }
+
+    fn capacity_penalty(&self, s: usize, g: usize) -> i64 {
+        (self.occ[self.slot(s, g)] - self.m.cap[s][g]).max(0)
+    }
+
+    /// Balance penalty of one (session, group); the streams emit no tally for empty groups.
+    fn balance_penalty(&self, s: usize, g: usize) -> i64 {
+        if self.occ[self.slot(s, g)] == 0 {
+            return 0;
+        }
+        let mut penalty = 0;
+        for (b, bal) in self.m.balances.iter().enumerate() {
+            if !bal.sessions[s] || !bal.groups[g] {
+                continue;
+            }
+            for (t, &(_, target)) in bal.targets.iter().enumerate() {
+                let count = self.hits[self.hit(b, s, g, t)];
+                let gap = if bal.at_least {
+                    (target - count).max(0)
+                } else {
+                    (target - count).abs()
+                };
+                penalty += bal.weight * gap;
+            }
+        }
+        penalty
+    }
+
+    fn pair_value(&self, count: u32) -> i64 {
+        if count == 0 {
+            return 0;
+        }
+        let mut value = self.m.uc_weight;
+        if let Some((max, squared, weight)) = self.m.repeats {
+            let excess = i64::from(count.saturating_sub(max));
+            value -= weight * if squared { excess * excess } else { excess };
+        }
+        value
+    }
+
+    /// Hard/soft contribution of every located pair-constraint partner of `p` in `s`.
+    fn pair_constraint_score(&self, p: usize, s: usize) -> (i64, i64) {
+        let s_n = self.m.sessions;
+        let Some(g) = self.loc[p * s_n + s] else {
+            return (0, 0);
+        };
+        let (mut hard, mut soft) = (0, 0);
+        for &c in &self.m.member[p] {
+            let con = &self.m.pair_cons[c];
+            if !con.sessions[s] {
+                continue;
+            }
+            for &q in &self.con_people[c] {
+                let Some(h) = (q != p).then(|| self.loc[q * s_n + s]).flatten() else {
+                    continue;
+                };
+                match (con.kind, g == h) {
+                    (PairKind::KeepTogether, false) | (PairKind::KeepApart, true) => hard -= 1,
+                    (PairKind::PreferTogether, false) | (PairKind::PreferApart, true) => {
+                        soft -= con.weight
+                    }
+                    _ => {}
+                }
+            }
+        }
+        (hard, soft)
+    }
+
+    fn place(&mut self, variable: usize, group: Option<usize>, insert: bool) {
+        let Some(g) = group else { return };
+        let (p, s) = self.m.var_ps[variable];
+        let (p_n, s_n, slot) = (self.m.people.len(), self.m.sessions, self.slot(s, g));
+        if !insert {
+            let (hard, soft) = self.pair_constraint_score(p, s);
+            self.hard -= hard;
+            self.soft -= soft;
+            self.loc[p * s_n + s] = None;
+        }
+        self.hard += self.capacity_penalty(s, g);
+        self.soft += self.balance_penalty(s, g);
+        if insert {
+            for i in 0..self.members[slot].len() {
+                let q = self.members[slot][i];
+                let key = p.min(q) * p_n + p.max(q);
+                let before = self.pair_value(self.pair_count[key]);
+                self.pair_count[key] += 1;
+                self.soft += self.pair_value(self.pair_count[key]) - before;
+            }
+            self.members[slot].push(p);
+            self.occ[slot] += 1;
+        } else {
+            let at = self.members[slot].iter().position(|&q| q == p).unwrap();
+            self.members[slot].swap_remove(at);
+            self.occ[slot] -= 1;
+            for i in 0..self.members[slot].len() {
+                let q = self.members[slot][i];
+                let key = p.min(q) * p_n + p.max(q);
+                let before = self.pair_value(self.pair_count[key]);
+                self.pair_count[key] -= 1;
+                self.soft += self.pair_value(self.pair_count[key]) - before;
+            }
+        }
+        for b in 0..self.m.balances.len() {
+            if let Some(t) = self.value_of[b][p] {
+                let index = self.hit(b, s, g, t);
+                self.hits[index] += if insert { 1 } else { -1 };
+            }
+        }
+        self.hard -= self.capacity_penalty(s, g);
+        self.soft -= self.balance_penalty(s, g);
+        if insert {
+            self.loc[p * s_n + s] = Some(g);
+            let (hard, soft) = self.pair_constraint_score(p, s);
+            self.hard += hard;
+            self.soft += soft;
+        }
+    }
+}
+
+impl IncrementalCalculator<Assignment<usize>> for IncrementalScorer<'_> {
+    type Score = HardSoftScore;
+    type Justification = ();
+    type Change = Vec<usize>;
+
+    fn reset(
+        &mut self,
+        a: &Assignment<usize>,
+        _: &mut MatchRegistry<HardSoftScore, ()>,
+    ) -> Result<(), MatchRegistryError> {
+        *self = Self::new(self.m);
+        for (v, value) in a.values().iter().enumerate() {
+            self.place(v, *value, true);
+        }
+        Ok(())
+    }
+
+    fn before_change(
+        &mut self,
+        a: &Assignment<usize>,
+        changed: &Vec<usize>,
+        _: &mut MatchRegistry<HardSoftScore, ()>,
+    ) -> Result<(), MatchRegistryError> {
+        for &v in changed {
+            self.place(v, a.values()[v], false);
+        }
+        Ok(())
+    }
+
+    fn after_change(
+        &mut self,
+        a: &Assignment<usize>,
+        changed: &Vec<usize>,
+        _: &mut MatchRegistry<HardSoftScore, ()>,
+    ) -> Result<(), MatchRegistryError> {
+        for &v in changed {
+            self.place(v, a.values()[v], true);
+        }
+        Ok(())
+    }
+
+    fn calculate_score(&mut self) -> HardSoftScore {
+        HardSoftScore::new(self.hard, self.soft)
+    }
+}
+
+/// Score backend for [`solve`]: the constraint stream graph or the handwritten scorer.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Scoring {
+    Streams,
+    Incremental,
+}
+
 pub struct BenchmarkRun {
     pub initial_score: HardSoftScore,
     pub result: LocalSearchResult<usize, HardSoftScore>,
@@ -482,28 +724,13 @@ pub struct BenchmarkRun {
 /// Simulated annealing at soft temperature 500 (scale 100) and zero hard temperature.
 /// A timed run cools over its time limit, like the Timefold comparator; an untimed
 /// run cools over 40000 completed steps so evaluation-bounded regressions stay
-/// deterministic. Only solving is timed, including stream score-director
-/// initialization, as in the original application spike.
-pub fn solve(
-    m: &Model,
-    problem: &FiniteProblem<usize>,
-    initial: &[Option<usize>],
+/// deterministic.
+pub fn search_config(
     seed: u64,
     max_time: Option<Duration>,
     max_evaluations: u64,
-) -> BenchmarkRun {
-    let (initial_graph, initial_source) = graph(m);
-    let initial_director = StreamScoreDirector::new(
-        problem,
-        initial_graph,
-        initial_source,
-        Assignment::new(initial.to_vec()),
-    )
-    .unwrap();
-    let initial_score = initial_director.score();
-    drop(initial_director);
-    let (g, source) = graph(m);
-    let config = LocalSearchConfig {
+) -> LocalSearchConfig<'static, HardSoftScore> {
+    LocalSearchConfig {
         max_evaluations,
         max_accepted_moves: u64::MAX,
         max_steps: u64::MAX,
@@ -522,18 +749,62 @@ pub fn solve(
         },
         selection: MoveSelection::FirstAccepted,
         ..Default::default()
-    };
+    }
+}
+
+/// Solve with [`search_config`] and the application move provider. Only solving is
+/// timed, including score-director or calculator initialization, as in the
+/// original application spike.
+pub fn solve(
+    m: &Model,
+    problem: &FiniteProblem<usize>,
+    initial: &[Option<usize>],
+    seed: u64,
+    max_time: Option<Duration>,
+    max_evaluations: u64,
+    scoring: Scoring,
+) -> BenchmarkRun {
+    let start = Assignment::new(initial.to_vec());
+    let config = search_config(seed, max_time, max_evaluations);
     let mut provider = GroupMoves::new(m, seed);
-    let started = std::time::Instant::now();
-    let result = stream_local_search_from_with_provider(
-        problem,
-        g,
-        source,
-        Assignment::new(initial.to_vec()),
-        config,
-        &mut provider,
-    )
-    .unwrap();
+    let (initial_score, started, result) = match scoring {
+        Scoring::Streams => {
+            let (initial_graph, initial_source) = graph(m);
+            let initial_director =
+                StreamScoreDirector::new(problem, initial_graph, initial_source, start.clone())
+                    .unwrap();
+            let initial_score = initial_director.score();
+            drop(initial_director);
+            let (g, source) = graph(m);
+            let started = std::time::Instant::now();
+            let result = stream_local_search_from_with_provider(
+                problem,
+                g,
+                source,
+                start,
+                config,
+                &mut provider,
+            );
+            (initial_score, started, result)
+        }
+        Scoring::Incremental => {
+            let mut scorer = IncrementalScorer::new(m);
+            scorer
+                .reset(&start, &mut MatchRegistry::new(false))
+                .unwrap();
+            let initial_score = scorer.calculate_score();
+            let started = std::time::Instant::now();
+            let result = calculator_local_search_with_provider(
+                problem,
+                start,
+                || IncrementalScorer::new(m),
+                config,
+                &mut provider,
+            );
+            (initial_score, started, result)
+        }
+    };
+    let result = result.unwrap();
     BenchmarkRun {
         initial_score,
         result,

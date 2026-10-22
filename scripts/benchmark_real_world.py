@@ -107,13 +107,17 @@ def summarize(runs, cases):
                 'scores': [r.get('validation', {}).get('score') for r in rows],
                 'feasible_runs': sum(r.get('validation', {}).get('feasible', False) for r in rows),
                 'median_elapsed_seconds': statistics.median(r['reported']['elapsed_ns'] / 1e9 for r in valid) if valid else None}
-        rust = runtimes.get('rust-streams', {}).get('median_evaluations_per_second')
-        java = runtimes.get('java-streams', {}).get('median_evaluations_per_second')
+        def ratio(native, java):
+            rust = runtimes.get(native, {}).get('median_evaluations_per_second')
+            reference = runtimes.get(java, {}).get('median_evaluations_per_second')
+            return rust / reference if rust is not None and reference else None
         complete = all(r.get('valid') for r in runs if r['case'] == case)
-        ratio = rust / java if rust is not None and java else None
+        streams_ratio = ratio('rust-streams', 'java-streams')
         summaries.append({'case': case, 'runtimes': runtimes,
-                          'rust_over_java_streams_evaluations_per_second': ratio,
-                          'throughput_target_met': complete and ratio is not None and ratio >= 1,
+                          'rust_over_java_streams_evaluations_per_second': streams_ratio,
+                          'rust_incremental_over_java_incremental_evaluations_per_second':
+                              ratio('rust-incremental', 'java-incremental'),
+                          'throughput_target_met': complete and streams_ratio is not None and streams_ratio >= 1,
                           'quality_equal_gated': False,
                           'quality_note': 'Raw hard/soft scores are separate observations. Sailing lacks whole keep-together moves; random streams differ.'})
     return summaries
@@ -124,6 +128,7 @@ def main(argv=None):
     parser.add_argument('--seconds', type=float, default=DEFAULT_SECONDS)
     parser.add_argument('--seeds', type=int, nargs='+', default=list(SEEDS))
     parser.add_argument('--cases', choices=CASES, nargs='+', default=list(CASES))
+    parser.add_argument('--rust-modes', choices=('streams', 'incremental'), nargs='+', default=['streams'])
     parser.add_argument('--java-modes', choices=('streams', 'incremental'), nargs='+', default=['streams'])
     parser.add_argument('--cpus', help='Comma-separated CPUs; default 2,3 where allowed, else first two allowed CPUs')
     parser.add_argument('--no-build', action='store_true', help='Use already-built artifacts, recording their hashes')
@@ -132,10 +137,10 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if not math.isfinite(args.seconds) or args.seconds <= 0 or len(set(args.seeds)) != len(args.seeds) or len(set(args.cases)) != len(args.cases):
         parser.error('seconds must be positive, seeds and cases must be unique')
-    if len(set(args.java_modes)) != len(args.java_modes):
-        parser.error('Java modes must be unique')
-    if 'streams' not in args.java_modes:
-        parser.error('actual Timefold streams is required; incremental is an optional separate comparator')
+    if len(set(args.java_modes)) != len(args.java_modes) or len(set(args.rust_modes)) != len(args.rust_modes):
+        parser.error('runtime modes must be unique')
+    if 'streams' not in args.java_modes or 'streams' not in args.rust_modes:
+        parser.error('streams is required for both runtimes; incremental is an optional separate comparator')
     available = sorted(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity') else []
     cpus = [int(n) for n in args.cpus.split(',')] if args.cpus else ([2, 3] if {2, 3} <= set(available) else available[:2])
     if any(cpu not in available for cpu in cpus):
@@ -155,7 +160,7 @@ def main(argv=None):
               'upstream_method_credit': 0, 'input_sha256': before,
               'generated_at': datetime.now(timezone.utc).isoformat(), 'run_directory': str(run_dir),
               'configuration': {'cases': args.cases, 'seeds': args.seeds, 'seconds': args.seconds,
-                                'java_modes': args.java_modes, 'cpu_affinity': cpus,
+                                'rust_modes': args.rust_modes, 'java_modes': args.java_modes, 'cpu_affinity': cpus,
                                 'scale': 100, 'rust': {'acceptor': 'simulated_annealing', 'temperature': '0hard/500soft', 'cooling': 'elapsed time over the limit'},
                                 'java': {'acceptor': 'simulated_annealing', 'temperature': '0hard/500soft', 'cooling': 'elapsed time over the limit',
                                          'accepted_count_limit': 1, 'environment_mode': 'NO_ASSERT',
@@ -225,13 +230,15 @@ def main(argv=None):
         if report['errors']:
             continue
         for seed_index, seed in enumerate(args.seeds):
-            runtimes = ['rust-streams', *('java-' + mode for mode in args.java_modes)]
+            runtimes = [*('rust-' + mode for mode in args.rust_modes), *('java-' + mode for mode in args.java_modes)]
             runtimes = runtimes[seed_index % len(runtimes):] + runtimes[:seed_index % len(runtimes)]
             for runtime in runtimes:
-                suffix = 'json' if runtime == 'rust-streams' else 'txt'
+                native = runtime.startswith('rust-')
+                suffix = 'json' if native else 'txt'
                 output = run_dir / f'{case}-{seed}-{runtime}.{suffix}'
-                if runtime == 'rust-streams':
-                    command = [*affinity, str(args.rust_binary), str(problem_path), str(args.seconds), str(seed), str(output)]
+                if native:
+                    command = [*affinity, str(args.rust_binary), str(problem_path), str(args.seconds), str(seed), str(output),
+                               runtime.removeprefix('rust-')]
                 else:
                     command = [*affinity, 'java', '-Xmx1g', '-cp', classpath, 'ApplicationBenchmark', str(model_path),
                                runtime.removeprefix('java-'), 'sa', str(args.seconds), str(seed), str(output), '500']
@@ -245,7 +252,7 @@ def main(argv=None):
                     if type(reported['evaluations']) is not int or reported['evaluations'] < 0 or reported['elapsed_ns'] <= 0:
                         raise ValueError('Invalid solver work/time diagnostics')
                     initial_matches = True
-                    if runtime == 'rust-streams':
+                    if native:
                         exported = json.loads(output.read_text())
                         schedule = exported['incumbent_schedule']
                         initial_matches = (normalized_schedule(exported['benchmark_initial_schedule'])
@@ -276,7 +283,7 @@ def main(argv=None):
     if not report['source_unchanged']:
         report['errors'].append('Relevant source changed during measurement')
     report['valid'] = (not report['errors'] and bool(report['runs']) and all(r['valid'] for r in report['runs'])
-                       and len(report['runs']) == len(args.cases) * len(args.seeds) * (1 + len(args.java_modes)))
+                       and len(report['runs']) == len(args.cases) * len(args.seeds) * (len(args.rust_modes) + len(args.java_modes)))
     report['qualified'] = (report['valid'] and set(args.cases) == set(CASES) and set(args.seeds) == set(SEEDS)
                            and args.seconds == DEFAULT_SECONDS)
     report['qualification_note'] = 'Qualification means complete default application measurements with independent scoring, never native/Java parity or upstream coverage.'
@@ -284,7 +291,7 @@ def main(argv=None):
                         'Search traces and random streams differ despite shared numeric seeds.',
                         'Both runtimes cool over elapsed time with zero hard temperature; their cooling clocks start at slightly different points.',
                         'Whole keep-together moves are absent; sailing quality is not equal-gated.',
-                        'Optional Java incremental is a separate hand-written domain-cache comparator.',
+                        'Optional incremental modes are separate handwritten domain-cache scorers, compared with each other.',
                         'RealWorld solver_settings are retained export metadata; they do not configure these solvers.']
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2) + '\n')

@@ -25,6 +25,22 @@
         {
           "local_path": "crates/solver/tests/real_world_application_regression.rs",
           "local_test": "sailing_bounded_search"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "social_golfer_incremental_bounded_search"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "sailing_incremental_bounded_search"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "social_golfer_incremental_scores_match_recomputation"
+        },
+        {
+          "local_path": "crates/solver/tests/real_world_application_regression.rs",
+          "local_test": "sailing_incremental_scores_match_recomputation"
         }
       ],
       "benchmark_job": "real_world-performance",

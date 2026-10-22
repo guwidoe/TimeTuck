@@ -30,6 +30,12 @@ Timefold comparator; untimed, evaluation-bounded regressions cool over 40000
 steps so they stay deterministic. Diagnostic environment switches and `pprof` were removed.
 No hot-path solver library implementation was changed.
 
+`IncrementalScorer` is a separate handwritten `IncrementalCalculator` with the same
+objective: it caches occupancy, members, pair encounter counts and attribute tallies
+per session and group, and updates the score by delta. Pass `incremental` as the
+benchmark's optional fifth argument to use it with the same moves and annealing.
+Regressions check it against independent recomputation after every move and rollback.
+
 Run the benchmark with:
 
 ```sh

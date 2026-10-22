@@ -185,33 +185,51 @@ fn full_score_and_rollback(input: &str, dimensions: (usize, usize, usize, usize)
     if dimensions.0 == 32 {
         assert_eq!(expected, (HardSoftScore::new(0, -3_883_200), 480, 48));
     }
+    // The handwritten scorer follows the same moves through change notifications.
+    let mut registry = MatchRegistry::new(false);
+    let mut scorer = model::IncrementalScorer::new(&m);
+    scorer.reset(&initial, &mut registry).unwrap();
+    assert_eq!(scorer.calculate_score(), expected.0);
     let mut provider = model::GroupMoves::new(&m, 19);
     for step in 0..24 {
         let before = director.assignment().clone();
         let before_score = director.score();
         let movement = provider.moves(&fp, &before, step).next().unwrap();
+        let touched = movement.touched_variables();
         let trial = director.apply(&movement).unwrap();
-        assert_eq!(
-            trial.score(),
-            recompute(&problem, &m.schedule(trial.assignment())).0
-        );
+        let after = trial.assignment().clone();
+        assert_eq!(trial.score(), recompute(&problem, &m.schedule(&after)).0);
+        scorer
+            .before_change(&before, &touched, &mut registry)
+            .unwrap();
+        scorer
+            .after_change(&after, &touched, &mut registry)
+            .unwrap();
+        assert_eq!(scorer.calculate_score(), trial.score());
         if step % 3 == 0 {
             trial.commit();
         } else {
             drop(trial);
             assert_eq!(director.assignment(), &before);
             assert_eq!(director.score(), before_score);
+            scorer
+                .before_change(&after, &touched, &mut registry)
+                .unwrap();
+            scorer
+                .after_change(&before, &touched, &mut registry)
+                .unwrap();
+            assert_eq!(scorer.calculate_score(), before_score);
         }
         director.assert_consistent().unwrap();
     }
 }
 
-fn bounded_search(input: &str) {
+fn bounded_search(input: &str, scoring: model::Scoring) {
     let problem: Value = serde_json::from_str(input).unwrap();
     let (m, fp, initial) = model::load(&problem);
     let expected_initial = recompute(&problem, &m.schedule(&Assignment::new(initial.clone()))).0;
-    let first = model::solve(&m, &fp, &initial, 31, None, 64);
-    let second = model::solve(&m, &fp, &initial, 31, None, 64);
+    let first = model::solve(&m, &fp, &initial, 31, None, 64, scoring);
+    let second = model::solve(&m, &fp, &initial, 31, None, 64, scoring);
     assert_eq!(first.initial_score, expected_initial);
     assert_eq!(first.result.evaluations, 64);
     assert_eq!(first.result.evaluations, second.result.evaluations);
@@ -235,6 +253,31 @@ fn bounded_search(input: &str) {
     fresh.assert_consistent().unwrap();
 }
 
+/// Longer handwritten-scorer search with every candidate, rollback and step score
+/// checked against a fresh reset; a missed or doubled delta fails here.
+fn incremental_scores_match_recomputation(input: &str) {
+    let problem: Value = serde_json::from_str(input).unwrap();
+    let (m, fp, initial) = model::load(&problem);
+    let config = LocalSearchConfig {
+        assert_scores: true,
+        ..model::search_config(5, None, 2_000)
+    };
+    let result = calculator_local_search_with_provider(
+        &fp,
+        Assignment::new(initial),
+        || model::IncrementalScorer::new(&m),
+        config,
+        &mut model::GroupMoves::new(&m, 5),
+    )
+    .unwrap();
+    assert_eq!(result.evaluations, 2_000);
+    let best = result.best.unwrap();
+    assert_eq!(
+        best.score,
+        recompute(&problem, &m.schedule(&best.assignment)).0
+    );
+}
+
 #[test]
 fn social_golfer_full_score_and_rollback() {
     full_score_and_rollback(GOLFER, (32, 8, 10, 320));
@@ -245,9 +288,25 @@ fn sailing_full_score_and_rollback() {
 }
 #[test]
 fn social_golfer_bounded_search() {
-    bounded_search(GOLFER);
+    bounded_search(GOLFER, model::Scoring::Streams);
 }
 #[test]
 fn sailing_bounded_search() {
-    bounded_search(SAILING);
+    bounded_search(SAILING, model::Scoring::Streams);
+}
+#[test]
+fn social_golfer_incremental_bounded_search() {
+    bounded_search(GOLFER, model::Scoring::Incremental);
+}
+#[test]
+fn sailing_incremental_bounded_search() {
+    bounded_search(SAILING, model::Scoring::Incremental);
+}
+#[test]
+fn social_golfer_incremental_scores_match_recomputation() {
+    incremental_scores_match_recomputation(GOLFER);
+}
+#[test]
+fn sailing_incremental_scores_match_recomputation() {
+    incremental_scores_match_recomputation(SAILING);
 }
