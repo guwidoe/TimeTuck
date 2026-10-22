@@ -1,0 +1,83 @@
+{
+  "kind": "real_world-full-summary-outline",
+  "status": "Closed unintegrated: Sailing-.1869%(0/4 faster)/Golfer-1.0366%(1/4);retain selected ca2f/a7ed runtime.",
+  "native_source_digest": "cfb947bf6289e53969a706f45e20eac920f06c52cb8b5123be63c52720ec5a30",
+  "input_sha256": "23f4996b0d056045c99266f65bddb747d3af89ab6679892ab181e96b898bbaae",
+  "source_snapshot": "f1cfe5470752a6eba1649f0ba8dd99dc888522ec9d352bbde65321e9c29146a1",
+  "artifact_sha256": "d52f90e00b14a308c924f7387652c3db05bce9d828e6cc83c70997ccaeacc004",
+  "mechanism": "The new seed-owning producer forwards only its original full-summary fallback through a cold inline(never) wrapper around the unchanged common operator. Mapping,complete values,callbacks,Clone/Drop/publication/guard phases and scalar queue remain. This is separate from the previous typed owned-bound kernel experiment;there is no new typed kernel here.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/full-summary-outline-next-results/clean-full-summary-outline-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70738.11928153138,
+            70802.9762551229,
+            70945.9526017854,
+            70653.33540507848
+          ],
+          "trial": [
+            68431.323011841,
+            70746.78392169677,
+            70706.51526567213,
+            70569.97273572741
+          ]
+        },
+        "medians": {
+          "baseline": 70770.54776832715,
+          "trial": 70638.24400069978
+        },
+        "gain_pct": -0.1869474969453
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            200450.2461630393,
+            197618.28381087916,
+            200645.23076496794,
+            199225.87267546862
+          ],
+          "trial": [
+            197096.78599822996,
+            197738.5348726895,
+            197794.49671537345,
+            198751.56767051443
+          ]
+        },
+        "medians": {
+          "baseline": 199838.05941925396,
+          "trial": 197766.51579403147
+        },
+        "gain_pct": -1.0366111596772698
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 0,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "verification": {
+    "actual_new_unit_tests": 0,
+    "body_equivalence_sha256": "ddefcd8c37c6064dca150b24dd46dfe9d1bc6100ef6eb25b4c93e9f486a697d4",
+    "prior_source_bound_verification_sha256": "ae0306831e400511e2698f42b7424308dab108f5b13504b756e32c2a8f4a65b0",
+    "policy": "31 prior unit checks across original source generations+4 finalca2f application cases retain their original hashes. Unchanged forwarded operator supports reuse;no rekeying or new behavior-test credit."
+  },
+  "independent_validation_sha256": "1276b88affbfc8104fc6872fe0347e9ca344168b72f7f3f43b5c6f61ce7960cf",
+  "receipts": {
+    "receipt.json": "aa1ff82a4052a8df15f2b9fc30bb7430ecafd46c01d2e8ca3d5b577023b736e5",
+    "build-receipt.json": "562b0fb86ce6dd382d249f832d7713cf67c575e0dee712bbf5b65f0a9560119b",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "a033a643286cb87734056571ef3a4c4ab69f9f86e3d69cec06c38f316bf78cba"
+  },
+  "source_archive_sha256": "028a72d007ef768d296d67df92b741118a7821e0ad81e5a5aa9718aa693c5432",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "16 full outputs independently valid. Baseline measured87f/a7ed retained;actual finalca2f Cargo qualification proves byte identity across test-only bridge. No app/Clippy/Java/full suite or unchanged repeat on rejected source."
+}

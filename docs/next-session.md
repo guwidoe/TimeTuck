@@ -94,6 +94,28 @@ No app,Clippy,Java,full suite or unchanged repeat for this rejected source.
 All trial/profile jobs are terminal and collected. Next seek a different cost;
 do not retry the same hints or summary representations unchanged.
 
+Four further trials are closed unintegrated. Five-byte canonical routing records
+slowed Sailing2.2764%/Golfer1.3858%,all4 pairs slower both. One-byte flags were
+flat/mixed:S+.3704%/G-.2748%,2/4 faster each. Each actual source passed55 focused
+routing/ownership/FIFO/capture/error/custom-score checks. A whole workspace-owner
+slot passed27 focused unwind/reuse/ownership checks but measured S-.3276%/
+G+.5957%. The unchanged full-summary fallback cold wrapper measured S-.1869%/
+G-1.0366%,0/4 faster Sailing. It reused prior31 unit+4 application checks under
+original hashes,zero new unit runs. Each trial has16 independently valid full
+outputs. The bit-prototype preparation regex failure executed zero Cargo/native
+runs and remains preserved;the measured corrected source is separate. No further
+app,Clippy,Java,full suite or unchanged repeat on these rejected runtimes. Current
+selectedca2f/a7ed/report3bf3 remains unchanged and current;goal still1/2 targets.
+[Records](../compat/observations/real_world-routing-records.json),
+[bits](../compat/observations/real_world-routing-bits.json),
+[workspace](../compat/observations/real_world-workspace-slot.json),
+[fallback](../compat/observations/real_world-full-summary-outline.json).
+All jobs are terminal and collected. Do not retry these layouts/wrappers unchanged.
+Next consider precomputed receiver operations that remove dispatch decisions;
+co-locating the existing flags alone did not help. Preserve dynamic bindings,
+custom-score probes,activity/weights and original-path switches when evaluating
+such a change. There is no new current Java measurement or target credit here.
+
 The count accessor plus three IntCollector inline hints is closed unintegrated:
 Sailing+.3369%/Golfer+.2694% as a whole versusff2d. Only attributes differed;
 18 prior body-equivalent checks retain their1e4f source identity,zero new unit

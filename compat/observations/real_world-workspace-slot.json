@@ -1,0 +1,128 @@
+{
+  "kind": "real_world-workspace-slot",
+  "status": "Closed unintegrated: Sailing-.3276%/Golfer+.5957%;no Sailing gain.",
+  "native_source_digest": "d118643d99bdd3d3b4ba4ec7048ef792b9c25856fef91332efc0e8a0f09f57c7",
+  "input_sha256": "4185c932d135fa36157767ebede3976799afa8d6312a1bcf8918c7f6ec288748",
+  "source_snapshot": "450bd39ec14251a957fb075c05077dd8cfa5f2b6b081446f757ca5a49b0e8eaa",
+  "artifact_sha256": "d09c50fa52722a234d796bba919edc8f7125c5356e9bf340f3eb624671f0be85",
+  "mechanism": "Move only an optional Box owner through each drain instead of copying/resetting the208-byte buffer container. Permanently empty read-only fallback preserves in-drain/after-unwind diagnostics;later writes/drains lazily allocate. Payloads/queue/member routing,checkpoints,score guards,FIFO and callbacks remain. Distinct from old combined member-lane/optional boxed member-arena trial. Cold metadata memory increases;no universal memory/speed gain claimed.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/workspace-slot-next-results/clean-workspace-slot-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            70145.0213016461,
+            69375.67090149737,
+            70981.51957150323,
+            69669.50967686129
+          ],
+          "trial": [
+            68999.26717982914,
+            69615.56074078509,
+            69740.88167638949,
+            69749.40332576027
+          ]
+        },
+        "medians": {
+          "baseline": 69907.2654892537,
+          "trial": 69678.22120858729
+        },
+        "gain_pct": -0.32764016595902
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            198748.23444389546,
+            199634.51747818242,
+            198963.2073960995,
+            198988.344995316
+          ],
+          "trial": [
+            200043.0398873568,
+            200279.0483809904,
+            197647.13436587597,
+            200286.67719573036
+          ]
+        },
+        "medians": {
+          "baseline": 198975.77619570773,
+          "trial": 200161.0441341736
+        },
+        "gain_pct": 0.5956845406649203
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 3
+  },
+  "verification": {
+    "actual_tests_passed": 27,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--lib",
+      "--",
+      "--color=never",
+      "stream_graph::propagation_workspace_tests",
+      "stream_graph::event_queue::tests",
+      "stream_graph::deferred_totals::tests",
+      "stream_graph::group_summary_lane",
+      "stream_graph::membership_filter::shared_forward_tests",
+      "stream_graph::join_output::tests",
+      "stream_graph::join_output::member_tests"
+    ],
+    "native_source_digest": "d118643d99bdd3d3b4ba4ec7048ef792b9c25856fef91332efc0e8a0f09f57c7",
+    "production_digest": "4185c932d135fa36157767ebede3976799afa8d6312a1bcf8918c7f6ec288748",
+    "log_sha256": "523b58974fd3a96d431c0d0e558e4f64a04f0bc42328cca3f75fcf953f53eff9",
+    "receipt_sha256": "b49e84e3249719b59ba5656f89321259b8509d9805a0553975d5da89eaccdecc",
+    "test_names": [
+      "stream_graph::event_queue::tests::narrow_queue_layout_and_inline_fanout_use_one_arena_cell",
+      "stream_graph::event_queue::tests::shared_payloads_never_enter_arena_and_keep_fifo_release_phase",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+      "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+      "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+      "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+      "stream_graph::join_output::member_tests::shared_member_carrier_keeps_complete_rows_fifo_orientation_and_owner_lifetimes",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+      "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+      "stream_graph::deferred_totals::tests::deferred_totals_preserve_final_graph_overflow_after_all_terminal_callbacks",
+      "stream_graph::join_output::tests::typed_join_publication_keeps_full_rows_fanout_right_order_and_shared_fallback",
+      "stream_graph::join_output::tests::join_output_carrier_scope_rejects_unbounded_partial_custom_clone_and_public_graph",
+      "stream_graph::event_queue::tests::scalar_arena_reuses_capacity_and_cleans_after_errors_panics_and_nested_replay",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+      "stream_graph::propagation_workspace_tests::per_event_total_overflow_is_not_deferred_across_the_batch",
+      "stream_graph::join_output::tests::join_output_carrier_end_input_borrow_arena_growth_promotion_and_panic_release",
+      "stream_graph::propagation_workspace_tests::errors_and_panics_clear_pending_events_and_score_deltas_before_reuse",
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_public_unknown_and_retaining_endpoints_keep_distinct_promoted_owners",
+      "stream_graph::propagation_workspace_tests::fifo_boundaries_reuse_buffers_across_commit_drop_and_nested_diagnostics",
+      "stream_graph::join_output::tests::join_output_carrier_fixed_both_sides_order_and_current_nested_full_restore_match_original",
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_member_actions_keep_full_ids_fifo_fanout_and_private_owner_lifetimes",
+      "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+      "stream_graph::deferred_totals::tests::deferred_totals_preserve_every_callback_work_capture_failure_and_retry",
+      "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+      "stream_graph::membership_filter::shared_forward_tests::shared_forward_consumed_member_graph_preserves_callbacks_captures_errors_overflow_and_retry",
+      "stream_graph::join_output::tests::join_output_carrier_actual_consumed_graph_bfs_replay_captures_errors_and_panics_match_cold_and_wide",
+      "stream_graph::join_output::member_tests::shared_member_carrier_consumed_graph_preserves_callbacks_captures_failures_and_retry"
+    ]
+  },
+  "independent_validation_sha256": "a55ab102100d9eebb374e2b801ac810914556e1616703a64d7c5949b0925d8f8",
+  "receipts": {
+    "receipt.json": "8ae4b3d743e5838c90068a97deb92374953bbc4b8b213bdc963a196bcd48bd73",
+    "build-receipt.json": "35852167d865205c16d872140eaa2f7d3a67b96463e04d07c2076e9dbe4ff504",
+    "baseline-build-receipt.json": "5542198c906c9ce0d6d1d6c0eb8c20fe6f498ee65e80dd2456a4f217eea8cd8f",
+    "baseline-reuse.json": "ec4e7b8d372bf6da8ca27adffc4c8ff264fe707a967ecbdc80c96424a929af4b",
+    "controls.json": "9d2396a8e808dc35827e5e4b0299d3a8f1c7826c8d56118352988f4e042ba053"
+  },
+  "source_archive_sha256": "03b43d17d346be64bf405de9b92e66cb217331329488da5fe2d27c16d3ada1ed",
+  "baseline_rust_digest": "87f75d046558a5ae5cab9fb72c37486647a316ba326b2ecc10083c10bf281c46",
+  "baseline_artifact_sha256": "a7ed7dfa82ce71595f1ca2e5d0515578e8c69c18981e16c5afc10260af3ebf75",
+  "full_native_gate": false,
+  "java_qualification_run": false,
+  "upstream_method_credit": 0,
+  "policy": "27 actual focused workspace/queue/deferred-total/summary/join checks including errors,unwind,ownership release,nested diagnostics and successful recovery.16 full outputs independently valid. Baseline original87f/a7ed receipt retained;finalca2f Cargo qualifier proved identical runtime bytes across test-only bridge. No app/Clippy/Java/full suite or unchanged repeat on rejected source."
+}
