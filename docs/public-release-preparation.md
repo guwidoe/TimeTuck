@@ -135,14 +135,36 @@ that fresh download. Documentation links and the added history delta are checked
 separately; existing source-bound correctness and performance evidence is reused
 because no solver, fixture, dependency, pin or UI asset changed in this cutover.
 
+## Publication review — 2026-10-22
+
+Guido asked for everything to be prepared for public release. This review covers
+the local `main` commits after hosted `d5519e48` through `2088dd22` (34 commits),
+plus the two documentation commits that record it; nothing was pushed and the
+repository remained private.
+
+| Check | Result |
+| --- | --- |
+| Full gate | `bash scripts/check.sh --force` on the dedicated benchmark host at `26052bb3`: rustfmt, strict Clippy (`-D warnings`, all targets), 98 Rust test binaries with 9,221 passing and 0 failing tests, doctests and every Python test. The history test used the pinned `git-filter-repo` CI downloads (SHA-256 `67447413…7d94`). |
+| CI fixes found by the gate | Strict Clippy failed on five test/library sites and one rustfmt diff (fixed in `26052bb3`); the real-world Python test failed on any fresh checkout because importing the converter wrote `__pycache__` into its own inputs (fixed in `893122c8`). |
+| Coverage | `compat_report.py` on that full-gate log: 4,412 of 4,855 adapted methods passing, 0 failed, 0 pending, 0 unverified, 443 excluded. |
+| Real-world matrix | Qualified at input `5a97010c` with all four runtimes; recorded in [performance](performance.md). |
+| Public snapshot | Re-exported from that report; zero forbidden-identity findings, zero Gitleaks findings, `test_build_dashboard_site` passes. Headless Chrome rendered the new Rust incremental column without runtime errors and without page overflow at 500 and 1440 pixels. |
+| History privacy | The repository's own identity audit over all 1,233 commits and every stored object of this checkout (head `2088dd22`) found zero forbidden-identity findings. Gitleaks found no leaks in the 34-commit delta; the 43 tracked-tree matches are the previously reviewed fingerprints and one collector-key description. The two recording commits' diffs were scanned with the same identity rules before commit. |
+| Remaining branches | The five retained `codex/` branches are 400–551 commits behind `main` with 1–6 unmerged patches each; publishing, merging or deleting them is the owner's decision. |
+
+The static snapshot shows native readiness as not current: the 18 historical Java
+comparison reports and 109 timed workloads predate this source and were not rerun.
+The prepared publication-day wording for README, SECURITY, CONTRIBUTING, getting
+started and the roadmap is a separate final commit.
+
 ## Publication steps still intentionally deferred
 
 1. Obtain the owner's explicit instruction to make the clean repository public.
    Keep the original archive private. The private cutover is complete; it does not
    authorize any visibility change, site, package, release or announcement.
-2. Review subsequent changes and refresh the hosted visibility, refs, history
-   delta and Actions review. Update the README's private-status wording when
-   publication is authorized; the preparation audit does not cover future work.
+2. Push `main` and confirm the first CI run passes, then repeat the history delta
+   review for anything committed after the 2026-10-22 publication review. The
+   private-status wording is already replaced by the final prepared commit.
 3. Immediately after publication, enable and verify the chosen
    [GitHub private vulnerability reporting route](../SECURITY.md). GitHub makes it
    available for public repositories; it remains inactive during preparation.

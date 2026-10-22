@@ -22,7 +22,13 @@
 > limit. Both are fixed; every earlier Golfer/Sailing ratio, throughput target and
 > quality comparison below is superseded, including the Sailing target. See
 > [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
-> Current four-runtime qualification on the dedicated benchmark host: input
+> Publication review, 2026-10-22: the full gate passed at `26052bb3` (fmt, strict
+> Clippy, 98 Rust test binaries with 9221 passing tests, doctests, Python tests), and
+> the public snapshot reports 4412/4855 adapted methods passing with 0 unverified.
+> Current four-runtime qualification: input `5a97010c` (commit `893122c8`), streams
+> 1.702×/0.845×, incremental 6.346×/1.941× Golfer/Sailing, all 24 runs feasible.
+> The qualification below at `9f37db07` is history.
+> Earlier four-runtime qualification on the dedicated benchmark host: input
 > `9f37db07` (commit `798344ea`), after basic calculator moves stopped rescanning
 > every variable for structure and the handwritten scorer gained balance/pair caches.
 > Median Golfer/Sailing evaluations/s: Rust streams 176705/56028, Java streams
