@@ -20,9 +20,14 @@
 > read occupancy from the unchanged input seats, so Sailing Java runs admitted moves
 > into full groups, and the native model cooled over 40000 steps instead of the time
 > limit. Both are fixed; every earlier Golfer/Sailing ratio, throughput target and
-> quality comparison below is superseded, including the Sailing target. Rerun the
-> default matrix before setting a new target. See
+> quality comparison below is superseded, including the Sailing target. See
 > [superseded comparisons](../benchmarks/real_world/README.md#superseded-comparisons).
+> The corrected default matrix with both Java comparators qualified on the dedicated
+> benchmark host at input `efa45d2c` (commit `e73a22d6`): Golfer 1.682×, Sailing
+> 0.851× Java streams evaluations/s (Rust 200650/71115, Java streams 119306/83574,
+> Java incremental 376832/502264 median evaluations/s). Sailing needs about 17.5%
+> more native throughput for its target. Raw report: ignored
+> `work/real_world-qualification-e73a22d6/report.json`.
 
 ## Objective and boundaries
 
