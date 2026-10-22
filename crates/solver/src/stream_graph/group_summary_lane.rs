@@ -12,6 +12,14 @@ type QuadChange = TupleChange<Quad, (Quad, IntSummary)>;
 type Raw<K> = [Option<TupleChange<K, IntSummary>>; 2];
 const CHUNK: usize = 64;
 
+// Chunk creation is lazy and rare. Keep its complete array temporary out of
+// every scalar group update, retaining the original initialization order.
+#[cold]
+#[inline(never)]
+fn empty_chunk<T>(empty: fn() -> T) -> Box<[T; CHUNK]> {
+    Box::new(std::array::from_fn(|_| empty()))
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(super) enum Kind {
     Pair,
@@ -79,7 +87,7 @@ impl<T> Arena<T> {
     fn push_with(&mut self, empty: fn() -> T, write: impl FnOnce(&mut T)) -> usize {
         let index = self.len;
         if index / CHUNK == self.chunks.len() {
-            self.chunks.push(Box::new(std::array::from_fn(|_| empty())));
+            self.chunks.push(empty_chunk(empty));
         }
         write(&mut self.chunks[index / CHUNK][index % CHUNK]);
         self.len += 1;
@@ -89,7 +97,7 @@ impl<T> Arena<T> {
     fn push(&mut self, row: T, empty: fn() -> T) -> usize {
         let index = self.len;
         if index / CHUNK == self.chunks.len() {
-            self.chunks.push(Box::new(std::array::from_fn(|_| empty())));
+            self.chunks.push(empty_chunk(empty));
         }
         self.chunks[index / CHUNK][index % CHUNK] = row;
         self.len += 1;
