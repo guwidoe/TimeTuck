@@ -33,7 +33,9 @@ Current performance development selects the runtime-uniform owned collector aren
 24-byte uniform slots versus64-byte general slots on the measured target,with
 full-domain promotion,complete cold observations and unchanged ordered rollback.
 Forty focused checks pass on the measured source;final source adds one independent
-active snapshot/promotion test plus four application passes. Library/example Clippy
+active snapshot/promotion test,two additional cached-empty cases and four application
+passes. The original Java collection proof retains its earlier five-pass cohort.
+Library/example Clippy
 passes with one explicit style-only `collapsible_if` exception. No full suite or
 upstream-method credit is claimed. Native controls improve Sailing1.583% and
 Golfer1.816%,all four pairs faster both;all16 outputs independently validate.

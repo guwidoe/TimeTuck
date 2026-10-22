@@ -65,7 +65,7 @@
     "full_native_gate": false,
     "native_source_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
     "production_digest": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
-    "actual_current_source_tests_passed": 5,
+    "actual_current_source_tests_passed": 7,
     "checks": [
       {
         "proof_directory": "work/real_world-goal/uniform-collector-arena-focused3",
@@ -131,6 +131,29 @@
         "seconds": 25.551356416021008,
         "log_sha256": "ed449d534f19925ae320320c0921a199769a0141d94e38b0a56221b233c5fe74",
         "receipt_sha256": "d3ed988a9e89af7b3b91868ab1da6dbe5344291fd0169077fd2d682439827fe8"
+      },
+      {
+        "proof_directory": "work/real_world-goal/uniform-collector-arena-cached-focused",
+        "rust_digest": "9c1951679f773e495ad330854731f1c90cf80fdab78a7492c079f12c25fdf109",
+        "production_digest": "e67da11e52b9b221070189b5c4586d8c0b9905052820ed500f498d3321a599e1",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::group_collectors::owned::cached_empty_tests"
+        ],
+        "tests_passed": 2,
+        "test_names": [
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_reuse_slots_and_preserve_nested_full_delta_restore",
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_cap_and_explicit_empty_collectors_keep_presence"
+        ],
+        "exit_code": 0,
+        "seconds": 55.69707943798858,
+        "log_sha256": "18e55183e7de864181537e1cd70d51c500599fcef8f69830b850907abdbeae39",
+        "receipt_sha256": "49f0c223c7780a872bdc3751e9ce45bc8788367bf16fda8215b3eeb534e84930"
       }
     ],
     "reused_source_bound_checks": {
@@ -192,7 +215,7 @@
       "initial_compile_failed_executed_tests": 0,
       "initial_fixture_fix": "Add missing .into_iter() to test clone_live argument. Initial and corrected source/logs remain separate."
     },
-    "policy": "Actual final-source1 new unit+4 application passes and scoped library/example Clippy;40 prior checks retain original measured source identity. No full suite,upstream-method credit or unchanged reruns."
+    "policy": "Actual final-source3 unit+4 application passes and scoped library/example Clippy;40 prior checks retain original measured source identity. Two directly relevant cached-empty cases were discovered outside the original filter and executed once on each changed storage. No full suite,upstream-method credit or unchanged reruns."
   },
   "independent_validation_sha256": "6bbf415262b78d11b6af75682eb1f296f2b02f7c5c8bc0d5b6bc56654e9fede3",
   "receipts": {
@@ -219,7 +242,7 @@
   },
   "full_native_gate": false,
   "upstream_method_credit": 0,
-  "policy": "All4 native pairs faster both workloads;16 independently valid native outputs.40 prior focused passes stay bound to measured058e source;final9c19 appends only one cfg(test) regression and has5 actual passes (1 new unit+4application). Actual final Cargo+javac default3seeds10s qualification reproduces the identical measured10ef artifact;all12 outputs independently revalidated locally. One Clippy style-only collapsible_if exception is explicit;original strict failure preserved. No full suite or unchanged repeats. Native gains are not added to previous Java ratios. Previous0941report remains historical. Goal active/incomplete.",
+  "policy": "All4 native pairs faster both workloads;16 independently valid native outputs.40 prior focused passes stay bound to measured058e source;final9c19 appends only one cfg(test) regression and has5 actual passes (1 new unit+4application). Actual final Cargo+javac default3seeds10s qualification reproduces the identical measured10ef artifact;all12 outputs independently revalidated locally. One Clippy style-only collapsible_if exception is explicit;original strict failure preserved. No full suite or unchanged repeats. Native gains are not added to previous Java ratios. Previous0941report remains historical. Goal active/incomplete. Supplemental two cached-empty cases passed on exact final source after Java collection;original collection proof retains the five-pass cohort available then. Dashboard capture now credits seven actual current-source tests.",
   "java_qualification": {
     "report_sha256": "38d5ee916c48c4ca75d791b97a43898ef39f1d53861a7c749e62a0f6ef6a9d4c",
     "collection_verification_sha256": "080dc61361d79ccaf39432023da494f2d122d92eb70e37f8ce1523a95cd66e00",

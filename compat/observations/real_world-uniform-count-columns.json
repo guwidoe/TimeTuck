@@ -1,0 +1,177 @@
+{
+  "kind": "real_world-uniform-count-columns",
+  "status": "Closed unintegrated;small mixed Sailing result and Golfer regression.",
+  "native_source_digest": "8a797d0e526afa427f4b0b8cf0be606ccc32462fed73941377f1a042b614f178",
+  "input_sha256": "a2a00e041647e1d3aac1920deded85447829fcdda1a4311bb2d0e97d8b998e48",
+  "source_snapshot": "7381f6e9c0d9c48a4dbc78205658c4c4b5a62ce3f3d0697c20594a65469fb917",
+  "artifact_sha256": "9e4f4163c3aff56a7e085381a894d9590f57a2ee880fe485c8da749040174fdc",
+  "mechanism": "Private uniform owned arena keeps dense full-width8byte count slots separate from16byte canonical addresses/liveness on measured64bit. Both columns reserve before any length/value publication;promotion reserves the complete general vector before moving either column. Hot lookup obtains slots only from live rows or retained ordered undo;bounds checks remain,and metadata liveness is debug-asserted. Public missing-capture/overflow checks,full cold observations,arbitrary values,keys,free list,retained history and snapshots remain. The original general backend is unchanged. No model,fixture,compiler,CPU,search-policy or unsafe changes.",
+  "native_controls": {
+    "qualified": false,
+    "source_controls": "work/real_world-goal/uniform-count-columns-next-results/clean-uniform-count-columns-next/controls.json",
+    "outputs": 16,
+    "summary": {
+      "sailing-trip-v1": {
+        "rates": {
+          "baseline": [
+            72774.64622789402,
+            71730.52805633345,
+            72569.78700763847,
+            72167.74042158572
+          ],
+          "trial": [
+            72508.85509015017,
+            72835.34795487,
+            71705.39125587924,
+            72786.40326393166
+          ]
+        },
+        "medians": {
+          "baseline": 72368.7637146121,
+          "trial": 72647.62917704092
+        },
+        "gain_pct": 0.3853395416958172
+      },
+      "social-golfer-32x8x10-v1": {
+        "rates": {
+          "baseline": [
+            200519.69559944916,
+            203693.0522100799,
+            202549.84559426233,
+            202977.71255884526
+          ],
+          "trial": [
+            204884.11351659056,
+            202857.0738117678,
+            198238.47581122606,
+            200021.02920388224
+          ]
+        },
+        "medians": {
+          "baseline": 202763.7790765538,
+          "trial": 201439.05150782503
+        },
+        "gain_pct": -0.653335410674416
+      }
+    }
+  },
+  "pairs_faster": {
+    "sailing-trip-v1": 2,
+    "social-golfer-32x8x10-v1": 1
+  },
+  "verification": {
+    "full_native_gate": false,
+    "actual_tests_passed": 43,
+    "checks": [
+      {
+        "proof_directory": "work/real_world-goal/uniform-count-columns-focused1",
+        "rust_digest": "8a797d0e526afa427f4b0b8cf0be606ccc32462fed73941377f1a042b614f178",
+        "production_digest": "a2a00e041647e1d3aac1920deded85447829fcdda1a4311bb2d0e97d8b998e48",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "stream::lean_count_tests",
+          "primitive_rows::group_collectors::owned::arena::uniform_tests",
+          "stream::group_inverse_count_tests",
+          "owned_collector_box_tests",
+          "incremental_stream::group_entry::tests",
+          "incremental_stream::group_inverse_tests",
+          "primitive_rows::group_collectors::tests",
+          "incremental_stream::group_ticket_tests",
+          "stream_graph::group_summary_lane"
+        ],
+        "tests_passed": 41,
+        "test_names": [
+          "incremental_stream::group_entry::tests::group_static_mapper_keeps_actual_borrowed_public_ids_and_keys",
+          "incremental_stream::group_entry::tests::prepared_entries_keep_singleton_reinsertion_and_equal_multiset_owners",
+          "incremental_stream::group_inverse_tests::inverse_group_bound_publication_failure_poison_and_rollback_match_original_group_route",
+          "incremental_stream::group_entry::tests::primitive_group_entries_keep_custom_input_hooks_poison_and_restore_boundaries",
+          "incremental_stream::group_inverse_tests::inverse_group_mixed_edits_nested_captures_and_singleton_rebirth_match_original_group_route",
+          "incremental_stream::group_ticket_tests::summary_seed_values_remain_immutable_after_later_group_edits",
+          "incremental_stream::group_ticket_tests::summary_seeds_keep_late_bounds_poison_and_never_publish_before_recovery",
+          "incremental_stream::group_entry::tests::group_static_mapper_matches_stored_nested_captures_and_singleton_canonical_owners",
+          "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_count_overflow_preserves_views_and_never_limits_the_general_domain",
+          "incremental_stream::group_inverse_tests::inverse_group_graph_total_overflow_restores_inputs_collectors_matches_and_callback_phase",
+          "primitive_rows::group_collectors::tests::inverse_collector_snapshots_preserve_actual_key_weak_lifetimes",
+          "primitive_rows::group_collectors::tests::inverse_dirty_tracking_does_not_copy_a_later_clean_representative_or_weaken_its_weak_lifetime",
+          "primitive_rows::group_collectors::tests::compact_inverse_addresses_keep_full_keys_nested_rebase_and_dirty_observers",
+          "incremental_stream::group_entry::tests::prepared_group_emissions_match_tree_across_same_page_transfers_and_saved_trials",
+          "stream::group_inverse_count_tests::group_static_mapper_keeps_count_overflow_and_shared_weak_inverse_fallback_phases",
+          "stream::group_inverse_count_tests::inverse_collector_count_overflow_precedes_mutation_and_undo_publication",
+          "incremental_stream::group_inverse_tests::inverse_graph_capture_after_multiple_scalar_edits_installs_without_callback_replay",
+          "stream::lean_count_tests::lean_count_promotion_demotion_near_limit_and_failed_overflow_keep_every_frequency",
+          "stream::owned_collector_box_tests::owned_collector_box_count_overflow_preserves_value_owner_and_rollback",
+          "primitive_rows::group_collectors::tests::inverse_observers_first_taken_after_edits_copy_only_dirty_collectors_and_keep_canonical_keys",
+          "primitive_rows::group_collectors::tests::inverse_edits_keep_each_logical_mutation_and_merge_with_stored_versions_in_reverse_order",
+          "primitive_rows::group_collectors::tests::inverse_preexisting_shared_and_weak_owners_force_original_replacement_and_retirement",
+          "primitive_rows::group_collectors::tests::inverse_nested_snapshot_replay_never_mutates_earlier_stored_undo_collectors",
+          "stream::group_inverse_count_tests::inverse_collector_wrapping_sum_and_tree_inline_transition_match_full_versions",
+          "stream_graph::group_summary_lane::seed_tests::seed_lane_round_trips_all_extrema_options_and_reuses_complete_snapshots",
+          "stream::lean_count_tests::lean_two_class_frequencies_preserve_both_removal_sides_and_replacement_boundaries",
+          "primitive_rows::group_collectors::owned::arena::uniform_tests::uniform_arena_keeps_arbitrary_values_counts_immutable_clones_promotions_and_reuse",
+          "stream_graph::group_summary_lane::tests::direct_group_publication_matches_staged_reference_full_fields_sparse_outputs_and_fifo",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_stages_both_outputs_before_fifo_fanout_and_cleans_abandoned_carrier",
+          "stream_graph::group_summary_lane::seed_tests::original_fanout_metadata_keeps_shared_rows_after_temporary_edge_pruning",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_layout_full_rows_max_coordinates_and_stable_chunks",
+          "stream_graph::group_summary_lane::tests::summary_slot_write_actual_publication_survives_growth_and_overwrites_reused_puts",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_whole_cohort_custom_and_retained_public_owner_fallback",
+          "incremental_stream::owned_collector_box_tests::uniform_snapshot_installs_into_promoted_active_arena_and_rolls_back_foreign_history",
+          "stream_graph::group_summary_lane::seed_tests::deferred_summary_consumer_preserves_full_callback_fields_work_failures_and_recovery",
+          "stream_graph::group_summary_lane::tests::group_summary_lane_actual_graph_callbacks_counts_captures_nested_rollback_errors_and_unwind_match_original",
+          "incremental_stream::owned_collector_box_tests::owned_collector_arena_growth_retirement_and_snapshot_installs_match_independent_groups",
+          "incremental_stream::group_ticket_tests::summary_seeds_preserve_full_rows_inputs_growth_and_nested_snapshot_namespaces",
+          "incremental_stream::owned_collector_box_tests::uniform_owned_groups_keep_sustained_cohorts_nested_captures_and_foreign_value_promotion",
+          "stream::lean_count_tests::lean_counts_match_independent_multiset_edits_clones_and_complete_summaries",
+          "incremental_stream::owned_collector_box_tests::owned_collector_box_history_matches_independent_groups_and_shared_events"
+        ],
+        "exit_code": 0,
+        "seconds": 62.724074680008925,
+        "log_sha256": "ba70cf23f8622e1542499361a484515d13de87de0729a40cd68556bc99233145",
+        "receipt_sha256": "8ea6330ad5d36b6f7924b3a03fc85d3ad7285b4f8a9bf757394290c1af838219"
+      },
+      {
+        "proof_directory": "work/real_world-goal/uniform-count-columns-cached-focused",
+        "rust_digest": "8a797d0e526afa427f4b0b8cf0be606ccc32462fed73941377f1a042b614f178",
+        "production_digest": "a2a00e041647e1d3aac1920deded85447829fcdda1a4311bb2d0e97d8b998e48",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--lib",
+          "--",
+          "--color=never",
+          "primitive_rows::group_collectors::owned::cached_empty_tests"
+        ],
+        "tests_passed": 2,
+        "test_names": [
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_reuse_slots_and_preserve_nested_full_delta_restore",
+          "primitive_rows::group_collectors::owned::cached_empty_tests::cached_empty_owned_rows_cap_and_explicit_empty_collectors_keep_presence"
+        ],
+        "exit_code": 0,
+        "seconds": 58.85443436400965,
+        "log_sha256": "cecfda8fe7a00af863682f2e988cbf598bebdbb39bc84ae0ac2961477bcc1e86",
+        "receipt_sha256": "8c055437218f3b81f8860aeb90bda7bca75b0237a36d1c3ab7140894e2dd7864"
+      }
+    ],
+    "upstream_method_credit": 0
+  },
+  "independent_validation_sha256": "7ff881bfae9af2dc305f18a60336cc980b2ead1359e174376022485a9547ff7a",
+  "receipts": {
+    "receipt.json": "9ca5747322ac6ee9608dc3f0a79743599198e6cbc39f60ab99cd4ed081c7935e",
+    "build-receipt.json": "897354dcafb6b3248a68f30230b55bf247875efecb4160adc2ae67b8e86da7cc",
+    "baseline-build-receipt.json": "59f0e5dae185a5590d2534b0b3dd472c058d4e177afa3809dfc374b9f361abc7",
+    "baseline-reuse.json": "da2c159679dc88041dfd362602c8fdfb5eaa8581aa8aa6caaf62907794a7ce26",
+    "controls.json": "0cc90dab011d46f710eb22fbff99ee24c8647093cadf963520d487a0d33dbda4"
+  },
+  "source_archive_sha256": "740ad4ef7db8d8265b9587c1364aa7f7d6e15ef705e4f7ad7a93172613fe5cbd",
+  "baseline_rust_digest": "058efdc4cc24c8c4a029ed444997325e1458591447730510265d31cc04e09a9c",
+  "baseline_artifact_sha256": "10ef03c9abec0f48382201af850461f861377da99dbc56c8a85902ae9156f8e6",
+  "baseline_policy": "Actual original058e/e67d/10ef build receipt stays unchanged. Selected9c19 differs only in cfg(test),and actual final Cargo already reproduced identical10ef release bytes in Java qualification. Native runtime controls compare those exact bytes. No source rekeying.",
+  "full_native_gate": false,
+  "upstream_method_credit": 0,
+  "policy": "43 actual directly relevant unit passes and16 full outputs independently validate. Sailing+.3853%(2/4 faster),Golfer-.6533%(1/4). Leave selected9c19/10ef/report38d5unchanged. No variant app,Clippy,Java,full suite or unchanged timing repeat;all sources,receipts,outputs and failures preserved."
+}

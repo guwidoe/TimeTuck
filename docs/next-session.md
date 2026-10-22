@@ -52,7 +52,10 @@ logical equality,Debug,owners,visibility and callbacks remain. Public/shared/cus
 paths unchanged. Native controls versus29b9/ccb6:Sailing+1.5827%/Golfer+1.8156%,
 all4 pairs faster both,all16 full outputs independently valid.40 actual focused
 passes on measured058e remain source-bound;final9c19 appends only one cfg(test)
-active snapshot/promotion regression and has5 actual passes (1new unit+4app).
+active snapshot/promotion regression and has7 actual passes (3unit+4app).
+Two additional cached-empty cases were discovered outside the first filter and
+executed once on this exact source;the original Java collection proof retains
+the five-pass cohort available then.
 Clippy lib/example passes with one explicit style-only collapsible_if exception;
 original strict lint failure is preserved. Initial fixture compile failure ran0tests;
 fixed .into_iter() source/log retained separately. No full suite or upstream credit.
@@ -61,10 +64,21 @@ all12 full outputs independently valid. Current report38d5ee91 proves Golfer1.59
 Sailing.960017x Java,1/2 targets. Sailing Rust72940/Java75977 evaluations/s needs
 4.1648% more Rust throughput. Rust2/3 versusJava0/3 Sailing runs feasible;quality
 stays separate. Previous0941 report retained unchanged;native gains are not added
-to old Java ratios. Dashboard localhost:8766 credits5 actual current-source passes,
+to old Java ratios. Dashboard localhost:8766 credits7 actual current-source passes,
 with40 prior focused checks separately bound;not a full native/upstream gate.
 All jobs terminal/collected;goal active. No new subagents;local+runner-a,runner-c parked.
 [Selected arena evidence](../compat/observations/real_world-uniform-collector-arena.json).
+
+The separate count/address column trial is closed unintegrated:Sailing+.3853%
+(2/4 faster),Golfer-.6533%(1/4).43 actual relevant unit checks pass,including both
+cached-empty cases;all16 full outputs independently validate. Selected9c19/10ef/
+report38d5 remain unchanged/current. No variant app,Clippy,Java,full suite or
+unchanged repeat. All jobs terminal/collected. Do not retry this layout unchanged.
+[Column evidence](../compat/observations/real_world-uniform-count-columns.json).
+Next inspect ordered scalar journal size/traffic:retain every scalar operation,
+full values,interleaving with structural undo and snapshot namespaces. The prior
+single-state-preimage undo trial is a distinct rejected mechanism;do not repeat it.
+
 
 The preceding clean selection uses the owning integer collector total instead of duplicate
 small-state frequencies. One class stores no frequency;two classes store only the
