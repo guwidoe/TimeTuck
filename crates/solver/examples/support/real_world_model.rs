@@ -383,6 +383,8 @@ pub fn graph(m: &Model) -> (StreamGraph<'_, HardSoftScore>, PlanningStreamSource
 pub struct GroupMoves<'m> {
     m: &'m Model,
     rng: u64,
+    /// Unpinned variables; fixed placements never move.
+    movable: Vec<usize>,
 }
 impl GroupMoves<'_> {
     fn next(&mut self, n: usize) -> usize {
@@ -407,10 +409,10 @@ impl<'m> MoveProvider<FiniteProblem<usize>, Assignment<usize>, Move<usize>> for 
         for (v, val) in a.values().iter().enumerate() {
             occ[m.var_ps[v].1][val.unwrap()] += 1;
         }
-        let movable: Vec<usize> = (0..m.var_ps.len()).filter(|&v| !m.fixed_var[v]).collect();
         Box::new(std::iter::from_fn(move || {
             loop {
-                let v = movable[self.next(movable.len())];
+                let pick = self.next(self.movable.len());
+                let v = self.movable[pick];
                 let s = m.var_ps[v].1;
                 let g = a.values()[v].unwrap();
                 if self.next(2) == 0 {
@@ -469,7 +471,18 @@ impl<'m> GroupMoves<'m> {
         Self {
             m: model,
             rng: seed | 1,
+            movable: (0..model.var_ps.len())
+                .filter(|&v| !model.fixed_var[v])
+                .collect(),
         }
+    }
+}
+
+fn gap(bal: &Balance, target: i64, count: i64) -> i64 {
+    if bal.at_least {
+        (target - count).max(0)
+    } else {
+        (target - count).abs()
     }
 }
 
@@ -478,8 +491,10 @@ impl<'m> GroupMoves<'m> {
 /// and updates the score by delta, mirroring the Java incremental comparator.
 pub struct IncrementalScorer<'m> {
     m: &'m Model,
-    /// Persons of each pair constraint, indexed like `Model::pair_cons`.
-    con_people: Vec<Vec<usize>>,
+    /// Pair-constraint partners per (person, session): (partner, kind, weight).
+    partners: Vec<Vec<(usize, PairKind, i64)>>,
+    /// Soft change when a pair's encounter count rises from `c` to `c + 1`.
+    meet_gain: Vec<i64>,
     /// Target index of each person's attribute value per balance, if any.
     value_of: Vec<Vec<Option<usize>>>,
     occ: Vec<i64>,
@@ -489,6 +504,8 @@ pub struct IncrementalScorer<'m> {
     /// Hits per (balance, session, group, target), flattened.
     hits: Vec<i64>,
     hit_offsets: Vec<usize>,
+    /// Balance penalty per (session, group) as if occupied; empty groups score zero.
+    balance: Vec<i64>,
     hard: i64,
     soft: i64,
 }
@@ -502,6 +519,31 @@ impl<'m> IncrementalScorer<'m> {
                 con_people[c].push(p);
             }
         }
+        let mut partners = vec![Vec::new(); p_n * s_n];
+        for (p, cons) in m.member.iter().enumerate() {
+            for &c in cons {
+                let con = &m.pair_cons[c];
+                for s in (0..s_n).filter(|&s| con.sessions[s]) {
+                    for &q in con_people[c].iter().filter(|&&q| q != p) {
+                        partners[p * s_n + s].push((q, con.kind, con.weight));
+                    }
+                }
+            }
+        }
+        let pair_value = |count: i64| {
+            if count == 0 {
+                return 0;
+            }
+            let mut value = m.uc_weight;
+            if let Some((max, squared, weight)) = m.repeats {
+                let excess = (count - i64::from(max)).max(0);
+                value -= weight * if squared { excess * excess } else { excess };
+            }
+            value
+        };
+        let meet_gain = (0..=s_n as i64)
+            .map(|c| pair_value(c + 1) - pair_value(c))
+            .collect();
         let value_of = m
             .balances
             .iter()
@@ -520,9 +562,20 @@ impl<'m> IncrementalScorer<'m> {
             hit_offsets.push(size);
             size += s_n * g_n * bal.targets.len();
         }
+        let mut balance = vec![0; s_n * g_n];
+        for s in 0..s_n {
+            for g in 0..g_n {
+                for bal in m.balances.iter().filter(|b| b.sessions[s] && b.groups[g]) {
+                    for &(_, target) in &bal.targets {
+                        balance[s * g_n + g] += bal.weight * gap(bal, target, 0);
+                    }
+                }
+            }
+        }
         Self {
             m,
-            con_people,
+            partners,
+            meet_gain,
             value_of,
             occ: vec![0; s_n * g_n],
             members: vec![Vec::new(); s_n * g_n],
@@ -530,6 +583,7 @@ impl<'m> IncrementalScorer<'m> {
             loc: vec![None; p_n * s_n],
             hits: vec![0; size],
             hit_offsets,
+            balance,
             hard: 0,
             soft: 0,
         }
@@ -550,37 +604,12 @@ impl<'m> IncrementalScorer<'m> {
 
     /// Balance penalty of one (session, group); the streams emit no tally for empty groups.
     fn balance_penalty(&self, s: usize, g: usize) -> i64 {
-        if self.occ[self.slot(s, g)] == 0 {
-            return 0;
+        let slot = self.slot(s, g);
+        if self.occ[slot] == 0 {
+            0
+        } else {
+            self.balance[slot]
         }
-        let mut penalty = 0;
-        for (b, bal) in self.m.balances.iter().enumerate() {
-            if !bal.sessions[s] || !bal.groups[g] {
-                continue;
-            }
-            for (t, &(_, target)) in bal.targets.iter().enumerate() {
-                let count = self.hits[self.hit(b, s, g, t)];
-                let gap = if bal.at_least {
-                    (target - count).max(0)
-                } else {
-                    (target - count).abs()
-                };
-                penalty += bal.weight * gap;
-            }
-        }
-        penalty
-    }
-
-    fn pair_value(&self, count: u32) -> i64 {
-        if count == 0 {
-            return 0;
-        }
-        let mut value = self.m.uc_weight;
-        if let Some((max, squared, weight)) = self.m.repeats {
-            let excess = i64::from(count.saturating_sub(max));
-            value -= weight * if squared { excess * excess } else { excess };
-        }
-        value
     }
 
     /// Hard/soft contribution of every located pair-constraint partner of `p` in `s`.
@@ -590,22 +619,14 @@ impl<'m> IncrementalScorer<'m> {
             return (0, 0);
         };
         let (mut hard, mut soft) = (0, 0);
-        for &c in &self.m.member[p] {
-            let con = &self.m.pair_cons[c];
-            if !con.sessions[s] {
+        for &(q, kind, weight) in &self.partners[p * s_n + s] {
+            let Some(h) = self.loc[q * s_n + s] else {
                 continue;
-            }
-            for &q in &self.con_people[c] {
-                let Some(h) = (q != p).then(|| self.loc[q * s_n + s]).flatten() else {
-                    continue;
-                };
-                match (con.kind, g == h) {
-                    (PairKind::KeepTogether, false) | (PairKind::KeepApart, true) => hard -= 1,
-                    (PairKind::PreferTogether, false) | (PairKind::PreferApart, true) => {
-                        soft -= con.weight
-                    }
-                    _ => {}
-                }
+            };
+            match (kind, g == h) {
+                (PairKind::KeepTogether, false) | (PairKind::KeepApart, true) => hard -= 1,
+                (PairKind::PreferTogether, false) | (PairKind::PreferApart, true) => soft -= weight,
+                _ => {}
             }
         }
         (hard, soft)
@@ -627,9 +648,8 @@ impl<'m> IncrementalScorer<'m> {
             for i in 0..self.members[slot].len() {
                 let q = self.members[slot][i];
                 let key = p.min(q) * p_n + p.max(q);
-                let before = self.pair_value(self.pair_count[key]);
+                self.soft += self.meet_gain[self.pair_count[key] as usize];
                 self.pair_count[key] += 1;
-                self.soft += self.pair_value(self.pair_count[key]) - before;
             }
             self.members[slot].push(p);
             self.occ[slot] += 1;
@@ -640,16 +660,22 @@ impl<'m> IncrementalScorer<'m> {
             for i in 0..self.members[slot].len() {
                 let q = self.members[slot][i];
                 let key = p.min(q) * p_n + p.max(q);
-                let before = self.pair_value(self.pair_count[key]);
                 self.pair_count[key] -= 1;
-                self.soft += self.pair_value(self.pair_count[key]) - before;
+                self.soft -= self.meet_gain[self.pair_count[key] as usize];
             }
         }
-        for b in 0..self.m.balances.len() {
-            if let Some(t) = self.value_of[b][p] {
-                let index = self.hit(b, s, g, t);
-                self.hits[index] += if insert { 1 } else { -1 };
+        for (b, bal) in self.m.balances.iter().enumerate() {
+            let Some(t) = self.value_of[b][p] else {
+                continue;
+            };
+            if !bal.sessions[s] || !bal.groups[g] {
+                continue;
             }
+            let index = self.hit(b, s, g, t);
+            let target = bal.targets[t].1;
+            let before = gap(bal, target, self.hits[index]);
+            self.hits[index] += if insert { 1 } else { -1 };
+            self.balance[slot] += bal.weight * (gap(bal, target, self.hits[index]) - before);
         }
         self.hard -= self.capacity_penalty(s, g);
         self.soft -= self.balance_penalty(s, g);
